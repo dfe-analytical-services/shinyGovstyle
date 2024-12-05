@@ -4,11 +4,15 @@
 \alias{footer}
 \title{Footer Function}
 \usage{
-footer(full = FALSE)
+footer(full = FALSE, links = NULL)
 }
 \arguments{
 \item{full}{Whenever you want to have blank footer or official gov version.
 Defaults to \code{FALSE}}
+
+\item{links_list}{A list of actionLinks to be added to the footer, inputIDs
+are auto-generated and are the  snake case version of the link text, e.g.
+"Accessibility Statement" will have an inputID of accessibility_statement}
 }
 \value{
 a footer html shiny object
@@ -16,16 +20,21 @@ a footer html shiny object
 \description{
 This function create a gov style footer for your page
 }
+\details{
+You can add actionLinks as links in the footer through using the links_list
+argument.
+}
 \examples{
 if (interactive()) {
-
   ui <- fluidPage(
     shinyGovstyle::header(
       main_text = "Example",
       secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
+      logo = "shinyGovstyle/images/moj_logo.png"
+    ),
     shinyGovstyle::banner(
-      inputId = "banner", type = "beta", 'This is a new service'),
+      inputId = "banner", type = "beta", "This is a new service"
+    ),
     tags$br(),
     tags$br(),
     shinyGovstyle::footer(full = TRUE)
@@ -35,5 +44,7 @@ if (interactive()) {
 
   shinyApp(ui = ui, server = server)
 }
+
+footer(links_list = c("Footnotes", "Support", "Accessibility statement", "Cookies"))
 }
 \keyword{footer}

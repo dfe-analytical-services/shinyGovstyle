@@ -65,7 +65,7 @@ footer <- function(full = FALSE, links = NULL) {
           shiny::div(
             class = "govuk-footer__meta-item govuk-footer__meta-item--grow",
             if (!is.null(links)) {
-              div(
+              shiny::div(
                 # Set a visually hidden title for accessibility
                 shiny::h2(
                   class = "govuk-visually-hidden",
@@ -84,6 +84,21 @@ footer <- function(full = FALSE, links = NULL) {
           shiny::tagList(
             shiny::div(
               class = "govuk-footer__meta-item govuk-footer__meta-item--grow",
+              if (!is.null(links)) {
+                shiny::div(
+                  # Set a visually hidden title for accessibility
+                  shiny::h2(
+                    class = "govuk-visually-hidden",
+                    "Support links"
+                  ),
+                  shiny::tags$ul(
+                    class = "govuk-footer__inline-list",
+
+                    # Generate as many links as needed
+                    lapply(links, footer_link)
+                  )
+                )
+              },
               shiny::tag("svg", list(
                 role = "presentation",
                 focusable = "false",

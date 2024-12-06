@@ -452,7 +452,6 @@ run_example <- function() {
       shiny::updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
     })
 
-
     # Back buttons
     shiny::observeEvent(input$back1, {
       shiny::updateTabsetPanel(session, "tab-container", selected = "select_types")

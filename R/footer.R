@@ -5,6 +5,14 @@
 #' You can add actionLinks as links in the footer through using the links_list
 #' argument.
 #'
+#' Links in the footer should be used sparingly and are usually for supporting
+#' information pages such as the accessibility statement, privacy notice, 
+#' cookies information or link to statement of voluntary adoption of the 
+#' statistics code of practice.
+#' 
+#' Generally when using footer links you will be controlling a hidden tabset
+#' so to the end user it looks like it is a new page.
+#' 
 #' @param full Whenever you want to have blank footer or official gov version.
 #' Defaults to \code{FALSE}
 #' @param links A vector of actionLinks to be added to the footer, inputIDs
@@ -34,7 +42,48 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 #'
+#' # Add links
 #' footer(links = c("Accessibility statement", "Cookies"))
+#'
+#' # Full app with link controlling a hidden tab
+#' if (interactive()) {
+#'   ui <- fluidPage(
+#'     shinyGovstyle::header(
+#'       main_text = "Example",
+#'       secondary_text = "User Examples",
+#'       logo = "shinyGovstyle/images/moj_logo.png"
+#'     ),
+#'     shinyGovstyle::banner(
+#'       inputId = "banner", type = "beta", "This is a new service"
+#'     ),
+#'     shiny::tabsetPanel(
+#'       type = "hidden",
+#'       id = "tabs",
+#'       shiny::tabPanel(
+#'         "Main content",
+#'         value = "main",
+#'         heading_text("Hello world!")
+#'       ),
+#'       shiny::tabPanel(
+#'         "Cookies",
+#'         value = "cookies",
+#'         heading_text("Cookies")
+#'       )
+#'     ),
+#'     shinyGovstyle::footer(
+#'       full = TRUE,
+#'       links = c("Accessibility statement", "Cookies")
+#'     )
+#'   )
+#'
+#'   server <- function(input, output, session) {
+#'     shiny::observeEvent(input$cookies, {
+#'       shiny::updateTabsetPanel(session, "tabs", selected = "cookies")
+#'     })
+#'   }
+#'
+#'   shinyApp(ui = ui, server = server)
+#' }
 footer <- function(full = FALSE, links = NULL) {
   # Validation on the links input
   if (!is.null(links)) {

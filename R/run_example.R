@@ -390,6 +390,7 @@ run_example <- function() {
         shiny::updateTabsetPanel(session, "tab-container", selected = "select_types")
       })
 
+<<<<<<< HEAD
       shiny::observeEvent(input$back2, {
         shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
       })
@@ -397,6 +398,9 @@ run_example <- function() {
       shiny::observeEvent(input$back3, {
         shiny::updateTabsetPanel(session, "tab-container", selected = "tables_tabs_and_accordions")
       })
+=======
+    footer(TRUE, links = c("Cookies"))
+>>>>>>> ccd6cb9 (add example into example app)
 
 
       # Next page buttons
@@ -425,7 +429,80 @@ run_example <- function() {
         shinyjs::hide(id = "cookieMain")
       })
 
+<<<<<<< HEAD
       shiny::observeEvent(input$cookieReject, {
+=======
+    shiny::observeEvent(input$text_types_button, {
+      shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
+    })
+
+    shiny::observeEvent(input$tables_tabs_and_accordions_button, {
+      shiny::updateTabsetPanel(session, "tab-container", selected = "tables_tabs_and_accordions")
+    })
+
+    shiny::observeEvent(input$feedback_types_button, {
+      shiny::updateTabsetPanel(session, "tab-container", selected = "feedback_types")
+    })
+
+    shiny::observeEvent(input$cookies_button, {
+      shiny::updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
+    })
+
+    shiny::observeEvent(input$cookies, {
+      shiny::updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
+    })
+
+
+    # Back buttons
+    shiny::observeEvent(input$back1, {
+      shiny::updateTabsetPanel(session, "tab-container", selected = "select_types")
+    })
+
+    shiny::observeEvent(input$back2, {
+      shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
+    })
+
+    shiny::observeEvent(input$back3, {
+      shiny::updateTabsetPanel(session, "tab-container", selected = "tables_tabs_and_accordions")
+    })
+
+
+    # Next page buttons
+    shiny::observeEvent(input$btn1, {
+      shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
+    })
+
+    shiny::observeEvent(input$btn1, {
+      shiny::updateTabsetPanel(session, "tab-container", selected = "tables_tabs_and_accordions")
+    })
+
+    shiny::observeEvent(input$btn1, {
+      shiny::updateTabsetPanel(session, "tab-container", selected = "feedback_types")
+    })
+
+    # Need this to use live update the word counter
+    shiny::observeEvent(
+      input$text_area2,
+      word_count("text_area2", input$text_area2)
+    )
+
+    # Trigger error if text_are2 is blank
+    shiny::observeEvent(input$btn3, {
+      if (input$text_area2 == "") {
+        error_on("text_area2")
+      } else {
+        error_off("text_area2")
+      }
+    })
+
+    ##################### Cookie Banner events ################################
+    shiny::observeEvent(input$cookieAccept, {
+          shinyjs::show(id = "cookieAcceptDiv")
+          shinyjs::hide(id = "cookieMain")
+        })
+
+    shiny::observeEvent(input$cookieReject, {
+>>>>>>> ccd6cb9 (add example into example app)
         shinyjs::show(id = "cookieRejectDiv")
         shinyjs::hide(id = "cookieMain")
       })

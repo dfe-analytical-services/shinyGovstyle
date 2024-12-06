@@ -34,7 +34,7 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 #'
-#' footer(links_list = c("Footnotes", "Support", "Accessibility statement", "Cookies"))
+#' footer(links = c("Accessibility statement", "Cookies"))
 footer <- function(full = FALSE, links = NULL) {
   # Validation on the links input
   if (!is.null(links)) {

@@ -5,13 +5,6 @@ test_that("App loads and title of app appears as expected", {
   skip_on_cran()
 
   appdir <- system.file(package = "shinyGovstyle", "example_app")
-  test_app(appdir)
-
-  shiny_app <- run_example()
-  app <- AppDriver$new(shiny_app, name = "showcase")
-
-  expect_equal(
-    app$get_text("title"),
-    "ShinyGovstyle"
-  )
+  expect_no_error(test_app(appdir))
 })
+

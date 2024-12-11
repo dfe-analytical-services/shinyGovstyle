@@ -4,7 +4,7 @@ on:
       - main
       - master
 
-name: Showcase app deploy
+name: Example app deploy
 
 jobs:
   deployShiny:
@@ -27,8 +27,6 @@ jobs:
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
           renv::install("shinyjs")
           devtools::install()
-          devtools::load_all()
           renv::install("rsconnect")
           rsconnect::setAccountInfo(name = 'department-for-education', token = '${{secrets.SHINYAPPS_TOKEN}}', secret = '${{secrets.SHINYAPPS_SECRET}}')
-          shiny_app <- run_example()
-          rsconnect::deployApp(shiny_app, forceUpdate = TRUE)
+          rsconnect::deployApp(system.file(package = "shinyGovstyle", "example_app"), forceUpdate = TRUE)

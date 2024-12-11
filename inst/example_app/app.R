@@ -105,7 +105,7 @@ shiny::shinyApp(
 
         shiny::tags$br(),
         shiny::markdown(
-          "If running locally, run ```View(run_example)``` in console to see the code for this app. Otherwise, you can see the <a href='https://github.com/dfe-analytical-services/shinyGovstyle/blob/master/R/run_example.R/'>latest version of the code on GitHub</a>."
+          "You can see the latest version of the <a href='https://github.com/dfe-analytical-services/shinyGovstyle/blob/master/R/run_example.R/'>source code for this app on GitHub</a>."
         ),
 
         # Set up a nav panel so everything not on single page

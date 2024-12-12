@@ -6,13 +6,13 @@
 #' argument.
 #'
 #' Links in the footer should be used sparingly and are usually for supporting
-#' information pages such as the accessibility statement, privacy notice, 
-#' cookies information or link to statement of voluntary adoption of the 
+#' information pages such as the accessibility statement, privacy notice,
+#' cookies information or link to a statement of voluntary adoption of the
 #' statistics code of practice.
-#' 
+#'
 #' Generally when using footer links you will be controlling a hidden tabset
 #' so to the end user it looks like it is a new page.
-#' 
+#'
 #' @param full Whenever you want to have blank footer or official gov version.
 #' Defaults to \code{FALSE}
 #' @param links A vector of actionLinks to be added to the footer, inputIDs

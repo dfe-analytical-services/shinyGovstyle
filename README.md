@@ -105,6 +105,27 @@ server <- function(input, output, session) {}
 ```
 Note: You can only use gov.uk font on service.gov.uk (see https://design-system.service.gov.uk/styles/typography/)
 
+If you want a plain footer you can do this by setting `full = FALSE`. For example:
+
+```r
+ui <- fluidPage(
+  shinyGovstyle::header("Justice", "Prototype", logo="shinyGovstyle/images/moj_logo.png"),
+  gov_layout(size = "full",
+        tags$br(),
+        tags$br(),
+        tags$br(),
+        tags$br(),
+        tags$br()
+      ),
+  footer(FALSE)
+)
+
+```
+
+Will look like:
+
+![plain-footer](man/figures/plain_footer.png)
+
 #### Banner
 
 Add a banner to the header to state in beta or alpha : <br>

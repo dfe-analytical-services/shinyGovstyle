@@ -110,6 +110,7 @@ footer <- function(full = FALSE, links = NULL) {
     shiny::div(
       class = "govuk-width-container ",
       shiny::div(
+        class = "govuk-footer__meta",
         if (full == FALSE) {
           shiny::div(
             class = "govuk-footer__meta-item govuk-footer__meta-item--grow",

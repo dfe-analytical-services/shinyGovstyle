@@ -25,8 +25,8 @@ You can add actionLinks as links in the footer through using the links_list
 argument.
 
 Links in the footer should be used sparingly and are usually for supporting
-information pages such as the accessibility statement, privacy notice, 
-cookies information or link to statement of voluntary adoption of the 
+information pages such as the accessibility statement, privacy notice,
+cookies information or link to a statement of voluntary adoption of the
 statistics code of practice.
 
 Generally when using footer links you will be controlling a hidden tabset

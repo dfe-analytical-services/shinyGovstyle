@@ -389,18 +389,8 @@ run_example <- function() {
       shiny::observeEvent(input$back1, {
         shiny::updateTabsetPanel(session, "tab-container", selected = "select_types")
       })
-
-<<<<<<< HEAD
-      shiny::observeEvent(input$back2, {
-        shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
-      })
-
-      shiny::observeEvent(input$back3, {
-        shiny::updateTabsetPanel(session, "tab-container", selected = "tables_tabs_and_accordions")
-      })
-=======
+      
     footer(TRUE, links = c("Cookies"))
->>>>>>> ccd6cb9 (add example into example app)
 
 
       # Next page buttons
@@ -429,9 +419,11 @@ run_example <- function() {
         shinyjs::hide(id = "cookieMain")
       })
 
-<<<<<<< HEAD
       shiny::observeEvent(input$cookieReject, {
-=======
+        shinyjs::show(id = "cookieRejectDiv")
+        shinyjs::hide(id = "cookieMain")
+      })
+
     shiny::observeEvent(input$text_types_button, {
       shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
     })
@@ -501,7 +493,6 @@ run_example <- function() {
         })
 
     shiny::observeEvent(input$cookieReject, {
->>>>>>> ccd6cb9 (add example into example app)
         shinyjs::show(id = "cookieRejectDiv")
         shinyjs::hide(id = "cookieMain")
       })

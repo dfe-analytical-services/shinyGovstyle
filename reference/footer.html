@@ -38,7 +38,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">footer</span><span class="op">(</span>full <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">footer</span><span class="op">(</span>full <span class="op">=</span> <span class="cn">FALSE</span>, links <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -49,29 +49,109 @@
 <dd><p>Whenever you want to have blank footer or official gov version.
 Defaults to <code>FALSE</code></p></dd>
 
+
+<dt id="arg-links">links<a class="anchor" aria-label="anchor" href="#arg-links"></a></dt>
+<dd><p>A vector of actionLinks to be added to the footer, inputIDs
+are auto-generated and are the snake case version of the link text, e.g.
+"Accessibility Statement" will have an inputID of accessibility_statement</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>a footer html shiny object</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>You can add actionLinks as links in the footer through using the links_list
+argument.</p>
+<p>Links in the footer should be used sparingly and are usually for supporting
+information pages such as the accessibility statement, privacy notice,
+cookies information or link to a statement of voluntary adoption of the
+statistics code of practice.</p>
+<p>Generally when using footer links you will be controlling a hidden tabset
+so to the end user it looks like it is a new page.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">fluidPage</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="header.html">header</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      main_text <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
 <span class="r-in"><span>      secondary_text <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
-<span class="r-in"><span>      logo<span class="op">=</span><span class="st">"shinyGovstyle/images/moj_logo.png"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      logo <span class="op">=</span> <span class="st">"shinyGovstyle/images/moj_logo.png"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="banner.html">banner</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      inputId <span class="op">=</span> <span class="st">"banner"</span>, type <span class="op">=</span> <span class="st">"beta"</span>, <span class="st">'This is a new service'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      inputId <span class="op">=</span> <span class="st">"banner"</span>, type <span class="op">=</span> <span class="st">"beta"</span>, <span class="st">"This is a new service"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="va">tags</span><span class="op">$</span><span class="fu">br</span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="va">tags</span><span class="op">$</span><span class="fu">br</span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">footer</span><span class="op">(</span>full <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">shinyApp</span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add links</span></span></span>
+<span class="r-in"><span><span class="fu">footer</span><span class="op">(</span>links <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Accessibility statement"</span>, <span class="st">"Cookies"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;footer class="govuk-footer " role="contentinfo"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="govuk-width-container "&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="govuk-footer__meta"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="govuk-footer__meta-item govuk-footer__meta-item--grow"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;h2 class="govuk-visually-hidden"&gt;Support links&lt;/h2&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;ul class="govuk-footer__inline-list"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;li class="govuk-footer__inline-list-item"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               &lt;a class="action-button govuk-link govuk-footer__link" href="#" id="accessibility_statement"&gt;Accessibility statement&lt;/a&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;/li&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;li class="govuk-footer__inline-list-item"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               &lt;a class="action-button govuk-link govuk-footer__link" href="#" id="cookies"&gt;Cookies&lt;/a&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;/li&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;/ul&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/footer&gt;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Full app with link controlling a hidden tab</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">fluidPage</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="header.html">header</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      main_text <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
+<span class="r-in"><span>      secondary_text <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
+<span class="r-in"><span>      logo <span class="op">=</span> <span class="st">"shinyGovstyle/images/moj_logo.png"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="banner.html">banner</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      inputId <span class="op">=</span> <span class="st">"banner"</span>, type <span class="op">=</span> <span class="st">"beta"</span>, <span class="st">"This is a new service"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html" class="external-link">tabsetPanel</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      type <span class="op">=</span> <span class="st">"hidden"</span>,</span></span>
+<span class="r-in"><span>      id <span class="op">=</span> <span class="st">"tabs"</span>,</span></span>
+<span class="r-in"><span>      <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="st">"Main content"</span>,</span></span>
+<span class="r-in"><span>        value <span class="op">=</span> <span class="st">"main"</span>,</span></span>
+<span class="r-in"><span>        <span class="fu"><a href="heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"Hello world!"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="st">"Cookies"</span>,</span></span>
+<span class="r-in"><span>        value <span class="op">=</span> <span class="st">"cookies"</span>,</span></span>
+<span class="r-in"><span>        <span class="fu"><a href="heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"Cookies"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">footer</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      full <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>      links <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Accessibility statement"</span>, <span class="st">"Cookies"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">cookies</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html" class="external-link">updateTabsetPanel</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">"tabs"</span>, selected <span class="op">=</span> <span class="st">"cookies"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu">shinyApp</span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>

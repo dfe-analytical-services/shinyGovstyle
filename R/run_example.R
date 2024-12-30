@@ -359,7 +359,7 @@ run_example <- function() {
         )
       ), # end of gov row
 
-      footer(TRUE)
+      footer(TRUE, links = c("Cookies"))
     ), # end of fluid page
 
     server = function(input, output, session) {
@@ -389,9 +389,6 @@ run_example <- function() {
       shiny::observeEvent(input$back1, {
         shiny::updateTabsetPanel(session, "tab-container", selected = "select_types")
       })
-      
-    footer(TRUE, links = c("Cookies"))
-
 
       # Next page buttons
       shiny::observeEvent(input$btn1, {

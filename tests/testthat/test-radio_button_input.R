@@ -1,6 +1,3 @@
-
-library("shiny")
-
 test_that("Default", {
 
   choices <- c("A", "B", "C")

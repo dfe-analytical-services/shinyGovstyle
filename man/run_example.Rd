@@ -10,11 +10,11 @@ run_example()
 a shiny app with examples in
 }
 \description{
-This function runs a shiny example using different parts of the package
+This function runs a shiny example showcasing different parts of the package
 }
 \examples{
 if (interactive()) {
-run_example()
+  run_example()
 }
 }
 \keyword{example}

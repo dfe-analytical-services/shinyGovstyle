@@ -349,7 +349,7 @@ shiny::shinyApp(
       )
     ), # end of gov row
 
-    footer(TRUE, links = c("Cookies"))
+    shinyGovstyle::footer(TRUE, links = c("Cookies"))
   ), # end of fluid page
 
   server = function(input, output, session) {

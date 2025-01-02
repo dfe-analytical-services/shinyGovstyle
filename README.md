@@ -47,7 +47,7 @@ This package is also released with a [Contributor Code of Conduct](.github/CODE_
 
 ### Available components
 
-The package contains an example dashboard you can run yourself, showcasing available components
+The package contains an example app you can run yourself, showcasing available components. The code for the example app is in the `inst/example_app/` folder. Though you can easily run the app from the console using:
 
 ```r
 shinyGovstyle::run_example()

@@ -57,6 +57,7 @@
 <p>Currently we take <a href="https://frontend.design-system.service.gov.uk/install-using-precompiled-files/" class="external-link">static precompiled exports of the GOV.UK Frontend files</a>, and then store them in the <code>inst/</code> directory. Usual steps involved:</p>
 <ol style="list-style-type: decimal"><li><p>Locate the latest (or desired) <a href="https://github.com/alphagov/govuk-frontend/releases" class="external-link">GOV.UK Frontend version on GitHub</a></p></li>
 <li><p>Download and unzip the ZIP folder, copying the assets (including fonts and images) into the <code>inst/www/</code> folder</p></li>
+<li><p>Update the CSS file name in <code>attachDependency.R</code> script</p></li>
 <li><p>Apply any changes from <code>css_changes.md</code> manually, to preserve previous edits</p></li>
 <li><p>Test all the code functions as expected using <code>devtools::check()</code></p></li>
 <li><p>Manually test the examples using <code><a href="reference/run_example.html">shinyGovstyle::run_example()</a></code>, ensuring the styling is as expected</p></li>

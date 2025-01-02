@@ -37,17 +37,8 @@
 </ul><pre><code>border: none;
 background: white;
 color: #0b0c0c;</code></pre>
-<ul><li>error summary change</li>
-</ul><pre><code>.govuk-error-summary__list {
-    color: #d4351c;
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 0.1em</code></pre>
-<ul><li>add</li>
-</ul><pre><code>.govuk-link {
-    border:none
-}</code></pre>
 <ul><li><p>Move fonts css to the font css</p></li>
+<li><p>Add <code>font-size: 16px;</code> to root at top of file underneath <code>--govuk-frontend-version: VERSION NUMBER;</code></p></li>
 <li><p>Change url links</p></li>
 <li><p>For accordion need to fix the css by:</p></li>
 </ul><p>Finding and replacing all <code>.govuk-frontend-supported .govuk-accordion</code> with <code>.js-enabled .govuk-accordion</code></p>
@@ -175,7 +166,7 @@ only screen and (min-resolution:2dppx) {
   display: none;
 }</code></pre>
 <ul><li>Updated govuk-link–no-visited-state to still have a clear focus highlight (copied from the govuk-link formatting)</li>
-</ul><pre><code>.govuk-link--no-visited-state:focus {
+</ul><pre><code>.govuk-link--no-visited-state:active, .govuk-link--no-visited-state:focus {
     outline: 3px solid transparent;
     background-color: #fd0;
     box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
@@ -210,7 +201,9 @@ only screen and (min-resolution:2dppx) {
   height: auto;
 }</code></pre>
 <ul><li>Container for the value_box</li>
-</ul><pre><code>.value-box-container {
+</ul><pre><code>/*Container for value box*/
+
+.value-box-container {
     font-family: GDS Transport, Arial, sans-serif;
     font-weight: 400;
     font-size: 1rem;
@@ -221,14 +214,18 @@ only screen and (min-resolution:2dppx) {
     margin-bottom: 15px;
 }</code></pre>
 <ul><li>Larger screens styling for value_box</li>
-</ul><pre><code>@media (min-width: 40.0625em) {
+</ul><pre><code>/*Larger screen sizing for value box*/
+
+@media (min-width: 40.0625em) {
     .value-box-container {
         font-size: 1.2rem;
         padding: 15px;
     }
 }</code></pre>
 <ul><li>Styling for the value in value_box</li>
-</ul><pre><code>.value-box-value {
+</ul><pre><code>/*Styling value for value box*/
+
+.value-box-value {
     font-size: 1.5rem;
     line-height: 1;
     font-weight: 700;
@@ -236,7 +233,9 @@ only screen and (min-resolution:2dppx) {
     display: block;
 }</code></pre>
 <ul><li>Styling for the optional description in value_box</li>
-</ul><pre><code>.value-box-description {
+</ul><pre><code>/*Styling for optional description for value box*/
+
+.value-box-description {
     font-size: 1rem;
     line-height: 1;
     margin-top: 10px;

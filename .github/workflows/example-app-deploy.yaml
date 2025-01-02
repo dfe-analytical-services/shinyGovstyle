@@ -26,6 +26,7 @@ jobs:
           if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
           renv::install("shinyjs")
+          renv::install("shinytest2")
           devtools::install()
           renv::install("rsconnect")
           rsconnect::setAccountInfo(name = 'department-for-education', token = '${{secrets.SHINYAPPS_TOKEN}}', secret = '${{secrets.SHINYAPPS_SECRET}}')

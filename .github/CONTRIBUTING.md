@@ -34,11 +34,13 @@ Currently we take [static precompiled exports of the GOV.UK Frontend files](http
 
 2. Download and unzip the ZIP folder, copying the assets (including fonts and images) into the `inst/www/` folder
 
-3. Apply any changes from `css_changes.md` manually, to preserve previous edits
+3. Update the CSS file name in `attachDependency.R` script
 
-4. Test all the code functions as expected using `devtools::check()`
+4. Apply any changes from `css_changes.md` manually, to preserve previous edits
 
-5. Manually test the examples using `shinyGovstyle::run_example()`, ensuring the styling is as expected
+5. Test all the code functions as expected using `devtools::check()`
+
+6. Manually test the examples using `shinyGovstyle::run_example()`, ensuring the styling is as expected
 
 If unsure on the styling and expected appearance, use the [GOV.UK Design System site](https://design-system.service.gov.uk/) to explore the components in more detail and official guidance for their use.
 

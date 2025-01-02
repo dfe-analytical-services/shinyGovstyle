@@ -7,23 +7,11 @@ background: white;
 color: #0b0c0c;
 ```
 
-* error summary change
-```
-.govuk-error-summary__list {
-    color: #d4351c;
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 0.1em
-```
-
-* add 
-```
-.govuk-link {
-    border:none
-}
-```
-
 * Move fonts css to the font css
+
+* Add `font-size: 16px;` to root at top of file underneath `--govuk-frontend-version: VERSION NUMBER;`
+
+
 * Change url links
 
 * For accordion need to fix the css by:
@@ -177,7 +165,7 @@ only screen and (min-resolution:2dppx) {
 * Updated govuk-link--no-visited-state to still have a clear focus highlight (copied from the govuk-link formatting)
 
 ```
-.govuk-link--no-visited-state:focus {
+.govuk-link--no-visited-state:active, .govuk-link--no-visited-state:focus {
     outline: 3px solid transparent;
     background-color: #fd0;
     box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
@@ -218,6 +206,8 @@ only screen and (min-resolution:2dppx) {
 
 * Container for the value_box
 ```
+/*Container for value box*/
+
 .value-box-container {
     font-family: GDS Transport, Arial, sans-serif;
     font-weight: 400;
@@ -232,6 +222,8 @@ only screen and (min-resolution:2dppx) {
 
 * Larger screens styling for value_box
 ```
+/*Larger screen sizing for value box*/
+
 @media (min-width: 40.0625em) {
     .value-box-container {
         font-size: 1.2rem;
@@ -242,6 +234,8 @@ only screen and (min-resolution:2dppx) {
 
 * Styling for the value in value_box
 ```
+/*Styling value for value box*/
+
 .value-box-value {
     font-size: 1.5rem;
     line-height: 1;
@@ -253,6 +247,8 @@ only screen and (min-resolution:2dppx) {
 
 * Styling for the optional description in value_box
 ```
+/*Styling for optional description for value box*/
+
 .value-box-description {
     font-size: 1rem;
     line-height: 1;

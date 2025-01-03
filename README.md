@@ -24,7 +24,7 @@ install.packages("shinyGovstyle")
 
 If you want to make use of the development version then install directly from GitHub.
 ```r
-remotes::install_github("moj-analytical-services/shinyGovstyle")
+remotes::install_github("dfe-analytical-services/shinyGovstyle")
 ```
 
 This is also available on conda

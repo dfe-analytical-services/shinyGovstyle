@@ -495,6 +495,8 @@ shinyGovstyle::govTable(
       width_overwrite = c("one-half", "one-quarter", "one-quarter"))
 ```
 
+Note: widths specified in width_overwrite must add up to 1.
+
 ### Tabs
 
 Gov style tabs component :

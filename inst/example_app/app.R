@@ -21,7 +21,7 @@ shiny::shinyApp(
     cookieBanner("shinyGovstyle showcase"),
     skip_to_main(),
     header("MoJ", "shinyGovstyle showcase",
-           logo = "shinyGovstyle/images/moj_logo-1.png", logo_width = 66
+      logo = "shinyGovstyle/images/moj_logo-1.png", logo_width = 66
     ),
     banner(
       "banner",
@@ -32,6 +32,26 @@ shiny::shinyApp(
 
     # Need this to make the error and word count work
     shinyjs::useShinyjs(),
+
+    # Notice at top of page ----
+    br(),
+    shinyGovstyle::gov_row(
+      shinyGovstyle::gov_box(
+        size = "full",
+        shinyGovstyle::gov_text(
+          style = "margin-bottom: -10px;",
+          "This example app showcases the components available in the latest development version of the shinyGovstyle
+                    package. The source code for the app can be found on the ",
+          shinyGovstyle::external_link(
+            href = "https://github.com/dfe-analytical-services/shinyGovstyle/blob/master/inst/example_app/app.R",
+            link_text = "master GitHub branch"
+          ),
+          "."
+        )
+      )
+    ),
+
+    # Main navigation ----
     gov_row(
       # Nav columns
       shiny::column(
@@ -60,14 +80,12 @@ shiny::shinyApp(
               )
           ),
 
-
-
           # Text types tab
           contents_link(
             "Text Types",
             "text_types_button",
-            subcontents_text_list = c("date_Input", "text_Input", "text_area_Input", "button_Input"),
-            subcontents_id_list = c(NA, NA, NA, "button_input_text_types")
+            subcontents_text_list = c("date_Input", "text_Input", "text_area_Input", "button_Input", "external_link"),
+            subcontents_id_list = c(NA, NA, NA, "button_input_text_types", NA)
           ),
 
           # Tables tabs and accordions tab
@@ -104,9 +122,6 @@ shiny::shinyApp(
         id = "main_col", # DO NOT REMOVE ID
 
         shiny::tags$br(),
-        shiny::markdown(
-          "You can see the latest version of the <a href='https://github.com/dfe-analytical-services/shinyGovstyle/blob/master/R/run_example.R/'>source code for this app on GitHub</a>."
-        ),
 
         # Set up a nav panel so everything not on single page
         shiny::tabsetPanel(
@@ -167,7 +182,6 @@ shiny::shinyApp(
             )
           ),
 
-
           ##################### Create second panel################################
           shiny::tabPanel(
             "Text Types",
@@ -202,8 +216,27 @@ shiny::shinyApp(
                 word_limit = 300
               ),
               heading_text("button_Input", size = "s", id = "button_input_text_types"),
-              button_Input("btn_error", "Check for errors", type = "warning")
-            )
+              button_Input("btn_error", "Check for errors", type = "warning"),
+              heading_text("external_link", size = "s"),
+              gov_text(
+                "You can add external links with automatic formatting such as to our ",
+                shinyGovstyle::external_link(
+                  href = "https://github.com/dfe-analytical-services/shinyGovstyle",
+                  link_text = "GitHub repository",
+                ),
+                "."
+              ),
+              shinyGovstyle::gov_text(
+                "You can also add external links that don't have the warning in brackets
+                but do have the warning for screen readers, such as this link to our ",
+                shinyGovstyle::external_link(
+                  href = "https://dfe-analytical-services.github.io/shinyGovstyle/",
+                  link_text = "package documentation site",
+                  add_warning = FALSE
+                ),
+                "."
+              ),
+            ),
           ),
 
           ##################### Create third panel################################
@@ -494,7 +527,7 @@ shiny::shinyApp(
 
     shiny::observeEvent(input$cookieLink, {
       shiny::updateTabsetPanel(session, "nav",
-                               selected = "panel4"
+        selected = "panel4"
       )
     })
   }

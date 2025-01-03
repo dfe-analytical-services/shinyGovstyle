@@ -764,3 +764,11 @@ server <- function(input, output, session) {
   )
 }
 ```
+
+#### External links
+
+Safely make links to external sites open in new tabs by using the `external_link()` function:
+
+```
+shinyGovstyle::external_link("https://shiny.posit.co/", "R Shiny")
+```

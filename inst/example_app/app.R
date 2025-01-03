@@ -80,14 +80,12 @@ shiny::shinyApp(
               )
           ),
 
-
-
           # Text types tab
           contents_link(
             "Text Types",
             "text_types_button",
-            subcontents_text_list = c("date_Input", "text_Input", "text_area_Input", "button_Input"),
-            subcontents_id_list = c(NA, NA, NA, "button_input_text_types")
+            subcontents_text_list = c("date_Input", "text_Input", "text_area_Input", "button_Input", "external_link"),
+            subcontents_id_list = c(NA, NA, NA, "button_input_text_types", NA)
           ),
 
           # Tables tabs and accordions tab

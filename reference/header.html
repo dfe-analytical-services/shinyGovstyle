@@ -44,6 +44,9 @@
 <span>  logo <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  main_link <span class="op">=</span> <span class="st">"#"</span>,</span>
 <span>  secondary_link <span class="op">=</span> <span class="st">"#"</span>,</span>
+<span>  logo_alt_text <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  main_alt_text <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  secondary_alt_text <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  logo_width <span class="op">=</span> <span class="fl">36</span>,</span>
 <span>  logo_height <span class="op">=</span> <span class="fl">32</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -54,11 +57,11 @@
 
 
 <dl><dt id="arg-main-text">main_text<a class="anchor" aria-label="anchor" href="#arg-main-text"></a></dt>
-<dd><p>Main text that goes in the header</p></dd>
+<dd><p>Main text that goes in the header.</p></dd>
 
 
 <dt id="arg-secondary-text">secondary_text<a class="anchor" aria-label="anchor" href="#arg-secondary-text"></a></dt>
-<dd><p>Secondary header to supplement the main text</p></dd>
+<dd><p>Secondary header to supplement the main text.</p></dd>
 
 
 <dt id="arg-logo">logo<a class="anchor" aria-label="anchor" href="#arg-logo"></a></dt>
@@ -67,41 +70,58 @@ use the crown svg version on gov uk.</p></dd>
 
 
 <dt id="arg-main-link">main_link<a class="anchor" aria-label="anchor" href="#arg-main-link"></a></dt>
-<dd><p>Add a link for clicking on main text</p></dd>
+<dd><p>Add a link for clicking on main text.</p></dd>
 
 
 <dt id="arg-secondary-link">secondary_link<a class="anchor" aria-label="anchor" href="#arg-secondary-link"></a></dt>
 <dd><p>Add a link for clicking on secondary header.</p></dd>
 
 
+<dt id="arg-logo-alt-text">logo_alt_text<a class="anchor" aria-label="anchor" href="#arg-logo-alt-text"></a></dt>
+<dd><p>Add alternative text for the logo. Must be used when a
+logo is used.</p></dd>
+
+
+<dt id="arg-main-alt-text">main_alt_text<a class="anchor" aria-label="anchor" href="#arg-main-alt-text"></a></dt>
+<dd><p>Add alternative text for the main link. Must be used
+when a main link is used.</p></dd>
+
+
+<dt id="arg-secondary-alt-text">secondary_alt_text<a class="anchor" aria-label="anchor" href="#arg-secondary-alt-text"></a></dt>
+<dd><p>Add alternative text for the secondary link. Must
+be used when a secondary link is used.</p></dd>
+
+
 <dt id="arg-logo-width">logo_width<a class="anchor" aria-label="anchor" href="#arg-logo-width"></a></dt>
-<dd><p>Change the logo size width css to improve fit</p></dd>
+<dd><p>Change the logo size width CSS to improve fit.</p></dd>
 
 
 <dt id="arg-logo-height">logo_height<a class="anchor" aria-label="anchor" href="#arg-logo-height"></a></dt>
-<dd><p>Change the logo size height css to improve fit</p></dd>
+<dd><p>Change the logo size height CSS to improve fit.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>a header html shiny object</p>
+    <p>a header HTML shiny object</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">fluidPage</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">header</span><span class="op">(</span></span></span>
 <span class="r-in"><span>      main_text <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
 <span class="r-in"><span>      secondary_text <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
-<span class="r-in"><span>      logo<span class="op">=</span><span class="st">"shinyGovstyle/images/moj_logo.png"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      logo <span class="op">=</span> <span class="st">"shinyGovstyle/images/moj_logo.png"</span>,</span></span>
+<span class="r-in"><span>      logo_alt_text <span class="op">=</span> <span class="st">"Ministry of Justice Logo"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu">shinyApp</span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

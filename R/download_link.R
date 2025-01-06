@@ -2,7 +2,12 @@
 #'
 #' @param id The name of the output slot that the `downloadHandler` is assigned
 #' to.
-#' @param link_text
+#' @param link_text Text that will appear describing the download action
+#' (default: "Download file").
+#' Vague text like 'click here' or 'here' will cause an error, as will ending in
+#' a full stop. Leading and trailing white space will be automatically trimmed.
+#' If the string is shorter than 7 characters a console warning will be thrown.
+#' There is no way to hush this other than providing more detail.
 #' @param file_type The file type to be download (default: CSV)
 #' @param file_size The file size if known
 #' @param ...
@@ -11,9 +16,36 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' ui <- fluidPage(
+#'   p("Choose a dataset to download."),
+#'   selectInput("dataset", "Dataset", choices = c("mtcars", "airquality")),
+#'   download_link("download_data", "Download data")
+#' )
+#'
+#' server <- function(input, output) {
+#'   # The requested dataset
+#'   data <- reactive({
+#'     get(input$dataset)
+#'   })
+#'
+#'   output$downloadData <- downloadHandler(
+#'     filename = function() {
+#'       # Use the selected dataset as the suggested file name
+#'       paste0(input$dataset, ".csv")
+#'     },
+#'     content = function(file) {
+#'       # Write the dataset to the `file` that will be downloaded
+#'       write.csv(data(), file)
+#'     }
+#'   )
+#' }
+#'
+#' shinyApp(ui, server)
+#' }
 download_link <- function(
     id,
-    link_text = "Download",
+    link_text = "Download file",
     file_type = "CSV",
     file_size = NULL,
     ...) {

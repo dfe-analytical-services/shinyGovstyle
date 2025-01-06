@@ -87,8 +87,22 @@ shiny::shinyApp(
           contents_link(
             "Text Types",
             "text_types_button",
-            subcontents_text_list = c("date_Input", "text_Input", "text_area_Input", "button_Input", "external_link"),
-            subcontents_id_list = c(NA, NA, NA, "button_input_text_types", NA)
+            subcontents_text_list = c(
+              "date_Input",
+              "text_Input",
+              "text_area_Input",
+              "button_Input",
+              "external_link",
+              "download_link"
+            ),
+            subcontents_id_list = c(
+              NA,
+              NA,
+              NA,
+              "button_input_text_types",
+              NA,
+              NA
+            )
           ),
 
           # Tables tabs and accordions tab
@@ -241,7 +255,10 @@ shiny::shinyApp(
               ),
               heading_text("download_link", size = "s"),
               shinyGovstyle::gov_text(
-                shinyGovstyle::download_link("download_data")
+                shinyGovstyle::download_link(
+                  "download_data",
+                  file_size = "1 KB"
+                )
               )
             ),
           ),

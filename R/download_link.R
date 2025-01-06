@@ -10,7 +10,7 @@
 #' There is no way to hush this other than providing more detail.
 #' @param file_type The file type to be download (default: CSV)
 #' @param file_size The file size if known. Needs to be a string ending in one
-#' of KB, MB or GB.
+#' of KB, MB, GB or rows.
 #'
 #' @returns shiny.tag object
 #' @export
@@ -78,7 +78,12 @@ download_link <- function(
     )
   }
 
-  # Give a console warning if link text is under 7 characters
+  # Check if link text ends in a full stop
+  if (grepl("\\.$", link_text)) {
+    stop("link_text should not end with a full stop")
+  }
+
+    # Give a console warning if link text is under 7 characters
   # Arbritary number that allows for R Shiny to be link text without a warning
   if (nchar(link_text) < 7) {
     warning(paste0(
@@ -93,8 +98,8 @@ download_link <- function(
   # this would be updated dynamically when linking to a dynamically created
   # file, such as the CSV version of a table in an app.
   if (!is.null(file_size)) {
-    if(!grepl("KB$|MB$|GB$", file_size)){
-      error("File size should be a string ending in one of KB, MB or GB")
+    if(!grepl("KB$|MB$|GB$| rows$", file_size)){
+      error("File size should be a string ending in one of KB, MB, GB or rows.")
     }
     file_info <- paste0(file_type, ", ", file_size)
   } else {

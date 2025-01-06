@@ -25,7 +25,7 @@ There is no way to hush this other than providing more detail.}
 \item{file_type}{The file type to be download (default: CSV)}
 
 \item{file_size}{The file size if known. Needs to be a string ending in one
-of KB, MB or GB.}
+of KB, MB, GB or rows.}
 }
 \value{
 shiny.tag object

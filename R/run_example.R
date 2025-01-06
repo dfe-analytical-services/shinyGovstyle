@@ -31,9 +31,9 @@ run_example <- function() {
 
       cookieBanner("Run Example"),
       skip_to_main(),
-      header("MOJ", "ShinyGovstyle Example",
+      header("MoJ", "ShinyGovstyle Example",
         logo = "shinyGovstyle/images/moj_logo-1.png", logo_width = 66,
-        logo_alt_text = "Ministry of justice logo"
+        logo_alt_text = "Ministry of Justice logo"
       ),
       banner(
         "banner",

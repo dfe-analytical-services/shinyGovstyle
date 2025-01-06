@@ -38,12 +38,12 @@ when a main link is used.}
 \item{secondary_alt_text}{Add alternative text for the secondary link. Must
 be used when a secondary link is used.}
 
-\item{logo_width}{Change the logo size width css to improve fit.}
+\item{logo_width}{Change the logo size width CSS to improve fit.}
 
-\item{logo_height}{Change the logo size height css to improve fit.}
+\item{logo_height}{Change the logo size height CSS to improve fit.}
 }
 \value{
-a header html shiny object
+a header HTML shiny object
 }
 \description{
 This function create a header banner.  For use at top of the screen

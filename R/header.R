@@ -15,7 +15,7 @@
 #' be used when a secondary link is used.
 #' @param logo_width Change the logo size width CSS to improve fit.
 #' @param logo_height Change the logo size height CSS to improve fit.
-#' @return a header html shiny object
+#' @return a header HTML shiny object
 #' @keywords header
 #' @export
 #' @examples

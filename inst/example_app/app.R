@@ -21,7 +21,8 @@ shiny::shinyApp(
     cookieBanner("shinyGovstyle showcase"),
     skip_to_main(),
     header("MoJ", "shinyGovstyle showcase",
-      logo = "shinyGovstyle/images/moj_logo-1.png", logo_width = 66
+      logo = "shinyGovstyle/images/moj_logo-1.png", logo_width = 66,
+      logo_alt_text = "Ministry of Justice logo"
     ),
     banner(
       "banner",

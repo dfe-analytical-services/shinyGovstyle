@@ -7,4 +7,5 @@
 ^pkgdown$
 ^\.github$
 ^LICENSE\.md$
+^data-raw$
 _\.new\.png$

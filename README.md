@@ -24,7 +24,7 @@ install.packages("shinyGovstyle")
 
 If you want to make use of the development version then install directly from GitHub.
 ```r
-remotes::install_github("moj-analytical-services/shinyGovstyle")
+remotes::install_github("dfe-analytical-services/shinyGovstyle")
 ```
 
 This is also available on conda
@@ -47,7 +47,7 @@ This package is also released with a [Contributor Code of Conduct](.github/CODE_
 
 ### Available components
 
-The package contains an example dashboard you can run yourself, showcasing available components
+The package contains an example app you can run yourself, showcasing available components. The code for the example app is in the `inst/example_app/` folder. Though you can easily run the app from the console using:
 
 ```r
 shinyGovstyle::run_example()
@@ -104,6 +104,27 @@ ui <- fluidPage(
 server <- function(input, output, session) {}
 ```
 Note: You can only use gov.uk font on service.gov.uk (see https://design-system.service.gov.uk/styles/typography/)
+
+If you want a plain footer you can do this by setting `full = FALSE`. For example:
+
+```r
+ui <- fluidPage(
+  shinyGovstyle::header("Justice", "Prototype", logo="shinyGovstyle/images/moj_logo.png"),
+  gov_layout(size = "full",
+        tags$br(),
+        tags$br(),
+        tags$br(),
+        tags$br(),
+        tags$br()
+      ),
+  footer(FALSE)
+)
+
+```
+
+Will look like:
+
+![plain-footer](man/figures/plain_footer.png)
 
 #### Banner
 
@@ -742,4 +763,12 @@ server <- function(input, output, session) {
   }
   )
 }
+```
+
+#### External links
+
+Safely make links to external sites open in new tabs by using the `external_link()` function:
+
+```
+shinyGovstyle::external_link("https://shiny.posit.co/", "R Shiny")
 ```

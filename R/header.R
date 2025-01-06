@@ -13,8 +13,8 @@
 #' when a main link is used.
 #' @param secondary_alt_text Add alternative text for the secondary link. Must
 #' be used when a secondary link is used.
-#' @param logo_width Change the logo size width css to improve fit.
-#' @param logo_height Change the logo size height css to improve fit.
+#' @param logo_width Change the logo size width CSS to improve fit.
+#' @param logo_height Change the logo size height CSS to improve fit.
 #' @return a header html shiny object
 #' @keywords header
 #' @export

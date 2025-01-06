@@ -8,8 +8,7 @@ download_link(
   outputId,
   link_text = "Download data",
   file_type = "CSV",
-  file_size = NULL,
-  ...
+  file_size = NULL
 )
 }
 \arguments{
@@ -25,9 +24,8 @@ There is no way to hush this other than providing more detail.}
 
 \item{file_type}{The file type to be download (default: CSV)}
 
-\item{file_size}{The file size if known}
-
-\item{...}{}
+\item{file_size}{The file size if known. Needs to be a string ending in one
+of KB, MB or GB.}
 }
 \value{
 shiny.tag object

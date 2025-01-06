@@ -9,8 +9,8 @@
 #' If the string is shorter than 7 characters a console warning will be thrown.
 #' There is no way to hush this other than providing more detail.
 #' @param file_type The file type to be download (default: CSV)
-#' @param file_size The file size if known
-#' @param ...
+#' @param file_size The file size if known. Needs to be a string ending in one
+#' of KB, MB or GB.
 #'
 #' @returns shiny.tag object
 #' @export
@@ -47,8 +47,7 @@ download_link <- function(
     outputId,
     link_text = "Download data",
     file_type = "CSV",
-    file_size = NULL,
-    ...) {
+    file_size = NULL) {
   # Trim white space as I don't trust humans not to accidentally include
   link_text <- stringr::str_trim(link_text)
 
@@ -94,6 +93,9 @@ download_link <- function(
   # this would be updated dynamically when linking to a dynamically created
   # file, such as the CSV version of a table in an app.
   if (!is.null(file_size)) {
+    if(!grepl("KB$|MB$|GB$", file_size)){
+      error("File size should be a string ending in one of KB, MB or GB")
+    }
     file_info <- paste0(file_type, ", ", file_size)
   } else {
     file_info <- file_type

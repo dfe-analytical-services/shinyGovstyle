@@ -1,7 +1,2 @@
-.Rproj.user
-.Rhistory
-.RData
-.DS_Store
-docs/
 # {shinytest2}: Ignore new debug snapshots for `$expect_values()`
 *_.new.png

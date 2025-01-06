@@ -1,0 +1,33 @@
+on:
+  push:
+    branches:
+      - main
+      - master
+
+name: Example app deploy
+
+jobs:
+  deployShiny:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Load packages and push to shinyapps.io
+        shell: Rscript {0}
+        run: |
+          if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
+          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+          renv::install("shinyjs")
+          renv::install("shinytest2")
+          devtools::install_github("dfe-analytical-services/shinyGovstyle")
+          renv::install("rsconnect")
+          rsconnect::setAccountInfo(name = 'department-for-education', token = '${{secrets.SHINYAPPS_TOKEN}}', secret = '${{secrets.SHINYAPPS_SECRET}}')
+          rsconnect::deployApp(system.file(package = "shinyGovstyle", "example_app"), appName = "shinygovstyle-example-app", forceUpdate = TRUE)

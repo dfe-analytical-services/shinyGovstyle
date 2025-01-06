@@ -1,0 +1,10 @@
+/* Taken from https://webaim.org/techniques/css/invisiblecontent/#:~:text=display%3Anone%20or%20visibility%3A%20hidden,is%20ignored%20by%20screen%20readers. */
+.sr-only {
+    position:absolute;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+  }
+  

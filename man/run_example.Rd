@@ -2,19 +2,20 @@
 % Please edit documentation in R/run_example.R
 \name{run_example}
 \alias{run_example}
-\title{Example Function}
+\title{Run examples}
 \usage{
 run_example()
 }
 \value{
-a shiny app with examples in
+runs an R Shiny app with examples in
 }
 \description{
-This function runs a shiny example using different parts of the package
+This function runs an example R Shiny app showcasing different parts of the package.
+Code for the app can be found in the inst/example_app folder in the source code.
 }
 \examples{
 if (interactive()) {
-run_example()
+  run_example()
 }
 }
 \keyword{example}

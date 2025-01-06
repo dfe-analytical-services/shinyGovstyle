@@ -66,6 +66,13 @@ accordion <- function(inputId, titles, descriptions){
         )
       ),
       Map(function(x, y, z) {
+
+        if(z < 10){
+          z_str <- paste0("0", z)
+        } else {
+          z_str <- paste0(z)
+        }
+
         shiny::tags$div(
           class="govuk-accordion__section",
           shiny::tags$div(
@@ -74,8 +81,8 @@ accordion <- function(inputId, titles, descriptions){
               class="govuk-accordion__section-header",
               shiny::tags$button(
                 class = "govuk-accordion__section-button",
-                id = paste0("accordion-default-heading-", z),
-                name = paste0("accordion-default-heading-", z),
+                id = paste0("accordion-default-heading-", z_str),
+                name = paste0("accordion-default-heading-", z_str),
                 shiny::tags$span(
                   class = "govuk-accordion__section-heading-text",
                   shiny::tags$span(
@@ -113,7 +120,7 @@ accordion <- function(inputId, titles, descriptions){
           shiny::tags$div(
             id = "accordion-default-content-1",
             class="govuk-accordion__section-content",
-            `aria-labelledby` = paste0("accordion-default-heading-", z),
+            `aria-labelledby` = paste0("accordion-default-heading-", z_str),
             shiny::tags$p(
               class = "govuk-body",
               y

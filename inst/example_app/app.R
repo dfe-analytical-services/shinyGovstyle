@@ -239,6 +239,10 @@ shiny::shinyApp(
                 ),
                 "."
               ),
+              heading_text("download_link", size = "s"),
+              shinyGovstyle::gov_text(
+                shinyGovstyle::download_link("download_data")
+              )
             ),
           ),
 
@@ -533,5 +537,17 @@ shiny::shinyApp(
         selected = "panel4"
       )
     })
+
+    output$download_data <- downloadHandler(
+      filename = "demo_data.csv",
+      content = function(file) {
+        # Write the dataset to the `file` that will be downloaded
+        data <- data.frame(
+          x = 1:10,
+          y = 101:110
+        )
+        write.csv(data, file)
+      }
+    )
   }
 )

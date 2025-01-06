@@ -1,6 +1,6 @@
 #' Download link
 #'
-#' @param id The name of the output slot that the `downloadHandler` is assigned
+#' @param outputId The name of the output slot that the `downloadHandler` is assigned
 #' to.
 #' @param link_text Text that will appear describing the download action
 #' (default: "Download file").
@@ -29,7 +29,7 @@
 #'     get(input$dataset)
 #'   })
 #'
-#'   output$downloadData <- downloadHandler(
+#'   output$download_data <- downloadHandler(
 #'     filename = function() {
 #'       # Use the selected dataset as the suggested file name
 #'       paste0(input$dataset, ".csv")
@@ -44,13 +44,19 @@
 #' shinyApp(ui, server)
 #' }
 download_link <- function(
-    id,
-    link_text = "Download file",
+    outputId,
+    link_text = "Download data",
     file_type = "CSV",
     file_size = NULL,
     ...) {
   # Trim white space as I don't trust humans not to accidentally include
   link_text <- stringr::str_trim(link_text)
+
+  # Create a basic check for raw URLs
+  is_url <- function(text) {
+    url_pattern <- "^(https://|http://|www\\.)"
+    grepl(url_pattern, text)
+  }
 
   # Check for vague link text on our list
   if (is_url(link_text)) {
@@ -87,7 +93,7 @@ download_link <- function(
   # Note the file_size is manually assigned and optional right now. Ideally,
   # this would be updated dynamically when linking to a dynamically created
   # file, such as the CSV version of a table in an app.
-  if (file_size) {
+  if (!is.null(file_size)) {
     file_info <- paste0(file_type, ", ", file_size)
   } else {
     file_info <- file_type
@@ -97,12 +103,11 @@ download_link <- function(
   # Create the link object
   link <- htmltools::tags$a(
     id = outputId,
+    class = "shiny-download-link disabled",
     href = "",
     target = "_blank",
     download = NA,
-    htmltools::HTML(paste0(link_text, hidden_span)),
-    rel = "noopener noreferrer",
-    .noWS = c("outside")
+    htmltools::HTML(link_text)
   )
 
   # Attach CSS from inst/www/css/visually-hidden.css

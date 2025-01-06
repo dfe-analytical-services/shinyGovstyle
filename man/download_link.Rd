@@ -5,15 +5,15 @@
 \title{Download link}
 \usage{
 download_link(
-  id,
-  link_text = "Download file",
+  outputId,
+  link_text = "Download data",
   file_type = "CSV",
   file_size = NULL,
   ...
 )
 }
 \arguments{
-\item{id}{The name of the output slot that the `downloadHandler` is assigned
+\item{outputId}{The name of the output slot that the `downloadHandler` is assigned
 to.}
 
 \item{link_text}{Text that will appear describing the download action
@@ -49,7 +49,7 @@ server <- function(input, output) {
     get(input$dataset)
   })
 
-  output$downloadData <- downloadHandler(
+  output$download_data <- downloadHandler(
     filename = function() {
       # Use the selected dataset as the suggested file name
       paste0(input$dataset, ".csv")

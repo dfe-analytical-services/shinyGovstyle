@@ -257,6 +257,8 @@ shiny::shinyApp(
               shinyGovstyle::gov_text(
                 shinyGovstyle::download_link(
                   "download_data",
+                  "Download a demo data set",
+                  file_type = "CSV",
                   file_size = "1 KB"
                 )
               )

@@ -1,9 +1,23 @@
 #' Download link
 #'
-#' @param outputId The name of the output slot that the `downloadHandler` is assigned
-#' to.
-#' @param link_text Text that will appear describing the download action
-#' (default: "Download file").
+#' @description
+#' The \code{download_link()} provides a standard way to provide a download link,
+#' which facilitates important accessible / positive user experience elements,
+#' namely:
+#' \itemize{
+#' \item file type
+#' \item file size
+#' }
+#' These are necessary in order for users to understand what they are
+#' downloading, both in terms of being able to decide if they are comfortable
+#' with downloading the file over their current connection and if it's in a form
+#' they're able to deal with once it is downloaded. If the exact file size is
+#' not easily determined, then it may be acceptable to provide an estimate or an
+#' upper limit.
+#'
+#' @param outputId The name of the output slot that the
+#' \code{shiny::downloadHandler()} is assigned to.
+#' @param link_text Text that will appear describing the download action.
 #' Vague text like 'click here' or 'here' will cause an error, as will ending in
 #' a full stop. Leading and trailing white space will be automatically trimmed.
 #' If the string is shorter than 7 characters a console warning will be thrown.
@@ -16,36 +30,47 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' ui <- fluidPage(
-#'   p("Choose a dataset to download."),
-#'   selectInput("dataset", "Dataset", choices = c("mtcars", "airquality")),
-#'   download_link("download_data", "Download data")
-#' )
-#'
-#' server <- function(input, output) {
-#'   # The requested dataset
-#'   data <- reactive({
-#'     get(input$dataset)
-#'   })
-#'
-#'   output$download_data <- downloadHandler(
-#'     filename = function() {
-#'       # Use the selected dataset as the suggested file name
-#'       paste0(input$dataset, ".csv")
-#'     },
-#'     content = function(file) {
-#'       # Write the dataset to the `file` that will be downloaded
-#'       write.csv(data(), file)
-#'     }
+#' if (interactive()) {
+#'   ui <- shiny::fluidPage(
+#'     gov_text("Choose a data set to download."),
+#'     select_Input(
+#'       "dataset",
+#'       "Data set",
+#'       select_text = c("Car road tests", "New York air quality"),
+#'       select_value = c("mtcars", "airquality")
+#'     ),
+#'     gov_text(
+#'       download_link(
+#'         "download_data",
+#'         "Download selected data set",
+#'         file_size = "4 KB"
+#'       )
+#'     )
 #'   )
-#' }
 #'
-#' shinyApp(ui, server)
+#'   server <- function(input, output) {
+#'     # The requested data set
+#'     data <- reactive({
+#'       get(input$dataset)
+#'     })
+#'
+#'     output$download_data <- downloadHandler(
+#'       filename = function() {
+#'         # Use the selected dataset as the suggested file name
+#'         paste0(input$dataset, ".csv")
+#'       },
+#'       content = function(file) {
+#'         # Write the dataset to the `file` that will be downloaded
+#'         write.csv(data(), file)
+#'       }
+#'     )
+#'   }
+#'
+#'   shiny::shinyApp(ui, server)
 #' }
 download_link <- function(
     outputId,
-    link_text = "Download data",
+    link_text,
     file_type = "CSV",
     file_size = NULL) {
   # Trim white space as I don't trust humans not to accidentally include
@@ -83,7 +108,7 @@ download_link <- function(
     stop("link_text should not end with a full stop")
   }
 
-    # Give a console warning if link text is under 7 characters
+  # Give a console warning if link text is under 7 characters
   # Arbritary number that allows for R Shiny to be link text without a warning
   if (nchar(link_text) < 7) {
     warning(paste0(
@@ -98,8 +123,8 @@ download_link <- function(
   # this would be updated dynamically when linking to a dynamically created
   # file, such as the CSV version of a table in an app.
   if (!is.null(file_size)) {
-    if(!grepl("KB$|MB$|GB$| rows$", file_size)){
-      error("File size should be a string ending in one of KB, MB, GB or rows.")
+    if (!grepl("KB$|MB$|GB$| rows$", file_size)) {
+      stop("File size should be a string ending in one of KB, MB, GB or rows.")
     }
     file_info <- paste0(file_type, ", ", file_size)
   } else {

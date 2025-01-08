@@ -6,12 +6,12 @@ bad_link_text <- data.frame(
     "link", "more", "next", "page", "pdf", "previous", "read", "site", "svg",
     "this", "web", "webpage", "website", "word", "xlsx",
     # two word examples
-    "click here", "click this link", "download csv", "download document",
-    "download file", "download here", "download jpg", "download jpeg",
-    "download pdf", "download png", "download svg", "download word",
-    "download xlsx", "further information", "go here", "learn more",
-    "link to", "read more", "this page", "visit this", "web page", "web site",
-    "this link"
+    "click here", "click this link", "download csv", "download data",
+    "download document", "download file", "download here", "download jpg",
+    "download jpeg", "download pdf", "download png", "download svg",
+    "download word", "download xlsx", "further information", "go here",
+    "learn more", "link to", "read more", "this page", "visit this", "web page",
+    "web site", "this link"
   )
 )
 

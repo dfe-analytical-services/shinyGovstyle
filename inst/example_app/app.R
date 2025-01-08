@@ -21,7 +21,7 @@ shiny::shinyApp(
   ui = shiny::fluidPage(
     title = "ShinyGovstyle",
     cookieBanner("shinyGovstyle showcase"),
-    skip_to_main(),
+    shinyGovstyle::skip_to_main(),
     header("MoJ", "shinyGovstyle showcase",
       logo = "shinyGovstyle/images/moj_logo-1.png", logo_width = 66,
       logo_alt_text = "Ministry of Justice logo"
@@ -87,8 +87,22 @@ shiny::shinyApp(
           contents_link(
             "Text Types",
             "text_types_button",
-            subcontents_text_list = c("date_Input", "text_Input", "text_area_Input", "button_Input", "external_link"),
-            subcontents_id_list = c(NA, NA, NA, "button_input_text_types", NA)
+            subcontents_text_list = c(
+              "date_Input",
+              "text_Input",
+              "text_area_Input",
+              "button_Input",
+              "external_link",
+              "download_link"
+            ),
+            subcontents_id_list = c(
+              NA,
+              NA,
+              NA,
+              "button_input_text_types",
+              NA,
+              NA
+            )
           ),
 
           # Tables tabs and accordions tab
@@ -239,6 +253,15 @@ shiny::shinyApp(
                 ),
                 "."
               ),
+              heading_text("download_link", size = "s"),
+              shinyGovstyle::gov_text(
+                shinyGovstyle::download_link(
+                  "download_data",
+                  "Download a demo data set",
+                  file_type = "CSV",
+                  file_size = "1 KB"
+                )
+              )
             ),
           ),
 
@@ -533,5 +556,17 @@ shiny::shinyApp(
         selected = "panel4"
       )
     })
+
+    output$download_data <- downloadHandler(
+      filename = "demo_data.csv",
+      content = function(file) {
+        # Write the dataset to the `file` that will be downloaded
+        data <- data.frame(
+          x = 1:10,
+          y = 101:110
+        )
+        write.csv(data, file)
+      }
+    )
   }
 )

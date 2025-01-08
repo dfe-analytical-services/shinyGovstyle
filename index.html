@@ -124,6 +124,8 @@
 <li><a href="#skip-to-main">Skip to main</a></li>
 <li><a href="#tags">Tags</a></li>
 <li><a href="#errors">Errors</a></li>
+<li><a href="#external-links">External links</a></li>
+<li><a href="#downloads">Downloads</a></li>
 </ul>
 <div class="section level4">
 <h4 id="gov-style-layout">Gov style layout<a class="anchor" aria-label="anchor" href="#gov-style-layout"></a>
@@ -610,7 +612,8 @@ heading_text(text_input = "I am small text", size = "s")</code></pre>
 <p><img src="reference/figures/skip-to-main-visible.png"></p>
 <p>Important: your main column will need an id of “main_col” for this to work</p>
 <p>This feature is generally positioned after the cookie banner and below the header. See example below:</p>
-<pre><code><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">fluidPage</span><span class="op">(</span></span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">fluidPage</span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="reference/cookieBanner.html">cookieBanner</a></span><span class="op">(</span><span class="st">"Run Example"</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="reference/skip_to_main.html">skip_to_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="reference/header.html">header</a></span><span class="op">(</span></span>
@@ -623,7 +626,7 @@ heading_text(text_input = "I am small text", size = "s")</code></pre>
 <span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html" class="external-link">column</a></span><span class="op">(</span></span>
 <span>      width <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>      id <span class="op">=</span> <span class="st">"nav"</span>,</span>
-<span></span>
+<span>      </span>
 <span>      <span class="co"># Contents box</span></span>
 <span>      <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">div</span><span class="op">(</span></span>
 <span>        id <span class="op">=</span> <span class="st">"govuk-contents-box"</span>, <span class="co">#DO NOT REMOVE ID</span></span>
@@ -632,7 +635,7 @@ heading_text(text_input = "I am small text", size = "s")</code></pre>
 <span>        <span class="fu">p</span><span class="op">(</span><span class="st">"Your contents links go here"</span><span class="op">)</span>,</span>
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span>,</span>
-<span></span>
+<span>    </span>
 <span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html" class="external-link">column</a></span><span class="op">(</span></span>
 <span>      width <span class="op">=</span> <span class="fl">9</span>,</span>
 <span>      id <span class="op">=</span> <span class="st">"main_col"</span>,</span>
@@ -646,17 +649,17 @@ heading_text(text_input = "I am small text", size = "s")</code></pre>
 <span>            size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span>
 <span>            <span class="fu"><a href="reference/heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"Your main content"</span>, size <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span>,</span>
 <span>            <span class="fu">p</span><span class="op">(</span><span class="st">"Your main content goes here"</span><span class="op">)</span></span>
-<span></span>
+<span>            </span>
 <span>          <span class="op">)</span></span>
 <span>        <span class="op">)</span></span>
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span></span>
-<span></span>
+<span>    </span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span><span class="op">{</span></span>
 <span><span class="op">}</span></span>
-<span><span class="fu">shinyApp</span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">shinyApp</span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="tags">Tags<a class="anchor" aria-label="anchor" href="#tags"></a>
@@ -713,7 +716,50 @@ heading_text(text_input = "I am small text", size = "s")</code></pre>
 <h4 id="external-links">External links<a class="anchor" aria-label="anchor" href="#external-links"></a>
 </h4>
 <p>Safely make links to external sites open in new tabs by using the <code><a href="reference/external_link.html">external_link()</a></code> function:</p>
-<pre><code><span><span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="reference/external_link.html">external_link</a></span><span class="op">(</span><span class="st">"https://shiny.posit.co/"</span>, <span class="st">"R Shiny"</span><span class="op">)</span></span></code></pre>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="reference/external_link.html">external_link</a></span><span class="op">(</span><span class="st">"https://shiny.posit.co/"</span>, <span class="st">"R Shiny"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="downloads">Downloads<a class="anchor" aria-label="anchor" href="#downloads"></a>
+</h4>
+<p>Downloads should be clearly sign-posted with both file type and file size. To help standardise this in a GDS style, use download_link() following the example below:</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="reference/layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"Choose a data set to download."</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="reference/select_Input.html">select_Input</a></span><span class="op">(</span></span>
+<span>      <span class="st">"dataset"</span>,</span>
+<span>      <span class="st">"Data set"</span>,</span>
+<span>      select_text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Car road tests"</span>, <span class="st">"New York air quality"</span><span class="op">)</span>,</span>
+<span>      select_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mtcars"</span>, <span class="st">"airquality"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="reference/layouts.html">gov_text</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="reference/download_link.html">download_link</a></span><span class="op">(</span></span>
+<span>        <span class="st">"download_data"</span>,</span>
+<span>        <span class="st">"Download selected data set"</span>,</span>
+<span>        file_size <span class="op">=</span> <span class="st">"4 KB"</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="co"># The requested data set</span></span>
+<span>    <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">reactive</span><span class="op">(</span><span class="op">{</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">dataset</span><span class="op">)</span></span>
+<span>    <span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span>    <span class="va">output</span><span class="op">$</span><span class="va">download_data</span> <span class="op">&lt;-</span> <span class="fu">downloadHandler</span><span class="op">(</span></span>
+<span>      filename <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>        <span class="co"># Use the selected dataset as the suggested file name</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">dataset</span>, <span class="st">".csv"</span><span class="op">)</span></span>
+<span>      <span class="op">}</span>,</span>
+<span>      content <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">file</span><span class="op">)</span> <span class="op">{</span></span>
+<span>        <span class="co"># Write the dataset to the `file` that will be downloaded</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">file</span><span class="op">)</span></span>
+<span>      <span class="op">}</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 </div>

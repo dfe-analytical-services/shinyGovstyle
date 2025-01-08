@@ -33,24 +33,38 @@ test_that("Rejects dodgy link text", {
 
 test_that("Surrounding whitespace shrubbery is trimmed", {
   expect_equal(
-    paste0(download_link("download_data", "   Download specific data set")$children[[1]]),
-    "Download specific data set (CSV)"
+    paste0(
+      download_link(
+        "download_data",
+        "   Download specific data set",
+        file_size = "96 MB"
+      )$children[[1]]
+    ),
+    "Download specific data set (CSV, 96 MB)"
   )
 
   expect_equal(
-    paste0(download_link("download_data", "Download specific data set    ")$children[[1]]),
-    "Download specific data set (CSV)"
+    paste0(download_link(
+      "download_data",
+      "Download specific data set    ",
+      file_size = "96 MB"
+    )$children[[1]]),
+    "Download specific data set (CSV, 96 MB)"
   )
 
   expect_equal(
-    paste0(download_link("download_data", "   Download specific data set   ")$children[[1]]),
-    "Download specific data set (CSV)"
+    paste0(download_link(
+      "download_data",
+      "   Download specific data set   ",
+      file_size = "96 MB"
+    )$children[[1]]),
+    "Download specific data set (CSV, 96 MB)"
   )
 })
 
 test_that("Warning appears for short link text and not for long text", {
   expect_warning(
-    download_link("download_data", "R"),
+    download_link("download_data", "R", file_size = "96 MB"),
     paste0(
       "the link_text: R, is shorter than 7 characters, this is",
       " unlikely to be descriptive for users, consider having more detailed",
@@ -58,5 +72,26 @@ test_that("Warning appears for short link text and not for long text", {
     )
   )
 
-  expect_no_warning(download_link("download_data", "Download specific data set"))
+  expect_no_warning(
+    download_link("download_data", "Download specific data set", file_size = "96 MB")
+  )
+})
+
+test_that("file_size is valid", {
+  expect_warning(
+    download_link("download_data", "Download your data"),
+    paste0(
+      "download_data",
+      ": download_link file_size is NULL. ",
+      "Please add a file_size estimate or upper limit wherever possible."
+    )
+  )
+
+  expect_no_warning(
+    download_link("download_data", "Download your data", file_size = "12 KB")
+  )
+
+  expect_error(
+    download_link("download_data", "Download your data", file_size = "12 JV")
+  )
 })

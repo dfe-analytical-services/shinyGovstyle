@@ -128,6 +128,13 @@ download_link <- function(
     }
     file_info <- paste0(file_type, ", ", file_size)
   } else {
+    warning(
+      paste0(
+        outputId,
+        ": download_link file_size is NULL. ",
+        "Please add a file_size estimate or upper limit wherever possible."
+      )
+    )
     file_info <- file_type
   }
   link_text <- paste0(link_text, " (", file_info, ")")

@@ -161,6 +161,7 @@ external_link <- function(href, link_text, add_warning = TRUE) {
   # Create the link object
   link <- htmltools::tags$a(
     href = href,
+    class = "govuk-link",
     htmltools::HTML(paste0(link_text, hidden_span)), # white space hack
     target = "_blank",
     rel = "noopener noreferrer",

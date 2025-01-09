@@ -153,25 +153,25 @@ information on how the tag is generated, see <code><a href="https://rstudio.gith
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">external_link</span><span class="op">(</span><span class="st">"https://shiny.posit.co/"</span>, <span class="st">"R Shiny"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;a href="https://shiny.posit.co/" target="_blank" rel="noopener noreferrer"&gt;R Shiny (opens in new tab)&lt;/a&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;R Shiny (opens in new tab)&lt;/a&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">external_link</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"https://shiny.posit.co/"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"R Shiny"</span>,</span></span>
 <span class="r-in"><span>  add_warning <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;a href="https://shiny.posit.co/" target="_blank" rel="noopener noreferrer"&gt;R Shiny&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;R Shiny&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># This will trim and show as 'R Shiny'</span></span></span>
 <span class="r-in"><span><span class="fu">external_link</span><span class="op">(</span><span class="st">"https://shiny.posit.co/"</span>, <span class="st">"  R Shiny"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;a href="https://shiny.posit.co/" target="_blank" rel="noopener noreferrer"&gt;R Shiny (opens in new tab)&lt;/a&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;R Shiny (opens in new tab)&lt;/a&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example of within text</span></span></span>
 <span class="r-in"><span><span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">p</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="st">"Oi, "</span>, <span class="fu">external_link</span><span class="op">(</span><span class="st">"https://shiny.posit.co/"</span>, <span class="st">"R Shiny"</span><span class="op">)</span>, <span class="st">" is great."</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;p&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Oi, &lt;a href="https://shiny.posit.co/" target="_blank" rel="noopener noreferrer"&gt;R Shiny (opens in new tab)&lt;/a&gt; is great.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Oi, &lt;a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;R Shiny (opens in new tab)&lt;/a&gt; is great.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/p&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example of multiple links together</span></span></span>
@@ -203,9 +203,9 @@ information on how the tag is generated, see <code><a href="https://rstudio.gith
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ul&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;li&gt;&lt;a href="https://shiny.posit.co/" target="_blank" rel="noopener noreferrer"&gt;R Shiny documentation&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;li&gt;&lt;a href="https://www.python.org/" target="_blank" rel="noopener noreferrer"&gt;Python documentation&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;li&gt;&lt;a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer"&gt;Next.js documentation&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;li&gt;&lt;a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;R Shiny documentation&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;li&gt;&lt;a href="https://www.python.org/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;Python documentation&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;li&gt;&lt;a href="https://nextjs.org/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;Next.js documentation&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/ul&gt;</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

@@ -7,11 +7,11 @@
 #' use the crown svg version on gov uk.
 #' @param main_link Add a link for clicking on main text.
 #' @param secondary_link Add a link for clicking on secondary header.
-#' @param logo_alt_text Add alternative text for the logo. Must be used when a
+#' @param logo_alt_text Add alternative text for the logo. Should be used when a
 #' logo is used.
-#' @param main_alt_text Add alternative text for the main link. Must be used
+#' @param main_alt_text Add alternative text for the main link. Should be used
 #' when a main link is used.
-#' @param secondary_alt_text Add alternative text for the secondary link. Must
+#' @param secondary_alt_text Add alternative text for the secondary link. Should
 #' be used when a secondary link is used.
 #' @param logo_width Change the logo size width CSS to improve fit.
 #' @param logo_height Change the logo size height CSS to improve fit.
@@ -46,15 +46,15 @@ header <- function(main_text,
                    logo_height = 32) {
   # checks for alt text
   if (!is.null(logo) & is.null(logo_alt_text)) {
-    stop("Please use logo_alt_text to provide alternative text for the logo you used.")
+    warning("Please use logo_alt_text to provide alternative text for the logo you used.")
   }
 
   if (main_link != "#" & is.null(main_alt_text)) {
-    stop("Please use main_alt_text to provide alternative text for the main link you used.")
+    warning("Please use main_alt_text to provide alternative text for the main link you used.")
   }
 
   if (secondary_link != "#" & is.null(secondary_alt_text)) {
-    stop("Please use secondary_alt_text to provide alternative text for the secondary link you used.")
+    warning("Please use secondary_alt_text to provide alternative text for the secondary link you used.")
   }
 
   if (is.null(logo)) {

@@ -29,13 +29,13 @@ use the crown svg version on gov uk.}
 
 \item{secondary_link}{Add a link for clicking on secondary header.}
 
-\item{logo_alt_text}{Add alternative text for the logo. Must be used when a
+\item{logo_alt_text}{Add alternative text for the logo. Should be used when a
 logo is used.}
 
-\item{main_alt_text}{Add alternative text for the main link. Must be used
+\item{main_alt_text}{Add alternative text for the main link. Should be used
 when a main link is used.}
 
-\item{secondary_alt_text}{Add alternative text for the secondary link. Must
+\item{secondary_alt_text}{Add alternative text for the secondary link. Should
 be used when a secondary link is used.}
 
 \item{logo_width}{Change the logo size width CSS to improve fit.}

@@ -107,7 +107,7 @@ test_that("only secondary link alt works", {
 
 # testing for errors
 test_that("errors are as expected", {
-  expect_error(
+  expect_warning(
     header(
       main_text = "test text",
       secondary_text = "test text 2",
@@ -116,7 +116,7 @@ test_that("errors are as expected", {
     "Please use logo_alt_text to provide alternative text for the logo you used."
   )
 
-  expect_error(
+  expect_warning(
     header(
       main_text = "test text",
       secondary_text = "test text 2",
@@ -125,7 +125,7 @@ test_that("errors are as expected", {
     "Please use main_alt_text to provide alternative text for the main link you used."
   )
 
-  expect_error(
+  expect_warning(
     header(
       main_text = "test text",
       secondary_text = "test text 2",

@@ -8,7 +8,7 @@
 #' @param caption_size adjust the size of caption.  Options are s, m, l, xl,
 #' with l as the default
 #' @param num_col adds numeric class format to these columns.
-#' @param width_overwrite change width.  Need to include width for every column.
+#' @param width_overwrite change width. Need to include width for every column. Columns must add up to 1.
 #' Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
 #' Default is \code{NULL}.
 #' @return an table html shiny object
@@ -87,12 +87,15 @@ govTable <- function(inputId, df, caption, caption_size = "l",
   }
 
   #Change width of columns if requested
-  for(i in 1:length(width_overwrite)) {
+  if(!is.null(width_overwrite)){
+    for(i in 1:length(width_overwrite)) {
       gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class <-
         paste0(
           gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class,
           " govuk-!-width-", width_overwrite[i])
+    }
   }
+
 
   return(gov_table)
 }

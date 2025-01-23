@@ -1,5 +1,5 @@
 // individual section buttons
-$(document).on('click', '.govuk-accordion__section-button', function (e) {
+$(document).on('click', '.govuk-accordion__section', function (e) {
 
   // get 'name' value from button
   var str = e.target.name;

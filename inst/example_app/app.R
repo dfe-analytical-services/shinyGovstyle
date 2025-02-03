@@ -283,7 +283,6 @@ shiny::shinyApp(
               ),
               heading_text("govTabs", size = "s"),
               shinyGovstyle::govTabs("tabsID", data, "tabs"),
-              heading_text("button_Input", size = "s", id = "button_input_tables_tabs_accordions"),
               heading_text("accordions", size = "s"),
               shinyGovstyle::accordion(
                 "acc1",

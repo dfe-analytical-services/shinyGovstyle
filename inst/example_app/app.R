@@ -513,13 +513,6 @@ shiny::shinyApp(
       shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
     })
 
-    shiny::observeEvent(input$btn1, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "tables_tabs_and_accordions")
-    })
-
-    shiny::observeEvent(input$btn1, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "feedback_types")
-    })
 
     # Need this to use live update the word counter
     shiny::observeEvent(

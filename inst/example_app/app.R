@@ -412,6 +412,11 @@ shiny::shinyApp(
   ), # end of fluid page
 
   server = function(input, output, session) {
+    # Cookies link from banner
+    shiny::observeEvent(input$cookieLink, {
+      shiny::updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
+    })
+
     # Tab nav
     shiny::observeEvent(input$select_types_button, {
       shiny::updateTabsetPanel(session, "tab-container", selected = "select_types")

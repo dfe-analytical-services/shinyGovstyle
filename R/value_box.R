@@ -14,7 +14,7 @@
 #' @examples
 #' if (interactive()) {
 #'   ui <- fluidPage(
-#'     value_text(
+#'     value_box(
 #'       inputId = "value1",
 #'       value = "1,000,000",
 #'       text = "This is the latest value for the selected inputs.",

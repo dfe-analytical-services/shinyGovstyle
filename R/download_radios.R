@@ -18,7 +18,9 @@ download_radios <- function(
     id = "download_radios",
     download_type = "table",
     file_types = c("CSV", "ODS", "XLSX"),
-    file_sizes = c("< 1 GB", "< 1 GB", "< 1 GB")) {
+    file_sizes = c("< 1 GB", "< 1 GB", "< 1 GB"),
+    small = FALSE
+    ) {
   allowed_extensions <- c("CSV", "ODS", "XLSX")
   if (is.null(file_types)) {
     file_types <- allowed_extensions
@@ -29,13 +31,15 @@ download_radios <- function(
       setdiff(file_types, allowed_extensions) |> paste(collapse = ", ")
     )
   }
-  shiny::tagList(
+  shiny::tags$div(
     radio_button_Input(
       inputId = shiny::NS(id, "file_extension"),
-      choices = paste0(file_types, " (", file_sizes, ")"),
+      choiceNames = paste0(file_types, " (", file_sizes, ")"),
+      choiceValues = file_types,
       selected = file_types[1],
-      label = "Select file format:"
-    ),
+      label = "Select file format for download:",
+      small = small
+      ),
     gov_text(
       htmltools::tags$a(
         id = shiny::NS(id, "download_file"),

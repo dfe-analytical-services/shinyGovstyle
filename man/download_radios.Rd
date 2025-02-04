@@ -8,7 +8,8 @@ download_radios(
   id = "download_radios",
   download_type = "table",
   file_types = c("CSV", "ODS", "XLSX"),
-  file_sizes = c("< 1 GB", "< 1 GB", "< 1 GB")
+  file_sizes = c("< 1 GB", "< 1 GB", "< 1 GB"),
+  small = FALSE
 )
 }
 \arguments{

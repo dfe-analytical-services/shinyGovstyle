@@ -61,22 +61,25 @@ This function create radio buttons
 }
 \examples{
 if (interactive()) {
-
   ui <- fluidPage(
     # Required for error handling function
     shinyjs::useShinyjs(),
     shinyGovstyle::header(
       main_text = "Example",
       secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
+      logo = "shinyGovstyle/images/moj_logo.png"
+    ),
     shinyGovstyle::banner(
-      inputId = "banner", type = "beta", 'This is a new service'),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-      #Simple radio
+      inputId = "banner", type = "beta", "This is a new service"
+    ),
+    shinyGovstyle::gov_layout(
+      size = "two-thirds",
+      # Simple radio
       shinyGovstyle::radio_button_Input(
         inputId = "radio1",
         choices = c("Yes", "No", "Maybe"),
-        label = "Choice option"),
+        label = "Choice option"
+      ),
       # Error radio
       shinyGovstyle::radio_button_Input(
         inputId = "radio2",
@@ -85,7 +88,8 @@ if (interactive()) {
         hint_label = "Select the best fit",
         inline = TRUE,
         error = TRUE,
-        error_message = "Select one"),
+        error_message = "Select one"
+      ),
       # Button to trigger error
       shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
     ),
@@ -93,13 +97,14 @@ if (interactive()) {
   )
 
   server <- function(input, output, session) {
-    #Trigger error on blank submit of eventId2
+    # Trigger error on blank submit of eventId2
     observeEvent(input$submit, {
-      if (is.null(input$radio2)){
+      if (is.null(input$radio2)) {
         shinyGovstyle::error_on(inputId = "radio2")
       } else {
         shinyGovstyle::error_off(
-          inputId = "radio2")
+          inputId = "radio2"
+        )
       }
     })
   }

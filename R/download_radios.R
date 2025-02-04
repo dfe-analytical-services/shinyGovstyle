@@ -14,13 +14,34 @@
 #' @export
 #'
 #' @examples
+#' if (interactive()) {
+#'   library(shiny)
+#'   library(shinyGovstyle)
+#'
+#'   ui <- fluidPage(
+#'     download_radios("download_file",
+#'       file_types = c("CSV", "ODS"),
+#'       file_sizes = c("2 KB", "5 KB")
+#'     )
+#'   )
+#'
+#'   server <- function(input, output, session) {
+#'     output$download_file <- download_radios_handler(
+#'       "download_file",
+#'       file_name = "simple_data_frame",
+#'       file_contents = mtcars
+#'     )
+#'   }
+#'
+#'   # How to run the minimal app given in this example =======================
+#'   shinyApp(ui, server)
+#' }
 download_radios <- function(
     id = "download_radios",
     download_type = "table",
     file_types = c("CSV", "ODS", "XLSX"),
     file_sizes = c("< 1 GB", "< 1 GB", "< 1 GB"),
-    small = FALSE
-    ) {
+    small = FALSE) {
   allowed_extensions <- c("CSV", "ODS", "XLSX")
   if (is.null(file_types)) {
     file_types <- allowed_extensions
@@ -39,7 +60,7 @@ download_radios <- function(
       selected = file_types[1],
       label = "Select file format for download:",
       small = small
-      ),
+    ),
     gov_text(
       htmltools::tags$a(
         id = shiny::NS(id, "download_file"),
@@ -61,10 +82,10 @@ download_radios <- function(
 #' @param file_name Name of the file to be downloaded
 #' @param file_contents Contents to write to the download file
 #'
-#' @returns
+#' @returns Output for use with `download_radios()`
 #' @export
 #'
-#' @examples
+#' @inherit examples download_radios
 download_radios_handler <- function(
     id = "download_radios",
     file_name,
@@ -72,7 +93,7 @@ download_radios_handler <- function(
   shiny::moduleServer(
     id,
     module = function(input, output, session) {
-      output$download_file <- downloadHandler(
+      output$download_file <- shiny::downloadHandler(
         filename = function() {
           # Use the selected dataset as the suggested file name
           paste0(file_name, ".", tolower(input$file_extension))

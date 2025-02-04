@@ -7,11 +7,12 @@
 download_radios(
   id = "download_radios",
   download_type = "table",
-  file_types = c("CSV", "ODS", "XLSX")
+  file_types = c("CSV", "ODS", "XLSX"),
+  file_sizes = c("< 1 GB", "< 1 GB", "< 1 GB")
 )
 }
 \arguments{
-\item{file_types}{}
+\item{file_sizes}{}
 }
 \description{
 Download with extension radios

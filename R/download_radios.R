@@ -3,6 +3,7 @@
 #' @param id
 #' @param download_type
 #' @param file_types
+#' @param file_sizes
 #'
 #' @returns
 #' @export
@@ -11,11 +12,13 @@
 download_radios <- function(
     id = "download_radios",
     download_type = "table",
-    file_types = c("CSV", "ODS", "XLSX")) {
+    file_types = c("CSV", "ODS", "XLSX"),
+    file_sizes = c("< 1 GB", "< 1 GB", "< 1 GB")
+    ){
   shiny::tagList(
     radio_button_Input(
       inputId = shiny::NS(id, "file_extension"),
-      choices = file_types,
+      choices = paste0(file_types," (",  file_sizes, ")"),
       selected = file_types[1],
       label = "Select file format:"
     ),

@@ -23,6 +23,7 @@ Imports:
     jsonlite,
     magrittr,
     purrr,
+    readr,
     readODS,
     shiny (>= 0.14),
     shinyjs,

@@ -11,8 +11,7 @@
 download_radios <- function(
     id = "download_radios",
     download_type = "table",
-    file_types = c("CSV", "ODS", "XLSX")
-    ) {
+    file_types = c("CSV", "ODS", "XLSX")) {
   shiny::tagList(
     radio_button_Input(
       inputId = shiny::NS(id, "file_extension"),
@@ -46,8 +45,7 @@ download_radios <- function(
 download_radios_handler <- function(
     id = "download_radios",
     file_name,
-    file_contents
-    ) {
+    file_contents) {
   shiny::moduleServer(
     id,
     module = function(input, output, session) {
@@ -58,12 +56,14 @@ download_radios_handler <- function(
         },
         content = function(file) {
           # Write the dataset to the `file` that will be downloaded
-          if(input$file_extension == "CSV"){
-          write.csv(file_contents, file, row_names=FALSE)
-          } else if(input$file_extension == "XLSX") {
-              writexl::write_xlsx(file_contents, file)
-          } else if(input$file_extension == "XLSX") {
-            readODS::write_ods(file_contents, file, row_names=FALSE)
+          if (input$file_extension == "CSV") {
+            readr::write_csv(file_contents, file)
+          } else if (input$file_extension == "XLSX") {
+            writexl::write_xlsx(file_contents, file)
+          } else if (input$file_extension == "ODS") {
+            readODS::write_ods(file_contents, file, row_names = FALSE)
+          } else {
+            warning("Unrecognised file format provided: ", input$file_extension)
           }
         }
       )

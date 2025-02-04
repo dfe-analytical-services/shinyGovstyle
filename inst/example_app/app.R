@@ -265,7 +265,7 @@ shiny::shinyApp(
               heading_text("download_radios", size = "s"),
               shinyGovstyle::gov_text(
                 shinyGovstyle::download_radios(
-                  file_types = c("CSV", "XLSX")
+                  file_types = c("CSV", "XLSX", "ODS")
                 )
               )
             )

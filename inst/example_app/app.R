@@ -283,6 +283,8 @@ shiny::shinyApp(
               ),
               heading_text("govTabs", size = "s"),
               shinyGovstyle::govTabs("tabsID", data, "tabs"),
+              shiny::tags$br(),
+              shiny::tags$br(),
               heading_text("accordions", size = "s"),
               shinyGovstyle::accordion(
                 "acc1",

@@ -582,7 +582,7 @@ shiny::shinyApp(
 
     output$download_radios <- download_radios_handler(
       file_name = "example_file",
-      file_contents = data.frame(x=c(1,2,3), y = c(4,5,6))
+      file_contents = data.frame(x = c(1, 2, 3), y = c(4, 5, 6))
     )
   }
 )

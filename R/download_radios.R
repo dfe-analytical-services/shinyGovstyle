@@ -21,9 +21,13 @@ download_radios <- function(
       label = "Select file format:"
     ),
     gov_text(
-      download_button(
-        outputId = shiny::NS(id, "download_file"),
-        button_label = paste("Download", download_type)
+      htmltools::tags$a(
+        id = shiny::NS(id, "download_file"),
+        class = "shiny-download-link govuk-button",
+        href = "",
+        target = "_blank",
+        download = NA,
+        paste("Download", download_type)
       )
     )
   )
@@ -55,10 +59,12 @@ download_radios_handler <- function(
         content = function(file) {
           # Write the dataset to the `file` that will be downloaded
           if(input$file_extension == "CSV"){
-          write.csv(file_contents, file)
+          write.csv(file_contents, file, row_names=FALSE)
           } else if(input$file_extension == "XLSX") {
               writexl::write_xlsx(file_contents, file)
-            }
+          } else if(input$file_extension == "XLSX") {
+            readODS::write_ods(file_contents, file, row_names=FALSE)
+          }
         }
       )
     }

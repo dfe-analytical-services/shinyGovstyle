@@ -85,7 +85,7 @@ download_radios <- function(
 #' @returns Output for use with `download_radios()`
 #' @export
 #'
-#' @inherit examples download_radios
+#' @inherit download_radios examples
 download_radios_handler <- function(
     id = "download_radios",
     file_name,

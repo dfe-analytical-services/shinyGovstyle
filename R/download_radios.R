@@ -54,7 +54,11 @@ download_radios_handler <- function(
         },
         content = function(file) {
           # Write the dataset to the `file` that will be downloaded
+          if(input$file_extension == "CSV"){
           write.csv(file_contents, file)
+          } else if(input$file_extension == "XLSX") {
+              writexl::write_xlsx(file_contents, file)
+            }
         }
       )
     }

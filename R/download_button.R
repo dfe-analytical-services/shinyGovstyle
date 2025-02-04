@@ -22,7 +22,7 @@
 #' a full stop. Leading and trailing white space will be automatically trimmed.
 #' If the string is shorter than 7 characters a console warning will be thrown.
 #' There is no way to hush this other than providing more detail.
-#' @param file_type The file type to be download (default: CSV)
+#' @param file_type The file type to be download (default: NULL)
 #' @param file_size The file size if known. Needs to be a string ending in one
 #' of KB, MB, GB or rows.
 #'
@@ -69,8 +69,9 @@
 download_button <- function(
     outputId,
     button_label,
-    file_type = "CSV",
-    file_size = NULL) {
+    file_type = NULL,
+    file_size = NULL
+    ) {
   # Trim white space as I don't trust humans not to accidentally include
   button_label <- stringr::str_trim(button_label)
 
@@ -135,7 +136,9 @@ download_button <- function(
     )
     file_info <- file_type
   }
-  button_label <- paste0(button_label, " (", file_info, ")")
+  if(    !is.null(file_info)){
+    button_label <- paste0(button_label, " (", file_info, ")")
+    }
 
   # Create the link object
   link <- htmltools::tags$a(

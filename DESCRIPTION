@@ -25,7 +25,8 @@ Imports:
     purrr,
     shiny (>= 0.14),
     shinyjs,
-    stringr
+    stringr,
+    writexl
 Suggests:
     testthat,
     shinytest2

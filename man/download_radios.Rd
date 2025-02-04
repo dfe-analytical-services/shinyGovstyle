@@ -12,7 +12,21 @@ download_radios(
 )
 }
 \arguments{
-\item{file_sizes}{}
+\item{id}{Shiny element ID. Default is "download_radios", but must be customised to be unique
+if multiple instances of this module are being used in a single app. Must match up to the ID
+of a `download_radios_helper()` instance in server code.}
+
+\item{download_type}{Element being downloaded. Expected to be along the lines of "underlying
+data", "table", "current data view". Default is "table".}
+
+\item{file_types}{File formats to offer, can be any combination of "CSV", "XLSX", "ODS". Default
+is a vector of all 3.}
+
+\item{file_sizes}{Estimated file sizes for each file format. This needs to be a vector of the
+same length as file_types.}
+}
+\value{
+UI containing radio selection and download button
 }
 \description{
 Download with extension radios

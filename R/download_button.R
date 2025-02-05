@@ -22,7 +22,7 @@
 #' a full stop. Leading and trailing white space will be automatically trimmed.
 #' If the string is shorter than 7 characters a console warning will be thrown.
 #' There is no way to hush this other than providing more detail.
-#' @param file_type The file type to be download (default: NULL)
+#' @param file_type The file type to be download (default: CSV)
 #' @param file_size The file size if known. Needs to be a string ending in one
 #' of KB, MB, GB or rows.
 #'
@@ -69,7 +69,7 @@
 download_button <- function(
     outputId,
     button_label,
-    file_type = NULL,
+    file_type = "CSV",
     file_size = NULL
     ) {
   # Trim white space as I don't trust humans not to accidentally include

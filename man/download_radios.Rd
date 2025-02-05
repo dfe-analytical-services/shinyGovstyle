@@ -25,6 +25,8 @@ is a vector of all 3.}
 
 \item{file_sizes}{Estimated file sizes for each file format. This needs to be a vector of the
 same length as file_types.}
+
+\item{small}{Set radio buttons to small size (logical, default: FALSE)}
 }
 \value{
 UI containing radio selection and download button

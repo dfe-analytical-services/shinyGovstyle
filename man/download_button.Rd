@@ -4,7 +4,7 @@
 \alias{download_button}
 \title{Download button}
 \usage{
-download_button(outputId, button_label, file_type = NULL, file_size = NULL)
+download_button(outputId, button_label, file_type = "CSV", file_size = NULL)
 }
 \arguments{
 \item{outputId}{The name of the output slot that the
@@ -16,7 +16,7 @@ a full stop. Leading and trailing white space will be automatically trimmed.
 If the string is shorter than 7 characters a console warning will be thrown.
 There is no way to hush this other than providing more detail.}
 
-\item{file_type}{The file type to be download (default: NULL)}
+\item{file_type}{The file type to be download (default: CSV)}
 
 \item{file_size}{The file size if known. Needs to be a string ending in one
 of KB, MB, GB or rows.}

@@ -9,6 +9,7 @@
 #' is a vector of all 3.
 #' @param file_sizes Estimated file sizes for each file format. This needs to be a vector of the
 #' same length as file_types.
+#' @param small Set radio buttons to small size (logical, default: FALSE)
 #'
 #' @returns UI containing radio selection and download button
 #' @export

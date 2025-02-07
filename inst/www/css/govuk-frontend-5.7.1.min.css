@@ -7799,4 +7799,13 @@ only screen and (min-resolution:2dppx) {
     margin-top: 10px;
     font-weight: 400;
 }
+
+/*Styling for govTable2*/
+
+.reactable .rt-th {
+  white-space: nowrap;  /* Prevents wrapping */
+  overflow: hidden;     /* Prevents content overflow */
+  text-overflow: ellipsis; /* Adds "..." if the header is too long */
+}
+
 /*# sourceMappingURL=govuk-frontend-5.7.1.min.css.map */

@@ -1,27 +1,27 @@
 #' Table Function
 #'
-#' This function inserts a gov styled table.  Format is with header looking
-#' rows and columns
-#' @param inputId Input id for the table
-#' @param df expects a dataframe to create a table
-#' @param caption adds a caption to the table as a header
-#' @param caption_size adjust the size of caption.  Options are s, m, l, xl,
-#' with l as the default
-#' @param num_col adds numeric class format to these columns.
-#' @param width_overwrite change width. Need to include width for every column. Columns must add up to 1.
-#' Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
-#' Default is \code{NULL}.
-#' @return an table html shiny object
-#' @keywords table
+#' This function inserts a government-styled table using `reactable`.
+#'
+#' @param inputId A unique input ID for the table.
+#' @param df A dataframe used to generate the table.
+#' @param caption A text caption displayed above the table as a heading.
+#' @param caption_size Defines the size of the caption text. Options: "s", "m", "l", "xl" (default: "l").
+#' @param num_col A vector of column names that should be formatted as numeric (right-aligned).
+#' @param col_widths A named list specifying column widths using width classes (e.g., "one-quarter", "two-thirds").
+#' @param defaultPageSize The default number of rows displayed per page (default: 10).
+#' @param pageSizeOptions A vector of available page size options for pagination (default: `c(5, 10, 25, 50)`).
+#' @return A `reactable` HTML widget styled with GOV.UK classes.
+#' @keywords table, reactable, GOV.UK
 #' @export
 #' @examples
 #' if (interactive()) {
 #'
-#'   Months <- c("January", "February", "March")
-#'   Bikes <- c("£85", "£75", "£165")
-#'   Cars <- c("£95", "£55", "£125")
-#'
-#'   example_data <- data.frame(Months, Bikes, Cars)
+#'   Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
+#'   Bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
+#'   Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
+#'   Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
+#'   Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
+#'   example_data <- data.frame(Months, Bikes, Cars, Vans, Buses)
 #'
 #'   ui <- fluidPage(
 #'     shinyGovstyle::header(
@@ -31,9 +31,11 @@
 #'     shinyGovstyle::banner(
 #'       inputId = "banner", type = "beta", 'This is a new service'),
 #'     shinyGovstyle::gov_layout(size = "two-thirds",
-#'     shinyGovstyle::govTable(
-#'       "tab1", example_data, "Test", "l", num_col = c(2,3),
-#'       width_overwrite = c("one-half", "one-quarter", "one-quarter"))
+#'       govTable(
+#'         "tab1", example_data, "Test Table", "l",
+#'         num_col = c("Bikes", "Cars", "Vans", "Buses"),
+#'         col_widths = list(Months = "one-third"),
+#'         defaultPageSize = 5, pageSizeOptions = c(5, 10, 20))
 #'     ),
 #'
 #'     shinyGovstyle::footer(full = TRUE)
@@ -41,81 +43,54 @@
 #'
 #'   server <- function(input, output, session) {}
 #'
-#'   shinyApp(ui = ui, server = server)
+#'   shinyApp(ui, server)
 #' }
 
 govTable <- function(inputId, df, caption, caption_size = "l",
-                     num_col = NULL, width_overwrite = NULL){
+                      num_col = NULL,
+                      col_widths = list(),
+                      defaultPageSize = 10, pageSizeOptions = c(5, 10, 25, 50)) {
 
-  #Create row by row the main bulk of table to insert later
-  main_row_store <- NULL
-  for(i in 1:nrow(df)) {
-    temp_row_store <- createRows(df[i,], num_col)
-    main_row_store <- shiny::tagList(temp_row_store, main_row_store)
-  }
+  # Generate column definitions
+  col_defs <- setNames(lapply(seq_along(names(df)), function(index) {
+    col <- names(df)[index]
 
-  #Create the actual table
-  gov_table <- shiny::tags$table(
-    id = inputId,
-    class = "govuk-table",
-    shiny::tags$caption(
-      class = paste0(
-        "govuk-table__caption govuk-table__caption--", caption_size),
+    # Set width class if specified in col_widths
+    col_class <- if (!is.null(col_widths[[col]])) {
+      paste0("govuk-!-width-", col_widths[[col]])
+    } else {
+      ""
+    }
+
+    # Apply numeric alignment class if column is in num_col
+    numeric_class <- if (col %in% num_col) "govuk-table__cell--numeric" else ""
+
+    reactable::colDef(
+      name = col,
+      sortable = TRUE,
+      headerClass = paste(col_class, numeric_class),
+      class = paste(col_class, numeric_class)
+    )
+  }), names(df))
+
+  table <- reactable::reactable(
+    df,
+    columns = col_defs,
+    searchable = FALSE,
+    sortable = TRUE,
+    pagination = TRUE,
+    defaultPageSize = defaultPageSize,
+    pageSizeOptions = pageSizeOptions,
+    highlight = TRUE,
+    fullWidth = TRUE,
+    class = "govuk-table"
+  )
+
+  return(htmltools::div(
+    htmltools::tags$div(
+      class = paste0("govuk-table__caption govuk-table__caption--", caption_size),
       caption
     ),
-    shiny::tags$thead(
-      class = "govuk-table__head",
-      shiny::tags$tr(
-        class = "govuk-table__row",
-        Map(function(x) {
-          shiny::tags$th(scope = "col", class = "govuk-table__header", x)
-        }, x = colnames(df))
-      )
-    ),
-    shiny::tags$tbody(
-      class = "govuk-table__body",
-      main_row_store
-    )
-  )
-
-  #Change class of headers to numeric if requested
-  for(i in num_col) {
-    if (i != 1) {
-      gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class <-
-        "govuk-table__header govuk-table__header--numeric"
-    }
-  }
-
-  #Change width of columns if requested
-  if(!is.null(width_overwrite)){
-    for(i in 1:length(width_overwrite)) {
-      gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class <-
-        paste0(
-          gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class,
-          " govuk-!-width-", width_overwrite[i])
-    }
-  }
-
-
-  return(gov_table)
-}
-
-
-createRows <- function(df_row, num_col = NULL) {
-  rowHTML <- shiny::tags$tr(
-    class = "govuk-table__row",
-    shiny::tags$th(scope="row", class="govuk-table__header", df_row[1,1]),
-    Map(function(x) {
-      shiny::tags$td(class = "govuk-table__cell", x)
-    }, df_row[1,-1])
-  )
-  #Not sure I can think of better way to add numeric class then do it post
-  #creating the table rows
-  for(i in num_col) {
-    if (i != 1) {
-      rowHTML$children[[2]][[i-1]]$attribs$class <-
-        "govuk-table__cell govuk-table__cell--numeric"
-    }
-  }
-  return(rowHTML)
+    table
+  ))
 }

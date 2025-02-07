@@ -5,9 +5,9 @@ library(shinyGovstyle)
 Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
 Bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
 Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
-Trucks <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
+Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
 Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
-example_data <- data.frame(Months, Bikes, Cars, Trucks, Buses)
+example_data <- data.frame(Months, Bikes, Cars, Vans, Buses)
 tabs <- c(
   rep("Past Day", 3),
   rep("Past Week", 3),
@@ -277,23 +277,14 @@ shiny::shinyApp(
               heading_text("Page 3", size = "l"),
               label_hint("label3", "These are some examples of using tabs and
                        tables"),
-
               heading_text("govTable", size = "s"),
               shinyGovstyle::govTable(
                 "tab1", example_data, "Test", "l",
-                num_col = c(2, 3, 4, 5),
-                width_overwrite = c("one-half", "one-quarter", "one-quarter")
-              ),
-
-              heading_text("govTable2", size = "s"),
-              shinyGovstyle::govTable2(
-                "tab2", example_data, "Test", "l",
                 num_col = c("Bikes", "Cars", "Trucks", "Buses"),
                 col_widths = list(Months = "one-third"),
                 defaultPageSize = 5,
                 pageSizeOptions = c(5, 10, 20)
               ),
-
               heading_text("govTabs", size = "s"),
               shinyGovstyle::govTabs("tabsID", data, "tabs"),
               heading_text("button_Input", size = "s", id = "button_input_tables_tabs_accordions"),

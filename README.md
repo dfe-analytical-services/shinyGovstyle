@@ -547,13 +547,13 @@ example_data <- data.frame(Months, Bikes, Cars, Vans, Buses)
       
 shinyGovstyle::govTable(
       "tab1", example_data, "Test", "l",
-      num_col = c("Bikes", "Cars", "Trucks", "Buses"),
+      num_col = c("Bikes", "Cars", "Vans", "Buses"),
       col_widths = list(Months = "one-third"),
       page_size = 5
       )
 
 ```
-Note: widths specified in width_overwrite must add up to 1.
+Note: widths specified in col_widths must add up to 1.
 
 #### Tabs
 

@@ -11,8 +11,7 @@ govTable(
   caption_size = "l",
   num_col = NULL,
   col_widths = list(),
-  defaultPageSize = 10,
-  pageSizeOptions = c(5, 10, 25, 50)
+  page_size = 10
 )
 }
 \arguments{
@@ -28,9 +27,7 @@ govTable(
 
 \item{col_widths}{A named list specifying column widths using width classes (e.g., "one-quarter", "two-thirds").}
 
-\item{defaultPageSize}{The default number of rows displayed per page (default: 10).}
-
-\item{pageSizeOptions}{A vector of available page size options for pagination (default: `c(5, 10, 25, 50)`).}
+\item{page_size}{The default number of rows displayed per page (default: 10).}
 }
 \value{
 A `reactable` HTML widget styled with GOV.UK classes.
@@ -60,7 +57,8 @@ if (interactive()) {
         "tab1", example_data, "Test Table", "l",
         num_col = c("Bikes", "Cars", "Vans", "Buses"),
         col_widths = list(Months = "one-third"),
-        defaultPageSize = 5, pageSizeOptions = c(5, 10, 20))
+        page_size = 5
+        )
     ),
 
     shinyGovstyle::footer(full = TRUE)

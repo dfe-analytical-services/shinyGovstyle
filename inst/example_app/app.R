@@ -282,8 +282,7 @@ shiny::shinyApp(
                 "tab1", example_data, "Test", "l",
                 num_col = c("Bikes", "Cars", "Trucks", "Buses"),
                 col_widths = list(Months = "one-third"),
-                defaultPageSize = 5,
-                pageSizeOptions = c(5, 10, 20)
+                page_size = 5
               ),
               heading_text("govTabs", size = "s"),
               shinyGovstyle::govTabs("tabsID", data, "tabs"),

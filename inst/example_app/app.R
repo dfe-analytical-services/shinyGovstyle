@@ -280,7 +280,7 @@ shiny::shinyApp(
               heading_text("govTable", size = "s"),
               shinyGovstyle::govTable(
                 "tab1", example_data, "Test", "l",
-                num_col = c("Bikes", "Cars", "Trucks", "Buses"),
+                num_col = c("Bikes", "Cars", "Vans", "Buses"),
                 col_widths = list(Months = "one-third"),
                 page_size = 5
               ),

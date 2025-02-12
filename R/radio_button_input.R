@@ -28,22 +28,25 @@
 #' @export
 #' @examples
 #' if (interactive()) {
-#'
 #'   ui <- fluidPage(
 #'     # Required for error handling function
 #'     shinyjs::useShinyjs(),
 #'     shinyGovstyle::header(
 #'       main_text = "Example",
 #'       secondary_text = "User Examples",
-#'       logo="shinyGovstyle/images/moj_logo.png"),
+#'       logo = "shinyGovstyle/images/moj_logo.png"
+#'     ),
 #'     shinyGovstyle::banner(
-#'       inputId = "banner", type = "beta", 'This is a new service'),
-#'     shinyGovstyle::gov_layout(size = "two-thirds",
-#'       #Simple radio
+#'       inputId = "banner", type = "beta", "This is a new service"
+#'     ),
+#'     shinyGovstyle::gov_layout(
+#'       size = "two-thirds",
+#'       # Simple radio
 #'       shinyGovstyle::radio_button_Input(
 #'         inputId = "radio1",
 #'         choices = c("Yes", "No", "Maybe"),
-#'         label = "Choice option"),
+#'         label = "Choice option"
+#'       ),
 #'       # Error radio
 #'       shinyGovstyle::radio_button_Input(
 #'         inputId = "radio2",
@@ -52,7 +55,8 @@
 #'         hint_label = "Select the best fit",
 #'         inline = TRUE,
 #'         error = TRUE,
-#'         error_message = "Select one"),
+#'         error_message = "Select one"
+#'       ),
 #'       # Button to trigger error
 #'       shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
 #'     ),
@@ -60,105 +64,151 @@
 #'   )
 #'
 #'   server <- function(input, output, session) {
-#'     #Trigger error on blank submit of eventId2
+#'     # Trigger error on blank submit of eventId2
 #'     observeEvent(input$submit, {
-#'       if (is.null(input$radio2)){
+#'       if (is.null(input$radio2)) {
 #'         shinyGovstyle::error_on(inputId = "radio2")
 #'       } else {
 #'         shinyGovstyle::error_off(
-#'           inputId = "radio2")
+#'           inputId = "radio2"
+#'         )
 #'       }
 #'     })
 #'   }
 #'   shinyApp(ui = ui, server = server)
 #' }
-
-radio_button_Input <- function (inputId, label, choices = NULL,
-                                selected = NULL, inline = FALSE, small = FALSE,
-                                choiceNames = NULL, choiceValues = NULL,
-                                hint_label = NULL, error = FALSE,
-                                error_message = NULL, custom_class = ""){
+radio_button_Input <- function(
+    inputId, label, choices = NULL,
+    selected = NULL, inline = FALSE, small = FALSE,
+    choiceNames = NULL, choiceValues = NULL,
+    hint_label = NULL, error = FALSE,
+    error_message = NULL, custom_class = "") {
   args <- normalizeChoicesArgs2(choices, choiceNames, choiceValues)
   selected <- shiny::restoreInput(id = inputId, default = selected)
   # selected <- if (is.null(selected))
   #   args$choiceValues[[1]]
   # else
   selected <- as.character(selected)
-  if (length(selected) > 1)
+  if (length(selected) > 1) {
     stop("The 'selected' argument must be of length 1")
-  options <- generateOptions2(inputId, selected, inline, small, "radio",
-                              args$choiceNames, args$choiceValues)
+  }
+  options <- generateOptions2(
+    inputId,
+    selected,
+    inline,
+    small,
+    "radio",
+    args$choiceNames,
+    args$choiceValues
+  )
   divClass <- paste("govuk-form-group govuk-radios", custom_class)
-  govRadio <- shiny::tags$div(id = inputId, class = divClass,
-    shiny::tags$div(class="govuk-form-group", id=paste0(inputId,"div"),
-    controlLabel2(inputId, label),
-    shiny::tags$div(hint_label ,class="govuk-hint"),
-    if (error == TRUE){
-      shinyjs::hidden(
-        shiny::tags$p(error_message,
-                  class="govuk-error-message",
-                  id= paste0(inputId, "error"),
-                  shiny::tags$span("Error:",
-                            class="govuk-visually-hidden")
+  govRadio <- shiny::tags$div(
+    id = inputId,
+    class = divClass,
+    shiny::tags$div(
+      class = "govuk-form-group",
+      id = paste0(inputId, "div"),
+      controlLabel2(inputId, label),
+      shiny::tags$div(
+        hint_label,
+        class = "govuk-hint"
+      ),
+      if (error == TRUE) {
+        shinyjs::hidden(
+          shiny::tags$p(
+            error_message,
+            class = "govuk-error-message",
+            id = paste0(inputId, "error"),
+            shiny::tags$span(
+              "Error:",
+              class = "govuk-visually-hidden"
+            )
+          )
         )
-      )
-    },
-    options))
+      },
+      options
+    )
+  )
 
   attachDependency(govRadio, "radio")
 }
 
 controlLabel2 <- function(controlName, label) {
-  label %AND% htmltools::tags$label(class = "govuk-label",
-                                    `for` = controlName, label)
+  label %AND% htmltools::tags$label(
+    class = "govuk-label",
+    `for` = controlName,
+    label
+  )
 }
 
-generateOptions2 <- function (inputId, selected, inline, small,
-                              type = "checkbox", choiceNames,
-                              choiceValues,
-                              session = shiny::getDefaultReactiveDomain()){
-  options <- mapply(choiceValues, choiceNames, FUN = function(value, name) {
-    inputTag <- shiny::tags$input(type = type, name = inputId,
-                           value = value, class = "govuk-radios__input")
-    if (is.null(selected) == FALSE & value %in% selected)
-      {inputTag$attribs$checked <- "checked"}
-    pd <- processDeps2(name, session)
-    shiny::tags$div(class = "govuk-radios__item",
-             shiny::tags$label(inputTag, shiny::tags$span(
-               pd$html,
-               pd$deps,
-               class = "govuk-label govuk-radios__label")))
-
-  },
-  SIMPLIFY = FALSE, USE.NAMES = FALSE)
+generateOptions2 <- function(
+    inputId,
+    selected,
+    inline,
+    small,
+    type = "checkbox",
+    choiceNames,
+    choiceValues,
+    session = shiny::getDefaultReactiveDomain()) {
+  options <- mapply(
+    choiceValues,
+    choiceNames,
+    FUN = function(value, name) {
+      inputTag <- shiny::tags$input(
+        type = type,
+        name = inputId,
+        value = value,
+        class = "govuk-radios__input"
+      )
+      if (is.null(selected) == FALSE & value %in% selected) {
+        inputTag$attribs$checked <- "checked"
+      }
+      pd <- processDeps2(name, session)
+      shiny::tags$div(
+        class = "govuk-radios__item",
+        inputTag,
+        shiny::tags$label(
+          pd$html,
+          pd$deps,
+          class = "govuk-label govuk-radios__label"
+        )
+      )
+    },
+    SIMPLIFY = FALSE, USE.NAMES = FALSE
+  )
 
   class_build <- "govuk-radios"
 
-  if (inline){
+  if (inline) {
     class_build <- paste(class_build, "govuk-radios--inline")
   }
 
-  if (small){
+  if (small) {
     class_build <- paste(class_build, "govuk-radios--small")
   }
 
   shiny::div(class = class_build, options)
 }
 
-`%AND%` <- function (x, y) {
-  if (!is.null(x) && !anyNA(x))
-    if (!is.null(y) && !anyNA(y))
+`%AND%` <- function(x, y) {
+  if (!is.null(x) && !anyNA(x)) {
+    if (!is.null(y) && !anyNA(y)) {
       return(y)
+    }
+  }
   return(NULL)
 }
 
-processDeps2 <- function (tags, session)
-{
+processDeps2 <- function(tags, session) {
   ui <- htmltools::takeSingletons(
-    tags, session$singletons, desingleton = FALSE)$ui
+    tags, session$singletons,
+    desingleton = FALSE
+  )$ui
   ui <- htmltools::surroundSingletons(ui)
   dependencies <- lapply(
-    htmltools::resolveDependencies(htmltools::findDependencies(ui)),
+    htmltools::resolveDependencies(
+      htmltools::findDependencies(ui)
+    ),
     shiny::createWebDependency
   )
   names(dependencies) <- NULL
@@ -167,22 +217,26 @@ processDeps2 <- function (tags, session)
 
 
 
-normalizeChoicesArgs2 <- function (choices, choiceNames,
-                                   choiceValues, mustExist = TRUE)
-{
+normalizeChoicesArgs2 <- function(
+    choices,
+    choiceNames,
+    choiceValues,
+    mustExist = TRUE) {
   if (is.null(choices)) {
     if (is.null(choiceNames) || is.null(choiceValues)) {
       if (mustExist) {
-        stop("Please specify a non-empty vector for `choices` (or, ",
-             "alternatively, for both `choiceNames` AND `choiceValues`).")
-      }
-      else {
+        stop(
+          "Please specify a non-empty vector for `choices` (or, ",
+          "alternatively, for both `choiceNames` AND `choiceValues`)."
+        )
+      } else {
         if (is.null(choiceNames) && is.null(choiceValues)) {
           return(list(choiceNames = NULL, choiceValues = NULL))
-        }
-        else {
-          stop("One of `choiceNames` or `choiceValues` was set to ",
-               "NULL, but either both or none should be NULL.")
+        } else {
+          stop(
+            "One of `choiceNames` or `choiceValues` was set to ",
+            "NULL, but either both or none should be NULL."
+          )
         }
       }
     }
@@ -192,8 +246,7 @@ normalizeChoicesArgs2 <- function (choices, choiceNames,
     if (anyNamed2(choiceNames) || anyNamed2(choiceValues)) {
       stop("`choiceNames` and `choiceValues` must not be named.")
     }
-  }
-  else {
+  } else {
     if (!is.null(choiceNames) || !is.null(choiceValues)) {
       warning("Using `choices` argument; ignoring `choiceNames`
               and `choiceValues`.")
@@ -202,37 +255,44 @@ normalizeChoicesArgs2 <- function (choices, choiceNames,
     choiceNames <- names(choices)
     choiceValues <- unname(choices)
   }
-  return(list(choiceNames = as.list(choiceNames),
-              choiceValues = as.list(as.character(choiceValues))))
+  return(list(
+    choiceNames = as.list(choiceNames),
+    choiceValues = as.list(as.character(choiceValues))
+  ))
 }
 
 
-choicesWithNames2 <- function (choices)
-{
+choicesWithNames2 <- function(choices) {
   listify <- function(obj) {
     makeNamed <- function(x) {
-      if (is.null(names(x)))
+      if (is.null(names(x))) {
         names(x) <- character(length(x))
+      }
       x
     }
     res <- lapply(obj, function(val) {
-      if (is.list(val))
+      if (is.list(val)) {
         listify(val)
-      else if (length(val) == 1 && is.null(names(val)))
+      } else if (length(val) == 1 && is.null(names(val))) {
         as.character(val)
-      else makeNamed(as.list(val))
+      } else {
+        makeNamed(as.list(val))
+      }
     })
     makeNamed(res)
   }
   choices <- listify(choices)
-  if (length(choices) == 0)
+  if (length(choices) == 0) {
     return(choices)
+  }
   choices <- mapply(choices, names(choices), FUN = function(choice,
                                                             name) {
-    if (!is.list(choice))
+    if (!is.list(choice)) {
       return(choice)
-    if (name == "")
+    }
+    if (name == "") {
       stop("All sub-lists in \"choices\" must be named.")
+    }
     choicesWithNames2(choice)
   }, SIMPLIFY = FALSE)
   missing <- names(choices) == ""
@@ -241,12 +301,13 @@ choicesWithNames2 <- function (choices)
 }
 
 
-anyNamed2 <- function (x)
-{
-  if (length(x) == 0)
+anyNamed2 <- function(x) {
+  if (length(x) == 0) {
     return(FALSE)
+  }
   nms <- names(x)
-  if (is.null(nms))
+  if (is.null(nms)) {
     return(FALSE)
+  }
   any(nzchar(nms))
 }

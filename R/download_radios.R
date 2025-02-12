@@ -91,6 +91,12 @@ download_radios_handler <- function(
     id = "download_radios",
     file_name,
     file_contents) {
+  if(!(is.character(file_name) && length(file_name)==1) ){
+    stop("The provided file_name must be a single string variable.")
+  }
+  if(!is.data.frame(file_contents)){
+    stop("The provided file_contents need to be a data frame.")
+  }
   shiny::moduleServer(
     id,
     module = function(input, output, session) {

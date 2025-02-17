@@ -35,7 +35,7 @@
 
 select_Input <- function(inputId, label, select_text, select_value){
   govSelect <- shiny::tags$div(class="govuk-form-group",
-    shiny::tags$label(shiny::HTML(label), class="govuk-label"),
+    shiny::tags$label(shiny::HTML(label), class="govuk-label", `for` = inputId),
     shiny::tags$select(id = inputId, class="govuk-select",
       Map(function(x,y){
         shiny::tags$option(value = y, x)

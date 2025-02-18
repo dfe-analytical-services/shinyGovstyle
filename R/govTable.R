@@ -6,7 +6,7 @@
 #' @param df A dataframe used to generate the table.
 #' @param caption A text caption displayed above the table as a heading.
 #' @param caption_size Defines the size of the caption text. Options: "s", "m", "l", "xl" (default: "l").
-#' @param num_col A vector of column names that should be formatted as numeric (right-aligned).
+#' @param right_col A vector of column names that should be right-aligned.
 #' @param col_widths A named list specifying column widths using width classes (e.g., "one-quarter", "two-thirds").
 #' @param page_size The default number of rows displayed per page (default: 10).
 #' @return A `reactable` HTML widget styled with GOV.UK classes.
@@ -16,11 +16,12 @@
 #' if (interactive()) {
 #'
 #'   Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
+#'   Colours <- rep(c("Red", "Blue"), times = 5)
 #'   Bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
 #'   Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
 #'   Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
 #'   Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
-#'   example_data <- data.frame(Months, Bikes, Cars, Vans, Buses)
+#'   example_data <- data.frame(Months, Colours, Bikes, Cars, Vans, Buses)
 #'
 #'   ui <- fluidPage(
 #'     shinyGovstyle::header(
@@ -32,7 +33,7 @@
 #'     shinyGovstyle::gov_layout(size = "two-thirds",
 #'       govTable(
 #'         "tab1", example_data, "Test Table", "l",
-#'         num_col = c("Bikes", "Cars", "Vans", "Buses"),
+#'         right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
 #'         col_widths = list(Months = "one-third"),
 #'         page_size = 5
 #'         )
@@ -47,7 +48,7 @@
 #' }
 
 govTable <- function(inputId, df, caption, caption_size = "l",
-                      num_col = NULL,
+                      right_col = NULL,
                       col_widths = list(),
                       page_size = 10) {
 
@@ -62,14 +63,14 @@ govTable <- function(inputId, df, caption, caption_size = "l",
       ""
     }
 
-    # Apply numeric alignment class if column is in num_col
-    numeric_class <- if (col %in% num_col) "govuk-table__cell--numeric" else ""
+    # Apply right alignment class if column is in right_col
+    right_class <- if (col %in% right_col) "govTable_right_align" else ""
 
     reactable::colDef(
       name = col,
       sortable = TRUE,
-      headerClass = paste(col_class, numeric_class),
-      class = paste(col_class, numeric_class)
+      headerClass = paste(col_class, right_class),
+      class = paste(col_class, right_class)
     )
   }), names(df))
 

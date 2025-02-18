@@ -265,3 +265,9 @@ only screen and (min-resolution:2dppx) {
   text-overflow: ellipsis;
 }
 ```
+
+```
+.govTable_right_align {
+  text-align: right !important
+}
+```

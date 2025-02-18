@@ -9,7 +9,7 @@ govTable(
   df,
   caption,
   caption_size = "l",
-  num_col = NULL,
+  right_col = NULL,
   col_widths = list(),
   page_size = 10
 )
@@ -23,7 +23,7 @@ govTable(
 
 \item{caption_size}{Defines the size of the caption text. Options: "s", "m", "l", "xl" (default: "l").}
 
-\item{num_col}{A vector of column names that should be formatted as numeric (right-aligned).}
+\item{right_col}{A vector of column names that should be right-aligned.}
 
 \item{col_widths}{A named list specifying column widths using width classes (e.g., "one-quarter", "two-thirds").}
 
@@ -39,11 +39,12 @@ This function inserts a government-styled table using `reactable`.
 if (interactive()) {
 
   Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
+  Colours <- rep(c("Red", "Blue"), times = 5)
   Bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
   Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
   Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
   Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
-  example_data <- data.frame(Months, Bikes, Cars, Vans, Buses)
+  example_data <- data.frame(Months, Colours, Bikes, Cars, Vans, Buses)
 
   ui <- fluidPage(
     shinyGovstyle::header(
@@ -55,7 +56,7 @@ if (interactive()) {
     shinyGovstyle::gov_layout(size = "two-thirds",
       govTable(
         "tab1", example_data, "Test Table", "l",
-        num_col = c("Bikes", "Cars", "Vans", "Buses"),
+        right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
         col_widths = list(Months = "one-third"),
         page_size = 5
         )

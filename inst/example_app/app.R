@@ -93,13 +93,15 @@ shiny::shinyApp(
               "text_area_Input",
               "button_Input",
               "external_link",
-              "download_link"
+              "download_link",
+              "gov_list"
             ),
             subcontents_id_list = c(
               NA,
               NA,
               NA,
               "button_input_text_types",
+              NA,
               NA,
               NA
             )
@@ -261,7 +263,18 @@ shiny::shinyApp(
                   file_type = "CSV",
                   file_size = "1 KB"
                 )
-              )
+              ),
+
+              heading_text("gov_list", size = "s"),
+
+              shinyGovstyle::gov_text("List:"),
+              gov_list(list = c("a", "b", "c")),
+
+              shinyGovstyle::gov_text("Bulleted list:"),
+              gov_list(list = c("a", "b", "c"), style = "bullet"),
+
+              shinyGovstyle::gov_text("Numbered list:"),
+              gov_list(list = c("one", "two", "three"), style = "number"),
             ),
           ),
 

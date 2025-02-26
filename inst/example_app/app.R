@@ -287,7 +287,8 @@ shiny::shinyApp(
               ),
               heading_text("govTabs", size = "s"),
               shinyGovstyle::govTabs("tabsID", data, "tabs"),
-              heading_text("button_Input", size = "s", id = "button_input_tables_tabs_accordions"),
+              shiny::tags$br(),
+              shiny::tags$br(),
               heading_text("accordions", size = "s"),
               shinyGovstyle::accordion(
                 "acc1",
@@ -518,13 +519,6 @@ shiny::shinyApp(
       shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
     })
 
-    shiny::observeEvent(input$btn1, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "tables_tabs_and_accordions")
-    })
-
-    shiny::observeEvent(input$btn1, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "feedback_types")
-    })
 
     # Need this to use live update the word counter
     shiny::observeEvent(

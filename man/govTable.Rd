@@ -23,7 +23,7 @@ govTable(
 
 \item{caption_size}{Defines the size of the caption text. Options: "s", "m", "l", "xl" (default: "l").}
 
-\item{right_col}{A vector of column names that should be right-aligned.}
+\item{right_col}{A vector of column names that should be right-aligned. By default, numeric data is right-aligned, and character data is left-aligned.}
 
 \item{col_widths}{A named list specifying column widths using width classes (e.g., "one-quarter", "two-thirds").}
 

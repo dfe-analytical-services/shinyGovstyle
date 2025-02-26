@@ -6,7 +6,7 @@
 #' @param df A dataframe used to generate the table.
 #' @param caption A text caption displayed above the table as a heading.
 #' @param caption_size Defines the size of the caption text. Options: "s", "m", "l", "xl" (default: "l").
-#' @param right_col A vector of column names that should be right-aligned.
+#' @param right_col A vector of column names that should be right-aligned. By default, numeric data is right-aligned, and character data is left-aligned.
 #' @param col_widths A named list specifying column widths using width classes (e.g., "one-quarter", "two-thirds").
 #' @param page_size The default number of rows displayed per page (default: 10).
 #' @return A `reactable` HTML widget styled with GOV.UK classes.
@@ -53,7 +53,7 @@ govTable <- function(inputId, df, caption, caption_size = "l",
                       page_size = 10) {
 
   # Generate column definitions
-  col_defs <- setNames(lapply(seq_along(names(df)), function(index) {
+  col_defs <- stats::setNames(lapply(seq_along(names(df)), function(index) {
     col <- names(df)[index]
 
     # Set width class if specified in col_widths

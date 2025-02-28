@@ -2,10 +2,13 @@
 
 library(shinyGovstyle)
 
-Months <- c("January", "February", "March")
-Bikes <- c(85, 75, 165)
-Cars <- c(95, 55, 125)
-example_data <- data.frame(Months, Bikes, Cars)
+Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
+Colours <- rep(c("Red", "Blue"), times = 5)
+Bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
+Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
+Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
+Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
+example_data <- data.frame(Months, Colours, Bikes, Cars, Vans, Buses)
 tabs <- c(
   rep("Past Day", 3),
   rep("Past Week", 3),
@@ -278,8 +281,9 @@ shiny::shinyApp(
               heading_text("govTable", size = "s"),
               shinyGovstyle::govTable(
                 "tab1", example_data, "Test", "l",
-                num_col = c(2, 3),
-                width_overwrite = c("one-half", "one-quarter", "one-quarter")
+                right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
+                col_widths = list(Months = "one-third"),
+                page_size = 5
               ),
               heading_text("govTabs", size = "s"),
               shinyGovstyle::govTabs("tabsID", data, "tabs"),

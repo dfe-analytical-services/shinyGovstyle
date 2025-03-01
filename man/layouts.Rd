@@ -6,6 +6,7 @@
 \alias{gov_row}
 \alias{gov_box}
 \alias{gov_text}
+\alias{gov_list}
 \title{Page Layout Functions}
 \usage{
 gov_main_layout(..., inputID = "main")
@@ -15,6 +16,8 @@ gov_row(...)
 gov_box(..., size = "full")
 
 gov_text(...)
+
+gov_list(list, style = "none")
 }
 \arguments{
 \item{...}{include the components of the UI that you want within the
@@ -25,6 +28,10 @@ example}
 
 \item{size}{size of the box in the row.  Optional are full, one-half,
 two-thirds, one-third and one-quarter.  Defaults to "full"}
+
+\item{list}{vector of list}
+
+\item{style}{options: "none", "bullet", "number". defaults to "none".}
 }
 \value{
 a html shiny layout div

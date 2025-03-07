@@ -90,14 +90,12 @@ shiny::shinyApp(
             subcontents_text_list = c(
               "date_Input",
               "text_Input",
-              "text_area_Input",
-              "button_Input"
+              "text_area_Input"
             ),
             subcontents_id_list = c(
               NA,
               NA,
-              NA,
-              "button_input_text_types"
+              NA
             )
           ),
 
@@ -571,6 +569,18 @@ shiny::shinyApp(
         data <- data.frame(
           x = 1:10,
           y = 101:110
+        )
+        write.csv(data, file)
+      }
+    )
+
+    output$download_button_data <- downloadHandler(
+      filename = "demo_button_data.csv",
+      content = function(file) {
+        # Write the dataset to the `file` that will be downloaded
+        data <- data.frame(
+          x = 1:10,
+          y = 1:10**3
         )
         write.csv(data, file)
       }

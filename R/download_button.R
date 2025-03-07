@@ -39,10 +39,10 @@
 #'       select_text = c("Car road tests", "New York air quality"),
 #'       select_value = c("mtcars", "airquality")
 #'     ),
-#'       download_button(
-#'         "download_data",
-#'         "Download selected data set",
-#'         file_size = "4 KB"
+#'     download_button(
+#'       "download_data",
+#'       "Download selected data set",
+#'       file_size = "4 KB"
 #'     )
 #'   )
 #'
@@ -70,8 +70,7 @@ download_button <- function(
     outputId,
     button_label,
     file_type = "CSV",
-    file_size = NULL
-    ) {
+    file_size = NULL) {
   # Trim white space as I don't trust humans not to accidentally include
   button_label <- stringr::str_trim(button_label)
 
@@ -136,9 +135,9 @@ download_button <- function(
     )
     file_info <- file_type
   }
-  if(    !is.null(file_info)){
+  if (!is.null(file_info)) {
     button_label <- paste0(button_label, " (", file_info, ")")
-    }
+  }
 
   # Create the link object
   link <- htmltools::tags$a(

@@ -121,22 +121,25 @@ buttons</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">fluidPage</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="co"># Required for error handling function</span></span></span>
 <span class="r-in"><span>    <span class="fu">shinyjs</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shinyjs/man/useShinyjs.html" class="external-link">useShinyjs</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="header.html">header</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      main_text <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
 <span class="r-in"><span>      secondary_text <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
-<span class="r-in"><span>      logo<span class="op">=</span><span class="st">"shinyGovstyle/images/moj_logo.png"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      logo <span class="op">=</span> <span class="st">"shinyGovstyle/images/moj_logo.png"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="banner.html">banner</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      inputId <span class="op">=</span> <span class="st">"banner"</span>, type <span class="op">=</span> <span class="st">"beta"</span>, <span class="st">'This is a new service'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="gov_layout.html">gov_layout</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span></span>
-<span class="r-in"><span>      <span class="co">#Simple radio</span></span></span>
+<span class="r-in"><span>      inputId <span class="op">=</span> <span class="st">"banner"</span>, type <span class="op">=</span> <span class="st">"beta"</span>, <span class="st">"This is a new service"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="gov_layout.html">gov_layout</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span></span>
+<span class="r-in"><span>      <span class="co"># Simple radio</span></span></span>
 <span class="r-in"><span>      <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">radio_button_Input</span><span class="op">(</span></span></span>
 <span class="r-in"><span>        inputId <span class="op">=</span> <span class="st">"radio1"</span>,</span></span>
 <span class="r-in"><span>        choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Yes"</span>, <span class="st">"No"</span>, <span class="st">"Maybe"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        label <span class="op">=</span> <span class="st">"Choice option"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        label <span class="op">=</span> <span class="st">"Choice option"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span>,</span></span>
 <span class="r-in"><span>      <span class="co"># Error radio</span></span></span>
 <span class="r-in"><span>      <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">radio_button_Input</span><span class="op">(</span></span></span>
 <span class="r-in"><span>        inputId <span class="op">=</span> <span class="st">"radio2"</span>,</span></span>
@@ -145,7 +148,8 @@ buttons</p></dd>
 <span class="r-in"><span>        hint_label <span class="op">=</span> <span class="st">"Select the best fit"</span>,</span></span>
 <span class="r-in"><span>        inline <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>        error <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>        error_message <span class="op">=</span> <span class="st">"Select one"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        error_message <span class="op">=</span> <span class="st">"Select one"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span>,</span></span>
 <span class="r-in"><span>      <span class="co"># Button to trigger error</span></span></span>
 <span class="r-in"><span>      <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="button_Input.html">button_Input</a></span><span class="op">(</span>inputId <span class="op">=</span> <span class="st">"submit"</span>, label <span class="op">=</span> <span class="st">"Submit"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span>,</span></span>
@@ -153,17 +157,18 @@ buttons</p></dd>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="co">#Trigger error on blank submit of eventId2</span></span></span>
-<span class="r-in"><span>    <span class="fu">observeEvent</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">submit</span>, <span class="op">{</span></span></span>
-<span class="r-in"><span>      <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">radio2</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="co"># Trigger error on blank submit of eventId2</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">submit</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">radio2</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>        <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="error_on.html">error_on</a></span><span class="op">(</span>inputId <span class="op">=</span> <span class="st">"radio2"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>      <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>        <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="error_off.html">error_off</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>          inputId <span class="op">=</span> <span class="st">"radio2"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>          inputId <span class="op">=</span> <span class="st">"radio2"</span></span></span>
+<span class="r-in"><span>        <span class="op">)</span></span></span>
 <span class="r-in"><span>      <span class="op">}</span></span></span>
 <span class="r-in"><span>    <span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
-<span class="r-in"><span>  <span class="fu">shinyApp</span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

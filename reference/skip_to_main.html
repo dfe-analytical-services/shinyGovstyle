@@ -58,7 +58,7 @@ Important: your main column will need an id of "main_col" for this to work</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">fluidPage</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="cookieBanner.html">cookieBanner</a></span><span class="op">(</span><span class="st">"Run Example"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">skip_to_main</span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="header.html">header</a></span><span class="op">(</span></span></span>
@@ -77,7 +77,7 @@ Important: your main column will need an id of "main_col" for this to work</p>
 <span class="r-in"><span>       id <span class="op">=</span> <span class="st">"govuk-contents-box"</span>, <span class="co">#DO NOT REMOVE ID</span></span></span>
 <span class="r-in"><span>       class <span class="op">=</span> <span class="st">"govuk-contents-box"</span>,  <span class="co">#DO NOT REMOVE CLASS</span></span></span>
 <span class="r-in"><span>       <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">h2</span><span class="op">(</span><span class="st">"Contents"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>       <span class="fu">p</span><span class="op">(</span><span class="st">"Your contents links go here"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Your contents links go here"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>     <span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span></span></span>
@@ -116,7 +116,7 @@ Important: your main column will need an id of "main_col" for this to work</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
-<span class="r-in"><span>  <span class="fu">shinyApp</span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>

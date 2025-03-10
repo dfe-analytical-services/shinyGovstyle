@@ -31,7 +31,7 @@
 #'     shinyGovstyle::banner(
 #'       inputId = "banner", type = "beta", 'This is a new service'),
 #'     shinyGovstyle::gov_layout(size = "two-thirds",
-#'       govTable(
+#'       govTable_interactive(
 #'         "tab1", example_data, "Test Table", "l",
 #'         right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
 #'         col_widths = list(Months = "one-third"),

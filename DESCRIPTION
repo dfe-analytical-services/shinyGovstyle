@@ -23,10 +23,13 @@ Imports:
     jsonlite,
     magrittr,
     purrr,
+    reactable,
+    readr,
+    readODS,
     shiny (>= 0.14),
     shinyjs,
     stringr,
-    reactable
+    writexl
 Suggests:
     testthat,
     shinytest2

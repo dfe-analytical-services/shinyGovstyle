@@ -9,42 +9,41 @@ govTable(
   df,
   caption,
   caption_size = "l",
-  right_col = NULL,
-  col_widths = list(),
-  page_size = 10
+  num_col = NULL,
+  width_overwrite = NULL
 )
 }
 \arguments{
-\item{inputId}{A unique input ID for the table.}
+\item{inputId}{Input id for the table}
 
-\item{df}{A dataframe used to generate the table.}
+\item{df}{expects a dataframe to create a table}
 
-\item{caption}{A text caption displayed above the table as a heading.}
+\item{caption}{adds a caption to the table as a header}
 
-\item{caption_size}{Defines the size of the caption text. Options: "s", "m", "l", "xl" (default: "l").}
+\item{caption_size}{adjust the size of caption.  Options are s, m, l, xl,
+with l as the default}
 
-\item{right_col}{A vector of column names that should be right-aligned. By default, numeric data is right-aligned, and character data is left-aligned.}
+\item{num_col}{adds numeric class format to these columns.}
 
-\item{col_widths}{A named list specifying column widths using width classes (e.g., "one-quarter", "two-thirds").}
-
-\item{page_size}{The default number of rows displayed per page (default: 10).}
+\item{width_overwrite}{change width. Need to include width for every column. Columns must add up to 1.
+Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
+Default is \code{NULL}.}
 }
 \value{
-A `reactable` HTML widget styled with GOV.UK classes.
+an table html shiny object
 }
 \description{
-This function inserts a government-styled table using `reactable`.
+This function inserts a gov styled table.  Format is with header looking
+rows and columns
 }
 \examples{
 if (interactive()) {
 
-  Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
-  Colours <- rep(c("Red", "Blue"), times = 5)
-  Bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
-  Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
-  Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
-  Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
-  example_data <- data.frame(Months, Colours, Bikes, Cars, Vans, Buses)
+  Months <- c("January", "February", "March")
+  Bikes <- c("£85", "£75", "£165")
+  Cars <- c("£95", "£55", "£125")
+
+  example_data <- data.frame(Months, Bikes, Cars)
 
   ui <- fluidPage(
     shinyGovstyle::header(
@@ -54,12 +53,9 @@ if (interactive()) {
     shinyGovstyle::banner(
       inputId = "banner", type = "beta", 'This is a new service'),
     shinyGovstyle::gov_layout(size = "two-thirds",
-      govTable(
-        "tab1", example_data, "Test Table", "l",
-        right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
-        col_widths = list(Months = "one-third"),
-        page_size = 5
-        )
+    shinyGovstyle::govTable(
+      "tab1", example_data, "Test", "l", num_col = c(2,3),
+      width_overwrite = c("one-half", "one-quarter", "one-quarter"))
     ),
 
     shinyGovstyle::footer(full = TRUE)
@@ -67,9 +63,7 @@ if (interactive()) {
 
   server <- function(input, output, session) {}
 
-  shinyApp(ui, server)
+  shinyApp(ui = ui, server = server)
 }
 }
-\keyword{GOV.UK}
-\keyword{reactable,}
-\keyword{table,}
+\keyword{table}

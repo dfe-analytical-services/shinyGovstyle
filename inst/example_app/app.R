@@ -9,6 +9,7 @@ Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
 Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
 Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
 example_data <- data.frame(Months, Colours, Bikes, Cars, Vans, Buses)
+example_data_short <- head(example_data,5)
 tabs <- c(
   rep("Past Day", 3),
   rep("Past Week", 3),
@@ -118,8 +119,8 @@ shiny::shinyApp(
           contents_link(
             "Tables, tabs and accordions",
             "tables_tabs_and_accordions_button",
-            subcontents_text_list = c("govTable", "govTabs", "button_Input", "accordions"),
-            subcontents_id_list = c(NA, NA, "button_input_tables_tabs_accordions", NA)
+            subcontents_text_list = c("govTable","govTable_interactive", "govTabs", "button_Input", "accordions"),
+            subcontents_id_list = c(NA, NA, NA,"button_input_tables_tabs_accordions", NA)
           ),
 
           # Feedback types tab
@@ -314,7 +315,13 @@ shiny::shinyApp(
                        tables"),
               heading_text("govTable", size = "s"),
               shinyGovstyle::govTable(
-                "tab1", example_data, "Test", "l",
+                "tab1", example_data_short, "Test static example", "l",
+                num_col = c(2, 3),
+                width_overwrite = c("one-half", "one-quarter", "one-quarter")
+              ),
+              heading_text("govTable_interactive", size = "s"),
+              shinyGovstyle::govTable_interactive(
+                "tab1", example_data, "Test interactive example", "l",
                 right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
                 col_widths = list(Months = "one-third"),
                 page_size = 5

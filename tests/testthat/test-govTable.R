@@ -1,47 +1,70 @@
 test_that("table works", {
 
-  # Sample data
-  Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
-  Colours <- rep(c("Red", "Blue"), times = 5)
-  Bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
-  Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
-  Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
-  Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
-  example_data <- data.frame(Months, Colours, Bikes, Cars, Vans, Buses)
+  Months <- c("January", "February", "March")
+  Bikes <- c("£85", "£75", "£165")
+  Cars <- c("£95", "£55", "£125")
 
-  # Test table with sorting and pagination enabled
+  example_data <- data.frame(Months, Bikes, Cars)
+
+  # test table with specified widths
   table_check <- govTable(
-    inputId = "tab1",
-    df = example_data,
-    caption = "Test",
-    right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
-    col_widths = list(Months = "one-third"),
-    page_size = 5
+    "tab1", example_data, "Test", "l", num_col = c(2,3),
+    width_overwrite = c("one-half", "one-quarter", "one-quarter"))
+
+  expect_identical(
+    table_check$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
+    "govuk-table__header govuk-!-width-one-half"
   )
 
-  # Ensure the function runs without errors
-  expect_silent(table_check)
+  expect_identical(
+    table_check$children[[2]]$children[[1]][[3]][[1]][[2]]$attribs$class,
+    "govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter"
+  )
 
-  # Ensure it returns an HTML div
-  expect_s3_class(table_check, "shiny.tag")
-  expect_equal(table_check$name, "div")
+  expect_equal(
+    length(table_check$children[[3]]),
+    3
+  )
 
-  # Convert to HTML string for content verification
-  table_html <- as.character(table_check)
+  # test table with unspecified widths
+  table_check2 <- govTable(
+    "tab2", example_data, "Test", "l", num_col = c(2,3),
+    width_overwrite = NULL)
 
-  # Check if sorting is enabled
-  expect_match(table_html, "sortable", fixed = TRUE)
+  expect_identical(
+    table_check2$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
+    "govuk-table__header"
+  )
 
-  # Check if pagination settings are present
-  expect_match(table_html, "defaultPageSize", fixed = TRUE)
+  expect_identical(
+    table_check2$children[[2]]$children[[1]][[3]][[1]][[2]]$attribs$class,
+    "govuk-table__header govuk-table__header--numeric"
+  )
 
-  # Check if the right alignment class is applied
-  expect_match(table_html, "govTable_right_align", fixed = TRUE)
+  expect_equal(
+    length(table_check2$children[[3]]),
+    3
+  )
 
-  # Check if the "Colours" column has the right alignment class
-  expect_match(table_html, '"id":"Colours",".*"className":" ?govTable_right_align"', perl = TRUE)
 
-  # Check if column widths are correctly applied
-  expect_match(table_html, "govuk-!-width-one-third", fixed = TRUE)
+  # and if the argument isn't mentioned at all
+  table_check3 <- govTable(
+    "tab2", example_data, "Test", "l", num_col = c(2,3))
+
+  expect_identical(
+    table_check3$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
+    "govuk-table__header"
+  )
+
+  expect_identical(
+    table_check3$children[[2]]$children[[1]][[3]][[1]][[2]]$attribs$class,
+    "govuk-table__header govuk-table__header--numeric"
+  )
+
+  expect_equal(
+    length(table_check3$children[[3]]),
+    3
+  )
+
 
 })

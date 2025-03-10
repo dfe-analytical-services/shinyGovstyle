@@ -257,7 +257,7 @@ only screen and (min-resolution:2dppx) {
 }
 ```
 
-* Styling for govTable reactable
+* Styling for govTable_interactive reactable
 ```
 .reactable .rt-th {
   white-space: nowrap;

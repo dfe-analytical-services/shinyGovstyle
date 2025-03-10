@@ -789,44 +789,5 @@ shinyGovstyle::external_link("https://shiny.posit.co/", "R Shiny")
 #### Downloads
 
 Downloads should be clearly sign-posted with both file type and file size. To 
-help standardise this in a GDS style, use download_link() following the example 
-below:
-
-```r
-  ui <- shiny::fluidPage(
-    gov_text("Choose a data set to download."),
-    select_Input(
-      "dataset",
-      "Data set",
-      select_text = c("Car road tests", "New York air quality"),
-      select_value = c("mtcars", "airquality")
-    ),
-    gov_text(
-      download_link(
-        "download_data",
-        "Download selected data set",
-        file_size = "4 KB"
-      )
-    )
-  )
-
-  server <- function(input, output) {
-    # The requested data set
-    data <- reactive({
-      get(input$dataset)
-    })
-
-    output$download_data <- downloadHandler(
-      filename = function() {
-        # Use the selected dataset as the suggested file name
-        paste0(input$dataset, ".csv")
-      },
-      content = function(file) {
-        # Write the dataset to the `file` that will be downloaded
-        write.csv(data(), file)
-      }
-    )
-  }
-
-  shiny::shinyApp(ui, server)
-```
+help standardise this in a GDS style, use download_link(), download_button() or 
+download_radios() following the examples provided on their reference pages.

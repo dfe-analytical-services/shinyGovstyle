@@ -1,4 +1,5 @@
-#' @rdname layouts
+#' Gov List function
+#'
 #' @param list vector of list
 #' @param style options: "none", "bullet", "number". defaults to "none".
 #' @export

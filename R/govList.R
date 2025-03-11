@@ -2,6 +2,34 @@
 #' @param list vector of list
 #' @param style options: "none", "bullet", "number". defaults to "none".
 #' @export
+#' @examples
+#' if (interactive()) {
+#'
+#'   ui <- fluidPage(
+#'     shinyGovstyle::header(
+#'       main_text = "Example",
+#'       secondary_text = "User Examples"),
+#'     shinyGovstyle::banner(
+#'       inputId = "banner", type = "beta", 'This is a new service'),
+#'     shinyGovstyle::gov_layout(size = "two-thirds",
+#'
+#'      shinyGovstyle::heading_text("gov_list", size = "s"),
+#'
+#'      shinyGovstyle::gov_text("List:"),
+#'      gov_list(list = c("a", "b", "c")),
+#'
+#'      shinyGovstyle::gov_text("Bulleted list:"),
+#'      gov_list(list = c("a", "b", "c"), style = "bullet"),
+#'
+#'      shinyGovstyle::gov_text("Numbered list:"),
+#'      gov_list(list = c("one", "two", "three"), style = "number")
+#'     )
+#'   )
+#'
+#'   server <- function(input, output, session) {}
+#'
+#'   shinyApp(ui = ui, server = server)
+#' }
 gov_list <- function(list, style = "none") {
 
   # check style argument

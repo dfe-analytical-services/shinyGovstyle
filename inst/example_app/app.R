@@ -2,10 +2,14 @@
 
 library(shinyGovstyle)
 
-Months <- c("January", "February", "March")
-Bikes <- c(85, 75, 165)
-Cars <- c(95, 55, 125)
-example_data <- data.frame(Months, Bikes, Cars)
+Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
+Colours <- rep(c("Red", "Blue"), times = 5)
+Bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
+Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
+Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
+Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
+example_data <- data.frame(Months, Colours, Bikes, Cars, Vans, Buses)
+example_data_short <- head(example_data,5)
 tabs <- c(
   rep("Past Day", 3),
   rep("Past Week", 3),
@@ -90,20 +94,26 @@ shiny::shinyApp(
             subcontents_text_list = c(
               "date_Input",
               "text_Input",
-              "text_area_Input",
-              "button_Input",
-              "external_link",
-              "download_link",
-              "gov_list"
+              "text_area_Input"
+              "gov_list
             ),
             subcontents_id_list = c(
               NA,
               NA,
               NA,
-              "button_input_text_types",
-              NA,
-              NA,
               NA
+            )
+          ),
+
+          # Action types tab
+          contents_link(
+            "Action Types",
+            "action_types_button",
+            subcontents_text_list = c(
+              "external_link",
+              "download_button",
+              "download_link",
+              "download_radios"
             )
           ),
 
@@ -111,8 +121,8 @@ shiny::shinyApp(
           contents_link(
             "Tables, tabs and accordions",
             "tables_tabs_and_accordions_button",
-            subcontents_text_list = c("govTable", "govTabs", "button_Input", "accordions"),
-            subcontents_id_list = c(NA, NA, "button_input_tables_tabs_accordions", NA)
+            subcontents_text_list = c("govTable","govTable_interactive", "govTabs", "button_Input", "accordions"),
+            subcontents_id_list = c(NA, NA, NA,"button_input_tables_tabs_accordions", NA)
           ),
 
           # Feedback types tab
@@ -197,7 +207,7 @@ shiny::shinyApp(
               heading_text("file_Input", size = "s"),
               file_Input(inputId = "file1", label = "Upload a file"),
               heading_text("button_Input", size = "s"),
-              button_Input("btn1", "Go to next page")
+              button_Input("text_types_next", "Go to next page")
             )
           ),
 
@@ -207,7 +217,7 @@ shiny::shinyApp(
             value = "text_types",
             gov_layout(
               size = "two-thirds",
-              backlink_Input("back1"),
+              backlink_Input("select_types_back"),
               heading_text("Page 2", size = "l"),
               label_hint("label2", "These are some examples of the types of user
                    text inputs that you can use"),
@@ -236,6 +246,20 @@ shiny::shinyApp(
               ),
               heading_text("button_Input", size = "s", id = "button_input_text_types"),
               button_Input("btn_error", "Check for errors", type = "warning"),
+              button_Input("action_types_next", "Go to next page")
+            )
+          ),
+
+          ##################### Create action types panel################################
+          shiny::tabPanel(
+            "Action types",
+            value = "action_types",
+            gov_layout(
+              size = "two-thirds",
+              backlink_Input("text_types_back"),
+              heading_text("Action types", size = "l"),
+              label_hint("label3", "These are some examples of the types of user
+                   action elements that you can use"),
               heading_text("external_link", size = "s"),
               gov_text(
                 "You can add external links with automatic formatting such as to our ",
@@ -254,6 +278,13 @@ shiny::shinyApp(
                   add_warning = FALSE
                 ),
                 "."
+              ),
+              heading_text("download_button", size = "s"),
+              shinyGovstyle::download_button(
+                "download_button_data",
+                "Download a demo data set",
+                file_type = "CSV",
+                file_size = "1 KB"
               ),
               heading_text("download_link", size = "s"),
               shinyGovstyle::gov_text(
@@ -276,6 +307,15 @@ shiny::shinyApp(
               shinyGovstyle::gov_text("Numbered list:"),
               gov_list(list = c("one", "two", "three"), style = "number"),
             ),
+
+              heading_text("download_radios", size = "s"),
+              shinyGovstyle::gov_text(
+                shinyGovstyle::download_radios(
+                  file_types = c("CSV", "XLSX", "ODS")
+                )
+              ),
+              button_Input("tables_tabs_and_accordions_next", "Go to next page")
+            )
           ),
 
           ##################### Create third panel################################
@@ -284,15 +324,22 @@ shiny::shinyApp(
             value = "tables_tabs_and_accordions",
             gov_layout(
               size = "two-thirds",
-              backlink_Input("back2"),
-              heading_text("Page 3", size = "l"),
+              backlink_Input("action_types_back"),
+              heading_text("Tables, tabs and accordions", size = "l"),
               label_hint("label3", "These are some examples of using tabs and
                        tables"),
               heading_text("govTable", size = "s"),
               shinyGovstyle::govTable(
-                "tab1", example_data, "Test", "l",
+                "tab1", example_data_short, "Test static example", "l",
                 num_col = c(2, 3),
                 width_overwrite = c("one-half", "one-quarter", "one-quarter")
+              ),
+              heading_text("govTable_interactive", size = "s"),
+              shinyGovstyle::govTable_interactive(
+                "tab1", example_data, "Test interactive example", "l",
+                right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
+                col_widths = list(Months = "one-third"),
+                page_size = 5
               ),
               heading_text("govTabs", size = "s"),
               shinyGovstyle::govTabs("tabsID", data, "tabs"),
@@ -314,6 +361,7 @@ shiny::shinyApp(
                   "This is the content for How people read."
                 )
               ),
+              button_Input("feedback_types_next", "Go to next page")
             )
           ),
 
@@ -323,7 +371,7 @@ shiny::shinyApp(
             value = "feedback_types",
             gov_layout(
               size = "two-thirds",
-              backlink_Input("back3"),
+              backlink_Input("tables_tabs_and_accordions_back"),
               heading_text("Feedback page", size = "l"),
               label_hint("label-feedback", "These are some examples of the types of user
                    feedback inputs that you can use"),
@@ -403,7 +451,7 @@ shiny::shinyApp(
                   "07700 900457 <br> sarah.phillips@example.com"
                 ),
                 action = FALSE
-              ),
+              )
             )
           ),
 
@@ -432,36 +480,58 @@ shiny::shinyApp(
     })
 
     # Tab nav
-    shiny::observeEvent(input$select_types_button, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "select_types")
-    })
+    shiny::observeEvent(
+      c(input$select_types_button, input$select_types_back),
+      {
+        shiny::updateTabsetPanel(session, "tab-container", selected = "select_types")
+      },
+      ignoreInit = TRUE
+    )
 
-    shiny::observeEvent(input$text_types_button, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
-    })
+    shiny::observeEvent(
+      c(input$text_types_button, input$text_types_back, input$text_types_next),
+      {
+        shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
+      },
+      ignoreInit = TRUE
+    )
 
-    shiny::observeEvent(input$tables_tabs_and_accordions_button, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "tables_tabs_and_accordions")
-    })
+    shiny::observeEvent(
+      c(input$action_types_button, input$action_types_back, input$action_types_next),
+      {
+        shiny::updateTabsetPanel(session, "tab-container", selected = "action_types")
+      },
+      ignoreInit = TRUE
+    )
 
-    shiny::observeEvent(input$feedback_types_button, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "feedback_types")
-    })
+    shiny::observeEvent(
+      c(
+        input$tables_tabs_and_accordions_button,
+        input$tables_tabs_and_accordions_back,
+        input$tables_tabs_and_accordions_next
+      ),
+      {
+        shiny::updateTabsetPanel(session, "tab-container", selected = "tables_tabs_and_accordions")
+      },
+      ignoreInit = TRUE
+    )
 
-    shiny::observeEvent(input$cookies_button, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
-    })
+    shiny::observeEvent(
+      c(input$feedback_types_button, input$feedback_types_next),
+      {
+        shiny::updateTabsetPanel(session, "tab-container", selected = "feedback_types")
+      },
+      ignoreInit = TRUE
+    )
 
+    shiny::observeEvent(
+      c(input$cookies_button, input$cookies),
+      {
+        shiny::updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
+      },
+      ignoreInit = TRUE
+    )
 
-    # Back buttons
-    shiny::observeEvent(input$back1, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "select_types")
-    })
-
-    # Next page buttons
-    shiny::observeEvent(input$btn1, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
-    })
 
     # Need this to use live update the word counter
     shiny::observeEvent(
@@ -477,57 +547,6 @@ shiny::shinyApp(
         error_off("text_area2")
       }
     })
-
-    ##################### Cookie Banner events ################################
-    shiny::observeEvent(input$cookieAccept, {
-      shinyjs::show(id = "cookieAcceptDiv")
-      shinyjs::hide(id = "cookieMain")
-    })
-
-    shiny::observeEvent(input$cookieReject, {
-      shinyjs::show(id = "cookieRejectDiv")
-      shinyjs::hide(id = "cookieMain")
-    })
-
-    shiny::observeEvent(input$text_types_button, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
-    })
-
-    shiny::observeEvent(input$tables_tabs_and_accordions_button, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "tables_tabs_and_accordions")
-    })
-
-    shiny::observeEvent(input$feedback_types_button, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "feedback_types")
-    })
-
-    shiny::observeEvent(input$cookies_button, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
-    })
-
-    shiny::observeEvent(input$cookies, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
-    })
-
-    # Back buttons
-    shiny::observeEvent(input$back1, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "select_types")
-    })
-
-    shiny::observeEvent(input$back2, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
-    })
-
-    shiny::observeEvent(input$back3, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "tables_tabs_and_accordions")
-    })
-
-
-    # Next page buttons
-    shiny::observeEvent(input$btn1, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
-    })
-
 
     # Need this to use live update the word counter
     shiny::observeEvent(
@@ -579,6 +598,23 @@ shiny::shinyApp(
         )
         write.csv(data, file)
       }
+    )
+
+    output$download_button_data <- downloadHandler(
+      filename = "demo_button_data.csv",
+      content = function(file) {
+        # Write the dataset to the `file` that will be downloaded
+        data <- data.frame(
+          x = 1:10,
+          y = 1:10**3
+        )
+        write.csv(data, file)
+      }
+    )
+
+    output$download_radios <- download_radios_handler(
+      file_name = "example_file",
+      file_contents = data.frame(x = c(1, 2, 3), y = c(4, 5, 6))
     )
   }
 )

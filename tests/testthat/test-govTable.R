@@ -1,10 +1,10 @@
 test_that("table works", {
 
-    Months <- c("January", "February", "March")
-    Bikes <- c("£85", "£75", "£165")
-    Cars <- c("£95", "£55", "£125")
+  Months <- c("January", "February", "March")
+  Bikes <- c("£85", "£75", "£165")
+  Cars <- c("£95", "£55", "£125")
 
-    example_data <- data.frame(Months, Bikes, Cars)
+  example_data <- data.frame(Months, Bikes, Cars)
 
   # test table with specified widths
   table_check <- govTable(
@@ -26,7 +26,7 @@ test_that("table works", {
     3
   )
 
-# test table with unspecified widths
+  # test table with unspecified widths
   table_check2 <- govTable(
     "tab2", example_data, "Test", "l", num_col = c(2,3),
     width_overwrite = NULL)

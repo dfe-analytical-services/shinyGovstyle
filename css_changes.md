@@ -256,3 +256,18 @@ only screen and (min-resolution:2dppx) {
     font-weight: 400;
 }
 ```
+
+* Styling for govTable_interactive reactable
+```
+.reactable .rt-th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+```
+
+```
+.govTable_right_align {
+  text-align: right !important
+}
+```

@@ -538,16 +538,23 @@ Gov style table component
 ![Table](man/figures/table.png)
 
 ```r
-Months <- c("January", "February", "March")
-Bikes <- c("£85", "£75", "£165")
-Cars <- c("£95", "£55", "£125")
-example_data <- data.frame(Months, Bikes, Cars)
-
+Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
+Colours <- rep(c("Red", "Blue"), times = 5)
+Bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
+Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
+Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
+Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
+example_data <- data.frame(Months, Colours, Bikes, Cars, Vans, Buses)
+      
 shinyGovstyle::govTable(
-      "tab1", example_data, "Test", "l", num_col = c(2,3),
-      width_overwrite = c("one-half", "one-quarter", "one-quarter"))
+      "tab1", example_data, "Test", "l",
+      right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
+      col_widths = list(Months = "one-third"),
+      page_size = 5
+      )
+
 ```
-Note: widths specified in width_overwrite must add up to 1.
+Note: widths specified in col_widths must add up to 1.
 
 #### Tabs
 
@@ -782,44 +789,5 @@ shinyGovstyle::external_link("https://shiny.posit.co/", "R Shiny")
 #### Downloads
 
 Downloads should be clearly sign-posted with both file type and file size. To 
-help standardise this in a GDS style, use download_link() following the example 
-below:
-
-```r
-  ui <- shiny::fluidPage(
-    gov_text("Choose a data set to download."),
-    select_Input(
-      "dataset",
-      "Data set",
-      select_text = c("Car road tests", "New York air quality"),
-      select_value = c("mtcars", "airquality")
-    ),
-    gov_text(
-      download_link(
-        "download_data",
-        "Download selected data set",
-        file_size = "4 KB"
-      )
-    )
-  )
-
-  server <- function(input, output) {
-    # The requested data set
-    data <- reactive({
-      get(input$dataset)
-    })
-
-    output$download_data <- downloadHandler(
-      filename = function() {
-        # Use the selected dataset as the suggested file name
-        paste0(input$dataset, ".csv")
-      },
-      content = function(file) {
-        # Write the dataset to the `file` that will be downloaded
-        write.csv(data(), file)
-      }
-    )
-  }
-
-  shiny::shinyApp(ui, server)
-```
+help standardise this in a GDS style, use download_link(), download_button() or 
+download_radios() following the examples provided on their reference pages.

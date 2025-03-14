@@ -23,7 +23,6 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 value_box <- function(value = "your value goes here", text = NA, colour = "blue") {
-
   # Use the govuk-tag--<colour> class for coloring
   class_colour <- paste0("govuk-tag--", colour)
 

@@ -410,17 +410,14 @@ shiny::shinyApp(
               ),
               heading_text("value_box", size = "s"),
               value_box(
-                inputId = "value1",
                 value = "Default (no description included)"
               ),
               value_box(
-                inputId = "value2",
                 value = "1,000,000",
                 text = "This is an example value box in purple.",
                 colour = "purple"
               ),
               value_box(
-                inputId = "value3",
                 value = "58.3%",
                 text = "This is another example value box in red. More colours are available.",
                 colour = "red"

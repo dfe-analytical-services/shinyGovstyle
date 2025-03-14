@@ -94,9 +94,11 @@ shiny::shinyApp(
             subcontents_text_list = c(
               "date_Input",
               "text_Input",
-              "text_area_Input"
+              "text_area_Input",
+              "gov_list"
             ),
             subcontents_id_list = c(
+              NA,
               NA,
               NA,
               NA
@@ -244,7 +246,18 @@ shiny::shinyApp(
               ),
               heading_text("button_Input", size = "s", id = "button_input_text_types"),
               button_Input("btn_error", "Check for errors", type = "warning"),
-              button_Input("action_types_next", "Go to next page")
+              button_Input("action_types_next", "Go to next page"),
+
+              heading_text("gov_list", size = "s"),
+
+              shinyGovstyle::gov_text("List:"),
+              gov_list(list = c("a", "b", "c")),
+
+              shinyGovstyle::gov_text("Bulleted list:"),
+              gov_list(list = c("a", "b", "c"), style = "bullet"),
+
+              shinyGovstyle::gov_text("Numbered list:"),
+              gov_list(list = c("one", "two", "three"), style = "number"),
             )
           ),
 

@@ -49,10 +49,10 @@ if (interactive()) {
       select_text = c("Car road tests", "New York air quality"),
       select_value = c("mtcars", "airquality")
     ),
-      download_button(
-        "download_data",
-        "Download selected data set",
-        file_size = "4 KB"
+    download_button(
+      "download_data",
+      "Download selected data set",
+      file_size = "4 KB"
     )
   )
 

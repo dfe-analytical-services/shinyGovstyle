@@ -8,7 +8,7 @@ test_that("value_box color class works", {
 
 # Test default values (when no text is provided)
 test_that("value_box default values work", {
-  box_default <- value_box("testId3")
+  box_default <- value_box()
 
   # Check default value
   expect_identical(box_default$children[[1]]$children[[1]], "your value goes here")

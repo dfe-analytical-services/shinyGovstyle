@@ -463,7 +463,6 @@ Gov style value box component
 
 ```r
 value_text(
-  inputId = "valueId",
   value = "1,000,000",
   text = "This is the latest value for the selected inputs.",
   colour = "purple"

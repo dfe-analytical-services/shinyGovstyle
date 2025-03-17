@@ -4,11 +4,9 @@
 \alias{value_box}
 \title{Create a value text box with optional description and colour}
 \usage{
-value_box(inputId, value = "your value goes here", text = NA, colour = "blue")
+value_box(value = "your value goes here", text = NA, colour = "blue")
 }
 \arguments{
-\item{inputId}{Character. A unique identifier for the value box element.}
-
 \item{value}{Character. The primary value to display in the value box. Defaults to "your value goes here".}
 
 \item{text}{Character or NA. An optional description to appear below the value. If not provided (default is NA), the description will not be displayed..}
@@ -26,7 +24,6 @@ The text box can be used in Shiny applications to display highlighted informatio
 if (interactive()) {
   ui <- fluidPage(
     value_box(
-      inputId = "value1",
       value = "1,000,000",
       text = "This is the latest value for the selected inputs.",
       colour = "purple"

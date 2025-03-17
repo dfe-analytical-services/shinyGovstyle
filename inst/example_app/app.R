@@ -9,7 +9,7 @@ Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
 Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
 Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
 example_data <- data.frame(Months, Colours, Bikes, Cars, Vans, Buses)
-example_data_short <- head(example_data,5)
+example_data_short <- head(example_data, 5)
 tabs <- c(
   rep("Past Day", 3),
   rep("Past Week", 3),
@@ -121,8 +121,8 @@ shiny::shinyApp(
           contents_link(
             "Tables, tabs and accordions",
             "tables_tabs_and_accordions_button",
-            subcontents_text_list = c("govTable","govTable_interactive", "govTabs", "button_Input", "accordions"),
-            subcontents_id_list = c(NA, NA, NA,"button_input_tables_tabs_accordions", NA)
+            subcontents_text_list = c("govTable", "govTable_interactive", "govTabs", "button_Input", "accordions"),
+            subcontents_id_list = c(NA, NA, NA, "button_input_tables_tabs_accordions", NA)
           ),
 
           # Feedback types tab
@@ -247,15 +247,11 @@ shiny::shinyApp(
               heading_text("button_Input", size = "s", id = "button_input_text_types"),
               button_Input("btn_error", "Check for errors", type = "warning"),
               button_Input("action_types_next", "Go to next page"),
-
               heading_text("gov_list", size = "s"),
-
               shinyGovstyle::gov_text("List:"),
               gov_list(list = c("a", "b", "c")),
-
               shinyGovstyle::gov_text("Bulleted list:"),
               gov_list(list = c("a", "b", "c"), style = "bullet"),
-
               shinyGovstyle::gov_text("Numbered list:"),
               gov_list(list = c("one", "two", "three"), style = "number"),
             )
@@ -410,17 +406,14 @@ shiny::shinyApp(
               ),
               heading_text("value_box", size = "s"),
               value_box(
-                inputId = "value1",
                 value = "Default (no description included)"
               ),
               value_box(
-                inputId = "value2",
                 value = "1,000,000",
                 text = "This is an example value box in purple.",
                 colour = "purple"
               ),
               value_box(
-                inputId = "value3",
                 value = "58.3%",
                 text = "This is another example value box in red. More colours are available.",
                 colour = "red"

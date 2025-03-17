@@ -32,7 +32,7 @@ color: #0b0c0c;
     display: inline-block;
     min-width: 125px;
     padding-top: 112px;
-    background-image: url(../images/govuk-crest.png);
+    background-image: url(../images/govuk-crest.svg);
     background-repeat: no-repeat;
     background-position: 50% 0;
     background-size: 125px 102px;
@@ -40,13 +40,6 @@ color: #0b0c0c;
     white-space: nowrap
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio:2),
-only screen and (min-resolution:192dpi),
-only screen and (min-resolution:2dppx) {
-    .govuk-footer__copyright-logo {
-        background-image: url(../images/govuk-crest-2x.png)
-    }
-}
 ```
 
 * Fix alignment on the radio button item labels

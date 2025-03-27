@@ -46,3 +46,12 @@ test_that("footer links add correctly", {
   expected_html <- '<h2 class=\"govuk-visually-hidden\">Support links</h2>\n          <ul class=\"govuk-footer__inline-list\">\n            <li class=\"govuk-footer__inline-list-item\">'
   expect_true(grepl(expected_html, full_footer_with_links, fixed = TRUE))
 })
+
+test_that("test footer server part", {
+  footer_type_check <- footer_server_part(type = 'bad_type', link_loc = 'cookies', session)
+
+  expect_identical(
+    class(footer_type_check),
+    "NULL"
+  )
+})

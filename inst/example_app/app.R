@@ -329,12 +329,7 @@ shiny::shinyApp(
                 width_overwrite = c("one-half", "one-quarter", "one-quarter")
               ),
               heading_text("govTable_interactive", size = "s"),
-              shinyGovstyle::govTable_interactive(
-                "tab1", example_data, "Test interactive example", "l",
-                right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
-                col_widths = list(Months = "one-third"),
-                page_size = 5
-              ),
+              govTable_interactive_output("interactive_table_test"),
               heading_text("govTabs", size = "s"),
               shinyGovstyle::govTabs("tabsID", data, "tabs"),
               shiny::tags$br(),
@@ -612,5 +607,13 @@ shiny::shinyApp(
       file_name = "example_file",
       file_contents = data.frame(x = c(1, 2, 3), y = c(4, 5, 6))
     )
-  }
+
+    output$interactive_table_test <- render_govTable_interactive(
+      shinyGovstyle::govTable_interactive(
+      "tab1", example_data, "Test interactive example", #"l",
+      right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
+      col_widths = list(Months = "one-third"),
+      page_size = 5
+    ))
+  } # end of server
 )

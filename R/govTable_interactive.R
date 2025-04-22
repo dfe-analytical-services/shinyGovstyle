@@ -5,7 +5,6 @@
 #' @param inputId A unique input ID for the table.
 #' @param df A dataframe used to generate the table.
 #' @param caption A text caption displayed above the table as a heading.
-#' @param caption_size Defines the size of the caption text. Options: "s", "m", "l", "xl" (default: "l").
 #' @param right_col A vector of column names that should be right-aligned. By default, numeric data is right-aligned, and character data is left-aligned.
 #' @param col_widths A named list specifying column widths using width classes (e.g., "one-quarter", "two-thirds").
 #' @param page_size The default number of rows displayed per page (default: 10).
@@ -47,7 +46,7 @@
 #'   shinyApp(ui, server)
 #' }
 
-govTable_interactive <- function(inputId, df, caption, caption_size = "l",
+govTable_interactive <- function(inputId, df, caption,
                      right_col = NULL,
                      col_widths = list(),
                      page_size = 10) {
@@ -86,6 +85,12 @@ govTable_interactive <- function(inputId, df, caption, caption_size = "l",
     class = "govuk-table"
   )
 
+
+}
+
+
+govTable_interactive_output <- function(output_table_name,caption_size = "l"){
+
   return(htmltools::div(
 
    # htmltools::tags$div(
@@ -94,6 +99,16 @@ govTable_interactive <- function(inputId, df, caption, caption_size = "l",
      # caption
    # ),
 
-    table
+
+   reactable::reactableOutput(output_table_name)
   ))
+
+
 }
+
+
+render_govTable_interactive <- function(table_name,...){
+  reactable::renderReactable(table_name)
+
+}
+

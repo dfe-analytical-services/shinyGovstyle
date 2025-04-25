@@ -46,7 +46,7 @@
 #'   shinyApp(ui, server)
 #' }
 
-govTable_interactive <- function(inputId, df, caption,
+govTable_interactive <- function(inputId, df, caption,caption_size = "l",
                      right_col = NULL,
                      col_widths = list(),
                      page_size = 10) {
@@ -73,6 +73,7 @@ govTable_interactive <- function(inputId, df, caption,
     )
   }), names(df))
 
+
   table <- reactable::reactable(
     df,
     columns = col_defs,
@@ -85,20 +86,13 @@ govTable_interactive <- function(inputId, df, caption,
     class = "govuk-table"
   )
 
-
 }
 
 
-govTable_interactive_output <- function(output_table_name,caption_size = "l"){
+govTable_interactiveOutput <- function(output_table_name,caption, caption_size = "l"){
 
   return(htmltools::div(
-
-   # htmltools::tags$div(
       shiny::tags$h2(class = paste0("govuk-heading-", caption_size), caption),
-      #class = paste0("govuk-table__caption govuk-table__caption--", caption_size),
-     # caption
-   # ),
-
 
    reactable::reactableOutput(output_table_name)
   ))
@@ -106,9 +100,8 @@ govTable_interactive_output <- function(output_table_name,caption_size = "l"){
 
 }
 
+# use renderReactable to render the govTables - naming just for convention
+render_govTable_interactive <- renderReactable
 
-render_govTable_interactive <- function(table_name,...){
-  reactable::renderReactable(table_name)
 
-}
 

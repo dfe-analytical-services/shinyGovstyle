@@ -232,7 +232,7 @@ footer <- function(
 
 #' Create a footer link for use in `footer()` function
 #'
-#' @param link_text Character string containing either link text or url
+#' @param link Character string containing either link text or url
 #' @param link_name Name of a link where a URL has been provided in link_text
 #'
 #' @returns HTML tag list item
@@ -241,34 +241,40 @@ footer <- function(
 #' @examples
 #' # Internal (i.e. within dashboard) link
 #' shinyGovstyle:::footer_link("Cookie statement")
+#' # Named internal link
+#' shinyGovstyle:::footer_link("cookie_statement", "Cookies")
 #' # External link
 #' shinyGovstyle:::footer_link(
 #'   "https://www.gov.uk/government/organisations/government-digital-service",
 #'   "Government Digital Service"
 #' )
-footer_link <- function(link_text, link_name = NULL) {
-  if (grepl("^http|^www", link_text)) {
+footer_link <- function(
+    link,
+    link_name = NULL
+  ) {
+  if (grepl("^http|^www", link)) {
     if (is.null(link_name)) {
-      warning("Link name provided is NULL for ", link_text)
-      link_name = link_text
+      warning("Link name provided is NULL for ", link)
+      link_name = link
     }
-    message("creating list entry with name")
     shiny::tags$li(
       class = "govuk-footer__inline-list-item",
       external_link(
-        link_text,
+        link,
         link_name,
         add_warning = FALSE
       )
     )
   } else {
-    message("creating list entry without name")
+    if (is.null(link_name)) {
+      link_name = link
+    }
     shiny::tags$li(
       class = "govuk-footer__inline-list-item",
       shiny::actionLink(
         class = "govuk-link govuk-footer__link",
-        inputId = tolower(gsub(" ", "_", link_text)),
-        label = link_text
+        inputId = tolower(gsub(" ", "_", link)),
+        label = link_name
       )
     )
   }

@@ -4,10 +4,10 @@
 \alias{footer_link}
 \title{Create a footer link for use in `footer()` function}
 \usage{
-footer_link(link_text, link_name = NULL)
+footer_link(link, link_name = NULL)
 }
 \arguments{
-\item{link_text}{Character string containing either link text or url}
+\item{link}{Character string containing either link text or url}
 
 \item{link_name}{Name of a link where a URL has been provided in link_text}
 }
@@ -20,6 +20,8 @@ Create a footer link for use in `footer()` function
 \examples{
 # Internal (i.e. within dashboard) link
 shinyGovstyle:::footer_link("Cookie statement")
+# Named internal link
+shinyGovstyle:::footer_link("cookie_statement", "Cookies")
 # External link
 shinyGovstyle:::footer_link(
   "https://www.gov.uk/government/organisations/government-digital-service",

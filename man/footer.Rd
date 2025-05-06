@@ -56,6 +56,15 @@ if (interactive()) {
 # Add links
 footer(links = c("Accessibility statement", "Cookies"))
 
+# Add links, internal and external
+footer(
+  links = c(
+    "Accessibility statement",
+     "Cookies",
+     `Government Digital Service`="https://www.gov.uk/government/organisations/government-digital-service"
+   )
+ )
+
 # Full app with link controlling a hidden tab
 if (interactive()) {
   ui <- fluidPage(
@@ -83,7 +92,11 @@ if (interactive()) {
     ),
     shinyGovstyle::footer(
       full = TRUE,
-      links = c("Accessibility statement", "Cookies", "External link")
+      links = c(
+        "Accessibility statement",
+        "Cookies",
+        `Government Digital Service`="https://www.gov.uk/government/organisations/government-digital-service"
+      )
     )
   )
 
@@ -91,30 +104,6 @@ if (interactive()) {
     shiny::observeEvent(input$cookies, {
       shiny::updateTabsetPanel(session, "tabs", selected = "cookies")
     })
-
-   shiny::observeEvent(input$external_link, {
-     showModal(modalDialog(
-       external_link("https://shiny.posit.co/",
-                     "External Link",
-                     add_warning = FALSE
-       ),
-       easyClose = TRUE,
-       footer = NULL
-     ))
-
-     # JavaScript to auto-click the link and close the modal
-     shinyjs::runjs("
-         setTimeout(function() {
-           var link = document.querySelector('.modal a');
-           if (link) {
-             link.click();
-             setTimeout(function() {
-               $('.modal').modal('hide');
-             }, 20); // Extra delay to avoid any race conditions
-           }
-        }, 400);
-      ")
-   })
   }
 
   shinyApp(ui = ui, server = server)

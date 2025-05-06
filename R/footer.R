@@ -45,6 +45,15 @@
 #' # Add links
 #' footer(links = c("Accessibility statement", "Cookies"))
 #'
+#' # Add links, internal and external
+#' footer(
+#'   links = c(
+#'     "Accessibility statement",
+#'      "Cookies",
+#'      `Government Digital Service`="https://www.gov.uk/government/organisations/government-digital-service"
+#'    )
+#'  )
+#'
 #' # Full app with link controlling a hidden tab
 #' if (interactive()) {
 #'   ui <- fluidPage(
@@ -72,7 +81,11 @@
 #'     ),
 #'     shinyGovstyle::footer(
 #'       full = TRUE,
-#'       links = c("Accessibility statement", "Cookies", "External link")
+#'       links = c(
+#'         "Accessibility statement",
+#'         "Cookies",
+#'         `Government Digital Service`="https://www.gov.uk/government/organisations/government-digital-service"
+#'       )
 #'     )
 #'   )
 #'
@@ -80,51 +93,25 @@
 #'     shiny::observeEvent(input$cookies, {
 #'       shiny::updateTabsetPanel(session, "tabs", selected = "cookies")
 #'     })
-#'
-#'    shiny::observeEvent(input$external_link, {
-#'      showModal(modalDialog(
-#'        external_link("https://shiny.posit.co/",
-#'                      "External Link",
-#'                      add_warning = FALSE
-#'        ),
-#'        easyClose = TRUE,
-#'        footer = NULL
-#'      ))
-#'
-#'      # JavaScript to auto-click the link and close the modal
-#'      shinyjs::runjs("
-#'          setTimeout(function() {
-#'            var link = document.querySelector('.modal a');
-#'            if (link) {
-#'              link.click();
-#'              setTimeout(function() {
-#'                $('.modal').modal('hide');
-#'              }, 20); // Extra delay to avoid any race conditions
-#'            }
-#'         }, 400);
-#'       ")
-#'    })
 #'   }
 #'
 #'   shinyApp(ui = ui, server = server)
 #' }
-footer <- function(full = FALSE, links = NULL) {
+footer <- function(
+  full = FALSE,
+  links = NULL
+) {
   # Validation on the links input
   if (!is.null(links)) {
     if (!is.vector(links)) {
       stop("links must be a vector")
     }
+  }
 
-    footer_link <- function(link_text) {
-      shiny::tags$li(
-        class = "govuk-footer__inline-list-item",
-        shiny::actionLink(
-          class = "govuk-link govuk-footer__link",
-          inputId = tolower(gsub(" ", "_", link_text)),
-          label = link_text
-        )
-      )
-    }
+  if (is.null(names(links))) {
+    link_names <- links
+  } else {
+    link_names <- names(links)
   }
 
   # The HTML div to be returned
@@ -149,7 +136,13 @@ footer <- function(full = FALSE, links = NULL) {
                   class = "govuk-footer__inline-list",
 
                   # Generate as many links as needed
-                  lapply(links, footer_link)
+                  mapply(
+                    footer_link,
+                    links,
+                    link_names,
+                    SIMPLIFY = FALSE,
+                    USE.NAMES = FALSE
+                  )
                 )
               )
             }
@@ -169,34 +162,46 @@ footer <- function(full = FALSE, links = NULL) {
                     class = "govuk-footer__inline-list",
 
                     # Generate as many links as needed
-                    lapply(links, footer_link)
+                    mapply(
+                      footer_link,
+                      links,
+                      link_names,
+                      SIMPLIFY = FALSE,
+                      USE.NAMES = FALSE
+                    )
                   )
                 )
               },
-              shiny::tag("svg", list(
-                role = "presentation",
-                focusable = "false",
-                class = "govuk-footer__licence-logo",
-                xmlns = "http://www.w3.org/2000/svg",
-                viewbox = "0 0 483.2 195.7",
-                height = "17",
-                width = "41",
-                shiny::tag("path", list(
-                  fill = "currentColor",
-                  d = paste0(
-                    "M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7",
-                    "zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21",
-                    ".1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7",
-                    "-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1",
-                    "-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97",
-                    ".8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.",
-                    "7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8",
-                    "h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47",
-                    ".1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145",
-                    " 97.8 145"
+              shiny::tag(
+                "svg",
+                list(
+                  role = "presentation",
+                  focusable = "false",
+                  class = "govuk-footer__licence-logo",
+                  xmlns = "http://www.w3.org/2000/svg",
+                  viewbox = "0 0 483.2 195.7",
+                  height = "17",
+                  width = "41",
+                  shiny::tag(
+                    "path",
+                    list(
+                      fill = "currentColor",
+                      d = paste0(
+                        "M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7",
+                        "zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21",
+                        ".1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7",
+                        "-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1",
+                        "-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97",
+                        ".8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.",
+                        "7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8",
+                        "h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47",
+                        ".1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145",
+                        " 97.8 145"
+                      )
+                    )
                   )
-                ))
-              )),
+                )
+              ),
               shiny::tags$span(
                 class = "govuk-footer__licence-description",
                 "All content is available under the",
@@ -223,4 +228,48 @@ footer <- function(full = FALSE, links = NULL) {
     )
   )
   attachDependency(govFooter)
+}
+
+#' Create a footer link for use in `footer()` function
+#'
+#' @param link_text Character string containing either link text or url
+#' @param link_name Name of a link where a URL has been provided in link_text
+#'
+#' @returns HTML tag list item
+#'
+#' @keywords internal
+#' @examples
+#' # Internal (i.e. within dashboard) link
+#' shinyGovstyle:::footer_link("Cookie statement")
+#' # External link
+#' shinyGovstyle:::footer_link(
+#'   "https://www.gov.uk/government/organisations/government-digital-service",
+#'   "Government Digital Service"
+#' )
+footer_link <- function(link_text, link_name = NULL) {
+  if (grepl("^http|^www", link_text)) {
+    if (is.null(link_name)) {
+      warning("Link name provided is NULL for ", link_text)
+      link_name = link_text
+    }
+    message("creating list entry with name")
+    shiny::tags$li(
+      class = "govuk-footer__inline-list-item",
+      external_link(
+        link_text,
+        link_name,
+        add_warning = FALSE
+      )
+    )
+  } else {
+    message("creating list entry without name")
+    shiny::tags$li(
+      class = "govuk-footer__inline-list-item",
+      shiny::actionLink(
+        class = "govuk-link govuk-footer__link",
+        inputId = tolower(gsub(" ", "_", link_text)),
+        label = link_text
+      )
+    )
+  }
 }

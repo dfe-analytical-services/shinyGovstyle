@@ -56,6 +56,15 @@ if (interactive()) {
 # Add links
 footer(links = c("Accessibility statement", "Cookies"))
 
+# Add links, internal and external
+footer(
+  links = c(
+    "Accessibility statement",
+     "Cookies",
+     `Government Digital Service`="https://www.gov.uk/government/organisations/government-digital-service"
+   )
+ )
+
 # Full app with link controlling a hidden tab
 if (interactive()) {
   ui <- fluidPage(
@@ -83,7 +92,11 @@ if (interactive()) {
     ),
     shinyGovstyle::footer(
       full = TRUE,
-      links = c("Accessibility statement", "Cookies")
+      links = c(
+        "Accessibility statement",
+        "Cookies",
+        `Government Digital Service`="https://www.gov.uk/government/organisations/government-digital-service"
+      )
     )
   )
 

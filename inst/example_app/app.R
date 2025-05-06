@@ -461,7 +461,12 @@ shiny::shinyApp(
       )
     ), # end of gov row
 
-    shinyGovstyle::footer(TRUE, links = c("Cookies"))
+    shinyGovstyle::footer(
+      TRUE,
+      links = c(
+        "Cookies",
+        `GitHub repository`="https://github.com/dfe-analytical-services/shinyGovstyle")
+      )
   ), # end of fluid page
 
   server = function(input, output, session) {

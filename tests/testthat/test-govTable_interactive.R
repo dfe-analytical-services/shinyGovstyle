@@ -12,8 +12,7 @@ test_that("table works", {
   # Test table with sorting and pagination enabled
   table_check <- govTable_interactive(
     inputId = "tab1",
-    df = example_data,
-    caption = "Test",
+    df = example_data,,
     right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
     col_widths = list(Months = "one-third"),
     page_size = 5

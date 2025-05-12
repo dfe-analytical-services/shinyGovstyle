@@ -2,9 +2,7 @@
 #'
 #' This function inserts a government-styled table using `reactable`.
 #'
-#' @param inputId A unique input ID for the table.
 #' @param df A dataframe used to generate the table.
-#' @param caption A text caption displayed above the table as a heading.
 #' @param right_col A vector of column names that should be right-aligned. By default, numeric data is right-aligned, and character data is left-aligned.
 #' @param col_widths A named list specifying column widths using width classes (e.g., "one-quarter", "two-thirds").
 #' @param page_size The default number of rows displayed per page (default: 10).
@@ -46,7 +44,7 @@
 #'   shinyApp(ui, server)
 #' }
 
-govTable_interactive <- function(inputId, df, caption,caption_size = "l",
+govTable_interactive <- function( df,
                      right_col = NULL,
                      col_widths = list(),
                      page_size = 10) {
@@ -88,6 +86,7 @@ govTable_interactive <- function(inputId, df, caption,caption_size = "l",
 
 }
 
+# Output for reactive tables
 
 govTable_interactiveOutput <- function(output_table_name,caption, caption_size = "l"){
 
@@ -101,7 +100,9 @@ govTable_interactiveOutput <- function(output_table_name,caption, caption_size =
 }
 
 # use renderReactable to render the govTables - naming just for convention
-render_govTable_interactive <- renderReactable
-
-
+# This function wraps reactable::renderReactable.
+render_govTable_interactive <- function(expr, env = parent.frame(), quoted = FALSE) {
+  if (!quoted) { expr <- substitute(expr) }
+  reactable::renderReactable(expr, env = env, quoted = TRUE)
+}
 

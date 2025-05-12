@@ -1,6 +1,7 @@
 # Deployed at https://department-for-education.shinyapps.io/shinygovstyle-example-app/
 
 library(shinyGovstyle)
+library(dplyr) #needed for the pipe to filter reactive data example!
 
 Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
 Colours <- rep(c("Red", "Blue"), times = 5)
@@ -328,8 +329,22 @@ shiny::shinyApp(
                 num_col = c(2, 3),
                 width_overwrite = c("one-half", "one-quarter", "one-quarter")
               ),
-              heading_text("govTable_interactive", size = "s"),
-              govTable_interactive_output("interactive_table_test"),
+
+              heading_text("govTable_interactive with static data", size = "s"),
+              heading_text("caption needs adding separately with heading_text()", size = "l"),
+              govTable_interactive(
+                example_data,
+                right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
+                col_widths = list(Months = "one-third"),
+                page_size = 5
+              ),
+
+
+              heading_text("govTable_interactive with reactive data", size = "s"),
+              selectInput("colourFilter", "Colour",
+                          choices = c(sort(unique(example_data$Colours)))),
+              govTable_interactiveOutput("interactive_table_test", caption = "caption is variable in output function"),
+
               heading_text("govTabs", size = "s"),
               shinyGovstyle::govTabs("tabsID", data, "tabs"),
               shiny::tags$br(),
@@ -608,12 +623,17 @@ shiny::shinyApp(
       file_contents = data.frame(x = c(1, 2, 3), y = c(4, 5, 6))
     )
 
-    output$interactive_table_test <- render_govTable_interactive(
-      shinyGovstyle::govTable_interactive(
-      "tab1", example_data, "Test interactive example", #"l",
-      right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
+    filtered_data <- reactive({
+      example_data %>% filter(Colours == input$colourFilter)
+    })
+
+    output$interactive_table_test <- render_govTable_interactive({govTable_interactive(
+
+      df=filtered_data(),
+      right_col = c("Colours","Bikes", "Cars", "Vans", "Buses"),
       col_widths = list(Months = "one-third"),
-      page_size = 5
-    ))
+      page_size = 3
+    )
+    })
   } # end of server
 )

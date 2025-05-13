@@ -1,6 +1,8 @@
 #' Interactive table Function
 #'
 #' This function inserts a government-styled table using `reactable`.
+#' Use heading_text() to add headings to tables with static data
+#' Use render_govTable_interactive({}) and govTable_interactiveOutput() for tables with reactive data
 #'
 #' @param df A dataframe used to generate the table.
 #' @param right_col A vector of column names that should be right-aligned. By default, numeric data is right-aligned, and character data is left-aligned.
@@ -86,6 +88,48 @@ govTable_interactive <- function( df,
 
 }
 
+#' Shiny bindings for govTable_interactive
+#' Out put and render functions for using govTable_interactive within shiny apps
+#'
+#' @param output_table_name Output variable to read from.
+#' @param caption adds a caption to the table as a header
+#' @param caption_size adjust the size of caption.  Options are s, m, l, xl,
+#' with l as the default
+#' @param expr An expression that generates a [reactable] widget
+#' @param env The environment in which to evaluate `expr`
+#' @param quoted Is `expr` a quoted expression (with [quote()])? This is useful
+#'   if you want to save an expression in a variable
+#' @return `govTable_interactiveOutput()` returns a `reactable` output element that can be
+#'   included in a Shiny UI.
+#'
+#'   `render_govTable_interactive()` returns a `reactable` render function that can be
+#'   assigned to a Shiny output slot.
+#'
+#'@name govTableinteractive-shiny
+#'
+#' @examples
+#' # Run in an interactive R session
+#' if (interactive()) {
+#'
+#' library(shiny)
+#' library(shinyGovstyle)
+#'
+#' ui <- fluidPage(
+#'  titlePanel("govTable_interactiveOutput example"),
+#'  govTable_interactiveOutput("table")
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   output$table <- render_govTable_interactive({
+#'    reactable(iris)
+#'  })
+#' }
+#'
+#' shinyApp(ui, server)
+#' }
+#'
+#' @export
+
 # Output for reactive tables
 
 govTable_interactiveOutput <- function(output_table_name,caption, caption_size = "l"){
@@ -99,8 +143,12 @@ govTable_interactiveOutput <- function(output_table_name,caption, caption_size =
 
 }
 
+
 # use renderReactable to render the govTables - naming just for convention
 # This function wraps reactable::renderReactable.
+#' @rdname govTableinteractive-shiny
+#' @export
+
 render_govTable_interactive <- function(expr, env = parent.frame(), quoted = FALSE) {
   if (!quoted) { expr <- substitute(expr) }
   reactable::renderReactable(expr, env = env, quoted = TRUE)

@@ -20,6 +20,8 @@ A `reactable` HTML widget styled with GOV.UK classes.
 }
 \description{
 This function inserts a government-styled table using `reactable`.
+Use heading_text() to add headings to tables with static data
+Use render_govTable_interactive({}) and govTable_interactiveOutput() for tables with reactive data
 }
 \examples{
 if (interactive()) {

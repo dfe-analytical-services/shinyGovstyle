@@ -341,8 +341,12 @@ shiny::shinyApp(
 
 
               heading_text("govTable_interactive with reactive data", size = "s"),
-              selectInput("colourFilter", "Colour",
-                          choices = c(sort(unique(example_data$Colours)))),
+              select_Input(
+                inputId = "colourFilter",
+                label = "Select Colour",
+                select_text = c(sort(unique(example_data$Colours))),
+                select_value = c(sort(unique(example_data$Colours)))
+              ),
               govTable_interactiveOutput("interactive_table_test", caption = "caption is variable in output function"),
 
               heading_text("govTabs", size = "s"),

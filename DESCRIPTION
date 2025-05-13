@@ -22,7 +22,6 @@ Imports:
     htmltools,
     jsonlite,
     magrittr,
-    dplyr,
     purrr,
     reactable,
     readr,

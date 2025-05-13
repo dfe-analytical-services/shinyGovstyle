@@ -11,8 +11,7 @@ test_that("table works", {
 
   # Test table with sorting and pagination enabled
   table_check <- govTable_interactive(
-    inputId = "tab1",
-    df = example_data,,
+    df = example_data,
     right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
     col_widths = list(Months = "one-third"),
     page_size = 5
@@ -21,26 +20,16 @@ test_that("table works", {
   # Ensure the function runs without errors
   expect_silent(table_check)
 
-  # Ensure it returns an HTML div
-  expect_s3_class(table_check, "shiny.tag")
-  expect_equal(table_check$name, "div")
-
-  # Convert to HTML string for content verification
-  table_html <- as.character(table_check)
-
-  # Check if sorting is enabled
-  expect_match(table_html, "sortable", fixed = TRUE)
+  # Ensure it returns a reactable table
+  expect_equal(table_check$x$tag$name, "Reactable")
 
   # Check if pagination settings are present
-  expect_match(table_html, "defaultPageSize", fixed = TRUE)
+  expect_equal(table_check$x$tag$attribs$defaultPageSize, 5)
 
-  # Check if the right alignment class is applied
-  expect_match(table_html, "govTable_right_align", fixed = TRUE)
-
-  # Check if the "Colours" column has the right alignment class
-  expect_match(table_html, '"id":"Colours",".*"className":" ?govTable_right_align"', perl = TRUE)
+  # Check if the right alignment class is applied to Colours column
+  expect_equal(table_check$x$tag$attribs$columns[[2]]$className, " govTable_right_align")
 
   # Check if column widths are correctly applied
-  expect_match(table_html, "govuk-!-width-one-third", fixed = TRUE)
+  expect_equal(table_check$x$tag$attribs$columns[[1]]$className, "govuk-!-width-one-third ")
 
 })

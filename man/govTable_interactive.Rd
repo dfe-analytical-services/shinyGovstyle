@@ -4,24 +4,10 @@
 \alias{govTable_interactive}
 \title{Interactive table Function}
 \usage{
-govTable_interactive(
-  inputId,
-  df,
-  caption,
-  caption_size = "l",
-  right_col = NULL,
-  col_widths = list(),
-  page_size = 10
-)
+govTable_interactive(df, right_col = NULL, col_widths = list(), page_size = 10)
 }
 \arguments{
-\item{inputId}{A unique input ID for the table.}
-
 \item{df}{A dataframe used to generate the table.}
-
-\item{caption}{A text caption displayed above the table as a heading.}
-
-\item{caption_size}{Defines the size of the caption text. Options: "s", "m", "l", "xl" (default: "l").}
 
 \item{right_col}{A vector of column names that should be right-aligned. By default, numeric data is right-aligned, and character data is left-aligned.}
 

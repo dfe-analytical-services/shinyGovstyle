@@ -1,8 +1,9 @@
-#' Interactive table Function
+#' Interactive govTable
 #'
 #' This function inserts a government-styled table using `reactable`.
-#' Use heading_text() to add headings to tables with static data
-#' Use render_govTable_interactive({}) and govTable_interactiveOutput() for tables with reactive data
+#' You can use this in R markdown or Quarto documents, or use
+#' renderGovReactable({}) and govReactableOutput() for tables in R Shiny.
+#' Use heading_text() to add headings to tables with static data. # TODO: Check this
 #'
 #' @param df A dataframe used to generate the table.
 #' @param right_col A vector of column names that should be right-aligned. By default, numeric data is right-aligned, and character data is left-aligned.
@@ -30,7 +31,7 @@
 #'     shinyGovstyle::banner(
 #'       inputId = "banner", type = "beta", 'This is a new service'),
 #'     shinyGovstyle::gov_layout(size = "two-thirds",
-#'       govTable_interactive(
+#'       govReactable(
 #'         "tab1", example_data, "Test Table", "l",
 #'         right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
 #'         col_widths = list(Months = "one-third"),
@@ -46,7 +47,7 @@
 #'   shinyApp(ui, server)
 #' }
 
-govTable_interactive <- function( df,
+govReactable <- function( df,
                      right_col = NULL,
                      col_widths = list(),
                      page_size = 10) {
@@ -88,8 +89,8 @@ govTable_interactive <- function( df,
 
 }
 
-#' Shiny bindings for govTable_interactive
-#' Out put and render functions for using govTable_interactive within shiny apps
+#' Shiny bindings for govReactable
+#' Output and render functions for using govReactable within shiny apps
 #'
 #' @param output_table_name Output variable to read from.
 #' @param caption adds a caption to the table as a header
@@ -99,13 +100,13 @@ govTable_interactive <- function( df,
 #' @param env The environment in which to evaluate `expr`
 #' @param quoted Is `expr` a quoted expression (with [quote()])? This is useful
 #'   if you want to save an expression in a variable
-#' @return `govTable_interactiveOutput()` returns a `reactable` output element that can be
+#' @return `govReactableOutput()` returns a `reactable` output element that can be
 #'   included in a Shiny UI.
 #'
-#'   `render_govTable_interactive()` returns a `reactable` render function that can be
+#'   `render_govReactable()` returns a `reactable` render function that can be
 #'   assigned to a Shiny output slot.
 #'
-#'@name govTableinteractive-shiny
+#'@name govReactable-shiny
 #'
 #' @examples
 #' # Run in an interactive R session
@@ -115,12 +116,12 @@ govTable_interactive <- function( df,
 #' library(shinyGovstyle)
 #'
 #' ui <- fluidPage(
-#'  titlePanel("govTable_interactiveOutput example"),
-#'  govTable_interactiveOutput("table")
+#'  titlePanel("govReactableOutput example"),
+#'  govReactableOutput("table")
 #' )
 #'
 #' server <- function(input, output, session) {
-#'   output$table <- render_govTable_interactive({
+#'   output$table <- render_govReactable({
 #'    reactable(iris)
 #'  })
 #' }
@@ -132,24 +133,20 @@ govTable_interactive <- function( df,
 
 # Output for reactive tables
 
-govTable_interactiveOutput <- function(output_table_name,caption, caption_size = "l"){
+govReactableOutput <- function(output_table_name,caption, caption_size = "l"){
 
   return(htmltools::div(
-      shiny::tags$h2(class = paste0("govuk-heading-", caption_size), caption),
+      shiny::tags$h2(class = paste0("govuk-heading-", caption_size), caption), # TODO: Check if H2 is the right level?
 
    reactable::reactableOutput(output_table_name)
   ))
-
-
 }
-
 
 # use renderReactable to render the govTables - naming just for convention
 # This function wraps reactable::renderReactable.
-#' @rdname govTableinteractive-shiny
+#' @rdname govReactable-shiny
 #' @export
-
-render_govTable_interactive <- function(expr, env = parent.frame(), quoted = FALSE) {
+renderGovReactable <- function(expr, env = parent.frame(), quoted = FALSE) {
   if (!quoted) { expr <- substitute(expr) }
   reactable::renderReactable(expr, env = env, quoted = TRUE)
 }

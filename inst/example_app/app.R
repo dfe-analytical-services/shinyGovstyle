@@ -122,7 +122,7 @@ shiny::shinyApp(
           contents_link(
             "Tables, tabs and accordions",
             "tables_tabs_and_accordions_button",
-            subcontents_text_list = c("govTable", "govTable_interactive", "govTabs", "button_Input", "accordions"),
+            subcontents_text_list = c("govTable", "govReactable", "govTabs", "button_Input", "accordions"),
             subcontents_id_list = c(NA, NA, NA, "button_input_tables_tabs_accordions", NA)
           ),
 
@@ -330,9 +330,9 @@ shiny::shinyApp(
                 width_overwrite = c("one-half", "one-quarter", "one-quarter")
               ),
 
-              heading_text("govTable_interactive with static data", size = "s"),
+              heading_text("govReactable with static data", size = "s"),
               heading_text("caption needs adding separately with heading_text()", size = "l"),
-              govTable_interactive(
+              govReactable(
                 example_data,
                 right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
                 col_widths = list(Months = "one-third"),
@@ -340,14 +340,14 @@ shiny::shinyApp(
               ),
 
 
-              heading_text("govTable_interactive with reactive data", size = "s"),
+              heading_text("govReactable with reactive data", size = "s"),
               select_Input(
                 inputId = "colourFilter",
                 label = "Select Colour",
                 select_text = c(sort(unique(example_data$Colours))),
                 select_value = c(sort(unique(example_data$Colours)))
               ),
-              govTable_interactiveOutput("interactive_table_test", caption = "caption is variable in output function"),
+              govReactableOutput("interactive_table_test", caption = "caption is variable in output function"),
 
               heading_text("govTabs", size = "s"),
               shinyGovstyle::govTabs("tabsID", data, "tabs"),
@@ -631,7 +631,7 @@ shiny::shinyApp(
       example_data %>% filter(Colours == input$colourFilter)
     })
 
-    output$interactive_table_test <- render_govTable_interactive({govTable_interactive(
+    output$interactive_table_test <- render_govReactable({govReactable(
 
       df=filtered_data(),
       right_col = c("Colours","Bikes", "Cars", "Vans", "Buses"),

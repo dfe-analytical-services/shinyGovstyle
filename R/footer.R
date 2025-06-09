@@ -49,10 +49,10 @@
 #' footer(
 #'   links = c(
 #'     "Accessibility statement",
-#'      "Cookies",
-#'      `Government Digital Service`="https://www.gov.uk/government/organisations/government-digital-service"
-#'    )
-#'  )
+#'     "Cookies",
+#'     `Government Digital Service` = "https://www.gov.uk/government/organisations/government-digital-service"
+#'   )
+#' )
 #'
 #' # Full app with link controlling a hidden tab
 #' if (interactive()) {
@@ -74,33 +74,40 @@
 #'         heading_text("Hello world!")
 #'       ),
 #'       shiny::tabPanel(
-#'         "Cookies",
-#'         value = "cookies",
-#'         heading_text("Cookies")
+#'         "Accessibility statement",
+#'         value = "accessibility-panel",
+#'         heading_text("Accessibility statement")
 #'       )
+#'       shiny::tabPanel(
+#'         "Cookies",
+#'         value = "cookies-panel",
+#'         heading_text("Cookies")
+#'       ),
 #'     ),
 #'     shinyGovstyle::footer(
 #'       full = TRUE,
 #'       links = c(
-#'         "Accessibility statement",
-#'         "Cookies",
-#'         `Government Digital Service`="https://www.gov.uk/government/organisations/government-digital-service"
+#'         `Accessibility statement` = "accessibility_footer_link",
+#'         `Cookies` = "cookies_footer_link",
+#'         `Government Digital Service` = "https://www.gov.uk/government/organisations/government-digital-service"
 #'       )
 #'     )
 #'   )
 #'
 #'   server <- function(input, output, session) {
-#'     shiny::observeEvent(input$cookies, {
-#'       shiny::updateTabsetPanel(session, "tabs", selected = "cookies")
+#'     shiny::observeEvent(input$accessibility_footer_link, {
+#'       shiny::updateTabsetPanel(session, "tabs", selected = "accessibility-panel")
+#'     })
+#'     shiny::observeEvent(input$cookies_footer_link, {
+#'       shiny::updateTabsetPanel(session, "tabs", selected = "cookies-panel")
 #'     })
 #'   }
 #'
 #'   shinyApp(ui = ui, server = server)
 #' }
 footer <- function(
-  full = FALSE,
-  links = NULL
-) {
+    full = FALSE,
+    links = NULL) {
   # Validation on the links input
   if (!is.null(links)) {
     if (!is.vector(links)) {
@@ -250,24 +257,24 @@ footer <- function(
 #' )
 footer_link <- function(
     link,
-    link_name = NULL
-  ) {
+    link_name = NULL) {
   if (grepl("^http|^www", link)) {
     if (is.null(link_name)) {
       warning("Link name provided is NULL for ", link)
-      link_name = link
+      link_name <- link
     }
     shiny::tags$li(
       class = "govuk-footer__inline-list-item",
       external_link(
         link,
         link_name,
-        add_warning = FALSE
+        add_warning = FALSE,
+        class = "govuk-link govuk-footer__link"
       )
     )
   } else {
     if (is.null(link_name)) {
-      link_name = link
+      link_name <- link
     }
     shiny::tags$li(
       class = "govuk-footer__inline-list-item",

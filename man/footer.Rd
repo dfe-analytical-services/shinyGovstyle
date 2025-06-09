@@ -60,10 +60,10 @@ footer(links = c("Accessibility statement", "Cookies"))
 footer(
   links = c(
     "Accessibility statement",
-     "Cookies",
-     `Government Digital Service`="https://www.gov.uk/government/organisations/government-digital-service"
-   )
- )
+    "Cookies",
+    `Government Digital Service` = "https://www.gov.uk/government/organisations/government-digital-service"
+  )
+)
 
 # Full app with link controlling a hidden tab
 if (interactive()) {
@@ -95,7 +95,7 @@ if (interactive()) {
       links = c(
         "Accessibility statement",
         "Cookies",
-        `Government Digital Service`="https://www.gov.uk/government/organisations/government-digital-service"
+        `Government Digital Service` = "https://www.gov.uk/government/organisations/government-digital-service"
       )
     )
   )

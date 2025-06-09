@@ -464,7 +464,7 @@ shiny::shinyApp(
     shinyGovstyle::footer(
       TRUE,
       links = c(
-        "Cookies",
+        `Cookies` = "cookies_footer_link",
         `GitHub repository`="https://github.com/dfe-analytical-services/shinyGovstyle")
       )
   ), # end of fluid page
@@ -521,7 +521,7 @@ shiny::shinyApp(
     )
 
     shiny::observeEvent(
-      c(input$cookies_button, input$cookies),
+      c(input$cookies_button, input$cookies_footer_link),
       {
         shiny::updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
       },

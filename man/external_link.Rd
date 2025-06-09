@@ -4,7 +4,7 @@
 \alias{external_link}
 \title{External link}
 \usage{
-external_link(href, link_text, add_warning = TRUE)
+external_link(href, link_text, add_warning = TRUE, class = "govuk-link")
 }
 \arguments{
 \item{href}{URL that you want the link to point to}

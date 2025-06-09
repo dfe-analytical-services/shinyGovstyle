@@ -99,7 +99,7 @@
 #'   )
 #' )
 #'
-external_link <- function(href, link_text, add_warning = TRUE) {
+external_link <- function(href, link_text, add_warning = TRUE, class = "govuk-link") {
   if (!is.logical(add_warning)) {
     stop("add_warning must be a TRUE or FALSE value")
   }
@@ -161,7 +161,7 @@ external_link <- function(href, link_text, add_warning = TRUE) {
   # Create the link object
   link <- htmltools::tags$a(
     href = href,
-    class = "govuk-link",
+    class = class,
     htmltools::HTML(paste0(link_text, hidden_span)), # white space hack
     target = "_blank",
     rel = "noopener noreferrer",

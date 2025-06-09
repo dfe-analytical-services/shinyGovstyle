@@ -108,17 +108,12 @@
 footer <- function(
     full = FALSE,
     links = NULL) {
-  # Validation on the links input
-  if (!is.null(links)) {
-    if (!is.vector(links)) {
-      stop("links must be a vector")
-    }
-  }
 
   if (is.null(names(links))) {
     link_names <- links
   } else {
     link_names <- names(links)
+    link_names[link_names == ""] <- links[link_names == ""]
   }
 
   # The HTML div to be returned

@@ -51,6 +51,7 @@
 #' this other than providing more detail.
 #' @param add_warning Boolean for adding "(opens in new tab)" at the end of the
 #' link text to warn users of the behaviour. Be careful and consider
+#' @param class Link css class, default: "govuk-link"
 #' accessibility before removing the visual warning.
 #' @return shiny.tag object
 #' @export

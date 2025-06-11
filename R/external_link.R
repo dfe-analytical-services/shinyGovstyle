@@ -51,6 +51,7 @@
 #' this other than providing more detail.
 #' @param add_warning Boolean for adding "(opens in new tab)" at the end of the
 #' link text to warn users of the behaviour. Be careful and consider
+#' accessibility before removing the visual warning.
 #' @param footer Apply standard GDS footer css styling. Logical, default = FALSE .
 #' @return shiny.tag object
 #' @export

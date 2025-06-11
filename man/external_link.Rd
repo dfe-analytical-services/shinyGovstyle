@@ -17,7 +17,8 @@ than 7 characters a console warning will be thrown. There is no way to hush
 this other than providing more detail.}
 
 \item{add_warning}{Boolean for adding "(opens in new tab)" at the end of the
-link text to warn users of the behaviour. Be careful and consider}
+link text to warn users of the behaviour. Be careful and consider
+accessibility before removing the visual warning.}
 
 \item{footer}{Apply standard GDS footer css styling. Logical, default = FALSE .}
 }

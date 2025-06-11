@@ -4,7 +4,7 @@
 \alias{external_link}
 \title{External link}
 \usage{
-external_link(href, link_text, add_warning = TRUE, class = "govuk-link")
+external_link(href, link_text, add_warning = TRUE, footer = FALSE)
 }
 \arguments{
 \item{href}{URL that you want the link to point to}
@@ -19,8 +19,7 @@ this other than providing more detail.}
 \item{add_warning}{Boolean for adding "(opens in new tab)" at the end of the
 link text to warn users of the behaviour. Be careful and consider}
 
-\item{class}{Link css class, default: "govuk-link"
-accessibility before removing the visual warning.}
+\item{footer}{Apply standard GDS footer css styling. Logical, default = FALSE .}
 }
 \value{
 shiny.tag object

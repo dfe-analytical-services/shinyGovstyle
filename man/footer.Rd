@@ -107,10 +107,18 @@ if (interactive()) {
 
   server <- function(input, output, session) {
     shiny::observeEvent(input$accessibility_footer_link, {
-      shiny::updateTabsetPanel(session, "tabs", selected = "accessibility-panel")
+      shiny::updateTabsetPanel(
+        session,
+        "tabs",
+        selected = "accessibility-panel"
+      )
     })
     shiny::observeEvent(input$cookies_footer_link, {
-      shiny::updateTabsetPanel(session, "tabs", selected = "cookies-panel")
+      shiny::updateTabsetPanel(
+        session,
+        "tabs",
+        selected = "cookies-panel"
+      )
     })
   }
 

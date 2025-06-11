@@ -271,7 +271,7 @@ footer_link <- function(
         link,
         link_name,
         add_warning = FALSE,
-        class = "govuk-link govuk-footer__link"
+        footer = TRUE
       )
     )
   } else {

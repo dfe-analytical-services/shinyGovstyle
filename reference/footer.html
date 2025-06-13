@@ -62,14 +62,14 @@ are auto-generated and are the snake case version of the link text, e.g.
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>You can add actionLinks as links in the footer through using the links_list
-argument.</p>
+    <p>You can add links in the footer to content either within the dashboard or
+content external to the dashboard using the links_list argument.</p>
 <p>Links in the footer should be used sparingly and are usually for supporting
 information pages such as the accessibility statement, privacy notice,
 cookies information or link to a statement of voluntary adoption of the
 statistics code of practice.</p>
-<p>Generally when using footer links you will be controlling a hidden tabset
-so to the end user it looks like it is a new page.</p>
+<p>If adding a link to an internal page, generally you will be controlling a
+hidden tabset so to the end user it looks like it is a new page.</p>
     </div>
 
     <div class="section level2">
@@ -116,7 +116,36 @@ so to the end user it looks like it is a new page.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/footer&gt;</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Full app with link controlling a hidden tab</span></span></span>
+<span class="r-in"><span><span class="co"># Add links, internal and external</span></span></span>
+<span class="r-in"><span><span class="fu">footer</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  links <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"Accessibility statement"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Cookies"</span>,</span></span>
+<span class="r-in"><span>    `Government Digital Service` <span class="op">=</span> <span class="st">"https://www.gov.uk/government/organisations/government-digital-service"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;footer class="govuk-footer " role="contentinfo"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="govuk-width-container "&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="govuk-footer__meta"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="govuk-footer__meta-item govuk-footer__meta-item--grow"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;h2 class="govuk-visually-hidden"&gt;Support links&lt;/h2&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;ul class="govuk-footer__inline-list"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;li class="govuk-footer__inline-list-item"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               &lt;a class="action-button govuk-link govuk-footer__link" href="#" id="accessibility_statement"&gt;Accessibility statement&lt;/a&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;/li&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;li class="govuk-footer__inline-list-item"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               &lt;a class="action-button govuk-link govuk-footer__link" href="#" id="cookies"&gt;Cookies&lt;/a&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;/li&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;li class="govuk-footer__inline-list-item"&gt;&lt;a href="https://www.gov.uk/government/organisations/government-digital-service" class="govuk-link govuk-footer__link" target="_blank" rel="noopener noreferrer"&gt;Government Digital Service&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;/ul&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/footer&gt;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Full app with link controlling a hidden tab and a link to an external page</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="header.html">header</a></span><span class="op">(</span></span></span>
@@ -136,20 +165,40 @@ so to the end user it looks like it is a new page.</p>
 <span class="r-in"><span>        <span class="fu"><a href="heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"Hello world!"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>      <span class="op">)</span>,</span></span>
 <span class="r-in"><span>      <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="st">"Accessibility statement"</span>,</span></span>
+<span class="r-in"><span>        value <span class="op">=</span> <span class="st">"accessibility-panel"</span>,</span></span>
+<span class="r-in"><span>        <span class="fu"><a href="heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"Accessibility statement"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>        <span class="st">"Cookies"</span>,</span></span>
-<span class="r-in"><span>        value <span class="op">=</span> <span class="st">"cookies"</span>,</span></span>
+<span class="r-in"><span>        value <span class="op">=</span> <span class="st">"cookies-panel"</span>,</span></span>
 <span class="r-in"><span>        <span class="fu"><a href="heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"Cookies"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">footer</span><span class="op">(</span></span></span>
 <span class="r-in"><span>      full <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>      links <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Accessibility statement"</span>, <span class="st">"Cookies"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      links <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        `Accessibility statement` <span class="op">=</span> <span class="st">"accessibility_footer_link"</span>,</span></span>
+<span class="r-in"><span>        `Cookies` <span class="op">=</span> <span class="st">"cookies_footer_link"</span>,</span></span>
+<span class="r-in"><span>        `Government Digital Service` <span class="op">=</span> <span class="st">"https://www.gov.uk/government/organisations/government-digital-service"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">cookies</span>, <span class="op">{</span></span></span>
-<span class="r-in"><span>      <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html" class="external-link">updateTabsetPanel</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">"tabs"</span>, selected <span class="op">=</span> <span class="st">"cookies"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">accessibility_footer_link</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html" class="external-link">updateTabsetPanel</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="va">session</span>,</span></span>
+<span class="r-in"><span>        <span class="st">"tabs"</span>,</span></span>
+<span class="r-in"><span>        selected <span class="op">=</span> <span class="st">"accessibility-panel"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">cookies_footer_link</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html" class="external-link">updateTabsetPanel</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="va">session</span>,</span></span>
+<span class="r-in"><span>        <span class="st">"tabs"</span>,</span></span>
+<span class="r-in"><span>        selected <span class="op">=</span> <span class="st">"cookies-panel"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
@@ -166,7 +215,7 @@ so to the end user it looks like it is a new page.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

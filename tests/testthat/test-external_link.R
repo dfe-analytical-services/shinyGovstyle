@@ -109,3 +109,32 @@ test_that("Warning appears for short link text and not for long text", {
 
   expect_no_warning(external_link("https://shiny.posit.co/", "R Shiny"))
 })
+
+
+test_that("Footer flag works as expected", {
+  expect_equal(
+    external_link("www.test-link.co.uk", "test link", footer = FALSE)$attribs$class,
+    "govuk-link"
+  )
+
+  expect_equal(
+    external_link("www.test-link.co.uk", "test link", footer = TRUE)$attribs$class,
+    "govuk-link govuk-footer__link"
+  )
+
+  expect_error(
+    external_link("www.test-link.co.uk", "test link", footer = "TRUE"),
+    paste0(
+      "The footer parameter should logical TRUE/FALSE. Received:\n",
+      "character: TRUE"
+    )
+  )
+
+  expect_error(
+    external_link("www.test-link.co.uk", "test link", footer = 0),
+    paste0(
+      "The footer parameter should logical TRUE/FALSE. Received:\n",
+      "numeric: 0"
+    )
+  )
+})

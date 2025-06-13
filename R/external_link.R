@@ -52,6 +52,7 @@
 #' @param add_warning Boolean for adding "(opens in new tab)" at the end of the
 #' link text to warn users of the behaviour. Be careful and consider
 #' accessibility before removing the visual warning.
+#' @param footer Apply standard GDS footer css styling. Logical, default = FALSE .
 #' @return shiny.tag object
 #' @export
 #'
@@ -99,7 +100,7 @@
 #'   )
 #' )
 #'
-external_link <- function(href, link_text, add_warning = TRUE) {
+external_link <- function(href, link_text, add_warning = TRUE, footer = FALSE) {
   if (!is.logical(add_warning)) {
     stop("add_warning must be a TRUE or FALSE value")
   }
@@ -158,10 +159,23 @@ external_link <- function(href, link_text, add_warning = TRUE) {
       htmltools::span(class = "sr-only", " (opens in new tab)")
   }
 
+  if (!is.logical(footer)) {
+    stop(
+      "The footer parameter should logical TRUE/FALSE. Received:\n",
+      class(footer), ": ", footer
+    )
+  }
+
+  if (footer) {
+    link_gds_class <- "govuk-link govuk-footer__link"
+  } else {
+    link_gds_class <- "govuk-link"
+  }
+
   # Create the link object
   link <- htmltools::tags$a(
     href = href,
-    class = "govuk-link",
+    class = link_gds_class,
     htmltools::HTML(paste0(link_text, hidden_span)), # white space hack
     target = "_blank",
     rel = "noopener noreferrer",

@@ -21,16 +21,16 @@ a footer html shiny object
 This function create a gov style footer for your page
 }
 \details{
-You can add actionLinks as links in the footer through using the links_list
-argument.
+You can add links in the footer to content either within the dashboard or
+content external to the dashboard using the links_list argument.
 
 Links in the footer should be used sparingly and are usually for supporting
 information pages such as the accessibility statement, privacy notice,
 cookies information or link to a statement of voluntary adoption of the
 statistics code of practice.
 
-Generally when using footer links you will be controlling a hidden tabset
-so to the end user it looks like it is a new page.
+If adding a link to an internal page, generally you will be controlling a
+hidden tabset so to the end user it looks like it is a new page.
 }
 \examples{
 if (interactive()) {
@@ -56,7 +56,16 @@ if (interactive()) {
 # Add links
 footer(links = c("Accessibility statement", "Cookies"))
 
-# Full app with link controlling a hidden tab
+# Add links, internal and external
+footer(
+  links = c(
+    "Accessibility statement",
+    "Cookies",
+    `Government Digital Service` = "https://www.gov.uk/government/organisations/government-digital-service"
+  )
+)
+
+# Full app with link controlling a hidden tab and a link to an external page
 if (interactive()) {
   ui <- fluidPage(
     shinyGovstyle::header(
@@ -76,20 +85,40 @@ if (interactive()) {
         heading_text("Hello world!")
       ),
       shiny::tabPanel(
+        "Accessibility statement",
+        value = "accessibility-panel",
+        heading_text("Accessibility statement")
+      ),
+      shiny::tabPanel(
         "Cookies",
-        value = "cookies",
+        value = "cookies-panel",
         heading_text("Cookies")
-      )
+      ),
     ),
     shinyGovstyle::footer(
       full = TRUE,
-      links = c("Accessibility statement", "Cookies")
+      links = c(
+        `Accessibility statement` = "accessibility_footer_link",
+        `Cookies` = "cookies_footer_link",
+        `Government Digital Service` = "https://www.gov.uk/government/organisations/government-digital-service"
+      )
     )
   )
 
   server <- function(input, output, session) {
-    shiny::observeEvent(input$cookies, {
-      shiny::updateTabsetPanel(session, "tabs", selected = "cookies")
+    shiny::observeEvent(input$accessibility_footer_link, {
+      shiny::updateTabsetPanel(
+        session,
+        "tabs",
+        selected = "accessibility-panel"
+      )
+    })
+    shiny::observeEvent(input$cookies_footer_link, {
+      shiny::updateTabsetPanel(
+        session,
+        "tabs",
+        selected = "cookies-panel"
+      )
     })
   }
 

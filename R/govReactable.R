@@ -6,8 +6,11 @@
 #' Use heading_text() to add headings to tables with static data. # TODO: Check this
 #'
 #' @param df A dataframe used to generate the table.
-#' @param right_col A vector of column names that should be right-aligned. By default, numeric data is right-aligned, and character data is left-aligned.
-#' @param col_widths A named list specifying column widths using width classes (e.g., "one-quarter", "two-thirds").
+#' @param right_col A vector of column names that should be right-aligned.
+#' By default, numeric data is right-aligned, and character data is
+#' left-aligned.
+#' @param col_widths A named list specifying column widths using width
+#' classes (e.g., "one-quarter", "two-thirds").
 #' @param page_size The default number of rows displayed per page (default: 10).
 #' @return A `reactable` HTML widget styled with GOV.UK classes.
 #' @keywords table, reactable, GOV.UK
@@ -47,33 +50,36 @@
 #'   shinyApp(ui, server)
 #' }
 
-govReactable <- function( df,
-                     right_col = NULL,
-                     col_widths = list(),
-                     page_size = 10) {
-
+govReactable <- function(
+  df,
+  right_col = NULL,
+  col_widths = list(),
+  page_size = 10
+) {
   # Generate column definitions
-  col_defs <- stats::setNames(lapply(seq_along(names(df)), function(index) {
-    col <- names(df)[index]
+  col_defs <- stats::setNames(
+    lapply(seq_along(names(df)), function(index) {
+      col <- names(df)[index]
 
-    # Set width class if specified in col_widths
-    col_class <- if (!is.null(col_widths[[col]])) {
-      paste0("govuk-!-width-", col_widths[[col]])
-    } else {
-      ""
-    }
+      # Set width class if specified in col_widths
+      col_class <- if (!is.null(col_widths[[col]])) {
+        paste0("govuk-!-width-", col_widths[[col]])
+      } else {
+        ""
+      }
 
-    # Apply right alignment class if column is in right_col
-    right_class <- if (col %in% right_col) "govTable_right_align" else ""
+      # Apply right alignment class if column is in right_col
+      right_class <- if (col %in% right_col) "govTable_right_align" else ""
 
-    reactable::colDef(
-      name = col,
-      sortable = TRUE,
-      headerClass = paste(col_class, right_class),
-      class = paste(col_class, right_class)
-    )
-  }), names(df))
-
+      reactable::colDef(
+        name = col,
+        sortable = TRUE,
+        headerClass = paste(col_class, right_class),
+        class = paste(col_class, right_class)
+      )
+    }),
+    names(df)
+  )
 
   table <- reactable::reactable(
     df,
@@ -86,25 +92,26 @@ govReactable <- function( df,
     fullWidth = TRUE,
     class = "govuk-table"
   )
-
 }
 
 #' Shiny bindings for govReactable
 #' Output and render functions for using govReactable within shiny apps
 #'
 #' @param output_table_name Output variable to read from.
-#' @param caption adds a caption to the table as a header
-#' @param caption_size adjust the size of caption.  Options are s, m, l, xl,
-#' with l as the default
-#' @param expr An expression that generates a [reactable] widget
-#' @param env The environment in which to evaluate `expr`
-#' @param quoted Is `expr` a quoted expression (with [quote()])? This is useful
-#'   if you want to save an expression in a variable
-#' @return `govReactableOutput()` returns a `reactable` output element that can be
-#'   included in a Shiny UI.
+#' @param caption Adds a caption to the table as a header.
+#' @param caption_size Adjust the size of caption.
+#' Options are s, m, l, xl, with l as the default.
+#' @param heading_level The HTML heading level for
+#' the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2".
+#' @param expr An expression that generates a [reactable] widget.
+#' @param env The environment in which to evaluate `expr`.
+#' @param quoted Is `expr` a quoted expression (with [quote()])?
+#' This is useful if you want to save an expression in a variable.
+#' @return `govReactableOutput()` returns a `reactable` output element
+#' that can be included in a Shiny UI.
 #'
-#'   `render_govReactable()` returns a `reactable` render function that can be
-#'   assigned to a Shiny output slot.
+#' `render_govReactable()` returns a `reactable` render function that
+#' can be assigned to a Shiny output slot.
 #'
 #'@name govReactable-shiny
 #'
@@ -130,15 +137,34 @@ govReactable <- function( df,
 #' }
 #'
 #' @export
-
 # Output for reactive tables
 
-govReactableOutput <- function(output_table_name,caption, caption_size = "l"){
+govReactableOutput <- function(
+  output_table_name,
+  caption,
+  caption_size = "l",
+  heading_level = "h2"
+) {
+  # Validate heading_level input
+  allowed_levels <- c("h2", "h3", "h4", "h5")
+  if (!heading_level %in% allowed_levels) {
+    stop(
+      "heading_level must be one of: ",
+      paste(allowed_levels, collapse = ", ")
+    )
+  }
+
+  heading_tag <- do.call(
+    shiny::tags[[heading_level]],
+    list(
+      class = paste0("govuk-heading-", caption_size),
+      caption
+    )
+  )
 
   return(htmltools::div(
-      shiny::tags$h2(class = paste0("govuk-heading-", caption_size), caption), # TODO: Check if H2 is the right level?
-
-   reactable::reactableOutput(output_table_name)
+    heading_tag,
+    reactable::reactableOutput(output_table_name)
   ))
 }
 
@@ -147,7 +173,8 @@ govReactableOutput <- function(output_table_name,caption, caption_size = "l"){
 #' @rdname govReactable-shiny
 #' @export
 renderGovReactable <- function(expr, env = parent.frame(), quoted = FALSE) {
-  if (!quoted) { expr <- substitute(expr) }
+  if (!quoted) {
+    expr <- substitute(expr)
+  }
   reactable::renderReactable(expr, env = env, quoted = TRUE)
 }
-

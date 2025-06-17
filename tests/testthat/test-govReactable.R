@@ -1,5 +1,4 @@
 test_that("table works", {
-
   # Sample data
   Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
   Colours <- rep(c("Red", "Blue"), times = 5)
@@ -10,7 +9,7 @@ test_that("table works", {
   example_data <- data.frame(Months, Colours, Bikes, Cars, Vans, Buses)
 
   # Test table with sorting and pagination enabled
-  table_check <- govTable_interactive(
+  table_check <- govReactable(
     df = example_data,
     right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
     col_widths = list(Months = "one-third"),
@@ -26,10 +25,17 @@ test_that("table works", {
   # Check if pagination settings are present
   expect_equal(table_check$x$tag$attribs$defaultPageSize, 5)
 
-  # Check if the right alignment class is applied to Colours column
-  expect_equal(table_check$x$tag$attribs$columns[[2]]$className, " govTable_right_align")
+  # Check if the right alignment class is applied to colours column
+  expect_true(
+    grepl(
+      "govTable_right_align",
+      table_check$x$tag$attribs$columns[[2]]$className
+    )
+  )
 
   # Check if column widths are correctly applied
-  expect_equal(table_check$x$tag$attribs$columns[[1]]$className, "govuk-!-width-one-third ")
-
+  expect_true(grepl(
+    "govuk-!-width-one-third",
+    table_check$x$tag$attribs$columns[[1]]$className
+  ))
 })

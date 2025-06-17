@@ -631,7 +631,7 @@ shiny::shinyApp(
       example_data %>% filter(Colours == input$colourFilter)
     })
 
-    output$interactive_table_test <- render_govReactable({govReactable(
+    output$interactive_table_test <- renderGovReactable({govReactable(
 
       df=filtered_data(),
       right_col = c("Colours","Bikes", "Cars", "Vans", "Buses"),

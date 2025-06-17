@@ -86,7 +86,7 @@ govReactable <- function(
     highlight = TRUE,
     borderless = TRUE,
     showSortIcon = FALSE,
-    defaultColDef = colDef(headerClass = "bar-sort-header"),
+    defaultColDef = reactable::colDef(headerClass = "bar-sort-header"),
     resizable = TRUE,
     fullWidth = TRUE,
     rowClass = "govuk-table__row",
@@ -104,7 +104,7 @@ govReactable <- function(
         borderRadius = "5px"
       )
     ),
-    class = "gov-table govuk-table gov-reactable",
+    class = "gov-table govuk-table",
     ...
   )
 
@@ -128,14 +128,14 @@ govReactable <- function(
 #' Options are s, m, l, xl, with l as the default.
 #' @param heading_level The HTML heading level for
 #' the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2".
-#' @param expr An expression that generates a [reactable] widget.
+#' @param expr An expression that generates a `reactable` widget.
 #' @param env The environment in which to evaluate `expr`.
 #' @param quoted Is `expr` a quoted expression (with [quote()])?
 #' This is useful if you want to save an expression in a variable.
 #' @return `govReactableOutput()` returns a `reactable` output element
 #' that can be included in a Shiny UI.
 #'
-#' `render_govReactable()` returns a `reactable` render function that
+#' `renderGovReactable()` returns a `reactable` render function that
 #' can be assigned to a Shiny output slot.
 #'
 #'@name govReactable-shiny
@@ -153,8 +153,8 @@ govReactable <- function(
 #' )
 #'
 #' server <- function(input, output, session) {
-#'   output$table <- render_govReactable({
-#'    reactable(iris)
+#'   output$table <- renderGovReactable({
+#'    govReactable(iris)
 #'  })
 #' }
 #'

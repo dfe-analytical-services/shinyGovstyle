@@ -3,7 +3,9 @@
 #' This function inserts a government-styled table using `reactable`.
 #' You can use this in R markdown or Quarto documents, or use
 #' renderGovReactable({}) and govReactableOutput() for tables in R Shiny.
-#' Use heading_text() to add headings to tables with static data. # TODO: Check this
+#' govReactableOutput() gives the ability to add a caption, for static
+#' tables made using just govReactable(), use heading_text() to add
+#' captions to tables.
 #'
 #' @param df A dataframe used to generate the table.
 #' @param right_col A vector of column names that should be right-aligned.
@@ -12,49 +14,29 @@
 #' @param col_widths A named list specifying column widths using width
 #' classes (e.g., "one-quarter", "two-thirds").
 #' @param page_size The default number of rows displayed per page (default: 10).
+#' @param ... Additional arguments passed to `reactable::reactable`.
 #' @return A `reactable` HTML widget styled with GOV.UK classes.
 #' @keywords table, reactable, GOV.UK
 #' @export
 #' @examples
+#' # Example static table using govReactable
 #' if (interactive()) {
 #'
-#'   Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
-#'   Colours <- rep(c("Red", "Blue"), times = 5)
-#'   Bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
-#'   Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
-#'   Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
-#'   Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
-#'   example_data <- data.frame(Months, Colours, Bikes, Cars, Vans, Buses)
-#'
-#'   ui <- fluidPage(
-#'     shinyGovstyle::header(
-#'       main_text = "Example",
-#'       secondary_text = "User Examples",
-#'       logo="shinyGovstyle/images/moj_logo.png"),
-#'     shinyGovstyle::banner(
-#'       inputId = "banner", type = "beta", 'This is a new service'),
-#'     shinyGovstyle::gov_layout(size = "two-thirds",
-#'       govReactable(
-#'         "tab1", example_data, "Test Table", "l",
-#'         right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
-#'         col_widths = list(Months = "one-third"),
-#'         page_size = 5
-#'         )
+#'   govReactable(
+#'     iris,
+#'     right_col = c(
+#'      "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
 #'     ),
-#'
-#'     shinyGovstyle::footer(full = TRUE)
+#'     col_widths = list(Species = "one-third"),
+#'     page_size = 5
 #'   )
-#'
-#'   server <- function(input, output, session) {}
-#'
-#'   shinyApp(ui, server)
 #' }
-
 govReactable <- function(
   df,
   right_col = NULL,
   col_widths = list(),
-  page_size = 10
+  page_size = 10,
+  ...
 ) {
   # Generate column definitions
   col_defs <- stats::setNames(
@@ -69,18 +51,31 @@ govReactable <- function(
       }
 
       # Apply right alignment class if column is in right_col
-      right_class <- if (col %in% right_col) "govTable_right_align" else ""
+      right_class <- if (!is.null(right_col) && col %in% right_col) {
+        "govTable_right_align"
+      } else {
+        ""
+      }
 
       reactable::colDef(
         name = col,
         sortable = TRUE,
-        headerClass = paste(col_class, right_class),
-        class = paste(col_class, right_class)
+        headerClass = paste("govuk-table__header", col_class, right_class),
+        class = paste("govuk-table__cell", col_class, right_class),
+        html = TRUE,
+        na = "NA",
+        minWidth = 65,
+        align = if (!is.null(right_col) && col %in% right_col) {
+          "right"
+        } else {
+          "left"
+        }
       )
     }),
     names(df)
   )
 
+  # Create the reactable table
   table <- reactable::reactable(
     df,
     columns = col_defs,
@@ -89,9 +84,39 @@ govReactable <- function(
     pagination = TRUE,
     defaultPageSize = page_size,
     highlight = TRUE,
+    borderless = TRUE,
+    showSortIcon = FALSE,
+    defaultColDef = colDef(headerClass = "bar-sort-header"),
+    resizable = TRUE,
     fullWidth = TRUE,
-    class = "govuk-table"
+    rowClass = "govuk-table__row",
+    language = reactable::reactableLang(
+      searchPlaceholder = "Search table..."
+    ),
+    theme = reactable::reactableTheme(
+      searchInputStyle = list(
+        float = "right",
+        width = "25%",
+        marginBottom = "10px",
+        padding = "5px",
+        fontSize = "14px",
+        border = "1px solid #ccc",
+        borderRadius = "5px"
+      )
+    ),
+    class = "gov-table govuk-table gov-reactable",
+    ...
   )
+
+  # Attach the govReactable CSS dependency
+  dependency <- htmltools::htmlDependency(
+    name = "govReactable",
+    version = as.character(utils::packageVersion("shinyGovstyle")[[1]]),
+    src = c(href = "shinyGovstyle/css"),
+    stylesheet = "govReactable.css"
+  )
+
+  htmltools::attachDependencies(table, dependency, append = TRUE)
 }
 
 #' Shiny bindings for govReactable

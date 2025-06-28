@@ -17,8 +17,6 @@ test_that("test default footer", {
 })
 
 test_that("footer links add correctly", {
-  local_edition(3)
-
   footer_with_links <- footer(
     links = c("Accessibility Statement", "Cookies")
   )
@@ -29,7 +27,6 @@ test_that("footer links add correctly", {
     TRUE,
     c("Privacy Notice", "Cookies")
   )
-
 
   expect_snapshot(full_footer_with_links)
 

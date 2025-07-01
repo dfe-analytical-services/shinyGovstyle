@@ -26,21 +26,6 @@ color: #0b0c0c;
 }
 ```
 
-* Change filepaths for crown copyright logo:
-```
-.govuk-footer__copyright-logo {
-    display: inline-block;
-    min-width: 125px;
-    padding-top: 112px;
-    background-image: url(../images/govuk-crest.svg);
-    background-repeat: no-repeat;
-    background-position: 50% 0;
-    background-size: 125px 102px;
-    text-align: center;
-    white-space: nowrap
-}
-
-```
 
 * Fix alignment on the radio button item labels
 ```
@@ -84,7 +69,7 @@ color: #0b0c0c;
     font-weight: 700;
     display: table-caption;
     text-align: left;
-    color: #000;
+    color: #000
 }
 ```
 
@@ -197,7 +182,7 @@ color: #0b0c0c;
 }
 ```
 
-* Container for the value_box
+* Value box
 ```
 /*Container for value box*/
 
@@ -211,10 +196,7 @@ color: #0b0c0c;
     text-align: left;
     margin-bottom: 15px;
 }
-```
 
-* Larger screens styling for value_box
-```
 /*Larger screen sizing for value box*/
 
 @media (min-width: 40.0625em) {
@@ -223,10 +205,7 @@ color: #0b0c0c;
         padding: 15px;
     }
 }
-```
 
-* Styling for the value in value_box
-```
 /*Styling value for value box*/
 
 .value-box-value {
@@ -236,10 +215,7 @@ color: #0b0c0c;
     margin: 0;
     display: block;
 }
-```
 
-* Styling for the optional description in value_box
-```
 /*Styling for optional description for value box*/
 
 .value-box-description {
@@ -252,14 +228,13 @@ color: #0b0c0c;
 
 * Styling for govTable_interactive reactable
 ```
+/*Styling for govTable_interactive reactable*/
 .reactable .rt-th {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-```
 
-```
 .govTable_right_align {
   text-align: right !important
 }

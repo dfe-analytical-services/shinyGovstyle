@@ -2,7 +2,7 @@
 
 :root {
     --govuk-frontend-version: "5.11.0";
-    --font-size: 16px;
+    font-size: 16px;
     --govuk-breakpoint-mobile: 20rem;
     --govuk-frontend-breakpoint-mobile: var(--govuk-breakpoint-mobile);
     --govuk-breakpoint-tablet: 40.0625rem;

@@ -12,30 +12,18 @@ test_that("table works", {
   table_check <- govReactable(
     df = example_data,
     right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
-    col_widths = list(Months = "one-third"),
     page_size = 5
   )
 
   # Ensure the function runs without errors
-  expect_silent(table_check)
+  expect_no_error(table_check)
 
-  # Ensure it returns a reactable table
-  expect_equal(table_check$x$tag$name, "Reactable")
+  # Take snapshot of table HTML
+  output_html <- htmltools::renderTags(table_check)$html
 
-  # Check if pagination settings are present
-  expect_equal(table_check$x$tag$attribs$defaultPageSize, 5)
+  # Prevent unnecessary changes due to random IDs
+  stripped_ids <- gsub('"htmlwidget-[^"]*"', '', output_html)
 
-  # Check if the right alignment class is applied to colours column
-  expect_true(
-    grepl(
-      "govTable_right_align",
-      table_check$x$tag$attribs$columns[[2]]$className
-    )
-  )
-
-  # Check if column widths are correctly applied
-  expect_true(grepl(
-    "govuk-!-width-one-third",
-    table_check$x$tag$attribs$columns[[1]]$className
-  ))
+  local_edition(3) # TODO: Remove when merged into main branch
+  expect_snapshot(stripped_ids)
 })

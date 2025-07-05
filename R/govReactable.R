@@ -7,13 +7,20 @@
 #' tables made using just govReactable(), use heading_text() to add
 #' captions to tables.
 #'
+#' @description
+#' This function is opinionated and sets table defaults that are in
+#' keeping with the wider GOV.UK design system. Some defaults are overrideable,
+#' such as `highlight=TRUE` and `borderless=TRUE`, however some are fixed, such
+#' as `showSortIcon=FALSE` as the default sort icon is inaccessible. Additional
+#' arguments from `reactable::reactable` can be passed to customise the table.
+#'
 #' @param df A dataframe used to generate the table.
 #' @param right_col A vector of column names that should be right-aligned.
 #' By default, numeric data is right-aligned, and character data is
 #' left-aligned.
-#' @param col_widths A named list specifying column widths using width
-#' classes (e.g., "one-quarter", "two-thirds").
 #' @param page_size The default number of rows displayed per page (default: 10).
+#' @param highlight Highlight table rows on hover.
+#' @param borderless Remove inner borders from table.
 #' @param ... Additional arguments passed to `reactable::reactable`.
 #' @return A `reactable` HTML widget styled with GOV.UK classes.
 #' @keywords table, reactable, GOV.UK
@@ -21,34 +28,30 @@
 #' @examples
 #' # Example static table using govReactable
 #' if (interactive()) {
-#'
 #'   govReactable(
 #'     iris,
 #'     right_col = c(
-#'      "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
+#'       "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
 #'     ),
-#'     col_widths = list(Species = "one-third"),
-#'     page_size = 5
+#'     page_size = 5,
+#'     columns = list(
+#'       Sepal.Length = colDef(width = 50),
+#'       Sepal.Width = colDef(width = 100)
+#'     )
 #'   )
 #' }
 govReactable <- function(
   df,
   right_col = NULL,
-  col_widths = list(),
   page_size = 10,
+  highlight = TRUE,
+  borderless = TRUE,
   ...
 ) {
   # Generate column definitions
   col_defs <- stats::setNames(
     lapply(seq_along(names(df)), function(index) {
       col <- names(df)[index]
-
-      # Set width class if specified in col_widths
-      col_class <- if (!is.null(col_widths[[col]])) {
-        paste0("govuk-!-width-", col_widths[[col]])
-      } else {
-        ""
-      }
 
       # Apply right alignment class if column is in right_col
       right_class <- if (!is.null(right_col) && col %in% right_col) {
@@ -60,11 +63,19 @@ govReactable <- function(
       reactable::colDef(
         name = col,
         sortable = TRUE,
-        headerClass = paste("govuk-table__header", col_class, right_class),
-        class = paste("govuk-table__cell", col_class, right_class),
+        headerClass = paste("govuk-table__header", right_class),
+        class = paste("govuk-table__cell", right_class),
         html = TRUE,
         na = "NA",
-        minWidth = 65,
+        minWidth = if (
+          !is.null(list(...)$columns) &&
+            !is.null(list(...)$columns[[col]]) &&
+            !is.null(list(...)$columns[[col]]$minWidth)
+        ) {
+          list(...)$columns[[col]]$minWidth
+        } else {
+          50
+        },
         align = if (!is.null(right_col) && col %in% right_col) {
           "right"
         } else {
@@ -79,31 +90,14 @@ govReactable <- function(
   table <- reactable::reactable(
     df,
     columns = col_defs,
-    searchable = FALSE,
-    sortable = TRUE,
-    pagination = TRUE,
     defaultPageSize = page_size,
-    highlight = TRUE,
-    borderless = TRUE,
+    highlight = highlight,
+    borderless = borderless,
     showSortIcon = FALSE,
     defaultColDef = reactable::colDef(headerClass = "bar-sort-header"),
-    resizable = TRUE,
     fullWidth = TRUE,
+    wrap = TRUE,
     rowClass = "govuk-table__row",
-    language = reactable::reactableLang(
-      searchPlaceholder = "Search table..."
-    ),
-    theme = reactable::reactableTheme(
-      searchInputStyle = list(
-        float = "right",
-        width = "25%",
-        marginBottom = "10px",
-        padding = "5px",
-        fontSize = "14px",
-        border = "1px solid #ccc",
-        borderRadius = "5px"
-      )
-    ),
     class = "gov-table govuk-table",
     ...
   )
@@ -138,27 +132,26 @@ govReactable <- function(
 #' `renderGovReactable()` returns a `reactable` render function that
 #' can be assigned to a Shiny output slot.
 #'
-#'@name govReactable-shiny
+#' @name govReactable-shiny
 #'
 #' @examples
 #' # Run in an interactive R session
 #' if (interactive()) {
+#'   library(shiny)
+#'   library(shinyGovstyle)
 #'
-#' library(shiny)
-#' library(shinyGovstyle)
+#'   ui <- fluidPage(
+#'     titlePanel("govReactableOutput example"),
+#'     govReactableOutput("table")
+#'   )
 #'
-#' ui <- fluidPage(
-#'  titlePanel("govReactableOutput example"),
-#'  govReactableOutput("table")
-#' )
+#'   server <- function(input, output, session) {
+#'     output$table <- renderGovReactable({
+#'       govReactable(iris)
+#'     })
+#'   }
 #'
-#' server <- function(input, output, session) {
-#'   output$table <- renderGovReactable({
-#'    govReactable(iris)
-#'  })
-#' }
-#'
-#' shinyApp(ui, server)
+#'   shinyApp(ui, server)
 #' }
 #'
 #' @export

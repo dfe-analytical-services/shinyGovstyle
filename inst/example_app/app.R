@@ -6,10 +6,9 @@ library(dplyr) #needed for the pipe to filter reactive data example!
 Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
 Colours <- rep(c("Red", "Blue"), times = 5)
 Bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
-Cars <- c(95, 55, 125, 110, 70, 120, 60, 130, 115, 90)
 Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
 Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
-example_data <- data.frame(Months, Colours, Bikes, Cars, Vans, Buses)
+example_data <- data.frame(Months, Colours, Bikes, Vans, Buses)
 example_data_short <- head(example_data, 5)
 tabs <- c(
   rep("Past Day", 3),
@@ -321,24 +320,24 @@ shiny::shinyApp(
               size = "two-thirds",
               backlink_Input("action_types_back"),
               heading_text("Tables, tabs and accordions", size = "l"),
-              label_hint("label3", "These are some examples of using tabs and
-                       tables"),
+              label_hint(
+                "label3", 
+                "These are some examples of using tabs and tables"
+              ),
+
               heading_text("govTable", size = "s"),
               shinyGovstyle::govTable(
-                "tab1", example_data_short, "Test static example", "l",
-                num_col = c(2, 3),
-                width_overwrite = c("one-half", "one-quarter", "one-quarter")
+                "tab1", example_data_short, "Static example", "l",
+                num_col = c(3, 4, 5)
               ),
 
               heading_text("govReactable with static data", size = "s"),
-              heading_text("caption needs adding separately with heading_text()", size = "l"),
+              heading_text("Caption added separately", size = "l"),
               govReactable(
                 example_data,
-                right_col = c("Colours", "Bikes", "Cars", "Vans", "Buses"),
-                col_widths = list(Months = "one-third"),
+                right_col = c("Bikes", "Vans", "Buses"),
                 page_size = 5
               ),
-
 
               heading_text("govReactable with reactive data", size = "s"),
               select_Input(
@@ -347,7 +346,10 @@ shiny::shinyApp(
                 select_text = c(sort(unique(example_data$Colours))),
                 select_value = c(sort(unique(example_data$Colours)))
               ),
-              govReactableOutput("interactive_table_test", caption = "caption is variable in output function"),
+              govReactableOutput(
+                "interactive_table_test", 
+                caption = "Caption in output function"
+              ),
 
               heading_text("govTabs", size = "s"),
               shinyGovstyle::govTabs("tabsID", data, "tabs"),
@@ -631,12 +633,11 @@ shiny::shinyApp(
       example_data %>% filter(Colours == input$colourFilter)
     })
 
-    output$interactive_table_test <- renderGovReactable({govReactable(
-
-      df=filtered_data(),
-      right_col = c("Colours","Bikes", "Cars", "Vans", "Buses"),
-      col_widths = list(Months = "one-third"),
-      page_size = 3
+    output$interactive_table_test <- renderGovReactable({  
+    govReactable(
+      df = filtered_data(),
+      right_col = c("Bikes", "Vans", "Buses"),
+      page_size = 3,
     )
     })
   } # end of server

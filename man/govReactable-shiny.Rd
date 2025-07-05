@@ -48,22 +48,21 @@ Output and render functions for using govReactable within shiny apps
 \examples{
 # Run in an interactive R session
 if (interactive()) {
+  library(shiny)
+  library(shinyGovstyle)
 
-library(shiny)
-library(shinyGovstyle)
+  ui <- fluidPage(
+    titlePanel("govReactableOutput example"),
+    govReactableOutput("table")
+  )
 
-ui <- fluidPage(
- titlePanel("govReactableOutput example"),
- govReactableOutput("table")
-)
+  server <- function(input, output, session) {
+    output$table <- renderGovReactable({
+      govReactable(iris)
+    })
+  }
 
-server <- function(input, output, session) {
-  output$table <- renderGovReactable({
-   govReactable(iris)
- })
-}
-
-shinyApp(ui, server)
+  shinyApp(ui, server)
 }
 
 }

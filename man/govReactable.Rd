@@ -4,7 +4,14 @@
 \alias{govReactable}
 \title{Interactive govTable}
 \usage{
-govReactable(df, right_col = NULL, col_widths = list(), page_size = 10, ...)
+govReactable(
+  df,
+  right_col = NULL,
+  page_size = 10,
+  highlight = TRUE,
+  borderless = TRUE,
+  ...
+)
 }
 \arguments{
 \item{df}{A dataframe used to generate the table.}
@@ -13,10 +20,11 @@ govReactable(df, right_col = NULL, col_widths = list(), page_size = 10, ...)
 By default, numeric data is right-aligned, and character data is
 left-aligned.}
 
-\item{col_widths}{A named list specifying column widths using width
-classes (e.g., "one-quarter", "two-thirds").}
-
 \item{page_size}{The default number of rows displayed per page (default: 10).}
+
+\item{highlight}{Highlight table rows on hover.}
+
+\item{borderless}{Remove inner borders from table.}
 
 \item{...}{Additional arguments passed to `reactable::reactable`.}
 }
@@ -24,6 +32,13 @@ classes (e.g., "one-quarter", "two-thirds").}
 A `reactable` HTML widget styled with GOV.UK classes.
 }
 \description{
+This function is opinionated and sets table defaults that are in
+keeping with the wider GOV.UK design system. Some defaults are overrideable,
+such as `highlight=TRUE` and `borderless=TRUE`, however some are fixed, such
+as `showSortIcon=FALSE` as the default sort icon is inaccessible. Additional
+arguments from `reactable::reactable` can be passed to customise the table.
+}
+\details{
 This function inserts a government-styled table using `reactable`.
 You can use this in R markdown or Quarto documents, or use
 renderGovReactable({}) and govReactableOutput() for tables in R Shiny.
@@ -34,14 +49,16 @@ captions to tables.
 \examples{
 # Example static table using govReactable
 if (interactive()) {
-
   govReactable(
     iris,
     right_col = c(
-     "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
+      "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
     ),
-    col_widths = list(Species = "one-third"),
-    page_size = 5
+    page_size = 5,
+    columns = list(
+      Sepal.Length = colDef(width = 50),
+      Sepal.Width = colDef(width = 100)
+    )
   )
 }
 }

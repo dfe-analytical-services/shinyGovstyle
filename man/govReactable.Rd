@@ -70,7 +70,7 @@ if (interactive()) {
     min_widths = list(
       Sepal.Length = 75,
       Sepal.Width = 75,
-      Petal.Legnth = 75,
+      Petal.Length = 75,
       Petal.Width = 75
     )
   )

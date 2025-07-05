@@ -47,7 +47,7 @@
 #'     min_widths = list(
 #'       Sepal.Length = 75,
 #'       Sepal.Width = 75,
-#'       Petal.Legnth = 75,
+#'       Petal.Length = 75,
 #'       Petal.Width = 75
 #'     )
 #'   )
@@ -108,14 +108,18 @@ govReactable <- function(
   )
 
   # Attach the govReactable CSS dependency
+  # TODO: Fix, as this is not pulling through
+  version <- as.character(packageVersion("shinyGovstyle")[[1]])
+
   dependency <- htmltools::htmlDependency(
-    name = "govReactable",
-    version = as.character(utils::packageVersion("shinyGovstyle")[[1]]),
+    name = "stylecss",
+    version = version,
     src = c(href = "shinyGovstyle/css"),
     stylesheet = "govReactable.css"
   )
 
-  htmltools::attachDependencies(table, dependency, append = TRUE)
+  table <- htmltools::attachDependencies(table, dependency, append = TRUE)
+  return(table)
 }
 
 #' Shiny bindings for govReactable

@@ -21,6 +21,8 @@
 #' @param page_size The default number of rows displayed per page (default: 10).
 #' @param highlight Highlight table rows on hover.
 #' @param borderless Remove inner borders from table.
+#' @param min_widths Customise minimum column width using a list of columns and
+#' minimum width in pixels.
 #' @param ... Additional arguments passed to `reactable::reactable`.
 #' @return A `reactable` HTML widget styled with GOV.UK classes.
 #' @keywords table, reactable, GOV.UK
@@ -32,11 +34,21 @@
 #'     iris,
 #'     right_col = c(
 #'       "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
+#'     )
+#'   )
+#'
+#'   govReactable(
+#'     iris,
+#'     right_col = c(
+#'       "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
 #'     ),
+#'     highlight = FALSE,
 #'     page_size = 5,
-#'     columns = list(
-#'       Sepal.Length = colDef(width = 50),
-#'       Sepal.Width = colDef(width = 100)
+#'     min_widths = list(
+#'       Sepal.Length = 75,
+#'       Sepal.Width = 75,
+#'       Petal.Legnth = 75,
+#'       Petal.Width = 75
 #'     )
 #'   )
 #' }
@@ -46,6 +58,7 @@ govReactable <- function(
   page_size = 10,
   highlight = TRUE,
   borderless = TRUE,
+  min_widths = list(),
   ...
 ) {
   # Generate column definitions
@@ -67,20 +80,12 @@ govReactable <- function(
         class = paste("govuk-table__cell", right_class),
         html = TRUE,
         na = "NA",
-        minWidth = if (
-          !is.null(list(...)$columns) &&
-            !is.null(list(...)$columns[[col]]) &&
-            !is.null(list(...)$columns[[col]]$minWidth)
-        ) {
-          list(...)$columns[[col]]$minWidth
-        } else {
-          50
-        },
         align = if (!is.null(right_col) && col %in% right_col) {
           "right"
         } else {
           "left"
-        }
+        },
+        minWidth = if (!is.null(min_widths[[col]])) min_widths[[col]] else NULL
       )
     }),
     names(df)

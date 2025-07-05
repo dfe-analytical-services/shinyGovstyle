@@ -10,6 +10,7 @@ govReactable(
   page_size = 10,
   highlight = TRUE,
   borderless = TRUE,
+  min_widths = list(),
   ...
 )
 }
@@ -25,6 +26,9 @@ left-aligned.}
 \item{highlight}{Highlight table rows on hover.}
 
 \item{borderless}{Remove inner borders from table.}
+
+\item{min_widths}{Customise minimum column width using a list of columns and
+minimum width in pixels.}
 
 \item{...}{Additional arguments passed to `reactable::reactable`.}
 }
@@ -53,11 +57,21 @@ if (interactive()) {
     iris,
     right_col = c(
       "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
+    )
+  )
+
+  govReactable(
+    iris,
+    right_col = c(
+      "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
     ),
+    highlight = FALSE,
     page_size = 5,
-    columns = list(
-      Sepal.Length = colDef(width = 50),
-      Sepal.Width = colDef(width = 100)
+    min_widths = list(
+      Sepal.Length = 75,
+      Sepal.Width = 75,
+      Petal.Legnth = 75,
+      Petal.Width = 75
     )
   )
 }

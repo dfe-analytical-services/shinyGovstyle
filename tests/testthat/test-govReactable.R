@@ -24,6 +24,5 @@ test_that("table works", {
   # Prevent unnecessary changes due to random IDs
   stripped_ids <- gsub('"htmlwidget-[^"]*"', '', output_html)
 
-  local_edition(3) # TODO: Remove when merged into main branch
   expect_snapshot(stripped_ids)
 })

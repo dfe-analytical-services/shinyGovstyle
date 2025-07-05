@@ -250,7 +250,7 @@ color: #0b0c0c;
 }
 ```
 
-* Styling for govTable_interactive reactable
+* Styling for govReactable reactable
 ```
 .reactable .rt-th {
   white-space: nowrap;

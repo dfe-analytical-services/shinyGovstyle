@@ -61,7 +61,8 @@ footer(
   links = c(
     "Accessibility statement",
     "Cookies",
-    `Government Digital Service` = "https://www.gov.uk/government/organisations/government-digital-service"
+    `Government Digital Service` =
+    "https://www.gov.uk/government/organisations/government-digital-service"
   )
 )
 
@@ -100,7 +101,8 @@ if (interactive()) {
       links = c(
         `Accessibility statement` = "accessibility_footer_link",
         `Cookies` = "cookies_footer_link",
-        `Government Digital Service` = "https://www.gov.uk/government/organisations/government-digital-service"
+        `Government Digital Service` = 
+        "https://www.gov.uk/government/organisations/government-digital-service"
       )
     )
   )

@@ -4,6 +4,14 @@ Ideas for shinyGovstyle should first be raised as a [GitHub issue](https://githu
 
 For support and information on package development in R, we recommend using the [R Packages (2e) guide by Hadley Wickham and Jennifer Bryan](https://r-pkgs.org/), this contains a wealth of information and best practice for all kinds of activities around package development in R.
 
+## Formatting
+
+We use [Air](https://posit-dev.github.io/air/) to format the code and save any styling debate across the repo and keep us as close as we can to the expected lintr standards with minimal effort. 
+
+If you're working in VSCode or Positron, there is a settings.json file in the repo that includes format on save by default and should work for you without any additional work as long as you have the Air extension installed. If not, don't fear, as we also have a GitHub action that will check all pull requests for styling and offer formatting as a suggestion you can accept and commit from the PR in GitHub. Unless there's a reason not to, we recommend that if multiple suggestions are left, you go to the files changed view to accept them as one big batch, rather than individually committing everything.
+
+Air is still in development, so it's worth checking [their documentation](https://posit-dev.github.io/air/editors.html) if you're a new contributor and want to see the best ways to use it within your chosen IDE.
+
 ## Raising new changes
 
 New changes should be made on a branch off of the latest version of the master branch.

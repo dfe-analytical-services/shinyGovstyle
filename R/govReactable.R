@@ -66,18 +66,11 @@ govReactable <- function(
     lapply(seq_along(names(df)), function(index) {
       col <- names(df)[index]
 
-      # Apply right alignment class if column is in right_col
-      right_class <- if (!is.null(right_col) && col %in% right_col) {
-        "govTable_right_align"
-      } else {
-        ""
-      }
-
       reactable::colDef(
         name = col,
         sortable = TRUE,
-        headerClass = paste("govuk-table__header", right_class),
-        class = paste("govuk-table__cell", right_class),
+        headerClass = "govuk-table__header",
+        class = "govuk-table__cell",
         html = TRUE,
         na = "NA",
         align = if (!is.null(right_col) && col %in% right_col) {

@@ -61,47 +61,69 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 
-checkbox_Input <- function(inputId, cb_labels, checkboxIds, label,
-                           hint_label = NULL, small = FALSE,
-                           error = FALSE, error_message = NULL){
-  if (small){
+checkbox_Input <- function(
+  inputId,
+  cb_labels,
+  checkboxIds,
+  label,
+  hint_label = NULL,
+  small = FALSE,
+  error = FALSE,
+  error_message = NULL
+) {
+  if (small) {
     class_build <- "govuk-checkboxes govuk-checkboxes--small"
   } else {
     class_build <- "govuk-checkboxes"
   }
 
   govCheckboxes <- shiny::tags$div(
-    class="shiny-input-checkboxgroup",
+    class = "shiny-input-checkboxgroup",
     id = inputId,
-    shiny::tags$div(class="govuk-form-group", id=paste0(inputId,"div"),
-    shiny::tags$fieldset(class="govuk-fieldset",
-      shiny::tags$label(label, class="govuk-label"),
-      shiny::tags$div(hint_label, class="govuk-hint"),
-      if (error == TRUE){
-        shinyjs::hidden(
-          shiny::tags$p(error_message,
-                    class="govuk-error-message",
-                    id= paste0(inputId, "error"),
-                    shiny::tags$span("Error:",
-                              class="govuk-visually-hidden")
+    shiny::tags$div(
+      class = "govuk-form-group",
+      id = paste0(inputId, "div"),
+      shiny::tags$fieldset(
+        class = "govuk-fieldset",
+        shiny::tags$label(label, class = "govuk-label"),
+        shiny::tags$div(hint_label, class = "govuk-hint"),
+        if (error == TRUE) {
+          shinyjs::hidden(
+            shiny::tags$p(
+              error_message,
+              class = "govuk-error-message",
+              id = paste0(inputId, "error"),
+              shiny::tags$span("Error:", class = "govuk-visually-hidden")
+            )
+          )
+        },
+        shiny::tags$div(
+          class = class_build,
+          Map(
+            function(x, y) {
+              value <- shiny::restoreInput(id = y, default = FALSE)
+              shiny::tags$div(
+                class = "govuk-checkboxes__item",
+                id = paste0("div_", y),
+                shiny::tags$input(
+                  class = "govuk-checkboxes__input",
+                  id = y,
+                  name = inputId,
+                  type = "checkbox",
+                  value = y
+                ),
+                shiny::tags$label(
+                  x,
+                  class = "govuk-label govuk-checkboxes__label"
+                )
+              )
+            },
+            x = cb_labels,
+            y = checkboxIds
           )
         )
-      },
-      shiny::tags$div(class=class_build,
-        Map(function(x, y) {
-          value <- shiny::restoreInput(id = y, default = FALSE)
-          shiny::tags$div(class="govuk-checkboxes__item", id=paste0("div_", y),
-          shiny::tags$input(class="govuk-checkboxes__input",
-                     id=y,
-                     name=inputId,
-                     type="checkbox",
-                     value=y),
-          shiny::tags$label(x, class="govuk-label govuk-checkboxes__label"))
-        },
-        x=cb_labels, y = checkboxIds)
       )
     )
-  ))
+  )
   attachDependency(govCheckboxes)
 }
-

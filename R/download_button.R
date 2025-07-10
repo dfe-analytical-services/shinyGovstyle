@@ -67,10 +67,11 @@
 #'   shiny::shinyApp(ui, server)
 #' }
 download_button <- function(
-    outputId,
-    button_label,
-    file_type = "CSV",
-    file_size = NULL) {
+  outputId,
+  button_label,
+  file_type = "CSV",
+  file_size = NULL
+) {
   # Trim white space as I don't trust humans not to accidentally include
   button_label <- stringr::str_trim(button_label)
 
@@ -110,7 +111,9 @@ download_button <- function(
   # Arbritary number that allows for R Shiny to be link text without a warning
   if (nchar(button_label) < 7) {
     warning(paste0(
-      "the button_label: ", button_label, ", is shorter than 7 characters, this is",
+      "the button_label: ",
+      button_label,
+      ", is shorter than 7 characters, this is",
       " unlikely to be descriptive for users, consider having more detailed",
       " link text"
     ))

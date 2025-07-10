@@ -60,11 +60,17 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 
-file_Input <- function(inputId, label, multiple = FALSE, accept = NULL,
-                      width = NULL, buttonLabel = "Choose file",
-                      placeholder = "No file chosen",
-                      error = FALSE, error_message = NULL) {
-
+file_Input <- function(
+  inputId,
+  label,
+  multiple = FALSE,
+  accept = NULL,
+  width = NULL,
+  buttonLabel = "Choose file",
+  placeholder = "No file chosen",
+  error = FALSE,
+  error_message = NULL
+) {
   restoredValue <- shiny::restoreInput(id = inputId, default = NULL)
 
   # Catch potential edge case - ensure that it's either NULL or a data frame.
@@ -85,39 +91,46 @@ file_Input <- function(inputId, label, multiple = FALSE, accept = NULL,
     `data-restore` = restoredValue
   )
 
-  if (multiple)
+  if (multiple) {
     inputTag$attribs$multiple <- "multiple"
-  if (length(accept) > 0)
-    inputTag$attribs$accept <- paste(accept, collapse=',')
+  }
+  if (length(accept) > 0) {
+    inputTag$attribs$accept <- paste(accept, collapse = ',')
+  }
 
+  govFile <- shiny::div(
+    id = paste0(inputId, "div"),
+    class = "govuk-form-group",
 
-  govFile <- shiny::div(id = paste0(inputId, "div"), class = "govuk-form-group",
-
-
-      style = if (!is.null(width)) paste0("width: ",
-                                          shiny::validateCssUnit(width), ";"),
-      shiny::tags$label(label, class="govuk-label"),
-      if (error == TRUE){
-        shinyjs::hidden(
-          shiny::tags$p(error_message,
-            class="govuk-error-message",
-            id= paste0(inputId, "error"),
-            shiny::tags$span("Error:", class="govuk-visually-hidden")
-          )
+    style = if (!is.null(width)) {
+      paste0("width: ", shiny::validateCssUnit(width), ";")
+    },
+    shiny::tags$label(label, class = "govuk-label"),
+    if (error == TRUE) {
+      shinyjs::hidden(
+        shiny::tags$p(
+          error_message,
+          class = "govuk-error-message",
+          id = paste0(inputId, "error"),
+          shiny::tags$span("Error:", class = "govuk-visually-hidden")
         )
-      },
-
-      shiny::div(id = paste0(inputId,"file_div"), class = "input-group",
-          shiny::tags$label(class = "input-group-btn",
-                     shiny::span(class = "btn btn-default btn-file",
-                          buttonLabel,
-                          inputTag
-                     )
-          ),
-          shiny::tags$input(type = "text", class = "form-control",
-                     placeholder = placeholder, readonly = "readonly"
-          )
       )
+    },
+
+    shiny::div(
+      id = paste0(inputId, "file_div"),
+      class = "input-group",
+      shiny::tags$label(
+        class = "input-group-btn",
+        shiny::span(class = "btn btn-default btn-file", buttonLabel, inputTag)
+      ),
+      shiny::tags$input(
+        type = "text",
+        class = "form-control",
+        placeholder = placeholder,
+        readonly = "readonly"
+      )
+    )
   )
   attachDependency(govFile)
 }

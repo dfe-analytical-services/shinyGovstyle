@@ -1,5 +1,9 @@
 # Create a test link ==========================================================
-test_button <- download_button("download_data", "Download specific data set", file_size = "12 KB")
+test_button <- download_button(
+  "download_data",
+  "Download specific data set",
+  file_size = "12 KB"
+)
 
 # Run rest of tests against the test link -------------------------------------
 test_that("Returns shiny.tag object", {
@@ -73,7 +77,11 @@ test_that("Warning appears for short link text and not for long text", {
   )
 
   expect_no_warning(
-    download_button("download_data", "Download specific data set", file_size = "96 MB")
+    download_button(
+      "download_data",
+      "Download specific data set",
+      file_size = "96 MB"
+    )
   )
 })
 

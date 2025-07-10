@@ -71,7 +71,7 @@
 #'   shinyApp(ui = ui, server = server)
 #'
 #' }
-skip_to_main <- function(){
+skip_to_main <- function() {
   shiny::tags$a(
     href = "#main_col",
     class = "govuk-skip govuk-link",

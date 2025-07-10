@@ -32,13 +32,15 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 
-gov_layout <- function(..., inputID = "main", size="full"){
+gov_layout <- function(..., inputID = "main", size = "full") {
   govLayout <- shiny::tags$div(
     id = inputID,
-    class="govuk-width-container  govuk-main-wrapper",
+    class = "govuk-width-container  govuk-main-wrapper",
     shiny::tags$div(
-      id = paste0(inputID,"_sub"),
-      class=paste0("govuk-grid-column-",size), ...)
+      id = paste0(inputID, "_sub"),
+      class = paste0("govuk-grid-column-", size),
+      ...
+    )
   )
   attachDependency(govLayout)
 }

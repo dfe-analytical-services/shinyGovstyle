@@ -78,11 +78,19 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 radio_button_Input <- function(
-    inputId, label, choices = NULL,
-    selected = NULL, inline = FALSE, small = FALSE,
-    choiceNames = NULL, choiceValues = NULL,
-    hint_label = NULL, error = FALSE,
-    error_message = NULL, custom_class = "") {
+  inputId,
+  label,
+  choices = NULL,
+  selected = NULL,
+  inline = FALSE,
+  small = FALSE,
+  choiceNames = NULL,
+  choiceValues = NULL,
+  hint_label = NULL,
+  error = FALSE,
+  error_message = NULL,
+  custom_class = ""
+) {
   args <- normalizeChoicesArgs2(choices, choiceNames, choiceValues)
   selected <- shiny::restoreInput(id = inputId, default = selected)
   # selected <- if (is.null(selected))
@@ -134,22 +142,24 @@ radio_button_Input <- function(
 }
 
 controlLabel2 <- function(controlName, label) {
-  label %AND% htmltools::tags$label(
-    class = "govuk-label",
-    `for` = controlName,
-    label
-  )
+  label %AND%
+    htmltools::tags$label(
+      class = "govuk-label",
+      `for` = controlName,
+      label
+    )
 }
 
 generateOptions2 <- function(
-    inputId,
-    selected,
-    inline,
-    small,
-    type = "checkbox",
-    choiceNames,
-    choiceValues,
-    session = shiny::getDefaultReactiveDomain()) {
+  inputId,
+  selected,
+  inline,
+  small,
+  type = "checkbox",
+  choiceNames,
+  choiceValues,
+  session = shiny::getDefaultReactiveDomain()
+) {
   options <- mapply(
     choiceValues,
     choiceNames,
@@ -174,7 +184,8 @@ generateOptions2 <- function(
         )
       )
     },
-    SIMPLIFY = FALSE, USE.NAMES = FALSE
+    SIMPLIFY = FALSE,
+    USE.NAMES = FALSE
   )
 
   class_build <- "govuk-radios"
@@ -201,7 +212,8 @@ generateOptions2 <- function(
 
 processDeps2 <- function(tags, session) {
   ui <- htmltools::takeSingletons(
-    tags, session$singletons,
+    tags,
+    session$singletons,
     desingleton = FALSE
   )$ui
   ui <- htmltools::surroundSingletons(ui)
@@ -216,12 +228,12 @@ processDeps2 <- function(tags, session) {
 }
 
 
-
 normalizeChoicesArgs2 <- function(
-    choices,
-    choiceNames,
-    choiceValues,
-    mustExist = TRUE) {
+  choices,
+  choiceNames,
+  choiceValues,
+  mustExist = TRUE
+) {
   if (is.null(choices)) {
     if (is.null(choiceNames) || is.null(choiceValues)) {
       if (mustExist) {
@@ -248,8 +260,10 @@ normalizeChoicesArgs2 <- function(
     }
   } else {
     if (!is.null(choiceNames) || !is.null(choiceValues)) {
-      warning("Using `choices` argument; ignoring `choiceNames`
-              and `choiceValues`.")
+      warning(
+        "Using `choices` argument; ignoring `choiceNames`
+              and `choiceValues`."
+      )
     }
     choices <- choicesWithNames2(choices)
     choiceNames <- names(choices)
@@ -285,16 +299,20 @@ choicesWithNames2 <- function(choices) {
   if (length(choices) == 0) {
     return(choices)
   }
-  choices <- mapply(choices, names(choices), FUN = function(choice,
-                                                            name) {
-    if (!is.list(choice)) {
-      return(choice)
-    }
-    if (name == "") {
-      stop("All sub-lists in \"choices\" must be named.")
-    }
-    choicesWithNames2(choice)
-  }, SIMPLIFY = FALSE)
+  choices <- mapply(
+    choices,
+    names(choices),
+    FUN = function(choice, name) {
+      if (!is.list(choice)) {
+        return(choice)
+      }
+      if (name == "") {
+        stop("All sub-lists in \"choices\" must be named.")
+      }
+      choicesWithNames2(choice)
+    },
+    SIMPLIFY = FALSE
+  )
   missing <- names(choices) == ""
   names(choices)[missing] <- as.character(choices)[missing]
   choices

@@ -28,11 +28,16 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 
-details <-function(inputId, label, help_text){
-  govDetails <- shiny::tags$details(class = "govuk-details", id = inputId,
-    shiny::tags$summary(class = "govuk-details__summary",
-      shiny::tags$span(class = "govuk-details__summary-text",
-                       shiny::HTML(label))
+details <- function(inputId, label, help_text) {
+  govDetails <- shiny::tags$details(
+    class = "govuk-details",
+    id = inputId,
+    shiny::tags$summary(
+      class = "govuk-details__summary",
+      shiny::tags$span(
+        class = "govuk-details__summary-text",
+        shiny::HTML(label)
+      )
     ),
     shiny::tags$div(class = "govuk-details__text", help_text)
   )

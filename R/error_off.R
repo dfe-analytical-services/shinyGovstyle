@@ -49,11 +49,15 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 
-error_off <- function(inputId){
+error_off <- function(inputId) {
   shinyjs::removeClass(paste0(inputId, "div"), "govuk-form-group--error")
   shinyjs::hide(paste0(inputId, "error"))
-  shinyjs::removeClass(selector = paste0("#", inputId,"div :input"),
-                       class = "govuk-input--error")
-  shinyjs::removeClass(selector = paste0("#", inputId,"file_div"),
-                       class = "govuk-input--error")
+  shinyjs::removeClass(
+    selector = paste0("#", inputId, "div :input"),
+    class = "govuk-input--error"
+  )
+  shinyjs::removeClass(
+    selector = paste0("#", inputId, "file_div"),
+    class = "govuk-input--error"
+  )
 }

@@ -33,8 +33,7 @@
 #'   }
 #'   shiny::shinyApp(ui = ui, server = server)
 #' }
-subcontents_links <- function(subcontents_text_list,
-                              subcontents_id_list) {
+subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
   if (!missing(subcontents_id_list)) {
     # check if custom link_id_list is of equal length to links list
     if (length(subcontents_text_list) != length(subcontents_id_list)) {
@@ -53,14 +52,20 @@ subcontents_links <- function(subcontents_text_list,
 
     shiny::tags$li(
       "\u2014 ",
-      shiny::tags$a(class = "govuk-link--no-visited-state", link_text, href = stringr::str_c("\u0023", link_id))
+      shiny::tags$a(
+        class = "govuk-link--no-visited-state",
+        link_text,
+        href = stringr::str_c("\u0023", link_id)
+      )
     )
   }
 
-
   # create <li></li> tags
-  list_tags <- purrr::map2(subcontents_text_list, subcontents_id_list, create_sidelink)
-
+  list_tags <- purrr::map2(
+    subcontents_text_list,
+    subcontents_id_list,
+    create_sidelink
+  )
 
   # return <ol> output
   shiny::tags$ol(class = "govuk-subcontents", list_tags)
@@ -259,10 +264,12 @@ subcontents_links <- function(subcontents_text_list,
 #'
 #'   shiny::shinyApp(ui = ui, server = server)
 #' }
-contents_link <- function(link_text,
-                           input_id,
-                           subcontents_text_list,
-                           subcontents_id_list) {
+contents_link <- function(
+  link_text,
+  input_id,
+  subcontents_text_list,
+  subcontents_id_list
+) {
   if (missing(subcontents_id_list) & !missing(subcontents_text_list)) {
     subcontents_id_list <- rep(NA, length(subcontents_text_list))
   }

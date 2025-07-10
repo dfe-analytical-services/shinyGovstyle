@@ -144,7 +144,9 @@ external_link <- function(href, link_text, add_warning = TRUE, footer = FALSE) {
   # Arbritary number that allows for R Shiny to be link text without a warning
   if (nchar(link_text) < 7) {
     warning(paste0(
-      "the link_text: ", link_text, ", is shorter than 7 characters, this is",
+      "the link_text: ",
+      link_text,
+      ", is shorter than 7 characters, this is",
       " unlikely to be descriptive for users, consider having more detailed",
       " link text"
     ))
@@ -162,7 +164,9 @@ external_link <- function(href, link_text, add_warning = TRUE, footer = FALSE) {
   if (!is.logical(footer)) {
     stop(
       "The footer parameter should logical TRUE/FALSE. Received:\n",
-      class(footer), ": ", footer
+      class(footer),
+      ": ",
+      footer
     )
   }
 

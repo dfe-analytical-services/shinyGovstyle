@@ -5,7 +5,8 @@
 #' @noRd
 #'
 .onLoad <- function(...) {
-  shiny::addResourcePath('shinyGovstyle',
-                         system.file('www', package = 'shinyGovstyle')
+  shiny::addResourcePath(
+    'shinyGovstyle',
+    system.file('www', package = 'shinyGovstyle')
   )
 }

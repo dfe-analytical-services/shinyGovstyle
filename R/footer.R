@@ -90,7 +90,7 @@
 #'       links = c(
 #'         `Accessibility statement` = "accessibility_footer_link",
 #'         `Cookies` = "cookies_footer_link",
-#'         `Government Digital Service` = 
+#'         `Government Digital Service` =
 #'         "https://www.gov.uk/government/organisations/government-digital-service"
 #'       )
 #'     )

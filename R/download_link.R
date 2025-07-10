@@ -69,10 +69,11 @@
 #'   shiny::shinyApp(ui, server)
 #' }
 download_link <- function(
-    outputId,
-    link_text,
-    file_type = "CSV",
-    file_size = NULL) {
+  outputId,
+  link_text,
+  file_type = "CSV",
+  file_size = NULL
+) {
   # Trim white space as I don't trust humans not to accidentally include
   link_text <- stringr::str_trim(link_text)
 
@@ -112,7 +113,9 @@ download_link <- function(
   # Arbritary number that allows for R Shiny to be link text without a warning
   if (nchar(link_text) < 7) {
     warning(paste0(
-      "the link_text: ", link_text, ", is shorter than 7 characters, this is",
+      "the link_text: ",
+      link_text,
+      ", is shorter than 7 characters, this is",
       " unlikely to be descriptive for users, consider having more detailed",
       " link text"
     ))

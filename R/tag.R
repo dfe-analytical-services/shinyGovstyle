@@ -26,8 +26,6 @@
 #' }
 
 tag_Input <- function(inputId, text, colour = "navy") {
-
-
   class_colour <- "govuk-tag"
   if (colour != "navy") {
     class_colour <- paste0("govuk-tag govuk-tag--", colour)

@@ -1,12 +1,13 @@
 test_that("error_summary works", {
-
-  error_summary <- error_summary("error1",
-                                 "Error Title",
-                                 c("error entry 1", "error entry 2"))
+  error_summary <- error_summary(
+    "error1",
+    "Error Title",
+    c("error entry 1", "error entry 2")
+  )
 
   # Check InputID
   expect_identical(
-    error_summary $attribs$id,
+    error_summary$attribs$id,
     "error1"
   )
 

@@ -26,7 +26,11 @@ test_that("file input works 2", {
 
 test_that("file input error works", {
   file_check <- file_Input(
-    "inputId", "Test", error = T, error_message = "Error test")
+    "inputId",
+    "Test",
+    error = T,
+    error_message = "Error test"
+  )
 
   expect_identical(
     file_check$children[[2]]$children[[1]],
@@ -34,9 +38,10 @@ test_that("file input error works", {
   )
 
   expect_identical(
-    paste(file_check$children[[2]]$attribs$class,
-          file_check$children[[2]]$attribs[3]$class),
+    paste(
+      file_check$children[[2]]$attribs$class,
+      file_check$children[[2]]$attribs[3]$class
+    ),
     "govuk-error-message shinyjs-hide"
   )
 })
-

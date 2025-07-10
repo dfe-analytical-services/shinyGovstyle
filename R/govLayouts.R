@@ -82,7 +82,7 @@ gov_main_layout <- function(..., inputID = "main") {
 
 #' @rdname layouts
 #' @export
-gov_row <- function(...){
+gov_row <- function(...) {
   govRow <- shiny::tags$div(
     class = "govuk-grid-row",
     ...
@@ -92,7 +92,7 @@ gov_row <- function(...){
 
 #' @rdname layouts
 #' @export
-gov_box <- function(..., size = "full"){
+gov_box <- function(..., size = "full") {
   govBox <- shiny::tags$div(
     class = paste0("govuk-grid-column-", size),
     ...
@@ -102,18 +102,9 @@ gov_box <- function(..., size = "full"){
 
 #' @rdname layouts
 #' @export
-gov_text <- function(...){
+gov_text <- function(...) {
   govText <- shiny::tags$p(
     class = "govuk-body",
     ...
   )
 }
-
-
-
-
-
-
-
-
-

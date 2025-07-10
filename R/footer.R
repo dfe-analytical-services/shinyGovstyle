@@ -50,7 +50,8 @@
 #'   links = c(
 #'     "Accessibility statement",
 #'     "Cookies",
-#'     `Government Digital Service` = "https://www.gov.uk/government/organisations/government-digital-service"
+#'     `Government Digital Service` =
+#'     "https://www.gov.uk/government/organisations/government-digital-service"
 #'   )
 #' )
 #'
@@ -89,7 +90,8 @@
 #'       links = c(
 #'         `Accessibility statement` = "accessibility_footer_link",
 #'         `Cookies` = "cookies_footer_link",
-#'         `Government Digital Service` = "https://www.gov.uk/government/organisations/government-digital-service"
+#'         `Government Digital Service` = 
+#'         "https://www.gov.uk/government/organisations/government-digital-service"
 #'       )
 #'     )
 #'   )
@@ -114,8 +116,9 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 footer <- function(
-    full = FALSE,
-    links = NULL) {
+  full = FALSE,
+  links = NULL
+) {
   if (is.null(names(links))) {
     link_names <- links
   } else {
@@ -258,8 +261,9 @@ footer <- function(
 #'   "Government Digital Service"
 #' )
 footer_link <- function(
-    link,
-    link_name = NULL) {
+  link,
+  link_name = NULL
+) {
   if (grepl("^http|^www", link)) {
     if (is.null(link_name)) {
       warning("Link name provided is NULL for ", link)

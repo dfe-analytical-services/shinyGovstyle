@@ -1,10 +1,11 @@
 test_that("tabs works", {
-
-  tabs <- c(rep("Past Day", 3),
-            rep("Past Week", 3),
-            rep("Past Month", 3),
-            rep("Past Year", 3))
-  Case_manager <- rep(c("David Francis", "Paul Farmer", "Rita Patel"),4)
+  tabs <- c(
+    rep("Past Day", 3),
+    rep("Past Week", 3),
+    rep("Past Month", 3),
+    rep("Past Year", 3)
+  )
+  Case_manager <- rep(c("David Francis", "Paul Farmer", "Rita Patel"), 4)
   Cases_open <- c(3, 1, 2, 24, 16, 24, 98, 122, 126, 1380, 1129, 1539)
   Cases_closed <- c(0, 0, 0, 18, 20, 27, 95, 131, 142, 1472, 1083, 1265)
   data <- data.frame(tabs, Case_manager, Cases_open, Cases_closed)
@@ -22,5 +23,4 @@ test_that("tabs works", {
     tab_check$children[[3]][[1]][[1]][[2]][[2]]$class,
     "govuk-tabs__panel govuk-tabs__panel--hidden"
   )
-
 })

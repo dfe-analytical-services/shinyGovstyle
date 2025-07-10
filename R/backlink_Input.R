@@ -44,12 +44,12 @@
 #' }
 
 backlink_Input <- function(inputId, label = "Back") {
-
   value <- shiny::restoreInput(id = inputId, default = NULL)
-  govBacklink <- shiny::actionLink(label = label,
-                   inputId = inputId,
-                   class = paste0("govuk-back-link"),
-                   `data-val` = value)
+  govBacklink <- shiny::actionLink(
+    label = label,
+    inputId = inputId,
+    class = paste0("govuk-back-link"),
+    `data-val` = value
+  )
   attachDependency(govBacklink)
-
 }

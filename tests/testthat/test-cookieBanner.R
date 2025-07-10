@@ -1,5 +1,4 @@
 test_that("cookie banner works", {
-
   cookieBannerCheck <- shinyGovstyle::cookieBanner("The best thing")
 
   cookieCheckChild <- cookieBannerCheck$children[[1]]
@@ -23,5 +22,4 @@ test_that("cookie banner works", {
     cookieBannerCheck$children[[3]]$attribs[3]$class,
     "shinyjs-hide"
   )
-
 })

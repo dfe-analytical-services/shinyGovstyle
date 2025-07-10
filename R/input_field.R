@@ -52,37 +52,53 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 
-input_field <- function(legend, labels, inputIds, widths=NULL, types = "text",
-                        error = FALSE, error_message = NULL){
-  if (is.null(widths)){
-    widths <- rep_len(0,length(inputIds))
+input_field <- function(
+  legend,
+  labels,
+  inputIds,
+  widths = NULL,
+  types = "text",
+  error = FALSE,
+  error_message = NULL
+) {
+  if (is.null(widths)) {
+    widths <- rep_len(0, length(inputIds))
   }
-  govInputField <- shiny::tags$fieldset(class="govuk-fieldset",
+  govInputField <- shiny::tags$fieldset(
+    class = "govuk-fieldset",
     shiny::tags$legend(
-      legend, class="govuk-fieldset__legend govuk-fieldset__legend--xl"
+      legend,
+      class = "govuk-fieldset__legend govuk-fieldset__legend--xl"
     ),
-    Map(function(x, y, z, a){
-      if (z == 0){
-        width_class <- "govuk-input"
-      }
-      else{
-        width_class <- paste0("govuk-input govuk-input--width-", z)
-      }
-      shiny::tags$div(class="govuk-form-group", id=paste0(y,"div"),
-        shiny::tags$label(shiny::HTML(x), class="govuk-label"),
-        if (error){
-          shinyjs::hidden(
-            shiny::tags$p(error_message,
-                      class="govuk-error-message",
-                      id= paste0(y, "error"),
-                      shiny::tags$span("Error:",
-                                class="govuk-visually-hidden")
+    Map(
+      function(x, y, z, a) {
+        if (z == 0) {
+          width_class <- "govuk-input"
+        } else {
+          width_class <- paste0("govuk-input govuk-input--width-", z)
+        }
+        shiny::tags$div(
+          class = "govuk-form-group",
+          id = paste0(y, "div"),
+          shiny::tags$label(shiny::HTML(x), class = "govuk-label"),
+          if (error) {
+            shinyjs::hidden(
+              shiny::tags$p(
+                error_message,
+                class = "govuk-error-message",
+                id = paste0(y, "error"),
+                shiny::tags$span("Error:", class = "govuk-visually-hidden")
+              )
             )
-          )
-        },
-        shiny::tags$input(id=y, class=width_class, type = a)
-      )
-    }, x = labels, y = inputIds, z = widths, a = types)
+          },
+          shiny::tags$input(id = y, class = width_class, type = a)
+        )
+      },
+      x = labels,
+      y = inputIds,
+      z = widths,
+      a = types
+    )
   )
   attachDependency(govInputField)
 }

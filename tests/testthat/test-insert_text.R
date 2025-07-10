@@ -1,5 +1,4 @@
 test_that("multiplication works", {
-
   insert_text <- insert_text("insert1", "Test insert")
 
   expect_identical(

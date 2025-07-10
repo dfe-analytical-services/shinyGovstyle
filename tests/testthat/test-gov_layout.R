@@ -1,4 +1,3 @@
-
 test_that("default works", {
   layout_test <- gov_layout()
 
@@ -16,5 +15,4 @@ test_that("default works", {
     layout_test$children[[1]]$attribs$class,
     "govuk-grid-column-full"
   )
-
 })

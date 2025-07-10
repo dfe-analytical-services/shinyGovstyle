@@ -38,24 +38,19 @@
 #'   shinyApp(ui = ui, server = server)
 #'}
 
-word_count <- function(inputId, input, word_limit = NULL){
+word_count <- function(inputId, input, word_limit = NULL) {
   if (input == '') {
     word_no <- 0
-  }
-  else{
-    word_no <-sapply(gregexpr("\\S+", input), length)
+  } else {
+    word_no <- sapply(gregexpr("\\S+", input), length)
   }
 
-  shinyjs::html(id = paste0(inputId,"wc"),
-                  html = word_no)
+  shinyjs::html(id = paste0(inputId, "wc"), html = word_no)
 
   if (!is.null(word_limit)) {
     shinyjs::html(
-      id = paste0(inputId,"wl"),
+      id = paste0(inputId, "wl"),
       html = paste("of the", word_limit, "allowed")
     )
   }
 }
-
-
-

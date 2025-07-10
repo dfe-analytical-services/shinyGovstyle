@@ -30,8 +30,10 @@ test_that("bulleted list type", {
 test_that("bulleted list class", {
   gov_list_check <- gov_list(list = c("a", "b", "c"), style = "bullet")
 
-  expect_equal("govuk-list govuk-list--bullet",
-               gov_list_check$attribs$class[[1]])
+  expect_equal(
+    "govuk-list govuk-list--bullet",
+    gov_list_check$attribs$class[[1]]
+  )
 })
 
 
@@ -46,6 +48,8 @@ test_that("numbered list type", {
 test_that("numbered list class", {
   gov_list_check <- gov_list(list = c("a", "b", "c"), style = "number")
 
-  expect_equal("govuk-list govuk-list--number",
-               gov_list_check$attribs$class[[1]])
+  expect_equal(
+    "govuk-list govuk-list--number",
+    gov_list_check$attribs$class[[1]]
+  )
 })

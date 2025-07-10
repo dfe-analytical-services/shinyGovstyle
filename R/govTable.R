@@ -44,13 +44,18 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 
-govTable <- function(inputId, df, caption, caption_size = "l",
-                     num_col = NULL, width_overwrite = NULL){
-
+govTable <- function(
+  inputId,
+  df,
+  caption,
+  caption_size = "l",
+  num_col = NULL,
+  width_overwrite = NULL
+) {
   #Create row by row the main bulk of table to insert later
   main_row_store <- NULL
-  for(i in 1:nrow(df)) {
-    temp_row_store <- createRows(df[i,], num_col)
+  for (i in 1:nrow(df)) {
+    temp_row_store <- createRows(df[i, ], num_col)
     main_row_store <- shiny::tagList(temp_row_store, main_row_store)
   }
 
@@ -60,16 +65,21 @@ govTable <- function(inputId, df, caption, caption_size = "l",
     class = "govuk-table",
     shiny::tags$caption(
       class = paste0(
-        "govuk-table__caption govuk-table__caption--", caption_size),
+        "govuk-table__caption govuk-table__caption--",
+        caption_size
+      ),
       caption
     ),
     shiny::tags$thead(
       class = "govuk-table__head",
       shiny::tags$tr(
         class = "govuk-table__row",
-        Map(function(x) {
-          shiny::tags$th(scope = "col", class = "govuk-table__header", x)
-        }, x = colnames(df))
+        Map(
+          function(x) {
+            shiny::tags$th(scope = "col", class = "govuk-table__header", x)
+          },
+          x = colnames(df)
+        )
       )
     ),
     shiny::tags$tbody(
@@ -79,7 +89,7 @@ govTable <- function(inputId, df, caption, caption_size = "l",
   )
 
   #Change class of headers to numeric if requested
-  for(i in num_col) {
+  for (i in num_col) {
     if (i != 1) {
       gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class <-
         "govuk-table__header govuk-table__header--numeric"
@@ -87,15 +97,16 @@ govTable <- function(inputId, df, caption, caption_size = "l",
   }
 
   #Change width of columns if requested
-  if(!is.null(width_overwrite)){
-    for(i in 1:length(width_overwrite)) {
+  if (!is.null(width_overwrite)) {
+    for (i in 1:length(width_overwrite)) {
       gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class <-
         paste0(
           gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class,
-          " govuk-!-width-", width_overwrite[i])
+          " govuk-!-width-",
+          width_overwrite[i]
+        )
     }
   }
-
 
   return(gov_table)
 }
@@ -104,16 +115,19 @@ govTable <- function(inputId, df, caption, caption_size = "l",
 createRows <- function(df_row, num_col = NULL) {
   rowHTML <- shiny::tags$tr(
     class = "govuk-table__row",
-    shiny::tags$th(scope="row", class="govuk-table__header", df_row[1,1]),
-    Map(function(x) {
-      shiny::tags$td(class = "govuk-table__cell", x)
-    }, df_row[1,-1])
+    shiny::tags$th(scope = "row", class = "govuk-table__header", df_row[1, 1]),
+    Map(
+      function(x) {
+        shiny::tags$td(class = "govuk-table__cell", x)
+      },
+      df_row[1, -1]
+    )
   )
   #Not sure I can think of better way to add numeric class then do it post
   #creating the table rows
-  for(i in num_col) {
+  for (i in num_col) {
     if (i != 1) {
-      rowHTML$children[[2]][[i-1]]$attribs$class <-
+      rowHTML$children[[2]][[i - 1]]$attribs$class <-
         "govuk-table__cell govuk-table__cell--numeric"
     }
   }

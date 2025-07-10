@@ -1,0 +1,19 @@
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+name: lintr
+
+permissions:
+  actions: write
+  contents: read
+  packages: write
+  pull-requests: write
+  security-events: write
+
+jobs:
+  lint:
+    uses: dfe-analytical-services/dfeshiny/.github/workflows/lintr_reusable.yaml@main
+    with:
+      is_package: "true"

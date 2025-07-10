@@ -50,6 +50,8 @@ Currently we take [static precompiled exports of the GOV.UK Frontend files](http
 
 6. Manually test the examples using `shinyGovstyle::run_example()`, ensuring the styling is as expected
 
+7. Update the version of GOV.UK frontend in the `package.json` file to match the version you've just added
+
 If unsure on the styling and expected appearance, use the [GOV.UK Design System site](https://design-system.service.gov.uk/) to explore the components in more detail and official guidance for their use.
 
 ## Code of Conduct

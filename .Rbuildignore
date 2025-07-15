@@ -9,3 +9,5 @@
 ^LICENSE\.md$
 ^data-raw$
 _\.new\.png$
+^[.]?air[.]toml$
+^\.vscode$

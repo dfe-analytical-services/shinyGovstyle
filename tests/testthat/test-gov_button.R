@@ -3,7 +3,6 @@ test_that("throws error", {
 })
 
 test_that("button works", {
-
   button <- button_Input("btn1", "Click me")
 
   expect_identical(
@@ -23,7 +22,6 @@ test_that("button works", {
 })
 
 test_that("start_button works", {
-
   button <- button_Input("btn1", "Click me", type = "start")
 
   expect_identical(
@@ -43,7 +41,6 @@ test_that("start_button works", {
 })
 
 test_that("secondary_button works", {
-
   button <- button_Input("btn1", "Click me", type = "secondary")
 
   expect_identical(
@@ -63,7 +60,6 @@ test_that("secondary_button works", {
 })
 
 test_that("warning_button works", {
-
   button <- button_Input("btn1", "Click me", type = "warning")
 
   expect_identical(
@@ -81,5 +77,3 @@ test_that("warning_button works", {
     button$children[[1]]
   )
 })
-
-

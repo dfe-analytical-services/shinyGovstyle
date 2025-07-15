@@ -4,6 +4,14 @@ Ideas for shinyGovstyle should first be raised as a [GitHub issue](https://githu
 
 For support and information on package development in R, we recommend using the [R Packages (2e) guide by Hadley Wickham and Jennifer Bryan](https://r-pkgs.org/), this contains a wealth of information and best practice for all kinds of activities around package development in R.
 
+## Formatting
+
+We use [Air](https://posit-dev.github.io/air/) to format the code and save any styling debate across the repo and keep us as close as we can to the expected lintr standards with minimal effort. 
+
+If you're working in VSCode or Positron, there is a settings.json file in the repo that includes format on save by default and should work for you without any additional work as long as you have the Air extension installed. If not, don't fear, as we also have a GitHub action that will check all pull requests for styling and offer formatting as a suggestion you can accept and commit from the PR in GitHub. Unless there's a reason not to, we recommend that if multiple suggestions are left, you go to the files changed view to accept them as one big batch, rather than individually committing everything.
+
+Air is still in development, so it's worth checking [their documentation](https://posit-dev.github.io/air/editors.html) if you're a new contributor and want to see the best ways to use it within your chosen IDE.
+
 ## Raising new changes
 
 New changes should be made on a branch off of the latest version of the master branch.
@@ -41,6 +49,8 @@ Currently we take [static precompiled exports of the GOV.UK Frontend files](http
 5. Test all the code functions as expected using `devtools::check()`
 
 6. Manually test the examples using `shinyGovstyle::run_example()`, ensuring the styling is as expected
+
+7. Update the version of GOV.UK frontend in the `package.json` file to match the version you've just added
 
 If unsure on the styling and expected appearance, use the [GOV.UK Design System site](https://design-system.service.gov.uk/) to explore the components in more detail and official guidance for their use.
 

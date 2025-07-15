@@ -31,7 +31,7 @@ If you want to make use of the development version then install directly from Gi
 remotes::install_github("dfe-analytical-services/shinyGovstyle")
 ```
 
-This is also available on conda
+This has previously also been available on conda though is no longer actively maintained, if you are using the package in this way, please let us know!
 ```
 conda install r-shinygovstyle
 ```

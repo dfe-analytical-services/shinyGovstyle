@@ -39,8 +39,7 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 
-accordion <- function(inputId, titles, descriptions){
-
+accordion <- function(inputId, titles, descriptions) {
   count_array <- seq(length(titles))
 
   accordion_div <-
@@ -54,10 +53,11 @@ accordion <- function(inputId, titles, descriptions){
           class = "govuk-accordion__show-all",
           `aria-expanded` = "false",
           shiny::tags$span(
-            id="show-all-chevron",
-            class=paste(
+            id = "show-all-chevron",
+            class = paste(
               "govuk-accordion-nav__chevron",
-              "govuk-accordion-nav__chevron--down"),
+              "govuk-accordion-nav__chevron--down"
+            ),
           ),
           shiny::tags$span(
             class = "govuk-accordion__show-all-text",
@@ -65,71 +65,75 @@ accordion <- function(inputId, titles, descriptions){
           )
         )
       ),
-      Map(function(x, y, z) {
+      Map(
+        function(x, y, z) {
+          if (z < 10) {
+            z_str <- paste0("0", z)
+          } else {
+            z_str <- paste0(z)
+          }
 
-        if(z < 10){
-          z_str <- paste0("0", z)
-        } else {
-          z_str <- paste0(z)
-        }
-
-        shiny::tags$div(
-          class="govuk-accordion__section",
           shiny::tags$div(
-            class="govuk-accordion__section-header",
-            shiny::tags$h2(
-              class="govuk-accordion__section-header",
-              shiny::tags$button(
-                class = "govuk-accordion__section-button",
-                id = paste0("accordion-default-heading-", z_str),
-                name = paste0("accordion-default-heading-", z_str),
-                shiny::tags$span(
-                  class = "govuk-accordion__section-heading-text",
+            class = "govuk-accordion__section",
+            shiny::tags$div(
+              class = "govuk-accordion__section-header",
+              shiny::tags$h2(
+                class = "govuk-accordion__section-header",
+                shiny::tags$button(
+                  class = "govuk-accordion__section-button",
+                  id = paste0("accordion-default-heading-", z_str),
+                  name = paste0("accordion-default-heading-", z_str),
                   shiny::tags$span(
-                    class = "govuk-accordion__section-heading-text-focus",
-                    x
-                  )
-                ),
-                shiny::tags$span(
-                  class = paste(
-                    "govuk-visually-hidden",
-                    "govuk-accordion__section-heading-divider")
-                ),
-                shiny::tags$span(
-                  class = "govuk-accordion__section-toggle",
+                    class = "govuk-accordion__section-heading-text",
+                    shiny::tags$span(
+                      class = "govuk-accordion__section-heading-text-focus",
+                      x
+                    )
+                  ),
                   shiny::tags$span(
-                    class = "govuk-accordion__section-toggle-focus",
+                    class = paste(
+                      "govuk-visually-hidden",
+                      "govuk-accordion__section-heading-divider"
+                    )
+                  ),
+                  shiny::tags$span(
+                    class = "govuk-accordion__section-toggle",
                     shiny::tags$span(
-                      class = paste(
-                        "govuk-accordion-nav__chevron",
-                        "govuk-accordion-nav__chevron--down")
-                    ),
-                    shiny::tags$span(
-                      class = "govuk-accordion__section-toggle-text",
-                      "Show",
+                      class = "govuk-accordion__section-toggle-focus",
                       shiny::tags$span(
-                        class = "govuk-visually-hidden",
-                        "this section"
+                        class = paste(
+                          "govuk-accordion-nav__chevron",
+                          "govuk-accordion-nav__chevron--down"
+                        )
+                      ),
+                      shiny::tags$span(
+                        class = "govuk-accordion__section-toggle-text",
+                        "Show",
+                        shiny::tags$span(
+                          class = "govuk-visually-hidden",
+                          "this section"
+                        )
                       )
                     )
                   )
                 )
               )
-            )
-          ),
-          shiny::tags$div(
-            id = "accordion-default-content-1",
-            class="govuk-accordion__section-content",
-            `aria-labelledby` = paste0("accordion-default-heading-", z_str),
-            shiny::tags$p(
-              class = "govuk-body",
-              y
+            ),
+            shiny::tags$div(
+              id = "accordion-default-content-1",
+              class = "govuk-accordion__section-content",
+              `aria-labelledby` = paste0("accordion-default-heading-", z_str),
+              shiny::tags$p(
+                class = "govuk-body",
+                y
+              )
             )
           )
-        )}, x = titles, y = descriptions, z = count_array
+        },
+        x = titles,
+        y = descriptions,
+        z = count_array
+      )
     )
-  )
   attachDependency(accordion_div, "accordion")
 }
-
-

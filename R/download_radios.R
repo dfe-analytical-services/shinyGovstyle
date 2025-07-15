@@ -38,11 +38,12 @@
 #'   shinyApp(ui, server)
 #' }
 download_radios <- function(
-    id = "download_radios",
-    download_type = "table",
-    file_types = c("CSV", "ODS", "XLSX"),
-    file_sizes = c("< 1 GB", "< 1 GB", "< 1 GB"),
-    small = FALSE) {
+  id = "download_radios",
+  download_type = "table",
+  file_types = c("CSV", "ODS", "XLSX"),
+  file_sizes = c("< 1 GB", "< 1 GB", "< 1 GB"),
+  small = FALSE
+) {
   allowed_extensions <- c("CSV", "ODS", "XLSX")
   if (is.null(file_types)) {
     file_types <- allowed_extensions
@@ -88,13 +89,14 @@ download_radios <- function(
 #'
 #' @inherit download_radios examples
 download_radios_handler <- function(
-    id = "download_radios",
-    file_name,
-    file_contents) {
-  if(!(is.character(file_name) && length(file_name)==1) ){
+  id = "download_radios",
+  file_name,
+  file_contents
+) {
+  if (!(is.character(file_name) && length(file_name) == 1)) {
     stop("The provided file_name must be a single string variable.")
   }
-  if(!is.data.frame(file_contents)){
+  if (!is.data.frame(file_contents)) {
     stop("The provided file_contents need to be a data frame.")
   }
   shiny::moduleServer(

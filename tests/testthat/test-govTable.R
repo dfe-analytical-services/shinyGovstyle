@@ -1,5 +1,4 @@
 test_that("table works", {
-
   Months <- c("January", "February", "March")
   Bikes <- c("£85", "£75", "£165")
   Cars <- c("£95", "£55", "£125")
@@ -8,8 +7,13 @@ test_that("table works", {
 
   # test table with specified widths
   table_check <- govTable(
-    "tab1", example_data, "Test", "l", num_col = c(2,3),
-    width_overwrite = c("one-half", "one-quarter", "one-quarter"))
+    "tab1",
+    example_data,
+    "Test",
+    "l",
+    num_col = c(2, 3),
+    width_overwrite = c("one-half", "one-quarter", "one-quarter")
+  )
 
   expect_identical(
     table_check$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
@@ -28,8 +32,13 @@ test_that("table works", {
 
   # test table with unspecified widths
   table_check2 <- govTable(
-    "tab2", example_data, "Test", "l", num_col = c(2,3),
-    width_overwrite = NULL)
+    "tab2",
+    example_data,
+    "Test",
+    "l",
+    num_col = c(2, 3),
+    width_overwrite = NULL
+  )
 
   expect_identical(
     table_check2$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
@@ -46,10 +55,14 @@ test_that("table works", {
     3
   )
 
-
   # and if the argument isn't mentioned at all
   table_check3 <- govTable(
-    "tab2", example_data, "Test", "l", num_col = c(2,3))
+    "tab2",
+    example_data,
+    "Test",
+    "l",
+    num_col = c(2, 3)
+  )
 
   expect_identical(
     table_check3$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
@@ -65,6 +78,4 @@ test_that("table works", {
     length(table_check3$children[[3]]),
     3
   )
-
-
 })

@@ -21,29 +21,38 @@ test_that("all alt text works", {
     secondary_alt_text = "alt text for secondary link"
   )
 
-
   expect_identical(
-    alt_check[["children"]][[2]][["children"]][[1]][["children"]][[1]][["attribs"]][["href"]],
+    alt_check[["children"]][[2]][["children"]][[1]][["children"]][[1]][[
+      "attribs"
+    ]][["href"]],
     "test_link.com"
   )
 
   expect_identical(
-    alt_check[["children"]][[2]][["children"]][[1]][["children"]][[1]][["attribs"]][["aria-label"]],
+    alt_check[["children"]][[2]][["children"]][[1]][["children"]][[1]][[
+      "attribs"
+    ]][["aria-label"]],
     "alt text for main link"
   )
 
   expect_identical(
-    alt_check[["children"]][[2]][["children"]][[1]][["children"]][[1]][["children"]][[1]][["children"]][[1]][["attribs"]][["alt_text"]],
+    alt_check[["children"]][[2]][["children"]][[1]][["children"]][[1]][[
+      "children"
+    ]][[1]][["children"]][[1]][["attribs"]][["alt_text"]],
     "this is a test for alt text for the logo"
   )
 
   expect_identical(
-    alt_check[["children"]][[2]][["children"]][[2]][["children"]][[1]][["attribs"]][["href"]],
+    alt_check[["children"]][[2]][["children"]][[2]][["children"]][[1]][[
+      "attribs"
+    ]][["href"]],
     "test_link2.com"
   )
 
   expect_identical(
-    alt_check[["children"]][[2]][["children"]][[2]][["children"]][[1]][["attribs"]][["aria-label"]],
+    alt_check[["children"]][[2]][["children"]][[2]][["children"]][[1]][[
+      "attribs"
+    ]][["aria-label"]],
     "alt text for secondary link"
   )
 })
@@ -57,9 +66,10 @@ test_that("only logo alt works", {
     logo_alt_text = "this is a test for alt text for the logo"
   )
 
-
   expect_identical(
-    logo_alt_check[["children"]][[2]][["children"]][[1]][["children"]][[1]][["children"]][[1]][["children"]][[1]][["attribs"]][["alt_text"]],
+    logo_alt_check[["children"]][[2]][["children"]][[1]][["children"]][[1]][[
+      "children"
+    ]][[1]][["children"]][[1]][["attribs"]][["alt_text"]],
     "this is a test for alt text for the logo"
   )
 })
@@ -73,14 +83,17 @@ test_that("only main link alt works", {
     main_alt_text = "alt text for main link"
   )
 
-
   expect_identical(
-    main_alt_check[["children"]][[2]][["children"]][[1]][["children"]][[1]][["attribs"]][["href"]],
+    main_alt_check[["children"]][[2]][["children"]][[1]][["children"]][[1]][[
+      "attribs"
+    ]][["href"]],
     "test_link.com"
   )
 
   expect_identical(
-    main_alt_check[["children"]][[2]][["children"]][[1]][["children"]][[1]][["attribs"]][["aria-label"]],
+    main_alt_check[["children"]][[2]][["children"]][[1]][["children"]][[1]][[
+      "attribs"
+    ]][["aria-label"]],
     "alt text for main link"
   )
 })
@@ -93,14 +106,17 @@ test_that("only secondary link alt works", {
     secondary_alt_text = "alt text for secondary link"
   )
 
-
   expect_identical(
-    secondary_alt_check[["children"]][[2]][["children"]][[2]][["children"]][[1]][["attribs"]][["href"]],
+    secondary_alt_check[["children"]][[2]][["children"]][[2]][["children"]][[
+      1
+    ]][["attribs"]][["href"]],
     "test_link2.com"
   )
 
   expect_identical(
-    secondary_alt_check[["children"]][[2]][["children"]][[2]][["children"]][[1]][["attribs"]][["aria-label"]],
+    secondary_alt_check[["children"]][[2]][["children"]][[2]][["children"]][[
+      1
+    ]][["attribs"]][["aria-label"]],
     "alt text for secondary link"
   )
 })

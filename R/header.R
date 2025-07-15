@@ -34,27 +34,35 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 #'
-header <- function(main_text,
-                   secondary_text,
-                   logo = NULL,
-                   main_link = "#",
-                   secondary_link = "#",
-                   logo_alt_text = NULL,
-                   main_alt_text = NULL,
-                   secondary_alt_text = NULL,
-                   logo_width = 36,
-                   logo_height = 32) {
+header <- function(
+  main_text,
+  secondary_text,
+  logo = NULL,
+  main_link = "#",
+  secondary_link = "#",
+  logo_alt_text = NULL,
+  main_alt_text = NULL,
+  secondary_alt_text = NULL,
+  logo_width = 36,
+  logo_height = 32
+) {
   # checks for alt text
   if (!is.null(logo) & is.null(logo_alt_text)) {
-    warning("Please use logo_alt_text to provide alternative text for the logo you used.")
+    warning(
+      "Please use logo_alt_text to provide alternative text for the logo you used."
+    )
   }
 
   if (main_link != "#" & is.null(main_alt_text)) {
-    warning("Please use main_alt_text to provide alternative text for the main link you used.")
+    warning(
+      "Please use main_alt_text to provide alternative text for the main link you used."
+    )
   }
 
   if (secondary_link != "#" & is.null(secondary_alt_text)) {
-    warning("Please use secondary_alt_text to provide alternative text for the secondary link you used.")
+    warning(
+      "Please use secondary_alt_text to provide alternative text for the secondary link you used."
+    )
   }
 
   if (is.null(logo)) {
@@ -63,12 +71,16 @@ header <- function(main_text,
     logo_src <- logo
   }
 
-
   govHeader <- shiny::tags$header(
-    class = "govuk-header", role = "banner",
+    class = "govuk-header",
+    role = "banner",
     shinyjs::inlineCSS(paste0(
-      ".govuk-header__logotype-crown-fallback-image {width: ", logo_width, "px;
-      height: ", logo_height, "px;}",
+      ".govuk-header__logotype-crown-fallback-image {width: ",
+      logo_width,
+      "px;
+      height: ",
+      logo_height,
+      "px;}",
       ".govuk-header__link:focus .govuk-header__logotype-crown-fallback-image,
        .govuk-header__link:active .govuk-header__logotype-crown-fallback-image {filter: invert(1);}"
     )),
@@ -84,10 +96,13 @@ header <- function(main_text,
             class = "govuk-header__logotype",
             if (logo_src == "crown") {
               shiny::tags$svg(
-                `aria-hidden` = "true", focusable = "false",
+                `aria-hidden` = "true",
+                focusable = "false",
                 class = "govuk-header__logotype-crown",
                 xmlns = "http://www.w3.org/2000/svg",
-                viewBox = "0 0 132 97", height = "30", width = "36",
+                viewBox = "0 0 132 97",
+                height = "30",
+                width = "36",
                 shiny::tags$path(
                   fill = "currentColor",
                   `fill-rule` = "evenodd",
@@ -108,7 +123,8 @@ header <- function(main_text,
       shiny::tags$div(
         class = "govuk-header__content",
         shiny::tags$a(
-          href = secondary_link, secondary_text,
+          href = secondary_link,
+          secondary_text,
           `aria-label` = secondary_alt_text,
           class = "govuk-header__link govuk-header__service-name"
         )

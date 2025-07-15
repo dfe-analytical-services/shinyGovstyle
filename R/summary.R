@@ -1,4 +1,3 @@
-
 #' Tabs Function
 #'
 #' This function creates a tabs based table.  It requires a single dataframe
@@ -40,10 +39,8 @@
 #' }
 #'
 
-
-gov_summary <- function(inputId, headers, info, action = FALSE, border = TRUE){
-
-  if (border){
+gov_summary <- function(inputId, headers, info, action = FALSE, border = TRUE) {
+  if (border) {
     border_class = "govuk-summary-list"
   } else {
     border_class = "govuk-summary-list govuk-summary-list--no-border"
@@ -52,30 +49,34 @@ gov_summary <- function(inputId, headers, info, action = FALSE, border = TRUE){
   shiny::tags$dl(
     class = border_class,
     id = inputId,
-    Map(function(x, y, z){
-      shiny::tags$div(
-        class = "govuk-summary-list__row",
-        shiny::tags$dt(
-          class = "govuk-summary-list__key",
-          x
-        ),
-        shiny::tags$dd(
-          class = "govuk-summary-list__value",
-          shiny::HTML(y)
-        ),
-        if (action) {
-        shiny::tags$dd(
-          class = "govuk-summary-list__actions",
-          shiny::tags$button(
-            "Change",
-            id = z,
-            class = "govuk-link action-button",
-            `data-val` = shiny::restoreInput(id = z, default = NULL)
-          )
-        )}
-      )
-    }, x = headers, y = info, z = action)
+    Map(
+      function(x, y, z) {
+        shiny::tags$div(
+          class = "govuk-summary-list__row",
+          shiny::tags$dt(
+            class = "govuk-summary-list__key",
+            x
+          ),
+          shiny::tags$dd(
+            class = "govuk-summary-list__value",
+            shiny::HTML(y)
+          ),
+          if (action) {
+            shiny::tags$dd(
+              class = "govuk-summary-list__actions",
+              shiny::tags$button(
+                "Change",
+                id = z,
+                class = "govuk-link action-button",
+                `data-val` = shiny::restoreInput(id = z, default = NULL)
+              )
+            )
+          }
+        )
+      },
+      x = headers,
+      y = info,
+      z = action
+    )
   )
-
 }
-

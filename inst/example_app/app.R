@@ -26,8 +26,11 @@ shiny::shinyApp(
     title = "ShinyGovstyle",
     cookieBanner("shinyGovstyle showcase"),
     shinyGovstyle::skip_to_main(),
-    header("MoJ", "shinyGovstyle showcase",
-      logo = "shinyGovstyle/images/moj_logo-1.png", logo_width = 66,
+    header(
+      "MoJ",
+      "shinyGovstyle showcase",
+      logo = "shinyGovstyle/images/moj_logo-1.png",
+      logo_width = 66,
       logo_alt_text = "Ministry of Justice logo"
     ),
     banner(
@@ -76,15 +79,14 @@ shiny::shinyApp(
           contents_link(
             "Select Types",
             "select_types_button",
-            subcontents_text_list =
-              c(
-                "radio_button_Input (inline)",
-                "radio_button_Input (stacked)",
-                "checkbox_Input",
-                "select_Input",
-                "file_Input",
-                "button_Input"
-              )
+            subcontents_text_list = c(
+              "radio_button_Input (inline)",
+              "radio_button_Input (stacked)",
+              "checkbox_Input",
+              "select_Input",
+              "file_Input",
+              "button_Input"
+            )
           ),
 
           # Text types tab
@@ -121,8 +123,20 @@ shiny::shinyApp(
           contents_link(
             "Tables, tabs and accordions",
             "tables_tabs_and_accordions_button",
-            subcontents_text_list = c("govTable", "govReactable", "govTabs", "button_Input", "accordions"),
-            subcontents_id_list = c(NA, NA, NA, "button_input_tables_tabs_accordions", NA)
+            subcontents_text_list = c(
+              "govTable",
+              "govReactable",
+              "govTabs",
+              "button_Input",
+              "accordions"
+            ),
+            subcontents_id_list = c(
+              NA,
+              NA,
+              NA,
+              "button_input_tables_tabs_accordions",
+              NA
+            )
           ),
 
           # Feedback types tab
@@ -164,19 +178,26 @@ shiny::shinyApp(
             gov_layout(
               size = "two-thirds",
               heading_text("Select Types", size = "l"),
-              label_hint("label1", "These are some examples of the types of user
-                   select type inputs that you can use"),
+              label_hint(
+                "label1",
+                "These are some examples of the types of user
+                   select type inputs that you can use"
+              ),
               heading_text("radio_button_Input (inline)", size = "s"),
               radio_button_Input(
-                inputId = "name_changed", label = "Have you changed your name?",
-                choices = c("Yes", "No"), inline = TRUE,
+                inputId = "name_changed",
+                label = "Have you changed your name?",
+                choices = c("Yes", "No"),
+                inline = TRUE,
                 hint_label = "This includes changing your last name or spelling
                             your name differently."
               ),
               heading_text("radio_button_Input (stacked)", size = "s"),
               radio_button_Input(
-                inputId = "name_changed_stacked", label = "Have you changed your name?",
-                choices = c("Yes", "No"), inline = FALSE,
+                inputId = "name_changed_stacked",
+                label = "Have you changed your name?",
+                choices = c("Yes", "No"),
+                inline = FALSE,
                 hint_label = "This includes changing your last name or spelling
                             your name differently."
               ),
@@ -219,8 +240,11 @@ shiny::shinyApp(
               size = "two-thirds",
               backlink_Input("select_types_back"),
               heading_text("Page 2", size = "l"),
-              label_hint("label2", "These are some examples of the types of user
-                   text inputs that you can use"),
+              label_hint(
+                "label2",
+                "These are some examples of the types of user
+                   text inputs that you can use"
+              ),
               heading_text("date_Input", size = "s"),
               date_Input(
                 inputId = "date1",
@@ -244,7 +268,11 @@ shiny::shinyApp(
                 error_message = "Please do not leave blank",
                 word_limit = 300
               ),
-              heading_text("button_Input", size = "s", id = "button_input_text_types"),
+              heading_text(
+                "button_Input",
+                size = "s",
+                id = "button_input_text_types"
+              ),
               button_Input("btn_error", "Check for errors", type = "warning"),
               button_Input("action_types_next", "Go to next page"),
               heading_text("gov_list", size = "s"),
@@ -265,8 +293,11 @@ shiny::shinyApp(
               size = "two-thirds",
               backlink_Input("text_types_back"),
               heading_text("Action types", size = "l"),
-              label_hint("label3", "These are some examples of the types of user
-                   action elements that you can use"),
+              label_hint(
+                "label3",
+                "These are some examples of the types of user
+                   action elements that you can use"
+              ),
               heading_text("external_link", size = "s"),
               gov_text(
                 "You can add external links with automatic formatting such as to our ",
@@ -321,13 +352,16 @@ shiny::shinyApp(
               backlink_Input("action_types_back"),
               heading_text("Tables, tabs and accordions", size = "l"),
               label_hint(
-                "label3", 
+                "label3",
                 "These are some examples of using tabs and tables"
               ),
 
               heading_text("govTable", size = "s"),
               shinyGovstyle::govTable(
-                "tab1", example_data_short, "Static example", "l",
+                "tab1",
+                example_data_short,
+                "Static example",
+                "l",
                 num_col = c(3, 4, 5)
               ),
 
@@ -347,7 +381,7 @@ shiny::shinyApp(
                 select_value = c(sort(unique(example_data$Colours)))
               ),
               govReactableOutput(
-                "interactive_table_test", 
+                "interactive_table_test",
                 caption = "Caption in output function"
               ),
 
@@ -383,8 +417,11 @@ shiny::shinyApp(
               size = "two-thirds",
               backlink_Input("tables_tabs_and_accordions_back"),
               heading_text("Feedback page", size = "l"),
-              label_hint("label-feedback", "These are some examples of the types of user
-                   feedback inputs that you can use"),
+              label_hint(
+                "label-feedback",
+                "These are some examples of the types of user
+                   feedback inputs that you can use"
+              ),
               heading_text("tag_Input", size = "s"),
               shinyGovstyle::tag_Input("tag1", "Default"),
               shinyGovstyle::tag_Input("tag2", "Grey", "grey"),
@@ -397,7 +434,8 @@ shiny::shinyApp(
               shinyGovstyle::tag_Input("tag9", "Red", "red"),
               shinyGovstyle::tag_Input("tag10", "Orange", "orange"),
               shinyGovstyle::tag_Input("tag11", "Yellow", "yellow"),
-              shiny::tags$br(), shiny::tags$br(),
+              shiny::tags$br(),
+              shiny::tags$br(),
               heading_text("details", size = "s"),
               details(
                 inputId = "detID",
@@ -450,7 +488,12 @@ shiny::shinyApp(
               heading_text("gov_summary", size = "s"),
               shinyGovstyle::gov_summary(
                 "sumID",
-                c("Name", "Date of birth", "Contact information", "Contact details"),
+                c(
+                  "Name",
+                  "Date of birth",
+                  "Contact information",
+                  "Contact details"
+                ),
                 c(
                   "Sarah Philips",
                   "5 January 1978",
@@ -469,8 +512,11 @@ shiny::shinyApp(
             gov_layout(
               size = "two-thirds",
               heading_text("Cookie page", size = "l"),
-              label_hint("label-cookies", "This an example cookie page that could be
-                       expanded")
+              label_hint(
+                "label-cookies",
+                "This an example cookie page that could be
+                       expanded"
+              )
             )
           )
         )
@@ -481,21 +527,30 @@ shiny::shinyApp(
       TRUE,
       links = c(
         `Cookies` = "cookies_footer_link",
-        `GitHub repository`="https://github.com/dfe-analytical-services/shinyGovstyle")
+        `GitHub repository` = "https://github.com/dfe-analytical-services/shinyGovstyle"
       )
+    )
   ), # end of fluid page
 
   server = function(input, output, session) {
     # Cookies link from banner
     shiny::observeEvent(input$cookieLink, {
-      shiny::updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
+      shiny::updateTabsetPanel(
+        session,
+        "tab-container",
+        selected = "panel-cookies"
+      )
     })
 
     # Tab nav
     shiny::observeEvent(
       c(input$select_types_button, input$select_types_back),
       {
-        shiny::updateTabsetPanel(session, "tab-container", selected = "select_types")
+        shiny::updateTabsetPanel(
+          session,
+          "tab-container",
+          selected = "select_types"
+        )
       },
       ignoreInit = TRUE
     )
@@ -503,15 +558,27 @@ shiny::shinyApp(
     shiny::observeEvent(
       c(input$text_types_button, input$text_types_back, input$text_types_next),
       {
-        shiny::updateTabsetPanel(session, "tab-container", selected = "text_types")
+        shiny::updateTabsetPanel(
+          session,
+          "tab-container",
+          selected = "text_types"
+        )
       },
       ignoreInit = TRUE
     )
 
     shiny::observeEvent(
-      c(input$action_types_button, input$action_types_back, input$action_types_next),
+      c(
+        input$action_types_button,
+        input$action_types_back,
+        input$action_types_next
+      ),
       {
-        shiny::updateTabsetPanel(session, "tab-container", selected = "action_types")
+        shiny::updateTabsetPanel(
+          session,
+          "tab-container",
+          selected = "action_types"
+        )
       },
       ignoreInit = TRUE
     )
@@ -523,7 +590,11 @@ shiny::shinyApp(
         input$tables_tabs_and_accordions_next
       ),
       {
-        shiny::updateTabsetPanel(session, "tab-container", selected = "tables_tabs_and_accordions")
+        shiny::updateTabsetPanel(
+          session,
+          "tab-container",
+          selected = "tables_tabs_and_accordions"
+        )
       },
       ignoreInit = TRUE
     )
@@ -531,7 +602,11 @@ shiny::shinyApp(
     shiny::observeEvent(
       c(input$feedback_types_button, input$feedback_types_next),
       {
-        shiny::updateTabsetPanel(session, "tab-container", selected = "feedback_types")
+        shiny::updateTabsetPanel(
+          session,
+          "tab-container",
+          selected = "feedback_types"
+        )
       },
       ignoreInit = TRUE
     )
@@ -539,11 +614,14 @@ shiny::shinyApp(
     shiny::observeEvent(
       c(input$cookies_button, input$cookies_footer_link),
       {
-        shiny::updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
+        shiny::updateTabsetPanel(
+          session,
+          "tab-container",
+          selected = "panel-cookies"
+        )
       },
       ignoreInit = TRUE
     )
-
 
     # Need this to use live update the word counter
     shiny::observeEvent(
@@ -595,9 +673,7 @@ shiny::shinyApp(
     })
 
     shiny::observeEvent(input$cookieLink, {
-      shiny::updateTabsetPanel(session, "nav",
-        selected = "panel4"
-      )
+      shiny::updateTabsetPanel(session, "nav", selected = "panel4")
     })
 
     output$download_data <- downloadHandler(
@@ -633,12 +709,12 @@ shiny::shinyApp(
       example_data %>% filter(Colours == input$colourFilter)
     })
 
-    output$interactive_table_test <- renderGovReactable({  
-    govReactable(
-      df = filtered_data(),
-      right_col = c("Bikes", "Vans", "Buses"),
-      page_size = 3,
-    )
+    output$interactive_table_test <- renderGovReactable({
+      govReactable(
+        df = filtered_data(),
+        right_col = c("Bikes", "Vans", "Buses"),
+        page_size = 3,
+      )
     })
   } # end of server
 )

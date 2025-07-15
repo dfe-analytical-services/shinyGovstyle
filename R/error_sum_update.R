@@ -43,13 +43,16 @@
 #' }
 
 error_summary_update <- function(inputId, error_list) {
-
   new_err_sum <-
-      shiny::tags$ul(
-        class = "govuk-list govuk-error-summary__list",
-        Map(function(x) {
+    shiny::tags$ul(
+      class = "govuk-list govuk-error-summary__list",
+      Map(
+        function(x) {
           shiny::tags$li(x)
-        }, x = error_list))
+        },
+        x = error_list
+      )
+    )
 
   shinyjs::html(id = paste0(inputId, "list"), html = as.character(new_err_sum))
 }

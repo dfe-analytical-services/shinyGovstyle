@@ -30,8 +30,14 @@ test_that("Rejects dodgy link text", {
   expect_error(external_link("https://shiny.posit.co/", "here"))
   expect_error(external_link("https://shiny.posit.co/", "PDF"))
   expect_error(external_link("https://shiny.posit.co/", "Full stop."))
-  expect_error(external_link("https://shiny.posit.co/", "https://shiny.posit.co/"))
-  expect_error(external_link("https://shiny.posit.co/", "http://shiny.posit.co/"))
+  expect_error(external_link(
+    "https://shiny.posit.co/",
+    "https://shiny.posit.co/"
+  ))
+  expect_error(external_link(
+    "https://shiny.posit.co/",
+    "http://shiny.posit.co/"
+  ))
   expect_error(external_link("https://shiny.posit.co/", "www.google.com"))
 })
 
@@ -58,23 +64,30 @@ test_that("New tab warning always stays for non-visual users", {
 
 test_that("Surrounding whitespace shrubbery is trimmed", {
   expect_equal(
-    paste0(external_link("https://shiny.posit.co/", "   R Shiny")$children[[1]]),
+    paste0(external_link("https://shiny.posit.co/", "   R Shiny")$children[[
+      1
+    ]]),
     "R Shiny (opens in new tab)"
   )
 
   expect_equal(
-    paste0(external_link("https://shiny.posit.co/", "R Shiny    ")$children[[1]]),
+    paste0(external_link("https://shiny.posit.co/", "R Shiny    ")$children[[
+      1
+    ]]),
     "R Shiny (opens in new tab)"
   )
 
   expect_equal(
-    paste0(external_link("https://shiny.posit.co/", "   R Shiny   ")$children[[1]]),
+    paste0(external_link("https://shiny.posit.co/", "   R Shiny   ")$children[[
+      1
+    ]]),
     "R Shiny (opens in new tab)"
   )
 
   expect_equal(
     paste0(external_link(
-      "https://shiny.posit.co/", "   R Shiny",
+      "https://shiny.posit.co/",
+      "   R Shiny",
       add_warning = FALSE
     )$children[[1]]),
     'R Shiny<span class="sr-only"> (opens in new tab)</span>'
@@ -82,7 +95,8 @@ test_that("Surrounding whitespace shrubbery is trimmed", {
 
   expect_equal(
     paste0(external_link(
-      "https://shiny.posit.co/", "R Shiny    ",
+      "https://shiny.posit.co/",
+      "R Shiny    ",
       add_warning = FALSE
     )$children[[1]]),
     'R Shiny<span class="sr-only"> (opens in new tab)</span>'
@@ -90,7 +104,8 @@ test_that("Surrounding whitespace shrubbery is trimmed", {
 
   expect_equal(
     paste0(external_link(
-      "https://shiny.posit.co/", "   R Shiny     ",
+      "https://shiny.posit.co/",
+      "   R Shiny     ",
       add_warning = FALSE
     )$children[[1]]),
     'R Shiny<span class="sr-only"> (opens in new tab)</span>'
@@ -113,12 +128,20 @@ test_that("Warning appears for short link text and not for long text", {
 
 test_that("Footer flag works as expected", {
   expect_equal(
-    external_link("www.test-link.co.uk", "test link", footer = FALSE)$attribs$class,
+    external_link(
+      "www.test-link.co.uk",
+      "test link",
+      footer = FALSE
+    )$attribs$class,
     "govuk-link"
   )
 
   expect_equal(
-    external_link("www.test-link.co.uk", "test link", footer = TRUE)$attribs$class,
+    external_link(
+      "www.test-link.co.uk",
+      "test link",
+      footer = TRUE
+    )$attribs$class,
     "govuk-link govuk-footer__link"
   )
 

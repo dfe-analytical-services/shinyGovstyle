@@ -10,5 +10,4 @@ test_that("label hint workss", {
     label_check$children[[2]]$children[[1]],
     "Lower"
   )
-
 })

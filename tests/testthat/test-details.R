@@ -10,6 +10,4 @@ test_that("details work", {
     check_details$children[[2]]$children[[1]],
     "Test Second"
   )
-
-
 })

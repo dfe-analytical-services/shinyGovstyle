@@ -69,7 +69,7 @@ govReactable <- function(
       reactable::colDef(
         name = col,
         sortable = TRUE,
-        headerClass = "govuk-table__header",
+        headerClass = "bar-sort-header",
         class = "govuk-table__cell",
         html = TRUE,
         na = "NA",
@@ -92,7 +92,7 @@ govReactable <- function(
     highlight = highlight,
     borderless = borderless,
     showSortIcon = FALSE,
-    defaultColDef = reactable::colDef(headerClass = "bar-sort-header"),
+    #defaultColDef = reactable::colDef(headerClass = "bar-sort-header"),
     fullWidth = TRUE,
     wrap = TRUE,
     rowClass = "govuk-table__row",
@@ -112,6 +112,7 @@ govReactable <- function(
   )
 
   table <- htmltools::attachDependencies(table, dependency, append = TRUE)
+
   return(table)
 }
 

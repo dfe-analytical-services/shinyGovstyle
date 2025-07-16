@@ -70,7 +70,6 @@ govReactable <- function(
         name = col,
         sortable = TRUE,
         headerClass = "bar-sort-header",
-        class = "govuk-table__cell",
         html = TRUE,
         na = "NA",
         align = if (!is.null(right_col) && col %in% right_col) {

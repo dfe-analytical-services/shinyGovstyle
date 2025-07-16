@@ -7948,7 +7948,7 @@
 /* Table row and highlighting -------------------------------------------------- */
 
 .gov-table .rt-tr-highlight {
-      border-bottom: 1px solid #b1b4b6;
+    border-bottom: 1px solid #b1b4b6;
 }
 .gov-table .rt-tr-highlight:hover {
     background-color: #fd0 !important;

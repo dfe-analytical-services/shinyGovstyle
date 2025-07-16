@@ -276,10 +276,15 @@ color: #0b0c0c;
   transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Table row highlighting -------------------------------------------------- */
+/* Table row and highlighting -------------------------------------------------- */
+
+.gov-table .rt-tr-highlight {
+    border-bottom: 1px solid #b1b4b6;
+}
 .gov-table .rt-tr-highlight:hover {
     background-color: #fd0 !important;
 }
+
 
 /* Highlight on the page button indicators --------------------------------- */
 .rt-page-button:hover,

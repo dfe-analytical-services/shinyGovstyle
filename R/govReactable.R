@@ -92,27 +92,11 @@ govReactable <- function(
     highlight = highlight,
     borderless = borderless,
     showSortIcon = FALSE,
-    #defaultColDef = reactable::colDef(headerClass = "bar-sort-header"),
     fullWidth = TRUE,
     wrap = TRUE,
-    rowClass = "govuk-table__row",
     class = "gov-table govuk-table",
     ...
   )
-
-  # Attach the govReactable CSS dependency
-  # TODO: Fix, as this is not pulling through
-  version <- as.character(packageVersion("shinyGovstyle")[[1]])
-
-  dependency <- htmltools::htmlDependency(
-    name = "stylecss",
-    version = version,
-    src = c(href = "shinyGovstyle/css"),
-    stylesheet = "govReactable.css"
-  )
-
-  table <- htmltools::attachDependencies(table, dependency, append = TRUE)
-
   return(table)
 }
 

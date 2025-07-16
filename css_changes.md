@@ -252,15 +252,44 @@ color: #0b0c0c;
 
 * Styling for govReactable reactable
 ```
-.reactable .rt-th {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+
+/*Styling for gov reactable*/
+
+/* custom sort indicators -------------------------------------------------- */
+.bar-sort-header:hover,
+.bar-sort-header:focus {
+  background: #fd0;
 }
-```
+
+/* Add a top bar on ascending sort */
+.bar-sort-header[aria-sort="ascending"] {
+  box-shadow: inset 0 0.188rem 0 0 #1d70b8;
+}
+
+/* Add a bottom bar on descending sort */
+.bar-sort-header[aria-sort="descending"] {
+  box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
+}
+
+/* Add an animation when toggling between ascending and descending sort */
+.bar-sort-header {
+  transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Table row highlighting -------------------------------------------------- */
+.gov-table .rt-tr-highlight:hover {
+    background-color: #fd0 !important;
+}
+
+/* Highlight on the page button indicators --------------------------------- */
+.rt-page-button:hover,
+.rt-page-button:focus,
+.rt-page-button:active {
+    background: #fd0 !important;
+    box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
+}
+
 
 ```
-.govTable_right_align {
-  text-align: right !important
-}
-```
+
+

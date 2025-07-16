@@ -1,7 +1,6 @@
 # Deployed at https://department-for-education.shinyapps.io/shinygovstyle-example-app/
 
 library(shinyGovstyle)
-library(dplyr) #needed for the pipe to filter reactive data example!
 
 Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
 Colours <- rep(c("Red", "Blue"), times = 5)
@@ -706,7 +705,7 @@ shiny::shinyApp(
     )
 
     filtered_data <- reactive({
-      example_data %>% filter(Colours == input$colourFilter)
+      example_data |> filter(Colours == input$colourFilter)
     })
 
     output$interactive_table_test <- renderGovReactable({

@@ -11,3 +11,4 @@
 _\.new\.png$
 ^[.]?air[.]toml$
 ^\.vscode$
+package.json

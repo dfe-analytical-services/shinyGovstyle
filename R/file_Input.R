@@ -126,7 +126,8 @@ file_Input <- function(
         shiny::span(
           class = "govuk-button govuk-button--secondary govuk-file-upload-button__pseudo-button",
           buttonLabel,
-          inputTag)
+          inputTag
+        )
       ),
       shiny::tags$input(
         type = "text",

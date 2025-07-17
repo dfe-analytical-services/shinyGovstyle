@@ -705,7 +705,7 @@ shiny::shinyApp(
     )
 
     filtered_data <- reactive({
-      example_data[example_data$Colours == input$colourFilter, ]
+      subset(example_data, Colours == input$colourFilter)
     })
 
     output$interactive_table_test <- renderGovReactable({

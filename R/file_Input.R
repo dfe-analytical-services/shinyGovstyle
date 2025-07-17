@@ -119,14 +119,19 @@ file_Input <- function(
 
     shiny::div(
       id = paste0(inputId, "file_div"),
-      class = "input-group",
+      class = "input-group govuk-file-upload",
+      style = "padding: 0;",
       shiny::tags$label(
-        class = "input-group-btn",
-        shiny::span(class = "btn btn-default btn-file", buttonLabel, inputTag)
+        class = "input-group-btn govuk-file-upload",
+        shiny::span(
+          class = "govuk-button govuk-button--secondary govuk-file-upload-button__pseudo-button",
+          buttonLabel,
+          inputTag)
       ),
       shiny::tags$input(
         type = "text",
-        class = "form-control",
+        class = "govuk-body",
+        style = "margin: 12px 0px 0px 0px; border: 0; outline: none; width: 98%;",
         placeholder = placeholder,
         readonly = "readonly"
       )

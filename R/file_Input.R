@@ -1,10 +1,8 @@
 #' File Input Function
 #'
-#' This function create a file upload component.  It uses the basis of the
+#' This function create a file upload component. It uses the basis of the
 #' shiny fileInput function, but restyles the label and adds error onto it.
-#' It doesn't look like the www.gov.uk/ style one, although this www.gov.uk/
-#' doesn't seem to have a settle style as, for example it changes between
-#' Firefox and Chrome
+#'
 #' @param inputId The input slot that will be used to access the value.
 #' @param label Display label for the control, or \code{NULL} for no label.
 #' @param multiple Whether the user should be allowed to select and upload
@@ -87,7 +85,14 @@ file_Input <- function(
     id = inputId,
     name = inputId,
     type = "file",
-    style = "display: none;",
+    style = paste0(
+      "position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;",
+      if (!is.null(width)) {
+        paste0(" left: ", shiny::validateCssUnit(width), ";")
+      } else {
+        ""
+      }
+    ),
     `data-restore` = restoredValue
   )
 
@@ -101,11 +106,10 @@ file_Input <- function(
   govFile <- shiny::div(
     id = paste0(inputId, "div"),
     class = "govuk-form-group",
-
     style = if (!is.null(width)) {
       paste0("width: ", shiny::validateCssUnit(width), ";")
     },
-    shiny::tags$label(label, class = "govuk-label"),
+    shiny::tags$label(label, class = "govuk-label", tabindex = "-1"),
     if (error == TRUE) {
       shinyjs::hidden(
         shiny::tags$p(
@@ -116,25 +120,24 @@ file_Input <- function(
         )
       )
     },
-
     shiny::div(
       id = paste0(inputId, "file_div"),
       class = "input-group govuk-file-upload",
-      style = "padding: 0;",
+      style = "display: flex; align-items: center;",
+      # Only one tab stop: label styled as button, input inside
       shiny::tags$label(
-        class = "input-group-btn govuk-file-upload",
-        shiny::span(
-          class = "govuk-button govuk-button--secondary govuk-file-upload-button__pseudo-button",
-          buttonLabel,
-          inputTag
-        )
+        class = "govuk-button govuk-button--secondary govuk-file-upload-button__pseudo-button",
+        style = "margin-bottom: 0; position: relative; overflow: hidden;",
+        buttonLabel,
+        inputTag
       ),
       shiny::tags$input(
         type = "text",
         class = "govuk-body",
-        style = "margin: 12px 0px 0px 0px; border: 0; outline: none; width: 98%;",
+        style = "margin: 0; border: 0; outline: none; width: 98%; flex: 1 1 auto;",
         placeholder = placeholder,
-        readonly = "readonly"
+        readonly = "readonly",
+        tabindex = "-1"
       )
     )
   )

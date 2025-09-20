@@ -3,20 +3,20 @@
 #' This function create a file upload component. It uses the basis of the
 #' shiny fileInput function, but restyles the label and adds error onto it.
 #'
-#' @param inputId The input slot that will be used to access the value.
-#' @param label Display label for the control, or \code{NULL} for no label.
+#' @param inputId The input slot that will be used to access the value
+#' @param label Display label for the control, or \code{NULL} for no label
 #' @param multiple Whether the user should be allowed to select and upload
 #' multiple files at once. Does not work on older browsers, including Internet
-#' Explorer 9 and earlier.
+#' Explorer 9 and earlier
 #' @param accept A character vector of MIME types; gives the browser a hint of
-#' what kind of files the server is expecting.
-#' @param width	The width of the input,  e.g. \code{'400px'}, or \code{'100\%'}
+#' what kind of files the server is expecting
+#' @param width The width of the input, e.g. \code{'400px'}, or \code{'100\%'}
 #' @param buttonLabel The label used on the button. Can be text or an HTML tag
-#' object.
-#' @param placeholder	The text to show before a file has been uploaded.
-#' @param error Whenever to icnlud error handling  Defaults to FALSE.
-#' @param error_message Message to display on error.  Defaults to NULL
-#' @return a file input html shiny object
+#' object
+#' @param placeholder	The text to show before a file has been uploaded
+#' @param error Include error handling. Defaults to FALSE
+#' @param error_message Message to display on error. Defaults to NULL
+#' @return a file input HTML shiny object
 #' @keywords file input
 #' @export
 #' @examples
@@ -57,7 +57,6 @@
 #'   }
 #'   shinyApp(ui = ui, server = server)
 #' }
-
 file_Input <- function(
   inputId,
   label,
@@ -124,7 +123,6 @@ file_Input <- function(
       id = paste0(inputId, "file_div"),
       class = "input-group govuk-file-upload",
       style = "display: flex; align-items: center;",
-      # Only one tab stop: label styled as button, input inside
       shiny::tags$label(
         class = "govuk-button govuk-button--secondary govuk-file-upload-button__pseudo-button",
         style = "margin-bottom: 0; position: relative; overflow: hidden;",

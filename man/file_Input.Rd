@@ -17,37 +17,34 @@ file_Input(
 )
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value.}
+\item{inputId}{The input slot that will be used to access the value}
 
-\item{label}{Display label for the control, or \code{NULL} for no label.}
+\item{label}{Display label for the control, or \code{NULL} for no label}
 
 \item{multiple}{Whether the user should be allowed to select and upload
 multiple files at once. Does not work on older browsers, including Internet
-Explorer 9 and earlier.}
+Explorer 9 and earlier}
 
 \item{accept}{A character vector of MIME types; gives the browser a hint of
-what kind of files the server is expecting.}
+what kind of files the server is expecting}
 
-\item{width}{The width of the input,  e.g. \code{'400px'}, or \code{'100\%'}}
+\item{width}{The width of the input, e.g. \code{'400px'}, or \code{'100\%'}}
 
 \item{buttonLabel}{The label used on the button. Can be text or an HTML tag
-object.}
+object}
 
-\item{placeholder}{The text to show before a file has been uploaded.}
+\item{placeholder}{The text to show before a file has been uploaded}
 
-\item{error}{Whenever to icnlud error handling  Defaults to FALSE.}
+\item{error}{Include error handling. Defaults to FALSE}
 
-\item{error_message}{Message to display on error.  Defaults to NULL}
+\item{error_message}{Message to display on error. Defaults to NULL}
 }
 \value{
-a file input html shiny object
+a file input HTML shiny object
 }
 \description{
-This function create a file upload component.  It uses the basis of the
+This function create a file upload component. It uses the basis of the
 shiny fileInput function, but restyles the label and adds error onto it.
-It doesn't look like the www.gov.uk/ style one, although this www.gov.uk/
-doesn't seem to have a settle style as, for example it changes between
-Firefox and Chrome
 }
 \examples{
 if (interactive()) {

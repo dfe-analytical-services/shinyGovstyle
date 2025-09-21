@@ -15,7 +15,9 @@
 ## Overview
 
 This package provides custom widgets to style R Shiny apps using the GOV.UK design system. The components can be previewed in our [example showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/).
-<br> ![example app demonstration](man/figures/example_app.gif)
+<br> 
+
+![example app demonstration](man/figures/example_app.gif)
 
 To view details and advice on how to use the GOV.UK components please visit https://design-system.service.gov.uk/components/, most components should be available to use through this package.
 
@@ -58,8 +60,3 @@ The package contains an [example showcase app](https://department-for-education.
 ```r
 shinyGovstyle::run_example()
 ```
-
-
-
-
-

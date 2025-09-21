@@ -9,8 +9,8 @@ Authors@R: c(
     person("Charlotte", "Foster", , "charlotte.foster@education.gov.uk", role = "ctb"),
     person("Jeni", "Martin", role = "ctb")
   )
-Description: Collection of 'shiny' application styling that are the based
-    on the GOV.UK Design System.  See
+Description: Collection of 'shiny' application styling that are based
+    on the GOV.UK Design System. See
     <https://design-system.service.gov.uk/components/> for details.
 License: GPL (>= 3)
 URL: https://github.com/moj-analytical-services/shinyGovstyle
@@ -21,7 +21,6 @@ Depends:
 Imports: 
     htmltools,
     jsonlite,
-    magrittr,
     purrr,
     reactable,
     readr,

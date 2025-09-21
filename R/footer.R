@@ -14,7 +14,7 @@
 #' hidden tabset so to the end user it looks like it is a new page.
 #'
 #' @param full Whenever you want to have blank footer or official gov version.
-#' Defaults to \code{FALSE}
+#' Defaults to `FALSE`
 #' @param links A vector of actionLinks to be added to the footer, inputIDs
 #' are auto-generated and are the snake case version of the link text, e.g.
 #' "Accessibility Statement" will have an inputID of accessibility_statement

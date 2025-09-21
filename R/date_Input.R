@@ -2,14 +2,14 @@
 #'
 #' This function create a date input that follows GDS component
 #' @param inputId The input slot that will be used to access the value.
-#' @param label Display label for the control, or \code{NULL} for no label.
-#' @param hint_label Display hint label for the control, or \code{NULL} for no
+#' @param label Display label for the control, or `NULL` for no label.
+#' @param hint_label Display hint label for the control, or `NULL` for no
 #' hint label.
-#' @param error Whenever to include error components.Defaults to \code{FALSE}.
-#' @param error_message Error handling message? Defaults to \code{NULL}
-#' @param day Select a default day on start up. Defaults to \code{NULL}
-#' @param month Select a default month on start up. Defaults to \code{NULL}
-#' @param year Select a default year on start up. Defaults to \code{NULL}
+#' @param error Whenever to include error components.Defaults to `FALSE`.
+#' @param error_message Error handling message? Defaults to `NULL`
+#' @param day Select a default day on start up. Defaults to `NULL`
+#' @param month Select a default month on start up. Defaults to `NULL`
+#' @param year Select a default year on start up. Defaults to `NULL`
 #' @return a data input html shiny object
 #' @keywords date
 #' @export

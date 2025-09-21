@@ -3,7 +3,8 @@
 \name{clean_heading_text}
 \alias{clean_heading_text}
 \title{Clean heading text function
-This internal function is used in subcontents_links and heading_text to create an automated link between the two}
+This internal function is used in subcontents_links and heading_text
+to create an automated link between the two}
 \usage{
 clean_heading_text(text)
 }
@@ -15,6 +16,7 @@ a string
 }
 \description{
 Clean heading text function
-This internal function is used in subcontents_links and heading_text to create an automated link between the two
+This internal function is used in subcontents_links and heading_text
+to create an automated link between the two
 }
 \keyword{internal}

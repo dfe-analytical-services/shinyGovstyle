@@ -11,7 +11,7 @@
 #' @param width_overwrite change width. Need to include width for every column.
 #' Columns must add up to 1.
 #' Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
-#' Default is \code{NULL}.
+#' Default is `NULL`.
 #' @return an table html shiny object
 #' @keywords table
 #' @export

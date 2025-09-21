@@ -25,7 +25,7 @@ Important: your main column will need an id of "main_col" for this to work
       secondary_text = "User Examples",
       logo="shinyGovstyle/images/moj_logo.png"
     ),
-    shinyjs::useShinyjs(),  # shinyjs is needed to manage visibility of elements
+    shinyjs::useShinyjs(),  # shinyjs used to manage visibility of elements
     gov_row(
     shiny::column(
     width = 3,

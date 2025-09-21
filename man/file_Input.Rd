@@ -28,7 +28,7 @@ Explorer 9 and earlier.}
 \item{accept}{A character vector of MIME types; gives the browser a hint of
 what kind of files the server is expecting.}
 
-\item{width}{The width of the input,  e.g. \code{'400px'}, or \code{'100\%'}}
+\item{width}{The width of the input,  e.g. \code{'400px'}, or \code{'100\\\%'}}
 
 \item{buttonLabel}{The label used on the button. Can be text or an HTML tag
 object.}

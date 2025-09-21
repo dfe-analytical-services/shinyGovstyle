@@ -7,7 +7,7 @@
 #' @param label Insert the text for the checkbox group.
 #' @param hint_label Insert optional hint/secondary text.  Defaults to NULL
 #' @param small change the sizing to a small version of the checkbox.  Defaults
-#' to \code{FALSE}
+#' to `FALSE`
 #' @param error  Whenever you want to include error handle on the component.
 #' @param error_message  If you want a default error message.
 #' @return a checkbox html shiny object

@@ -6,13 +6,13 @@
 #' doesn't seem to have a settle style as, for example it changes between
 #' Firefox and Chrome
 #' @param inputId The input slot that will be used to access the value.
-#' @param label Display label for the control, or \code{NULL} for no label.
+#' @param label Display label for the control, or `NULL` for no label.
 #' @param multiple Whether the user should be allowed to select and upload
 #' multiple files at once. Does not work on older browsers, including Internet
 #' Explorer 9 and earlier.
 #' @param accept A character vector of MIME types; gives the browser a hint of
 #' what kind of files the server is expecting.
-#' @param width	The width of the input,  e.g. \code{'400px'}, or \code{'100\%'}
+#' @param width	The width of the input,  e.g. `'400px'`, or `'100\%'`
 #' @param buttonLabel The label used on the button. Can be text or an HTML tag
 #' object.
 #' @param placeholder	The text to show before a file has been uploaded.

@@ -1,7 +1,7 @@
 #' Download link
 #'
 #' @description
-#' The \code{download_link()} provides a standard way to provide a download
+#' The `download_link()` provides a standard way to provide a download
 #' link, which facilitates important accessible / positive user experience
 #' elements, namely:
 #' \itemize{
@@ -16,7 +16,7 @@
 #' upper limit.
 #'
 #' @param outputId The name of the output slot that the
-#' \code{shiny::downloadHandler()} is assigned to.
+#' `shiny::downloadHandler()` is assigned to.
 #' @param link_text Text that will appear describing the download action.
 #' Vague text like 'click here' or 'here' will cause an error, as will ending in
 #' a full stop. Leading and trailing white space will be automatically trimmed.

@@ -7,16 +7,17 @@
 download_radios_handler(id = "download_radios", file_name, file_contents)
 }
 \arguments{
-\item{id}{Shiny element ID. Default is "download_radios", but must be customised to be unique
-if multiple instances of this module are being used in a single app. Must match up to the ID
-of a `download_radios()` instance in UI code.}
+\item{id}{Shiny element ID. Default is "download_radios", but must be
+customised to be unique if multiple instances of this module are being
+used in a single app. Must match up to the ID of a \code{download_radios()}
+instance in UI code.}
 
 \item{file_name}{Name of the file to be downloaded}
 
 \item{file_contents}{Contents to write to the download file}
 }
 \value{
-Output for use with `download_radios()`
+Output for use with \code{download_radios()}
 }
 \description{
 Download with extension radios handler

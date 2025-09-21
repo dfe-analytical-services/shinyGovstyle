@@ -1,7 +1,7 @@
 #' Radio Button Function
 #'
 #' This function create radio buttons
-#' @param inputId The \code{input} slot that will be used to access the value.
+#' @param inputId The `input` slot that will be used to access the value.
 #' @param label Input label.
 #' @param choices List of values to select from (if elements of the list are
 #' named then that name rather than the value is displayed to the user)
@@ -10,7 +10,7 @@
 #' @param small  If you want the smaller versions of radio buttons,  Default
 #' is FALSE
 #' @param choiceNames,choiceValues Same as in
-#' \code{\link[shiny]{checkboxGroupInput}}. List of names and values,
+#' [shiny::checkboxGroupInput()]. List of names and values,
 #' respectively, that are displayed to the user in the app and correspond to
 #' the each choice (for this reason they must have the same length). If either
 #' of these arguments is provided, then the other must be provided and choices

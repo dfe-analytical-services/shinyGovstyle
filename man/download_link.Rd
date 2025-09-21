@@ -25,9 +25,9 @@ of KB, MB, GB or rows.}
 shiny.tag object
 }
 \description{
-The \code{download_link()} provides a standard way to provide a download link,
-which facilitates important accessible / positive user experience elements,
-namely:
+The \code{download_link()} provides a standard way to provide a download
+link, which facilitates important accessible / positive user experience
+elements, namely:
 \itemize{
 \item file type
 \item file size

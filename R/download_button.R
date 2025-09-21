@@ -1,7 +1,7 @@
 #' Download button
 #'
 #' @description
-#' The \code{download_button()} provides a standard way to provide a download
+#' The `download_button()` provides a standard way to provide a download
 #' link, which facilitates important accessible / positive user experience
 #' elements, namely:
 #' \itemize{
@@ -16,7 +16,7 @@
 #' estimate or an upper limit.
 #'
 #' @param outputId The name of the output slot that the
-#' \code{shiny::downloadHandler()} is assigned to.
+#' `shiny::downloadHandler()` is assigned to.
 #' @param button_label Text that will appear describing the download action.
 #' Vague text like 'click here' or 'here' will cause an error, as will ending
 #' in a full stop. Leading and trailing white space will be automatically

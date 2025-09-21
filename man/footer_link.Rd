@@ -2,7 +2,7 @@
 % Please edit documentation in R/footer.R
 \name{footer_link}
 \alias{footer_link}
-\title{Create a footer link for use in `footer()` function}
+\title{Create a footer link for use in \code{footer()} function}
 \usage{
 footer_link(link, link_name = NULL)
 }
@@ -15,7 +15,7 @@ footer_link(link, link_name = NULL)
 HTML tag list item
 }
 \description{
-Create a footer link for use in `footer()` function
+Create a footer link for use in \code{footer()} function
 }
 \examples{
 # Internal (i.e. within dashboard) link

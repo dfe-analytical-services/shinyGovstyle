@@ -35,7 +35,7 @@ named then that name rather than the value is displayed to the user)}
 is FALSE}
 
 \item{choiceNames, choiceValues}{Same as in
-\code{\link[shiny]{checkboxGroupInput}}. List of names and values,
+\code{\link[shiny:checkboxGroupInput]{shiny::checkboxGroupInput()}}. List of names and values,
 respectively, that are displayed to the user in the app and correspond to
 the each choice (for this reason they must have the same length). If either
 of these arguments is provided, then the other must be provided and choices

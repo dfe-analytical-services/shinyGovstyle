@@ -31,7 +31,12 @@ with a grouping variable
 if (interactive()) {
 
   # Create an example dataset
-  headers <- c("Name", "Date of birth", "Contact information", "Contact details")
+  headers <- c(
+    "Name",
+    "Date of birth",
+    "Contact information",
+    "Contact details"
+  )
   info <- c(
     "Sarah Philips",
     "5 January 1978",

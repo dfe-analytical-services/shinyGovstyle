@@ -27,18 +27,18 @@ Options are s, m, l, xl, with l as the default.}
 \item{heading_level}{The HTML heading level for
 the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2".}
 
-\item{expr}{An expression that generates a `reactable` widget.}
+\item{expr}{An expression that generates a \code{reactable} widget.}
 
-\item{env}{The environment in which to evaluate `expr`.}
+\item{env}{The environment in which to evaluate \code{expr}.}
 
-\item{quoted}{Is `expr` a quoted expression (with [quote()])?
+\item{quoted}{Is \code{expr} a quoted expression (with \code{\link[=quote]{quote()}})?
 This is useful if you want to save an expression in a variable.}
 }
 \value{
-`govReactableOutput()` returns a `reactable` output element
+\code{govReactableOutput()} returns a \code{reactable} output element
 that can be included in a Shiny UI.
 
-`renderGovReactable()` returns a `reactable` render function that
+\code{renderGovReactable()} returns a \code{reactable} render function that
 can be assigned to a Shiny output slot.
 }
 \description{

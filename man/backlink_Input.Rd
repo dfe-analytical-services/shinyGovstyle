@@ -45,8 +45,8 @@ if (interactive()) {
   )
 
   server <- function(input, output, session) {
-    #Slightly confused in that it goes forward rather than back, but shows how
-    #to use
+    # Slightly confused in that it goes forward rather than back
+    # but shows how to use
     observeEvent(input$link1,{
       updateTabsetPanel(session, "nav", selected = "panel2")
     })

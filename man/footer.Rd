@@ -102,7 +102,10 @@ if (interactive()) {
         `Accessibility statement` = "accessibility_footer_link",
         `Cookies` = "cookies_footer_link",
         `Government Digital Service` =
-        "https://www.gov.uk/government/organisations/government-digital-service"
+         paste0(
+           "https://www.gov.uk/government/",
+           "organisations/government-digital-service"
+         )
       )
     )
   )

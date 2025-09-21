@@ -25,7 +25,8 @@ with l as the default}
 
 \item{num_col}{adds numeric class format to these columns.}
 
-\item{width_overwrite}{change width. Need to include width for every column. Columns must add up to 1.
+\item{width_overwrite}{change width. Need to include width for every column.
+Columns must add up to 1.
 Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
 Default is \code{NULL}.}
 }

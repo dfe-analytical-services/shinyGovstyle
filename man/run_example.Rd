@@ -10,8 +10,9 @@ run_example()
 runs an R Shiny app with examples in
 }
 \description{
-This function runs an example R Shiny app showcasing different parts of the package.
-Code for the app can be found in the inst/example_app folder in the source code.
+This function runs an example R Shiny app showcasing different parts of the
+package. Code for the app can be found in the inst/example_app folder in the
+source code.
 }
 \details{
 The app is also deployed at the following URL:

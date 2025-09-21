@@ -2,7 +2,7 @@
 #'
 #' Intentionally basic wrapper for HTML anchor elements making it easier to
 #' create safe external links with standard and accessible behaviour. For more
-#' information on how the tag is generated, see \code{\link[htmltools]{tags}}.
+#' information on how the tag is generated, see [htmltools::tags()].
 #'
 #' @description
 #' It is commonplace for external links to open in a new tab, and when we do

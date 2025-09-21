@@ -11,10 +11,10 @@ download_button(outputId, button_label, file_type = "CSV", file_size = NULL)
 \code{shiny::downloadHandler()} is assigned to.}
 
 \item{button_label}{Text that will appear describing the download action.
-Vague text like 'click here' or 'here' will cause an error, as will ending in
-a full stop. Leading and trailing white space will be automatically trimmed.
-If the string is shorter than 7 characters a console warning will be thrown.
-There is no way to hush this other than providing more detail.}
+Vague text like 'click here' or 'here' will cause an error, as will ending
+in a full stop. Leading and trailing white space will be automatically
+trimmed. If the string is shorter than 7 characters a console warning will
+be thrown. There is no way to hush this other than providing more detail.}
 
 \item{file_type}{The file type to be download (default: CSV)}
 
@@ -25,19 +25,19 @@ of KB, MB, GB or rows.}
 shiny.tag object
 }
 \description{
-The \code{download_button()} provides a standard way to provide a download link,
-which facilitates important accessible / positive user experience elements,
-namely:
+The \code{download_button()} provides a standard way to provide a download
+link, which facilitates important accessible / positive user experience
+elements, namely:
 \itemize{
 \item file type
 \item file size
 }
 These are necessary in order for users to understand what they are
 downloading, both in terms of being able to decide if they are comfortable
-with downloading the file over their current connection and if it's in a form
-they're able to deal with once it is downloaded. If the exact file size is
-not easily determined, then it may be acceptable to provide an estimate or an
-upper limit.
+with downloading the file over their current connection and if it's in a
+form they're able to deal with once it is downloaded. If the exact file
+size is not easily determined, then it may be acceptable to provide an
+estimate or an upper limit.
 }
 \examples{
 if (interactive()) {

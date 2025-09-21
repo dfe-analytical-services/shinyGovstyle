@@ -20,7 +20,8 @@ this other than providing more detail.}
 link text to warn users of the behaviour. Be careful and consider
 accessibility before removing the visual warning.}
 
-\item{footer}{Apply standard GDS footer css styling. Logical, default = FALSE .}
+\item{footer}{Apply standard GDS footer css styling. Logical,
+default = FALSE}
 }
 \value{
 shiny.tag object
@@ -30,9 +31,10 @@ It is commonplace for external links to open in a new tab, and when we do
 this we should be careful...
 
 This function automatically adds the following to your link:
-* `target="_blank"` to open in new tab
-* `rel="noopener noreferrer"` to prevent [reverse tabnabbing](
-https://owasp.org/www-community/attacks/Reverse_Tabnabbing)
+\itemize{
+\item \code{target="_blank"} to open in new tab
+\item \code{rel="noopener noreferrer"} to prevent \href{https://owasp.org/www-community/attacks/Reverse_Tabnabbing}{reverse tabnabbing}
+}
 
 By default this function also adds "(opens in new tab)" to your link text
 to warn users of the behaviour.
@@ -50,23 +52,17 @@ and add a line of text above all of the links saying something like 'The
 following links open in a new tab'.
 
 Related links and guidance:
-
-* [Government digital services guidelines on the use of links](
-https://design-system.service.gov.uk/styles/links/)
-
-* [Anchor tag HTML element and its properties](
-https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a)
-
-* [WCAG 2.2 success criteria 2.4.4: Link Purpose (In Context)](
-https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context)
-
-* [Web Accessibility standards link text behaviour](
-https://www.w3.org/TR/WCAG20-TECHS/G200.html)
+\itemize{
+\item \href{https://design-system.service.gov.uk/styles/links/}{Government digital services guidelines on the use of links}
+\item \href{https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a}{Anchor tag HTML element and its properties}
+\item \href{https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context}{WCAG 2.2 success criteria 2.4.4: Link Purpose (In Context)}
+\item \href{https://www.w3.org/TR/WCAG20-TECHS/G200.html}{Web Accessibility standards link text behaviour}
+}
 }
 \details{
 Intentionally basic wrapper for HTML anchor elements making it easier to
 create safe external links with standard and accessible behaviour. For more
-information on how the tag is generated, see \code{\link[htmltools]{tags}}.
+information on how the tag is generated, see \code{\link[htmltools:builder]{htmltools::tags()}}.
 }
 \examples{
 external_link("https://shiny.posit.co/", "R Shiny")

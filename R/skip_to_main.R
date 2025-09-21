@@ -9,10 +9,10 @@
 #' @export
 #'
 #' @examples
-#' ui <- fluidPage(
+#' ui <- shiny::fluidPage(
 #'   cookieBanner("Run Example"),
 #'   skip_to_main(),
-#'   shinyGovstyle::header(
+#'   header(
 #'     main_text = "Example",
 #'     secondary_text = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"
@@ -28,7 +28,7 @@
 #'         id = "govuk-contents-box", #DO NOT REMOVE ID
 #'         class = "govuk-contents-box",  #DO NOT REMOVE CLASS
 #'         shiny::tags$h2("Contents"),
-#'         p("Your contents links go here"),
+#'         shiny::tags$p("Your contents links go here"),
 #'       )
 #'     ),
 #'

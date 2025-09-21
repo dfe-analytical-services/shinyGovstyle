@@ -22,7 +22,7 @@
 #'
 #' example_data <- data.frame(months, bikes, cars)
 #'
-#' ui <- fluidPage(
+#' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
 #'     main_text = "Example",
 #'     secondary_text = "User Examples",

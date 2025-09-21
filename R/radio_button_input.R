@@ -27,7 +27,7 @@
 #' @keywords radiobuttons
 #' @export
 #' @examples
-#' ui <- fluidPage(
+#' ui <- shiny::fluidPage(
 #'   # Required for error handling function
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(

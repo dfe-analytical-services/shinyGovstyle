@@ -9,7 +9,7 @@ heading_text(text_input, size = "xl", id)
 \arguments{
 \item{text_input}{Text to display}
 
-\item{size}{Text size using xl, l, m, s.  Defaults to xl.}
+\item{size}{Text size using xl, l, m, s. Defaults to xl}
 
 \item{id}{Custom header id}
 }
@@ -17,23 +17,23 @@ heading_text(text_input, size = "xl", id)
 a heading text html shiny object
 }
 \description{
-This function create a heading text
+This function createS heading text
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-      shinyGovstyle::heading_text("This is great text", "m")
-    ),
-    shinyGovstyle::footer(full = TRUE)
-  )
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::gov_layout(
+    size = "two-thirds",
+    shinyGovstyle::heading_text("This is great text", "m")
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  server <- function(input, output, session) {}
-  shinyApp(ui = ui, server = server)
-}
+server <- function(input, output, session) {}
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{heading}

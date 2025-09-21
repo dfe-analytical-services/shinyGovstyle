@@ -4,7 +4,7 @@
 #' @param style options: "none", "bullet", "number". defaults to "none"
 #' @export
 #' @examples
-#' ui <- fluidPage(
+#' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
 #'     main_text = "Example",
 #'     secondary_text = "User Examples"

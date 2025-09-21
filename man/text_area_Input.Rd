@@ -31,10 +31,10 @@ hint label}
 \item{word_limit}{Add a word limit to the display. Defaults to \code{NULL}}
 }
 \value{
-a text area box html shiny object
+a text area box HTML shiny tag object
 }
 \description{
-This function create a text area input
+This function create a text area input.
 }
 \examples{
 text_area_Input(

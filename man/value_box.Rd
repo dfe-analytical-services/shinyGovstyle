@@ -8,7 +8,7 @@ value_box(value = "your value goes here", text = NA, colour = "blue")
 }
 \arguments{
 \item{value}{Character. The primary value to display in the value box.
-Defaults to "your value goes here".}
+Defaults to "your value goes here"}
 
 \item{text}{Character or NA. An optional description to appear below the
 value. If not provided (default is NA), the description will not be
@@ -31,15 +31,9 @@ The text box can be used in Shiny applications to display highlighted
 information, such as statistics or key metrics.
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    value_box(
-      value = "1,000,000",
-      text = "This is the latest value for the selected inputs.",
-      colour = "purple"
-    )
-  )
-  server <- function(input, output, session) {}
-  shinyApp(ui = ui, server = server)
-}
+value_box(
+  value = "1,000,000",
+  text = "This is the latest value for the selected inputs.",
+  colour = "purple"
+)
 }

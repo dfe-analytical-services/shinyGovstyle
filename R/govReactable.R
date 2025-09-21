@@ -107,7 +107,7 @@ govReactable <- # nolint
 #' Shiny bindings for govReactable
 #' Output and render functions for using govReactable within shiny apps
 #'
-#' @param output_table_name Output variable to read from.
+#' @param output_table_name Output variable to read from
 #' @param caption Adds a caption to the table as a header
 #' @param caption_size Adjust the size of caption
 #' Options are s, m, l, xl, with l as the default
@@ -121,14 +121,16 @@ govReactable <- # nolint
 #' that can be included in a Shiny UI
 #'
 #' `renderGovReactable()` returns a `reactable` render function that
-#' can be assigned to a Shiny output slot.
+#' can be assigned to a Shiny output slot
 #'
 #' @name govReactable-shiny
 #'
 #' @examples
-#' ui <- fluidPage(
-#'   titlePanel("govReactableOutput example"),
-#'   govReactableOutput("table")
+#' ui <- shiny::fluidPage(
+#'   govReactableOutput(
+#'     "table",
+#'     caption = "Example table"
+#'   )
 #' )
 #'
 #' server <- function(input, output, session) {

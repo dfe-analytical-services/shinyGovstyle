@@ -14,57 +14,56 @@ govTable(
 )
 }
 \arguments{
-\item{inputId}{Input id for the table}
+\item{inputId}{Input Id for the table}
 
 \item{df}{expects a dataframe to create a table}
 
 \item{caption}{adds a caption to the table as a header}
 
-\item{caption_size}{adjust the size of caption.  Options are s, m, l, xl,
+\item{caption_size}{adjust the size of caption. Options are s, m, l, xl,
 with l as the default}
 
-\item{num_col}{adds numeric class format to these columns.}
+\item{num_col}{adds numeric class format to these columns}
 
 \item{width_overwrite}{change width. Need to include width for every column.
 Columns must add up to 1.
 Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
-Default is \code{NULL}.}
+Default is \code{NULL}}
 }
 \value{
-an table html shiny object
+a table HTML shiny tag object
 }
 \description{
-This function inserts a gov styled table.  Format is with header looking
+This function inserts a gov styled table. Format is with header looking
 rows and columns
 }
 \examples{
-if (interactive()) {
+months <- c("January", "February", "March")
+bikes <- c("£85", "£75", "£165")
+cars <- c("£95", "£55", "£125")
 
-  Months <- c("January", "February", "March")
-  Bikes <- c("£85", "£75", "£165")
-  Cars <- c("£95", "£55", "£125")
+example_data <- data.frame(months, bikes, cars)
 
-  example_data <- data.frame(Months, Bikes, Cars)
-
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::banner(
-      inputId = "banner", type = "beta", 'This is a new service'),
-    shinyGovstyle::gov_layout(size = "two-thirds",
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::banner(
+    inputId = "banner", type = "beta", 'This is a new service'
+  ),
+  shinyGovstyle::gov_layout(size = "two-thirds",
     shinyGovstyle::govTable(
       "tab1", example_data, "Test", "l", num_col = c(2,3),
-      width_overwrite = c("one-half", "one-quarter", "one-quarter"))
-    ),
+      width_overwrite = c("one-half", "one-quarter", "one-quarter")
+    )
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-    shinyGovstyle::footer(full = TRUE)
-  )
+server <- function(input, output, session) {}
 
-  server <- function(input, output, session) {}
-
-  shinyApp(ui = ui, server = server)
-}
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{table}

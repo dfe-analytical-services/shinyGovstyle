@@ -7,7 +7,7 @@
 #' @return no value returned. This loads the font CSS file
 #' @export
 #' @examples
-#' ui <- fluidPage(
+#' ui <- shiny::fluidPage(
 #'   font(),
 #'   shinyGovstyle::header(
 #'     main_text = "Example",

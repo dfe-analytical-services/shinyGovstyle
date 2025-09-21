@@ -7,45 +7,48 @@
 govTabs(inputId, df, group_col)
 }
 \arguments{
-\item{inputId}{The id to access the tag}
+\item{inputId}{The Id to access the tag}
 
-\item{df}{A single dataframe with all data.  See example for structure.}
+\item{df}{A single dataframe with all data. See example for structure}
 
 \item{group_col}{The column name with the groups to be used as tabs}
 }
 \value{
-a tab table html shiny object.
+a tab table HTML shiny tag object
 }
 \description{
-This function creates a tabs based table.  It requires a single dataframe
-with a grouping variable
+This function creates a tabs based table. It requires a single dataframe
+with a grouping variable.
 }
 \examples{
-if (interactive()) {
+tabs <- c(
+  rep("Past Day", 3),
+  rep("Past Week", 3),
+  rep("Past Month", 3),
+  rep("Past Year", 3)
+)
 
-  # Create an example dataset
-  tabs <- c(rep("Past Day", 3),
-            rep("Past Week", 3),
-            rep("Past Month", 3),
-            rep("Past Year", 3))
-  Case_manager <- rep(c("David Francis", "Paul Farmer", "Rita Patel"),4)
-  Cases_open <- c(3, 1, 2, 24, 16, 24, 98, 122, 126, 1380, 1129, 1539)
-  Cases_closed <- c(0, 0, 0, 18, 20, 27, 95, 131, 142, 1472, 1083, 1265)
-  data <- data.frame(tabs, Case_manager, Cases_open, Cases_closed)
+case_manager <- rep(c("David Francis", "Paul Farmer", "Rita Patel"), 4)
+cases_open <- c(3, 1, 2, 24, 16, 24, 98, 122, 126, 1380, 1129, 1539)
+cases_closed <- c(0, 0, 0, 18, 20, 27, 95, 131, 142, 1472, 1083, 1265)
+data <- data.frame(tabs, case_manager, cases_open, cases_closed)
 
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-      shinyGovstyle::govTabs(data, "tabs")),
-    shinyGovstyle::footer(full = TRUE)
-  )
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo = "shinyGovstyle/images/moj_logo.png",
+    logo_alt_text = "Ministry of Justice logo"
+  ),
+  shinyGovstyle::gov_layout(
+    size = "two-thirds",
+    shinyGovstyle::govTabs("tabs", data, "tabs")
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  server <- function(input, output, session) {}
-  shinyApp(ui = ui, server = server)
-}
+server <- function(input, output, session) {}
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{tab}
 \keyword{table}

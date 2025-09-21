@@ -10,7 +10,7 @@
 #' @keywords error_summary
 #' @export
 #' @examples
-#' ui <- fluidPage(
+#' ui <- shiny::fluidPage(
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
 #'     main_text = "Example",

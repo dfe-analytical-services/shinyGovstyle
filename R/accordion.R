@@ -8,11 +8,12 @@
 #' @keywords accordion
 #' @export
 #' @examples
-#' ui <- fluidPage(
+#' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
 #'     main_text = "Example",
 #'     secondary_text = "User Examples",
-#'     logo = "shinyGovstyle/images/moj_logo.png"
+#'     logo = "shinyGovstyle/images/moj_logo.png",
+#'     logo_alt_text = "Ministry of Justice logo"
 #'   ),
 #'   shinyGovstyle::banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'
@@ -40,7 +41,7 @@
 #'
 #' server <- function(input, output, session) {}
 #'
-#' if (interactive()) shinyApp(ui = ui, server = server)
+#' if (interactive()) shiny::shinyApp(ui = ui, server = server)
 accordion <- function(
   inputId, # nolint
   titles,

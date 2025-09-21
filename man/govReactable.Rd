@@ -15,25 +15,25 @@ govReactable(
 )
 }
 \arguments{
-\item{df}{A dataframe used to generate the table.}
+\item{df}{A dataframe used to generate the table}
 
 \item{right_col}{A vector of column names that should be right-aligned.
 By default, numeric data is right-aligned, and character data is
-left-aligned.}
+left-aligned}
 
-\item{page_size}{The default number of rows displayed per page (default: 10).}
+\item{page_size}{The default number of rows displayed per page (default: 10)}
 
-\item{highlight}{Highlight table rows on hover.}
+\item{highlight}{Highlight table rows on hover}
 
-\item{borderless}{Remove inner borders from table.}
+\item{borderless}{Remove inner borders from table}
 
 \item{min_widths}{Customise minimum column width using a list of columns and
-minimum width in pixels.}
+minimum width in pixels}
 
-\item{...}{Additional arguments passed to \code{reactable::reactable}.}
+\item{...}{Additional arguments passed to \code{reactable::reactable}}
 }
 \value{
-A \code{reactable} HTML widget styled with GOV.UK classes.
+A \code{reactable} HTML widget styled with GOV.UK classes
 }
 \description{
 This function is opinionated and sets table defaults that are in

@@ -14,17 +14,17 @@ descriptive of the page you are linking to. Vague text like 'click here' or
 'here' will cause an error, as will ending in a full stop. Leading and
 trailing white space will be automatically trimmed. If the string is shorter
 than 7 characters a console warning will be thrown. There is no way to hush
-this other than providing more detail.}
+this other than providing more detail}
 
 \item{add_warning}{Boolean for adding "(opens in new tab)" at the end of the
 link text to warn users of the behaviour. Be careful and consider
-accessibility before removing the visual warning.}
+accessibility before removing the visual warning}
 
-\item{footer}{Apply standard GDS footer css styling. Logical,
+\item{footer}{Apply standard GDS footer CSS styling. Logical,
 default = FALSE}
 }
 \value{
-shiny.tag object
+shiny tag object
 }
 \description{
 It is commonplace for external links to open in a new tab, and when we do
@@ -107,5 +107,4 @@ shiny::tags$ul(
     )
   )
 )
-
 }

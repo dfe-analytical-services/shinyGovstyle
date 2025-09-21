@@ -9,15 +9,15 @@ contents_link(link_text, input_id, subcontents_text_list, subcontents_id_list)
 \arguments{
 \item{link_text}{vector of link text for contents}
 
-\item{input_id}{contents button id}
+\item{input_id}{contents button Id}
 
 \item{subcontents_text_list}{vector of link text for subcontents}
 
-\item{subcontents_id_list}{vector of link ids for subcontents. if missing
-automatically matches to id in shinygovstyle::heading_text}
+\item{subcontents_id_list}{vector of link Ids for subcontents. If missing
+automatically matches to Id in \code{heading_text()}}
 }
 \value{
-an action button html shiny object
+an action button HTML shiny tag object
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
@@ -38,8 +38,8 @@ ui <- shiny::fluidPage(
 
       # Contents box
       shiny::tags$div(
-        id = "govuk-contents-box", #DO NOT REMOVE ID
-        class = "govuk-contents-box", #DO NOT REMOVE CLASS
+        id = "govuk-contents-box", # DO NOT REMOVE ID
+        class = "govuk-contents-box", # DO NOT REMOVE CLASS
 
         shiny::tags$h2("Contents"),
 
@@ -244,5 +244,5 @@ server <- function(input, output, session) {
   })
 } # end of server
 
-shiny::shinyApp(ui = ui, server = server)
+if (interactive()) shiny::shinyApp(ui = ui, server = server)
 }

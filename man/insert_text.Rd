@@ -7,36 +7,38 @@
 insert_text(inputId, text)
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value.}
+\item{inputId}{The input slot that will be used to access the value}
 
 \item{text}{Text that you want to display on the insert}
 }
 \value{
-a insert text html shiny object
+a insert text HTML shiny tag object
 }
 \description{
 This function loads the insert text component to display additional
 information in a special format.
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-      shinyGovstyle::insert_text(
-        inputId = "note",
-        text = "It can take up to 8 weeks to register a lasting power of
-                attorney if there are no mistakes in the application."
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::gov_layout(
+    size = "two-thirds",
+    shinyGovstyle::insert_text(
+      inputId = "note",
+      text = paste(
+        "It can take up to 8 weeks to register a lasting power of",
+        "attorney if there are no mistakes in the application."
       )
-    ),
-    shinyGovstyle::footer(full = TRUE)
-  )
+    )
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  server <- function(input, output, session) {}
-  shinyApp(ui = ui, server = server)
-}
+server <- function(input, output, session) {}
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{inserttext}

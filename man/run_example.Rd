@@ -19,8 +19,6 @@ The app is also deployed at the following URL:
 https://department-for-education.shinyapps.io/shinygovstyle-example-app/
 }
 \examples{
-if (interactive()) {
-  run_example()
-}
+if (interactive()) run_example()
 }
 \keyword{example}

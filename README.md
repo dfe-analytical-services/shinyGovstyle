@@ -38,7 +38,7 @@ This has previously also been available on conda though is no longer actively ma
 conda install r-shinygovstyle
 ```
 
-To use error and word count elements you will need to load useShinyjs from shinyjs in your ui.R file
+To use error and word count elements you will need to load `useShinyjs()` from shinyjs in your ui.R file
 ```r
   shinyjs::useShinyjs()
 ```

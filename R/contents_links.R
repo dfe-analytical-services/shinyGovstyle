@@ -6,33 +6,7 @@
 #' for automatic matching to Id in `heading_text()`
 #' @return an ordered list HTML shiny tag object
 #' @keywords internal
-#' @examples
-#' ui <- shiny::fluidPage(
-#'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
-#'     logo = "shinyGovstyle/images/moj_logo.png"
-#'   ),
-#'   shiny::column(
-#'     width = 3,
-#'     id = "nav",
-#'     shiny::tags$div(
-#'       shiny::tags$h2("Contents"),
-#'       subcontents_links(
-#'         c("radio_button_Input (inline)", "button_Input"),
-#'         c(NA, NA)
-#'       ),
-#'       subcontents_links(
-#'         c("date_Input", "button_Input"),
-#'         c(NA, "button_input_text_types")
-#'       )
-#'     )
-#'   )
-#' )
-#'
-#' server <- function(input, output, session) {}
-#'
-#' if (interactive()) shiny::shinyApp(ui = ui, server = server)
+#' @noRd
 subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
   if (!missing(subcontents_id_list)) {
     # check if custom link_id_list is of equal length to links list

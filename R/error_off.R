@@ -7,9 +7,9 @@
 #' @keywords error
 #' @export
 #' @examples
-#' ui <- fluidPage(
+#' ui <- shiny::fluidPage(
 #'   # Required for error handling function
-#'   shinyjs::useShinyJs(),
+#'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
 #'     main_text = "Example",
 #'     secondary_text = "User Examples",

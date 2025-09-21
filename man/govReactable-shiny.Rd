@@ -17,52 +17,47 @@ govReactableOutput(
 renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
 }
 \arguments{
-\item{output_table_name}{Output variable to read from.}
+\item{output_table_name}{Output variable to read from}
 
-\item{caption}{Adds a caption to the table as a header.}
+\item{caption}{Adds a caption to the table as a header}
 
-\item{caption_size}{Adjust the size of caption.
-Options are s, m, l, xl, with l as the default.}
+\item{caption_size}{Adjust the size of caption
+Options are s, m, l, xl, with l as the default}
 
 \item{heading_level}{The HTML heading level for
-the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2".}
+the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2"}
 
-\item{expr}{An expression that generates a \code{reactable} widget.}
+\item{expr}{An expression that generates a \code{reactable} widget}
 
-\item{env}{The environment in which to evaluate \code{expr}.}
+\item{env}{The environment in which to evaluate \code{expr}}
 
 \item{quoted}{Is \code{expr} a quoted expression (with \code{\link[=quote]{quote()}})?
-This is useful if you want to save an expression in a variable.}
+This is useful if you want to save an expression in a variable}
 }
 \value{
 \code{govReactableOutput()} returns a \code{reactable} output element
-that can be included in a Shiny UI.
+that can be included in a Shiny UI
 
 \code{renderGovReactable()} returns a \code{reactable} render function that
-can be assigned to a Shiny output slot.
+can be assigned to a Shiny output slot
 }
 \description{
 Shiny bindings for govReactable
 Output and render functions for using govReactable within shiny apps
 }
 \examples{
-# Run in an interactive R session
-if (interactive()) {
-  library(shiny)
-  library(shinyGovstyle)
-
-  ui <- fluidPage(
-    titlePanel("govReactableOutput example"),
-    govReactableOutput("table")
+ui <- shiny::fluidPage(
+  govReactableOutput(
+    "table",
+    caption = "Example table"
   )
+)
 
-  server <- function(input, output, session) {
-    output$table <- renderGovReactable({
-      govReactable(iris)
-    })
-  }
-
-  shinyApp(ui, server)
+server <- function(input, output, session) {
+  output$table <- renderGovReactable({
+    govReactable(iris)
+  })
 }
 
+if (interactive()) shinyApp(ui, server)
 }

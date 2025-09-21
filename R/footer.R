@@ -22,17 +22,18 @@
 #' @keywords footer
 #' @export
 #' @examples
-#' ui <- fluidPage(
+#' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
 #'     main_text = "Example",
 #'     secondary_text = "User Examples",
-#'     logo = "shinyGovstyle/images/moj_logo.png"
+#'     logo = "shinyGovstyle/images/moj_logo.png",
+#'     logo_alt_text = "Ministry of Justice logo"
 #'   ),
 #'   shinyGovstyle::banner(
 #'     inputId = "banner", type = "beta", "This is a new service"
 #'   ),
-#'   tags$br(),
-#'   tags$br(),
+#'   shiny::tags$br(),
+#'   shiny::tags$br(),
 #'   shinyGovstyle::footer(full = TRUE)
 #' )
 #'
@@ -54,11 +55,12 @@
 #' )
 #'
 #' # Full app with link controlling a hidden tab and a link to an external page
-#' ui <- fluidPage(
+#' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
 #'     main_text = "Example",
 #'     secondary_text = "User Examples",
-#'     logo = "shinyGovstyle/images/moj_logo.png"
+#'     logo = "shinyGovstyle/images/moj_logo.png",
+#'     logo_alt_text = "Ministry of Justice logo"
 #'   ),
 #'   shinyGovstyle::banner(
 #'     inputId = "banner", type = "beta", "This is a new service"

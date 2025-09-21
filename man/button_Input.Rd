@@ -7,37 +7,39 @@
 button_Input(inputId, label, type = "default")
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value.}
+\item{inputId}{The input slot that will be used to access the value}
 
-\item{label}{Display label for the control, or \code{NULL} for no label.}
+\item{label}{Display label for the control, or \code{NULL} for no label}
 
-\item{type}{The type of button.  Options are default, start, secondary and
-warning.  Defaults to default.}
+\item{type}{The type of button. Options are default, start, secondary and
+warning. Defaults to "default"}
 }
 \value{
-a html button shiny object
+a HTML button shiny tag object
 }
 \description{
 This function create a gov style button
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-      shinyGovstyle::button_Input(
-        inputId = "btn1",
-        label = "Continue",
-        type = "default")
-    ),
-    shinyGovstyle::footer(full = TRUE)
-  )
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo = "shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::gov_layout(
+    size = "two-thirds",
+    shinyGovstyle::button_Input(
+      inputId = "btn1",
+      label = "Continue",
+      type = "default"
+    )
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  server <- function(input, output, session) {}
-  shinyApp(ui = ui, server = server)
-}
+server <- function(input, output, session) {}
+
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{button}

@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @examples
-#' ui <- fluidPage(
+#' ui <- shiny::fluidPage(
 #'   download_radios("download_file",
 #'     file_types = c("CSV", "ODS"),
 #'     file_sizes = c("2 KB", "5 KB")

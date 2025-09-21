@@ -9,11 +9,12 @@
 #' @keywords select
 #' @export
 #' @examples
-#' ui <- fluidPage(
+#' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
 #'     main_text = "Example",
 #'     secondary_text = "User Examples",
-#'     logo="shinyGovstyle/images/moj_logo.png"
+#'     logo = "shinyGovstyle/images/moj_logo.png",
+#'     logo_alt_text = "Ministry of Justice logo"
 #'   ),
 #'   shinyGovstyle::gov_layout(
 #'     size = "full",
@@ -28,7 +29,7 @@
 #'       ),
 #'       select_value = c("published", "updated", "view", "comments")
 #'     ),
-#'     tags$br()
+#'     shiny::tags$br()
 #'   ),
 #'   shinyGovstyle::footer(full = TRUE)
 #' )

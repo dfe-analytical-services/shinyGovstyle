@@ -15,7 +15,7 @@ are auto-generated and are the snake case version of the link text, e.g.
 "Accessibility Statement" will have an inputID of accessibility_statement}
 }
 \value{
-a footer html shiny object
+a footer HTML shiny tag object
 }
 \description{
 This function create a gov style footer for your page
@@ -33,25 +33,24 @@ If adding a link to an internal page, generally you will be controlling a
 hidden tabset so to the end user it looks like it is a new page.
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo = "shinyGovstyle/images/moj_logo.png"
-    ),
-    shinyGovstyle::banner(
-      inputId = "banner", type = "beta", "This is a new service"
-    ),
-    tags$br(),
-    tags$br(),
-    shinyGovstyle::footer(full = TRUE)
-  )
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo = "shinyGovstyle/images/moj_logo.png",
+    logo_alt_text = "Ministry of Justice logo"
+  ),
+  shinyGovstyle::banner(
+    inputId = "banner", type = "beta", "This is a new service"
+  ),
+  shiny::tags$br(),
+  shiny::tags$br(),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  server <- function(input, output, session) {}
+server <- function(input, output, session) {}
 
-  shinyApp(ui = ui, server = server)
-}
+if (interactive()) shinyApp(ui = ui, server = server)
 
 # Add links
 footer(links = c("Accessibility statement", "Cookies"))
@@ -67,67 +66,66 @@ footer(
 )
 
 # Full app with link controlling a hidden tab and a link to an external page
-if (interactive()) {
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo = "shinyGovstyle/images/moj_logo.png"
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo = "shinyGovstyle/images/moj_logo.png",
+    logo_alt_text = "Ministry of Justice logo"
+  ),
+  shinyGovstyle::banner(
+    inputId = "banner", type = "beta", "This is a new service"
+  ),
+  shiny::tabsetPanel(
+    type = "hidden",
+    id = "tabs",
+    shiny::tabPanel(
+      "Main content",
+      value = "main",
+      heading_text("Hello world!")
     ),
-    shinyGovstyle::banner(
-      inputId = "banner", type = "beta", "This is a new service"
+    shiny::tabPanel(
+      "Accessibility statement",
+      value = "accessibility-panel",
+      heading_text("Accessibility statement")
     ),
-    shiny::tabsetPanel(
-      type = "hidden",
-      id = "tabs",
-      shiny::tabPanel(
-        "Main content",
-        value = "main",
-        heading_text("Hello world!")
-      ),
-      shiny::tabPanel(
-        "Accessibility statement",
-        value = "accessibility-panel",
-        heading_text("Accessibility statement")
-      ),
-      shiny::tabPanel(
-        "Cookies",
-        value = "cookies-panel",
-        heading_text("Cookies")
-      ),
+    shiny::tabPanel(
+      "Cookies",
+      value = "cookies-panel",
+      heading_text("Cookies")
     ),
-    shinyGovstyle::footer(
-      full = TRUE,
-      links = c(
-        `Accessibility statement` = "accessibility_footer_link",
-        `Cookies` = "cookies_footer_link",
-        `Government Digital Service` =
-         paste0(
-           "https://www.gov.uk/government/",
-           "organisations/government-digital-service"
-         )
-      )
+  ),
+  shinyGovstyle::footer(
+    full = TRUE,
+    links = c(
+      `Accessibility statement` = "accessibility_footer_link",
+      `Cookies` = "cookies_footer_link",
+      `Government Digital Service` =
+       paste0(
+         "https://www.gov.uk/government/",
+         "organisations/government-digital-service"
+       )
     )
   )
+)
 
-  server <- function(input, output, session) {
-    shiny::observeEvent(input$accessibility_footer_link, {
-      shiny::updateTabsetPanel(
-        session,
-        "tabs",
-        selected = "accessibility-panel"
-      )
-    })
-    shiny::observeEvent(input$cookies_footer_link, {
-      shiny::updateTabsetPanel(
-        session,
-        "tabs",
-        selected = "cookies-panel"
-      )
-    })
-  }
-
-  shinyApp(ui = ui, server = server)
+server <- function(input, output, session) {
+  shiny::observeEvent(input$accessibility_footer_link, {
+    shiny::updateTabsetPanel(
+      session,
+      "tabs",
+      selected = "accessibility-panel"
+    )
+  })
+  shiny::observeEvent(input$cookies_footer_link, {
+    shiny::updateTabsetPanel(
+      session,
+      "tabs",
+      selected = "cookies-panel"
+    )
+  })
 }
+
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{footer}

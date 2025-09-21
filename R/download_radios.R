@@ -1,14 +1,15 @@
 #' Download with extension radios
 #'
-#' @param id Shiny element ID. Default is "download_radios", but must be customised to be unique
-#' if multiple instances of this module are being used in a single app. Must match up to the ID
+#' @param id Shiny element ID. Default is "download_radios", but must be
+#' customised to be unique if multiple instances of this module are being
+#' used in a single app. Must match up to the ID
 #' of a `download_radios_helper()` instance in server code.
-#' @param download_type Element being downloaded. Expected to be along the lines of "underlying
-#' data", "table", "current data view". Default is "table".
-#' @param file_types File formats to offer, can be any combination of "CSV", "XLSX", "ODS". Default
-#' is a vector of all 3.
-#' @param file_sizes Estimated file sizes for each file format. This needs to be a vector of the
-#' same length as file_types.
+#' @param download_type Element being downloaded. Expected to be along the
+#' lines of "underlying data", "table", "current data view". Default is "table"
+#' @param file_types File formats to offer, can be any combination of
+#' "CSV", "XLSX", "ODS". Default is a vector of all 3
+#' @param file_sizes Estimated file sizes for each file format. This needs to
+#' be a vector of the same length as file_types.
 #' @param small Set radio buttons to small size (logical, default: FALSE)
 #'
 #' @returns UI containing radio selection and download button
@@ -78,9 +79,10 @@ download_radios <- function(
 
 #' Download with extension radios handler
 #'
-#' @param id Shiny element ID. Default is "download_radios", but must be customised to be unique
-#' if multiple instances of this module are being used in a single app. Must match up to the ID
-#' of a `download_radios()` instance in UI code.
+#' @param id Shiny element ID. Default is "download_radios", but must be
+#' customised to be unique if multiple instances of this module are being
+#' used in a single app. Must match up to the ID of a `download_radios()`
+#' instance in UI code.
 #' @param file_name Name of the file to be downloaded
 #' @param file_contents Contents to write to the download file
 #'
@@ -116,7 +118,10 @@ download_radios_handler <- function(
           } else if (input$file_extension == "ODS") {
             readODS::write_ods(file_contents, file, row_names = FALSE)
           } else {
-            warning("Unrecognised file format provided: ", input$file_extension)
+            warning(
+              "Unrecognised file format provided: ",
+              input$file_extension
+            )
           }
         }
       )

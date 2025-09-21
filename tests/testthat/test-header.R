@@ -129,7 +129,10 @@ test_that("errors are as expected", {
       secondary_text = "test text 2",
       logo = "shinyGovstyle/images/moj_logo.png"
     ),
-    "Please use logo_alt_text to provide alternative text for the logo you used."
+    paste(
+      "Please use logo_alt_text to provide alternative text",
+      "for the logo you used."
+    )
   )
 
   expect_warning(
@@ -138,7 +141,10 @@ test_that("errors are as expected", {
       secondary_text = "test text 2",
       main_link = "test_link.com"
     ),
-    "Please use main_alt_text to provide alternative text for the main link you used."
+    paste(
+      "Please use main_alt_text to provide alternative text",
+      "for the main link you used."
+    )
   )
 
   expect_warning(
@@ -149,6 +155,9 @@ test_that("errors are as expected", {
       secondary_link = "test_link2.com",
       logo_alt_text = "this is a test for alt text for the logo"
     ),
-    "Please use secondary_alt_text to provide alternative text for the secondary link you used."
+    paste(
+      "Please use secondary_alt_text to provide alternative text",
+      "for the secondary link you used."
+    )
   )
 })

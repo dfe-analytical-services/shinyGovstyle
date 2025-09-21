@@ -17,7 +17,12 @@
 #' if (interactive()) {
 #'
 #'   # Create an example dataset
-#'   headers <- c("Name", "Date of birth", "Contact information", "Contact details")
+#'   headers <- c(
+#'     "Name",
+#'     "Date of birth",
+#'     "Contact information",
+#'     "Contact details"
+#'   )
 #'   info <- c(
 #'     "Sarah Philips",
 #'     "5 January 1978",
@@ -38,12 +43,17 @@
 #'   shinyApp(ui = ui, server = server)
 #' }
 #'
-
-gov_summary <- function(inputId, headers, info, action = FALSE, border = TRUE) {
+gov_summary <- function(
+  inputId, # nolint
+  headers,
+  info,
+  action = FALSE,
+  border = TRUE
+) {
   if (border) {
-    border_class = "govuk-summary-list"
+    border_class <- "govuk-summary-list"
   } else {
-    border_class = "govuk-summary-list govuk-summary-list--no-border"
+    border_class <- "govuk-summary-list govuk-summary-list--no-border"
   }
 
   shiny::tags$dl(

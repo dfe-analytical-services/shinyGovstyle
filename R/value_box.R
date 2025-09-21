@@ -1,13 +1,22 @@
 #' Create a value text box with optional description and colour
 #'
-#' This function generates a value text box with an optional description and customisable colour.
-#' The text box can be used in Shiny applications to display highlighted information, such as statistics or key metrics.
+#' This function generates a value text box with an optional description and
+#' customisable colour.
 #'
-#' @param value Character. The primary value to display in the value box. Defaults to "your value goes here".
-#' @param text Character or NA. An optional description to appear below the value. If not provided (default is NA), the description will not be displayed..
-#' @param colour Character. A colour to apply to the value box. Defaults to "blue". Choose from the following: "grey", "purple", "turquoise", "blue", "light-blue", "yellow", "orange", "red", "pink", or "green".
+#' The text box can be used in Shiny applications to display highlighted
+#' information, such as statistics or key metrics.
 #'
-#' @return A Shiny `div` tag representing the value box, styled according to the specified parameters.
+#' @param value Character. The primary value to display in the value box.
+#' Defaults to "your value goes here".
+#' @param text Character or NA. An optional description to appear below the
+#' value. If not provided (default is NA), the description will not be
+#' displayed
+#' @param colour Character. A colour to apply to the value box. Defaults
+#' to "blue". Choose from the following: "grey", "purple", "turquoise",
+#' "blue", "light-blue", "yellow", "orange", "red", "pink", or "green"
+#'
+#' @return A Shiny `div` tag representing the value box, styled according
+#' to the specified parameters
 #' @export
 #'
 #' @examples
@@ -44,7 +53,7 @@ value_box <- function(
   }
 
   # Define the value box with the value and optional text
-  govValue <- shiny::tags$div(
+  gov_value <- shiny::tags$div(
     class = paste("value-box-container", class_colour),
     shiny::tags$strong(
       value,
@@ -53,5 +62,5 @@ value_box <- function(
     text_tag
   )
 
-  attachDependency(govValue)
+  attachDependency(gov_value)
 }

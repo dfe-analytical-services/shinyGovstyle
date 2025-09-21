@@ -41,8 +41,10 @@
 #'   }
 #'   shinyApp(ui = ui, server = server)
 #' }
-
-error_summary_update <- function(inputId, error_list) {
+error_summary_update <- function(
+  inputId, # nolint
+  error_list
+) {
   new_err_sum <-
     shiny::tags$ul(
       class = "govuk-list govuk-error-summary__list",

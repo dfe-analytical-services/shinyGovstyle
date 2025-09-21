@@ -1,9 +1,9 @@
 #' Download link
 #'
 #' @description
-#' The \code{download_link()} provides a standard way to provide a download link,
-#' which facilitates important accessible / positive user experience elements,
-#' namely:
+#' The \code{download_link()} provides a standard way to provide a download
+#' link, which facilitates important accessible / positive user experience
+#' elements, namely:
 #' \itemize{
 #' \item file type
 #' \item file size
@@ -69,7 +69,7 @@
 #'   shiny::shinyApp(ui, server)
 #' }
 download_link <- function(
-  outputId,
+  outputId, # nolint
   link_text,
   file_type = "CSV",
   file_size = NULL

@@ -59,78 +59,82 @@
 #'   }
 #'   shinyApp(ui = ui, server = server)
 #' }
+file_Input <- # nolint
+  function(
+    inputId, # nolint
+    label,
+    multiple = FALSE,
+    accept = NULL,
+    width = NULL,
+    buttonLabel = "Choose file", # nolint
+    placeholder = "No file chosen",
+    error = FALSE,
+    error_message = NULL
+  ) {
+    restored_value <- shiny::restoreInput(id = inputId, default = NULL)
 
-file_Input <- function(
-  inputId,
-  label,
-  multiple = FALSE,
-  accept = NULL,
-  width = NULL,
-  buttonLabel = "Choose file",
-  placeholder = "No file chosen",
-  error = FALSE,
-  error_message = NULL
-) {
-  restoredValue <- shiny::restoreInput(id = inputId, default = NULL)
+    # Catch potential edge case - ensure that it's either NULL or a data frame.
+    if (!is.null(restored_value) && !is.data.frame(restored_value)) {
+      warning("Restored value for ", inputId, " has incorrect format.")
+      restored_value <- NULL
+    }
 
-  # Catch potential edge case - ensure that it's either NULL or a data frame.
-  if (!is.null(restoredValue) && !is.data.frame(restoredValue)) {
-    warning("Restored value for ", inputId, " has incorrect format.")
-    restoredValue <- NULL
-  }
+    if (!is.null(restored_value)) {
+      restored_value <- jsonlite::toJSON(restored_value, strict_atomic = FALSE)
+    }
 
-  if (!is.null(restoredValue)) {
-    restoredValue <- jsonlite::toJSON(restoredValue, strict_atomic = FALSE)
-  }
+    input_tag <- shiny::tags$input(
+      id = inputId,
+      name = inputId,
+      type = "file",
+      style = "display: none;",
+      `data-restore` = restored_value
+    )
 
-  inputTag <- shiny::tags$input(
-    id = inputId,
-    name = inputId,
-    type = "file",
-    style = "display: none;",
-    `data-restore` = restoredValue
-  )
+    if (multiple) {
+      input_tag$attribs$multiple <- "multiple"
+    }
+    if (length(accept) > 0) {
+      input_tag$attribs$accept <- paste(accept, collapse = ",")
+    }
 
-  if (multiple) {
-    inputTag$attribs$multiple <- "multiple"
-  }
-  if (length(accept) > 0) {
-    inputTag$attribs$accept <- paste(accept, collapse = ',')
-  }
+    gov_file <- shiny::div(
+      id = paste0(inputId, "div"),
+      class = "govuk-form-group",
 
-  govFile <- shiny::div(
-    id = paste0(inputId, "div"),
-    class = "govuk-form-group",
+      style = if (!is.null(width)) {
+        paste0("width: ", shiny::validateCssUnit(width), ";")
+      },
+      shiny::tags$label(label, class = "govuk-label"),
+      if (error == TRUE) {
+        shinyjs::hidden(
+          shiny::tags$p(
+            error_message,
+            class = "govuk-error-message",
+            id = paste0(inputId, "error"),
+            shiny::tags$span("Error:", class = "govuk-visually-hidden")
+          )
+        )
+      },
 
-    style = if (!is.null(width)) {
-      paste0("width: ", shiny::validateCssUnit(width), ";")
-    },
-    shiny::tags$label(label, class = "govuk-label"),
-    if (error == TRUE) {
-      shinyjs::hidden(
-        shiny::tags$p(
-          error_message,
-          class = "govuk-error-message",
-          id = paste0(inputId, "error"),
-          shiny::tags$span("Error:", class = "govuk-visually-hidden")
+      shiny::div(
+        id = paste0(inputId, "file_div"),
+        class = "input-group",
+        shiny::tags$label(
+          class = "input-group-btn",
+          shiny::span(
+            class = "btn btn-default btn-file",
+            buttonLabel,
+            input_tag
+          )
+        ),
+        shiny::tags$input(
+          type = "text",
+          class = "form-control",
+          placeholder = placeholder,
+          readonly = "readonly"
         )
       )
-    },
-
-    shiny::div(
-      id = paste0(inputId, "file_div"),
-      class = "input-group",
-      shiny::tags$label(
-        class = "input-group-btn",
-        shiny::span(class = "btn btn-default btn-file", buttonLabel, inputTag)
-      ),
-      shiny::tags$input(
-        type = "text",
-        class = "form-control",
-        placeholder = placeholder,
-        readonly = "readonly"
-      )
     )
-  )
-  attachDependency(govFile)
-}
+    attachDependency(gov_file)
+  }

@@ -32,26 +32,31 @@
 #'   server <- function(input, output, session) {}
 #'   shinyApp(ui = ui, server = server)
 #' }
-
-select_Input <- function(inputId, label, select_text, select_value) {
-  govSelect <- shiny::tags$div(
-    class = "govuk-form-group",
-    shiny::tags$label(
-      shiny::HTML(label),
-      class = "govuk-label",
-      `for` = inputId
-    ),
-    shiny::tags$select(
-      id = inputId,
-      class = "govuk-select",
-      Map(
-        function(x, y) {
-          shiny::tags$option(value = y, x)
-        },
-        x = select_text,
-        y = select_value
+select_Input <- # nolint
+  function(
+    inputId, # nolint
+    label,
+    select_text,
+    select_value
+  ) {
+    gov_select <- shiny::tags$div(
+      class = "govuk-form-group",
+      shiny::tags$label(
+        shiny::HTML(label),
+        class = "govuk-label",
+        `for` = inputId
+      ),
+      shiny::tags$select(
+        id = inputId,
+        class = "govuk-select",
+        Map(
+          function(x, y) {
+            shiny::tags$option(value = y, x)
+          },
+          x = select_text,
+          y = select_value
+        )
       )
     )
-  )
-  attachDependency(govSelect)
-}
+    attachDependency(gov_select)
+  }

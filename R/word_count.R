@@ -37,9 +37,12 @@
 #'   }
 #'   shinyApp(ui = ui, server = server)
 #'}
-
-word_count <- function(inputId, input, word_limit = NULL) {
-  if (input == '') {
+word_count <- function(
+  inputId, # nolint
+  input,
+  word_limit = NULL
+) {
+  if (input == "") {
     word_no <- 0
   } else {
     word_no <- sapply(gregexpr("\\S+", input), length)

@@ -42,27 +42,29 @@
 #'   }
 #'   shinyApp(ui = ui, server = server)
 #' }
-
-error_summary <-
-  function(inputId, error_title, error_list) {
-    govErrorSummary <-
+error_summary <- function(
+  inputId, # nolint
+  error_title,
+  error_list
+) {
+  gov_error_summary <-
+    shiny::tags$div(
+      id = inputId,
+      class = "govuk-error-summary",
+      shiny::tags$h2(error_title, class = "govuk-error-summary__title"),
       shiny::tags$div(
-        id = inputId,
-        class = "govuk-error-summary",
-        shiny::tags$h2(error_title, class = "govuk-error-summary__title"),
-        shiny::tags$div(
-          id = paste0(inputId, "list"),
-          class = "govuk-error-summary__body",
-          shiny::tags$ul(
-            class = "govuk-list govuk-error-summary__list",
-            Map(
-              function(x) {
-                shiny::tags$li(x)
-              },
-              x = error_list
-            )
+        id = paste0(inputId, "list"),
+        class = "govuk-error-summary__body",
+        shiny::tags$ul(
+          class = "govuk-list govuk-error-summary__list",
+          Map(
+            function(x) {
+              shiny::tags$li(x)
+            },
+            x = error_list
           )
         )
       )
-    attachDependency(govErrorSummary)
-  }
+    )
+  attachDependency(gov_error_summary)
+}

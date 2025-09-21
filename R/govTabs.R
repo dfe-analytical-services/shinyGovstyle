@@ -34,49 +34,57 @@
 #'   server <- function(input, output, session) {}
 #'   shinyApp(ui = ui, server = server)
 #' }
+govTabs <- # nolint
+  function(
+    inputId, # nolint
+    df,
+    group_col
+  ) {
+    tabs <- unique(df[[group_col]])
+    tab_headers <- create_tabs(tabs, inputId)
 
-govTabs <- function(inputId, df, group_col) {
-  tabs <- unique(df[[group_col]])
-  tab_headers <- create_tabs(tabs, inputId)
+    # Select the first tab as the selected one
+    tab_headers$children[[1]][[1]]$attribs$class <-
+      "govuk-tabs__list-item govuk-tabs__list-item--selected"
 
-  #Select the first tab as the selected one
-  tab_headers$children[[1]][[1]]$attribs$class <-
-    "govuk-tabs__list-item govuk-tabs__list-item--selected"
+    main_temp_hold <- NULL
+    # This needs to make up the tables on each tab
+    for (i in tabs) {
+      # filter through tabs and drop the grouping value
+      temp_table <- df[df[[group_col]] == i, ]
+      temp_table[group_col] <- NULL
+      # Create row by row the main bulk of table to insert later
+      main_row_store <- NULL
+      for (j in seq_len(nrow(temp_table))) {
+        temp_row_store <- create_tab_row(temp_table[j, ])
+        main_row_store <- shiny::tagList(temp_row_store, main_row_store)
+      }
 
-  main_temp_hold <- NULL
-  #This needs to make up the tables on each tab
-  for (i in tabs) {
-    #filter through tabs and drop the grouping value
-    temp_table <- df[df[[group_col]] == i, ]
-    temp_table[group_col] <- NULL
-    #Create row by row the main bulk of table to insert later
-    main_row_store <- NULL
-    for (j in 1:nrow(temp_table)) {
-      temp_row_store <- create_tab_row(temp_table[j, ])
-      main_row_store <- shiny::tagList(temp_row_store, main_row_store)
+      temp_hold <- create_tab_table(temp_table, main_row_store, i, inputId)
+      main_temp_hold <- shiny::tagList(main_temp_hold, temp_hold)
     }
 
-    temp_hold <- create_tab_table(temp_table, main_row_store, i, inputId)
-    main_temp_hold <- shiny::tagList(main_temp_hold, temp_hold)
+    # Put the lime with coconut and create the final thing
+    main_tab_div <- shiny::tags$div(
+      class = "govuk-frontend-supported",
+      shiny::tags$h2(class = "govuk-tabs__title", "Contents"),
+      tab_headers,
+      main_temp_hold
+    )
+
+    # unhide first tab
+    main_tab_div$children[[3]][[1]][[1]][[1]][[2]][[2]]$class <-
+      "govuk-tabs__panel"
+
+    attachDependency(main_tab_div, "govTab")
   }
 
-  #Put the lime with coconut and create the final thing
-  main_tab_div <- shiny::tags$div(
-    class = "govuk-frontend-supported",
-    shiny::tags$h2(class = "govuk-tabs__title", "Contents"),
-    tab_headers,
-    main_temp_hold
-  )
-
-  #unhide first tab
-  main_tab_div$children[[3]][[1]][[1]][[1]][[2]][[2]]$class <-
-    "govuk-tabs__panel"
-
-  attachDependency(main_tab_div, "govTab")
-}
-
-
-create_tab_table <- function(df, rows, tab, inputId) {
+create_tab_table <- function(
+  df,
+  rows,
+  tab,
+  inputId # nolint
+) {
   shiny::tags$div(
     class = "govuk-tabs__panel govuk-tabs__panel--hidden",
     id = tolower(gsub(" ", "-", tab)),
@@ -109,18 +117,22 @@ create_tab_table <- function(df, rows, tab, inputId) {
 }
 
 create_tab_row <- function(df_row) {
-  rowHTML <- shiny::tags$tr(
-    class = "govuk-table__row",
-    Map(
-      function(x) {
-        shiny::tags$td(class = "govuk-table__cell", x)
-      },
-      x = df_row
+  rowHTML <- # nolint
+    shiny::tags$tr(
+      class = "govuk-table__row",
+      Map(
+        function(x) {
+          shiny::tags$td(class = "govuk-table__cell", x)
+        },
+        x = df_row
+      )
     )
-  )
 }
 
-create_tabs <- function(tabs_names, inputId) {
+create_tabs <- function(
+  tabs_names,
+  inputId # nolint
+) {
   shiny::tags$ul(
     class = "govuk-tabs__list",
     id = paste0(inputId, "tab"),

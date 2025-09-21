@@ -13,51 +13,60 @@
 #' @keywords text area
 #' @export
 #' @examples
-#' text_area_Input("taId", "Can you provide more detail?",
-#' "Do not include personal or financial information, like your
-#' National Insurance number or credit card details.")
-
-text_area_Input <- function(
-  inputId,
-  label,
-  hint_label = NULL,
-  row_no = 5,
-  error = FALSE,
-  error_message = NULL,
-  word_limit = NULL
-) {
-  govTextarea <- shiny::tags$div(
-    class = "govuk-form-group govuk-character-count",
-    id = paste0(inputId, "div"),
-    shiny::tags$label(shiny::HTML(label), class = "govuk-label"),
-    shiny::tags$div(hint_label, class = "govuk-hint"),
-    if (error == TRUE) {
-      shinyjs::hidden(
-        shiny::tags$p(
-          error_message,
-          class = "govuk-error-message",
-          id = paste0(inputId, "error"),
-          shiny::tags$span("Error:", class = "govuk-visually-hidden")
+#' text_area_Input(
+#'   "taId",
+#'   "Can you provide more detail?",
+#'   paste(
+#'     "Do not include personal or financial information, like your",
+#'     "National Insurance number or credit card details."
+#'   )
+#' )
+text_area_Input <- # nolint
+  function(
+    inputId, # nolint
+    label,
+    hint_label = NULL,
+    row_no = 5,
+    error = FALSE,
+    error_message = NULL,
+    word_limit = NULL
+  ) {
+    gov_textarea <- shiny::tags$div(
+      class = "govuk-form-group govuk-character-count",
+      id = paste0(inputId, "div"),
+      shiny::tags$label(shiny::HTML(label), class = "govuk-label"),
+      shiny::tags$div(hint_label, class = "govuk-hint"),
+      if (error == TRUE) {
+        shinyjs::hidden(
+          shiny::tags$p(
+            error_message,
+            class = "govuk-error-message",
+            id = paste0(inputId, "error"),
+            shiny::tags$span("Error:", class = "govuk-visually-hidden")
+          )
         )
-      )
-    },
-    shiny::tags$textarea(id = inputId, class = "govuk-textarea", rows = row_no),
-    if (!is.null(word_limit)) {
-      shiny::tags$div(
-        class = "govuk-hint govuk-character-count__message",
-        shiny::tags$span(
-          "You have used"
-        ),
-        shiny::tags$span(
-          id = paste0(inputId, "wc"),
-          "0"
-        ),
-        shiny::tags$span(
-          id = paste0(inputId, "wl"),
-          paste("of the", word_limit, "allowed")
+      },
+      shiny::tags$textarea(
+        id = inputId,
+        class = "govuk-textarea",
+        rows = row_no
+      ),
+      if (!is.null(word_limit)) {
+        shiny::tags$div(
+          class = "govuk-hint govuk-character-count__message",
+          shiny::tags$span(
+            "You have used"
+          ),
+          shiny::tags$span(
+            id = paste0(inputId, "wc"),
+            "0"
+          ),
+          shiny::tags$span(
+            id = paste0(inputId, "wl"),
+            paste("of the", word_limit, "allowed")
+          )
         )
-      )
-    }
-  )
-  attachDependency(govTextarea)
-}
+      }
+    )
+    attachDependency(gov_textarea)
+  }

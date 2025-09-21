@@ -27,9 +27,12 @@
 #'   server <- function(input, output, session) {}
 #'   shinyApp(ui = ui, server = server)
 #' }
-
-details <- function(inputId, label, help_text) {
-  govDetails <- shiny::tags$details(
+details <- function(
+  inputId, # nolint
+  label,
+  help_text
+) {
+  gov_details <- shiny::tags$details(
     class = "govuk-details",
     id = inputId,
     shiny::tags$summary(
@@ -41,5 +44,5 @@ details <- function(inputId, label, help_text) {
     ),
     shiny::tags$div(class = "govuk-details__text", help_text)
   )
-  attachDependency(govDetails)
+  attachDependency(gov_details)
 }

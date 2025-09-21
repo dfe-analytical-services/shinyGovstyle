@@ -50,8 +50,10 @@
 #'   # Run the application
 #'   shinyApp(ui = ui, server = server)
 #' }
-
-error_on <- function(inputId, error_message = NULL) {
+error_on <- function(
+  inputId, # nolint
+  error_message = NULL
+) {
   shinyjs::addClass(paste0(inputId, "div"), "govuk-form-group--error")
   if (!is.null(error_message)) {
     shinyjs::html(paste0(inputId, "error"), error_message)

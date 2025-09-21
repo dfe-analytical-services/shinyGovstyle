@@ -23,16 +23,15 @@
 #'   server <- function(input, output, session) {}
 #'   shinyApp(ui = ui, server = server)
 #' }
-
 heading_text <- function(text_input, size = "xl", id) {
   if (missing(id)) {
     id <- clean_heading_text(text_input)
   }
 
-  govHeading <- shiny::tags$h1(
+  gov_heading <- shiny::tags$h1(
     shiny::HTML(text_input),
     class = paste0("govuk-heading-", size),
     id = id
   )
-  attachDependency(govHeading)
+  attachDependency(gov_heading)
 }

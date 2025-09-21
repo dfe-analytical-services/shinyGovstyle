@@ -52,52 +52,57 @@
 #'     )
 #'   )
 #' }
-govReactable <- function(
-  df,
-  right_col = NULL,
-  page_size = 10,
-  highlight = TRUE,
-  borderless = TRUE,
-  min_widths = list(),
-  ...
-) {
-  # Generate column definitions
-  col_defs <- stats::setNames(
-    lapply(seq_along(names(df)), function(index) {
-      col <- names(df)[index]
-
-      reactable::colDef(
-        name = col,
-        sortable = TRUE,
-        headerClass = "bar-sort-header",
-        html = TRUE,
-        na = "NA",
-        align = if (!is.null(right_col) && col %in% right_col) {
-          "right"
-        } else {
-          "left"
-        },
-        minWidth = if (!is.null(min_widths[[col]])) min_widths[[col]] else NULL
-      )
-    }),
-    names(df)
-  )
-
-  # Create the reactable table
-  table <- reactable::reactable(
+govReactable <- # nolint
+  function(
     df,
-    columns = col_defs,
-    defaultPageSize = page_size,
-    highlight = highlight,
-    borderless = borderless,
-    showSortIcon = FALSE,
-    fullWidth = TRUE,
-    wrap = TRUE,
-    class = "gov-table govuk-table",
+    right_col = NULL,
+    page_size = 10,
+    highlight = TRUE,
+    borderless = TRUE,
+    min_widths = list(),
     ...
-  )
-  return(table)
-}
+  ) {
+    # Generate column definitions
+    col_defs <- stats::setNames(
+      lapply(seq_along(names(df)), function(index) {
+        col <- names(df)[index]
+
+        reactable::colDef(
+          name = col,
+          sortable = TRUE,
+          headerClass = "bar-sort-header",
+          html = TRUE,
+          na = "NA",
+          align = if (!is.null(right_col) && col %in% right_col) {
+            "right"
+          } else {
+            "left"
+          },
+          minWidth = if (!is.null(min_widths[[col]])) {
+            min_widths[[col]]
+          } else {
+            NULL
+          }
+        )
+      }),
+      names(df)
+    )
+
+    # Create the reactable table
+    table <- reactable::reactable(
+      df,
+      columns = col_defs,
+      defaultPageSize = page_size,
+      highlight = highlight,
+      borderless = borderless,
+      showSortIcon = FALSE,
+      fullWidth = TRUE,
+      wrap = TRUE,
+      class = "gov-table govuk-table",
+      ...
+    )
+    return(table)
+  }
 
 #' Shiny bindings for govReactable
 #' Output and render functions for using govReactable within shiny apps
@@ -142,43 +147,48 @@ govReactable <- function(
 #'
 #' @export
 # Output for reactive tables
+govReactableOutput <- # nolint
+  function(
+    output_table_name,
+    caption,
+    caption_size = "l",
+    heading_level = "h2"
+  ) {
+    # Validate heading_level input
+    allowed_levels <- c("h2", "h3", "h4", "h5")
+    if (!heading_level %in% allowed_levels) {
+      stop(
+        "heading_level must be one of: ",
+        paste(allowed_levels, collapse = ", ")
+      )
+    }
 
-govReactableOutput <- function(
-  output_table_name,
-  caption,
-  caption_size = "l",
-  heading_level = "h2"
-) {
-  # Validate heading_level input
-  allowed_levels <- c("h2", "h3", "h4", "h5")
-  if (!heading_level %in% allowed_levels) {
-    stop(
-      "heading_level must be one of: ",
-      paste(allowed_levels, collapse = ", ")
+    heading_tag <- do.call(
+      shiny::tags[[heading_level]],
+      list(
+        class = paste0("govuk-heading-", caption_size),
+        caption
+      )
     )
+
+    return(htmltools::div(
+      heading_tag,
+      reactable::reactableOutput(output_table_name)
+    ))
   }
-
-  heading_tag <- do.call(
-    shiny::tags[[heading_level]],
-    list(
-      class = paste0("govuk-heading-", caption_size),
-      caption
-    )
-  )
-
-  return(htmltools::div(
-    heading_tag,
-    reactable::reactableOutput(output_table_name)
-  ))
-}
 
 # use renderReactable to render the govTables - naming just for convention
 # This function wraps reactable::renderReactable.
 #' @rdname govReactable-shiny
 #' @export
-renderGovReactable <- function(expr, env = parent.frame(), quoted = FALSE) {
-  if (!quoted) {
-    expr <- substitute(expr)
+renderGovReactable <- # nolint
+  function(
+    expr,
+    env = parent.frame(),
+    quoted = FALSE
+  ) {
+    if (!quoted) {
+      expr <- substitute(expr)
+    }
+    reactable::renderReactable(expr, env = env, quoted = TRUE)
   }
-  reactable::renderReactable(expr, env = env, quoted = TRUE)
-}

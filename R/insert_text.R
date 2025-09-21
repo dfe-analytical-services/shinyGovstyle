@@ -27,12 +27,15 @@
 #'   server <- function(input, output, session) {}
 #'   shinyApp(ui = ui, server = server)
 #' }
-
-insert_text <- function(inputId, text) {
-  govInsert <- shiny::tags$div(
-    shiny::HTML(text),
-    id = inputId,
-    class = "govuk-inset-text"
-  )
-  attachDependency(govInsert)
-}
+insert_text <- # nolint
+  function(
+    inputId, # nolint
+    text
+  ) {
+    gov_insert <- shiny::tags$div(
+      shiny::HTML(text),
+      id = inputId,
+      class = "govuk-inset-text"
+    )
+    attachDependency(gov_insert)
+  }

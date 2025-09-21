@@ -2,7 +2,8 @@
 test_that("value_box color class works", {
   box_yellow <- value_box("testId2", "Test Value", colour = "yellow")
 
-  # Check that the container class includes both "value-box-container" and the color
+  # Check that the container class includes both
+  # "value-box-container" and the color
   expect_identical(
     box_yellow$attribs$class,
     "value-box-container govuk-tag--yellow"

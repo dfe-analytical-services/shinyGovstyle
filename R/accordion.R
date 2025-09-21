@@ -38,9 +38,12 @@
 #'
 #'   shinyApp(ui = ui, server = server)
 #' }
-
-accordion <- function(inputId, titles, descriptions) {
-  count_array <- seq(length(titles))
+accordion <- function(
+  inputId, # nolint
+  titles,
+  descriptions
+) {
+  count_array <- seq_along(titles)
 
   accordion_div <-
     shiny::tags$div(

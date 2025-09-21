@@ -27,13 +27,16 @@
 #'   server <- function(input, output, session) {}
 #'   shinyApp(ui = ui, server = server)
 #' }
-
-label_hint <- function(inputId, label, hint_input = NULL) {
-  govLabel <- shiny::tags$div(
+label_hint <- function(
+  inputId, # nolint
+  label,
+  hint_input = NULL
+) {
+  gov_label <- shiny::tags$div(
     class = "govuk-form-group",
     id = inputId,
     shiny::tags$label(shiny::HTML(label), class = "govuk-label"),
     shiny::tags$div(hint_input, class = "govuk-hint")
   )
-  attachDependency(govLabel)
+  attachDependency(gov_label)
 }

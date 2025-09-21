@@ -24,17 +24,21 @@
 #'   server <- function(input, output, session) {}
 #'   shinyApp(ui = ui, server = server)
 #' }
+tag_Input <- # nolint
+  function(
+    inputId, # nolint
+    text,
+    colour = "navy"
+  ) {
+    class_colour <- "govuk-tag"
+    if (colour != "navy") {
+      class_colour <- paste0("govuk-tag govuk-tag--", colour)
+    }
 
-tag_Input <- function(inputId, text, colour = "navy") {
-  class_colour <- "govuk-tag"
-  if (colour != "navy") {
-    class_colour <- paste0("govuk-tag govuk-tag--", colour)
+    gov_tag <- shiny::tags$strong(
+      id = inputId,
+      class = class_colour,
+      text
+    )
+    attachDependency(gov_tag)
   }
-
-  govTag <- shiny::tags$strong(
-    id = inputId,
-    class = class_colour,
-    text
-  )
-  attachDependency(govTag)
-}

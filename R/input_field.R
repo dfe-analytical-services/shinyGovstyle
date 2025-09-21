@@ -55,7 +55,7 @@
 input_field <- function(
   legend,
   labels,
-  inputIds,
+  inputIds, # nolint
   widths = NULL,
   types = "text",
   error = FALSE,
@@ -64,7 +64,7 @@ input_field <- function(
   if (is.null(widths)) {
     widths <- rep_len(0, length(inputIds))
   }
-  govInputField <- shiny::tags$fieldset(
+  gov_input_field <- shiny::tags$fieldset(
     class = "govuk-fieldset",
     shiny::tags$legend(
       legend,
@@ -100,5 +100,5 @@ input_field <- function(
       a = types
     )
   )
-  attachDependency(govInputField)
+  attachDependency(gov_input_field)
 }

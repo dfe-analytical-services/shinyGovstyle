@@ -24,9 +24,11 @@
 #'   server <- function(input, output, session) {}
 #'   shinyApp(ui = ui, server = server)
 #' }
-
-warning_text <- function(inputId, text) {
-  govWarning <- shiny::tags$div(
+warning_text <- function(
+  inputId, # nolint
+  text
+) {
+  gov_warning <- shiny::tags$div(
     class = "govuk-warning-text",
     id = inputId,
     shiny::tags$span(
@@ -40,5 +42,5 @@ warning_text <- function(inputId, text) {
       shiny::tags$span("Warning", class = "govuk-visually-hidden")
     )
   )
-  attachDependency(govWarning)
+  attachDependency(gov_warning)
 }

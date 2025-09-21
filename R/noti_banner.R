@@ -27,7 +27,7 @@
 #' }
 #'
 noti_banner <- function(
-  inputId,
+  inputId, # nolint
   title_txt = "Important",
   body_txt = NULL,
   type = "standard"
@@ -37,7 +37,7 @@ noti_banner <- function(
     role_type <- "alert"
   } else {
     type_class <- "govuk-notification-banner"
-    role_type = "region"
+    role_type <- "region"
   }
 
   shiny::tags$div(

@@ -68,8 +68,11 @@ NULL
 
 #' @rdname layouts
 #' @export
-gov_main_layout <- function(..., inputID = "main") {
-  govMain <- shiny::tags$div(
+gov_main_layout <- function(
+  ...,
+  inputID = "main" # nolint
+) {
+  gov_main <- shiny::tags$div(
     id = inputID,
     class = "govuk-width-container",
     shiny::tags$main(
@@ -77,34 +80,35 @@ gov_main_layout <- function(..., inputID = "main") {
       ...
     )
   )
-  attachDependency(govMain)
+  attachDependency(gov_main)
 }
 
 #' @rdname layouts
 #' @export
 gov_row <- function(...) {
-  govRow <- shiny::tags$div(
+  gov_row <- shiny::tags$div(
     class = "govuk-grid-row",
     ...
   )
-  attachDependency(govRow)
+  attachDependency(gov_row)
 }
 
 #' @rdname layouts
 #' @export
 gov_box <- function(..., size = "full") {
-  govBox <- shiny::tags$div(
+  gov_box <- shiny::tags$div(
     class = paste0("govuk-grid-column-", size),
     ...
   )
-  attachDependency(govBox)
+  attachDependency(gov_box)
 }
 
 #' @rdname layouts
 #' @export
 gov_text <- function(...) {
-  govText <- shiny::tags$p(
-    class = "govuk-body",
-    ...
-  )
+  gov_text <- # nolint
+    shiny::tags$p(
+      class = "govuk-body",
+      ...
+    )
 }

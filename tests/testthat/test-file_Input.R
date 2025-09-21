@@ -9,9 +9,16 @@ test_that("file input works", {
 
 
 test_that("file input works 2", {
-  file_check <- file_Input("inputId", "Test", multiple = T, accept = c(".xls"))
+  file_check <- file_Input(
+    "inputId",
+    "Test",
+    multiple = TRUE,
+    accept = c(".xls")
+  )
 
-  in_child <- file_check$children[[3]]$children[[1]]$children[[1]]$children[[2]]
+  in_child <-
+    file_check$children[[3]]$children[[1]]$children[[1]]$children[[2]]
+
   expect_identical(
     in_child$attribs$accept,
     ".xls"
@@ -23,12 +30,11 @@ test_that("file input works 2", {
   )
 })
 
-
 test_that("file input error works", {
   file_check <- file_Input(
     "inputId",
     "Test",
-    error = T,
+    error = TRUE,
     error_message = "Error test"
   )
 

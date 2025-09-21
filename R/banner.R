@@ -24,9 +24,12 @@
 #'
 #'   shinyApp(ui = ui, server = server)
 #' }
-
-banner <- function(inputId, type, label) {
-  govBanner <- shiny::tags$div(
+banner <- function(
+  inputId, # nolint
+  type,
+  label
+) {
+  gov_banner <- shiny::tags$div(
     class = "govuk-phase-banner govuk-width-container govuk-main-wrapper",
     id = inputId,
     shiny::tags$p(
@@ -38,5 +41,5 @@ banner <- function(inputId, type, label) {
       shiny::tags$span(class = "govuk-phase-banner__text", shiny::HTML(label))
     )
   )
-  attachDependency(govBanner)
+  attachDependency(gov_banner)
 }

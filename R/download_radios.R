@@ -1,43 +1,37 @@
 #' Download with extension radios
 #'
-#' @param id Shiny element ID. Default is "download_radios", but must be
+#' @param id Shiny element Id. Default is "download_radios", but must be
 #' customised to be unique if multiple instances of this module are being
 #' used in a single app. Must match up to the ID
-#' of a `download_radios_helper()` instance in server code.
+#' of a `download_radios_helper()` instance in server code
 #' @param download_type Element being downloaded. Expected to be along the
 #' lines of "underlying data", "table", "current data view". Default is "table"
 #' @param file_types File formats to offer, can be any combination of
 #' "CSV", "XLSX", "ODS". Default is a vector of all 3
 #' @param file_sizes Estimated file sizes for each file format. This needs to
-#' be a vector of the same length as file_types.
+#' be a vector of the same length as file_types
 #' @param small Set radio buttons to small size (logical, default: FALSE)
 #'
 #' @returns UI containing radio selection and download button
 #' @export
 #'
 #' @examples
-#' if (interactive()) {
-#'   library(shiny)
-#'   library(shinyGovstyle)
-#'
-#'   ui <- fluidPage(
-#'     download_radios("download_file",
-#'       file_types = c("CSV", "ODS"),
-#'       file_sizes = c("2 KB", "5 KB")
-#'     )
+#' ui <- fluidPage(
+#'   download_radios("download_file",
+#'     file_types = c("CSV", "ODS"),
+#'     file_sizes = c("2 KB", "5 KB")
 #'   )
+#' )
 #'
-#'   server <- function(input, output, session) {
-#'     output$download_file <- download_radios_handler(
-#'       "download_file",
-#'       file_name = "simple_data_frame",
-#'       file_contents = mtcars
-#'     )
-#'   }
-#'
-#'   # How to run the minimal app given in this example =======================
-#'   shinyApp(ui, server)
+#' server <- function(input, output, session) {
+#'   output$download_file <- download_radios_handler(
+#'     "download_file",
+#'     file_name = "simple_data_frame",
+#'     file_contents = mtcars
+#'   )
 #' }
+#'
+#' if (interactive()) shinyApp(ui, server)
 download_radios <- function(
   id = "download_radios",
   download_type = "table",
@@ -79,10 +73,10 @@ download_radios <- function(
 
 #' Download with extension radios handler
 #'
-#' @param id Shiny element ID. Default is "download_radios", but must be
+#' @param id Shiny element Id. Default is "download_radios", but must be
 #' customised to be unique if multiple instances of this module are being
 #' used in a single app. Must match up to the ID of a `download_radios()`
-#' instance in UI code.
+#' instance in UI code
 #' @param file_name Name of the file to be downloaded
 #' @param file_contents Contents to write to the download file
 #'

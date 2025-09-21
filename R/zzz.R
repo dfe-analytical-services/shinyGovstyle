@@ -3,7 +3,6 @@
 #' @importFrom shiny addResourcePath
 #'
 #' @noRd
-#'
 .onLoad <- function(...) {
   shiny::addResourcePath(
     "shinyGovstyle",

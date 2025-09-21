@@ -4,29 +4,31 @@
 #' @param inputId The input slot that will be used to access the value.
 #' @param main_text Add the header for the panel
 #' @param sub_text Add the main body of text for the panel
-#' @return a panel html shiny object
+#' @return a panel HTML shiny tag object
 #' @keywords panel
 #' @export
 #' @examples
-#' if (interactive()) {
-#'   ui <- fluidPage(
-#'     shinyGovstyle::header(
-#'       main_text = "Example",
-#'       secondary_text = "User Examples",
-#'       logo="shinyGovstyle/images/moj_logo.png"),
-#'     shinyGovstyle::gov_layout(size = "full",
-#'       shinyGovstyle::panel_output(
-#'         inputId = "panel1",
-#'         main_text = "Application Complete",
-#'         sub_text = "Thank you for submitting your application.
-#'                     Your reference is xvsiq")
+#' ui <- fluidPage(
+#'   shinyGovstyle::header(
+#'     main_text = "Example",
+#'     secondary_text = "User Examples",
+#'     logo="shinyGovstyle/images/moj_logo.png"
+#'   ),
+#'   shinyGovstyle::gov_layout(size = "full",
+#'     shinyGovstyle::panel_output(
+#'       inputId = "panel1",
+#'       main_text = "Application Complete",
+#'       sub_text = paste(
+#'         "Thank you for submitting your application.",
+#'         "Your reference is xvsiq"
+#'       )
 #'     ),
 #'     shinyGovstyle::footer(full = TRUE)
 #'   )
+#' )
 #'
-#'   server <- function(input, output, session) {}
-#'   shinyApp(ui = ui, server = server)
-#' }
+#' server <- function(input, output, session) {}
+#' if (interactive()) shinyApp(ui = ui, server = server)
 panel_output <- function(
   inputId, # nolint
   main_text,

@@ -1,31 +1,29 @@
 #' Notification Banner Function
 #'
-#' This function create a notification banner
-#' @param inputId The input id for the banner
+#' This function creates a notification banner.
+#' @param inputId The input Id for the banner
 #' @param title_txt The wording that appears in the title
 #' @param body_txt The wording that appears in the banner body
-#' @param type The type of banner.  Options are standard and success.
+#' @param type The type of banner. Options are standard and success.
 #' Standard is default
-#' @return a notification html shiny object
+#' @return a notification HTML shiny tag object
 #' @keywords notification banner
 #' @export
 #' @examples
-#' if (interactive()) {
-#'
-#'   ui <- fluidPage(
-#'     shinyGovstyle::header(
-#'       main_text = "Example",
-#'       secondary_text = "User Examples",
-#'       logo="shinyGovstyle/images/moj_logo.png"),
-#'     shinyGovstyle::noti_banner(
-#'       inputId = "banner", title_txt = "Important", body_txt = "Example text")
+#' ui <- fluidPage(
+#'   shinyGovstyle::header(
+#'     main_text = "Example",
+#'     secondary_text = "User Examples",
+#'     logo="shinyGovstyle/images/moj_logo.png"
+#'   ),
+#'   shinyGovstyle::noti_banner(
+#'     inputId = "banner", title_txt = "Important", body_txt = "Example text"
 #'   )
+#' )
 #'
-#'   server <- function(input, output, session) {}
+#' server <- function(input, output, session) {}
 #'
-#'   shinyApp(ui = ui, server = server)
-#' }
-#'
+#' if (interactive()) shinyApp(ui = ui, server = server)
 noti_banner <- function(
   inputId, # nolint
   title_txt = "Important",

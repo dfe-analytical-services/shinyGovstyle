@@ -1,7 +1,7 @@
-#' Attach shinyGovstyle dependancies
+#' Attach shinyGovstyle dependencies
 #'
-#' @param tag An object which has (or should have) HTML dependencies.
-#' @param widget Name of a widget for particular dependancies
+#' @param tag An object which has (or should have) HTML dependencies
+#' @param widget Name of a widget for particular dependencies
 #'
 #' @noRd
 #' @importFrom utils packageVersion

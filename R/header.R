@@ -1,39 +1,36 @@
 #' Header Function
 #'
-#' This function create a header banner.  For use at top of the screen
-#' @param main_text Main text that goes in the header.
-#' @param secondary_text Secondary header to supplement the main text.
+#' This function create a header banner. For use at top of the screen
+#' @param main_text Main text that goes in the header
+#' @param secondary_text Secondary header to supplement the main text
 #' @param logo Add a link to a logo which will apply in the header. Use crown to
-#' use the crown svg version on gov uk.
-#' @param main_link Add a link for clicking on main text.
-#' @param secondary_link Add a link for clicking on secondary header.
+#' use the crown SVG version on GOV UK
+#' @param main_link Add a link for clicking on main text
+#' @param secondary_link Add a link for clicking on secondary header
 #' @param logo_alt_text Add alternative text for the logo. Should be used when a
-#' logo is used.
+#' logo is used
 #' @param main_alt_text Add alternative text for the main link. Should be used
-#' when a main link is used.
+#' when a main link is used
 #' @param secondary_alt_text Add alternative text for the secondary link. Should
-#' be used when a secondary link is used.
-#' @param logo_width Change the logo size width CSS to improve fit.
-#' @param logo_height Change the logo size height CSS to improve fit.
-#' @return a header HTML shiny object
+#' be used when a secondary link is used
+#' @param logo_width Change the logo size width CSS to improve fit
+#' @param logo_height Change the logo size height CSS to improve fit
+#' @return a header HTML shiny tag object
 #' @keywords header
 #' @export
 #' @examples
-#' if (interactive()) {
-#'   ui <- fluidPage(
-#'     shinyGovstyle::header(
-#'       main_text = "Example",
-#'       secondary_text = "User Examples",
-#'       logo = "shinyGovstyle/images/moj_logo.png",
-#'       logo_alt_text = "Ministry of Justice Logo"
-#'     )
+#' ui <- fluidPage(
+#'   shinyGovstyle::header(
+#'     main_text = "Example",
+#'     secondary_text = "User Examples",
+#'     logo = "shinyGovstyle/images/moj_logo.png",
+#'     logo_alt_text = "Ministry of Justice Logo"
 #'   )
+#' )
 #'
-#'   server <- function(input, output, session) {}
+#' server <- function(input, output, session) {}
 #'
-#'   shinyApp(ui = ui, server = server)
-#' }
-#'
+#' if (interactive()) shinyApp(ui = ui, server = server)
 header <- function(
   main_text,
   secondary_text,

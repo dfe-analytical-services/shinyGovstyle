@@ -1,36 +1,32 @@
 #' Gov List function
 #'
 #' @param list vector of list
-#' @param style options: "none", "bullet", "number". defaults to "none".
+#' @param style options: "none", "bullet", "number". defaults to "none"
 #' @export
 #' @examples
-#' if (interactive()) {
-#'
-#'   ui <- fluidPage(
-#'     shinyGovstyle::header(
-#'       main_text = "Example",
-#'       secondary_text = "User Examples"),
-#'     shinyGovstyle::banner(
-#'       inputId = "banner", type = "beta", 'This is a new service'),
-#'     shinyGovstyle::gov_layout(size = "two-thirds",
-#'
-#'      shinyGovstyle::heading_text("gov_list", size = "s"),
-#'
-#'      shinyGovstyle::gov_text("List:"),
-#'      gov_list(list = c("a", "b", "c")),
-#'
-#'      shinyGovstyle::gov_text("Bulleted list:"),
-#'      gov_list(list = c("a", "b", "c"), style = "bullet"),
-#'
-#'      shinyGovstyle::gov_text("Numbered list:"),
-#'      gov_list(list = c("one", "two", "three"), style = "number")
-#'     )
+#' ui <- fluidPage(
+#'   shinyGovstyle::header(
+#'     main_text = "Example",
+#'     secondary_text = "User Examples"
+#'   ),
+#'   shinyGovstyle::banner(
+#'     inputId = "banner", type = "beta", 'This is a new service'
+#'   ),
+#'   shinyGovstyle::gov_layout(
+#'     size = "two-thirds",
+#'     shinyGovstyle::heading_text("gov_list", size = "s"),
+#'     shinyGovstyle::gov_text("List:"),
+#'     gov_list(list = c("a", "b", "c")),
+#'     shinyGovstyle::gov_text("Bulleted list:"),
+#'     gov_list(list = c("a", "b", "c"), style = "bullet"),
+#'     shinyGovstyle::gov_text("Numbered list:"),
+#'     gov_list(list = c("one", "two", "three"), style = "number")
 #'   )
+#' )
 #'
-#'   server <- function(input, output, session) {}
+#' server <- function(input, output, session) {}
 #'
-#'   shinyApp(ui = ui, server = server)
-#' }
+#' if (interactive()) shinyApp(ui = ui, server = server)
 gov_list <- function(list, style = "none") {
   # check style argument
   if (!style %in% c("none", "bullet", "number")) {
@@ -71,7 +67,6 @@ gov_list <- function(list, style = "none") {
   }
 
   # apply wrapper over list to get full list
-  # govList <-
   list_wrapper(purrr::map(list, function(x) {
     shiny::tags$li(x)
   }))

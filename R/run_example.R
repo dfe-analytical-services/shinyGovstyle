@@ -11,9 +11,7 @@
 #' @keywords example
 #' @export
 #' @examples
-#' if (interactive()) {
-#'   run_example()
-#' }
+#' if (interactive()) run_example()
 run_example <- function() {
   appdir <- system.file(package = "shinyGovstyle", "example_app")
   shiny::runApp(appdir)

@@ -1,6 +1,6 @@
 #' Text Area Input Function
 #'
-#' This function create a text area input
+#' This function create a text area input.
 #' @param inputId The input slot that will be used to access the value
 #' @param label Display label for the control, or `NULL` for no label
 #' @param hint_label Display hint label for the control, or `NULL` for no
@@ -9,7 +9,7 @@
 #' @param error Whenever to include error handling. Defaults to `FALSE`
 #' @param error_message Message to display on error. Defaults to `NULL`
 #' @param word_limit Add a word limit to the display. Defaults to `NULL`
-#' @return a text area box html shiny object
+#' @return a text area box HTML shiny tag object
 #' @keywords text area
 #' @export
 #' @examples

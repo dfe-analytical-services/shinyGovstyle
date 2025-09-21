@@ -14,17 +14,17 @@
 #' as `showSortIcon=FALSE` as the default sort icon is inaccessible. Additional
 #' arguments from `reactable::reactable` can be passed to customise the table.
 #'
-#' @param df A dataframe used to generate the table.
+#' @param df A dataframe used to generate the table
 #' @param right_col A vector of column names that should be right-aligned.
 #' By default, numeric data is right-aligned, and character data is
-#' left-aligned.
-#' @param page_size The default number of rows displayed per page (default: 10).
-#' @param highlight Highlight table rows on hover.
-#' @param borderless Remove inner borders from table.
+#' left-aligned
+#' @param page_size The default number of rows displayed per page (default: 10)
+#' @param highlight Highlight table rows on hover
+#' @param borderless Remove inner borders from table
 #' @param min_widths Customise minimum column width using a list of columns and
-#' minimum width in pixels.
-#' @param ... Additional arguments passed to `reactable::reactable`.
-#' @return A `reactable` HTML widget styled with GOV.UK classes.
+#' minimum width in pixels
+#' @param ... Additional arguments passed to `reactable::reactable`
+#' @return A `reactable` HTML widget styled with GOV.UK classes
 #' @keywords table, reactable, GOV.UK
 #' @export
 #' @examples
@@ -108,17 +108,17 @@ govReactable <- # nolint
 #' Output and render functions for using govReactable within shiny apps
 #'
 #' @param output_table_name Output variable to read from.
-#' @param caption Adds a caption to the table as a header.
-#' @param caption_size Adjust the size of caption.
-#' Options are s, m, l, xl, with l as the default.
+#' @param caption Adds a caption to the table as a header
+#' @param caption_size Adjust the size of caption
+#' Options are s, m, l, xl, with l as the default
 #' @param heading_level The HTML heading level for
-#' the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2".
-#' @param expr An expression that generates a `reactable` widget.
-#' @param env The environment in which to evaluate `expr`.
+#' the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2"
+#' @param expr An expression that generates a `reactable` widget
+#' @param env The environment in which to evaluate `expr`
 #' @param quoted Is `expr` a quoted expression (with [quote()])?
-#' This is useful if you want to save an expression in a variable.
+#' This is useful if you want to save an expression in a variable
 #' @return `govReactableOutput()` returns a `reactable` output element
-#' that can be included in a Shiny UI.
+#' that can be included in a Shiny UI
 #'
 #' `renderGovReactable()` returns a `reactable` render function that
 #' can be assigned to a Shiny output slot.
@@ -126,27 +126,19 @@ govReactable <- # nolint
 #' @name govReactable-shiny
 #'
 #' @examples
-#' # Run in an interactive R session
-#' if (interactive()) {
-#'   library(shiny)
-#'   library(shinyGovstyle)
+#' ui <- fluidPage(
+#'   titlePanel("govReactableOutput example"),
+#'   govReactableOutput("table")
+#' )
 #'
-#'   ui <- fluidPage(
-#'     titlePanel("govReactableOutput example"),
-#'     govReactableOutput("table")
-#'   )
-#'
-#'   server <- function(input, output, session) {
-#'     output$table <- renderGovReactable({
-#'       govReactable(iris)
-#'     })
-#'   }
-#'
-#'   shinyApp(ui, server)
+#' server <- function(input, output, session) {
+#'   output$table <- renderGovReactable({
+#'     govReactable(iris)
+#'   })
 #' }
 #'
+#' if (interactive()) shinyApp(ui, server)
 #' @export
-# Output for reactive tables
 govReactableOutput <- # nolint
   function(
     output_table_name,

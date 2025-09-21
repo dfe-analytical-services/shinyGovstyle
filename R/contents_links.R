@@ -2,39 +2,37 @@
 #' This function is used internally within contents_link to create links
 #' to headings within pages.
 #' @param subcontents_text_list vector of link text for subcontents
-#' @param subcontents_id_list vector of link ids for subcontents. pass NAs
-#' for automatic matching to id in shinygovstyle::heading_text
+#' @param subcontents_id_list vector of link ids for subcontents. Pass NAs
+#' for automatic matching to Id in `heading_text()`
 #' @return an ordered list HTML shiny tag object
 #' @keywords internal
 #' @examples
-#' if (interactive()) {
-#'   ui <- shiny::fluidPage(
-#'     shinyGovstyle::header(
-#'       main_text = "Example",
-#'       secondary_text = "User Examples",
-#'       logo = "shinyGovstyle/images/moj_logo.png"
-#'     ),
-#'     shiny::column(
-#'       width = 3,
-#'       id = "nav",
-#'       shiny::tags$div(
-#'         shiny::tags$h2("Contents"),
-#'         subcontents_links(
-#'           c("radio_button_Input (inline)", "button_Input"),
-#'           c(NA, NA)
-#'         ),
-#'         subcontents_links(
-#'           c("date_Input", "button_Input"),
-#'           c(NA, "button_input_text_types")
-#'         )
+#' ui <- shiny::fluidPage(
+#'   shinyGovstyle::header(
+#'     main_text = "Example",
+#'     secondary_text = "User Examples",
+#'     logo = "shinyGovstyle/images/moj_logo.png"
+#'   ),
+#'   shiny::column(
+#'     width = 3,
+#'     id = "nav",
+#'     shiny::tags$div(
+#'       shiny::tags$h2("Contents"),
+#'       subcontents_links(
+#'         c("radio_button_Input (inline)", "button_Input"),
+#'         c(NA, NA)
+#'       ),
+#'       subcontents_links(
+#'         c("date_Input", "button_Input"),
+#'         c(NA, "button_input_text_types")
 #'       )
 #'     )
 #'   )
+#' )
 #'
-#'   server <- function(input, output, session) {
-#'   }
-#'   shiny::shinyApp(ui = ui, server = server)
-#' }
+#' server <- function(input, output, session) {}
+#'
+#' if (interactive()) shiny::shinyApp(ui = ui, server = server)
 subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
   if (!missing(subcontents_id_list)) {
     # check if custom link_id_list is of equal length to links list
@@ -85,11 +83,11 @@ subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
 #' This is experimental and may change in future.
 #'
 #' @param link_text vector of link text for contents
-#' @param input_id contents button id
+#' @param input_id contents button Id
 #' @param subcontents_text_list vector of link text for subcontents
-#' @param subcontents_id_list vector of link ids for subcontents. if missing
-#' automatically matches to id in shinygovstyle::heading_text
-#' @return an action button html shiny object
+#' @param subcontents_id_list vector of link Ids for subcontents. If missing
+#' automatically matches to Id in `heading_text()`
+#' @return an action button HTML shiny tag object
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
@@ -101,8 +99,8 @@ subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
 #'
 #'       # Contents box
 #'       shiny::tags$div(
-#'         id = "govuk-contents-box", #DO NOT REMOVE ID
-#'         class = "govuk-contents-box", #DO NOT REMOVE CLASS
+#'         id = "govuk-contents-box", # DO NOT REMOVE ID
+#'         class = "govuk-contents-box", # DO NOT REMOVE CLASS
 #'
 #'         shiny::tags$h2("Contents"),
 #'
@@ -307,7 +305,7 @@ subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
 #'   })
 #' } # end of server
 #'
-#' shiny::shinyApp(ui = ui, server = server)
+#' if (interactive()) shiny::shinyApp(ui = ui, server = server)
 contents_link <- function(
   link_text,
   input_id,

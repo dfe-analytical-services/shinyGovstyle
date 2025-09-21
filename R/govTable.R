@@ -1,49 +1,48 @@
 #' Table Function
 #'
-#' This function inserts a gov styled table.  Format is with header looking
+#' This function inserts a gov styled table. Format is with header looking
 #' rows and columns
-#' @param inputId Input id for the table
+#' @param inputId Input Id for the table
 #' @param df expects a dataframe to create a table
 #' @param caption adds a caption to the table as a header
-#' @param caption_size adjust the size of caption.  Options are s, m, l, xl,
+#' @param caption_size adjust the size of caption. Options are s, m, l, xl,
 #' with l as the default
-#' @param num_col adds numeric class format to these columns.
+#' @param num_col adds numeric class format to these columns
 #' @param width_overwrite change width. Need to include width for every column.
 #' Columns must add up to 1.
 #' Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
-#' Default is `NULL`.
-#' @return an table html shiny object
+#' Default is `NULL`
+#' @return a table HTML shiny tag object
 #' @keywords table
 #' @export
 #' @examples
-#' if (interactive()) {
+#' months <- c("January", "February", "March")
+#' bikes <- c("£85", "£75", "£165")
+#' cars <- c("£95", "£55", "£125")
 #'
-#'   Months <- c("January", "February", "March")
-#'   Bikes <- c("£85", "£75", "£165")
-#'   Cars <- c("£95", "£55", "£125")
+#' example_data <- data.frame(months, bikes, cars)
 #'
-#'   example_data <- data.frame(Months, Bikes, Cars)
-#'
-#'   ui <- fluidPage(
-#'     shinyGovstyle::header(
-#'       main_text = "Example",
-#'       secondary_text = "User Examples",
-#'       logo="shinyGovstyle/images/moj_logo.png"),
-#'     shinyGovstyle::banner(
-#'       inputId = "banner", type = "beta", 'This is a new service'),
-#'     shinyGovstyle::gov_layout(size = "two-thirds",
+#' ui <- fluidPage(
+#'   shinyGovstyle::header(
+#'     main_text = "Example",
+#'     secondary_text = "User Examples",
+#'     logo="shinyGovstyle/images/moj_logo.png"
+#'   ),
+#'   shinyGovstyle::banner(
+#'     inputId = "banner", type = "beta", 'This is a new service'
+#'   ),
+#'   shinyGovstyle::gov_layout(size = "two-thirds",
 #'     shinyGovstyle::govTable(
 #'       "tab1", example_data, "Test", "l", num_col = c(2,3),
-#'       width_overwrite = c("one-half", "one-quarter", "one-quarter"))
-#'     ),
+#'       width_overwrite = c("one-half", "one-quarter", "one-quarter")
+#'     )
+#'   ),
+#'   shinyGovstyle::footer(full = TRUE)
+#' )
 #'
-#'     shinyGovstyle::footer(full = TRUE)
-#'   )
+#' server <- function(input, output, session) {}
 #'
-#'   server <- function(input, output, session) {}
-#'
-#'   shinyApp(ui = ui, server = server)
-#' }
+#' if (interactive()) shinyApp(ui = ui, server = server)
 govTable <- # nolint
   function(
     inputId, # nolint

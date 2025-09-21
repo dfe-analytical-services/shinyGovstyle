@@ -1,5 +1,5 @@
 #' Clean heading text function
-#' This internal function is used in subcontents_links and heading_text
+#' This internal function is used in `subcontents_links()` and `heading_text()`
 #' to create an automated link between the two
 #' @param text string
 #' @return a string

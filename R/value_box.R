@@ -7,7 +7,7 @@
 #' information, such as statistics or key metrics.
 #'
 #' @param value Character. The primary value to display in the value box.
-#' Defaults to "your value goes here".
+#' Defaults to "your value goes here"
 #' @param text Character or NA. An optional description to appear below the
 #' value. If not provided (default is NA), the description will not be
 #' displayed
@@ -20,17 +20,11 @@
 #' @export
 #'
 #' @examples
-#' if (interactive()) {
-#'   ui <- fluidPage(
-#'     value_box(
-#'       value = "1,000,000",
-#'       text = "This is the latest value for the selected inputs.",
-#'       colour = "purple"
-#'     )
-#'   )
-#'   server <- function(input, output, session) {}
-#'   shinyApp(ui = ui, server = server)
-#' }
+#' value_box(
+#'   value = "1,000,000",
+#'   text = "This is the latest value for the selected inputs.",
+#'   colour = "purple"
+#' )
 value_box <- function(
   value = "your value goes here",
   text = NA,

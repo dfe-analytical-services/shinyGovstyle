@@ -1,32 +1,34 @@
 #' Button Function
 #'
 #' This function create a gov style button
-#' @param inputId The input slot that will be used to access the value.
-#' @param label Display label for the control, or `NULL` for no label.
-#' @param type The type of button.  Options are default, start, secondary and
-#' warning.  Defaults to default.
-#' @return a html button shiny object
+#' @param inputId The input slot that will be used to access the value
+#' @param label Display label for the control, or `NULL` for no label
+#' @param type The type of button. Options are default, start, secondary and
+#' warning. Defaults to "default"
+#' @return a HTML button shiny tag object
 #' @keywords button
 #' @export
 #' @examples
-#' if (interactive()) {
-#'   ui <- fluidPage(
-#'     shinyGovstyle::header(
-#'       main_text = "Example",
-#'       secondary_text = "User Examples",
-#'       logo="shinyGovstyle/images/moj_logo.png"),
-#'     shinyGovstyle::gov_layout(size = "two-thirds",
-#'       shinyGovstyle::button_Input(
-#'         inputId = "btn1",
-#'         label = "Continue",
-#'         type = "default")
-#'     ),
-#'     shinyGovstyle::footer(full = TRUE)
-#'   )
+#' ui <- fluidPage(
+#'   shinyGovstyle::header(
+#'     main_text = "Example",
+#'     secondary_text = "User Examples",
+#'     logo = "shinyGovstyle/images/moj_logo.png"
+#'   ),
+#'   shinyGovstyle::gov_layout(
+#'     size = "two-thirds",
+#'     shinyGovstyle::button_Input(
+#'       inputId = "btn1",
+#'       label = "Continue",
+#'       type = "default"
+#'     )
+#'   ),
+#'   shinyGovstyle::footer(full = TRUE)
+#' )
 #'
-#'   server <- function(input, output, session) {}
-#'   shinyApp(ui = ui, server = server)
-#' }
+#' server <- function(input, output, session) {}
+#'
+#' if (interactive()) shinyApp(ui = ui, server = server)
 button_Input <- # nolint
   function(
     inputId, # nolint

@@ -1,6 +1,6 @@
 #' Accordion Function
 #'
-#' This function inserts a accordion
+#' This function inserts a accordion.
 #' @param inputId Input Id for the accordion
 #' @param titles Add the titles for the accordion
 #' @param descriptions Add the main text for the accordion

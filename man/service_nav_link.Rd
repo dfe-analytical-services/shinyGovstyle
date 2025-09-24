@@ -4,7 +4,7 @@
 \alias{service_nav_link}
 \title{Create a service navigation link for use in `service_navigation()` function}
 \usage{
-service_nav_link(link, link_name)
+service_nav_link(link, link_name = NULL)
 }
 \arguments{
 \item{link}{Character string containing either link text or url}
@@ -19,8 +19,8 @@ Create a service navigation link for use in `service_navigation()` function
 }
 \examples{
 # Internal (i.e. within dashboard) link
-dfeshiny:::service-nav_link("Cookie statement")
+shinyGovstyle:::service_nav_link("Cookie statement")
 # Named internal link
-dfeshiny:::service-nav_link("cookie_statement", "Cookies")
+shinyGovstyle:::service_nav_link("cookie_statement", "Cookies")
 }
 \keyword{internal}

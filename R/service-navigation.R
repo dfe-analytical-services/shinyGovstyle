@@ -1,5 +1,16 @@
 #' Service navigation
 #'
+#' @description
+#' Service navigation component consistent with the
+#' [GDS service navigation](https://design-system.service.gov.uk/components/service-navigation/)
+#' (pre-June 2025).
+#'
+#' @param links A vector of actionLinks to be added to the service navigation.
+#' inputIDs are auto-generated and are the snake case version of the link text, e.g.
+#' "Overview page" will have an inputID of overview_page. Can also be provided as a named
+#' vector, in which case the vector names will be used as the page titles and the vector values
+#' will be used as the individual inputIDs.
+#'
 #' @returns Shiny tag object
 #' @export
 #'
@@ -14,15 +25,15 @@
 #'        id = "main_panels",
 #'        bslib::nav_panel(
 #'          "summary_data",
-#'          tags$h2("Summary data")
-#'        ),
-#'        bslib::nav_panel(
-#'          "user_guide",
-#'          tags$h2("User guide")
+#'          shiny::tags$h2("Summary data")
 #'        ),
 #'        bslib::nav_panel(
 #'          "detailed_stats_1",
-#'          tags$h2("Detailed stats 1")
+#'          shiny::tags$h2("Detailed stats 1")
+#'        ),
+#'        bslib::nav_panel(
+#'          "user_guide",
+#'          shiny::tags$h2("User guide")
 #'        )
 #'      ),
 #'      shinyGovstyle::footer(full = TRUE)
@@ -105,12 +116,12 @@ service_navigation <- function(
 #' @keywords internal
 #' @examples
 #' # Internal (i.e. within dashboard) link
-#' shinyGovstyle:::service-nav_link("Cookie statement")
+#' shinyGovstyle:::service_nav_link("Cookie statement")
 #' # Named internal link
-#' shinyGovstyle:::service-nav_link("cookie_statement", "Cookies")
+#' shinyGovstyle:::service_nav_link("cookie_statement", "Cookies")
 service_nav_link <- function(
   link,
-  link_name
+  link_name = NULL
 ) {
   if (is.null(link_name)) {
     warning("Link name provided is NULL for ", link)

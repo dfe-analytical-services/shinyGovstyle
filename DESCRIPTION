@@ -7,7 +7,8 @@ Authors@R: c(
     person("Sarah", "Wong", role = "ctb"),
     person("Richard", "Bielby", , "richard.bielby@education.gov.uk", role = "ctb"),
     person("Charlotte", "Foster", , "charlotte.foster@education.gov.uk", role = "ctb"),
-    person("Jeni", "Martin", role = "ctb")
+    person("Jeni", "Martin", role = "ctb"),
+    person("Andrew", "Baker", , "andrew.baker1@dhsc.gov.uk", role = "ctb")
   )
 Description: Collection of 'shiny' application styling that are based
     on the GOV.UK Design System. See

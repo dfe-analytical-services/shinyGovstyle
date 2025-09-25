@@ -35,12 +35,12 @@ object}
 
 \item{placeholder}{The text to show before a file has been uploaded}
 
-\item{error}{Include error handling. Defaults to FALSE}
+\item{error}{Whenever to icnlud error handling. Defaults to FALSE}
 
 \item{error_message}{Message to display on error. Defaults to NULL}
 }
 \value{
-a file input HTML shiny object
+a file input HTML shiny tag object
 }
 \description{
 This function create a file upload component. It uses the basis of the

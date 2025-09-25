@@ -71,76 +71,82 @@ file_Input <- # nolint
     error = FALSE,
     error_message = NULL
   ) {
-  restoredValue <- shiny::restoreInput(id = inputId, default = NULL)
+    restored_value <- shiny::restoreInput(id = inputId, default = NULL)
 
-  # Catch potential edge case - ensure that it's either NULL or a data frame.
-  if (!is.null(restoredValue) && !is.data.frame(restoredValue)) {
-    warning("Restored value for ", inputId, " has incorrect format.")
-    restoredValue <- NULL
-  }
+    # Catch potential edge case - ensure that it's either NULL or a data frame.
+    if (!is.null(restored_value) && !is.data.frame(restored_value)) {
+      warning("Restored value for ", inputId, " has incorrect format.")
+      restored_value <- NULL
+    }
 
-  if (!is.null(restoredValue)) {
-    restoredValue <- jsonlite::toJSON(restoredValue, strict_atomic = FALSE)
-  }
+    if (!is.null(restored_value)) {
+      restored_value <- jsonlite::toJSON(restored_value, strict_atomic = FALSE)
+    }
 
-  inputTag <- shiny::tags$input(
-    id = inputId,
-    name = inputId,
-    type = "file",
-    style = paste0(
-      "position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;",
-      if (!is.null(width)) {
-        paste0(" left: ", shiny::validateCssUnit(width), ";")
-      } else {
-        ""
-      }
-    ),
-    `data-restore` = restoredValue
-  )
+    input_tag <- shiny::tags$input(
+      id = inputId,
+      name = inputId,
+      type = "file",
+      style = paste0(
+        "position: absolute; width: 1px; height: 1px; padding: 0;",
+        " margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;",
+        if (!is.null(width)) {
+          paste0(" left: ", shiny::validateCssUnit(width), ";")
+        } else {
+          ""
+        }
+      ),
+      `data-restore` = restored_value
+    )
 
-  if (multiple) {
-    inputTag$attribs$multiple <- "multiple"
-  }
-  if (length(accept) > 0) {
-    inputTag$attribs$accept <- paste(accept, collapse = ',')
-  }
+    if (multiple) {
+      input_tag$attribs$multiple <- "multiple"
+    }
+    if (length(accept) > 0) {
+      input_tag$attribs$accept <- paste(accept, collapse = ",")
+    }
 
-  govFile <- shiny::div(
-    id = paste0(inputId, "div"),
-    class = "govuk-form-group",
-    style = if (!is.null(width)) {
-      paste0("width: ", shiny::validateCssUnit(width), ";")
-    },
-    shiny::tags$label(label, class = "govuk-label", tabindex = "-1"),
-    if (error == TRUE) {
-      shinyjs::hidden(
-        shiny::tags$p(
-          error_message,
-          class = "govuk-error-message",
-          id = paste0(inputId, "error"),
-          shiny::tags$span("Error:", class = "govuk-visually-hidden")
+    gov_file <- shiny::div(
+      id = paste0(inputId, "div"),
+      class = "govuk-form-group",
+      style = if (!is.null(width)) {
+        paste0("width: ", shiny::validateCssUnit(width), ";")
+      },
+      shiny::tags$label(label, class = "govuk-label", tabindex = "-1"),
+      if (error == TRUE) {
+        shinyjs::hidden(
+          shiny::tags$p(
+            error_message,
+            class = "govuk-error-message",
+            id = paste0(inputId, "error"),
+            shiny::tags$span("Error:", class = "govuk-visually-hidden")
+          )
+        )
+      },
+      shiny::div(
+        id = paste0(inputId, "file_div"),
+        class = "input-group govuk-file-upload",
+        style = "display: flex; align-items: center;",
+        shiny::tags$label(
+          class = paste(
+            "govuk-button govuk-button--secondary",
+            "govuk-file-upload-button__pseudo-button"
+          ),
+          style = "margin-bottom: 0; position: relative; overflow: hidden;",
+          buttonLabel,
+          input_tag
+        ),
+        shiny::tags$input(
+          type = "text",
+          class = "govuk-body",
+          style = paste0(
+            "margin: 0; border: 0; outline: none; width: 98%; flex: 1 1 auto;"
+          ),
+          placeholder = placeholder,
+          readonly = "readonly",
+          tabindex = "-1"
         )
       )
-    },
-    shiny::div(
-      id = paste0(inputId, "file_div"),
-      class = "input-group govuk-file-upload",
-      style = "display: flex; align-items: center;",
-      shiny::tags$label(
-        class = "govuk-button govuk-button--secondary govuk-file-upload-button__pseudo-button",
-        style = "margin-bottom: 0; position: relative; overflow: hidden;",
-        buttonLabel,
-        inputTag
-      ),
-      shiny::tags$input(
-        type = "text",
-        class = "govuk-body",
-        style = "margin: 0; border: 0; outline: none; width: 98%; flex: 1 1 auto;",
-        placeholder = placeholder,
-        readonly = "readonly",
-        tabindex = "-1"
-      )
     )
-  )
-  attachDependency(govFile)
-}
+    attachDependency(gov_file)
+  }

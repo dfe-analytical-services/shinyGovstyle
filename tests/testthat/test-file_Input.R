@@ -8,19 +8,14 @@ test_that("file input works", {
 })
 
 
-test_that("file input works 2", {
-  file_check <- file_Input("inputId", "Test", multiple = T, accept = c(".xls"))
-
-  in_child <- file_check$children[[3]]$children[[1]]$children[[1]]$children[[2]]
-  expect_identical(
-    in_child$attribs$accept,
-    ".xls"
-  )
-
-  expect_identical(
-    file_check$children[[1]]$children[[1]],
-    "Test"
-  )
+test_that("file input HTML is as expected", {
+  local_edition(3)
+  expect_snapshot(file_Input(
+    "inputId",
+    "Test",
+    multiple = T,
+    accept = c(".xls")
+  ))
 })
 
 

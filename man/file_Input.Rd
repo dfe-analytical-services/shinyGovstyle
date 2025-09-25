@@ -35,19 +35,16 @@ object}
 
 \item{placeholder}{The text to show before a file has been uploaded}
 
-\item{error}{Whenever to icnlud error handling. Defaults to FALSE}
+\item{error}{Include error handling. Defaults to FALSE}
 
 \item{error_message}{Message to display on error. Defaults to NULL}
 }
 \value{
-a file input HTML shiny tag object
+a file input HTML shiny object
 }
 \description{
 This function create a file upload component. It uses the basis of the
 shiny fileInput function, but restyles the label and adds error onto it.
-It doesn't look like the www.gov.uk/ style one, although this www.gov.uk/
-doesn't seem to have a settle style as, for example it changes between
-Firefox and Chrome.
 }
 \examples{
 ui <- shiny::fluidPage(

@@ -14,30 +14,32 @@ panel_output(inputId, main_text, sub_text)
 \item{sub_text}{Add the main body of text for the panel}
 }
 \value{
-a panel html shiny object
+a panel HTML shiny tag object
 }
 \description{
 This function inserts a panel.  Normally used for confirmation screens
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::gov_layout(size = "full",
-      shinyGovstyle::panel_output(
-        inputId = "panel1",
-        main_text = "Application Complete",
-        sub_text = "Thank you for submitting your application.
-                    Your reference is xvsiq")
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::gov_layout(size = "full",
+    shinyGovstyle::panel_output(
+      inputId = "panel1",
+      main_text = "Application Complete",
+      sub_text = paste(
+        "Thank you for submitting your application.",
+        "Your reference is xvsiq"
+      )
     ),
     shinyGovstyle::footer(full = TRUE)
   )
+)
 
-  server <- function(input, output, session) {}
-  shinyApp(ui = ui, server = server)
-}
+server <- function(input, output, session) {}
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{panel}

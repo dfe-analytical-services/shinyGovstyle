@@ -7,29 +7,33 @@
 value_box(value = "your value goes here", text = NA, colour = "blue")
 }
 \arguments{
-\item{value}{Character. The primary value to display in the value box. Defaults to "your value goes here".}
+\item{value}{Character. The primary value to display in the value box.
+Defaults to "your value goes here"}
 
-\item{text}{Character or NA. An optional description to appear below the value. If not provided (default is NA), the description will not be displayed..}
+\item{text}{Character or NA. An optional description to appear below the
+value. If not provided (default is NA), the description will not be
+displayed}
 
-\item{colour}{Character. A colour to apply to the value box. Defaults to "blue". Choose from the following: "grey", "purple", "turquoise", "blue", "light-blue", "yellow", "orange", "red", "pink", or "green".}
+\item{colour}{Character. A colour to apply to the value box. Defaults
+to "blue". Choose from the following: "grey", "purple", "turquoise",
+"blue", "light-blue", "yellow", "orange", "red", "pink", or "green"}
 }
 \value{
-A Shiny `div` tag representing the value box, styled according to the specified parameters.
+A Shiny \code{div} tag representing the value box, styled according
+to the specified parameters
 }
 \description{
-This function generates a value text box with an optional description and customisable colour.
-The text box can be used in Shiny applications to display highlighted information, such as statistics or key metrics.
+This function generates a value text box with an optional description and
+customisable colour.
+}
+\details{
+The text box can be used in Shiny applications to display highlighted
+information, such as statistics or key metrics.
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    value_box(
-      value = "1,000,000",
-      text = "This is the latest value for the selected inputs.",
-      colour = "purple"
-    )
-  )
-  server <- function(input, output, session) {}
-  shinyApp(ui = ui, server = server)
-}
+value_box(
+  value = "1,000,000",
+  text = "This is the latest value for the selected inputs.",
+  colour = "purple"
+)
 }

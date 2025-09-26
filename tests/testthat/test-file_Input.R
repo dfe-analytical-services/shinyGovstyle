@@ -7,23 +7,21 @@ test_that("file input works", {
   )
 })
 
-
 test_that("file input HTML is as expected", {
   local_edition(3)
   expect_snapshot(file_Input(
     "inputId",
     "Test",
-    multiple = T,
+    multiple = TRUE,
     accept = c(".xls")
   ))
 })
-
 
 test_that("file input error works", {
   file_check <- file_Input(
     "inputId",
     "Test",
-    error = T,
+    error = TRUE,
     error_message = "Error test"
   )
 

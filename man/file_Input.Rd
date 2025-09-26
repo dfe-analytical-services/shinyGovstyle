@@ -28,62 +28,64 @@ Explorer 9 and earlier}
 \item{accept}{A character vector of MIME types; gives the browser a hint of
 what kind of files the server is expecting}
 
-\item{width}{The width of the input, e.g. \code{'400px'}, or \code{'100\%'}}
+\item{width}{The width of the input,  e.g. \code{'400px'}, or \code{'100\\\%'}}
 
 \item{buttonLabel}{The label used on the button. Can be text or an HTML tag
 object}
 
 \item{placeholder}{The text to show before a file has been uploaded}
 
-\item{error}{Include error handling. Defaults to FALSE}
+\item{error}{Whenever to icnlud error handling. Defaults to FALSE}
 
 \item{error_message}{Message to display on error. Defaults to NULL}
 }
 \value{
-a file input HTML shiny object
+a file input HTML shiny tag object
 }
 \description{
 This function create a file upload component. It uses the basis of the
 shiny fileInput function, but restyles the label and adds error onto it.
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    # Required for error handling function
-    shinyjs::useShinyjs(),
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::banner(
-    inputId = "banner", type = "beta", 'This is a new service'),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-      # Simple file input
-      shinyGovstyle::file_Input(inputId = "file1", label = "Upload a file"),
-      # Error file
-      shinyGovstyle::file_Input(
-        inputId = "file2",
-        label = "Upload a file",
-        error = TRUE),
-      # Button to trigger error
-      shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+ui <- shiny::fluidPage(
+  # Required for error handling function
+  shinyjs::useShinyjs(),
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::banner(
+    inputId = "banner", type = "beta", 'This is a new service'
+  ),
+  shinyGovstyle::gov_layout(size = "two-thirds",
+    # Simple file input
+    shinyGovstyle::file_Input(inputId = "file1", label = "Upload a file"),
+    # Error file
+    shinyGovstyle::file_Input(
+      inputId = "file2",
+      label = "Upload a file",
+      error = TRUE
     ),
-    shinyGovstyle::footer(full = TRUE)
-  )
+    # Button to trigger error
+    shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  server <- function(input, output, session) {
-    #'Trigger error on blank submit of file2
-    observeEvent(input$submit, {
-      if (is.null(input$file2)){
-        shinyGovstyle::error_on(inputId = "file2")
-      } else {
-        shinyGovstyle::error_off(
-          inputId = "file2")
-      }
-    })
-  }
-  shinyApp(ui = ui, server = server)
+server <- function(input, output, session) {
+  # Trigger error on blank submit of file2
+  observeEvent(input$submit, {
+    if (is.null(input$file2)){
+      shinyGovstyle::error_on(inputId = "file2")
+    } else {
+      shinyGovstyle::error_off(
+        inputId = "file2"
+      )
+    }
+  })
 }
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{file}
 \keyword{input}

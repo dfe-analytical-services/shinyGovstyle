@@ -5,10 +5,12 @@
 \alias{bad_link_text}
 \title{Lookup for bad link text}
 \format{
-## `bad_link_text`
+\subsection{\code{bad_link_text}}{
+
 A data frame with 53 rows and 1 columns:
 \describe{
-  \item{bad_link_text}{Lower cased examples of non-descriptive link text}
+\item{bad_link_text}{Lower cased examples of non-descriptive link text}
+}
 }
 }
 \source{
@@ -19,12 +21,11 @@ bad_link_text
 }
 \description{
 A single column data frame, listing out known examples of bad link text that
-check for in the `external_link()` function.
+check for in the \code{external_link()} function.
 }
 \details{
 We've started curating this list so we can create automated checks to help
 all link text to be as descriptive as possible in line with
-[WCAG 2.2 success criteria 2.4.4: Link Purpose (In Context)](
-https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context).
+\href{https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context}{WCAG 2.2 success criteria 2.4.4: Link Purpose (In Context)}.
 }
 \keyword{datasets}

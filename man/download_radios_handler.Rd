@@ -7,41 +7,36 @@
 download_radios_handler(id = "download_radios", file_name, file_contents)
 }
 \arguments{
-\item{id}{Shiny element ID. Default is "download_radios", but must be customised to be unique
-if multiple instances of this module are being used in a single app. Must match up to the ID
-of a `download_radios()` instance in UI code.}
+\item{id}{Shiny element Id. Default is "download_radios", but must be
+customised to be unique if multiple instances of this module are being
+used in a single app. Must match up to the ID of a \code{download_radios()}
+instance in UI code}
 
 \item{file_name}{Name of the file to be downloaded}
 
 \item{file_contents}{Contents to write to the download file}
 }
 \value{
-Output for use with `download_radios()`
+Output for use with \code{download_radios()}
 }
 \description{
 Download with extension radios handler
 }
 \examples{
-if (interactive()) {
-  library(shiny)
-  library(shinyGovstyle)
-
-  ui <- fluidPage(
-    download_radios("download_file",
-      file_types = c("CSV", "ODS"),
-      file_sizes = c("2 KB", "5 KB")
-    )
+ui <- shiny::fluidPage(
+  download_radios("download_file",
+    file_types = c("CSV", "ODS"),
+    file_sizes = c("2 KB", "5 KB")
   )
+)
 
-  server <- function(input, output, session) {
-    output$download_file <- download_radios_handler(
-      "download_file",
-      file_name = "simple_data_frame",
-      file_contents = mtcars
-    )
-  }
-
-  # How to run the minimal app given in this example =======================
-  shinyApp(ui, server)
+server <- function(input, output, session) {
+  output$download_file <- download_radios_handler(
+    "download_file",
+    file_name = "simple_data_frame",
+    file_contents = mtcars
+  )
 }
+
+if (interactive()) shinyApp(ui, server)
 }

@@ -7,50 +7,49 @@
 error_summary_update(inputId, error_list)
 }
 \arguments{
-\item{inputId}{The inputid of the error summary you want to update}
+\item{inputId}{The input Id of the error summary you want to update}
 
 \item{error_list}{An updated list of text values to be displayed in the
-error body.}
+error body}
 }
 \value{
 an update error summary box
 }
 \description{
 This function changes the text that displays in the error summary box.
-Requires shinyjs::useShinyjs() to work.
+Requires \code{shinyjs::useShinyjs()} to work.
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    shinyjs::useShinyjs(),
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo = "shinyGovstyle/images/moj_logo.png"
-    ),
-    shinyGovstyle::gov_layout(
-      size = "two-thirds",
-      error_summary(
-        inputId = "errorId",
-        error_title = "Error title",
-        error_list = c("error item1", "error item2")
-      )
-    ),
-    shinyGovstyle::button_Input("btn1", "Change error summary"),
-    shinyGovstyle::footer(full = TRUE)
-  )
-
-  server <- function(input, output, session) {
-
-    shiny::observeEvent(input$btn1, {
-      error_summary_update(
-        "errorId",
-        c("error item1", "error item2", "error item3")
-      )},
-      ignoreInit = TRUE
+ui <- shiny::fluidPage(
+  shinyjs::useShinyjs(),
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo = "shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::gov_layout(
+    size = "two-thirds",
+    error_summary(
+      inputId = "errorId",
+      error_title = "Error title",
+      error_list = c("error item1", "error item2")
     )
-  }
-  shinyApp(ui = ui, server = server)
+  ),
+  shinyGovstyle::button_Input("btn1", "Change error summary"),
+  shinyGovstyle::footer(full = TRUE)
+)
+
+server <- function(input, output, session) {
+  shiny::observeEvent(input$btn1, {
+    error_summary_update(
+      "errorId",
+      c("error item1", "error item2", "error item3")
+    )
+  },
+  ignoreInit = TRUE
+  )
 }
+
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{error_summary_update}

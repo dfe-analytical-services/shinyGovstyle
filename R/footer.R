@@ -14,33 +14,32 @@
 #' hidden tabset so to the end user it looks like it is a new page.
 #'
 #' @param full Whenever you want to have blank footer or official gov version.
-#' Defaults to \code{FALSE}
+#' Defaults to `FALSE`
 #' @param links A vector of actionLinks to be added to the footer, inputIDs
 #' are auto-generated and are the snake case version of the link text, e.g.
 #' "Accessibility Statement" will have an inputID of accessibility_statement
-#' @return a footer html shiny object
+#' @return a footer HTML shiny tag object
 #' @keywords footer
 #' @export
 #' @examples
-#' if (interactive()) {
-#'   ui <- fluidPage(
-#'     shinyGovstyle::header(
-#'       main_text = "Example",
-#'       secondary_text = "User Examples",
-#'       logo = "shinyGovstyle/images/moj_logo.png"
-#'     ),
-#'     shinyGovstyle::banner(
-#'       inputId = "banner", type = "beta", "This is a new service"
-#'     ),
-#'     tags$br(),
-#'     tags$br(),
-#'     shinyGovstyle::footer(full = TRUE)
-#'   )
+#' ui <- shiny::fluidPage(
+#'   shinyGovstyle::header(
+#'     main_text = "Example",
+#'     secondary_text = "User Examples",
+#'     logo = "shinyGovstyle/images/moj_logo.png",
+#'     logo_alt_text = "Ministry of Justice logo"
+#'   ),
+#'   shinyGovstyle::banner(
+#'     inputId = "banner", type = "beta", "This is a new service"
+#'   ),
+#'   shiny::tags$br(),
+#'   shiny::tags$br(),
+#'   shinyGovstyle::footer(full = TRUE)
+#' )
 #'
-#'   server <- function(input, output, session) {}
+#' server <- function(input, output, session) {}
 #'
-#'   shinyApp(ui = ui, server = server)
-#' }
+#' if (interactive()) shinyApp(ui = ui, server = server)
 #'
 #' # Add links
 #' footer(links = c("Accessibility statement", "Cookies"))
@@ -56,69 +55,68 @@
 #' )
 #'
 #' # Full app with link controlling a hidden tab and a link to an external page
-#' if (interactive()) {
-#'   ui <- fluidPage(
-#'     shinyGovstyle::header(
-#'       main_text = "Example",
-#'       secondary_text = "User Examples",
-#'       logo = "shinyGovstyle/images/moj_logo.png"
+#' ui <- shiny::fluidPage(
+#'   shinyGovstyle::header(
+#'     main_text = "Example",
+#'     secondary_text = "User Examples",
+#'     logo = "shinyGovstyle/images/moj_logo.png",
+#'     logo_alt_text = "Ministry of Justice logo"
+#'   ),
+#'   shinyGovstyle::banner(
+#'     inputId = "banner", type = "beta", "This is a new service"
+#'   ),
+#'   shiny::tabsetPanel(
+#'     type = "hidden",
+#'     id = "tabs",
+#'     shiny::tabPanel(
+#'       "Main content",
+#'       value = "main",
+#'       heading_text("Hello world!")
 #'     ),
-#'     shinyGovstyle::banner(
-#'       inputId = "banner", type = "beta", "This is a new service"
+#'     shiny::tabPanel(
+#'       "Accessibility statement",
+#'       value = "accessibility-panel",
+#'       heading_text("Accessibility statement")
 #'     ),
-#'     shiny::tabsetPanel(
-#'       type = "hidden",
-#'       id = "tabs",
-#'       shiny::tabPanel(
-#'         "Main content",
-#'         value = "main",
-#'         heading_text("Hello world!")
-#'       ),
-#'       shiny::tabPanel(
-#'         "Accessibility statement",
-#'         value = "accessibility-panel",
-#'         heading_text("Accessibility statement")
-#'       ),
-#'       shiny::tabPanel(
-#'         "Cookies",
-#'         value = "cookies-panel",
-#'         heading_text("Cookies")
-#'       ),
+#'     shiny::tabPanel(
+#'       "Cookies",
+#'       value = "cookies-panel",
+#'       heading_text("Cookies")
 #'     ),
-#'     shinyGovstyle::footer(
-#'       full = TRUE,
-#'       links = c(
-#'         `Accessibility statement` = "accessibility_footer_link",
-#'         `Cookies` = "cookies_footer_link",
-#'         `Government Digital Service` =
-#'         "https://www.gov.uk/government/organisations/government-digital-service"
-#'       )
+#'   ),
+#'   shinyGovstyle::footer(
+#'     full = TRUE,
+#'     links = c(
+#'       `Accessibility statement` = "accessibility_footer_link",
+#'       `Cookies` = "cookies_footer_link",
+#'       `Government Digital Service` =
+#'        paste0(
+#'          "https://www.gov.uk/government/",
+#'          "organisations/government-digital-service"
+#'        )
 #'     )
 #'   )
+#' )
 #'
-#'   server <- function(input, output, session) {
-#'     shiny::observeEvent(input$accessibility_footer_link, {
-#'       shiny::updateTabsetPanel(
-#'         session,
-#'         "tabs",
-#'         selected = "accessibility-panel"
-#'       )
-#'     })
-#'     shiny::observeEvent(input$cookies_footer_link, {
-#'       shiny::updateTabsetPanel(
-#'         session,
-#'         "tabs",
-#'         selected = "cookies-panel"
-#'       )
-#'     })
-#'   }
-#'
-#'   shinyApp(ui = ui, server = server)
+#' server <- function(input, output, session) {
+#'   shiny::observeEvent(input$accessibility_footer_link, {
+#'     shiny::updateTabsetPanel(
+#'       session,
+#'       "tabs",
+#'       selected = "accessibility-panel"
+#'     )
+#'   })
+#'   shiny::observeEvent(input$cookies_footer_link, {
+#'     shiny::updateTabsetPanel(
+#'       session,
+#'       "tabs",
+#'       selected = "cookies-panel"
+#'     )
+#'   })
 #' }
-footer <- function(
-  full = FALSE,
-  links = NULL
-) {
+#'
+#' if (interactive()) shinyApp(ui = ui, server = server)
+footer <- function(full = FALSE, links = NULL) {
   if (is.null(names(links))) {
     link_names <- links
   } else {
@@ -127,7 +125,7 @@ footer <- function(
   }
 
   # The HTML div to be returned
-  govFooter <- shiny::tags$footer(
+  gov_footer <- shiny::tags$footer(
     class = "govuk-footer ",
     role = "contentinfo",
     shiny::div(
@@ -140,10 +138,7 @@ footer <- function(
             if (!is.null(links)) {
               shiny::div(
                 # Set a visually hidden title for accessibility
-                shiny::h2(
-                  class = "govuk-visually-hidden",
-                  "Support links"
-                ),
+                shiny::h2(class = "govuk-visually-hidden", "Support links"),
                 shiny::tags$ul(
                   class = "govuk-footer__inline-list",
 
@@ -166,10 +161,7 @@ footer <- function(
               if (!is.null(links)) {
                 shiny::div(
                   # Set a visually hidden title for accessibility
-                  shiny::h2(
-                    class = "govuk-visually-hidden",
-                    "Support links"
-                  ),
+                  shiny::h2(class = "govuk-visually-hidden", "Support links"),
                   shiny::tags$ul(
                     class = "govuk-footer__inline-list",
 
@@ -219,7 +211,10 @@ footer <- function(
                 "All content is available under the",
                 shiny::tags$a(
                   class = "govuk-footer__link",
-                  href = "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+                  href = paste0(
+                    "https://www.nationalarchives.gov.uk/doc/",
+                    "open-government-licence/version/3/"
+                  ),
                   rel = "license",
                   "Open Government Licence v3.0"
                 ),
@@ -230,7 +225,11 @@ footer <- function(
               class = "govuk-footer__meta-item",
               shiny::tags$a(
                 class = "govuk-footer__link govuk-footer__copyright-logo",
-                href = "https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/",
+                href = paste0(
+                  "https://www.nationalarchives.gov.uk/information-management",
+                  "/re-using-public-sector-information/uk-government-",
+                  "licensing-framework/crown-copyright/"
+                ),
                 "\u00A9 Crown copyright"
               )
             )
@@ -239,7 +238,7 @@ footer <- function(
       )
     )
   )
-  attachDependency(govFooter)
+  attachDependency(gov_footer)
 }
 
 #' Create a footer link for use in `footer()` function
@@ -260,10 +259,7 @@ footer <- function(
 #'   "https://www.gov.uk/government/organisations/government-digital-service",
 #'   "Government Digital Service"
 #' )
-footer_link <- function(
-  link,
-  link_name = NULL
-) {
+footer_link <- function(link, link_name = NULL) {
   if (grepl("^http|^www", link)) {
     if (is.null(link_name)) {
       warning("Link name provided is NULL for ", link)
@@ -271,7 +267,7 @@ footer_link <- function(
     }
     shiny::tags$li(
       class = "govuk-footer__inline-list-item",
-      external_link(
+      shinyGovstyle::external_link(
         link,
         link_name,
         add_warning = FALSE,

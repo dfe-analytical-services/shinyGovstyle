@@ -62,7 +62,7 @@
 ---
 
     Code
-      full_footer_with_internal_external_links
+      full_with_mixed_links
     Output
       <footer class="govuk-footer " role="contentinfo">
         <div class="govuk-width-container ">
@@ -96,7 +96,7 @@
 ---
 
     Code
-      full_footer_with_external_links
+      full_with_ext_links
     Output
       <footer class="govuk-footer " role="contentinfo">
         <div class="govuk-width-container ">

@@ -7,38 +7,40 @@
 details(inputId, label, help_text)
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value.}
+\item{inputId}{The input slot that will be used to access the value}
 
 \item{label}{Main label text}
 
-\item{help_text}{Additional help information in the component.}
+\item{help_text}{Additional help information in the component}
 }
 \value{
-a details box html shiny object
+a details box HTML shiny tag object
 }
 \description{
 This function create a detail component that you can click for further
 details.
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-      shinyGovstyle::details(
-        inputId = "help_div",
-        label = "Help with form",
-        help_text = "To complete the form you need to fill it in...")
-    ),
-    shinyGovstyle::footer(full = TRUE)
-  )
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo = "shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::gov_layout(
+    size = "two-thirds",
+    shinyGovstyle::details(
+      inputId = "help_div",
+      label = "Help with form",
+      help_text = "To complete the form you need to fill it in..."
+    )
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  server <- function(input, output, session) {}
-  shinyApp(ui = ui, server = server)
-}
+server <- function(input, output, session) {}
+
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{box}
 \keyword{details}

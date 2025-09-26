@@ -8,26 +8,26 @@ download_link(outputId, link_text, file_type = "CSV", file_size = NULL)
 }
 \arguments{
 \item{outputId}{The name of the output slot that the
-\code{shiny::downloadHandler()} is assigned to.}
+\code{shiny::downloadHandler()} is assigned to}
 
 \item{link_text}{Text that will appear describing the download action.
 Vague text like 'click here' or 'here' will cause an error, as will ending in
 a full stop. Leading and trailing white space will be automatically trimmed.
 If the string is shorter than 7 characters a console warning will be thrown.
-There is no way to hush this other than providing more detail.}
+There is no way to hush this other than providing more detail}
 
 \item{file_type}{The file type to be download (default: CSV)}
 
 \item{file_size}{The file size if known. Needs to be a string ending in one
-of KB, MB, GB or rows.}
+of KB, MB, GB or rows}
 }
 \value{
-shiny.tag object
+shiny tag object
 }
 \description{
-The \code{download_link()} provides a standard way to provide a download link,
-which facilitates important accessible / positive user experience elements,
-namely:
+The \code{download_link()} provides a standard way to provide a download
+link, which facilitates important accessible / positive user experience
+elements, namely:
 \itemize{
 \item file type
 \item file size
@@ -40,42 +40,40 @@ not easily determined, then it may be acceptable to provide an estimate or an
 upper limit.
 }
 \examples{
-if (interactive()) {
-  ui <- shiny::fluidPage(
-    gov_text("Choose a data set to download."),
-    select_Input(
-      "dataset",
-      "Data set",
-      select_text = c("Car road tests", "New York air quality"),
-      select_value = c("mtcars", "airquality")
-    ),
-    gov_text(
-      download_link(
-        "download_data",
-        "Download selected data set",
-        file_size = "4 KB"
-      )
+ui <- shiny::fluidPage(
+  gov_text("Choose a data set to download."),
+  select_Input(
+    "dataset",
+    "Data set",
+    select_text = c("Car road tests", "New York air quality"),
+    select_value = c("mtcars", "airquality")
+  ),
+  gov_text(
+    download_link(
+      "download_data",
+      "Download selected data set",
+      file_size = "4 KB"
     )
   )
+)
 
-  server <- function(input, output) {
-    # The requested data set
-    data <- reactive({
-      get(input$dataset)
-    })
+server <- function(input, output) {
+  # The requested data set
+  data <- reactive({
+    get(input$dataset)
+  })
 
-    output$download_data <- downloadHandler(
-      filename = function() {
-        # Use the selected dataset as the suggested file name
-        paste0(input$dataset, ".csv")
-      },
-      content = function(file) {
-        # Write the dataset to the `file` that will be downloaded
-        write.csv(data(), file)
-      }
-    )
-  }
-
-  shiny::shinyApp(ui, server)
+  output$download_data <- downloadHandler(
+    filename = function() {
+      # Use the selected dataset as the suggested file name
+      paste0(input$dataset, ".csv")
+    },
+    content = function(file) {
+      # Write the dataset to the `file` that will be downloaded
+      write.csv(data(), file)
+    }
+  )
 }
+
+if (interactive()) shiny::shinyApp(ui, server)
 }

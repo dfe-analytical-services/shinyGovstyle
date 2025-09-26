@@ -10,16 +10,15 @@ cookieBanner(service_name)
 \item{service_name}{Name for this service to add to banner}
 }
 \value{
-a cookie banner html shiny object.
+a cookie banner HTML shiny tag object
 }
 \description{
-This function creates a cookie banner. You need to have shinyjs::useShinyjs()
-enabled to work.  All the ids are pre set.  See example for how to
-structure.
+This function creates a cookie banner. You need to have
+\code{shinyjs::useShinyjs()} enabled for this to work. All the Ids are preset.
+See example for how to structure.
 }
 \examples{
-if (interactive()) {
-ui <- fluidPage(
+ui <- shiny::fluidPage(
   shinyGovstyle::header(
     main_text = "Example",
     secondary_text = "User Examples",
@@ -32,8 +31,7 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
-
-  #Need these set of observeEvent to create a path through the cookie banner
+  # Set of observeEvent to create a path through the cookie banner
   observeEvent(input$cookieAccept, {
     shinyjs::show(id = "cookieAcceptDiv")
     shinyjs::hide(id = "cookieMain")
@@ -53,13 +51,12 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$cookieLink, {
-    #Need to link here to where further info is located.  You can use
-    #updateTabsetPanel to have a cookie page for instance
+    # Need to link here to where further info is located. You can use
+    # updateTabsetPanel to have a cookie page for instance
   })
 
 }
-shinyApp(ui = ui, server = server)
-}
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{banner}
 \keyword{cookie}

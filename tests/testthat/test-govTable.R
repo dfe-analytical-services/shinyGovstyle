@@ -1,9 +1,8 @@
 test_that("table works", {
-  Months <- c("January", "February", "March")
-  Bikes <- c("£85", "£75", "£165")
-  Cars <- c("£95", "£55", "£125")
-
-  example_data <- data.frame(Months, Bikes, Cars)
+  months <- c("January", "February", "March")
+  bikes <- c("£85", "£75", "£165")
+  cars <- c("£95", "£55", "£125")
+  example_data <- data.frame(months, bikes, cars)
 
   # test table with specified widths
   table_check <- govTable(
@@ -22,7 +21,10 @@ test_that("table works", {
 
   expect_identical(
     table_check$children[[2]]$children[[1]][[3]][[1]][[2]]$attribs$class,
-    "govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter"
+    paste(
+      "govuk-table__header govuk-table__header--numeric",
+      "govuk-!-width-one-quarter"
+    )
   )
 
   expect_equal(

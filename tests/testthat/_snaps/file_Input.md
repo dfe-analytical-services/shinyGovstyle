@@ -1,7 +1,7 @@
 # file input HTML is as expected
 
     Code
-      file_Input("inputId", "Test", multiple = T, accept = c(".xls"))
+      file_Input("inputId", "Test", multiple = TRUE, accept = c(".xls"))
     Output
       <div id="inputIddiv" class="govuk-form-group">
         <label class="govuk-label" tabindex="-1">Test</label>

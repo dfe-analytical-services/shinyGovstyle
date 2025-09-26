@@ -1,49 +1,59 @@
 #' Tabs Function
 #'
-#' This function creates a tabs based table.  It requires a single dataframe
-#' with a grouping variable
-#' @param inputId The id to access the summary list
+#' This function creates a tabs based table. It requires a single dataframe
+#' with a grouping variable.
+#' @param inputId The Id to access the summary list
 #' @param headers input for the row headers value
 #' @param info summary information values for the table
-#' @param action whenever a change link is needed.  sets input to the value of
+#' @param action whenever a change link is needed. Sets input to the value of
 #' the headers using lowercase and with underscore to replace gaps. Default
-#' set to \code{FALSE}
-#' @param border set if the table should have borders.  Default set
-#' to \code{TRUE}
-#' @return a summary list table html shiny object.
+#' set to `FALSE`
+#' @param border set if the table should have borders. Default set
+#' to `TRUE`
+#' @return a summary list table HTML shiny tag object
 #' @keywords summary list
 #' @export
 #' @examples
-#' if (interactive()) {
+#' # Create an example dataset
+#' headers <- c(
+#'   "Name",
+#'   "Date of birth",
+#'   "Contact information",
+#'   "Contact details"
+#' )
+#' info <- c(
+#'   "Sarah Philips",
+#'   "5 January 1978",
+#'   "72 Guild Street <br> London <br> SE23 6FH",
+#'   "07700 900457 <br> sarah.phillips@example.com"
+#' )
 #'
-#'   # Create an example dataset
-#'   headers <- c("Name", "Date of birth", "Contact information", "Contact details")
-#'   info <- c(
-#'     "Sarah Philips",
-#'     "5 January 1978",
-#'     "72 Guild Street <br> London <br> SE23 6FH",
-#'     "07700 900457 <br> sarah.phillips@example.com")
+#' ui <- shiny::fluidPage(
+#'   shinyGovstyle::header(
+#'     main_text = "Example",
+#'     secondary_text = "User Examples",
+#'     logo="shinyGovstyle/images/moj_logo.png"
+#'   ),
+#'   shinyGovstyle::gov_layout(
+#'     size = "two-thirds",
+#'     shinyGovstyle::gov_summary("sumID", headers, info, action = FALSE)
+#'   ),
+#'   shinyGovstyle::footer(full = TRUE)
+#' )
 #'
-#'   ui <- fluidPage(
-#'     shinyGovstyle::header(
-#'       main_text = "Example",
-#'       secondary_text = "User Examples",
-#'       logo="shinyGovstyle/images/moj_logo.png"),
-#'     shinyGovstyle::gov_layout(size = "two-thirds",
-#'       shinyGovstyle::gov_summary("sumID", headers, info, action = FALSE)),
-#'     shinyGovstyle::footer(full = TRUE)
-#'   )
-#'
-#'   server <- function(input, output, session) {}
-#'   shinyApp(ui = ui, server = server)
-#' }
-#'
-
-gov_summary <- function(inputId, headers, info, action = FALSE, border = TRUE) {
+#' server <- function(input, output, session) {}
+#' if (interactive()) shinyApp(ui = ui, server = server)
+gov_summary <- function(
+  inputId, # nolint
+  headers,
+  info,
+  action = FALSE,
+  border = TRUE
+) {
   if (border) {
-    border_class = "govuk-summary-list"
+    border_class <- "govuk-summary-list"
   } else {
-    border_class = "govuk-summary-list govuk-summary-list--no-border"
+    border_class <- "govuk-summary-list govuk-summary-list--no-border"
   }
 
   shiny::tags$dl(

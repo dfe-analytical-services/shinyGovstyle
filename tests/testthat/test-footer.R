@@ -30,23 +30,29 @@ test_that("footer links add correctly", {
 
   expect_snapshot(full_footer_with_links)
 
-  full_footer_with_internal_external_links <- footer(
+  full_with_mixed_links <- footer(
     TRUE,
     c(
       `Privacy Notice` = "privacy_notice_link",
-      `GitHub repository` = "https://github.com/dfe-analytical-services/shinyGovstyle"
+      `GitHub repository` = paste0(
+        "https://github.com/dfe-analytical-services/shinyGovstyle"
+      )
     )
   )
 
-  expect_snapshot(full_footer_with_internal_external_links)
+  expect_snapshot(full_with_mixed_links)
 
-  full_footer_with_external_links <- footer(
+  full_with_ext_links <- footer(
     TRUE,
     c(
-      `Privacy notice` = "https://github.com/dfe-analytical-services/shinyGovstyle",
-      `GitHub repository` = "https://github.com/dfe-analytical-services/shinyGovstyle"
+      `Privacy notice` = paste0(
+        "https://github.com/dfe-analytical-services/shinyGovstyle"
+      ),
+      `GitHub repository` = paste0(
+        "https://github.com/dfe-analytical-services/shinyGovstyle"
+      )
     )
   )
 
-  expect_snapshot(full_footer_with_external_links)
+  expect_snapshot(full_with_ext_links)
 })

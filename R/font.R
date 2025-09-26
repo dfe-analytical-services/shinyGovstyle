@@ -4,24 +4,20 @@
 #' https://design-system.service.gov.uk/styles/typography/ for when they
 #' are allowed.
 #' @keywords font
-#' @return no value returned.  This loads the font css file
+#' @return no value returned. This loads the font CSS file
 #' @export
 #' @examples
-#' if (interactive()) {
+#' ui <- shiny::fluidPage(
+#'   font(),
+#'   shinyGovstyle::header(
+#'     main_text = "Example",
+#'     secondary_text = "User Examples",
+#'     logo="shinyGovstyle/images/moj_logo.png")
+#' )
 #'
-#'   ui <- fluidPage(
-#'     font(),
-#'     shinyGovstyle::header(
-#'       main_text = "Example",
-#'       secondary_text = "User Examples",
-#'       logo="shinyGovstyle/images/moj_logo.png")
-#'   )
+#' server <- function(input, output, session) {}
 #'
-#'   server <- function(input, output, session) {}
-#'
-#'   shinyApp(ui = ui, server = server)
-#' }
-
+#' if (interactive()) shinyApp(ui = ui, server = server)
 font <- function() {
   version <- as.character(packageVersion("shinyGovstyle")[[1]])
 

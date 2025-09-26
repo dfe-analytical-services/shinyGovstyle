@@ -1,13 +1,14 @@
-# Deployed at https://department-for-education.shinyapps.io/shinygovstyle-example-app/
+# Deployed at
+# https://department-for-education.shinyapps.io/shinygovstyle-example-app/
 
 library(shinyGovstyle)
 
-Months <- rep(c("January", "February", "March", "April", "May"), times = 2)
-Colours <- rep(c("Red", "Blue"), times = 5)
-Bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
-Vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
-Buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
-example_data <- data.frame(Months, Colours, Bikes, Vans, Buses)
+months <- rep(c("January", "February", "March", "April", "May"), times = 2)
+colours <- rep(c("Red", "Blue"), times = 5)
+bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
+vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
+buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
+example_data <- data.frame(months, colours, bikes, vans, buses)
 example_data_short <- head(example_data, 5)
 tabs <- c(
   rep("Past Day", 3),
@@ -15,14 +16,14 @@ tabs <- c(
   rep("Past Month", 3),
   rep("Past Year", 3)
 )
-Case_manager <- rep(c("David Francis", "Paul Farmer", "Rita Patel"), 4)
-Cases_open <- c(3, 1, 2, 24, 16, 24, 98, 122, 126, 1380, 1129, 1539)
-Cases_closed <- c(0, 0, 0, 18, 20, 27, 95, 131, 142, 1472, 1083, 1265)
-data <- data.frame(tabs, Case_manager, Cases_open, Cases_closed)
+case_manager <- rep(c("David Francis", "Paul Farmer", "Rita Patel"), 4)
+cases_open <- c(3, 1, 2, 24, 16, 24, 98, 122, 126, 1380, 1129, 1539)
+cases_closed <- c(0, 0, 0, 18, 20, 27, 95, 131, 142, 1472, 1083, 1265)
+data <- data.frame(tabs, case_manager, cases_open, cases_closed)
 
 shiny::shinyApp(
   ui = shiny::fluidPage(
-    title = "ShinyGovstyle",
+    title = "ShinyGovstyle showcase",
     cookieBanner("shinyGovstyle showcase"),
     shinyGovstyle::skip_to_main(),
     header(
@@ -35,8 +36,11 @@ shiny::shinyApp(
     banner(
       "banner",
       "Beta",
-      'This is a new service \u002D your <a class="govuk-link" href="https://github.com/dfe-analytical-services/shinyGovstyle/issues/new/choose">
-        feedback</a> will help us to improve it.'
+      paste0(
+        'This is a new service \u002D your <a class="govuk-link" href=',
+        '"https://github.com/dfe-analytical-services/shinyGovstyle/issues/new',
+        '/choose">feedback</a> will help us to improve it.'
+      )
     ),
 
     # Need this to make the error and word count work
@@ -49,11 +53,17 @@ shiny::shinyApp(
         size = "full",
         shinyGovstyle::gov_text(
           style = "margin-bottom: -10px;",
-          "This example app showcases the components available in the latest development version of the shinyGovstyle
-                    package. The source code for the app can be found on the ",
+          paste0(
+            "This example app showcases the components available in the",
+            " latest development version of the shinyGovstyle package.",
+            " The source code for the app can be found on the "
+          ),
           shinyGovstyle::external_link(
-            href = "https://github.com/dfe-analytical-services/shinyGovstyle/blob/master/inst/example_app/app.R",
-            link_text = "master GitHub branch"
+            href = paste0(
+              "https://github.com/dfe-analytical-services/shinyGovstyle/",
+              "blob/main/inst/example_app/app.R"
+            ),
+            link_text = "main GitHub branch"
           ),
           "."
         )
@@ -170,7 +180,7 @@ shiny::shinyApp(
           type = "hidden",
           id = "tab-container", # DO NOT REMOVE ID
 
-          ##################### Create first panel################################
+          ##################### Create first panel ############################
           shiny::tabPanel(
             "Select Types",
             value = "select_types",
@@ -231,7 +241,7 @@ shiny::shinyApp(
             )
           ),
 
-          ##################### Create second panel################################
+          ##################### Create second panel ###########################
           shiny::tabPanel(
             "Text Types",
             value = "text_types",
@@ -256,14 +266,16 @@ shiny::shinyApp(
               text_area_Input(
                 inputId = "text_area1",
                 label = "Can you provide more detail?",
-                hint_label = "Do not include personal or financial information,
-          like your National Insurance number or credit card details."
+                hint_label = paste0(
+                  "Do not include personal or financial information, ",
+                  "like your National Insurance number or credit card details."
+                )
               ),
               text_area_Input(
                 inputId = "text_area2",
                 label = "How are you today?",
                 hint_label = "Leave blank to trigger error",
-                error = T,
+                error = TRUE,
                 error_message = "Please do not leave blank",
                 word_limit = 300
               ),
@@ -284,7 +296,7 @@ shiny::shinyApp(
             )
           ),
 
-          ##################### Create action types panel################################
+          ##################### Create action types panel #####################
           shiny::tabPanel(
             "Action types",
             value = "action_types",
@@ -299,18 +311,30 @@ shiny::shinyApp(
               ),
               heading_text("external_link", size = "s"),
               gov_text(
-                "You can add external links with automatic formatting such as to our ",
+                paste0(
+                  "You can add external links with automatic ",
+                  "formatting such as to our "
+                ),
                 shinyGovstyle::external_link(
-                  href = "https://github.com/dfe-analytical-services/shinyGovstyle",
+                  href = paste0(
+                    "https://github.com/dfe-analytical-services/",
+                    "shinyGovstyle"
+                  ),
                   link_text = "GitHub repository",
                 ),
                 "."
               ),
               shinyGovstyle::gov_text(
-                "You can also add external links that don't have the warning in brackets
-                but do have the warning for screen readers, such as this link to our ",
+                paste(
+                  "You can also add external links that don't have the",
+                  "warning in brackets but do have the warning for screen",
+                  "readers, such as this link to our "
+                ),
                 shinyGovstyle::external_link(
-                  href = "https://dfe-analytical-services.github.io/shinyGovstyle/",
+                  href = paste0(
+                    "https://dfe-analytical-services.github.io/",
+                    "shinyGovstyle/"
+                  ),
                   link_text = "package documentation site",
                   add_warning = FALSE
                 ),
@@ -338,11 +362,14 @@ shiny::shinyApp(
                   file_types = c("CSV", "XLSX", "ODS")
                 )
               ),
-              button_Input("tables_tabs_and_accordions_next", "Go to next page")
+              button_Input(
+                "tables_tabs_and_accordions_next",
+                "Go to next page"
+              )
             )
           ),
 
-          ##################### Create third panel################################
+          ##################### Create third panel ############################
           shiny::tabPanel(
             "Tables, tabs and accordions",
             value = "tables_tabs_and_accordions",
@@ -368,7 +395,7 @@ shiny::shinyApp(
               heading_text("Caption added separately", size = "l"),
               govReactable(
                 example_data,
-                right_col = c("Bikes", "Vans", "Buses"),
+                right_col = c("bikes", "vans", "buses"),
                 page_size = 5
               ),
 
@@ -376,8 +403,8 @@ shiny::shinyApp(
               select_Input(
                 inputId = "colourFilter",
                 label = "Select Colour",
-                select_text = c(sort(unique(example_data$Colours))),
-                select_value = c(sort(unique(example_data$Colours)))
+                select_text = c(sort(unique(example_data$colours))),
+                select_value = c(sort(unique(example_data$colours)))
               ),
               govReactableOutput(
                 "interactive_table_test",
@@ -408,7 +435,7 @@ shiny::shinyApp(
             )
           ),
 
-          ##################### Create feedback panel################################
+          ##################### Create feedback panel #########################
           shiny::tabPanel(
             "Feedback Types",
             value = "feedback_types",
@@ -439,10 +466,12 @@ shiny::shinyApp(
               details(
                 inputId = "detID",
                 label = "Help with nationality",
-                help_text = "We need to know your nationality so we can work out
-              which elections you\u0027re entitled to vote in. If you cannot provide
-              your nationality\u002C you\u0027ll have to send copies of identity
-              documents through the post."
+                help_text = paste(
+                  "We need to know your nationality so we can work out",
+                  "which elections you\u0027re entitled to vote in. If you",
+                  "cannot provide your nationality\u002C you\u0027ll have to",
+                  "send copies of identity documents through the post."
+                )
               ),
               heading_text("insert_text", size = "s"),
               insert_text(
@@ -468,14 +497,20 @@ shiny::shinyApp(
               ),
               value_box(
                 value = "58.3%",
-                text = "This is another example value box in red. More colours are available.",
+                text = paste(
+                  "This is another example value box in red.",
+                  "More colours are available."
+                ),
                 colour = "red"
               ),
               heading_text("panel_output", size = "s"),
               panel_output(
                 inputId = "panId",
                 main_text = "Application complete",
-                sub_text = "Your reference number <br> <strong>HDJ2123F</strong>"
+                sub_text = paste(
+                  "Your reference number <br>",
+                  "<strong>HDJ2123F</strong>"
+                )
               ),
               heading_text("noti_banner", size = "s"),
               noti_banner(
@@ -504,7 +539,7 @@ shiny::shinyApp(
             )
           ),
 
-          ##################### Create cookie panel################################
+          ##################### Create cookie panel ###########################
           shiny::tabPanel(
             "Cookies",
             value = "panel-cookies",
@@ -526,7 +561,9 @@ shiny::shinyApp(
       TRUE,
       links = c(
         `Cookies` = "cookies_footer_link",
-        `GitHub repository` = "https://github.com/dfe-analytical-services/shinyGovstyle"
+        `GitHub repository` = paste(
+          "https://github.com/dfe-analytical-services/shinyGovstyle"
+        )
       )
     )
   ), # end of fluid page
@@ -705,13 +742,13 @@ shiny::shinyApp(
     )
 
     filtered_data <- reactive({
-      subset(example_data, Colours == input$colourFilter)
+      subset(example_data, colours == input$colourFilter)
     })
 
     output$interactive_table_test <- renderGovReactable({
       govReactable(
         df = filtered_data(),
-        right_col = c("Bikes", "Vans", "Buses"),
+        right_col = c("bikes", "vans", "buses"),
         page_size = 3,
       )
     })

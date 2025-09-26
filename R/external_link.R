@@ -2,7 +2,7 @@
 #'
 #' Intentionally basic wrapper for HTML anchor elements making it easier to
 #' create safe external links with standard and accessible behaviour. For more
-#' information on how the tag is generated, see \code{\link[htmltools]{tags}}.
+#' information on how the tag is generated, see [htmltools::tags()].
 #'
 #' @description
 #' It is commonplace for external links to open in a new tab, and when we do
@@ -48,12 +48,13 @@
 #' 'here' will cause an error, as will ending in a full stop. Leading and
 #' trailing white space will be automatically trimmed. If the string is shorter
 #' than 7 characters a console warning will be thrown. There is no way to hush
-#' this other than providing more detail.
+#' this other than providing more detail
 #' @param add_warning Boolean for adding "(opens in new tab)" at the end of the
 #' link text to warn users of the behaviour. Be careful and consider
-#' accessibility before removing the visual warning.
-#' @param footer Apply standard GDS footer css styling. Logical, default = FALSE .
-#' @return shiny.tag object
+#' accessibility before removing the visual warning
+#' @param footer Apply standard GDS footer CSS styling. Logical,
+#' default = FALSE
+#' @return shiny tag object
 #' @export
 #'
 #' @examples
@@ -99,8 +100,12 @@
 #'     )
 #'   )
 #' )
-#'
-external_link <- function(href, link_text, add_warning = TRUE, footer = FALSE) {
+external_link <- function(
+  href,
+  link_text,
+  add_warning = TRUE,
+  footer = FALSE
+) {
   if (!is.logical(add_warning)) {
     stop("add_warning must be a TRUE or FALSE value")
   }
@@ -186,7 +191,7 @@ external_link <- function(href, link_text, add_warning = TRUE, footer = FALSE) {
     .noWS = c("outside")
   )
 
-  # Attach CSS from inst/www/css/visually-hidden.css
+  # Attach CSS from inst/www/css/sr-only.css
   dependency <- htmltools::htmlDependency(
     name = "sr-only",
     version = as.character(utils::packageVersion("shinyGovstyle")[[1]]),

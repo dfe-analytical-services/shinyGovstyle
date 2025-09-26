@@ -15,35 +15,35 @@ govReactable(
 )
 }
 \arguments{
-\item{df}{A dataframe used to generate the table.}
+\item{df}{A dataframe used to generate the table}
 
 \item{right_col}{A vector of column names that should be right-aligned.
 By default, numeric data is right-aligned, and character data is
-left-aligned.}
+left-aligned}
 
-\item{page_size}{The default number of rows displayed per page (default: 10).}
+\item{page_size}{The default number of rows displayed per page (default: 10)}
 
-\item{highlight}{Highlight table rows on hover.}
+\item{highlight}{Highlight table rows on hover}
 
-\item{borderless}{Remove inner borders from table.}
+\item{borderless}{Remove inner borders from table}
 
 \item{min_widths}{Customise minimum column width using a list of columns and
-minimum width in pixels.}
+minimum width in pixels}
 
-\item{...}{Additional arguments passed to `reactable::reactable`.}
+\item{...}{Additional arguments passed to \code{reactable::reactable}}
 }
 \value{
-A `reactable` HTML widget styled with GOV.UK classes.
+A \code{reactable} HTML widget styled with GOV.UK classes
 }
 \description{
 This function is opinionated and sets table defaults that are in
 keeping with the wider GOV.UK design system. Some defaults are overrideable,
-such as `highlight=TRUE` and `borderless=TRUE`, however some are fixed, such
-as `showSortIcon=FALSE` as the default sort icon is inaccessible. Additional
-arguments from `reactable::reactable` can be passed to customise the table.
+such as \code{highlight=TRUE} and \code{borderless=TRUE}, however some are fixed, such
+as \code{showSortIcon=FALSE} as the default sort icon is inaccessible. Additional
+arguments from \code{reactable::reactable} can be passed to customise the table.
 }
 \details{
-This function inserts a government-styled table using `reactable`.
+This function inserts a government-styled table using \code{reactable}.
 You can use this in R markdown or Quarto documents, or use
 renderGovReactable({}) and govReactableOutput() for tables in R Shiny.
 govReactableOutput() gives the ability to add a caption, for static

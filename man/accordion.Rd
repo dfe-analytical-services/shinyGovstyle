@@ -7,48 +7,52 @@
 accordion(inputId, titles, descriptions)
 }
 \arguments{
-\item{inputId}{Input id for the accordion}
+\item{inputId}{Input Id for the accordion}
 
 \item{titles}{Add the titles for the accordion}
 
 \item{descriptions}{Add the main text for the accordion}
 }
 \value{
-an accordion html shiny object
+an accordion HTML shiny tag object
 }
 \description{
 This function inserts a accordion
 }
 \examples{
-if (interactive()) {
-
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::banner(
-      inputId = "banner", type = "beta", 'This is a new service'),
-    shinyGovstyle::gov_layout(size = "two-thirds",
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo = "shinyGovstyle/images/moj_logo.png",
+    logo_alt_text = "Ministry of Justice logo"
+  ),
+  shinyGovstyle::banner(
+    inputId = "banner", type = "beta", 'This is a new service'
+  ),
+  shinyGovstyle::gov_layout(
+    size = "two-thirds",
     accordion(
       "acc1",
-      c("Writing well for the web",
+      c(
+        "Writing well for the web",
         "Writing well for specialists",
         "Know your audience",
         "How people read"
-       ),
-      c("This is the content for Writing well for the web.",
+      ),
+      c(
+        "This is the content for Writing well for the web.",
         "This is the content for Writing well for specialists.",
         "This is the content for Know your audience.",
         "This is the content for How people read."
-       ))),
+      )
+    )
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-    shinyGovstyle::footer(full = TRUE)
-  )
+server <- function(input, output, session) {}
 
-  server <- function(input, output, session) {}
-
-  shinyApp(ui = ui, server = server)
-}
+if (interactive()) shiny::shinyApp(ui = ui, server = server)
 }
 \keyword{accordion}

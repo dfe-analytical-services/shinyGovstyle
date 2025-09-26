@@ -12,6 +12,10 @@ If you're working in VSCode or Positron, there is a settings.json file in the re
 
 Air is still in development, so it's worth checking [their documentation](https://posit-dev.github.io/air/editors.html) if you're a new contributor and want to see the best ways to use it within your chosen IDE.
 
+### no lint
+
+There are a number of places where the original function and argument names do not follow snake_case and therefore fail lintr's checks. To preserve backwards compatibility we've added `# nolint` to these lines so that we can turn on lintr checks for the package without creating breaking changes for everyone who uses it.
+
 ## Raising new changes
 
 New changes should be made on a branch off of the latest version of the master branch.

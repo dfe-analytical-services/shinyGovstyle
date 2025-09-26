@@ -52,24 +52,25 @@
 
 
 <dl><dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
-<dd><p>Shiny element ID. Default is "download_radios", but must be customised to be unique
-if multiple instances of this module are being used in a single app. Must match up to the ID
-of a `download_radios_helper()` instance in server code.</p></dd>
+<dd><p>Shiny element Id. Default is "download_radios", but must be
+customised to be unique if multiple instances of this module are being
+used in a single app. Must match up to the ID
+of a <code>download_radios_helper()</code> instance in server code</p></dd>
 
 
 <dt id="arg-download-type">download_type<a class="anchor" aria-label="anchor" href="#arg-download-type"></a></dt>
-<dd><p>Element being downloaded. Expected to be along the lines of "underlying
-data", "table", "current data view". Default is "table".</p></dd>
+<dd><p>Element being downloaded. Expected to be along the
+lines of "underlying data", "table", "current data view". Default is "table"</p></dd>
 
 
 <dt id="arg-file-types">file_types<a class="anchor" aria-label="anchor" href="#arg-file-types"></a></dt>
-<dd><p>File formats to offer, can be any combination of "CSV", "XLSX", "ODS". Default
-is a vector of all 3.</p></dd>
+<dd><p>File formats to offer, can be any combination of
+"CSV", "XLSX", "ODS". Default is a vector of all 3</p></dd>
 
 
 <dt id="arg-file-sizes">file_sizes<a class="anchor" aria-label="anchor" href="#arg-file-sizes"></a></dt>
-<dd><p>Estimated file sizes for each file format. This needs to be a vector of the
-same length as file_types.</p></dd>
+<dd><p>Estimated file sizes for each file format. This needs to
+be a vector of the same length as file_types</p></dd>
 
 
 <dt id="arg-small">small<a class="anchor" aria-label="anchor" href="#arg-small"></a></dt>
@@ -83,28 +84,22 @@ same length as file_types.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.posit.co/" class="external-link">shiny</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/moj-analytical-services/shinyGovstyle" class="external-link">shinyGovstyle</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu">download_radios</span><span class="op">(</span><span class="st">"download_file"</span>,</span></span>
-<span class="r-in"><span>      file_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CSV"</span>, <span class="st">"ODS"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      file_sizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2 KB"</span>, <span class="st">"5 KB"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu">download_radios</span><span class="op">(</span><span class="st">"download_file"</span>,</span></span>
+<span class="r-in"><span>    file_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CSV"</span>, <span class="st">"ODS"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    file_sizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2 KB"</span>, <span class="st">"5 KB"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="va">output</span><span class="op">$</span><span class="va">download_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="download_radios_handler.html">download_radios_handler</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      <span class="st">"download_file"</span>,</span></span>
-<span class="r-in"><span>      file_name <span class="op">=</span> <span class="st">"simple_data_frame"</span>,</span></span>
-<span class="r-in"><span>      file_contents <span class="op">=</span> <span class="va">mtcars</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co"># How to run the minimal app given in this example =======================</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span><span class="op">$</span><span class="va">download_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="download_radios_handler.html">download_radios_handler</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"download_file"</span>,</span></span>
+<span class="r-in"><span>    file_name <span class="op">=</span> <span class="st">"simple_data_frame"</span>,</span></span>
+<span class="r-in"><span>    file_contents <span class="op">=</span> <span class="va">mtcars</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="fu">shinyApp</span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

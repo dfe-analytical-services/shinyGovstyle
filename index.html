@@ -16,8 +16,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Custom Gov Style Inputs for Shiny">
-<meta name="description" content="Collection of shiny application styling that are the based on the GOV.UK Design System. See &lt;https://design-system.service.gov.uk/components/&gt; for details.">
-<meta property="og:description" content="Collection of shiny application styling that are the based on the GOV.UK Design System. See &lt;https://design-system.service.gov.uk/components/&gt; for details.">
+<meta name="description" content="Collection of shiny application styling that are based on the GOV.UK Design System. See &lt;https://design-system.service.gov.uk/components/&gt; for details.">
+<meta property="og:description" content="Collection of shiny application styling that are based on the GOV.UK Design System. See &lt;https://design-system.service.gov.uk/components/&gt; for details.">
 <meta property="og:image" content="/logo.png">
 </head>
 <body>
@@ -66,7 +66,10 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>This package provides custom widgets to style R Shiny apps using the GOV.UK design system. The components can be previewed in our <a href="https://department-for-education.shinyapps.io/shinygovstyle-example-app/" class="external-link">example showcase app</a>. <br><img src="reference/figures/example_app.gif" alt="example app demonstration"></p>
+<p>This package provides custom widgets to style R Shiny apps using the GOV.UK design system. The components can be previewed in our <a href="https://department-for-education.shinyapps.io/shinygovstyle-example-app/" class="external-link">example showcase app</a>. <br></p>
+<div class="float">
+<img src="reference/figures/example_app.gif" alt="example app demonstration"><div class="figcaption">example app demonstration</div>
+</div>
 <p>To view details and advice on how to use the GOV.UK components please visit <a href="https://design-system.service.gov.uk/components/" class="external-link uri">https://design-system.service.gov.uk/components/</a>, most components should be available to use through this package.</p>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -79,7 +82,7 @@
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dfe-analytical-services/shinyGovstyle"</span><span class="op">)</span></span></code></pre></div>
 <p>This has previously also been available on conda though is no longer actively maintained, if you are using the package in this way, please let us know!</p>
 <pre><code>conda install r-shinygovstyle</code></pre>
-<p>To use error and word count elements you will need to load useShinyjs from shinyjs in your ui.R file</p>
+<p>To use error and word count elements you will need to load <code>useShinyjs()</code> from shinyjs in your ui.R file</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="fu">shinyjs</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shinyjs/man/useShinyjs.html" class="external-link">useShinyjs</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>

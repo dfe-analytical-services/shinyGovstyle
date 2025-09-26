@@ -56,65 +56,60 @@ Output and render functions for using govReactable within shiny apps</p>
 
 
 <dl><dt id="arg-output-table-name">output_table_name<a class="anchor" aria-label="anchor" href="#arg-output-table-name"></a></dt>
-<dd><p>Output variable to read from.</p></dd>
+<dd><p>Output variable to read from</p></dd>
 
 
 <dt id="arg-caption">caption<a class="anchor" aria-label="anchor" href="#arg-caption"></a></dt>
-<dd><p>Adds a caption to the table as a header.</p></dd>
+<dd><p>Adds a caption to the table as a header</p></dd>
 
 
 <dt id="arg-caption-size">caption_size<a class="anchor" aria-label="anchor" href="#arg-caption-size"></a></dt>
-<dd><p>Adjust the size of caption.
-Options are s, m, l, xl, with l as the default.</p></dd>
+<dd><p>Adjust the size of caption
+Options are s, m, l, xl, with l as the default</p></dd>
 
 
 <dt id="arg-heading-level">heading_level<a class="anchor" aria-label="anchor" href="#arg-heading-level"></a></dt>
 <dd><p>The HTML heading level for
-the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2".</p></dd>
+the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2"</p></dd>
 
 
 <dt id="arg-expr">expr<a class="anchor" aria-label="anchor" href="#arg-expr"></a></dt>
-<dd><p>An expression that generates a `reactable` widget.</p></dd>
+<dd><p>An expression that generates a <code>reactable</code> widget</p></dd>
 
 
 <dt id="arg-env">env<a class="anchor" aria-label="anchor" href="#arg-env"></a></dt>
-<dd><p>The environment in which to evaluate `expr`.</p></dd>
+<dd><p>The environment in which to evaluate <code>expr</code></p></dd>
 
 
 <dt id="arg-quoted">quoted<a class="anchor" aria-label="anchor" href="#arg-quoted"></a></dt>
-<dd><p>Is `expr` a quoted expression (with [quote()])?
-This is useful if you want to save an expression in a variable.</p></dd>
+<dd><p>Is <code>expr</code> a quoted expression (with <code><a href="https://rdrr.io/r/base/substitute.html" class="external-link">quote()</a></code>)?
+This is useful if you want to save an expression in a variable</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>`govReactableOutput()` returns a `reactable` output element
-that can be included in a Shiny UI.</p>
-<p>`renderGovReactable()` returns a `reactable` render function that
-can be assigned to a Shiny output slot.</p>
+    <p><code>govReactableOutput()</code> returns a <code>reactable</code> output element
+that can be included in a Shiny UI</p>
+<p><code>renderGovReactable()</code> returns a <code>reactable</code> render function that
+can be assigned to a Shiny output slot</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Run in an interactive R session</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.posit.co/" class="external-link">shiny</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/moj-analytical-services/shinyGovstyle" class="external-link">shinyGovstyle</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/titlePanel.html" class="external-link">titlePanel</a></span><span class="op">(</span><span class="st">"govReactableOutput example"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu">govReactableOutput</span><span class="op">(</span><span class="st">"table"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu">govReactableOutput</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"table"</span>,</span></span>
+<span class="r-in"><span>    caption <span class="op">=</span> <span class="st">"Example table"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="va">output</span><span class="op">$</span><span class="va">table</span> <span class="op">&lt;-</span> <span class="fu">renderGovReactable</span><span class="op">(</span><span class="op">{</span></span></span>
-<span class="r-in"><span>      <span class="fu"><a href="govReactable.html">govReactable</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></span>
-<span class="r-in"><span>    <span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">output</span><span class="op">$</span><span class="va">table</span> <span class="op">&lt;-</span> <span class="fu">renderGovReactable</span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="govReactable.html">govReactable</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="fu">shinyApp</span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

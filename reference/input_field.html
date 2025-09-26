@@ -62,71 +62,76 @@
 
 
 <dt id="arg-inputids">inputIds<a class="anchor" aria-label="anchor" href="#arg-inputids"></a></dt>
-<dd><p>A list input slots that will be used to access the value.</p></dd>
+<dd><p>A list input slots that will be used to access the value</p></dd>
 
 
 <dt id="arg-widths">widths<a class="anchor" aria-label="anchor" href="#arg-widths"></a></dt>
 <dd><p>control the size of the box based on number of characters
-required.  Options are 30, 20, 10, 5, 4, 3, 2.  NULL will not limit the size</p></dd>
+required.  Options are 30, 20, 10, 5, 4, 3, 2. NULL will not limit the size</p></dd>
 
 
 <dt id="arg-types">types<a class="anchor" aria-label="anchor" href="#arg-types"></a></dt>
-<dd><p>text box types.  Will default to text.</p></dd>
+<dd><p>text box types. Will default to text</p></dd>
 
 
 <dt id="arg-error">error<a class="anchor" aria-label="anchor" href="#arg-error"></a></dt>
-<dd><p>Whenever to icnlud error handling  Defaults to FALSE.</p></dd>
+<dd><p>Whenever to icnlud error handling. Defaults to FALSE</p></dd>
 
 
 <dt id="arg-error-message">error_message<a class="anchor" aria-label="anchor" href="#arg-error-message"></a></dt>
-<dd><p>Message to display on error.  Defaults to NULL</p></dd>
+<dd><p>Message to display on error. Defaults to NULL</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>a input field of html as a shiny object</p>
+    <p>a input field of HTML as a shiny tag object</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="co"># Required for error handling function</span></span></span>
-<span class="r-in"><span>    <span class="fu">shinyjs</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shinyjs/man/useShinyjs.html" class="external-link">useShinyjs</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="header.html">header</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      main_text <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
-<span class="r-in"><span>      secondary_text <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
-<span class="r-in"><span>      logo<span class="op">=</span><span class="st">"shinyGovstyle/images/moj_logo.png"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="banner.html">banner</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      inputId <span class="op">=</span> <span class="st">"banner"</span>, type <span class="op">=</span> <span class="st">"beta"</span>, <span class="st">'This is a new service'</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="gov_layout.html">gov_layout</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span></span>
-<span class="r-in"><span>      <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">input_field</span><span class="op">(</span></span></span>
-<span class="r-in"><span>        legend <span class="op">=</span><span class="st">"List of three text boxes in a field"</span>,</span></span>
-<span class="r-in"><span>        labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Field 1"</span>, <span class="st">"Field 2"</span>, <span class="st">"Field 3"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        inputIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"field1"</span>, <span class="st">"field2"</span>, <span class="st">"field3"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">20</span>,<span class="fl">10</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>     <span class="co"># Button to trigger error</span></span></span>
-<span class="r-in"><span>     <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="button_Input.html">button_Input</a></span><span class="op">(</span>inputId <span class="op">=</span> <span class="st">"submit"</span>, label <span class="op">=</span> <span class="st">"Submit"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="co"># Required for error handling function</span></span></span>
+<span class="r-in"><span>  <span class="fu">shinyjs</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shinyjs/man/useShinyjs.html" class="external-link">useShinyjs</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="header.html">header</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    main_text <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
+<span class="r-in"><span>    secondary_text <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
+<span class="r-in"><span>    logo<span class="op">=</span><span class="st">"shinyGovstyle/images/moj_logo.png"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="banner.html">banner</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    inputId <span class="op">=</span> <span class="st">"banner"</span>, type <span class="op">=</span> <span class="st">"beta"</span>, <span class="st">'This is a new service'</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="gov_layout.html">gov_layout</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span></span>
+<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">input_field</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      legend <span class="op">=</span><span class="st">"List of three text boxes in a field"</span>,</span></span>
+<span class="r-in"><span>      labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Field 1"</span>, <span class="st">"Field 2"</span>, <span class="st">"Field 3"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      inputIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"field1"</span>, <span class="st">"field2"</span>, <span class="st">"field3"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">20</span>,<span class="fl">10</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      error <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="footer.html">footer</a></span><span class="op">(</span>full <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>   <span class="co"># Button to trigger error</span></span></span>
+<span class="r-in"><span>   <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="button_Input.html">button_Input</a></span><span class="op">(</span>inputId <span class="op">=</span> <span class="st">"submit"</span>, label <span class="op">=</span> <span class="st">"Submit"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="footer.html">footer</a></span><span class="op">(</span>full <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use logo_alt_text to provide alternative text for the logo you used.</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="co"># Trigger error on blank submit of field2</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">submit</span>, <span class="op">{</span></span></span>
-<span class="r-in"><span>      <span class="kw">if</span> <span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">field2</span> <span class="op">==</span> <span class="st">""</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>        <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="error_on.html">error_on</a></span><span class="op">(</span>inputId <span class="op">=</span> <span class="st">"field2"</span>,</span></span>
-<span class="r-in"><span>                                error_message <span class="op">=</span> <span class="st">"Please complete"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>      <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>        <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="error_off.html">error_off</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>          inputId <span class="op">=</span> <span class="st">"field2"</span><span class="op">)</span></span></span>
-<span class="r-in"><span>      <span class="op">}</span></span></span>
-<span class="r-in"><span>    <span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">}</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># Trigger error on blank submit of field2</span></span></span>
+<span class="r-in"><span>  <span class="fu">observeEvent</span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">submit</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="kw">if</span> <span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">field2</span> <span class="op">==</span> <span class="st">""</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="error_on.html">error_on</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        inputId <span class="op">=</span> <span class="st">"field2"</span>,</span></span>
+<span class="r-in"><span>        error_message <span class="op">=</span> <span class="st">"Please complete"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="error_off.html">error_off</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        inputId <span class="op">=</span> <span class="st">"field2"</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="fu">shinyApp</span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

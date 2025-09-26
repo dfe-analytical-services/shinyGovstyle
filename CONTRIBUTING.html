@@ -40,6 +40,10 @@
 <p>We use <a href="https://posit-dev.github.io/air/" class="external-link">Air</a> to format the code and save any styling debate across the repo and keep us as close as we can to the expected lintr standards with minimal effort.</p>
 <p>If you’re working in VSCode or Positron, there is a settings.json file in the repo that includes format on save by default and should work for you without any additional work as long as you have the Air extension installed. If not, don’t fear, as we also have a GitHub action that will check all pull requests for styling and offer formatting as a suggestion you can accept and commit from the PR in GitHub. Unless there’s a reason not to, we recommend that if multiple suggestions are left, you go to the files changed view to accept them as one big batch, rather than individually committing everything.</p>
 <p>Air is still in development, so it’s worth checking <a href="https://posit-dev.github.io/air/editors.html" class="external-link">their documentation</a> if you’re a new contributor and want to see the best ways to use it within your chosen IDE.</p>
+<div class="section level3">
+<h3 id="no-lint">no lint<a class="anchor" aria-label="anchor" href="#no-lint"></a></h3>
+<p>There are a number of places where the original function and argument names do not follow snake_case and therefore fail lintr’s checks. To preserve backwards compatibility we’ve added <code># nolint</code> to these lines so that we can turn on lintr checks for the package without creating breaking changes for everyone who uses it.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="raising-new-changes">Raising new changes<a class="anchor" aria-label="anchor" href="#raising-new-changes"></a></h2>

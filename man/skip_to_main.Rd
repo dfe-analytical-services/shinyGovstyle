@@ -4,73 +4,31 @@
 \alias{skip_to_main}
 \title{Skip to main content link}
 \usage{
-skip_to_main()
+skip_to_main(id = "main")
+}
+\arguments{
+\item{id}{An optional parameter to specify the Id of the main content
+section, will be automatically preceeded by a hash '#'. Default is
+"main" to match the "#main" Id within \code{gov_main()}.}
 }
 \value{
-a skip button that skips to section with Id of "main_col"
+A Shiny tag representing the 'Skip to main content' link
 }
 \description{
-This function generates an accessible 'Skip to main content' link, which is
+This function generates a 'Skip to main content' link, which is
 typically used by keyboard users to bypass content and
 navigate directly to the main content of a page.
-Important: your main column will need an Id of "main_col" for this to work.
 }
 \examples{
 ui <- shiny::fluidPage(
-  cookieBanner("Run Example"),
   skip_to_main(),
   header(
     main_text = "Example",
     secondary_text = "User Examples",
     logo="shinyGovstyle/images/moj_logo.png"
   ),
-  shinyjs::useShinyjs(),  # shinyjs used to manage visibility of elements
-  gov_row(
-    shiny::column(
-      width = 3,
-      id = "nav",
-
-      # Contents box
-      shiny::tags$div(
-        id = "govuk-contents-box", #DO NOT REMOVE ID
-        class = "govuk-contents-box",  #DO NOT REMOVE CLASS
-        shiny::tags$h2("Contents"),
-        shiny::tags$p("Your contents links go here"),
-      )
-    ),
-
-    shiny::column(
-      width = 9,
-      id = "main_col",
-      shiny::tabsetPanel(
-        type = "hidden",
-        id = "tab-container", # DO NOT REMOVE ID
-        shiny::tabPanel(
-          "Your main content",
-          value = "your_main_content",
-          gov_layout(
-            size = "two-thirds",
-            heading_text("Your main content", size = "l"),
-            heading_text("accordions", size = "s"),
-            accordion(
-              "acc1",
-              c(
-                "Writing well for the web",
-                "Writing well for specialists",
-                "Know your audience",
-                "How people read"
-              ),
-              c(
-                "This is the content for Writing well for the web.",
-                "This is the content for Writing well for specialists.",
-                "This is the content for Know your audience.",
-                "This is the content for How people read."
-              )
-            ),
-          )
-        )
-      )
-    )
+  gov_main_layout(
+    heading_text("Example heading"),
   )
 )
 

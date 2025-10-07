@@ -22,7 +22,6 @@ full_width_overrides <- function() {
         ".govuk-grid-row { margin-left: 0; margin-right: 0; }",
 
         # Cookie banner overrides
-        #".govuk-cookie-banner { padding-left: 10px; }",
         ".govuk-button-group { margin-right: 0px; }",
 
         # Footer overrides

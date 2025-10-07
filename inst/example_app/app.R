@@ -25,7 +25,7 @@ cases_closed <- c(0, 0, 0, 18, 20, 27, 95, 131, 142, 1472, 1083, 1265)
 data <- data.frame(tabs, case_manager, cases_open, cases_closed)
 
 # UI ==========================================================================
-ui = bslib::page_fluid(
+ui <- bslib::page_fluid(
   theme = bs_theme(version = 5),
   title = "ShinyGovstyle component showcase",
   cookieBanner("shinyGovstyle component showcase"),
@@ -571,7 +571,7 @@ ui = bslib::page_fluid(
 ) # end of fluidPage
 
 # Server ======================================================================
-server = function(input, output, session) {
+server <- function(input, output, session) {
   # Cookies link from banner
   shiny::observeEvent(input$cookieLink, {
     shiny::updateTabsetPanel(
@@ -715,7 +715,7 @@ server = function(input, output, session) {
     shiny::updateTabsetPanel(session, "nav", selected = "panel4")
   })
 
-  output$download_data <- downloadHandler(
+  output$download_data <- shiny::downloadHandler(
     filename = "demo_data.csv",
     content = function(file) {
       # Write the dataset to the `file` that will be downloaded
@@ -727,7 +727,7 @@ server = function(input, output, session) {
     }
   )
 
-  output$download_button_data <- downloadHandler(
+  output$download_button_data <- shiny::downloadHandler(
     filename = "demo_button_data.csv",
     content = function(file) {
       # Write the dataset to the `file` that will be downloaded
@@ -744,7 +744,7 @@ server = function(input, output, session) {
     file_contents = data.frame(x = c(1, 2, 3), y = c(4, 5, 6))
   )
 
-  filtered_data <- reactive({
+  filtered_data <- shiny::reactive({
     subset(example_data, colours == input$colourFilter)
   })
 

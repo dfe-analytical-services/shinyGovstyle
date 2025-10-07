@@ -16,26 +16,13 @@ heading_text(text_input, size = "xl", id, level = 1)
 \item{level}{Heading level, integer between 1 and 6. Defaults to 1}
 }
 \value{
-a heading text html shiny object
+a heading text HTML shiny tag object
 }
 \description{
 This function createS heading text
 }
 \examples{
-ui <- shiny::fluidPage(
-  shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
-    logo="shinyGovstyle/images/moj_logo.png"
-  ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
-    shinyGovstyle::heading_text("This is great text", "m")
-  ),
-  shinyGovstyle::footer(full = TRUE)
-)
-
-server <- function(input, output, session) {}
-if (interactive()) shinyApp(ui = ui, server = server)
+shinyGovstyle::heading_text("This is great text")
+shinyGovstyle::heading_text("This is great text", size = "l", level = 2)
 }
 \keyword{heading}

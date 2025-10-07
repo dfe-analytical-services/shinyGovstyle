@@ -4,7 +4,7 @@
 \alias{heading_text}
 \title{Heading Text Function}
 \usage{
-heading_text(text_input, size = "xl", id)
+heading_text(text_input, size = "xl", id, level = 1)
 }
 \arguments{
 \item{text_input}{Text to display}
@@ -12,6 +12,8 @@ heading_text(text_input, size = "xl", id)
 \item{size}{Text size using xl, l, m, s. Defaults to xl}
 
 \item{id}{Custom header id}
+
+\item{level}{Heading level, integer between 1 and 6. Defaults to 1}
 }
 \value{
 a heading text html shiny object

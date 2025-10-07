@@ -185,7 +185,7 @@ ui = bslib::page_fluid(
               "These are some examples of the types of user
                    select type inputs that you can use"
             ),
-            heading_text("radio_button_Input (inline)", size = "s"),
+            heading_text("radio_button_Input (inline)", size = "s", level = 2),
             radio_button_Input(
               inputId = "name_changed",
               label = "Have you changed your name?",
@@ -194,7 +194,7 @@ ui = bslib::page_fluid(
               hint_label = "This includes changing your last name or spelling
                             your name differently."
             ),
-            heading_text("radio_button_Input (stacked)", size = "s"),
+            heading_text("radio_button_Input (stacked)", size = "s", level = 2),
             radio_button_Input(
               inputId = "name_changed_stacked",
               label = "Have you changed your name?",
@@ -203,7 +203,7 @@ ui = bslib::page_fluid(
               hint_label = "This includes changing your last name or spelling
                             your name differently."
             ),
-            heading_text("checkbox_Input", size = "s"),
+            heading_text("checkbox_Input", size = "s", level = 2),
             checkbox_Input(
               inputId = "checkID",
               cb_labels = c(
@@ -215,7 +215,7 @@ ui = bslib::page_fluid(
               label = "Which types of waste do you transport?",
               hint_label = "Select all that apply."
             ),
-            heading_text("select_Input", size = "s"),
+            heading_text("select_Input", size = "s", level = 2),
             select_Input(
               inputId = "sorter",
               label = "Sort by",
@@ -227,9 +227,9 @@ ui = bslib::page_fluid(
               ),
               select_value = c("published", "updated", "view", "comments")
             ),
-            heading_text("file_Input", size = "s"),
+            heading_text("file_Input", size = "s", level = 2),
             file_Input(inputId = "file1", label = "Upload a file"),
-            heading_text("button_Input", size = "s"),
+            heading_text("button_Input", size = "s", level = 2),
             button_Input("text_types_next", "Go to next page")
           )
         ),
@@ -247,15 +247,15 @@ ui = bslib::page_fluid(
               "These are some examples of the types of user
                    text inputs that you can use"
             ),
-            heading_text("date_Input", size = "s"),
+            heading_text("date_Input", size = "s", level = 2),
             date_Input(
               inputId = "date1",
               label = "What is your date of birth?",
               hint_label = "For example, 31 3 1980"
             ),
-            heading_text("text_Input", size = "s"),
+            heading_text("text_Input", size = "s", level = 2),
             text_Input(inputId = "txt1", label = "Event name"),
-            heading_text("text_area_Input", size = "s"),
+            heading_text("text_area_Input", size = "s", level = 2),
             text_area_Input(
               inputId = "text_area1",
               label = "Can you provide more detail?",
@@ -275,11 +275,12 @@ ui = bslib::page_fluid(
             heading_text(
               "button_Input",
               size = "s",
+              level = 2,
               id = "button_input_text_types"
             ),
             button_Input("btn_error", "Check for errors", type = "warning"),
             button_Input("action_types_next", "Go to next page"),
-            heading_text("gov_list", size = "s"),
+            heading_text("gov_list", size = "s", level = 2),
             shinyGovstyle::gov_text("List:"),
             gov_list(list = c("a", "b", "c")),
             shinyGovstyle::gov_text("Bulleted list:"),
@@ -302,7 +303,7 @@ ui = bslib::page_fluid(
               "These are some examples of the types of user
                    action elements that you can use"
             ),
-            heading_text("external_link", size = "s"),
+            heading_text("external_link", size = "s", level = 2),
             gov_text(
               paste0(
                 "You can add external links with automatic ",
@@ -333,14 +334,14 @@ ui = bslib::page_fluid(
               ),
               "."
             ),
-            heading_text("download_button", size = "s"),
+            heading_text("download_button", size = "s", level = 2),
             shinyGovstyle::download_button(
               "download_button_data",
               "Download a demo data set",
               file_type = "CSV",
               file_size = "1 KB"
             ),
-            heading_text("download_link", size = "s"),
+            heading_text("download_link", size = "s", level = 2),
             shinyGovstyle::gov_text(
               shinyGovstyle::download_link(
                 "download_data",
@@ -349,7 +350,7 @@ ui = bslib::page_fluid(
                 file_size = "1 KB"
               )
             ),
-            heading_text("download_radios", size = "s"),
+            heading_text("download_radios", size = "s", level = 2),
             shinyGovstyle::gov_text(
               shinyGovstyle::download_radios(
                 file_types = c("CSV", "XLSX", "ODS")
@@ -375,7 +376,7 @@ ui = bslib::page_fluid(
               "These are some examples of using tabs and tables"
             ),
 
-            heading_text("govTable", size = "s"),
+            heading_text("govTable", size = "s", level = 2),
             shinyGovstyle::govTable(
               "tab1",
               example_data_short,
@@ -384,7 +385,11 @@ ui = bslib::page_fluid(
               num_col = c(3, 4, 5)
             ),
 
-            heading_text("govReactable with static data", size = "s"),
+            heading_text(
+              "govReactable with static data",
+              size = "s",
+              level = 2
+            ),
             heading_text("Caption added separately", size = "l"),
             govReactable(
               example_data,
@@ -392,7 +397,11 @@ ui = bslib::page_fluid(
               page_size = 5
             ),
 
-            heading_text("govReactable with reactive data", size = "s"),
+            heading_text(
+              "govReactable with reactive data",
+              size = "s",
+              level = 2
+            ),
             select_Input(
               inputId = "colourFilter",
               label = "Select Colour",
@@ -404,11 +413,11 @@ ui = bslib::page_fluid(
               caption = "Caption in output function"
             ),
 
-            heading_text("govTabs", size = "s"),
+            heading_text("govTabs", size = "s", level = 2),
             shinyGovstyle::govTabs("tabsID", data, "tabs"),
             shiny::tags$br(),
             shiny::tags$br(),
-            heading_text("accordions", size = "s"),
+            heading_text("accordions", size = "s", level = 2),
             shinyGovstyle::accordion(
               "acc1",
               c(
@@ -441,7 +450,7 @@ ui = bslib::page_fluid(
               "These are some examples of the types of user
                    feedback inputs that you can use"
             ),
-            heading_text("tag_Input", size = "s"),
+            heading_text("tag_Input", size = "s", level = 2),
             shinyGovstyle::tag_Input("tag1", "Default"),
             shinyGovstyle::tag_Input("tag2", "Grey", "grey"),
             shinyGovstyle::tag_Input("tag3", "Green", "green"),
@@ -455,7 +464,7 @@ ui = bslib::page_fluid(
             shinyGovstyle::tag_Input("tag11", "Yellow", "yellow"),
             shiny::tags$br(),
             shiny::tags$br(),
-            heading_text("details", size = "s"),
+            heading_text("details", size = "s", level = 2),
             details(
               inputId = "detID",
               label = "Help with nationality",
@@ -466,20 +475,20 @@ ui = bslib::page_fluid(
                 "send copies of identity documents through the post."
               )
             ),
-            heading_text("insert_text", size = "s"),
+            heading_text("insert_text", size = "s", level = 2),
             insert_text(
               inputId = "insertId",
               text = "It can take up to 8 weeks to register a lasting
                         power of attorney if there are no mistakes in the
                         application."
             ),
-            heading_text("warning_text", size = "s"),
+            heading_text("warning_text", size = "s", level = 2),
             warning_text(
               inputId = "warn",
               text = "You can be fined up to \u00A35\u002C000 if you do
               not register."
             ),
-            heading_text("value_box", size = "s"),
+            heading_text("value_box", size = "s", level = 2),
             shinyGovstyle::value_box(
               value = "Default (no description included)"
             ),
@@ -496,7 +505,7 @@ ui = bslib::page_fluid(
               ),
               colour = "red"
             ),
-            heading_text("panel_output", size = "s"),
+            heading_text("panel_output", size = "s", level = 2),
             panel_output(
               inputId = "panId",
               main_text = "Application complete",
@@ -505,14 +514,14 @@ ui = bslib::page_fluid(
                 "<strong>HDJ2123F</strong>"
               )
             ),
-            heading_text("noti_banner", size = "s"),
+            heading_text("noti_banner", size = "s", level = 2),
             noti_banner(
               "notId",
               title_txt = "Important",
               body_txt = "You have 7 days left to send your application.",
               type = "standard"
             ),
-            heading_text("gov_summary", size = "s"),
+            heading_text("gov_summary", size = "s", level = 2),
             shinyGovstyle::gov_summary(
               "sumID",
               c(

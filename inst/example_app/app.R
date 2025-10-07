@@ -665,30 +665,30 @@ server <- function(input, output, session) {
   # Need this to use live update the word counter
   shiny::observeEvent(
     input$text_area2,
-    word_count("text_area2", input$text_area2)
+    shinyGovstyle::word_count("text_area2", input$text_area2)
   )
 
   # Trigger error if text_are2 is blank
   shiny::observeEvent(input$btn_error, {
     if (input$text_area2 == "") {
-      error_on("text_area2")
+      shinyGovstyle::error_on("text_area2")
     } else {
-      error_off("text_area2")
+      shinyGovstyle::error_off("text_area2")
     }
   })
 
   # Need this to use live update the word counter
   shiny::observeEvent(
     input$text_area2,
-    word_count("text_area2", input$text_area2)
+    shinyGovstyle::word_count("text_area2", input$text_area2)
   )
 
   # Trigger error if text_are2 is blank
   shiny::observeEvent(input$btn3, {
     if (input$text_area2 == "") {
-      error_on("text_area2")
+      shinyGovstyle::error_on("text_area2")
     } else {
-      error_off("text_area2")
+      shinyGovstyle::error_off("text_area2")
     }
   })
 
@@ -739,7 +739,7 @@ server <- function(input, output, session) {
     }
   )
 
-  output$download_radios <- download_radios_handler(
+  output$download_radios <- shinyGovstyle::download_radios_handler(
     file_name = "example_file",
     file_contents = data.frame(x = c(1, 2, 3), y = c(4, 5, 6))
   )
@@ -748,8 +748,8 @@ server <- function(input, output, session) {
     subset(example_data, colours == input$colourFilter)
   })
 
-  output$interactive_table_test <- renderGovReactable({
-    govReactable(
+  output$interactive_table_test <- shinyGovstyle::renderGovReactable({
+    shinyGovstyle::govReactable(
       df = filtered_data(),
       right_col = c("bikes", "vans", "buses"),
       page_size = 3,

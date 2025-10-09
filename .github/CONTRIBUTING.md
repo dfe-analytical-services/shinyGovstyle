@@ -40,6 +40,8 @@ Alternatively, you can start a separate CSS file if your styling is separate to 
 
 ## Updating to latest GOV.UK Frontend version
 
+[Dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide) is set up to raise PRs when a new version of GOV.UK Frontend is released, these PRs are only a prompt, we still need to manually update the files and test everything works as expected.
+
 Currently we take [static precompiled exports of the GOV.UK Frontend files](https://frontend.design-system.service.gov.uk/install-using-precompiled-files/), and then store them in the `inst/` directory. Usual steps involved:
 
 1. Locate the latest (or desired) [GOV.UK Frontend version on GitHub](https://github.com/alphagov/govuk-frontend/releases)

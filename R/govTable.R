@@ -52,14 +52,14 @@ govTable <- # nolint
     num_col = NULL,
     width_overwrite = NULL
   ) {
-    #Create row by row the main bulk of table to insert later
+    # Create row by row the main bulk of table to insert later
     main_row_store <- NULL
     for (i in seq_len(nrow(df))) {
       temp_row_store <- create_rows(df[i, ], num_col)
       main_row_store <- shiny::tagList(temp_row_store, main_row_store)
     }
 
-    #Create the actual table
+    # Create the actual table
     gov_table <- shiny::tags$table(
       id = inputId,
       class = "govuk-table",
@@ -68,6 +68,7 @@ govTable <- # nolint
           "govuk-table__caption govuk-table__caption--",
           caption_size
         ),
+        style = "caption-side: top;",
         caption
       ),
       shiny::tags$thead(
@@ -108,7 +109,7 @@ govTable <- # nolint
       }
     }
 
-    return(gov_table)
+    attachDependency(gov_table)
   }
 
 create_rows <- function(df_row, num_col = NULL) {

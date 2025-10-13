@@ -3,13 +3,13 @@
 <!-- badges: start -->
 
 [![CRAN status](https://www.r-pkg.org/badges/version/shinyGovstyle)](https://cran.r-project.org/package=shinyGovstyle)
-[![R-CMD-check](https://github.com/moj-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/moj-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/dfe-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dfe-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml)
 [![](https://cranlogs.r-pkg.org/badges/shinyGovstyle)](https://cran.r-project.org/package=shinyGovstyle)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
 <!-- badges: end -->
 
-> Apply Gov styled components and formats in shiny
+> Apply GOV.UK styled components and formats in shiny
 
 
 ## Overview
@@ -30,7 +30,7 @@ install.packages("shinyGovstyle")
 
 If you want to make use of the development version then install directly from GitHub.
 ```r
-remotes::install_github("dfe-analytical-services/shinyGovstyle")
+pak::pak("dfe-analytical-services/shinyGovstyle")
 ```
 
 This has previously also been available on conda though is no longer actively maintained, if you are using the package in this way, please let us know!
@@ -40,12 +40,12 @@ conda install r-shinygovstyle
 
 To use error and word count elements you will need to load `useShinyjs()` from shinyjs in your ui.R file
 ```r
-  shinyjs::useShinyjs()
+shinyjs::useShinyjs()
 ```
 
 ### Contributing
 
-Ideas, bug reports, and requests for new components should be [raised as GitHub issue](https://github.com/moj-analytical-services/shinyGovstyle/issues/new). It's often worth checking the existing [issues log](https://github.com/moj-analytical-services/shinyGovstyle/issues) incase there is already an existing discussion you can conrtibute to.
+Ideas, bug reports, and requests for new components should be [raised as GitHub issue](https://github.com/dfe-analytical-services/shinyGovstyle/issues/new). It's often worth checking the existing [issues log](https://github.com/dfe-analytical-services/shinyGovstyle/issues) incase there is already an existing discussion you can conrtibute to.
 
 More details on contributing can be found in the [CONTRIBUTING.md](.github/CONTRIBUTING.md) file.
 

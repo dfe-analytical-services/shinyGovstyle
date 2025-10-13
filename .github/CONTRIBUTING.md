@@ -1,6 +1,6 @@
 # Contributing to shinyGovstyle
 
-Ideas for shinyGovstyle should first be raised as a [GitHub issue](https://github.com/moj-analytical-services/shinyGovstyle/issues) after which anyone is free to write the code and create a pull request for review.
+Ideas for shinyGovstyle should first be raised as a [GitHub issue](https://github.com/dfe-analytical-services/shinyGovstyle/issues) after which anyone is free to write the code and create a pull request for review.
 
 For support and information on package development in R, we recommend using the [R Packages (2e) guide by Hadley Wickham and Jennifer Bryan](https://r-pkgs.org/), this contains a wealth of information and best practice for all kinds of activities around package development in R.
 
@@ -18,15 +18,15 @@ There are a number of places where the original function and argument names do n
 
 ## Raising new changes
 
-New changes should be made on a branch off of the latest version of the master branch.
+New changes should be made on a branch off of the latest version of the main branch.
 
 If you don't have access to push to the repo itself, you should start by creating a [fork of the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository). You'll then be able to make a new branch in your own repo and push your suggested changes to that.
 
-Once ready, you should raise [a PR in the main GitHub repository](https://github.com/moj-analytical-services/shinyGovstyle/compare), pointing at the `master` branch and one of the package maintainers will be able to review your changes.
+Once ready, you should raise [a PR in the main GitHub repository](https://github.com/dfe-analytical-services/shinyGovstyle/compare), pointing at the `main` branch and one of the package maintainers will be able to review your changes.
 
 Once a pull request is reviewed and ready to be merged in, all commits in the PR should be squashed as a part of the merge to keep the Git history shorter and easier to navigate.
 
-The `master` branch acts as the development version of the package for users, releases of stable package versions to CRAN will be made by the maintainers when they feel it is appropriate to do so.
+The `main` branch acts as the development version of the package for users, releases of stable package versions to CRAN will be made by the maintainers when they feel it is appropriate to do so.
 
 ### Code owners
 

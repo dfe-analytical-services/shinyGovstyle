@@ -5,25 +5,6 @@
 library(bslib)
 library(shinyGovstyle) # needs to come after as there's name clashes / masking
 
-# Global variables ============================================================
-months <- rep(c("January", "February", "March", "April", "May"), times = 2)
-colours <- rep(c("Red", "Blue"), times = 5)
-bikes <- c(85, 75, 165, 90, 80, 95, 85, 175, 100, 95)
-vans <- c(150, 130, 180, 160, 140, 175, 135, 185, 155, 145)
-buses <- c(200, 180, 220, 210, 190, 215, 185, 225, 205, 195)
-example_data <- data.frame(months, colours, bikes, vans, buses)
-example_data_short <- head(example_data, 5)
-tabs <- c(
-  rep("Past Day", 3),
-  rep("Past Week", 3),
-  rep("Past Month", 3),
-  rep("Past Year", 3)
-)
-case_manager <- rep(c("David Francis", "Paul Farmer", "Rita Patel"), 4)
-cases_open <- c(3, 1, 2, 24, 16, 24, 98, 122, 126, 1380, 1129, 1539)
-cases_closed <- c(0, 0, 0, 18, 20, 27, 95, 131, 142, 1472, 1083, 1265)
-data <- data.frame(tabs, case_manager, cases_open, cases_closed)
-
 # UI ==========================================================================
 ui <- bslib::page_fluid(
   theme = bs_theme(version = 5),
@@ -379,10 +360,10 @@ ui <- bslib::page_fluid(
             heading_text("govTable", size = "s", level = 2),
             shinyGovstyle::govTable(
               "tab1",
-              example_data_short,
+              shinyGovstyle::transport_data_small,
               "Static example",
               "l",
-              num_col = c(3, 4, 5)
+              num_col = c(2, 3)
             ),
 
             heading_text(
@@ -392,7 +373,7 @@ ui <- bslib::page_fluid(
             ),
             heading_text("Caption added separately", size = "l"),
             govReactable(
-              example_data,
+              shinyGovstyle::transport_data,
               right_col = c("bikes", "vans", "buses"),
               page_size = 5
             ),
@@ -405,8 +386,12 @@ ui <- bslib::page_fluid(
             select_Input(
               inputId = "colourFilter",
               label = "Select Colour",
-              select_text = c(sort(unique(example_data$colours))),
-              select_value = c(sort(unique(example_data$colours)))
+              select_text = c(sort(unique(
+                shinyGovstyle::transport_data$colours
+              ))),
+              select_value = c(sort(unique(
+                shinyGovstyle::transport_data$colours
+              )))
             ),
             govReactableOutput(
               "interactive_table_test",
@@ -414,7 +399,7 @@ ui <- bslib::page_fluid(
             ),
 
             heading_text("govTabs", size = "s", level = 2),
-            shinyGovstyle::govTabs("tabsID", data, "tabs"),
+            shinyGovstyle::govTabs("govTabs", shinyGovstyle::case_data, "tabs"),
             shiny::tags$br(),
             shiny::tags$br(),
             heading_text("accordions", size = "s", level = 2),
@@ -745,7 +730,7 @@ server <- function(input, output, session) {
   )
 
   filtered_data <- shiny::reactive({
-    subset(example_data, colours == input$colourFilter)
+    subset(shinyGovstyle::transport_data, colours == input$colourFilter)
   })
 
   output$interactive_table_test <- shinyGovstyle::renderGovReactable({

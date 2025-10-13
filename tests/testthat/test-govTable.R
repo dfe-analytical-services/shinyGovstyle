@@ -1,13 +1,8 @@
 test_that("table works", {
-  months <- c("January", "February", "March")
-  bikes <- c("£85", "£75", "£165")
-  cars <- c("£95", "£55", "£125")
-  example_data <- data.frame(months, bikes, cars)
-
   # test table with specified widths
   table_check <- govTable(
     "tab1",
-    example_data,
+    shinyGovstyle::transport_data_small,
     "Test",
     "l",
     num_col = c(2, 3),
@@ -35,7 +30,7 @@ test_that("table works", {
   # test table with unspecified widths
   table_check2 <- govTable(
     "tab2",
-    example_data,
+    shinyGovstyle::transport_data_small,
     "Test",
     "l",
     num_col = c(2, 3),
@@ -60,7 +55,7 @@ test_that("table works", {
   # and if the argument isn't mentioned at all
   table_check3 <- govTable(
     "tab2",
-    example_data,
+    shinyGovstyle::transport_data_small,
     "Test",
     "l",
     num_col = c(2, 3)

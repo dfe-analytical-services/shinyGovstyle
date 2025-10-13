@@ -101,7 +101,8 @@ govReactable <- # nolint
       class = "gov-table govuk-table",
       ...
     )
-    attachDependency(table)
+
+    shinyGovstyle::attachDependency(table)
   }
 
 #' Shiny bindings for govReactable

@@ -13,6 +13,7 @@
 <url><loc>/reference/bad_link_text.html</loc></url>
 <url><loc>/reference/banner.html</loc></url>
 <url><loc>/reference/button_Input.html</loc></url>
+<url><loc>/reference/case_data.html</loc></url>
 <url><loc>/reference/checkbox_Input.html</loc></url>
 <url><loc>/reference/clean_heading_text.html</loc></url>
 <url><loc>/reference/contents_link.html</loc></url>
@@ -56,6 +57,8 @@
 <url><loc>/reference/tag_Input.html</loc></url>
 <url><loc>/reference/text_Input.html</loc></url>
 <url><loc>/reference/text_area_Input.html</loc></url>
+<url><loc>/reference/transport_data.html</loc></url>
+<url><loc>/reference/transport_data_small.html</loc></url>
 <url><loc>/reference/value_box.html</loc></url>
 <url><loc>/reference/warning_text.html</loc></url>
 <url><loc>/reference/word_count.html</loc></url>

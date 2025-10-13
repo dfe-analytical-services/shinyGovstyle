@@ -90,30 +90,19 @@ Default is <code>NULL</code></p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">months</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"January"</span>, <span class="st">"February"</span>, <span class="st">"March"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">bikes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"£85"</span>, <span class="st">"£75"</span>, <span class="st">"£165"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">cars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"£95"</span>, <span class="st">"£55"</span>, <span class="st">"£125"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">example_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">months</span>, <span class="va">bikes</span>, <span class="va">cars</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="header.html">header</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    main_text <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
-<span class="r-in"><span>    secondary_text <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
-<span class="r-in"><span>    logo<span class="op">=</span><span class="st">"shinyGovstyle/images/moj_logo.png"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="banner.html">banner</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    inputId <span class="op">=</span> <span class="st">"banner"</span>, type <span class="op">=</span> <span class="st">"beta"</span>, <span class="st">'This is a new service'</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="gov_layout.html">gov_layout</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="gov_layout.html">gov_layout</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">govTable</span><span class="op">(</span></span></span>
-<span class="r-in"><span>      <span class="st">"tab1"</span>, <span class="va">example_data</span>, <span class="st">"Test"</span>, <span class="st">"l"</span>, num_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="st">"tab1"</span>,</span></span>
+<span class="r-in"><span>      <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="va"><a href="transport_data_small.html">transport_data_small</a></span>,</span></span>
+<span class="r-in"><span>      <span class="st">"Test"</span>,</span></span>
+<span class="r-in"><span>      <span class="st">"l"</span>,</span></span>
+<span class="r-in"><span>      num_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>      width_overwrite <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"one-half"</span>, <span class="st">"one-quarter"</span>, <span class="st">"one-quarter"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="footer.html">footer</a></span><span class="op">(</span>full <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Please use logo_alt_text to provide alternative text for the logo you used.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>

@@ -16,28 +16,18 @@
 #' @keywords table
 #' @export
 #' @examples
-#' months <- c("January", "February", "March")
-#' bikes <- c("£85", "£75", "£165")
-#' cars <- c("£95", "£55", "£125")
-#'
-#' example_data <- data.frame(months, bikes, cars)
-#'
 #' ui <- shiny::fluidPage(
-#'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
-#'     logo="shinyGovstyle/images/moj_logo.png"
-#'   ),
-#'   shinyGovstyle::banner(
-#'     inputId = "banner", type = "beta", 'This is a new service'
-#'   ),
-#'   shinyGovstyle::gov_layout(size = "two-thirds",
+#'   shinyGovstyle::gov_layout(
+#'     size = "two-thirds",
 #'     shinyGovstyle::govTable(
-#'       "tab1", example_data, "Test", "l", num_col = c(2,3),
+#'       "tab1",
+#'       shinyGovstyle::transport_data_small,
+#'       "Test",
+#'       "l",
+#'       num_col = c(2,3),
 #'       width_overwrite = c("one-half", "one-quarter", "one-quarter")
 #'     )
-#'   ),
-#'   shinyGovstyle::footer(full = TRUE)
+#'   )
 #' )
 #'
 #' server <- function(input, output, session) {}

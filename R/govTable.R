@@ -99,7 +99,7 @@ govTable <- # nolint
       }
     }
 
-    shinyGovstyle::attachDependency(gov_table)
+    attachDependency(gov_table)
   }
 
 create_rows <- function(df_row, num_col = NULL) {

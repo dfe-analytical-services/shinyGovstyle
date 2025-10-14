@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Custom Gov Style Inputs for Shiny • shinyGovstyle</title>
+<title>Custom GOV.UK Style Inputs for Shiny • shinyGovstyle</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -15,10 +15,10 @@
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Custom Gov Style Inputs for Shiny">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Custom GOV.UK Style Inputs for Shiny">
 <meta name="description" content="Collection of shiny application styling that are based on the GOV.UK Design System. See &lt;https://design-system.service.gov.uk/components/&gt; for details.">
 <meta property="og:description" content="Collection of shiny application styling that are based on the GOV.UK Design System. See &lt;https://design-system.service.gov.uk/components/&gt; for details.">
-<meta property="og:image" content="/logo.png">
+<meta property="og:image" content="https://dfe-analytical-services.github.io/shinyGovstyle/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -44,7 +44,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/moj-analytical-services/shinyGovstyle/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/dfe-analytical-services/shinyGovstyle/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -61,7 +61,7 @@
 
 <!-- badges: end -->
 <blockquote>
-<p>Apply Gov styled components and formats in shiny</p>
+<p>Apply GOV.UK styled components and formats in shiny</p>
 </blockquote>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
@@ -79,24 +79,24 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"shinyGovstyle"</span><span class="op">)</span></span></code></pre></div>
 <p>If you want to make use of the development version then install directly from GitHub.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dfe-analytical-services/shinyGovstyle"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"dfe-analytical-services/shinyGovstyle"</span><span class="op">)</span></span></code></pre></div>
 <p>This has previously also been available on conda though is no longer actively maintained, if you are using the package in this way, please let us know!</p>
 <pre><code>conda install r-shinygovstyle</code></pre>
 <p>To use error and word count elements you will need to load <code>useShinyjs()</code> from shinyjs in your ui.R file</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="fu">shinyjs</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shinyjs/man/useShinyjs.html" class="external-link">useShinyjs</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">shinyjs</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shinyjs/man/useShinyjs.html" class="external-link">useShinyjs</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
 </h3>
-<p>Ideas, bug reports, and requests for new components should be <a href="https://github.com/moj-analytical-services/shinyGovstyle/issues/new" class="external-link">raised as GitHub issue</a>. It’s often worth checking the existing <a href="https://github.com/moj-analytical-services/shinyGovstyle/issues" class="external-link">issues log</a> incase there is already an existing discussion you can conrtibute to.</p>
+<p>Ideas, bug reports, and requests for new components should be <a href="https://github.com/dfe-analytical-services/shinyGovstyle/issues/new" class="external-link">raised as GitHub issue</a>. It’s often worth checking the existing <a href="https://github.com/dfe-analytical-services/shinyGovstyle/issues" class="external-link">issues log</a> incase there is already an existing discussion you can conrtibute to.</p>
 <p>More details on contributing can be found in the <a href="CONTRIBUTING.html">CONTRIBUTING.md</a> file.</p>
 <p>This package is also released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 <div class="section level3">
 <h3 id="available-components">Available components<a class="anchor" aria-label="anchor" href="#available-components"></a>
 </h3>
-<p>Details of all available components and how to use them can be found in the <a href="https://dfe-analytical-services.github.io/shinyGovstyle/reference/index.html" class="external-link">package documentation</a>.</p>
+<p>Details of all available components and how to use them can be found in the <a href="https://dfe-analytical-services.github.io/shinyGovstyle/reference/index.html">package documentation</a>.</p>
 <p>The package contains an <a href="https://department-for-education.shinyapps.io/shinygovstyle-example-app/" class="external-link">example showcase app</a> you can view or run yourself, showcasing available components. The code for the example app is in the <code>inst/example_app/</code> folder. You can easily run the app from the console using:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="reference/run_example.html">run_example</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -107,8 +107,8 @@
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://cloud.r-project.org/package=shinyGovstyle" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/moj-analytical-services/shinyGovstyle/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/moj-analytical-services/shinyGovstyle/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/dfe-analytical-services/shinyGovstyle/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/dfe-analytical-services/shinyGovstyle/issues/new/choose" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -149,7 +149,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org/package=shinyGovstyle" class="external-link"><img src="https://www.r-pkg.org/badges/version/shinyGovstyle" alt="CRAN status"></a></li>
-<li><a href="https://github.com/moj-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/moj-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/dfe-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/dfe-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://cran.r-project.org/package=shinyGovstyle" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/shinyGovstyle"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 </ul>

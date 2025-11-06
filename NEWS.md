@@ -1,5 +1,7 @@
 # shinyGovstyle (development version)
 
+* Many functions now cross-reference other functions in the same family (e.g., all 'text inputs' are cross-referenced in their individual function help files).
+
 # shinyGovstyle 0.1.0
 
 * Update the css to v5.4.0 and made fixes associated with that.

@@ -13,6 +13,7 @@
 #' @param small Set radio buttons to small size (logical, default: FALSE)
 #'
 #' @returns UI containing radio selection and download button
+#' @family Govstyle actions
 #' @export
 #'
 #' @examples

@@ -23,4 +23,15 @@ shinyGovstyle::warning_text(
   text = "You can be fined up to £5,000 if you do not register."
 )
 }
+\seealso{
+Other Govstyle feedback types: 
+\code{\link{details}()},
+\code{\link{gov_summary}()},
+\code{\link{insert_text}()},
+\code{\link{noti_banner}()},
+\code{\link{panel_output}()},
+\code{\link{tag_Input}()},
+\code{\link{value_box}()}
+}
+\concept{Govstyle feedback types}
 \keyword{warning}

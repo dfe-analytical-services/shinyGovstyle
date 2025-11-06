@@ -12,6 +12,7 @@
 #' to `TRUE`
 #' @return a summary list table HTML shiny tag object
 #' @keywords summary list
+#' @family Govstyle feedback types
 #' @export
 #' @examples
 #' # Create an example dataset

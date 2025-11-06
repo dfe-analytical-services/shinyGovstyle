@@ -37,3 +37,14 @@ value_box(
   colour = "purple"
 )
 }
+\seealso{
+Other Govstyle feedback types: 
+\code{\link{details}()},
+\code{\link{gov_summary}()},
+\code{\link{insert_text}()},
+\code{\link{noti_banner}()},
+\code{\link{panel_output}()},
+\code{\link{tag_Input}()},
+\code{\link{warning_text}()}
+}
+\concept{Govstyle feedback types}

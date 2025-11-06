@@ -84,4 +84,11 @@ server <- function(input, output, session) {
 
 if (interactive()) shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle text inputs: 
+\code{\link{input_field}()},
+\code{\link{text_Input}()},
+\code{\link{text_area_Input}()}
+}
+\concept{Govstyle text inputs}
 \keyword{date}

@@ -75,3 +75,10 @@ server <- function(input, output) {
 
 if (interactive()) shiny::shinyApp(ui, server)
 }
+\seealso{
+Other Govstyle actions: 
+\code{\link{download_link}()},
+\code{\link{download_radios}()},
+\code{\link{external_link}()}
+}
+\concept{Govstyle actions}

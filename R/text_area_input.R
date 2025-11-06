@@ -11,6 +11,7 @@
 #' @param word_limit Add a word limit to the display. Defaults to `NULL`
 #' @return a text area box HTML shiny tag object
 #' @keywords text area
+#' @family Govstyle text inputs
 #' @export
 #' @examples
 #' text_area_Input(

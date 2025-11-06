@@ -25,6 +25,7 @@
 #' buttons
 #' @return radio buttons HTML shiny tag object
 #' @keywords radiobuttons
+#' @family Govstyle select inputs
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

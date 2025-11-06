@@ -7,6 +7,7 @@
 #' Defaults to NULL, showing the original designed error message
 #' @return no return value.  This toggles on error CSS
 #' @keywords error
+#' @family Govstyle errors
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

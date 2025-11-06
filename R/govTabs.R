@@ -7,6 +7,7 @@
 #' @param group_col The column name with the groups to be used as tabs
 #' @return a tab table HTML shiny tag object
 #' @keywords tab table
+#' @family Govstyle tables, tabs, and accordions
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

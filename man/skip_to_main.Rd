@@ -36,3 +36,13 @@ server <- function(input, output, session){}
 
 if (interactive()) shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle page structure: 
+\code{\link{banner}()},
+\code{\link{cookieBanner}()},
+\code{\link{footer}()},
+\code{\link{gov_layout}()},
+\code{\link{header}()},
+\code{\link{layouts}}
+}
+\concept{Govstyle page structure}

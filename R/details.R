@@ -7,6 +7,7 @@
 #' @param help_text Additional help information in the component
 #' @return a details box HTML shiny tag object
 #' @keywords details box
+#' @family Govstyle feedback types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

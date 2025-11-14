@@ -86,4 +86,12 @@ server <- function(input, output, session) {
 
 if (interactive()) shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle select inputs: 
+\code{\link{button_Input}()},
+\code{\link{file_Input}()},
+\code{\link{radio_button_Input}()},
+\code{\link{select_Input}()}
+}
+\concept{Govstyle select inputs}
 \keyword{checkbox}

@@ -7,6 +7,7 @@
 #' @param label text to display
 #' @return a banner HTML shiny tag object
 #' @keywords banner
+#' @family Govstyle page structure
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

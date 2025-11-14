@@ -5,6 +5,7 @@
 #' @param text Text that goes in the main
 #' @return a warning box HTML shiny tag object
 #' @keywords warning
+#' @family Govstyle feedback types
 #' @export
 #' @examples
 #' shinyGovstyle::warning_text(

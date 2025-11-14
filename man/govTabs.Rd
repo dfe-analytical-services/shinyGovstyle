@@ -38,5 +38,13 @@ ui <- shiny::fluidPage(
 server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle tables, tabs, and accordions: 
+\code{\link{accordion}()},
+\code{\link{govReactable}()},
+\code{\link{govReactable-shiny}},
+\code{\link{govTable}()}
+}
+\concept{Govstyle tables, tabs, and accordions}
 \keyword{tab}
 \keyword{table}

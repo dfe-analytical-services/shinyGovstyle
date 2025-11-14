@@ -8,6 +8,7 @@
 #' Standard is default
 #' @return a notification HTML shiny tag object
 #' @keywords notification banner
+#' @family Govstyle feedback types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

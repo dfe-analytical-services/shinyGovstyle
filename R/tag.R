@@ -7,6 +7,7 @@
 #' grey, green, turquoise, blue, purple, pink, red, orange and yellow
 #' @return a tag HTML shiny tag object
 #' @keywords tag
+#' @family Govstyle feedback types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

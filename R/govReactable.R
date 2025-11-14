@@ -26,6 +26,7 @@
 #' @param ... Additional arguments passed to `reactable::reactable`
 #' @return A `reactable` HTML widget styled with GOV.UK classes
 #' @keywords table, reactable, GOV.UK
+#' @family Govstyle tables, tabs, and accordions
 #' @export
 #' @examples
 #' # Example static table using govReactable
@@ -124,7 +125,7 @@ govReactable <- # nolint
 #' can be assigned to a Shiny output slot
 #'
 #' @name govReactable-shiny
-#'
+#' @family Govstyle tables, tabs, and accordions
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   govReactableOutput(

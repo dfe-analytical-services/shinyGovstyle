@@ -8,6 +8,7 @@
 #' @return a HTML button shiny tag object
 #' @keywords button
 #' @export
+#' @family Govstyle select inputs
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(

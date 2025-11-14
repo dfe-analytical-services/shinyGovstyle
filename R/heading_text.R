@@ -7,6 +7,7 @@
 #' @param level Heading level, integer between 1 and 6. Defaults to 1
 #' @return a heading text HTML shiny tag object
 #' @keywords heading
+#' @family Govstyle text types
 #' @export
 #' @examples
 #' shinyGovstyle::heading_text("This is great text")

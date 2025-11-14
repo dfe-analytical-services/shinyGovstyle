@@ -27,6 +27,7 @@
 #' of KB, MB, GB or rows
 #'
 #' @returns shiny tag object
+#' @family Govstyle actions
 #' @export
 #'
 #' @examples

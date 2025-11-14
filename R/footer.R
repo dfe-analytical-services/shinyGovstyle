@@ -20,6 +20,7 @@
 #' "Accessibility Statement" will have an inputID of accessibility_statement
 #' @return a footer HTML shiny tag object
 #' @keywords footer
+#' @family Govstyle page structure
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

@@ -7,6 +7,7 @@
 #' @param select_value Add the value that will be used for each selection
 #' @return a select input HTML shiny tag object
 #' @keywords select
+#' @family Govstyle select inputs
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

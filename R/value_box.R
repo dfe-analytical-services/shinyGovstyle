@@ -17,6 +17,7 @@
 #'
 #' @return A Shiny `div` tag representing the value box, styled according
 #' to the specified parameters
+#' @family Govstyle feedback types
 #' @export
 #'
 #' @examples

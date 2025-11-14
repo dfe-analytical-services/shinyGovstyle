@@ -14,6 +14,7 @@
 #' Default is `NULL`
 #' @return a table HTML shiny tag object
 #' @keywords table
+#' @family Govstyle tables, tabs, and accordions
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

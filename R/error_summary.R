@@ -8,6 +8,7 @@
 #' @param error_list A list of text values to be displayed in the error body
 #' @return an error_summary HTML shiny tag object
 #' @keywords error_summary
+#' @family Govstyle errors
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

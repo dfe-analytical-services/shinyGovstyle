@@ -1,0 +1,123 @@
+# Contributing to shinyGovstyle
+
+Ideas for shinyGovstyle should first be raised as a [GitHub
+issue](https://github.com/dfe-analytical-services/shinyGovstyle/issues)
+after which anyone is free to write the code and create a pull request
+for review.
+
+For support and information on package development in R, we recommend
+using the [R Packages (2e) guide by Hadley Wickham and Jennifer
+Bryan](https://r-pkgs.org/), this contains a wealth of information and
+best practice for all kinds of activities around package development in
+R.
+
+## Formatting
+
+We use [Air](https://posit-dev.github.io/air/) to format the code and
+save any styling debate across the repo and keep us as close as we can
+to the expected lintr standards with minimal effort.
+
+If you’re working in VSCode or Positron, there is a settings.json file
+in the repo that includes format on save by default and should work for
+you without any additional work as long as you have the Air extension
+installed. If not, don’t fear, as we also have a GitHub action that will
+check all pull requests for styling and offer formatting as a suggestion
+you can accept and commit from the PR in GitHub. Unless there’s a reason
+not to, we recommend that if multiple suggestions are left, you go to
+the files changed view to accept them as one big batch, rather than
+individually committing everything.
+
+Air is still in development, so it’s worth checking [their
+documentation](https://posit-dev.github.io/air/editors.html) if you’re a
+new contributor and want to see the best ways to use it within your
+chosen IDE.
+
+### no lint
+
+There are a number of places where the original function and argument
+names do not follow snake_case and therefore fail lintr’s checks. To
+preserve backwards compatibility we’ve added `# nolint` to these lines
+so that we can turn on lintr checks for the package without creating
+breaking changes for everyone who uses it.
+
+## Raising new changes
+
+New changes should be made on a branch off of the latest version of the
+main branch.
+
+If you don’t have access to push to the repo itself, you should start by
+creating a [fork of the
+repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository).
+You’ll then be able to make a new branch in your own repo and push your
+suggested changes to that.
+
+Once ready, you should raise [a PR in the main GitHub
+repository](https://github.com/dfe-analytical-services/shinyGovstyle/compare),
+pointing at the `main` branch and one of the package maintainers will be
+able to review your changes.
+
+Once a pull request is reviewed and ready to be merged in, all commits
+in the PR should be squashed as a part of the merge to keep the Git
+history shorter and easier to navigate.
+
+The `main` branch acts as the development version of the package for
+users, releases of stable package versions to CRAN will be made by the
+maintainers when they feel it is appropriate to do so.
+
+### Code owners
+
+We make use of [GitHub’s CODEOWNERS
+file](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
+to set default reviewers for the repo and for specific parts of the
+code.
+
+## CSS changes
+
+All changes made to the main `inst/www/css/govuk-frontend-norem.css`
+file should be logged in the `css_changes.md` file, this way they can
+easily be reapplied whenever the CSS assests from GOV.UK are updated.
+
+Alternatively, you can start a separate CSS file if your styling is
+separate to the GOV.UK styling.
+
+## Updating to latest GOV.UK Frontend version
+
+[Dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide)
+is set up to raise PRs when a new version of GOV.UK Frontend is
+released, these PRs are only a prompt, we still need to manually update
+the files and test everything works as expected.
+
+Currently we take [static precompiled exports of the GOV.UK Frontend
+files](https://frontend.design-system.service.gov.uk/install-using-precompiled-files/),
+and then store them in the `inst/` directory. Usual steps involved:
+
+1.  Locate the latest (or desired) [GOV.UK Frontend version on
+    GitHub](https://github.com/alphagov/govuk-frontend/releases)
+
+2.  Download and unzip the ZIP folder, copying the assets (including
+    fonts and images) into the `inst/www/` folder
+
+3.  Update the CSS file name in `attachDependency.R` script
+
+4.  Apply any changes from `css_changes.md` manually, to preserve
+    previous edits
+
+5.  Test all the code functions as expected using `devtools::check()`
+
+6.  Manually test the examples using
+    [`shinyGovstyle::run_example()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/run_example.md),
+    ensuring the styling is as expected
+
+7.  Update the version of GOV.UK frontend in the `package.json` file to
+    match the version you’ve just added
+
+If unsure on the styling and expected appearance, use the [GOV.UK Design
+System site](https://design-system.service.gov.uk/) to explore the
+components in more detail and official guidance for their use.
+
+## Code of Conduct
+
+Please note that the shinyGovstyle project is released with a
+[Contributor Code of
+Conduct](https://dfe-analytical-services.github.io/shinyGovstyle/CODE_OF_CONDUCT.md).
+By contributing to this project you agree to abide by its terms.

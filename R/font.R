@@ -6,6 +6,7 @@
 #' @keywords font
 #' @return no value returned. This loads the font CSS file
 #' @export
+#' @family Govstyle styling
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   font(),

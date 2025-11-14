@@ -26,7 +26,6 @@
 #' \item{vans}{Cost of vans}
 #' \item{buses}{Cost of buses}
 #' }
-#'
 #' @source Random data generated for the shinyGovstyle package
 "transport_data"
 
@@ -41,6 +40,5 @@
 #' \item{bikes}{Cost of bikes}
 #' \item{cars}{Cost of cars}
 #' }
-#'
 #' @source Random data generated for the shinyGovstyle package
 "transport_data_small"

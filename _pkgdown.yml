@@ -3,14 +3,27 @@ template:
   bootstrap: 5
 
 reference:
+- title: Core layout
+- subtitle: Page structure
+  contents:
+  - has_concept("Govstyle page structure")
+
+- subtitle: Navigation
+  contents:
+  - has_concept("Govstyle navigation")
+
+- subtitle: Styling
+  contents:
+  - has_concept("Govstyle styling")
+
 - title: Inputs
 - subtitle: Select Inputs
   contents:
   - has_concept("Govstyle select inputs")
-- subtitle: Text Inputs
+
+- subtitle: Text Types
   contents:
-  - has_concept("Govstyle text inputs")
-  - word_count
+  - has_concept("Govstyle text types")
 
 - title: Action Types
   contents:
@@ -28,33 +41,12 @@ reference:
   contents:
   - has_concept("Govstyle errors")
 
-- title: Other Components
-  contents:
-  - backlink_Input
-  - banner
-  - contents_link
-  - cookieBanner
-  - download_radios_handler
-  - footer
-  - gov_list
-  - header
-  - heading_text
-  - label_hint
-  - skip_to_main
-
-- title: Styling
-  contents:
-  - layouts
-  - gov_layout
-  - font
-  - full_width_overrides
-
 - title: In-built Data
   contents:
-  - case_data
   - bad_link_text
-  - transport_data
+  - case_data
   - transport_data_small
+  - transport_data
 
 - title: Showcase
   contents:

@@ -12,7 +12,7 @@
 #' @param year Select a default year on start up. Defaults to `NULL`
 #' @return a data input HTML shiny tag object
 #' @keywords date
-#' @family Govstyle text inputs
+#' @family Govstyle text types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

@@ -47,4 +47,14 @@ ui <- shiny::fluidPage(
 server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle page structure: 
+\code{\link{banner}()},
+\code{\link{cookieBanner}()},
+\code{\link{footer}()},
+\code{\link{header}()},
+\code{\link{layouts}},
+\code{\link{skip_to_main}()}
+}
+\concept{Govstyle page structure}
 \keyword{style}

@@ -47,11 +47,14 @@ text_area_Input(
 )
 }
 \seealso{
-Other Govstyle text inputs: 
+Other Govstyle text types: 
 \code{\link{date_Input}()},
+\code{\link{gov_list}()},
+\code{\link{heading_text}()},
 \code{\link{input_field}()},
-\code{\link{text_Input}()}
+\code{\link{text_Input}()},
+\code{\link{word_count}()}
 }
-\concept{Govstyle text inputs}
+\concept{Govstyle text types}
 \keyword{area}
 \keyword{text}

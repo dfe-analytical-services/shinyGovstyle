@@ -80,7 +80,7 @@ download_radios <- function(
 #' instance in UI code
 #' @param file_name Name of the file to be downloaded
 #' @param file_contents Contents to write to the download file
-#'
+#' @family Govstyle actions
 #' @returns Output for use with `download_radios()`
 #' @export
 #'

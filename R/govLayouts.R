@@ -12,6 +12,7 @@
 #' main page. These components are made to flow through each other. See
 #' example
 #' @return a HTML shiny layout div
+#' @family Govstyle page structure
 #' @keywords style
 #' @examples
 #' ui <- shiny::fluidPage(

@@ -112,6 +112,7 @@ shiny::tags$ul(
 Other Govstyle actions: 
 \code{\link{download_button}()},
 \code{\link{download_link}()},
-\code{\link{download_radios}()}
+\code{\link{download_radios}()},
+\code{\link{download_radios_handler}()}
 }
 \concept{Govstyle actions}

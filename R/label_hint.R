@@ -6,6 +6,7 @@
 #' @param hint_input Display hint label for the control, or `NULL` for
 #' no hint label
 #' @return a label hint HTML shiny tag object
+#' @family Govstyle feedback types
 #' @keywords label
 #' @export
 #' @examples

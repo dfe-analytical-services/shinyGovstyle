@@ -43,6 +43,7 @@ Other Govstyle feedback types:
 \code{\link{details}()},
 \code{\link{gov_summary}()},
 \code{\link{insert_text}()},
+\code{\link{label_hint}()},
 \code{\link{noti_banner}()},
 \code{\link{panel_output}()},
 \code{\link{value_box}()},

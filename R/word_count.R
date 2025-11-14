@@ -8,6 +8,7 @@
 #' what was used in text area component
 #' @return no value returned. Updates the word count in a shiny app
 #' @keywords word count
+#' @family Govstyle text types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

@@ -14,7 +14,7 @@
 #' @param suffix Add a suffix to the box. Defaults to NULL
 #' @return a text input HTML shiny tag object
 #' @keywords text input
-#' @family Govstyle text inputs
+#' @family Govstyle text types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

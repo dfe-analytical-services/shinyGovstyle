@@ -25,4 +25,14 @@ This function createS heading text
 shinyGovstyle::heading_text("This is great text")
 shinyGovstyle::heading_text("This is great text", size = "l", level = 2)
 }
+\seealso{
+Other Govstyle text types: 
+\code{\link{date_Input}()},
+\code{\link{gov_list}()},
+\code{\link{input_field}()},
+\code{\link{text_Input}()},
+\code{\link{text_area_Input}()},
+\code{\link{word_count}()}
+}
+\concept{Govstyle text types}
 \keyword{heading}

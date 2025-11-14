@@ -5,6 +5,7 @@
 #' @param subcontents_id_list vector of link ids for subcontents. Pass NAs
 #' for automatic matching to Id in `heading_text()`
 #' @return an ordered list HTML shiny tag object
+#' @family Govstyle navigation
 #' @keywords internal
 #' @noRd
 subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
@@ -63,6 +64,7 @@ subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
 #' automatically matches to Id in `heading_text()`
 #' @return an action button HTML shiny tag object
 #' @export
+#' @family Govstyle navigation
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   gov_row(

@@ -11,7 +11,7 @@
 #' @param error_message Message to display on error. Defaults to NULL
 #' @return a input field of HTML as a shiny tag object
 #' @keywords input field
-#' @family Govstyle text inputs
+#' @family Govstyle text types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

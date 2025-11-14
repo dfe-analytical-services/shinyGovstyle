@@ -79,6 +79,7 @@ if (interactive()) shiny::shinyApp(ui, server)
 Other Govstyle actions: 
 \code{\link{download_link}()},
 \code{\link{download_radios}()},
+\code{\link{download_radios_handler}()},
 \code{\link{external_link}()}
 }
 \concept{Govstyle actions}

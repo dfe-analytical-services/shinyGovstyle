@@ -58,4 +58,9 @@ server <- function(input, output, session) {
 
 if (interactive()) shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle navigation: 
+\code{\link{contents_link}()}
+}
+\concept{Govstyle navigation}
 \keyword{backlink}

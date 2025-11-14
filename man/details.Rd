@@ -46,6 +46,7 @@ if (interactive()) shinyApp(ui = ui, server = server)
 Other Govstyle feedback types: 
 \code{\link{gov_summary}()},
 \code{\link{insert_text}()},
+\code{\link{label_hint}()},
 \code{\link{noti_banner}()},
 \code{\link{panel_output}()},
 \code{\link{tag_Input}()},

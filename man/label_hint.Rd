@@ -7,37 +7,38 @@
 label_hint(inputId, label, hint_input = NULL)
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value.}
+\item{inputId}{The input slot that will be used to access the value}
 
-\item{label}{Display label for the control, or \code{NULL} for no label.}
+\item{label}{Display label for the control, or \code{NULL} for no label}
 
 \item{hint_input}{Display hint label for the control, or \code{NULL} for
-no hint label.}
+no hint label}
 }
 \value{
-a label hint html shiny object
+a label hint HTML shiny tag object
 }
 \description{
-This function inserts a label and optional hint
+This function inserts a label and optional hint.
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-      label_hint(
-        inputId = "label1",
-        label = "This is a label",
-        hint_input = "This is a hint")
-    ),
-    shinyGovstyle::footer(full = TRUE)
-  )
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::gov_layout(
+    size = "two-thirds",
+    label_hint(
+      inputId = "label1",
+      label = "This is a label",
+      hint_input = "This is a hint"
+    )
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  server <- function(input, output, session) {}
-  shinyApp(ui = ui, server = server)
-}
+server <- function(input, output, session) {}
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{label}

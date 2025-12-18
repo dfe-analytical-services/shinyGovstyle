@@ -7,34 +7,35 @@
 tag_Input(inputId, text, colour = "navy")
 }
 \arguments{
-\item{inputId}{The id to access the tag}
+\item{inputId}{The Id to access the tag}
 
 \item{text}{The text in the tag}
 
-\item{colour}{The colour of the tag.  Default is navy.  Other options are
+\item{colour}{The colour of the tag. Default is navy. Other options are
 grey, green, turquoise, blue, purple, pink, red, orange and yellow}
 }
 \value{
-a tag html shiny object.
+a tag HTML shiny tag object
 }
 \description{
-This function creates a tag
+This function creates a tag.
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-      shinyGovstyle::tag_Input("tag1", "Complete"),
-      shinyGovstyle::tag_Input("tag2", "Incomplete", "red")),
-    shinyGovstyle::footer(full = TRUE)
-  )
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::gov_layout(
+    size = "two-thirds",
+    shinyGovstyle::tag_Input("tag1", "Complete"),
+    shinyGovstyle::tag_Input("tag2", "Incomplete", "red")
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  server <- function(input, output, session) {}
-  shinyApp(ui = ui, server = server)
-}
+server <- function(input, output, session) {}
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{tag}

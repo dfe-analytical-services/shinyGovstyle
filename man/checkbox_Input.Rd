@@ -16,75 +16,74 @@ checkbox_Input(
 )
 }
 \arguments{
-\item{inputId}{Input id for the group of checkboxes}
+\item{inputId}{Input Id for the group of checkboxes}
 
 \item{cb_labels}{Add the names of the options that will appear}
 
 \item{checkboxIds}{Add the values for each checkbox}
 
-\item{label}{Insert the text for the checkbox group.}
+\item{label}{Insert the text for the checkbox group}
 
-\item{hint_label}{Insert optional hint/secondary text.  Defaults to NULL}
+\item{hint_label}{Insert optional hint/secondary text. Defaults to NULL}
 
-\item{small}{change the sizing to a small version of the checkbox.  Defaults
+\item{small}{change the sizing to a small version of the checkbox. Defaults
 to \code{FALSE}}
 
-\item{error}{Whenever you want to include error handle on the component.}
+\item{error}{Whenever you want to include error handle on the component}
 
-\item{error_message}{If you want a default error message.}
+\item{error_message}{If you want a default error message}
 }
 \value{
-a checkbox html shiny object
+a checkbox HTML shiny tag object
 }
 \description{
 This function inserts a checkbox group
 }
 \examples{
-if (interactive()) {
-
-  ui <- fluidPage(
-    # Required for error handling function
-    shinyjs::useShinyjs(),
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::banner(
-      inputId = "banner", type = "beta", 'This is a new service'),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-      # Simple checkbox
-      shinyGovstyle::checkbox_Input(
-        inputId = "check1",
-        cb_labels = c("Option 1", "Option 2", "Option 3"),
-        checkboxIds = c("op1", "op2", "op3"),
-        label = "Choice option"),
-       # Error checkbox
-      shinyGovstyle::checkbox_Input(
-        inputId = "check2",
-        cb_labels = c("Option 1", "Option 2", "Option 3"),
-        checkboxIds = c("op1", "op2", "op3"),
-        label = "Choice option",
-        hint_label = "Select the best fit",
-        error = TRUE,
-        error_message = "Select one"),
-      # Button to trigger error
-      shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+ui <- shiny::fluidPage(
+  # Required for error handling function
+  shinyjs::useShinyjs(),
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png"),
+  shinyGovstyle::banner(
+    inputId = "banner", type = "beta", 'This is a new service'),
+  shinyGovstyle::gov_layout(size = "two-thirds",
+    # Simple checkbox
+    shinyGovstyle::checkbox_Input(
+      inputId = "check1",
+      cb_labels = c("Option 1", "Option 2", "Option 3"),
+      checkboxIds = c("op1", "op2", "op3"),
+      label = "Choice option"
     ),
-    shinyGovstyle::footer(full = TRUE)
-  )
+    # Error checkbox
+    shinyGovstyle::checkbox_Input(
+      inputId = "check2",
+      cb_labels = c("Option 1", "Option 2", "Option 3"),
+      checkboxIds = c("op1", "op2", "op3"),
+      label = "Choice option",
+      hint_label = "Select the best fit",
+      error = TRUE,
+      error_message = "Select one"
+    ),
+    # Button to trigger error
+    shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  server <- function(input, output, session) {
-    #'Trigger error on blank submit of eventId2
-    observeEvent(input$submit, {
-      if (is.null(input$check2)){
-        shinyGovstyle::error_on(inputId = "check2")
-      } else {
-        shinyGovstyle::error_off(inputId = "check2")
-      }
-    })
-  }
-
-  shinyApp(ui = ui, server = server)
+server <- function(input, output, session) {
+  # Trigger error on blank submit of eventId2
+  observeEvent(input$submit, {
+    if (is.null(input$check2)){
+      shinyGovstyle::error_on(inputId = "check2")
+    } else {
+      shinyGovstyle::error_off(inputId = "check2")
+    }
+  })
 }
+
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{checkbox}

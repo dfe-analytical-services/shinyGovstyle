@@ -12,38 +12,36 @@ noti_banner(
 )
 }
 \arguments{
-\item{inputId}{The input id for the banner}
+\item{inputId}{The input Id for the banner}
 
 \item{title_txt}{The wording that appears in the title}
 
 \item{body_txt}{The wording that appears in the banner body}
 
-\item{type}{The type of banner.  Options are standard and success.
+\item{type}{The type of banner. Options are standard and success.
 Standard is default}
 }
 \value{
-a notification html shiny object
+a notification HTML shiny tag object
 }
 \description{
-This function create a notification banner
+This function creates a notification banner.
 }
 \examples{
-if (interactive()) {
-
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::noti_banner(
-      inputId = "banner", title_txt = "Important", body_txt = "Example text")
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::noti_banner(
+    inputId = "banner", title_txt = "Important", body_txt = "Example text"
   )
+)
 
-  server <- function(input, output, session) {}
+server <- function(input, output, session) {}
 
-  shinyApp(ui = ui, server = server)
-}
-
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{banner}
 \keyword{notification}

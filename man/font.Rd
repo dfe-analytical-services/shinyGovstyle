@@ -7,7 +7,7 @@
 font()
 }
 \value{
-no value returned.  This loads the font css file
+no value returned. This loads the font CSS file
 }
 \description{
 This function adds rge nta fonts to the app. See
@@ -15,19 +15,16 @@ https://design-system.service.gov.uk/styles/typography/ for when they
 are allowed.
 }
 \examples{
-if (interactive()) {
+ui <- shiny::fluidPage(
+  font(),
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png")
+)
 
-  ui <- fluidPage(
-    font(),
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png")
-  )
+server <- function(input, output, session) {}
 
-  server <- function(input, output, session) {}
-
-  shinyApp(ui = ui, server = server)
-}
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{font}

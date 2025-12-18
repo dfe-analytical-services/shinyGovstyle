@@ -7,43 +7,47 @@
 select_Input(inputId, label, select_text, select_value)
 }
 \arguments{
-\item{inputId}{Input id for the component}
+\item{inputId}{Input Id for the component}
 
-\item{label}{Insert the text for the label.}
+\item{label}{Insert the text for the label}
 
 \item{select_text}{Add the text that will apply in the drop down as a list}
 
-\item{select_value}{Add the value that will be used for each selection.}
+\item{select_value}{Add the value that will be used for each selection}
 }
 \value{
-a select input html shiny object
+a select input HTML shiny tag object
 }
 \description{
 This function inserts a select box
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::gov_layout(size = "full",
-      select_Input(
-        inputId = "sorter",
-        label = "Sort by",
-        select_text = c("Recently published",
-                        "Recently updated",
-                        "Most views",
-                        "Most comments"),
-        select_value = c("published", "updated", "view", "comments")),
-        tags$br()
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo = "shinyGovstyle/images/moj_logo.png",
+    logo_alt_text = "Ministry of Justice logo"
+  ),
+  shinyGovstyle::gov_layout(
+    size = "full",
+    select_Input(
+      inputId = "sorter",
+      label = "Sort by",
+      select_text = c(
+        "Recently published",
+        "Recently updated",
+        "Most views",
+        "Most comments"
+      ),
+      select_value = c("published", "updated", "view", "comments")
     ),
-    shinyGovstyle::footer(full = TRUE)
-  )
+    shiny::tags$br()
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  server <- function(input, output, session) {}
-  shinyApp(ui = ui, server = server)
-}
+server <- function(input, output, session) {}
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{select}

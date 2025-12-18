@@ -16,14 +16,14 @@ date_Input(
 )
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value.}
+\item{inputId}{The input slot that will be used to access the value}
 
-\item{label}{Display label for the control, or \code{NULL} for no label.}
+\item{label}{Display label for the control, or \code{NULL} for no label}
 
 \item{hint_label}{Display hint label for the control, or \code{NULL} for no
-hint label.}
+hint label}
 
-\item{error}{Whenever to include error components.Defaults to \code{FALSE}.}
+\item{error}{Whenever to include error components.Defaults to \code{FALSE}}
 
 \item{error_message}{Error handling message? Defaults to \code{NULL}}
 
@@ -34,52 +34,54 @@ hint label.}
 \item{year}{Select a default year on start up. Defaults to \code{NULL}}
 }
 \value{
-a data input html shiny object
+a data input HTML shiny tag object
 }
 \description{
 This function create a date input that follows GDS component
 }
 \examples{
-if (interactive()) {
-
-  ui <- fluidPage(
-    # Required for error handling function.
-    shinyjs::useShinyjs(),
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::banner(
-      inputId = "banner", type = "beta", 'This is a new service'),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-       # Simple date input
-      shinyGovstyle::date_Input(
-        inputId = "dob_input",
-        label = "Please enter your birthday"),
-       # Error date input
-       shinyGovstyle::date_Input(
-         inputId = "dob_input2",
-         label = "Please enter your birthday",
-         hint_label = "For example, 12 11 2007",
-         error = TRUE),
-       # Button to trigger error
-       shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+ui <- shiny::fluidPage(
+  # Required for error handling function.
+  shinyjs::useShinyjs(),
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo = "shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::banner(
+    inputId = "banner", type = "beta", 'This is a new service'
+  ),
+  shinyGovstyle::gov_layout(
+    size = "two-thirds",
+    # Simple date input
+    shinyGovstyle::date_Input(
+      inputId = "dob_input",
+      label = "Please enter your birthday"
     ),
-    shinyGovstyle::footer(full = TRUE)
-  )
+    # Error date input
+    shinyGovstyle::date_Input(
+      inputId = "dob_input2",
+      label = "Please enter your birthday",
+      hint_label = "For example, 12 11 2007",
+      error = TRUE
+    ),
+    # Button to trigger error
+    shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  server <- function(input, output, session) {
-    #'Trigger error on blank submit of dob_input2
-    observeEvent(input$submit, {
-      if (input$dob_input2 == "//"){
-        shinyGovstyle::error_on(inputId = "dob_input2")
-      } else {
-        shinyGovstyle::error_off(
-          inputId = "dob_input2")
-      }
-    })
-  }
-  shinyApp(ui = ui, server = server)
+server <- function(input, output, session) {
+  # Trigger error on blank submit of dob_input2
+  observeEvent(input$submit, {
+    if (input$dob_input2 == "//") {
+      shinyGovstyle::error_on(inputId = "dob_input2")
+    } else {
+      shinyGovstyle::error_off(inputId = "dob_input2")
+    }
+  })
 }
+
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{date}

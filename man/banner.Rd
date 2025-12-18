@@ -7,34 +7,33 @@
 banner(inputId, type, label)
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value.}
+\item{inputId}{The input slot that will be used to access the value}
 
-\item{type}{Main type of label e.g. alpha or beta.  Can be any word.}
+\item{type}{Main type of label e.g. alpha or beta. Can be any word}
 
-\item{label}{test to display.}
+\item{label}{text to display}
 }
 \value{
-a banner html shiny object
+a banner HTML shiny tag object
 }
 \description{
 This function create a detail component that you can click for further
 details.
 }
 \examples{
-if (interactive()) {
-
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::banner(
-      inputId = "banner", type = "Beta", 'This is a new service')
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo = "shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::banner(
+    inputId = "banner", type = "Beta", 'This is a new service'
   )
+)
 
-  server <- function(input, output, session) {}
+server <- function(input, output, session) {}
 
-  shinyApp(ui = ui, server = server)
-}
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{banner}

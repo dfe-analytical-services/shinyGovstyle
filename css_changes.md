@@ -7,23 +7,11 @@ background: white;
 color: #0b0c0c;
 ```
 
-* error summary change
-```
-.govuk-error-summary__list {
-    color: #d4351c;
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 0.1em
-```
-
-* add 
-```
-.govuk-link {
-    border:none
-}
-```
-
 * Move fonts css to the font css
+
+* Add `font-size: 16px;` to root at top of file underneath `--govuk-frontend-version: VERSION NUMBER;`
+
+
 * Change url links
 
 * For accordion need to fix the css by:
@@ -44,7 +32,7 @@ color: #0b0c0c;
     display: inline-block;
     min-width: 125px;
     padding-top: 112px;
-    background-image: url(../images/govuk-crest.png);
+    background-image: url(../images/govuk-crest.svg);
     background-repeat: no-repeat;
     background-position: 50% 0;
     background-size: 125px 102px;
@@ -52,13 +40,6 @@ color: #0b0c0c;
     white-space: nowrap
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio:2),
-only screen and (min-resolution:192dpi),
-only screen and (min-resolution:2dppx) {
-    .govuk-footer__copyright-logo {
-        background-image: url(../images/govuk-crest-2x.png)
-    }
-}
 ```
 
 * Fix alignment on the radio button item labels
@@ -177,7 +158,7 @@ only screen and (min-resolution:2dppx) {
 * Updated govuk-link--no-visited-state to still have a clear focus highlight (copied from the govuk-link formatting)
 
 ```
-.govuk-link--no-visited-state:focus {
+.govuk-link--no-visited-state:active, .govuk-link--no-visited-state:focus {
     outline: 3px solid transparent;
     background-color: #fd0;
     box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;
@@ -195,3 +176,125 @@ only screen and (min-resolution:2dppx) {
     color: #003078
 }
 ```
+
+* skip link
+```
+/*Skip link*/
+.govuk-skip {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+
+.govuk-skip:focus {
+  position: static;
+  width: auto;
+  height: auto;
+}
+```
+
+* Container for the value_box
+```
+/*Container for value box*/
+
+.value-box-container {
+    font-family: GDS Transport, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1;
+    box-sizing: border-box;
+    padding: 10px;
+    text-align: left;
+    margin-bottom: 15px;
+}
+```
+
+* Larger screens styling for value_box
+```
+/*Larger screen sizing for value box*/
+
+@media (min-width: 40.0625em) {
+    .value-box-container {
+        font-size: 1.2rem;
+        padding: 15px;
+    }
+}
+```
+
+* Styling for the value in value_box
+```
+/*Styling value for value box*/
+
+.value-box-value {
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 700;
+    margin: 0;
+    display: block;
+}
+```
+
+* Styling for the optional description in value_box
+```
+/*Styling for optional description for value box*/
+
+.value-box-description {
+    font-size: 1rem;
+    line-height: 1;
+    margin-top: 10px;
+    font-weight: 400;
+}
+```
+
+* Styling for govReactable reactable
+```
+
+/*Styling for gov reactable*/
+
+/* custom sort indicators -------------------------------------------------- */
+.bar-sort-header:hover,
+.bar-sort-header:focus {
+  background: #fd0;
+}
+
+/* Add a top bar on ascending sort */
+.bar-sort-header[aria-sort="ascending"] {
+  box-shadow: inset 0 0.188rem 0 0 #1d70b8;
+}
+
+/* Add a bottom bar on descending sort */
+.bar-sort-header[aria-sort="descending"] {
+  box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
+}
+
+/* Add an animation when toggling between ascending and descending sort */
+.bar-sort-header {
+  transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Table row and highlighting -------------------------------------------------- */
+
+.gov-table .rt-tr-highlight {
+    border-bottom: 1px solid #b1b4b6;
+}
+.gov-table .rt-tr-highlight:hover {
+    background-color: #fd0 !important;
+}
+
+
+/* Highlight on the page button indicators --------------------------------- */
+.rt-page-button:hover,
+.rt-page-button:focus,
+.rt-page-button:active {
+    background: #fd0 !important;
+    box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
+}
+
+
+```
+
+

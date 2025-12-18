@@ -1,0 +1,8 @@
+# table works
+
+    Code
+      stripped_ids
+    Output
+      <div class="reactable html-widget html-fill-item" id= style="width:auto;height:auto;"></div>
+      <script type="application/json" data-for=>{"x":{"tag":{"name":"Reactable","attribs":{"data":{"months":["January","February","March","April","May","January","February","March","April","May"],"colours":["Red","Blue","Red","Blue","Red","Blue","Red","Blue","Red","Blue"],"bikes":[85,75,165,90,80,95,85,175,100,95],"vans":[150,130,180,160,140,175,135,185,155,145],"buses":[200,180,220,210,190,215,185,225,205,195]},"columns":[{"id":"months","name":"months","type":"character","sortable":true,"html":true,"na":"NA","align":"left","headerClassName":"bar-sort-header"},{"id":"colours","name":"colours","type":"character","sortable":true,"html":true,"na":"NA","align":"right","headerClassName":"bar-sort-header"},{"id":"bikes","name":"bikes","type":"numeric","sortable":true,"html":true,"na":"NA","align":"right","headerClassName":"bar-sort-header"},{"id":"vans","name":"vans","type":"numeric","sortable":true,"html":true,"na":"NA","align":"right","headerClassName":"bar-sort-header"},{"id":"buses","name":"buses","type":"numeric","sortable":true,"html":true,"na":"NA","align":"right","headerClassName":"bar-sort-header"}],"defaultPageSize":5,"highlight":true,"borderless":true,"showSortIcon":false,"className":"gov-table govuk-table","dataKey":"eccc8e8cf6736e3758d28b3971dbaeed"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+

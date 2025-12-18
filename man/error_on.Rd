@@ -7,59 +7,56 @@
 error_on(inputId, error_message = NULL)
 }
 \arguments{
-\item{inputId}{The input id that you to to turn the error on for.}
+\item{inputId}{The input id that you to to turn the error on for}
 
-\item{error_message}{if you want to add an additional error message.
+\item{error_message}{if you want to add an additional error message
 Defaults to NULL, showing the original designed error message}
 }
 \value{
-no return value.  This toggles on error css
+no return value.  This toggles on error CSS
 }
 \description{
-This function turns on the the error o the component.  Can be used to
+This function turns on the error for the component. Can be used to
 validate inputs.
 }
 \examples{
-## Only run examples in interactive R sessions
-if (interactive()) {
+ui <- shiny::fluidPage(
+  # Required for error handling function
+  shinyjs::useShinyjs(),
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::banner(
+    inputId = "banner", type = "beta", 'This is a new service'
+  ),
+  shinyGovstyle::gov_layout(size = "two-thirds",
+    # Error text box
+    shinyGovstyle::text_Input(
+      inputId = "eventId",
+      label = "Event Name",
+      error = TRUE),
+    # Button to trigger error
+    shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-  ui <- fluidPage(
-    # Required for error handling function
-    shinyjs::useShinyjs(),
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::banner(
-      inputId = "banner", type = "beta", 'This is a new service'),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-      # Error text box
-      shinyGovstyle::text_Input(
+server <- function(input, output, session) {
+  # Trigger error on blank submit of eventId2
+  observeEvent(input$submit, {
+    if (input$eventId != ""){
+      shinyGovstyle::error_off(inputId = "eventId")
+    } else {
+      shinyGovstyle::error_on(
         inputId = "eventId",
-        label = "Event Name",
-        error = TRUE),
-      # Button to trigger error
-      shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
-    ),
-    shinyGovstyle::footer(full = TRUE)
-  )
-
-
-  server <- function(input, output, session) {
-    #Trigger error on blank submit of eventId2
-    observeEvent(input$submit, {
-      if (input$eventId != ""){
-        shinyGovstyle::error_off(inputId = "eventId")
-      } else {
-        shinyGovstyle::error_on(
-          inputId = "eventId",
-          error_message = "Please complete")
-      }
-    })
-  }
-
-  # Run the application
-  shinyApp(ui = ui, server = server)
+        error_message = "Please complete"
+      )
+    }
+  })
 }
+
+if (interactive()) shinyApp(ui = ui, server = server)
 }
 \keyword{error}

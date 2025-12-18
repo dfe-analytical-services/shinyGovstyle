@@ -3,7 +3,7 @@ Title: Custom Gov Style Inputs for Shiny
 Version: 0.1.1
 Authors@R: c(
     person("Ross", "Wyatt", , "ross.wyatt@justice.gov.uk", role = c("aut")),
-    person("Cameron", "Race", , "camrace8@gmail.com", role = c("aut", "cre")),
+    person("Cam", "Race", , "camrace8@gmail.com", role = c("aut", "cre")),
     person("Sarah", "Wong", role = "aut"),
     person("Richard", "Bielby", , "richard.bielby@education.gov.uk", role = "ctb"),
     person("Charlotte", "Foster", , "charlotte.foster@education.gov.uk", role = "ctb"),

@@ -3,7 +3,7 @@
 <!-- badges: start -->
 
 [![CRAN status](https://www.r-pkg.org/badges/version/shinyGovstyle)](https://cran.r-project.org/package=shinyGovstyle)
-[![R-CMD-check](https://github.com/moj-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/moj-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/dfe-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dfe-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 > Apply Gov styled components and formats in shiny
@@ -30,7 +30,7 @@ conda install r-shinygovstyle
 
 If you want to make use of the development then
 ```r
-remotes::install_github("moj-analytical-services/shinyGovstyle")
+remotes::install_github("dfe-analytical-services/shinyGovstyle")
 ```
 
 To use error and word count elements you will need to load useShinyjs from shinyjs in the UI:

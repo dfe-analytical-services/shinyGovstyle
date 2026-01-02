@@ -1,17 +1,31 @@
-# Check subcontents in contents link
-test_that("subcontents in contents_link", {
-  service_nav_test <- service_navigation(c("Page 1", "Page 2", "Page 3"))
-  expect_equal(
-    "page_1",
-    service_nav_test$children[[1]]$children[[1]]$children[[1]]$children[[
-      2
-    ]]$children[[1]][[1]]$children[[1]][[2]][1]$id
+test_that("service_navigation works", {
+  expect_no_error(service_navigation(links = c("Page 1", "Page 2", "Page 3")))
+
+  expect_no_error(
+    service_navigation(
+      service_name = "My app",
+      c(
+        "Page 1" = "p1",
+        "Page 2" = "p2",
+        "Page 3" = "p3"
+      )
+    )
   )
 
-  expect_equal(
-    "Page 1",
-    service_nav_test$children[[1]]$children[[1]]$children[[1]]$children[[
-      2
-    ]]$children[[1]][[1]]$children[[1]][[3]][[1]][[2]]
+  expect_no_error(service_navigation("My app"))
+})
+
+test_that("service_navigation HTML is as expected", {
+  local_edition(3)
+  expect_snapshot(service_navigation(links = c("Page 1", "Page 2", "Page 3")))
+  expect_snapshot(
+    service_navigation(
+      service_name = "My app",
+      c(
+        "Page 1" = "p1",
+        "Page 2" = "p2",
+        "Page 3" = "p3"
+      )
+    )
   )
 })

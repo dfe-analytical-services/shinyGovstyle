@@ -2,20 +2,20 @@
 #'
 #' @description
 #' Service navigation component consistent with the
-#' [GDS service navigation](https://design-system.service.gov.uk/components/service-navigation/)
-#' (pre-June 2025).
+#' [GDS service navigation](https://design-system.service.gov.uk/components/service-navigation/).
 #'
 #' @param links A vector of actionLinks to be added to the service navigation.
 #' inputIDs are auto-generated and are the snake case version of the link text, e.g.
 #' "Overview page" will have an inputID of overview_page. Can also be provided as a named
 #' vector, in which case the vector names will be used as the page titles and the vector values
 #' will be used as the individual inputIDs.
+#' @param service_name An optional character string containing the service name to be displayed
+#' in the navigation bar
 #'
 #' @returns Shiny tag object
 #' @export
 #'
 #' @examples
-#' if (interactive()) {
 #'   ui <- shiny::fluidPage(
 #'     shinyGovstyle::header("Title", "Secondary heading"),
 #'     shinyGovstyle::service_navigation(
@@ -45,10 +45,12 @@
 #'       observeEvent(input$user_guide, bslib::nav_select("main_panels", "user_guide"))
 #'   }
 #'
+#' if (interactive()) {
 #'   shiny::shinyApp(ui = ui, server = server)
 #' }
 service_navigation <- function(
-  links
+  links,
+  service_name = NULL
 ) {
   if (is.null(names(links))) {
     link_names <- links
@@ -56,53 +58,57 @@ service_navigation <- function(
     link_names <- names(links)
     link_names[link_names == ""] <- links[link_names == ""]
   }
-  navigation <- shiny::tags$div(
+  navigation <- shiny::tags$section(
+    `aria-label` = "Service information",
     class = "govuk-service-navigation",
     `data-module` = "govuk-service-navigation",
     shiny::tags$div(
-      class = "govuk-width-container",
+      class = "govuk-service-navigation__container",
+      if (!is.null(service_name)) {
+        shiny::tags$span(
+          class = "govuk-service-navigation__service-name",
+          shiny::tags$a(
+            href = "#",
+            class = "govuk-service-navigation__link",
+            service_name
+          )
+        )
+      },
       shiny::tags$div(
-        class = "govuk-service-navigation__container",
-        shiny::tags$nav(
-          `aria-label` = "Menu",
-          class = "govuk-service-navigation__wrapper",
-          shiny::tags$button(
-            type = "button",
-            class = "govuk-service-navigation__toggle govuk-js-service-navigation-toggle",
-            `aria-controls` = "navigation",
-            hidden = TRUE,
-            "Menu"
-          ),
-          shiny::tags$ul(
-            class = "govuk-service-navigation__list",
-            id = "navigation",
-            mapply(
-              service_nav_link,
-              links,
-              link_names,
-              SIMPLIFY = FALSE,
-              USE.NAMES = FALSE
+        class = "govuk-service-navigation",
+        `data-module` = "govuk-service-navigation",
+        shiny::tags$div(
+          class = "govuk-width-container",
+          shiny::tags$div(
+            class = "govuk-service-navigation__container",
+            shiny::tags$nav(
+              `aria-label` = "Menu",
+              class = "govuk-service-navigation__wrapper",
+              shiny::tags$button(
+                type = "button",
+                class = "govuk-service-navigation__toggle govuk-js-service-navigation-toggle",
+                `aria-controls` = "navigation",
+                hidden = TRUE,
+                "Menu"
+              ),
+              shiny::tags$ul(
+                class = "govuk-service-navigation__list",
+                id = "navigation",
+                mapply(
+                  service_nav_link,
+                  links,
+                  link_names,
+                  SIMPLIFY = FALSE,
+                  USE.NAMES = FALSE
+                )
+              )
             )
           )
         )
       )
     )
   )
-  dependency <- htmltools::htmlDependency(
-    name = "service-navigation",
-    version = as.character(utils::packageVersion("shinyGovstyle")[[1]]),
-    src = c(href = "shinyGovstyle/css"),
-    stylesheet = "service-navigation.css"
-  )
-
-  # Return the link with the CSS attached
-  return(
-    htmltools::attachDependencies(
-      navigation,
-      dependency,
-      append = TRUE
-    )
-  )
+  attachDependency(navigation)
 }
 
 
@@ -112,7 +118,7 @@ service_navigation <- function(
 #' @param link_name Name of a link where a URL has been provided in link_text
 #'
 #' @returns HTML tag list item
-#'
+#' @noRd
 #' @keywords internal
 #' @examples
 #' # Internal (i.e. within dashboard) link

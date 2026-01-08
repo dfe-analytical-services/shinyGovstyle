@@ -7850,13 +7850,13 @@
 
 .govuk-contents__link {
     padding-left: 0;
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 .govuk-subcontents {
     list-style-type: none;
     padding-left: 0;
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 /*Only display subcontents for first one - on load*/
@@ -7886,7 +7886,7 @@
 .value-box-container {
     font-family: GDS Transport, Arial, sans-serif;
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 1.5rem;
     line-height: 1;
     box-sizing: border-box;
     padding: 10px;

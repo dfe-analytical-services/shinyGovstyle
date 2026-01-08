@@ -20,7 +20,7 @@
 
 @media print {
     .govuk-link {
-        font-family: sans-serif
+        font-family: sans-serif;
     }
 }
 
@@ -7850,13 +7850,15 @@
 
 .govuk-contents__link {
     padding-left: 0;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .govuk-subcontents {
     list-style-type: none;
     padding-left: 0;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 /*Only display subcontents for first one - on load*/
@@ -7886,7 +7888,7 @@
 .value-box-container {
     font-family: GDS Transport, Arial, sans-serif;
     font-weight: 400;
-    font-size: 1.5rem;
+    font-size: 1rem;
     line-height: 1;
     box-sizing: border-box;
     padding: 10px;

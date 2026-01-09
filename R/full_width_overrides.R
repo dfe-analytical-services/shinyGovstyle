@@ -18,7 +18,7 @@ full_width_overrides <- function() {
       shiny::HTML(
         # Overall overrides
         ".container-fluid { padding: 0; }",
-        ".govuk-width-container { max-width: 100%; padding-left: 10px; }",
+        ".govuk-width-container { max-width: 100%; padding-left: 40px; }",
         ".govuk-grid-row { margin-left: 0; margin-right: 0; }",
 
         # Cookie banner overrides

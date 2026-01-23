@@ -10,6 +10,7 @@
 #' main page.
 #' @return a HTML shiny layout div
 #' @keywords style
+#' @family Govstyle page structure
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

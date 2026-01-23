@@ -6,6 +6,7 @@
 #' @param text Text that you want to display on the insert
 #' @return a insert text HTML shiny tag object
 #' @keywords inserttext
+#' @family Govstyle feedback types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

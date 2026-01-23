@@ -4,7 +4,9 @@
       contents_check
     Output
       <div class="govuk-contents">
-        <a class="action-button govuk-contents__link govuk-link--no-visited-state" href="#" id="test_content_link">Test content link</a>
+        <a class="action-button action-link govuk-contents__link govuk-link--no-visited-state" href="#" id="test_content_link">
+          <span class="action-label">Test content link</span>
+        </a>
       </div>
 
 # subcontents in contents_link
@@ -13,7 +15,9 @@
       contents_check
     Output
       <div class="govuk-contents">
-        <a class="action-button govuk-contents__link govuk-link--no-visited-state" href="#" id="test_content_link">Test content link</a>
+        <a class="action-button action-link govuk-contents__link govuk-link--no-visited-state" href="#" id="test_content_link">
+          <span class="action-label">Test content link</span>
+        </a>
         <ol class="govuk-subcontents">
           <li>
             — 
@@ -36,7 +40,9 @@
       contents_check
     Output
       <div class="govuk-contents">
-        <a class="action-button govuk-contents__link govuk-link--no-visited-state" href="#" id="test_content_link">Test content link</a>
+        <a class="action-button action-link govuk-contents__link govuk-link--no-visited-state" href="#" id="test_content_link">
+          <span class="action-label">Test content link</span>
+        </a>
         <ol class="govuk-subcontents">
           <li>
             — 

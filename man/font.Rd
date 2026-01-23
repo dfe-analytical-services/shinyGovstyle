@@ -27,4 +27,9 @@ server <- function(input, output, session) {}
 
 if (interactive()) shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle styling: 
+\code{\link{full_width_overrides}()}
+}
+\concept{Govstyle styling}
 \keyword{font}

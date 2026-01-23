@@ -55,6 +55,7 @@
 #' @param footer Apply standard GDS footer CSS styling. Logical,
 #' default = FALSE
 #' @return shiny tag object
+#' @family Govstyle actions
 #' @export
 #'
 #' @examples

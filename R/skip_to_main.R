@@ -10,7 +10,7 @@
 #'
 #' @return A Shiny tag representing the 'Skip to main content' link
 #' @export
-#'
+#' @family Govstyle page structure
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   skip_to_main(),

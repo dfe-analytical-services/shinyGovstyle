@@ -9,6 +9,7 @@
 #'
 #' @return HTML containing CSS styling overrides
 #' @keywords styling
+#' @family Govstyle styling
 #' @export
 #' @examples
 #' shinyGovstyle::full_width_overrides()

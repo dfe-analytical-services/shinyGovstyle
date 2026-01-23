@@ -17,6 +17,7 @@
 #' @param logo_height Change the logo size height CSS to improve fit
 #' @return a header HTML shiny tag object
 #' @keywords header
+#' @family Govstyle page structure
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

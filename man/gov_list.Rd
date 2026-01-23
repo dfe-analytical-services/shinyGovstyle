@@ -39,3 +39,13 @@ server <- function(input, output, session) {}
 
 if (interactive()) shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle text types: 
+\code{\link{date_Input}()},
+\code{\link{heading_text}()},
+\code{\link{input_field}()},
+\code{\link{text_Input}()},
+\code{\link{text_area_Input}()},
+\code{\link{word_count}()}
+}
+\concept{Govstyle text types}

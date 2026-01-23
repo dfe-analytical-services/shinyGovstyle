@@ -1,3 +1,53 @@
 url: https://dfe-analytical-services.github.io/shinyGovstyle
 template:
   bootstrap: 5
+
+reference:
+- title: Core layout
+- subtitle: Page structure
+  contents:
+  - has_concept("Govstyle page structure")
+
+- subtitle: Navigation
+  contents:
+  - has_concept("Govstyle navigation")
+
+- subtitle: Styling
+  contents:
+  - has_concept("Govstyle styling")
+
+- title: Inputs
+- subtitle: Select Inputs
+  contents:
+  - has_concept("Govstyle select inputs")
+
+- subtitle: Text Types
+  contents:
+  - has_concept("Govstyle text types")
+
+- title: Action Types
+  contents:
+  - has_concept("Govstyle actions")
+
+- title: Tables, Tabs, and Accordions
+  contents:
+  - has_concept("Govstyle tables, tabs, and accordions")
+
+- title: Feedback
+  contents:
+  - has_concept("Govstyle feedback types")
+
+- title: Errors
+  contents:
+  - has_concept("Govstyle errors")
+
+- title: In-built Data
+  contents:
+  - bad_link_text
+  - case_data
+  - transport_data_small
+  - transport_data
+
+- title: Showcase
+  contents:
+  - run_example

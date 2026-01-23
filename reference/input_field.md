@@ -51,6 +51,16 @@ input_field(
 
 a input field of HTML as a shiny tag object
 
+## See also
+
+Other Govstyle text types:
+[`date_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/date_Input.md),
+[`gov_list()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_list.md),
+[`heading_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/heading_text.md),
+[`text_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.md),
+[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md),
+[`word_count()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.md)
+
 ## Examples
 
 ``` r

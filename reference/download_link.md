@@ -50,6 +50,14 @@ download_link(outputId, link_text, file_type = "CSV", file_size = NULL)
 
 shiny tag object
 
+## See also
+
+Other Govstyle actions:
+[`download_button()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_button.md),
+[`download_radios()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_radios.md),
+[`download_radios_handler()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_radios_handler.md),
+[`external_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/external_link.md)
+
 ## Examples
 
 ``` r

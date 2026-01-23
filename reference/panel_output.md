@@ -26,6 +26,18 @@ panel_output(inputId, main_text, sub_text)
 
 a panel HTML shiny tag object
 
+## See also
+
+Other Govstyle feedback types:
+[`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md),
+[`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md),
+[`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md),
+[`label_hint()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/label_hint.md),
+[`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md),
+[`tag_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/tag_Input.md),
+[`value_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/value_box.md),
+[`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
+
 ## Examples
 
 ``` r

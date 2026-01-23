@@ -68,6 +68,16 @@ header(
 
 a header HTML shiny tag object
 
+## See also
+
+Other Govstyle page structure:
+[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
+[`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
+[`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
+[`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
+[`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
+[`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
+
 ## Examples
 
 ``` r

@@ -49,6 +49,14 @@ govTable(
 
 a table HTML shiny tag object
 
+## See also
+
+Other Govstyle tables, tabs, and accordions:
+[`accordion()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/accordion.md),
+[`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md),
+[`govReactable-shiny`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable-shiny.md),
+[`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+
 ## Examples
 
 ``` r

@@ -46,6 +46,14 @@ download_radios(
 
 UI containing radio selection and download button
 
+## See also
+
+Other Govstyle actions:
+[`download_button()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_button.md),
+[`download_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_link.md),
+[`download_radios_handler()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_radios_handler.md),
+[`external_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/external_link.md)
+
 ## Examples
 
 ``` r

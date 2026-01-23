@@ -19,6 +19,13 @@ error_off(inputId)
 
 no return value. This toggles off error CSS
 
+## See also
+
+Other Govstyle errors:
+[`error_on()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_on.md),
+[`error_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_summary.md),
+[`error_summary_update()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_summary_update.md)
+
 ## Examples
 
 ``` r

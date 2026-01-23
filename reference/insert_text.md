@@ -23,6 +23,18 @@ insert_text(inputId, text)
 
 a insert text HTML shiny tag object
 
+## See also
+
+Other Govstyle feedback types:
+[`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md),
+[`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md),
+[`label_hint()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/label_hint.md),
+[`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md),
+[`panel_output()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/panel_output.md),
+[`tag_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/tag_Input.md),
+[`value_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/value_box.md),
+[`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
+
 ## Examples
 
 ``` r

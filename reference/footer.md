@@ -39,6 +39,16 @@ adoption of the statistics code of practice.
 If adding a link to an internal page, generally you will be controlling
 a hidden tabset so to the end user it looks like it is a new page.
 
+## See also
+
+Other Govstyle page structure:
+[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
+[`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
+[`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
+[`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
+[`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
+[`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
+
 ## Examples
 
 ``` r
@@ -71,10 +81,14 @@ footer(links = c("Accessibility statement", "Cookies"))
 #>           <h2 class="govuk-visually-hidden">Support links</h2>
 #>           <ul class="govuk-footer__inline-list">
 #>             <li class="govuk-footer__inline-list-item">
-#>               <a class="action-button govuk-link govuk-footer__link" href="#" id="accessibility_statement">Accessibility statement</a>
+#>               <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="accessibility_statement">
+#>                 <span class="action-label">Accessibility statement</span>
+#>               </a>
 #>             </li>
 #>             <li class="govuk-footer__inline-list-item">
-#>               <a class="action-button govuk-link govuk-footer__link" href="#" id="cookies">Cookies</a>
+#>               <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookies">
+#>                 <span class="action-label">Cookies</span>
+#>               </a>
 #>             </li>
 #>           </ul>
 #>         </div>
@@ -100,10 +114,14 @@ footer(
 #>           <h2 class="govuk-visually-hidden">Support links</h2>
 #>           <ul class="govuk-footer__inline-list">
 #>             <li class="govuk-footer__inline-list-item">
-#>               <a class="action-button govuk-link govuk-footer__link" href="#" id="accessibility_statement">Accessibility statement</a>
+#>               <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="accessibility_statement">
+#>                 <span class="action-label">Accessibility statement</span>
+#>               </a>
 #>             </li>
 #>             <li class="govuk-footer__inline-list-item">
-#>               <a class="action-button govuk-link govuk-footer__link" href="#" id="cookies">Cookies</a>
+#>               <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookies">
+#>                 <span class="action-label">Cookies</span>
+#>               </a>
 #>             </li>
 #>             <li class="govuk-footer__inline-list-item"><a href="https://www.gov.uk/government/organisations/government-digital-service" class="govuk-link govuk-footer__link" target="_blank" rel="noopener noreferrer">Government Digital Service<span class="sr-only"> (opens in new tab)</span></a></li>
 #>           </ul>

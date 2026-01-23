@@ -82,6 +82,14 @@ create safe external links with standard and accessible behaviour. For
 more information on how the tag is generated, see
 [`htmltools::tags()`](https://rstudio.github.io/htmltools/reference/builder.html).
 
+## See also
+
+Other Govstyle actions:
+[`download_button()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_button.md),
+[`download_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_link.md),
+[`download_radios()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_radios.md),
+[`download_radios_handler()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_radios_handler.md)
+
 ## Examples
 
 ``` r

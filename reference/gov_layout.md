@@ -29,6 +29,16 @@ gov_layout(..., inputID = "main", size = "full")
 
 a HTML shiny layout div
 
+## See also
+
+Other Govstyle page structure:
+[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
+[`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
+[`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
+[`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
+[`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
+[`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
+
 ## Examples
 
 ``` r

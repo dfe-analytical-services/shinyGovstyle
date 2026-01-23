@@ -25,6 +25,13 @@ error_summary_update(inputId, error_list)
 
 an update error summary box
 
+## See also
+
+Other Govstyle errors:
+[`error_off()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_off.md),
+[`error_on()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_on.md),
+[`error_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_summary.md)
+
 ## Examples
 
 ``` r

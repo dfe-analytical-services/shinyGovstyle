@@ -58,6 +58,14 @@ included in a Shiny UI
 `renderGovReactable()` returns a `reactable` render function that can be
 assigned to a Shiny output slot
 
+## See also
+
+Other Govstyle tables, tabs, and accordions:
+[`accordion()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/accordion.md),
+[`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md),
+[`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md),
+[`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+
 ## Examples
 
 ``` r

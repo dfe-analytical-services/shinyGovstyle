@@ -26,6 +26,14 @@ accordion(inputId, titles, descriptions)
 
 an accordion HTML shiny tag object
 
+## See also
+
+Other Govstyle tables, tabs, and accordions:
+[`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md),
+[`govReactable-shiny`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable-shiny.md),
+[`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md),
+[`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+
 ## Examples
 
 ``` r

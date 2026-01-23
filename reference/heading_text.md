@@ -30,6 +30,16 @@ heading_text(text_input, size = "xl", id, level = 1)
 
 a heading text HTML shiny tag object
 
+## See also
+
+Other Govstyle text types:
+[`date_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/date_Input.md),
+[`gov_list()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_list.md),
+[`input_field()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/input_field.md),
+[`text_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.md),
+[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md),
+[`word_count()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.md)
+
 ## Examples
 
 ``` r

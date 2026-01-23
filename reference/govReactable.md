@@ -68,6 +68,14 @@ govReactableOutput() gives the ability to add a caption, for static
 tables made using just govReactable(), use heading_text() to add
 captions to tables.
 
+## See also
+
+Other Govstyle tables, tabs, and accordions:
+[`accordion()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/accordion.md),
+[`govReactable-shiny`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable-shiny.md),
+[`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md),
+[`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+
 ## Examples
 
 ``` r

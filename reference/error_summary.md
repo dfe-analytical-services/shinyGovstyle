@@ -28,6 +28,13 @@ error_summary(inputId, error_title, error_list)
 
 an error_summary HTML shiny tag object
 
+## See also
+
+Other Govstyle errors:
+[`error_off()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_off.md),
+[`error_on()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_on.md),
+[`error_summary_update()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_summary_update.md)
+
 ## Examples
 
 ``` r

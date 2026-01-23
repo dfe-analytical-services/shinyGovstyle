@@ -30,6 +30,14 @@ select_Input(inputId, label, select_text, select_value)
 
 a select input HTML shiny tag object
 
+## See also
+
+Other Govstyle select inputs:
+[`button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/button_Input.md),
+[`checkbox_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/checkbox_Input.md),
+[`file_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/file_Input.md),
+[`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md)
+
 ## Examples
 
 ``` r

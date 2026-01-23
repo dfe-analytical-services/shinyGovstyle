@@ -28,6 +28,16 @@ word_count(inputId, input, word_limit = NULL)
 
 no value returned. Updates the word count in a shiny app
 
+## See also
+
+Other Govstyle text types:
+[`date_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/date_Input.md),
+[`gov_list()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_list.md),
+[`heading_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/heading_text.md),
+[`input_field()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/input_field.md),
+[`text_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.md),
+[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md)
+
 ## Examples
 
 ``` r

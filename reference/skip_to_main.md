@@ -22,6 +22,16 @@ skip_to_main(id = "main")
 
 A Shiny tag representing the 'Skip to main content' link
 
+## See also
+
+Other Govstyle page structure:
+[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
+[`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
+[`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
+[`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
+[`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
+[`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+
 ## Examples
 
 ``` r

@@ -17,6 +17,11 @@ full_width_overrides()
 
 HTML containing CSS styling overrides
 
+## See also
+
+Other Govstyle styling:
+[`font()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/font.md)
+
 ## Examples
 
 ``` r

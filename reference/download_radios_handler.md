@@ -31,6 +31,14 @@ download_radios_handler(id = "download_radios", file_name, file_contents)
 Output for use with
 [`download_radios()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_radios.md)
 
+## See also
+
+Other Govstyle actions:
+[`download_button()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_button.md),
+[`download_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_link.md),
+[`download_radios()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_radios.md),
+[`external_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/external_link.md)
+
 ## Examples
 
 ``` r

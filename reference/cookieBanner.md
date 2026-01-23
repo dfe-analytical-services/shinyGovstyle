@@ -21,6 +21,16 @@ cookieBanner(service_name)
 
 a cookie banner HTML shiny tag object
 
+## See also
+
+Other Govstyle page structure:
+[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
+[`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
+[`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
+[`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
+[`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
+[`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
+
 ## Examples
 
 ``` r

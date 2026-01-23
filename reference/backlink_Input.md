@@ -22,6 +22,11 @@ backlink_Input(inputId, label = "Back")
 
 a backlink HTML shiny tag object
 
+## See also
+
+Other Govstyle navigation:
+[`contents_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.md)
+
 ## Examples
 
 ``` r

@@ -2,7 +2,7 @@
 
 :root {
     --govuk-frontend-version: "5.9.0";
-    font-size: 16px;
+    font-size: 1.2rem;
     --govuk-frontend-breakpoint-mobile: 20rem;
     --govuk-frontend-breakpoint-tablet: 40.0625rem;
     --govuk-frontend-breakpoint-desktop: 48.0625rem
@@ -22,7 +22,7 @@
 
 @media print {
     .govuk-link {
-        font-family: sans-serif;
+        font-family: sans-serif
     }
 }
 
@@ -732,8 +732,8 @@
     font-family: GDS Transport, arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-weight: 400;
-    font-size: 1rem;
+    font-weight: bold;
+    font-size: 1.2rem;
     line-height: 1.1875;
     display: inline-block;
     max-width: 100%;
@@ -4767,7 +4767,7 @@
 }
 
 .govuk-phase-banner__content__tag {
-    font-size: .875rem;
+    font-size: 1.2rem;
     line-height: 1.1428571429;
     margin-right: 10px
 }
@@ -4781,14 +4781,15 @@
 
 @media print {
     .govuk-phase-banner__content__tag {
-        font-size: 14pt;
+        font-size: 1.2rem;
         line-height: 1.2
     }
 }
 
 .govuk-phase-banner__text {
     display: table-cell;
-    vertical-align: middle
+    vertical-align: middle;
+    font-size: 1.2rem
 }
 
 .govuk-radios__item {

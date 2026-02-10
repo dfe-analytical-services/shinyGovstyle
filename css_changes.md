@@ -297,4 +297,16 @@ color: #0b0c0c;
 
 ```
 
+* Styling for accessible download links
+```
+/* download links--------------------------------- */
+
+.shiny-download-link {
+    font-size: 1.2rem;
+    font-weight:bold;
+}
+
+```
+
+
 

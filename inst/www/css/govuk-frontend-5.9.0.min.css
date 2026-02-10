@@ -2,7 +2,7 @@
 
 :root {
     --govuk-frontend-version: "5.9.0";
-    font-size: 16px;
+    font-size: 1.2rem;
     --govuk-frontend-breakpoint-mobile: 20rem;
     --govuk-frontend-breakpoint-tablet: 40.0625rem;
     --govuk-frontend-breakpoint-desktop: 48.0625rem
@@ -14,7 +14,9 @@
     -moz-osx-font-smoothing: grayscale;
     text-decoration: underline;
     text-decoration-thickness: max(1px, .0625rem);
-    text-underline-offset: .1578em
+    text-underline-offset: .1578em;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 
@@ -730,8 +732,8 @@
     font-family: GDS Transport, arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-weight: 400;
-    font-size: 1rem;
+    font-weight: bold;
+    font-size: 1.2rem;
     line-height: 1.1875;
     display: inline-block;
     max-width: 100%;
@@ -4765,7 +4767,7 @@
 }
 
 .govuk-phase-banner__content__tag {
-    font-size: .875rem;
+    font-size: 1.2rem;
     line-height: 1.1428571429;
     margin-right: 10px
 }
@@ -4779,14 +4781,15 @@
 
 @media print {
     .govuk-phase-banner__content__tag {
-        font-size: 14pt;
+        font-size: 1.2rem;
         line-height: 1.2
     }
 }
 
 .govuk-phase-banner__text {
     display: table-cell;
-    vertical-align: middle
+    vertical-align: middle;
+    font-size: 1.2rem
 }
 
 .govuk-radios__item {
@@ -7850,13 +7853,15 @@
 
 .govuk-contents__link {
     padding-left: 0;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .govuk-subcontents {
     list-style-type: none;
     padding-left: 0;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 /*Only display subcontents for first one - on load*/
@@ -7963,4 +7968,14 @@
     background: #fd0 !important;
     box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
 }
+
+/* download links--------------------------------- */
+
+.shiny-download-link {
+    font-size: 1.2rem;
+    font-weight:bold;
+}
+
+
+
 

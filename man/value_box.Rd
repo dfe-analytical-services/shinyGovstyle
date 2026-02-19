@@ -16,7 +16,7 @@ displayed}
 
 \item{colour}{Character. A colour to apply to the value box. Defaults
 to "blue". Choose from the following: "grey", "purple", "turquoise",
-"blue", "light-blue", "yellow", "orange", "red", "pink", or "green"}
+"blue", "yellow", "orange", "red", "pink", or "green"}
 }
 \value{
 A Shiny \code{div} tag representing the value box, styled according

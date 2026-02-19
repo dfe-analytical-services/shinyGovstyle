@@ -5,11 +5,11 @@
 \title{Header Function}
 \usage{
 header(
-  main_text,
-  secondary_text,
+  main_text = NULL,
+  secondary_text = NULL,
   logo = NULL,
-  main_link = "#",
-  secondary_link = "#",
+  main_link = NULL,
+  secondary_link = NULL,
   logo_alt_text = NULL,
   main_alt_text = NULL,
   secondary_alt_text = NULL,

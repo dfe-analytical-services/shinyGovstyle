@@ -298,3 +298,12 @@ color: #0b0c0c;
 ```
 
 
+* Add back blue tag colour - removed as default
+```
+.govuk-tag--blue {
+    color: #0f385c;
+    background-color: #d2e2f1
+}
+
+```
+

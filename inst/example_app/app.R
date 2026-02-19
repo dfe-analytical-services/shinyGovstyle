@@ -20,7 +20,7 @@ ui <- bslib::page_fluid(
   header(
     "MoJ",
     "shinyGovstyle showcase",
-    logo = "shinyGovstyle/images/moj_logo-1.png",
+    logo = "shinyGovstyle/images/favicon.svg",
     logo_width = 66,
     logo_alt_text = "Ministry of Justice logo"
   ),
@@ -441,7 +441,6 @@ ui <- bslib::page_fluid(
             shinyGovstyle::tag_Input("tag3", "Green", "green"),
             shinyGovstyle::tag_Input("tag4", "Turquoise", "turquoise"),
             shinyGovstyle::tag_Input("tag5", "Blue", "blue"),
-            shinyGovstyle::tag_Input("tag6", "Light-blue", "light-blue"),
             shinyGovstyle::tag_Input("tag7", "Purple", "purple"),
             shinyGovstyle::tag_Input("tag8", "Pink", "pink"),
             shinyGovstyle::tag_Input("tag9", "Red", "red"),

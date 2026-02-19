@@ -33,11 +33,11 @@
 #'
 #' if (interactive()) shinyApp(ui = ui, server = server)
 header <- function(
-  main_text,
-  secondary_text,
+  main_text = NULL,
+  secondary_text = NULL,
   logo = NULL,
-  main_link = "#",
-  secondary_link = "#",
+  main_link = NULL,
+  secondary_link = NULL,
   logo_alt_text = NULL,
   main_alt_text = NULL,
   secondary_alt_text = NULL,
@@ -54,23 +54,31 @@ header <- function(
     )
   }
 
-  if (main_link != "#" && is.null(main_alt_text)) {
-    warning(
-      paste(
-        "Please use main_alt_text to provide alternative",
-        "text for the main link you used."
-      )
-    )
+  if(!missing("main_text")){
+    warning("main_text is no longer supported")
   }
 
-  if (secondary_link != "#" && is.null(secondary_alt_text)) {
-    warning(
-      paste(
-        "Please use secondary_alt_text to provide alternative",
-        "text for the secondary link you used."
-      )
-    )
+  if(!missing("secondary_text")){
+    warning("secondary_text is no longer supported")
   }
+
+  if(!missing("main_alt_text")){
+    warning("main_alt_text is no longer supported")
+  }
+
+  if(!missing("secondary_alt_text")){
+    warning("secondary_alt_text is no longer supported")
+  }
+
+  if(!missing("main_link")){
+    warning("main_link is no longer supported")
+  }
+
+  if(!missing("secondary_link")){
+    warning("secondary_link is no longer supported")
+  }
+
+
 
   if (is.null(logo)) {
     logo_src <- "null"
@@ -97,9 +105,6 @@ header <- function(
       shiny::tags$div(
         class = "govuk-header__logo",
         shiny::tags$a(
-          href = main_link,
-          `aria-label` = main_alt_text,
-          class = "govuk-header__link govuk-header__link--homepage",
           shiny::tags$span(
             class = "govuk-header__logotype",
             if (logo_src == "crown") {
@@ -166,13 +171,7 @@ header <- function(
         )
       ),
       shiny::tags$div(
-        class = "govuk-header__content",
-        shiny::tags$a(
-          href = secondary_link,
-          secondary_text,
-          `aria-label` = secondary_alt_text,
-          class = "govuk-header__link govuk-header__service-name"
-        )
+        class = "govuk-header__content"
       )
     )
   )

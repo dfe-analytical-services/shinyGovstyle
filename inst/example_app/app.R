@@ -18,8 +18,6 @@ ui <- bslib::page_fluid(
 
   shinyGovstyle::skip_to_main(),
   header(
-    "MoJ",
-    "shinyGovstyle showcase",
     logo = "shinyGovstyle/images/favicon.svg",
     logo_width = 66,
     logo_alt_text = "Ministry of Justice logo"

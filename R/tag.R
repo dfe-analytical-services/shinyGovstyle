@@ -35,8 +35,10 @@ tag_Input <- # nolint
     #check for deprecated colours
     if (colour == "light-blue") {
       warning(
-        "'light-blue' is no longer a supported colour. Please select an alternative from:
-      'grey', 'purple', 'turquoise', 'blue', 'yellow', 'orange', 'red', 'pink', or 'green'."
+        "'light-blue' is no longer a supported colour.
+        Please select an alternative from:
+       'navy', 'grey', 'purple', 'turquoise', 'blue', 'yellow',
+        'orange', 'red', 'pink', or 'green'."
       )
     }
 

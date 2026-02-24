@@ -35,8 +35,10 @@ test_that("deprecated colours are warned against", {
   expect_warning(
     value_box("testId3", "Test Value", colour = "light-blue"),
     paste(
-      "light-blue' is no longer a supported colour. Please select an alternative from:
-      'grey', 'purple', 'turquoise', 'blue', 'yellow', 'orange', 'red', 'pink', or 'green'."
+      "'light-blue' is no longer a supported colour.
+      Please select an alternative from:
+      'grey', 'purple', 'turquoise', 'blue', 'yellow',
+      'orange', 'red', 'pink', or 'green'."
     )
   )
 })

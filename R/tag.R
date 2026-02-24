@@ -32,6 +32,14 @@ tag_Input <- # nolint
     text,
     colour = "navy"
   ) {
+
+    #check for deprecated colours
+    if(colour == "light-blue") {
+      warning("'light-blue' is no longer a supported colour. Please select an alternative from: 'navy', 'grey', 'purple', 'turquoise', 'blue', 'yellow', 'orange', 'red', 'pink', or 'green'.")
+    }
+
+
+
     class_colour <- "govuk-tag"
     if (colour != "navy") {
       class_colour <- paste0("govuk-tag govuk-tag--", colour)

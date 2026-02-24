@@ -54,31 +54,29 @@ header <- function(
     )
   }
 
-  if(!missing("main_text")){
+  if (!missing("main_text")) {
     warning("main_text is no longer supported")
   }
 
-  if(!missing("secondary_text")){
+  if (!missing("secondary_text")) {
     warning("secondary_text is no longer supported")
   }
 
-  if(!missing("main_alt_text")){
+  if (!missing("main_alt_text")) {
     warning("main_alt_text is no longer supported")
   }
 
-  if(!missing("secondary_alt_text")){
+  if (!missing("secondary_alt_text")) {
     warning("secondary_alt_text is no longer supported")
   }
 
-  if(!missing("main_link")){
+  if (!missing("main_link")) {
     warning("main_link is no longer supported")
   }
 
-  if(!missing("secondary_link")){
+  if (!missing("secondary_link")) {
     warning("secondary_link is no longer supported")
   }
-
-
 
   if (is.null(logo)) {
     logo_src <- "null"

@@ -1,19 +1,16 @@
-
 test_that("warnings for deprecated arguments work", {
-
   expect_warning(
-  header(main_text = "test text"),
-  paste("main_text is no longer supported")
+    header(main_text = "test text"),
+    paste("main_text is no longer supported")
   )
 
-
   header(
-      main_text = "test text",
-      secondary_text = "test text2",
-      main_link = "test_link.com",
-      secondary_link = "test_link.com",
-      main_alt_text = "some alt text",
-      secondary_alt_text = "some other alt text"
+    main_text = "test text",
+    secondary_text = "test text2",
+    main_link = "test_link.com",
+    secondary_link = "test_link.com",
+    main_alt_text = "some alt text",
+    secondary_alt_text = "some other alt text"
   ) |>
     expect_warning("main_text is no longer supported") |>
     expect_warning("secondary_text is no longer supported") |>
@@ -21,9 +18,7 @@ test_that("warnings for deprecated arguments work", {
     expect_warning("secondary_link is no longer supported") |>
     expect_warning("main_alt_text is no longer supported") |>
     expect_warning("secondary_alt_text is no longer supported")
-
-}
-)
+})
 
 
 test_that("heading_text returns correct heading level", {

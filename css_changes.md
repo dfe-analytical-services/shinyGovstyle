@@ -26,23 +26,8 @@ color: #0b0c0c;
 }
 ```
 
-* Change filepaths for crown copyright logo:
-```
-.govuk-footer__copyright-logo {
-    display: inline-block;
-    min-width: 125px;
-    padding-top: 112px;
-    background-image: url(../images/govuk-crest.svg);
-    background-repeat: no-repeat;
-    background-position: 50% 0;
-    background-size: 125px 102px;
-    text-align: center;
-    white-space: nowrap
-}
-
-```
-
 * Fix alignment on the radio button item labels
+
 ```
 .govuk-radios__input {
     z-index: 1;
@@ -65,16 +50,18 @@ color: #0b0c0c;
 ```
 
 * Fix selected tab panel border gap
+
 ```
 .govuk-frontend-supported .govuk-tabs__list-item--selected {
-    position: relative;
-    margin-top: -5px;
-    margin-bottom: -2px;
-    padding: 14px 19px 16px;
-    border: 1px solid #b1b4b6;
-    border-bottom: none;
-    background-color: #fff
-}
+        position: relative;
+        margin-top: -5px;
+        margin-bottom: -2px;
+        padding: 14px 19px 16px;
+        border: 1px solid #b1b4b6;
+        border-bottom: 0;
+        border-color: var(--govuk-border-colour, #cecece);
+        background-color: var(--govuk-body-background-colour, #fff)
+    }
 ```
 
 * govTable caption colour:
@@ -173,7 +160,7 @@ color: #0b0c0c;
     text-decoration-skip-ink: none;
     -webkit-text-decoration-skip: none;
     text-decoration-skip: none;
-    color: #003078
+    color: #0f385c
 }
 ```
 

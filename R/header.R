@@ -2,10 +2,11 @@
 #'
 #' This function create a header banner. For use at top of the screen
 #' @param main_text Main text that goes in the header
-#' @param secondary_text Secondary header to supplement the main text the main text
+#' @param secondary_text Secondary header to supplement the main text
 #' @param logo Add a link to a logo which will apply in the header. Use crown to
 #' use the crown SVG version on GOV UK
-#' @param main_link Add a link for clicking on main text `r lifecycle::badge("deprecated")`
+#' @param main_link Add a link for clicking on main text
+#' `r lifecycle::badge("deprecated")`
 #' @param secondary_link Add a link for clicking on secondary
 #' header `r lifecycle::badge("deprecated")`
 #' @param logo_alt_text Add alternative text for the logo. Should be used when a

@@ -1,23 +1,14 @@
-test_that("warnings for deprecated arguments work", {
-  expect_warning(
-    header(main_text = "test text"),
-    paste("main_text is no longer supported")
-  )
+test_that("secondary_text is deprecated", {
+  rlang::local_options(lifecycle_verbosity = "error")
+  expect_error(header(secondary_text = "test text"), class = "defunctError")
+})
 
-  header(
-    main_text = "test text",
-    secondary_text = "test text2",
-    main_link = "test_link.com",
-    secondary_link = "test_link.com",
-    main_alt_text = "some alt text",
-    secondary_alt_text = "some other alt text"
-  ) |>
-    expect_warning("main_text is no longer supported") |>
-    expect_warning("secondary_text is no longer supported") |>
-    expect_warning("main_link is no longer supported") |>
-    expect_warning("secondary_link is no longer supported") |>
-    expect_warning("main_alt_text is no longer supported") |>
-    expect_warning("secondary_alt_text is no longer supported")
+
+test_that("function still runs if using deprecated argument", {
+  rlang::local_options(lifecycle_verbosity = "quiet")
+  expect_silent(
+    header(secondary_text = "test text")
+  )
 })
 
 

@@ -5,29 +5,29 @@
 \title{Header Function}
 \usage{
 header(
-  main_text = NULL,
+  main_text = "Shiny example app",
   secondary_text = NULL,
-  logo = NULL,
+  logo = "shinyGovstyle/images/Dept_logo.svg",
   main_link = NULL,
   secondary_link = NULL,
-  logo_alt_text = NULL,
+  logo_alt_text = "Departmental logo",
   main_alt_text = NULL,
   secondary_alt_text = NULL,
-  logo_width = 36,
-  logo_height = 32
+  logo_width = 66,
+  logo_height = 34
 )
 }
 \arguments{
 \item{main_text}{Main text that goes in the header}
 
-\item{secondary_text}{Secondary header to supplement the main text}
+\item{secondary_text}{Secondary header to supplement the main text \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
 \item{logo}{Add a link to a logo which will apply in the header. Use crown to
 use the crown SVG version on GOV UK}
 
 \item{main_link}{Add a link for clicking on main text}
 
-\item{secondary_link}{Add a link for clicking on secondary header}
+\item{secondary_link}{Add a link for clicking on secondary header \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
 \item{logo_alt_text}{Add alternative text for the logo. Should be used when a
 logo is used}
@@ -36,7 +36,7 @@ logo is used}
 when a main link is used}
 
 \item{secondary_alt_text}{Add alternative text for the secondary link. Should
-be used when a secondary link is used}
+be used when a secondary link is used \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
 \item{logo_width}{Change the logo size width CSS to improve fit}
 

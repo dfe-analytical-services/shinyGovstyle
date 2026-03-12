@@ -2,17 +2,17 @@
 #'
 #' This function create a header banner. For use at top of the screen
 #' @param main_text Main text that goes in the header
-#' @param secondary_text Secondary header to supplement the main text
+#' @param secondary_text Secondary header to supplement the main text `r lifecycle::badge("deprecated")`
 #' @param logo Add a link to a logo which will apply in the header. Use crown to
 #' use the crown SVG version on GOV UK
 #' @param main_link Add a link for clicking on main text
-#' @param secondary_link Add a link for clicking on secondary header
+#' @param secondary_link Add a link for clicking on secondary header `r lifecycle::badge("deprecated")`
 #' @param logo_alt_text Add alternative text for the logo. Should be used when a
 #' logo is used
 #' @param main_alt_text Add alternative text for the main link. Should be used
 #' when a main link is used
 #' @param secondary_alt_text Add alternative text for the secondary link. Should
-#' be used when a secondary link is used
+#' be used when a secondary link is used `r lifecycle::badge("deprecated")`
 #' @param logo_width Change the logo size width CSS to improve fit
 #' @param logo_height Change the logo size height CSS to improve fit
 #' @return a header HTML shiny tag object
@@ -33,16 +33,16 @@
 #'
 #' if (interactive()) shinyApp(ui = ui, server = server)
 header <- function(
-  main_text = NULL,
+  main_text = "Shiny example app",
   secondary_text = NULL,
-  logo = NULL,
+  logo = "shinyGovstyle/images/Dept_logo.svg",
   main_link = NULL,
   secondary_link = NULL,
-  logo_alt_text = NULL,
+  logo_alt_text = "Departmental logo",
   main_alt_text = NULL,
   secondary_alt_text = NULL,
-  logo_width = 36,
-  logo_height = 32
+  logo_width = 66,
+  logo_height = 34
 ) {
   # checks for alt text
   if (!is.null(logo) && is.null(logo_alt_text)) {
@@ -54,28 +54,28 @@ header <- function(
     )
   }
 
-  if (!missing("main_text")) {
-    warning("main_text is no longer supported")
-  }
-
   if (!missing("secondary_text")) {
-    warning("secondary_text is no longer supported")
-  }
-
-  if (!missing("main_alt_text")) {
-    warning("main_alt_text is no longer supported")
+    lifecycle::deprecate_warn(
+      when = "0.2.0",
+      what = "header(secondary_text)",
+      details = "secondary_text will be dropped in v1.0.0"
+    )
   }
 
   if (!missing("secondary_alt_text")) {
-    warning("secondary_alt_text is no longer supported")
-  }
-
-  if (!missing("main_link")) {
-    warning("main_link is no longer supported")
+    lifecycle::deprecate_warn(
+      when = "0.2.0",
+      what = "header(secondary_alt_text)",
+      details = "secondary_alt_text will be dropped in v1.0.0"
+    )
   }
 
   if (!missing("secondary_link")) {
-    warning("secondary_link is no longer supported")
+    lifecycle::deprecate_warn(
+      when = "0.2.0",
+      what = "header(secondary_link)",
+      details = "secondary_link will be dropped in v1.0.0"
+    )
   }
 
   if (is.null(logo)) {
@@ -164,7 +164,7 @@ header <- function(
                 alt_text = logo_alt_text
               )
             },
-            shiny::tags$span(main_text, class = "govuk-header__logotype-text")
+            shiny::tags$span(main_text, class = "govuk-header__product-name")
           )
         )
       ),

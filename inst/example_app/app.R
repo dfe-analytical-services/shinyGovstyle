@@ -17,11 +17,7 @@ ui <- bslib::page_fluid(
   shinyGovstyle::full_width_overrides(), # TODO: remove when built in
 
   shinyGovstyle::skip_to_main(),
-  header(
-    logo = "shinyGovstyle/images/favicon.svg",
-    logo_width = 66,
-    logo_alt_text = "Ministry of Justice logo"
-  ),
+  header(),
   banner(
     "banner",
     "Beta",

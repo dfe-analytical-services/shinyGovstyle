@@ -7419,7 +7419,12 @@ screen and (-ms-high-contrast:active) {
     box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
 }
 
-
+/* Add header content back in--------------------------------- */
+.govuk-header__content{
+  width: 66.66%;
+  padding-left: 15px;
+  float: right
+}
 
 
 /*# sourceMappingURL=govuk-frontend-6.1.0.min.css.map */

@@ -294,3 +294,14 @@ color: #0b0c0c;
 
 ```
 
+* Add header content title back in
+```
+/* Add header content back in--------------------------------- */
+.govuk-header__content{
+  width: 66.66%;
+  padding-left: 15px;
+  float: right
+}
+```
+
+

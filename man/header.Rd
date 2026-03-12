@@ -20,20 +20,21 @@ header(
 \arguments{
 \item{main_text}{Main text that goes in the header}
 
-\item{secondary_text}{Secondary header to supplement the main text \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+\item{secondary_text}{Secondary header to supplement the main text the main text}
 
 \item{logo}{Add a link to a logo which will apply in the header. Use crown to
 use the crown SVG version on GOV UK}
 
-\item{main_link}{Add a link for clicking on main text}
+\item{main_link}{Add a link for clicking on main text \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
-\item{secondary_link}{Add a link for clicking on secondary header \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+\item{secondary_link}{Add a link for clicking on secondary
+header \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
 \item{logo_alt_text}{Add alternative text for the logo. Should be used when a
 logo is used}
 
 \item{main_alt_text}{Add alternative text for the main link. Should be used
-when a main link is used}
+when a main link is used \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
 \item{secondary_alt_text}{Add alternative text for the secondary link. Should
 be used when a secondary link is used \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}

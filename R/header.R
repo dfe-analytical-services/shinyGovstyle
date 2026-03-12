@@ -2,15 +2,16 @@
 #'
 #' This function create a header banner. For use at top of the screen
 #' @param main_text Main text that goes in the header
-#' @param secondary_text Secondary header to supplement the main text `r lifecycle::badge("deprecated")`
+#' @param secondary_text Secondary header to supplement the main text the main text
 #' @param logo Add a link to a logo which will apply in the header. Use crown to
 #' use the crown SVG version on GOV UK
-#' @param main_link Add a link for clicking on main text
-#' @param secondary_link Add a link for clicking on secondary header `r lifecycle::badge("deprecated")`
+#' @param main_link Add a link for clicking on main text `r lifecycle::badge("deprecated")`
+#' @param secondary_link Add a link for clicking on secondary
+#' header `r lifecycle::badge("deprecated")`
 #' @param logo_alt_text Add alternative text for the logo. Should be used when a
 #' logo is used
 #' @param main_alt_text Add alternative text for the main link. Should be used
-#' when a main link is used
+#' when a main link is used `r lifecycle::badge("deprecated")`
 #' @param secondary_alt_text Add alternative text for the secondary link. Should
 #' be used when a secondary link is used `r lifecycle::badge("deprecated")`
 #' @param logo_width Change the logo size width CSS to improve fit
@@ -54,13 +55,22 @@ header <- function(
     )
   }
 
-  if (!missing("secondary_text")) {
+  if (!missing("main_link")) {
     lifecycle::deprecate_warn(
       when = "0.2.0",
-      what = "header(secondary_text)",
-      details = "secondary_text will be dropped in v1.0.0"
+      what = "header(main_link)",
+      details = "main_link will be dropped in v1.0.0"
     )
   }
+
+  if (!missing("main_alt_text")) {
+    lifecycle::deprecate_warn(
+      when = "0.2.0",
+      what = "header(main_link)",
+      details = "main_link will be dropped in v1.0.0"
+    )
+  }
+
 
   if (!missing("secondary_alt_text")) {
     lifecycle::deprecate_warn(
@@ -164,14 +174,19 @@ header <- function(
                 alt_text = logo_alt_text
               )
             },
-            shiny::tags$span(main_text, class = "govuk-header__product-name")
+            shiny::tags$span(main_text,class = "govuk-header__product-name")
+
+          ),
+          shiny::tags$span(
+            secondary_text,
+            class = "govuk-header__content govuk-header__product-name"
           )
+
         )
       ),
-      shiny::tags$div(
-        class = "govuk-header__content"
+
       )
     )
-  )
+
   attachDependency(gov_header)
 }

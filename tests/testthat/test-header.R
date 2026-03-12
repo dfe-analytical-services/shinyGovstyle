@@ -1,13 +1,13 @@
 test_that("secondary_text is deprecated", {
   rlang::local_options(lifecycle_verbosity = "error")
-  expect_error(header(secondary_text = "test text"), class = "defunctError")
+  expect_error(header(secondary_link = "test text"), class = "defunctError")
 })
 
 
 test_that("function still runs if using deprecated argument", {
   rlang::local_options(lifecycle_verbosity = "quiet")
   expect_silent(
-    header(secondary_text = "test text")
+    header(secondary_link = "test text")
   )
 })
 

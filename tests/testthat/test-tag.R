@@ -28,8 +28,8 @@ test_that("deprecated colours are warned against", {
     paste(
       "'light-blue' is no longer a supported colour.
         Please select an alternative from:
-       'navy', 'grey', 'purple', 'turquoise', 'blue', 'yellow',
-        'orange', 'red', 'pink', or 'green'."
+       'navy', 'grey', 'purple', 'teal', 'blue', 'yellow',
+        'orange', 'red', 'magenta', or 'green'."
     )
   )
 })

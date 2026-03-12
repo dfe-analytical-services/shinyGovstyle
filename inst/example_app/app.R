@@ -17,8 +17,10 @@ ui <- bslib::page_fluid(
   shinyGovstyle::full_width_overrides(), # TODO: remove when built in
 
   shinyGovstyle::skip_to_main(),
-  header(main_text = "Department for Education",
-         secondary_text = "shinyGovstyle showcase app"),
+  header(
+    main_text = "Department for Education",
+    secondary_text = "shinyGovstyle showcase app"
+  ),
   banner(
     "banner",
     "Beta",

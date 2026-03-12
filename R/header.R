@@ -71,7 +71,6 @@ header <- function(
     )
   }
 
-
   if (!missing("secondary_alt_text")) {
     lifecycle::deprecate_warn(
       when = "0.2.0",
@@ -174,19 +173,16 @@ header <- function(
                 alt_text = logo_alt_text
               )
             },
-            shiny::tags$span(main_text,class = "govuk-header__product-name")
-
+            shiny::tags$span(main_text, class = "govuk-header__product-name")
           ),
           shiny::tags$span(
             secondary_text,
             class = "govuk-header__content govuk-header__product-name"
           )
-
         )
       ),
-
-      )
     )
+  )
 
   attachDependency(gov_header)
 }

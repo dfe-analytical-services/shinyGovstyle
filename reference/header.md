@@ -6,16 +6,16 @@ This function create a header banner. For use at top of the screen
 
 ``` r
 header(
-  main_text,
-  secondary_text,
-  logo = NULL,
-  main_link = "#",
-  secondary_link = "#",
-  logo_alt_text = NULL,
+  main_text = "Shiny example app",
+  secondary_text = NULL,
+  logo = "shinyGovstyle/images/Dept_logo.svg",
+  main_link = NULL,
+  secondary_link = NULL,
+  logo_alt_text = "Departmental logo",
   main_alt_text = NULL,
   secondary_alt_text = NULL,
-  logo_width = 36,
-  logo_height = 32
+  logo_width = 66,
+  logo_height = 34
 )
 ```
 
@@ -27,7 +27,7 @@ header(
 
 - secondary_text:
 
-  Secondary header to supplement the main text
+  Secondary header to supplement the main text the main text
 
 - logo:
 
@@ -36,11 +36,11 @@ header(
 
 - main_link:
 
-  Add a link for clicking on main text
+  Add a link for clicking on main text **\[deprecated\]**
 
 - secondary_link:
 
-  Add a link for clicking on secondary header
+  Add a link for clicking on secondary header **\[deprecated\]**
 
 - logo_alt_text:
 
@@ -49,12 +49,12 @@ header(
 - main_alt_text:
 
   Add alternative text for the main link. Should be used when a main
-  link is used
+  link is used **\[deprecated\]**
 
 - secondary_alt_text:
 
   Add alternative text for the secondary link. Should be used when a
-  secondary link is used
+  secondary link is used **\[deprecated\]**
 
 - logo_width:
 

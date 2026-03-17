@@ -46,19 +46,6 @@ color: #0b0c0c;</code></pre>
 <pre><code>.js-enabled .govuk-accordion__section-toggle {
   pointer-events: none;
 }</code></pre>
-<ul><li>Change filepaths for crown copyright logo:</li>
-</ul><pre><code>.govuk-footer__copyright-logo {
-    display: inline-block;
-    min-width: 125px;
-    padding-top: 112px;
-    background-image: url(../images/govuk-crest.svg);
-    background-repeat: no-repeat;
-    background-position: 50% 0;
-    background-size: 125px 102px;
-    text-align: center;
-    white-space: nowrap
-}
-</code></pre>
 <ul><li>Fix alignment on the radio button item labels</li>
 </ul><pre><code>.govuk-radios__input {
     z-index: 1;
@@ -80,14 +67,15 @@ color: #0b0c0c;</code></pre>
 }</code></pre>
 <ul><li>Fix selected tab panel border gap</li>
 </ul><pre><code>.govuk-frontend-supported .govuk-tabs__list-item--selected {
-    position: relative;
-    margin-top: -5px;
-    margin-bottom: -2px;
-    padding: 14px 19px 16px;
-    border: 1px solid #b1b4b6;
-    border-bottom: none;
-    background-color: #fff
-}</code></pre>
+        position: relative;
+        margin-top: -5px;
+        margin-bottom: -2px;
+        padding: 14px 19px 16px;
+        border: 1px solid #b1b4b6;
+        border-bottom: 0;
+        border-color: var(--govuk-border-colour, #cecece);
+        background-color: var(--govuk-body-background-colour, #fff)
+    }</code></pre>
 <ul><li>govTable caption colour:</li>
 </ul><pre><code>.govuk-table__caption {
     font-weight: 700;
@@ -174,7 +162,7 @@ color: #0b0c0c;</code></pre>
     text-decoration-skip-ink: none;
     -webkit-text-decoration-skip: none;
     text-decoration-skip: none;
-    color: #003078
+    color: #0f385c
 }</code></pre>
 <ul><li>skip link</li>
 </ul><pre><code>/*Skip link*/
@@ -278,6 +266,19 @@ color: #0b0c0c;</code></pre>
 }
 
 </code></pre>
+<ul><li>Add back blue tag colour - removed as default</li>
+</ul><pre><code>.govuk-tag--blue {
+    color: #0f385c;
+    background-color: #d2e2f1
+}
+</code></pre>
+<ul><li>Add header content title back in</li>
+</ul><pre><code>/* Add header content back in--------------------------------- */
+.govuk-header__content{
+  width: 66.66%;
+  padding-left: 15px;
+  float: right
+}</code></pre>
 
 
   </main></div>

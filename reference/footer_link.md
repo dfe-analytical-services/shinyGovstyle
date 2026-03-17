@@ -30,16 +30,12 @@ HTML tag list item
 # Internal (i.e. within dashboard) link
 shinyGovstyle:::footer_link("Cookie statement")
 #> <li class="govuk-footer__inline-list-item">
-#>   <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookie_statement">
-#>     <span class="action-label">Cookie statement</span>
-#>   </a>
+#>   <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookie_statement"><span class="action-label">Cookie statement</span></a>
 #> </li>
 # Named internal link
 shinyGovstyle:::footer_link("cookie_statement", "Cookies")
 #> <li class="govuk-footer__inline-list-item">
-#>   <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookie_statement">
-#>     <span class="action-label">Cookies</span>
-#>   </a>
+#>   <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookie_statement"><span class="action-label">Cookies</span></a>
 #> </li>
 # External link
 shinyGovstyle:::footer_link(

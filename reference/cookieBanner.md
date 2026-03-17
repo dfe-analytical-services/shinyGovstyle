@@ -45,7 +45,6 @@ ui <- shiny::fluidPage(
   shinyGovstyle::gov_layout(size = "two-thirds"),
   shinyGovstyle::footer(full = TRUE)
 )
-#> Warning: Please use logo_alt_text to provide alternative text for the logo you used.
 
 server <- function(input, output, session) {
   # Set of observeEvent to create a path through the cookie banner

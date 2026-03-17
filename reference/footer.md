@@ -81,14 +81,10 @@ footer(links = c("Accessibility statement", "Cookies"))
 #>           <h2 class="govuk-visually-hidden">Support links</h2>
 #>           <ul class="govuk-footer__inline-list">
 #>             <li class="govuk-footer__inline-list-item">
-#>               <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="accessibility_statement">
-#>                 <span class="action-label">Accessibility statement</span>
-#>               </a>
+#>               <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="accessibility_statement"><span class="action-label">Accessibility statement</span></a>
 #>             </li>
 #>             <li class="govuk-footer__inline-list-item">
-#>               <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookies">
-#>                 <span class="action-label">Cookies</span>
-#>               </a>
+#>               <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookies"><span class="action-label">Cookies</span></a>
 #>             </li>
 #>           </ul>
 #>         </div>
@@ -114,14 +110,10 @@ footer(
 #>           <h2 class="govuk-visually-hidden">Support links</h2>
 #>           <ul class="govuk-footer__inline-list">
 #>             <li class="govuk-footer__inline-list-item">
-#>               <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="accessibility_statement">
-#>                 <span class="action-label">Accessibility statement</span>
-#>               </a>
+#>               <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="accessibility_statement"><span class="action-label">Accessibility statement</span></a>
 #>             </li>
 #>             <li class="govuk-footer__inline-list-item">
-#>               <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookies">
-#>                 <span class="action-label">Cookies</span>
-#>               </a>
+#>               <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookies"><span class="action-label">Cookies</span></a>
 #>             </li>
 #>             <li class="govuk-footer__inline-list-item"><a href="https://www.gov.uk/government/organisations/government-digital-service" class="govuk-link govuk-footer__link" target="_blank" rel="noopener noreferrer">Government Digital Service<span class="sr-only"> (opens in new tab)</span></a></li>
 #>           </ul>

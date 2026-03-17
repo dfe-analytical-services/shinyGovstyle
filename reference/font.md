@@ -29,7 +29,6 @@ ui <- shiny::fluidPage(
     secondary_text = "User Examples",
     logo="shinyGovstyle/images/moj_logo.png")
 )
-#> Warning: Please use logo_alt_text to provide alternative text for the logo you used.
 
 server <- function(input, output, session) {}
 

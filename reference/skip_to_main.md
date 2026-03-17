@@ -46,7 +46,6 @@ ui <- shiny::fluidPage(
     heading_text("Example heading"),
   )
 )
-#> Warning: Please use logo_alt_text to provide alternative text for the logo you used.
 
 server <- function(input, output, session){}
 

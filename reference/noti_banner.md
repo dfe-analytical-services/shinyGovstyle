@@ -61,7 +61,6 @@ ui <- shiny::fluidPage(
     inputId = "banner", title_txt = "Important", body_txt = "Example text"
   )
 )
-#> Warning: Please use logo_alt_text to provide alternative text for the logo you used.
 
 server <- function(input, output, session) {}
 

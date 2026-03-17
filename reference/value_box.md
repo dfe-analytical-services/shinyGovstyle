@@ -24,8 +24,8 @@ value_box(value = "your value goes here", text = NA, colour = "blue")
 - colour:
 
   Character. A colour to apply to the value box. Defaults to "blue".
-  Choose from the following: "grey", "purple", "turquoise", "blue",
-  "light-blue", "yellow", "orange", "red", "pink", or "green"
+  Choose from the following: "grey", "purple", "teal", "blue", "yellow",
+  "orange", "red", "magenta", or "green"
 
 ## Value
 

@@ -28,22 +28,6 @@ and adding this chunk to the accordion section of css:
       pointer-events: none;
     }
 
-- Change filepaths for crown copyright logo:
-
-&nbsp;
-
-    .govuk-footer__copyright-logo {
-        display: inline-block;
-        min-width: 125px;
-        padding-top: 112px;
-        background-image: url(../images/govuk-crest.svg);
-        background-repeat: no-repeat;
-        background-position: 50% 0;
-        background-size: 125px 102px;
-        text-align: center;
-        white-space: nowrap
-    }
-
 - Fix alignment on the radio button item labels
 
 &nbsp;
@@ -72,14 +56,15 @@ and adding this chunk to the accordion section of css:
 &nbsp;
 
     .govuk-frontend-supported .govuk-tabs__list-item--selected {
-        position: relative;
-        margin-top: -5px;
-        margin-bottom: -2px;
-        padding: 14px 19px 16px;
-        border: 1px solid #b1b4b6;
-        border-bottom: none;
-        background-color: #fff
-    }
+            position: relative;
+            margin-top: -5px;
+            margin-bottom: -2px;
+            padding: 14px 19px 16px;
+            border: 1px solid #b1b4b6;
+            border-bottom: 0;
+            border-color: var(--govuk-border-colour, #cecece);
+            background-color: var(--govuk-body-background-colour, #fff)
+        }
 
 - govTable caption colour:
 
@@ -179,7 +164,7 @@ and adding this chunk to the accordion section of css:
         text-decoration-skip-ink: none;
         -webkit-text-decoration-skip: none;
         text-decoration-skip: none;
-        color: #003078
+        color: #0f385c
     }
 
 - skip link
@@ -303,4 +288,24 @@ and adding this chunk to the accordion section of css:
     .rt-page-button:active {
         background: #fd0 !important;
         box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
+    }
+
+- Add back blue tag colour - removed as default
+
+&nbsp;
+
+    .govuk-tag--blue {
+        color: #0f385c;
+        background-color: #d2e2f1
+    }
+
+- Add header content title back in
+
+&nbsp;
+
+    /* Add header content back in--------------------------------- */
+    .govuk-header__content{
+      width: 66.66%;
+      padding-left: 15px;
+      float: right
     }

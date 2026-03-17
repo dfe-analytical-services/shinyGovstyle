@@ -21,7 +21,7 @@ tag_Input(inputId, text, colour = "navy")
 - colour:
 
   The colour of the tag. Default is navy. Other options are grey, green,
-  turquoise, blue, purple, pink, red, orange and yellow
+  teal, blue, purple, magenta, red, orange and yellow
 
 ## Value
 
@@ -55,7 +55,6 @@ ui <- shiny::fluidPage(
   ),
   shinyGovstyle::footer(full = TRUE)
 )
-#> Warning: Please use logo_alt_text to provide alternative text for the logo you used.
 
 server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)

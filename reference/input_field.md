@@ -89,7 +89,6 @@ ui <- shiny::fluidPage(
   ),
   shinyGovstyle::footer(full = TRUE)
 )
-#> Warning: Please use logo_alt_text to provide alternative text for the logo you used.
 
 server <- function(input, output, session) {
   # Trigger error on blank submit of field2

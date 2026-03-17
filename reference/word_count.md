@@ -60,7 +60,6 @@ ui <- shiny::fluidPage(
   ),
   footer(TRUE)
 )
-#> Warning: Please use logo_alt_text to provide alternative text for the logo you used.
 
 server <- function(input, output, session) {
   shiny::observeEvent(input$text_area,

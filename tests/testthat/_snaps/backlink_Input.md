@@ -3,7 +3,5 @@
     Code
       backlink_Input("backId")
     Output
-      <a class="action-button action-link govuk-back-link" href="#" id="backId">
-        <span class="action-label">Back</span>
-      </a>
+      <a class="action-button action-link govuk-back-link" href="#" id="backId"><span class="action-label">Back</span></a>
 

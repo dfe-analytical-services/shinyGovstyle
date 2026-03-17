@@ -11,14 +11,10 @@
                 <h2 class="govuk-visually-hidden">Support links</h2>
                 <ul class="govuk-footer__inline-list">
                   <li class="govuk-footer__inline-list-item">
-                    <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="accessibility_statement">
-                      <span class="action-label">Accessibility Statement</span>
-                    </a>
+                    <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="accessibility_statement"><span class="action-label">Accessibility Statement</span></a>
                   </li>
                   <li class="govuk-footer__inline-list-item">
-                    <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookies">
-                      <span class="action-label">Cookies</span>
-                    </a>
+                    <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookies"><span class="action-label">Cookies</span></a>
                   </li>
                 </ul>
               </div>
@@ -40,14 +36,10 @@
                 <h2 class="govuk-visually-hidden">Support links</h2>
                 <ul class="govuk-footer__inline-list">
                   <li class="govuk-footer__inline-list-item">
-                    <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="privacy_notice">
-                      <span class="action-label">Privacy Notice</span>
-                    </a>
+                    <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="privacy_notice"><span class="action-label">Privacy Notice</span></a>
                   </li>
                   <li class="govuk-footer__inline-list-item">
-                    <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookies">
-                      <span class="action-label">Cookies</span>
-                    </a>
+                    <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="cookies"><span class="action-label">Cookies</span></a>
                   </li>
                 </ul>
               </div>
@@ -80,9 +72,7 @@
                 <h2 class="govuk-visually-hidden">Support links</h2>
                 <ul class="govuk-footer__inline-list">
                   <li class="govuk-footer__inline-list-item">
-                    <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="privacy_notice_link">
-                      <span class="action-label">Privacy Notice</span>
-                    </a>
+                    <a class="action-button action-link govuk-link govuk-footer__link" href="#" id="privacy_notice_link"><span class="action-label">Privacy Notice</span></a>
                   </li>
                   <li class="govuk-footer__inline-list-item"><a href="https://github.com/dfe-analytical-services/shinyGovstyle" class="govuk-link govuk-footer__link" target="_blank" rel="noopener noreferrer">GitHub repository<span class="sr-only"> (opens in new tab)</span></a></li>
                 </ul>

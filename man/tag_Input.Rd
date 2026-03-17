@@ -12,7 +12,7 @@ tag_Input(inputId, text, colour = "navy")
 \item{text}{The text in the tag}
 
 \item{colour}{The colour of the tag. Default is navy. Other options are
-grey, green, turquoise, blue, purple, pink, red, orange and yellow}
+grey, green, teal, blue, purple, magenta, red, orange and yellow}
 }
 \value{
 a tag HTML shiny tag object

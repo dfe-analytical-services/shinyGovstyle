@@ -29,3 +29,16 @@ test_that("value_box default values work", {
     "value-box-container govuk-tag--blue"
   )
 })
+
+
+test_that("deprecated colours are warned against", {
+  expect_warning(
+    value_box("testId3", "Test Value", colour = "light-blue"),
+    paste(
+      "'light-blue' is no longer a supported colour.
+      Please select an alternative from:
+      'grey', 'purple', 'teal', 'blue', 'yellow',
+      'orange', 'red', 'magenta', or 'green'."
+    )
+  )
+})

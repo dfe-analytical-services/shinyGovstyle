@@ -18,11 +18,8 @@ ui <- bslib::page_fluid(
 
   shinyGovstyle::skip_to_main(),
   header(
-    "MoJ",
-    "shinyGovstyle showcase",
-    logo = "shinyGovstyle/images/moj_logo-1.png",
-    logo_width = 66,
-    logo_alt_text = "Ministry of Justice logo"
+    main_text = "Department for Education",
+    secondary_text = "shinyGovstyle showcase app"
   ),
   banner(
     "banner",
@@ -439,11 +436,10 @@ ui <- bslib::page_fluid(
             shinyGovstyle::tag_Input("tag1", "Default"),
             shinyGovstyle::tag_Input("tag2", "Grey", "grey"),
             shinyGovstyle::tag_Input("tag3", "Green", "green"),
-            shinyGovstyle::tag_Input("tag4", "Turquoise", "turquoise"),
+            shinyGovstyle::tag_Input("tag4", "Teal", "teal"),
             shinyGovstyle::tag_Input("tag5", "Blue", "blue"),
-            shinyGovstyle::tag_Input("tag6", "Light-blue", "light-blue"),
             shinyGovstyle::tag_Input("tag7", "Purple", "purple"),
-            shinyGovstyle::tag_Input("tag8", "Pink", "pink"),
+            shinyGovstyle::tag_Input("tag8", "Magenta", "magenta"),
             shinyGovstyle::tag_Input("tag9", "Red", "red"),
             shinyGovstyle::tag_Input("tag10", "Orange", "orange"),
             shinyGovstyle::tag_Input("tag11", "Yellow", "yellow"),

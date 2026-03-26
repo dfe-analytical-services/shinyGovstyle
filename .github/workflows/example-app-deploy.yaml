@@ -25,6 +25,7 @@ jobs:
         run: |
           if (!requireNamespace("pak", quietly = TRUE)) install.packages("pak")
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+          if (!requireNamespace("progress", quietly = TRUE)) install.packages("progress")   
           renv::install("shinyjs")
           renv::install("shinytest2")
           pak::pak("dfe-analytical-services/shinyGovstyle")

@@ -2,9 +2,10 @@
 // Service navigation JS
 
 // Set active state on navigation links when clicked
+// Scoped to links within the list to avoid matching the service name link
 $(document).on(
   "click",
-  ".govuk-service-navigation__link",
+  ".govuk-service-navigation__list .govuk-service-navigation__link",
   function () {
     var items = document.getElementsByClassName(
       "govuk-service-navigation__item"

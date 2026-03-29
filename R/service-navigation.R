@@ -73,48 +73,43 @@ service_navigation <- function(
     class = "govuk-service-navigation",
     `data-module` = "govuk-service-navigation",
     shiny::tags$div(
-      class = "govuk-service-navigation__container",
-      if (!is.null(service_name)) {
-        shiny::tags$span(
-          class = "govuk-service-navigation__service-name",
-          shiny::tags$a(
-            href = "#",
-            class = "govuk-service-navigation__link",
-            service_name
-          )
-        )
-      },
+      class = "govuk-width-container",
       shiny::tags$div(
-        class = "govuk-service-navigation",
-        `data-module` = "govuk-service-navigation",
-        shiny::tags$div(
-          class = "govuk-width-container",
-          shiny::tags$div(
-            class = "govuk-service-navigation__container",
-            shiny::tags$nav(
-              `aria-label` = "Menu",
-              class = "govuk-service-navigation__wrapper",
-              shiny::tags$button(
-                type = "button",
-                class = paste(
-                  "govuk-service-navigation__toggle",
-                  "govuk-js-service-navigation-toggle"
-                ),
-                `aria-controls` = "navigation",
-                hidden = TRUE,
-                "Menu"
-              ),
-              shiny::tags$ul(
-                class = "govuk-service-navigation__list",
-                id = "navigation",
-                mapply(
-                  service_nav_link,
-                  links,
-                  link_names,
-                  SIMPLIFY = FALSE,
-                  USE.NAMES = FALSE
-                )
-              )
+        class = "govuk-service-navigation__container",
+        if (!is.null(service_name)) {
+          shiny::tags$span(
+            class = paste(
+              "govuk-service-navigation__service-name"
+            ),
+            shiny::tags$a(
+              href = "#",
+              class = "govuk-service-navigation__link",
+              service_name
+            )
+          )
+        },
+        shiny::tags$nav(
+          `aria-label` = "Menu",
+          class = "govuk-service-navigation__wrapper",
+          shiny::tags$button(
+            type = "button",
+            class = paste(
+              "govuk-service-navigation__toggle",
+              "govuk-js-service-navigation-toggle"
+            ),
+            `aria-controls` = "navigation",
+            hidden = TRUE,
+            "Menu"
+          ),
+          shiny::tags$ul(
+            class = "govuk-service-navigation__list",
+            id = "navigation",
+            mapply(
+              service_nav_link,
+              links,
+              link_names,
+              SIMPLIFY = FALSE,
+              USE.NAMES = FALSE
             )
           )
         )

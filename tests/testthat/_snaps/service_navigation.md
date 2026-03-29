@@ -10,13 +10,13 @@
               <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden="TRUE">Menu</button>
               <ul class="govuk-service-navigation__list" id="navigation">
                 <li class="govuk-service-navigation__item">
-                  <a class="action-button govuk-service-navigation__link" href="#" id="page_1">Page 1</a>
+                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="page_1"><span class="action-label">Page 1</span></a>
                 </li>
                 <li class="govuk-service-navigation__item">
-                  <a class="action-button govuk-service-navigation__link" href="#" id="page_2">Page 2</a>
+                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="page_2"><span class="action-label">Page 2</span></a>
                 </li>
                 <li class="govuk-service-navigation__item">
-                  <a class="action-button govuk-service-navigation__link" href="#" id="page_3">Page 3</a>
+                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="page_3"><span class="action-label">Page 3</span></a>
                 </li>
               </ul>
             </nav>
@@ -40,13 +40,13 @@
               <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden="TRUE">Menu</button>
               <ul class="govuk-service-navigation__list" id="navigation">
                 <li class="govuk-service-navigation__item">
-                  <a class="action-button govuk-service-navigation__link" href="#" id="p1">Page 1</a>
+                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="p1"><span class="action-label">Page 1</span></a>
                 </li>
                 <li class="govuk-service-navigation__item">
-                  <a class="action-button govuk-service-navigation__link" href="#" id="p2">Page 2</a>
+                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="p2"><span class="action-label">Page 2</span></a>
                 </li>
                 <li class="govuk-service-navigation__item">
-                  <a class="action-button govuk-service-navigation__link" href="#" id="p3">Page 3</a>
+                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="p3"><span class="action-label">Page 3</span></a>
                 </li>
               </ul>
             </nav>
@@ -66,7 +66,7 @@
               <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden="TRUE">Menu</button>
               <ul class="govuk-service-navigation__list" id="navigation">
                 <li class="govuk-service-navigation__item">
-                  <a class="action-button govuk-service-navigation__link" href="#" id="solo_page">Solo page</a>
+                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="solo_page"><span class="action-label">Solo page</span></a>
                 </li>
               </ul>
             </nav>

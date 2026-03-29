@@ -39,21 +39,38 @@ $(document).ready(function () {
 
   if (!toggle || !navList) return;
 
-  function initMobileNav() {
-    if (window.innerWidth < MOBILE_BREAKPOINT) {
+  var wasMobile = false;
+
+  function updateNavForViewport() {
+    var isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+
+    if (isMobile && !wasMobile) {
+      // Entering mobile: show toggle, collapse menu
       toggle.removeAttribute("hidden");
       toggle.setAttribute("aria-expanded", "false");
       navList.setAttribute("hidden", "");
-    } else {
+    } else if (!isMobile && wasMobile) {
+      // Entering desktop: hide toggle, show full list
       toggle.setAttribute("hidden", "");
       navList.removeAttribute("hidden");
     }
+
+    wasMobile = isMobile;
   }
 
-  initMobileNav();
+  // Set initial state
+  wasMobile = window.innerWidth < MOBILE_BREAKPOINT;
+  if (wasMobile) {
+    toggle.removeAttribute("hidden");
+    toggle.setAttribute("aria-expanded", "false");
+    navList.setAttribute("hidden", "");
+  } else {
+    toggle.setAttribute("hidden", "");
+    navList.removeAttribute("hidden");
+  }
 
   $(window).on("resize", function () {
-    initMobileNav();
+    updateNavForViewport();
   });
 
   $(toggle).on("click", function () {

@@ -16,38 +16,45 @@
 #' @export
 #'
 #' @examples
-#'   ui <- shiny::fluidPage(
-#'     shinyGovstyle::header("Title", "Secondary heading"),
-#'     shinyGovstyle::service_navigation(
-#'        c("Summary data", "Detailed stats 1", "User guide")
-#'     ),
-#'     bslib::navset_hidden(
-#'        id = "main_panels",
-#'        bslib::nav_panel(
-#'          "summary_data",
-#'          shiny::tags$h2("Summary data")
-#'        ),
-#'        bslib::nav_panel(
-#'          "detailed_stats_1",
-#'          shiny::tags$h2("Detailed stats 1")
-#'        ),
-#'        bslib::nav_panel(
-#'          "user_guide",
-#'          shiny::tags$h2("User guide")
-#'        )
+#' ui <- shiny::fluidPage(
+#'   shinyGovstyle::header("Title", "Secondary heading"),
+#'   shinyGovstyle::service_navigation(
+#'      c("Summary data", "Detailed stats 1", "User guide")
+#'   ),
+#'   bslib::navset_hidden(
+#'      id = "main_panels",
+#'      bslib::nav_panel(
+#'        "summary_data",
+#'        shiny::tags$h2("Summary data")
 #'      ),
-#'      shinyGovstyle::footer(full = TRUE)
+#'      bslib::nav_panel(
+#'        "detailed_stats_1",
+#'        shiny::tags$h2("Detailed stats 1")
+#'      ),
+#'      bslib::nav_panel(
+#'        "user_guide",
+#'        shiny::tags$h2("User guide")
+#'      )
+#'    ),
+#'    shinyGovstyle::footer(full = TRUE)
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   observeEvent(
+#'     input$summary_data,
+#'     bslib::nav_select("main_panels", "summary_data")
 #'   )
-#'
-#'   server <- function(input, output, session) {
-#'       observeEvent(input$summary_data, bslib::nav_select("main_panels", "summary_data"))
-#'       observeEvent(input$detailed_stats_1, bslib::nav_select("main_panels", "detailed_stats_1"))
-#'       observeEvent(input$user_guide, bslib::nav_select("main_panels", "user_guide"))
-#'   }
-#'
-#' if (interactive()) {
-#'   shiny::shinyApp(ui = ui, server = server)
+#'   observeEvent(
+#'     input$detailed_stats_1,
+#'     bslib::nav_select("main_panels", "detailed_stats_1")
+#'   )
+#'   observeEvent(
+#'     input$user_guide,
+#'     bslib::nav_select("main_panels", "user_guide")
+#'   )
 #' }
+#'
+#' if (interactive()) shiny::shinyApp(ui = ui, server = server)
 service_navigation <- function(
   links,
   service_name = NULL

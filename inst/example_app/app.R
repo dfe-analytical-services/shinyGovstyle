@@ -51,11 +51,8 @@ ui <- bslib::page_fluid(
 
   shinyGovstyle::skip_to_main(),
   header(
-    "MoJ",
-    "shinyGovstyle showcase",
-    logo = "shinyGovstyle/images/moj_logo-1.png",
-    logo_width = 66,
-    logo_alt_text = "Ministry of Justice logo"
+    main_text = "Department for Education",
+    secondary_text = "shinyGovstyle showcase app"
   ),
   banner(
     "banner",

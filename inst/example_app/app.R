@@ -14,7 +14,9 @@ ui <- bslib::page_fluid(
 
   shiny::tags$head(shiny::HTML("<html lang='en'>")),
 
-  shiny::tags$style(shiny::HTML("
+  # Set custon classes to handle having both service nav and contents links
+  shiny::tags$style(shiny::HTML(
+    "
     body.service-nav-active #nav {
       display: none !important;
     }
@@ -42,7 +44,8 @@ ui <- bslib::page_fluid(
     body.service-nav-active #feedback_types_next {
       display: none !important;
     }
-  ")),
+  "
+  )),
 
   shinyGovstyle::full_width_overrides(), # TODO: remove when built in
 
@@ -711,41 +714,77 @@ server <- function(input, output, session) {
   })
 
   # Service navigation link observers
-  shiny::observeEvent(input$sn_select_types, {
-    shiny::updateTabsetPanel(
-      session, "tab-container", selected = "select_types"
-    )
-  }, ignoreInit = TRUE)
+  shiny::observeEvent(
+    input$sn_select_types,
+    {
+      shiny::updateTabsetPanel(
+        session,
+        "tab-container",
+        selected = "select_types"
+      )
+    },
+    ignoreInit = TRUE
+  )
 
-  shiny::observeEvent(input$sn_text_types, {
-    shiny::updateTabsetPanel(
-      session, "tab-container", selected = "text_types"
-    )
-  }, ignoreInit = TRUE)
+  shiny::observeEvent(
+    input$sn_text_types,
+    {
+      shiny::updateTabsetPanel(
+        session,
+        "tab-container",
+        selected = "text_types"
+      )
+    },
+    ignoreInit = TRUE
+  )
 
-  shiny::observeEvent(input$sn_action_types, {
-    shiny::updateTabsetPanel(
-      session, "tab-container", selected = "action_types"
-    )
-  }, ignoreInit = TRUE)
+  shiny::observeEvent(
+    input$sn_action_types,
+    {
+      shiny::updateTabsetPanel(
+        session,
+        "tab-container",
+        selected = "action_types"
+      )
+    },
+    ignoreInit = TRUE
+  )
 
-  shiny::observeEvent(input$sn_tables_tabs, {
-    shiny::updateTabsetPanel(
-      session, "tab-container", selected = "tables_tabs_and_accordions"
-    )
-  }, ignoreInit = TRUE)
+  shiny::observeEvent(
+    input$sn_tables_tabs,
+    {
+      shiny::updateTabsetPanel(
+        session,
+        "tab-container",
+        selected = "tables_tabs_and_accordions"
+      )
+    },
+    ignoreInit = TRUE
+  )
 
-  shiny::observeEvent(input$sn_feedback_types, {
-    shiny::updateTabsetPanel(
-      session, "tab-container", selected = "feedback_types"
-    )
-  }, ignoreInit = TRUE)
+  shiny::observeEvent(
+    input$sn_feedback_types,
+    {
+      shiny::updateTabsetPanel(
+        session,
+        "tab-container",
+        selected = "feedback_types"
+      )
+    },
+    ignoreInit = TRUE
+  )
 
-  shiny::observeEvent(input$sn_cookies, {
-    shiny::updateTabsetPanel(
-      session, "tab-container", selected = "panel-cookies"
-    )
-  }, ignoreInit = TRUE)
+  shiny::observeEvent(
+    input$sn_cookies,
+    {
+      shiny::updateTabsetPanel(
+        session,
+        "tab-container",
+        selected = "panel-cookies"
+      )
+    },
+    ignoreInit = TRUE
+  )
 
   # Need this to use live update the word counter
   shiny::observeEvent(

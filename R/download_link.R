@@ -160,5 +160,5 @@ download_link <- function(
   )
 
   # Return the link with the CSS attached
-  return(htmltools::attachDependencies(link, dependency, append = TRUE))
+  htmltools::attachDependencies(link, dependency, append = TRUE)
 }

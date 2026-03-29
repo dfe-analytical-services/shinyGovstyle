@@ -122,5 +122,5 @@ create_rows <- function(df_row, num_col = NULL) {
         "govuk-table__cell govuk-table__cell--numeric"
     }
   }
-  return(row_html)
+  row_html
 }

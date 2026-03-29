@@ -4,6 +4,12 @@
 #' Service navigation component consistent with the
 #' [GDS service navigation](https://design-system.service.gov.uk/components/service-navigation/).
 #'
+#' **Note:** This component uses a hardcoded element ID
+#' for the navigation list and mobile menu toggle. Using
+#' multiple `service_navigation()` instances on the same
+#' page will cause ID conflicts and the mobile menu toggle
+#' may not work correctly.
+#'
 #' @param links A vector of actionLinks to be added to the
 #' service navigation. inputIDs are auto-generated and are
 #' the snake case version of the link text, e.g.

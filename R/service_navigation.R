@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Service navigation component consistent with the
-#' [GDS service navigation](https://design-system.service.gov.uk/components/service-navigation/).
+#' [GDS service navigation](https://design-system.service.gov.uk/components/service-navigation/). # nolint
 #'
 #' **Note:** This component uses a hardcoded element ID
 #' for the navigation list and mobile menu toggle. Using
@@ -125,7 +125,7 @@ service_navigation <- function(
       )
     )
   )
-  attachDependency(navigation, "service_navigation")
+  attachDependency(navigation, "service_navigation") # nolint
 }
 
 

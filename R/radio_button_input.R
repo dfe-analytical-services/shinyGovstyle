@@ -274,10 +274,10 @@ normalizeChoicesArgs2 <- # nolint
       choiceNames <- names(choices) # nolint
       choiceValues <- unname(choices) # nolint
     }
-    return(list(
+    list(
       choiceNames = as.list(choiceNames),
       choiceValues = as.list(as.character(choiceValues))
-    ))
+    )
   }
 
 

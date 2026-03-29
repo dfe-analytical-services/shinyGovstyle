@@ -166,10 +166,10 @@ govReactableOutput <- # nolint
       )
     )
 
-    return(htmltools::div(
+    htmltools::div(
       heading_tag,
       reactable::reactableOutput(output_table_name)
-    ))
+    )
   }
 
 # use renderReactable to render the govTables - naming just for convention

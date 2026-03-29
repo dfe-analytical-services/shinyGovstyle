@@ -22,6 +22,7 @@
 #' navigation bar
 #'
 #' @returns Shiny tag object
+#' @family Govstyle navigation
 #' @export
 #'
 #' @examples

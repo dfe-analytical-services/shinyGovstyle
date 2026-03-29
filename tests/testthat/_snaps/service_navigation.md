@@ -54,3 +54,23 @@
         </div>
       </section>
 
+# service_navigation works with a single link
+
+    Code
+      service_navigation(links = "Solo page")
+    Output
+      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+        <div class="govuk-width-container">
+          <div class="govuk-service-navigation__container">
+            <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+              <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden="TRUE">Menu</button>
+              <ul class="govuk-service-navigation__list" id="navigation">
+                <li class="govuk-service-navigation__item">
+                  <a class="action-button govuk-service-navigation__link" href="#" id="solo_page">Solo page</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </section>
+

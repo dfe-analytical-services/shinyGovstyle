@@ -68,6 +68,9 @@ service_navigation <- function(
   links,
   service_name = NULL
 ) {
+  if (is.null(links) || length(links) == 0) {
+    stop("links must be a non-empty character vector")
+  }
   if (is.null(names(links))) {
     link_names <- links
   } else {

@@ -14,6 +14,36 @@ ui <- bslib::page_fluid(
 
   shiny::tags$head(shiny::HTML("<html lang='en'>")),
 
+  shiny::tags$style(shiny::HTML("
+    body.service-nav-active #nav {
+      display: none !important;
+    }
+    body.service-nav-active .bslib-grid {
+      grid-template-columns: 1fr !important;
+      column-gap: 0 !important;
+    }
+    #service-nav-container {
+      display: none;
+    }
+    body.service-nav-active #service-nav-container {
+      display: block;
+    }
+    /* Hide back links and navigation buttons in service nav mode */
+    body.service-nav-active .govuk-back-link {
+      display: none !important;
+    }
+    body.service-nav-active #select_types_back,
+    body.service-nav-active #text_types_back,
+    body.service-nav-active #action_types_back,
+    body.service-nav-active #tables_tabs_and_accordions_back,
+    body.service-nav-active #text_types_next,
+    body.service-nav-active #action_types_next,
+    body.service-nav-active #tables_tabs_and_accordions_next,
+    body.service-nav-active #feedback_types_next {
+      display: none !important;
+    }
+  ")),
+
   shinyGovstyle::full_width_overrides(), # TODO: remove when built in
 
   shinyGovstyle::skip_to_main(),
@@ -31,6 +61,20 @@ ui <- bslib::page_fluid(
       'This is a new service \u002D your <a class="govuk-link" href=',
       '"https://github.com/dfe-analytical-services/shinyGovstyle/issues/new',
       '/choose">feedback</a> will help us to improve it.'
+    )
+  ),
+
+  shiny::tags$div(
+    id = "service-nav-container",
+    shinyGovstyle::service_navigation(
+      c(
+        "Select Types" = "sn_select_types",
+        "Text Types" = "sn_text_types",
+        "Action Types" = "sn_action_types",
+        "Tables, tabs and accordions" = "sn_tables_tabs",
+        "Feedback types" = "sn_feedback_types",
+        "Cookies" = "sn_cookies"
+      )
     )
   ),
 
@@ -130,24 +174,27 @@ ui <- bslib::page_fluid(
     ## Main content ===========================================================
     gov_main_layout(
       inputId = "main_col", # TODO
-      shinyGovstyle::gov_text(
-        "This example app showcases the components available in the",
-        "latest development version of the shinyGovstyle package.",
-        "The source code for the app can be found on the ",
-        shinyGovstyle::external_link(
-          href = paste0(
-            "https://github.com/dfe-analytical-services/shinyGovstyle/",
-            "blob/main/inst/example_app/app.R"
+      gov_layout(
+        size = "two-thirds",
+        shinyGovstyle::gov_text(
+          "This example app showcases the components available in the",
+          "latest development version of the shinyGovstyle package.",
+          "The source code for the app can be found on the ",
+          shinyGovstyle::external_link(
+            href = paste0(
+              "https://github.com/dfe-analytical-services/shinyGovstyle/",
+              "blob/main/inst/example_app/app.R"
+            ),
+            link_text = "main GitHub branch"
           ),
-          link_text = "main GitHub branch"
-        ),
-        ". The page layout has some custom CSS overrides is still being",
-        " developed to work with the ",
-        shinyGovstyle::external_link(
-          href = "https://rstudio.github.io/bslib/",
-          link_text = "bslib package"
-        ),
-        " and may change in future releases."
+          ". The page layout has some custom CSS overrides is still being",
+          " developed to work with the ",
+          shinyGovstyle::external_link(
+            href = "https://rstudio.github.io/bslib/",
+            link_text = "bslib package"
+          ),
+          " and may change in future releases."
+        )
       ),
       # Set up a nav panel so everything not on single page
       shiny::tabsetPanel(
@@ -550,7 +597,8 @@ ui <- bslib::page_fluid(
       `Cookies` = "cookies_footer_link",
       `GitHub repository` = paste(
         "https://github.com/dfe-analytical-services/shinyGovstyle"
-      )
+      ),
+      `Switch to service navigation` = "nav_toggle"
     )
   )
 ) # end of fluidPage
@@ -646,6 +694,58 @@ server <- function(input, output, session) {
     },
     ignoreInit = TRUE
   )
+
+  # Navigation style toggle ===================================================
+  nav_mode <- shiny::reactiveVal("contents")
+
+  shiny::observeEvent(input$nav_toggle, {
+    if (nav_mode() == "contents") {
+      nav_mode("service")
+      shinyjs::addClass(selector = "body", class = "service-nav-active")
+      shinyjs::html("nav_toggle", "Switch to contents links")
+    } else {
+      nav_mode("contents")
+      shinyjs::removeClass(selector = "body", class = "service-nav-active")
+      shinyjs::html("nav_toggle", "Switch to service navigation")
+    }
+  })
+
+  # Service navigation link observers
+  shiny::observeEvent(input$sn_select_types, {
+    shiny::updateTabsetPanel(
+      session, "tab-container", selected = "select_types"
+    )
+  }, ignoreInit = TRUE)
+
+  shiny::observeEvent(input$sn_text_types, {
+    shiny::updateTabsetPanel(
+      session, "tab-container", selected = "text_types"
+    )
+  }, ignoreInit = TRUE)
+
+  shiny::observeEvent(input$sn_action_types, {
+    shiny::updateTabsetPanel(
+      session, "tab-container", selected = "action_types"
+    )
+  }, ignoreInit = TRUE)
+
+  shiny::observeEvent(input$sn_tables_tabs, {
+    shiny::updateTabsetPanel(
+      session, "tab-container", selected = "tables_tabs_and_accordions"
+    )
+  }, ignoreInit = TRUE)
+
+  shiny::observeEvent(input$sn_feedback_types, {
+    shiny::updateTabsetPanel(
+      session, "tab-container", selected = "feedback_types"
+    )
+  }, ignoreInit = TRUE)
+
+  shiny::observeEvent(input$sn_cookies, {
+    shiny::updateTabsetPanel(
+      session, "tab-container", selected = "panel-cookies"
+    )
+  }, ignoreInit = TRUE)
 
   # Need this to use live update the word counter
   shiny::observeEvent(

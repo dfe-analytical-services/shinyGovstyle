@@ -4,13 +4,16 @@
 #' Service navigation component consistent with the
 #' [GDS service navigation](https://design-system.service.gov.uk/components/service-navigation/).
 #'
-#' @param links A vector of actionLinks to be added to the service navigation.
-#' inputIDs are auto-generated and are the snake case version of the link text, e.g.
-#' "Overview page" will have an inputID of overview_page. Can also be provided as a named
-#' vector, in which case the vector names will be used as the page titles and the vector values
-#' will be used as the individual inputIDs.
-#' @param service_name An optional character string containing the service name to be displayed
-#' in the navigation bar
+#' @param links A vector of actionLinks to be added to the
+#' service navigation. inputIDs are auto-generated and are
+#' the snake case version of the link text, e.g.
+#' "Overview page" will have an inputID of overview_page.
+#' Can also be provided as a named vector, in which case
+#' the vector names will be used as the page titles and the
+#' vector values will be used as the individual inputIDs.
+#' @param service_name An optional character string
+#' containing the service name to be displayed in the
+#' navigation bar
 #'
 #' @returns Shiny tag object
 #' @export
@@ -93,7 +96,10 @@ service_navigation <- function(
               class = "govuk-service-navigation__wrapper",
               shiny::tags$button(
                 type = "button",
-                class = "govuk-service-navigation__toggle govuk-js-service-navigation-toggle",
+                class = paste(
+                  "govuk-service-navigation__toggle",
+                  "govuk-js-service-navigation-toggle"
+                ),
                 `aria-controls` = "navigation",
                 hidden = TRUE,
                 "Menu"

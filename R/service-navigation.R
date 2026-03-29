@@ -121,7 +121,7 @@ service_navigation <- function(
       )
     )
   )
-  attachDependency(navigation)
+  attachDependency(navigation, "service_navigation")
 }
 
 

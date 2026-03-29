@@ -27,6 +27,7 @@
 #' of KB, MB, GB or rows
 #'
 #' @returns shiny tag object
+#' @family Govstyle actions
 #' @export
 #'
 #' @examples
@@ -159,5 +160,5 @@ download_link <- function(
   )
 
   # Return the link with the CSS attached
-  return(htmltools::attachDependencies(link, dependency, append = TRUE))
+  htmltools::attachDependencies(link, dependency, append = TRUE)
 }

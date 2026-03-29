@@ -14,6 +14,7 @@
 #' Default is `NULL`
 #' @return a table HTML shiny tag object
 #' @keywords table
+#' @family Govstyle tables, tabs, and accordions
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
@@ -121,5 +122,5 @@ create_rows <- function(df_row, num_col = NULL) {
         "govuk-table__cell govuk-table__cell--numeric"
     }
   }
-  return(row_html)
+  row_html
 }

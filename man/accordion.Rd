@@ -55,4 +55,12 @@ server <- function(input, output, session) {}
 
 if (interactive()) shiny::shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle tables, tabs, and accordions: 
+\code{\link{govReactable}()},
+\code{\link{govReactable-shiny}},
+\code{\link{govTable}()},
+\code{\link{govTabs}()}
+}
+\concept{Govstyle tables, tabs, and accordions}
 \keyword{accordion}

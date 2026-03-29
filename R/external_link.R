@@ -55,6 +55,7 @@
 #' @param footer Apply standard GDS footer CSS styling. Logical,
 #' default = FALSE
 #' @return shiny tag object
+#' @family Govstyle actions
 #' @export
 #'
 #' @examples
@@ -200,5 +201,5 @@ external_link <- function(
   )
 
   # Return the link with the CSS attached
-  return(htmltools::attachDependencies(link, dependency, append = TRUE))
+  htmltools::attachDependencies(link, dependency, append = TRUE)
 }

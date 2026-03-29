@@ -4,9 +4,10 @@
 #' @param inputId The Id to access the tag
 #' @param text The text in the tag
 #' @param colour The colour of the tag. Default is navy. Other options are
-#' grey, green, turquoise, blue, purple, pink, red, orange and yellow
+#' grey, green, teal, blue, purple, magenta, red, orange and yellow
 #' @return a tag HTML shiny tag object
 #' @keywords tag
+#' @family Govstyle feedback types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
@@ -31,6 +32,32 @@ tag_Input <- # nolint
     text,
     colour = "navy"
   ) {
+    #check for deprecated colours
+    if (colour == "light-blue") {
+      warning(
+        "'light-blue' is no longer a supported colour.
+        Please select an alternative from:
+       'navy', 'grey', 'purple', 'teal', 'blue', 'yellow',
+        'orange', 'red', 'magenta', or 'green'."
+      )
+    }
+    if (colour == "turquoise") {
+      warning(
+        "'turquoise' is no longer a supported colour.
+      Please select an alternative from:
+      'grey', 'purple', 'teal', 'blue', 'yellow',
+      'orange', 'red', 'magenta', or 'green'."
+      )
+    }
+    if (colour == "pink") {
+      warning(
+        "'pink' is no longer a supported colour.
+      Please select an alternative from:
+      'grey', 'purple', 'teal', 'blue', 'yellow',
+      'orange', 'red', 'magenta', or 'green'."
+      )
+    }
+
     class_colour <- "govuk-tag"
     if (colour != "navy") {
       class_colour <- paste0("govuk-tag govuk-tag--", colour)

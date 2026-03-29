@@ -15,8 +15,8 @@ value. If not provided (default is NA), the description will not be
 displayed}
 
 \item{colour}{Character. A colour to apply to the value box. Defaults
-to "blue". Choose from the following: "grey", "purple", "turquoise",
-"blue", "light-blue", "yellow", "orange", "red", "pink", or "green"}
+to "blue". Choose from the following: "grey", "purple", "teal",
+"blue", "yellow", "orange", "red", "magenta", or "green"}
 }
 \value{
 A Shiny \code{div} tag representing the value box, styled according
@@ -37,3 +37,15 @@ value_box(
   colour = "purple"
 )
 }
+\seealso{
+Other Govstyle feedback types: 
+\code{\link{details}()},
+\code{\link{gov_summary}()},
+\code{\link{insert_text}()},
+\code{\link{label_hint}()},
+\code{\link{noti_banner}()},
+\code{\link{panel_output}()},
+\code{\link{tag_Input}()},
+\code{\link{warning_text}()}
+}
+\concept{Govstyle feedback types}

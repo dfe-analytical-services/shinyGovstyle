@@ -12,7 +12,7 @@ tag_Input(inputId, text, colour = "navy")
 \item{text}{The text in the tag}
 
 \item{colour}{The colour of the tag. Default is navy. Other options are
-grey, green, turquoise, blue, purple, pink, red, orange and yellow}
+grey, green, teal, blue, purple, magenta, red, orange and yellow}
 }
 \value{
 a tag HTML shiny tag object
@@ -38,4 +38,16 @@ ui <- shiny::fluidPage(
 server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle feedback types: 
+\code{\link{details}()},
+\code{\link{gov_summary}()},
+\code{\link{insert_text}()},
+\code{\link{label_hint}()},
+\code{\link{noti_banner}()},
+\code{\link{panel_output}()},
+\code{\link{value_box}()},
+\code{\link{warning_text}()}
+}
+\concept{Govstyle feedback types}
 \keyword{tag}

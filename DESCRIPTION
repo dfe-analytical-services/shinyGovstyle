@@ -23,6 +23,7 @@ Imports:
     htmltools,
     jsonlite,
     purrr,
+    lifecycle,
     reactable,
     readr,
     readODS,
@@ -32,8 +33,9 @@ Imports:
     writexl
 Suggests:
     bslib,
-    shinytest2,
-    testthat
+    testthat,
+    rlang,
+    shinytest2
 Encoding: UTF-8
 RoxygenNote: 7.3.3
 LazyData: true

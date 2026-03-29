@@ -6,17 +6,20 @@
 #' @param logo Add a link to a logo which will apply in the header. Use crown to
 #' use the crown SVG version on GOV UK
 #' @param main_link Add a link for clicking on main text
-#' @param secondary_link Add a link for clicking on secondary header
+#' `r lifecycle::badge("deprecated")`
+#' @param secondary_link Add a link for clicking on secondary
+#' header `r lifecycle::badge("deprecated")`
 #' @param logo_alt_text Add alternative text for the logo. Should be used when a
 #' logo is used
 #' @param main_alt_text Add alternative text for the main link. Should be used
-#' when a main link is used
+#' when a main link is used `r lifecycle::badge("deprecated")`
 #' @param secondary_alt_text Add alternative text for the secondary link. Should
-#' be used when a secondary link is used
+#' be used when a secondary link is used `r lifecycle::badge("deprecated")`
 #' @param logo_width Change the logo size width CSS to improve fit
 #' @param logo_height Change the logo size height CSS to improve fit
 #' @return a header HTML shiny tag object
 #' @keywords header
+#' @family Govstyle page structure
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
@@ -32,16 +35,16 @@
 #'
 #' if (interactive()) shinyApp(ui = ui, server = server)
 header <- function(
-  main_text,
-  secondary_text,
-  logo = NULL,
-  main_link = "#",
-  secondary_link = "#",
-  logo_alt_text = NULL,
+  main_text = "Shiny example app",
+  secondary_text = NULL,
+  logo = "shinyGovstyle/images/Dept_logo.svg",
+  main_link = NULL,
+  secondary_link = NULL,
+  logo_alt_text = "Departmental logo",
   main_alt_text = NULL,
   secondary_alt_text = NULL,
-  logo_width = 36,
-  logo_height = 32
+  logo_width = 66,
+  logo_height = 34
 ) {
   # checks for alt text
   if (!is.null(logo) && is.null(logo_alt_text)) {
@@ -53,21 +56,35 @@ header <- function(
     )
   }
 
-  if (main_link != "#" && is.null(main_alt_text)) {
-    warning(
-      paste(
-        "Please use main_alt_text to provide alternative",
-        "text for the main link you used."
-      )
+  if (!missing("main_link")) {
+    lifecycle::deprecate_warn(
+      when = "0.2.0",
+      what = "header(main_link)",
+      details = "main_link will be dropped in v1.0.0"
     )
   }
 
-  if (secondary_link != "#" && is.null(secondary_alt_text)) {
-    warning(
-      paste(
-        "Please use secondary_alt_text to provide alternative",
-        "text for the secondary link you used."
-      )
+  if (!missing("main_alt_text")) {
+    lifecycle::deprecate_warn(
+      when = "0.2.0",
+      what = "header(main_link)",
+      details = "main_link will be dropped in v1.0.0"
+    )
+  }
+
+  if (!missing("secondary_alt_text")) {
+    lifecycle::deprecate_warn(
+      when = "0.2.0",
+      what = "header(secondary_alt_text)",
+      details = "secondary_alt_text will be dropped in v1.0.0"
+    )
+  }
+
+  if (!missing("secondary_link")) {
+    lifecycle::deprecate_warn(
+      when = "0.2.0",
+      what = "header(secondary_link)",
+      details = "secondary_link will be dropped in v1.0.0"
     )
   }
 
@@ -96,9 +113,6 @@ header <- function(
       shiny::tags$div(
         class = "govuk-header__logo",
         shiny::tags$a(
-          href = main_link,
-          `aria-label` = main_alt_text,
-          class = "govuk-header__link govuk-header__link--homepage",
           shiny::tags$span(
             class = "govuk-header__logotype",
             if (logo_src == "crown") {
@@ -160,20 +174,16 @@ header <- function(
                 alt_text = logo_alt_text
               )
             },
-            shiny::tags$span(main_text, class = "govuk-header__logotype-text")
+            shiny::tags$span(main_text, class = "govuk-header__product-name")
+          ),
+          shiny::tags$span(
+            secondary_text,
+            class = "govuk-header__content govuk-header__product-name"
           )
         )
       ),
-      shiny::tags$div(
-        class = "govuk-header__content",
-        shiny::tags$a(
-          href = secondary_link,
-          secondary_text,
-          `aria-label` = secondary_alt_text,
-          class = "govuk-header__link govuk-header__service-name"
-        )
-      )
     )
   )
+
   attachDependency(gov_header)
 }

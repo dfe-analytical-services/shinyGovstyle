@@ -12,11 +12,12 @@
 #' value. If not provided (default is NA), the description will not be
 #' displayed
 #' @param colour Character. A colour to apply to the value box. Defaults
-#' to "blue". Choose from the following: "grey", "purple", "turquoise",
-#' "blue", "light-blue", "yellow", "orange", "red", "pink", or "green"
+#' to "blue". Choose from the following: "grey", "purple", "teal",
+#' "blue", "yellow", "orange", "red", "magenta", or "green"
 #'
 #' @return A Shiny `div` tag representing the value box, styled according
 #' to the specified parameters
+#' @family Govstyle feedback types
 #' @export
 #'
 #' @examples
@@ -30,6 +31,32 @@ value_box <- function(
   text = NA,
   colour = "blue"
 ) {
+  #check for deprecated colours
+  if (colour == "light-blue") {
+    warning(
+      "'light-blue' is no longer a supported colour.
+      Please select an alternative from:
+      'grey', 'purple', 'teal', 'blue', 'yellow',
+      'orange', 'red', 'magenta', or 'green'."
+    )
+  }
+  if (colour == "turquoise") {
+    warning(
+      "'turquoise' is no longer a supported colour.
+      Please select an alternative from:
+      'grey', 'purple', 'teal', 'blue', 'yellow',
+      'orange', 'red', 'magenta', or 'green'."
+    )
+  }
+  if (colour == "pink") {
+    warning(
+      "'pink' is no longer a supported colour.
+      Please select an alternative from:
+      'grey', 'purple', 'teal', 'blue', 'yellow',
+      'orange', 'red', 'magenta', or 'green'."
+    )
+  }
+
   # Use the govuk-tag--<colour> class for coloring
   class_colour <- paste0("govuk-tag--", colour)
 

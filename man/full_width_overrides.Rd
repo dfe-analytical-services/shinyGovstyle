@@ -20,4 +20,9 @@ components from other packages, use at your own risk.
 \examples{
 shinyGovstyle::full_width_overrides()
 }
+\seealso{
+Other Govstyle styling: 
+\code{\link{font}()}
+}
+\concept{Govstyle styling}
 \keyword{styling}

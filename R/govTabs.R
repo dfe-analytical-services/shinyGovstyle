@@ -40,6 +40,7 @@ govTabs <- # nolint
       "govuk-tabs__list-item govuk-tabs__list-item--selected"
     tab_headers$children[[1]][[1]]$children[[1]]$attribs$`aria-selected` <-
       "true"
+    tab_headers$children[[1]][[1]]$children[[1]]$attribs$tabindex <- "0"
 
     main_temp_hold <- NULL
     # This needs to make up the tables on each tab
@@ -146,6 +147,7 @@ create_tabs <- function(
             id = paste0(tolower(gsub(" ", "-", x)), "-l-test"),
             href = paste0("#", tolower(gsub(" ", "-", x))),
             role = "tab",
+            tabindex = "-1",
             `aria-selected` = "false",
             `aria-controls` = tolower(gsub(" ", "-", x)),
             x

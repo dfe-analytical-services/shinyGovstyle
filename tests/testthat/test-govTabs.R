@@ -38,9 +38,15 @@ test_that("tabs have correct ARIA roles", {
     sub("^#", "", first_tab_link$attribs$href)
   )
 
+  # First tab should have tabindex="0" (in tab order)
+  expect_identical(first_tab_link$attribs$tabindex, "0")
+
   # Second tab should have aria-selected="false"
   second_tab_link <- tab_list$children[[1]][[2]]$children[[1]]
   expect_identical(second_tab_link$attribs$`aria-selected`, "false")
+
+  # Second tab should have tabindex="-1" (removed from tab order)
+  expect_identical(second_tab_link$attribs$tabindex, "-1")
 
   # Tab panels should have role="tabpanel" (accessed as plain list element)
   first_panel <- tab_check$children[[3]][[1]][[1]][[1]][[2]][[2]]

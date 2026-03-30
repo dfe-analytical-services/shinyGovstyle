@@ -38,6 +38,9 @@ govTabs <- # nolint
     # Select the first tab as the selected one
     tab_headers$children[[1]][[1]]$attribs$class <-
       "govuk-tabs__list-item govuk-tabs__list-item--selected"
+    tab_headers$children[[1]][[1]]$children[[1]]$attribs$`aria-selected` <-
+      "true"
+    tab_headers$children[[1]][[1]]$children[[1]]$attribs$tabindex <- "0"
 
     main_temp_hold <- NULL
     # This needs to make up the tables on each tab
@@ -81,6 +84,8 @@ create_tab_table <- function(
     class = "govuk-tabs__panel govuk-tabs__panel--hidden",
     id = tolower(gsub(" ", "-", tab)),
     name = paste0(tolower(gsub(" ", "-", tab)), "-", inputId, "-table"),
+    role = "tabpanel",
+    `aria-labelledby` = paste0(tolower(gsub(" ", "-", tab)), "-l-test"),
     shiny::tags$h2(class = "govuk-heading-l", tab),
     shiny::tags$table(
       class = "govuk-table",
@@ -128,17 +133,23 @@ create_tabs <- function(
   shiny::tags$ul(
     class = "govuk-tabs__list",
     id = paste0(inputId, "tab"),
+    role = "tablist",
     Map(
       function(x) {
         shiny::tags$li(
           name = paste0(tolower(gsub(" ", "-", x)), "-t"),
           id = paste0(tolower(gsub(" ", "-", x)), "-test"),
           class = "govuk-tabs__list-item",
+          role = "presentation",
           shiny::tags$a(
             class = "govuk-tabs__tab",
             name = paste0(tolower(gsub(" ", "-", x)), "-l"),
             id = paste0(tolower(gsub(" ", "-", x)), "-l-test"),
             href = paste0("#", tolower(gsub(" ", "-", x))),
+            role = "tab",
+            tabindex = "-1",
+            `aria-selected` = "false",
+            `aria-controls` = tolower(gsub(" ", "-", x)),
             x
           )
         )

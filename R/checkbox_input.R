@@ -114,6 +114,7 @@ checkbox_Input <- # nolint
                   ),
                   shiny::tags$label(
                     x,
+                    `for` = y,
                     class = "govuk-label govuk-checkboxes__label"
                   )
                 )

@@ -206,12 +206,9 @@ generateOptions2 <- # nolint
 
 `%AND%` <- # nolint
   function(x, y) {
-    if (!is.null(x) && !anyNA(x)) {
-      if (!is.null(y) && !anyNA(y)) {
-        return(y)
-      }
+    if (!is.null(x) && !anyNA(x) && !is.null(y) && !anyNA(y)) {
+      y
     }
-    NULL
   }
 
 processDeps2 <- # nolint
@@ -239,31 +236,7 @@ normalizeChoicesArgs2 <- # nolint
     choiceValues, # nolint
     mustExist = TRUE # nolint
   ) {
-    if (is.null(choices)) {
-      if (is.null(choiceNames) || is.null(choiceValues)) {
-        if (mustExist) {
-          stop(
-            "Please specify a non-empty vector for `choices` (or, ",
-            "alternatively, for both `choiceNames` AND `choiceValues`)."
-          )
-        } else {
-          if (is.null(choiceNames) && is.null(choiceValues)) {
-            return(list(choiceNames = NULL, choiceValues = NULL))
-          } else {
-            stop(
-              "One of `choiceNames` or `choiceValues` was set to ",
-              "NULL, but either both or none should be NULL."
-            )
-          }
-        }
-      }
-      if (length(choiceNames) != length(choiceValues)) {
-        stop("`choiceNames` and `choiceValues` must have the same length.")
-      }
-      if (anyNamed2(choiceNames) || anyNamed2(choiceValues)) {
-        stop("`choiceNames` and `choiceValues` must not be named.")
-      }
-    } else {
+    if (!is.null(choices)) {
       if (!is.null(choiceNames) || !is.null(choiceValues)) {
         warning(
           "Using `choices` argument; ignoring `choiceNames`
@@ -273,11 +246,36 @@ normalizeChoicesArgs2 <- # nolint
       choices <- choicesWithNames2(choices)
       choiceNames <- names(choices) # nolint
       choiceValues <- unname(choices) # nolint
+      list(
+        choiceNames = as.list(choiceNames),
+        choiceValues = as.list(as.character(choiceValues))
+      )
+    } else if (is.null(choiceNames) || is.null(choiceValues)) {
+      if (mustExist) {
+        stop(
+          "Please specify a non-empty vector for `choices` (or, ",
+          "alternatively, for both `choiceNames` AND `choiceValues`)."
+        )
+      } else if (is.null(choiceNames) && is.null(choiceValues)) {
+        list(choiceNames = NULL, choiceValues = NULL)
+      } else {
+        stop(
+          "One of `choiceNames` or `choiceValues` was set to ",
+          "NULL, but either both or none should be NULL."
+        )
+      }
+    } else {
+      if (length(choiceNames) != length(choiceValues)) {
+        stop("`choiceNames` and `choiceValues` must have the same length.")
+      }
+      if (anyNamed2(choiceNames) || anyNamed2(choiceValues)) {
+        stop("`choiceNames` and `choiceValues` must not be named.")
+      }
+      list(
+        choiceNames = as.list(choiceNames),
+        choiceValues = as.list(as.character(choiceValues))
+      )
     }
-    list(
-      choiceNames = as.list(choiceNames),
-      choiceValues = as.list(as.character(choiceValues))
-    )
   }
 
 
@@ -304,35 +302,34 @@ choicesWithNames2 <- # nolint
     }
     choices <- listify(choices)
     if (length(choices) == 0) {
-      return(choices)
+      choices
+    } else {
+      choices <- mapply(
+        choices,
+        names(choices),
+        FUN = function(choice, name) {
+          if (!is.list(choice)) {
+            choice
+          } else {
+            if (name == "") {
+              stop("All sub-lists in \"choices\" must be named.")
+            }
+            choicesWithNames2(choice)
+          }
+        },
+        SIMPLIFY = FALSE
+      )
+      missing <- names(choices) == ""
+      names(choices)[missing] <- as.character(choices)[missing]
+      choices
     }
-    choices <- mapply(
-      choices,
-      names(choices),
-      FUN = function(choice, name) {
-        if (!is.list(choice)) {
-          return(choice)
-        }
-        if (name == "") {
-          stop("All sub-lists in \"choices\" must be named.")
-        }
-        choicesWithNames2(choice)
-      },
-      SIMPLIFY = FALSE
-    )
-    missing <- names(choices) == ""
-    names(choices)[missing] <- as.character(choices)[missing]
-    choices
   }
 
 anyNamed2 <- # nolint
   function(x) {
-    if (length(x) == 0) {
-      return(FALSE)
+    if (length(x) == 0 || is.null(names(x))) {
+      FALSE
+    } else {
+      any(nzchar(names(x)))
     }
-    nms <- names(x)
-    if (is.null(nms)) {
-      return(FALSE)
-    }
-    any(nzchar(nms))
   }

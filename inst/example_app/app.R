@@ -42,29 +42,30 @@ ui <- bslib::page_fluid(
     )
   ),
 
-  gov_layout(
-    size = "two-thirds",
-    shinyGovstyle::gov_text(
-      "This example app showcases the components available in the",
-      "latest development version of the shinyGovstyle package.",
-      "The source code for the app can be found on the ",
-      shinyGovstyle::external_link(
-        href = paste0(
-          "https://github.com/dfe-analytical-services/shinyGovstyle/",
-          "blob/main/inst/example_app/app.R"
-        ),
-        link_text = "main GitHub branch"
-      ),
-      ". The page layout has some custom CSS overrides is still being",
-      " developed to work with the ",
-      shinyGovstyle::external_link(
-        href = "https://rstudio.github.io/bslib/",
-        link_text = "bslib package"
-      ),
-      " and may change in future releases."
-    )
-  ),
   gov_main_layout(
+    gov_box(
+      size = "two-thirds",
+      shinyGovstyle::gov_text(
+        "This example app showcases the components available in the",
+        "latest development version of the shinyGovstyle package.",
+        "The source code for the app can be found on the ",
+        shinyGovstyle::external_link(
+          href = paste0(
+            "https://github.com/dfe-analytical-services/shinyGovstyle/",
+            "blob/main/inst/example_app/app.R"
+          ),
+          link_text = "main GitHub branch"
+        ),
+        ". The page layout has some custom CSS overrides is still being",
+        " developed to work with the ",
+        shinyGovstyle::external_link(
+          href = "https://rstudio.github.io/bslib/",
+          link_text = "bslib package"
+        ),
+        " and may change in future releases."
+      )
+    ),
+
     # Set up a nav panel so everything not on single page
     shiny::tabsetPanel(
       type = "hidden",

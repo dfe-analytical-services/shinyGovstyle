@@ -20,13 +20,11 @@ automatically matches to Id in \code{heading_text()}}
 an action button HTML shiny tag object
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
 This function creates an action link to nav between tabs and optionally
 link to subcontents headers.
-
-This is experimental and may change in future.
 }
 \examples{
 ui <- shiny::fluidPage(
@@ -249,6 +247,7 @@ if (interactive()) shiny::shinyApp(ui = ui, server = server)
 \seealso{
 Other Govstyle navigation: 
 \code{\link{backlink_Input}()},
-\code{\link{service_navigation}()}
+\code{\link{service_navigation}()},
+\code{\link{update_service_navigation}()}
 }
 \concept{Govstyle navigation}

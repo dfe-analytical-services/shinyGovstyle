@@ -248,6 +248,7 @@ if (interactive()) shiny::shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle navigation: 
-\code{\link{backlink_Input}()}
+\code{\link{backlink_Input}()},
+\code{\link{service_navigation}()}
 }
 \concept{Govstyle navigation}

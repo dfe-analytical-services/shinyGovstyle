@@ -1,6 +1,27 @@
 
 // Service navigation JS
 
+// Allow programmatic update of active nav item from R server code
+Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
+  var items = document.getElementsByClassName(
+    "govuk-service-navigation__item"
+  );
+
+  for (var i = 0; i < items.length; i++) {
+    items[i].classList.remove(
+      "govuk-service-navigation__item--active"
+    );
+  }
+
+  var link = document.getElementById(inputId);
+  if (link) {
+    var item = link.closest(".govuk-service-navigation__item");
+    if (item) {
+      item.classList.add("govuk-service-navigation__item--active");
+    }
+  }
+});
+
 // Set active state on navigation links when clicked
 // Scoped to links within the list to avoid matching the service name link
 $(document).on(

@@ -130,6 +130,32 @@ service_navigation <- function(
 }
 
 
+#' Update the active item in a service navigation component
+#'
+#' Use this in your server code when navigating between pages via buttons or
+#' back links, to keep the service navigation active state in sync.
+#'
+#' @param session The Shiny session object
+#' @param inputId The inputId of the service navigation link to set as active
+#'
+#' @returns NULL, called for side effects
+#' @family Govstyle navigation
+#' @export
+#'
+#' @examples
+#' if (interactive()) {
+#'   server <- function(input, output, session) {
+#'     shiny::observeEvent(input$next_btn, {
+#'       shiny::updateTabsetPanel(session, "tabs", selected = "page_two")
+#'       shinyGovstyle::update_service_navigation(session, "page_two")
+#'     })
+#'   }
+#' }
+update_service_navigation <- function(session, inputId) { # nolint
+  session$sendCustomMessage("update_service_navigation", inputId)
+}
+
+
 #' Create a service navigation link for use in `service_navigation()` function
 #'
 #' @param link Character string containing either link text or url

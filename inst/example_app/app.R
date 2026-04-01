@@ -483,6 +483,7 @@ server <- function(input, output, session) {
         "tab-container",
         selected = "text_types"
       )
+      update_service_navigation(session, "sn_text_types")
     },
     ignoreInit = TRUE
   )
@@ -495,6 +496,7 @@ server <- function(input, output, session) {
         "tab-container",
         selected = "select_types"
       )
+      update_service_navigation(session, "sn_select_types")
     },
     ignoreInit = TRUE
   )

@@ -21,16 +21,6 @@ ui <- bslib::page_fluid(
     main_text = "Department for Education",
     secondary_text = "shinyGovstyle showcase app"
   ),
-  banner(
-    "banner",
-    "Beta",
-    paste0(
-      'This is a new service \u002D your <a class="govuk-link" href=',
-      '"https://github.com/dfe-analytical-services/shinyGovstyle/issues/new',
-      '/choose">feedback</a> will help us to improve it.'
-    )
-  ),
-
   shinyGovstyle::service_navigation(
     c(
       "Select Types" = "sn_select_types",
@@ -39,6 +29,16 @@ ui <- bslib::page_fluid(
       "Tables, tabs and accordions" = "sn_tables_tabs",
       "Feedback types" = "sn_feedback_types",
       "Cookies" = "sn_cookies"
+    )
+  ),
+
+  banner(
+    "banner",
+    "Beta",
+    paste0(
+      'This is a new service \u002D your <a class="govuk-link" href=',
+      '"https://github.com/dfe-analytical-services/shinyGovstyle/issues/new',
+      '/choose">feedback</a> will help us to improve it.'
     )
   ),
 

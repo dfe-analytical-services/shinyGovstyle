@@ -90,8 +90,10 @@ $(document).ready(function () {
     navList.removeAttribute("hidden");
   }
 
+  var resizeTimer;
   $(window).on("resize", function () {
-    updateNavForViewport();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(updateNavForViewport, 100);
   });
 
   $(toggle).on("click", function () {

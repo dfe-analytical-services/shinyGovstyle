@@ -471,6 +471,7 @@ server <- function(input, output, session) {
       "tab-container",
       selected = "panel-cookies"
     )
+    update_service_navigation(session, "sn_cookies")
   })
 
   # Tab nav - labelled component examples =====================================
@@ -581,6 +582,7 @@ server <- function(input, output, session) {
         "tab-container",
         selected = "panel-cookies"
       )
+      update_service_navigation(session, "sn_cookies")
     },
     ignoreInit = TRUE
   )

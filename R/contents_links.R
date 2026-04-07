@@ -9,7 +9,6 @@
 #' @keywords internal
 #' @noRd
 subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
-  lifecycle::deprecate_warn("0.2.0", "subcontents_links()")
   if (!missing(subcontents_id_list)) {
     # check if custom link_id_list is of equal length to links list
     if (length(subcontents_text_list) != length(subcontents_id_list)) {

@@ -88,9 +88,7 @@ service_navigation <- function(
         class = "govuk-service-navigation__container",
         if (!is.null(service_name)) {
           shiny::tags$span(
-            class = paste(
-              "govuk-service-navigation__service-name"
-            ),
+            class = "govuk-service-navigation__service-name",
             shiny::tags$a(
               href = "#",
               class = "govuk-service-navigation__link",

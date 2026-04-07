@@ -86,6 +86,5 @@ mod_action_types_server <- function(id) {
         write.csv(data, file)
       }
     )
-
   })
 }

@@ -1,15 +1,14 @@
 bslib::page_fluid(
   theme = bs_theme(version = 5),
   title = "ShinyGovstyle component showcase",
-  cookieBanner("shinyGovstyle component showcase"),
+  shinyGovstyle::cookieBanner("shinyGovstyle component showcase"),
   shinyjs::useShinyjs(),
 
   shiny::tags$head(shiny::HTML("<html lang='en'>")),
 
   shinyGovstyle::full_width_overrides(), # TODO: remove when built in
-
   shinyGovstyle::skip_to_main(),
-  header(
+  shinyGovstyle::header(
     main_text = "Department for Education",
     secondary_text = "shinyGovstyle showcase app"
   ),
@@ -24,7 +23,7 @@ bslib::page_fluid(
     )
   ),
 
-  banner(
+  shinyGovstyle::banner(
     "banner",
     "Beta",
     paste0(
@@ -34,8 +33,8 @@ bslib::page_fluid(
     )
   ),
 
-  gov_main_layout(
-    gov_box(
+  shinyGovstyle::gov_main_layout(
+    shinyGovstyle::gov_row(
       size = "two-thirds",
       shinyGovstyle::gov_text(
         "This example app showcases the components available in the",
@@ -58,44 +57,46 @@ bslib::page_fluid(
       )
     ),
 
-    shiny::tabsetPanel(
-      type = "hidden",
-      id = "tab-container",
+    shinyGovstyle::gov_row(
+      shiny::tabsetPanel(
+        type = "hidden",
+        id = "tab-container",
 
-      shiny::tabPanel(
-        "Select Types",
-        value = "select_types",
-        mod_select_types_ui("select_types")
-      ),
+        shiny::tabPanel(
+          "Select Types",
+          value = "select_types",
+          mod_select_types_ui("select_types")
+        ),
 
-      shiny::tabPanel(
-        "Text Types",
-        value = "text_types",
-        mod_text_types_ui("text_types")
-      ),
+        shiny::tabPanel(
+          "Text Types",
+          value = "text_types",
+          mod_text_types_ui("text_types")
+        ),
 
-      shiny::tabPanel(
-        "Action types",
-        value = "action_types",
-        mod_action_types_ui("action_types")
-      ),
+        shiny::tabPanel(
+          "Action types",
+          value = "action_types",
+          mod_action_types_ui("action_types")
+        ),
 
-      shiny::tabPanel(
-        "Tables, tabs and accordions",
-        value = "tables_tabs_and_accordions",
-        mod_tables_tabs_ui("tables_tabs")
-      ),
+        shiny::tabPanel(
+          "Tables, tabs and accordions",
+          value = "tables_tabs_and_accordions",
+          mod_tables_tabs_ui("tables_tabs")
+        ),
 
-      shiny::tabPanel(
-        "Feedback Types",
-        value = "feedback_types",
-        mod_feedback_types_ui("feedback_types")
-      ),
+        shiny::tabPanel(
+          "Feedback Types",
+          value = "feedback_types",
+          mod_feedback_types_ui("feedback_types")
+        ),
 
-      shiny::tabPanel(
-        "Cookies",
-        value = "panel-cookies",
-        mod_cookies_ui("cookies")
+        shiny::tabPanel(
+          "Cookies",
+          value = "panel-cookies",
+          mod_cookies_ui("cookies")
+        )
       )
     )
   ),

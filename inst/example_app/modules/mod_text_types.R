@@ -55,14 +55,14 @@ mod_text_types_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     shiny::observeEvent(
       input$text_area2,
-      shinyGovstyle::word_count(session$ns("text_area2"), input$text_area2)
+      shinyGovstyle::word_count("text_area2", input$text_area2)
     )
 
     shiny::observeEvent(input$btn_error, {
       if (input$text_area2 == "") {
-        shinyGovstyle::error_on(session$ns("text_area2"))
+        shinyGovstyle::error_on("text_area2")
       } else {
-        shinyGovstyle::error_off(session$ns("text_area2"))
+        shinyGovstyle::error_off("text_area2")
       }
     })
 

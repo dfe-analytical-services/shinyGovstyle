@@ -1,0 +1,141 @@
+---
+title: "Get started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Get started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(shinyGovstyle)
+```
+
+## Overview
+**shinyGovstyle** integrates [GOV.UK Design System](https://design-system.service.gov.uk/) components into R Shiny. It aims to make it easier for government analysts to develop production-ready dashboards that users find intuitive and can trust. 
+
+The [GOV.UK Design System component documentation](https://design-system.service.gov.uk/components/) remains the authoritative reference for all components, including detailed guidance of when, how, and when not(!) to use each of the components.
+
+> **Note:** Using accessible components does not replace the need for comprehensive accessibility testing of the combination you put together in your own specific application.
+
+We welcome feedback and contributions:
+
+- **Suggestions, requests and bugs:** [Raise a GitHub issue](https://github.com/dfe-analytical-services/shinyGovstyle/issues/new) for bugs, requests or suggestions.
+- **Search:** Check [existing issues](https://github.com/dfe-analytical-services/shinyGovstyle/issues) before posting.
+- **Contribute:** See our [contributing guide](https://github.com/dfe-analytical-services/shinyGovstyle/blob/main/.github/CONTRIBUTING.md) to help improve the package.
+
+---
+
+## See it in action
+
+The quickest way to get a feel for what is available is the example showcase app, which demonstrates the full range of components:
+
+- **Online:** [department-for-education.shinyapps.io/shinygovstyle-example-app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/)
+- **Local** (after installing the package): `shinyGovstyle::run_example()`
+
+The source code for the example app lives in [`inst/example_app/`](https://github.com/dfe-analytical-services/shinyGovstyle/tree/main/inst/example_app) and is a useful reference for how components fit together in a real multi-page app using [Shiny modules](https://mastering-shiny.org/scaling-modules.html).
+
+---
+
+## Installation
+
+Install the latest stable release from CRAN:
+
+```{r, eval = FALSE}
+install.packages("shinyGovstyle")
+```
+
+To use the latest development version directly from GitHub:
+
+```{r, eval = FALSE}
+pak::pak("dfe-analytical-services/shinyGovstyle")
+```
+
+---
+
+## shinyjs dependency
+
+Some components require [`shinyjs`](https://deanattali.com/shinyjs/) to be loaded in your UI. Add `shinyjs::useShinyjs()` anywhere in your UI when using:
+
+- `error_on()` / `error_off()` — inline field-level error toggling
+- `word_count()` — live character and word counting on text inputs
+- `cookieBanner()` — GOV.UK cookie consent banner
+
+```{r, eval = FALSE}
+ui <- bslib::page_fluid(
+  shinyjs::useShinyjs(),
+  # rest of your UI
+)
+```
+
+---
+
+## A minimal working app
+
+The skeleton below shows the components that appear on every page of a shinyGovstyle app. It uses [`bslib`](https://rstudio.github.io/bslib/), which is generally [recommended for building responsive apps with R Shiny](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/).
+
+```{r, eval = FALSE}
+library(shiny)
+library(shinyGovstyle)
+
+ui <- bslib::page_fluid(
+  skip_to_main(),
+  header(
+    main_text = "My department",
+    secondary_text = "My dashboard"
+  ),
+  banner(
+    inputId = "phase",
+    type = "Beta",
+    label = "This is a new service."
+  ),
+  gov_main_layout(
+    gov_row(
+      gov_box(
+        size = "two-thirds",
+        heading_text("Welcome", size = "l", level = 1),
+        gov_text("Select a report from the navigation above.")
+      )
+    )
+  ),
+  footer()
+)
+
+server <- function(input, output, session) {}
+
+shiny::shinyApp(ui, server)
+```
+
+For a more complete example - including multi-page navigation, footer links, and the server logic to wire it all together - see the [complete example](layout-options.html#complete-example) at the end of the Layout options vignette.
+
+---
+
+## Component overview
+
+### Page structure and layout
+
+All page-level components (`header()`, `footer()`, `banner()`, `skip_to_main()`, `service_navigation()`, `cookieBanner()`) and the content grid system (`gov_main_layout()`, `gov_row()`, `gov_box()`) are covered in the [Layout options](layout-options.html) vignette.
+
+### Headings and text
+
+Styled headings, body text, lists, callouts, external links, notification banners, and typography are covered in the [Headings and text](headings-and-text.html) vignette.
+
+### Form inputs
+
+`text_input()`, `text_area_input()`, `select_input()`, `checkbox_input()`, `radio_button_Input()`, `date_Input()`, `file_Input()`, `button_Input()`, and `download_button()` provide GOV.UK-styled equivalents of standard Shiny form controls; values are read from `input$<inputId>` in the server in the usual way.
+
+### Interactive components
+
+`accordion()` and `govTabs()` provide collapsible panels and tabbed interfaces with full keyboard navigation and ARIA support built in.
+
+### Error handling
+
+`error_summary()` produces a GOV.UK error summary panel that lists all validation errors at the top of the page; `error_on()` and `error_off()` toggle inline field-level error messages on any input. These require `shinyjs::useShinyjs()` in the UI, see [shinyjs dependency](#shinyjs-dependency) for more details.
+
+### Data display
+
+`govTable()` and `govReactable()` render data tables with GOV.UK styling; `value_box()` displays a headline figure with a label, suited to summary statistics at the top of a dashboard.

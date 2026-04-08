@@ -12,15 +12,12 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
-
-```{r setup}
 library(shinyGovstyle)
 ```
 
 ## Overview
 
-shinyGovstyle provides a set of layout functions that produce the HTML structure GOV.UK Frontend CSS expects. This vignette covers every layout function available and explains how they fit together to build a complete app.
+shinyGovstyle provides a set of layout functions that produce the HTML structure GOV.UK Frontend CSS expects. This vignette covers all of the layout functions available and explains how they fit together to build a complete app.
 
 The layout functions fall into two groups:
 
@@ -66,6 +63,8 @@ skip_to_main()
 
 By default it links to `#main`, which matches the `id` applied by `gov_main_layout()`. If you change the `inputID` argument of `gov_main_layout()`, pass the same value to `skip_to_main()`.
 
+For more information, read the documentation for the [GOV.UK Skip link component](https://design-system.service.gov.uk/components/skip-link/).
+
 ### `cookieBanner()`
 
 Displays a GOV.UK-styled cookie consent banner. It requires `shinyjs::useShinyjs()` to be present in the UI. All element IDs within the banner are preset — see `?cookieBanner` for the server-side `observeEvent` pattern needed to handle accept and reject interactions.
@@ -75,9 +74,12 @@ shinyjs::useShinyjs()
 cookieBanner("My service name")
 ```
 
+For more information, including when this should be used, read the documentation for the [GOV.UK Cookie banner component](https://design-system.service.gov.uk/components/cookie-banner/).
+
 ### `header()`
 
-Creates the black GOV.UK header bar containing your department logo and service name.
+Creates a GOV.UK styled header bar, optionally containing your department logo, name and service name. This is not the official [GOV.UK header](https://design-system.service.gov.uk/components/header/), as that should only be used on GOV.UK domains. If you believe you have an R Shiny app on a GOV.UK domain, please [raise an issue](https://github.com/dfe-analytical-services/shinyGovstyle/issues/new/choose)
+to request this as an addition to the package.
 
 ```{r, eval = FALSE}
 header(
@@ -88,7 +90,7 @@ header(
 
 ### `banner()`
 
-Displays a phase banner immediately below the header, used to indicate the maturity of your service (e.g. Alpha or Beta).
+Displays a phase banner immediately below the header, used to indicate the maturity of your service and give a clear route for users to provide feedback.
 
 ```{r, eval = FALSE}
 banner(
@@ -98,17 +100,19 @@ banner(
 )
 ```
 
+For more information on when and how to use this, read the documentation for the [GOV.UK Phase banner component](https://design-system.service.gov.uk/components/phase-banner/). 
+
+
 ### `footer()`
 
-Creates the GOV.UK footer. Use `full = TRUE` to include the OGL licence logo and Crown copyright statement. You can add support links that point either to internal hidden tab panels or to external URLs.
+Creates a GOV.UK styled footer, though like the header, this is not an offical version as that should only be used on a GOV.UK domain. Use `full = TRUE` to include the OGL licence logo and Crown copyright statement. You can add support links that point either to internal hidden tab panels or to external URLs.
 
 ```{r, eval = FALSE}
 # Minimal footer
 footer()
 
-# Full footer with support links
+# Footer with support links
 footer(
-  full = TRUE,
   links = c(
     `Accessibility statement` = "accessibility_footer_link",
     `Cookies` = "cookies_footer_link"
@@ -209,14 +213,7 @@ gov_main_layout(
 
 ### `gov_text()`
 
-A thin wrapper that produces a `<p class="govuk-body">` paragraph element. Use it when you want to add body text with correct GOV.UK styling without writing raw tag calls.
-
-```{r, eval = FALSE}
-gov_box(
-  size = "two-thirds",
-  gov_text("This is a paragraph of body text.")
-)
-```
+A wrapper that produces a `<p class="govuk-body">` paragraph element. For full guidance on `gov_text()` and all other text functions, see the [Headings and text](headings-and-text.html) vignette.
 
 ---
 
@@ -372,11 +369,24 @@ ui <- bslib::page_fluid(
             gov_text("This page describes the dashboard.")
           )
         )
+      ),
+
+      shiny::tabPanel(
+        "Accessibility statement", value = "accessibility_panel",
+        gov_row(
+          gov_box(
+            size = "full",
+            heading_text("Accessibility statement", size = "l"),
+            gov_text("This page describes the accessibility of the dashboard.")
+          )
+        )
       )
     )
   ),
 
-  footer(full = TRUE)
+  footer(
+    links = c(`Accessibility statement` = "accessibility_footer_link")
+  )
 )
 
 server <- function(input, output, session) {
@@ -387,6 +397,9 @@ server <- function(input, output, session) {
   shiny::observeEvent(input$nav_about, {
     shiny::updateTabsetPanel(session, "main_panels", selected = "nav_about")
     update_service_navigation(session, "nav_about")
+  })
+  shiny::observeEvent(input$accessibility_footer_link, {
+    shiny::updateTabsetPanel(session, "main_panels", selected = "accessibility_panel")
   })
 }
 

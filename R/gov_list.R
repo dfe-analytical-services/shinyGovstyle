@@ -68,7 +68,8 @@ gov_list <- function(list, style = "none") {
   }
 
   # apply wrapper over list to get full list
-  list_wrapper(purrr::map(list, function(x) {
+  result <- list_wrapper(purrr::map(list, function(x) {
     shiny::tags$li(x)
   }))
+  attachDependency(result)
 }

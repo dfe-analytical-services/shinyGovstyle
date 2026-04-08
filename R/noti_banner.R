@@ -39,10 +39,10 @@ noti_banner <- function(
     role_type <- "region"
   }
 
-  shiny::tags$div(
+  gov_noti_banner <- shiny::tags$div(
     class = type_class,
     role = role_type,
-    `aria-labelledby` = "govuk-notification-banner-title",
+    `aria-labelledby` = inputId,
     `data-module` = "govuk-notification-banner",
     shiny::tags$div(
       class = "govuk-notification-banner__header",
@@ -60,4 +60,5 @@ noti_banner <- function(
       )
     )
   )
+  attachDependency(gov_noti_banner)
 }

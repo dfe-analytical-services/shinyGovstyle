@@ -51,8 +51,6 @@ $(document).on(
 // - On small screens: show toggle button, hide nav list
 // - On large screens (>=48.0625em): hide toggle, show list
 $(document).ready(function () {
-  var MOBILE_BREAKPOINT = 769;
-
   var toggle = document.querySelector(
     ".govuk-service-navigation__toggle"
   );
@@ -60,41 +58,28 @@ $(document).ready(function () {
 
   if (!toggle || !navList) return;
 
-  var wasMobile = false;
+  var mql = window.matchMedia("(min-width: 48.0625em)");
 
-  function updateNavForViewport() {
-    var isMobile = window.innerWidth < MOBILE_BREAKPOINT;
-
-    if (isMobile && !wasMobile) {
-      // Entering mobile: show toggle, collapse menu
+  function checkMode() {
+    if (mql.matches) {
+      // Desktop: hide toggle, show full list
+      toggle.setAttribute("hidden", "");
+      navList.removeAttribute("hidden");
+    } else {
+      // Mobile: show toggle, collapse menu
       toggle.removeAttribute("hidden");
       toggle.setAttribute("aria-expanded", "false");
       navList.setAttribute("hidden", "");
-    } else if (!isMobile && wasMobile) {
-      // Entering desktop: hide toggle, show full list
-      toggle.setAttribute("hidden", "");
-      navList.removeAttribute("hidden");
     }
-
-    wasMobile = isMobile;
   }
 
-  // Set initial state
-  wasMobile = window.innerWidth < MOBILE_BREAKPOINT;
-  if (wasMobile) {
-    toggle.removeAttribute("hidden");
-    toggle.setAttribute("aria-expanded", "false");
-    navList.setAttribute("hidden", "");
+  if ("addEventListener" in mql) {
+    mql.addEventListener("change", checkMode);
   } else {
-    toggle.setAttribute("hidden", "");
-    navList.removeAttribute("hidden");
+    mql.addListener(checkMode);
   }
 
-  var resizeTimer;
-  $(window).on("resize", function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(updateNavForViewport, 100);
-  });
+  checkMode();
 
   $(toggle).on("click", function () {
     var expanded = toggle.getAttribute(

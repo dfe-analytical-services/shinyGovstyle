@@ -1,0 +1,394 @@
+---
+title: "Layout options"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Layout options}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(shinyGovstyle)
+```
+
+## Overview
+
+shinyGovstyle provides a set of layout functions that produce the HTML structure GOV.UK Frontend CSS expects. This vignette covers every layout function available and explains how they fit together to build a complete app.
+
+The layout functions fall into two groups:
+
+- **Page-level components** — `header()`, `footer()`, `banner()`, `cookieBanner()`, `skip_to_main()`, and `service_navigation()` — form the frame of the page that sits outside the main content area.
+- **Content layout functions** — `gov_main_layout()`, `gov_row()`, `gov_box()`, and `gov_layout()` — structure content within the main content area.
+
+---
+
+## Page-level components
+
+These components form the outer frame of every page. They sit outside the main content area and are consistent across all pages of your app.
+
+```
++-------------------------------------------------------+
+|  skip_to_main()   [visually hidden, keyboard only]    |
++-------------------------------------------------------+
+|  cookieBanner()   [optional]                          |
++-------------------------------------------------------+
+|  header()                                             |
++-------------------------------------------------------+
+|  service_navigation()   [optional, multi-page apps]   |
++-------------------------------------------------------+
+|  banner()   [optional, e.g. Beta or Alpha]            |
++-------------------------------------------------------+
+|                                                       |
+|  gov_main_layout()   ← id = "main"                    |
+|  +--------------------------------------------------+  |
+|  |  your content goes here                         |  |
+|  +--------------------------------------------------+  |
+|                                                       |
++-------------------------------------------------------+
+|  footer()                                             |
++-------------------------------------------------------+
+```
+
+### `skip_to_main()`
+
+Provides a visually hidden "Skip to main content" link that becomes visible when focused by a keyboard user. This is an accessibility requirement and should always be the first element in your UI, before the header.
+
+```{r, eval = FALSE}
+skip_to_main()
+```
+
+By default it links to `#main`, which matches the `id` applied by `gov_main_layout()`. If you change the `inputID` argument of `gov_main_layout()`, pass the same value to `skip_to_main()`.
+
+### `cookieBanner()`
+
+Displays a GOV.UK-styled cookie consent banner. It requires `shinyjs::useShinyjs()` to be present in the UI. All element IDs within the banner are preset — see `?cookieBanner` for the server-side `observeEvent` pattern needed to handle accept and reject interactions.
+
+```{r, eval = FALSE}
+shinyjs::useShinyjs()
+cookieBanner("My service name")
+```
+
+### `header()`
+
+Creates the black GOV.UK header bar containing your department logo and service name.
+
+```{r, eval = FALSE}
+header(
+  main_text = "Department for Education",
+  secondary_text = "My dashboard"
+)
+```
+
+### `banner()`
+
+Displays a phase banner immediately below the header, used to indicate the maturity of your service (e.g. Alpha or Beta).
+
+```{r, eval = FALSE}
+banner(
+  inputId = "phase-banner",
+  type = "Beta",
+  label = 'This is a new service — your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+)
+```
+
+### `footer()`
+
+Creates the GOV.UK footer. Use `full = TRUE` to include the OGL licence logo and Crown copyright statement. You can add support links that point either to internal hidden tab panels or to external URLs.
+
+```{r, eval = FALSE}
+# Minimal footer
+footer()
+
+# Full footer with support links
+footer(
+  full = TRUE,
+  links = c(
+    `Accessibility statement` = "accessibility_footer_link",
+    `Cookies` = "cookies_footer_link"
+  )
+)
+```
+
+Internal links use auto-generated inputIDs — the link text lowercased with non-alphanumeric characters replaced by underscores — that you handle with `observeEvent()` in your server to switch the active tab panel.
+
+---
+
+## The main content area
+
+`gov_main_layout()` produces a `<div class="govuk-width-container">` wrapping a `<main class="govuk-main-wrapper">`. The outer `<div>` constrains content width; the `<main>` element carries the responsive vertical padding. Everything between the page-level components and the footer lives inside it.
+
+```{r, eval = FALSE}
+gov_main_layout(
+  # your content here
+)
+```
+
+The `id` (default `"main"`) is applied directly to the `<main>` element, which is the correct target for `skip_to_main()`. The `<main>` element also carries `role="main"` and `tabindex="-1"`, so keyboard focus moves to it when the skip link is activated.
+
+---
+
+## The primary layout system
+
+Inside `gov_main_layout()`, content is structured using a three-function grid system: `gov_row()`, `gov_box()`, and optionally `gov_text()`.
+
+```
+gov_main_layout()
+└── gov_row()
+    ├── gov_box(size = "two-thirds")
+    │   └── [your content]
+    └── gov_box(size = "one-third")
+        └── [your content]
+```
+
+### `gov_row()`
+
+Creates a GOV.UK grid row. You can have multiple rows inside `gov_main_layout()`, each stacked vertically.
+
+```{r, eval = FALSE}
+gov_main_layout(
+  gov_row(
+    # columns go here
+  ),
+  gov_row(
+    # another row
+  )
+)
+```
+
+### `gov_box()`
+
+Creates a column within a row. The `size` argument controls the column width using GOV.UK Frontend's grid classes:
+
+| `size` | Width |
+|---|---|
+| `"full"` | 100% |
+| `"one-half"` | 50% |
+| `"two-thirds"` | 66% |
+| `"one-third"` | 33% |
+| `"three-quarters"` | 75% |
+| `"one-quarter"` | 25% |
+
+Sizes within a row should add up to a full width. For example, `"two-thirds"` and `"one-third"` sit side by side:
+
+```{r, eval = FALSE}
+gov_main_layout(
+  gov_row(
+    gov_box(
+      size = "two-thirds",
+      heading_text("Main content", size = "l"),
+      # inputs, text, etc.
+    ),
+    gov_box(
+      size = "one-third",
+      heading_text("Sidebar", size = "m"),
+      # supporting content
+    )
+  )
+)
+```
+
+For a simple single-column layout, use `size = "full"`:
+
+```{r, eval = FALSE}
+gov_main_layout(
+  gov_row(
+    gov_box(
+      size = "full",
+      heading_text("Page title", size = "l")
+    )
+  )
+)
+```
+
+### `gov_text()`
+
+A thin wrapper that produces a `<p class="govuk-body">` paragraph element. Use it when you want to add body text with correct GOV.UK styling without writing raw tag calls.
+
+```{r, eval = FALSE}
+gov_box(
+  size = "two-thirds",
+  gov_text("This is a paragraph of body text.")
+)
+```
+
+---
+
+## `gov_layout()` — legacy alternative
+
+> **Warning:** `gov_layout()` is not recommended for new development and may be removed in a future release. Use `gov_main_layout()` with `gov_row()` and `gov_box()` instead.
+
+`gov_layout()` is a single-function alternative that combines a width container and a column in one call:
+
+```{r, eval = FALSE}
+gov_layout(
+  size = "two-thirds",
+  heading_text("Page title", size = "l"),
+  # content
+)
+```
+
+It is well suited to simple, single-column apps where you want a width constraint without setting up the full `gov_main_layout()` / `gov_row()` / `gov_box()` hierarchy.
+
+**As soon as your app needs more than one column, multiple rows, or a combination of widths, switch to the full system.** Nesting `gov_layout()` inside `gov_main_layout()` will produce doubled-up width container HTML and cause the content to appear visually inset from the page-level components.
+
+---
+
+## Multi-page dashboards
+
+For apps with multiple sections, use `service_navigation()` in combination with a hidden tab panel. The navigation bar renders as a row of links below the header; clicking a link fires a Shiny input that you use in your server to switch the visible panel.
+
+### Setting up navigation links
+
+Pass a named character vector to `service_navigation()`. The names are displayed as link text; the values become the inputIDs:
+
+```{r, eval = FALSE}
+service_navigation(
+  c(
+    "Summary" = "nav_summary",
+    "Detailed data" = "nav_detail",
+    "User guide" = "nav_guide"
+  )
+)
+```
+
+If you pass an unnamed vector, inputIDs are auto-generated by lowercasing the text and replacing non-alphanumeric characters with underscores (e.g. `"Detailed data"` becomes `detailed_data`).
+
+### Wiring navigation to panels
+
+Use a hidden `tabsetPanel` for the content area, and `observeEvent()` in your server to switch between panels when a navigation link is clicked. Call `update_service_navigation()` alongside `updateTabsetPanel()` to keep the active state of the nav bar in sync. The excerpts below show the structural pattern — replace `"Content"` with your actual UI:
+
+```{r, eval = FALSE}
+# ui.R — excerpt showing tab panel structure
+shiny::tabsetPanel(
+  type = "hidden",
+  id = "main_panels",
+  shiny::tabPanel("Summary",       value = "nav_summary",  "Content"),
+  shiny::tabPanel("Detailed data", value = "nav_detail",   "Content"),
+  shiny::tabPanel("User guide",    value = "nav_guide",    "Content")
+)
+
+# server.R
+shiny::observeEvent(input$nav_summary, {
+  shiny::updateTabsetPanel(session, "main_panels", selected = "nav_summary")
+  shinyGovstyle::update_service_navigation(session, "nav_summary")
+})
+```
+
+Repeat the `observeEvent` block for each navigation link. `update_service_navigation()` is also useful when navigating between pages via buttons or back links that exist within the content rather than in the navigation bar itself.
+
+### Footer-only pages
+
+Some pages — such as an accessibility statement, privacy notice, or cookies information page — should not appear in the service navigation but still need to be reachable. The standard pattern is to add a link in `footer()` and a corresponding hidden tab panel, but to omit the link from `service_navigation()`.
+
+Because the user navigates to these pages outside of the service navigation, there is no active nav item to highlight. You do not need to call `update_service_navigation()` for these transitions. However, you should call it when navigating *back* to a main page from a footer-linked page, so the correct nav item becomes active again.
+
+```{r, eval = FALSE}
+# ui.R — footer link, no entry in service_navigation()
+footer(
+  full = TRUE,
+  links = c(`Accessibility statement` = "accessibility_footer_link")
+)
+
+# ui.R — tab panel exists in the hidden tabset but not in service_navigation()
+shiny::tabsetPanel(
+  type = "hidden",
+  id = "main_panels",
+  shiny::tabPanel("Summary",                 value = "nav_summary",         "Content"),
+  shiny::tabPanel("Accessibility statement", value = "accessibility_panel", "Content")
+)
+
+# server.R — navigate to the footer page (no update_service_navigation needed)
+shiny::observeEvent(input$accessibility_footer_link, {
+  shiny::updateTabsetPanel(session, "main_panels", selected = "accessibility_panel")
+})
+```
+
+### Modularising the code
+
+Once an app has multiple pages, it is strongly recommended to use Shiny modules to keep each page's UI and server logic self-contained. The `inst/example_app` bundled with this package demonstrates this pattern: each page is a module in `inst/example_app/modules/`, with `mod_<name>_ui()` and `mod_<name>_server()` functions called from the top-level `ui.R` and `server.R`. This keeps individual files focused and makes it straightforward to add or remove pages without touching the overall app structure.
+
+---
+
+## Complete example
+
+The following is a minimal but complete multi-page app that uses all of the layout components covered in this vignette:
+
+```{r, eval = FALSE}
+library(shiny)
+library(shinyGovstyle)
+
+ui <- bslib::page_fluid(
+  skip_to_main(),
+  header(
+    main_text = "My department",
+    secondary_text = "My dashboard"
+  ),
+  service_navigation(
+    c(
+      "Summary"  = "nav_summary",
+      "About"    = "nav_about"
+    )
+  ),
+  banner(
+    inputId = "phase",
+    type = "Beta",
+    label = "This is a new service."
+  ),
+
+  gov_main_layout(
+    shiny::tabsetPanel(
+      type = "hidden",
+      id = "main_panels",
+
+      shiny::tabPanel(
+        "Summary", value = "nav_summary",
+        gov_row(
+          gov_box(
+            size = "two-thirds",
+            heading_text("Summary", size = "l"),
+            gov_text("Welcome to the summary page.")
+          ),
+          gov_box(
+            size = "one-third",
+            heading_text("Quick facts", size = "m"),
+            gov_text("Supporting information goes here.")
+          )
+        )
+      ),
+
+      shiny::tabPanel(
+        "About", value = "nav_about",
+        gov_row(
+          gov_box(
+            size = "full",
+            heading_text("About this dashboard", size = "l"),
+            gov_text("This page describes the dashboard.")
+          )
+        )
+      )
+    )
+  ),
+
+  footer(full = TRUE)
+)
+
+server <- function(input, output, session) {
+  shiny::observeEvent(input$nav_summary, {
+    shiny::updateTabsetPanel(session, "main_panels", selected = "nav_summary")
+    update_service_navigation(session, "nav_summary")
+  })
+  shiny::observeEvent(input$nav_about, {
+    shiny::updateTabsetPanel(session, "main_panels", selected = "nav_about")
+    update_service_navigation(session, "nav_about")
+  })
+}
+
+shiny::shinyApp(ui, server)
+```

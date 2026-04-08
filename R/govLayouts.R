@@ -73,9 +73,11 @@ gov_main_layout <- function(
   inputID = "main" # nolint
 ) {
   gov_main <- shiny::tags$div(
-    id = inputID,
     class = "govuk-width-container",
     shiny::tags$main(
+      id = inputID,
+      role = "main",
+      tabindex = "-1",
       class = "govuk-main-wrapper",
       ...
     )

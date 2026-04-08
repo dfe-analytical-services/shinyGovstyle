@@ -1,6 +1,5 @@
 mod_feedback_types_ui <- function(id) {
-  gov_layout(
-    size = "two-thirds",
+  tagList(
     heading_text("Feedback page", size = "l"),
     label_hint(
       NS(id, "label-feedback"),

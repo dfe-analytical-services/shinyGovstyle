@@ -1,6 +1,5 @@
 mod_text_types_ui <- function(id) {
-  gov_layout(
-    size = "two-thirds",
+  tagList(
     heading_text("backlink_Input", size = "s", level = 2),
     backlink_Input(NS(id, "select_types_back")),
     heading_text("Text Types", size = "l"),

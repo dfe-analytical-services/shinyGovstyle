@@ -1,6 +1,5 @@
 mod_tables_tabs_ui <- function(id) {
-  gov_layout(
-    size = "two-thirds",
+  tagList(
     heading_text("Tables, tabs and accordions", size = "l"),
     label_hint(
       NS(id, "label3"),

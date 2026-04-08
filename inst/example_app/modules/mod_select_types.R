@@ -1,6 +1,5 @@
 mod_select_types_ui <- function(id) {
-  gov_layout(
-    size = "two-thirds",
+  tagList(
     heading_text("Select Types", size = "l"),
     label_hint(
       NS(id, "label1"),

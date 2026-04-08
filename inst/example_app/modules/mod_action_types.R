@@ -1,6 +1,5 @@
 mod_action_types_ui <- function(id) {
-  gov_layout(
-    size = "two-thirds",
+  tagList(
     heading_text("Action types", size = "l"),
     label_hint(
       "label3",

@@ -47,13 +47,13 @@ bslib::page_fluid(
           ),
           link_text = "main GitHub branch"
         ),
-        ". The page layout has some custom CSS overrides is still being",
+        ". The page layout has some custom CSS overrides, and is still being",
         " developed to work with the ",
         shinyGovstyle::external_link(
           href = "https://rstudio.github.io/bslib/",
           link_text = "bslib package"
         ),
-        " and may change in future releases."
+        ", it may change in future releases."
       )
     ),
 

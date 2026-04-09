@@ -19,8 +19,15 @@ full_width_overrides <- function() {
       shiny::HTML(
         # Overall overrides
         ".container-fluid { padding: 0; }",
-        ".govuk-width-container { max-width: 100%; padding-left: 10px; }",
+        # Match GOV.UK Frontend's own gutter values: 15px (mobile) and 30px
+        # (desktop). Without this, text would start flush against the viewport
+        # edge in a full-width layout, which GOV.UK Frontend normally avoids
+        # via its max-width container and auto margins.
+        ".govuk-width-container { max-width: 100%; padding-left: 15px; }",
+        "@media (min-width: 641px) { .govuk-width-container { padding-left: 30px; } }",
         ".govuk-grid-row { margin-left: 0; margin-right: 0; }",
+        "[class*='govuk-grid-column-'] { padding: 0; }",
+        ".govuk-main-wrapper { padding-top: 20px; }",
 
         # Cookie banner overrides
         ".govuk-button-group { margin-right: 0px; }",

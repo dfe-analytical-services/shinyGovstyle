@@ -60,7 +60,9 @@ if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle navigation: 
-\code{\link{contents_link}()}
+\code{\link{contents_link}()},
+\code{\link{service_navigation}()},
+\code{\link{update_service_navigation}()}
 }
 \concept{Govstyle navigation}
 \keyword{backlink}

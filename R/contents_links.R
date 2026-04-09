@@ -50,12 +50,10 @@ subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
 
 #' Contents link function
 #'
-#' `r lifecycle::badge('experimental')`
+#' `r lifecycle::badge('deprecated')`
 #'
 #' This function creates an action link to nav between tabs and optionally
 #' link to subcontents headers.
-#'
-#' This is experimental and may change in future.
 #'
 #' @param link_text vector of link text for contents
 #' @param input_id contents button Id
@@ -288,6 +286,8 @@ contents_link <- function(
   subcontents_text_list,
   subcontents_id_list
 ) {
+  lifecycle::deprecate_warn("0.2.0", "contents_link()")
+
   if (
     missing(subcontents_id_list) &&
       !missing(subcontents_text_list)

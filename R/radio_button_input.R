@@ -165,11 +165,14 @@ generateOptions2 <- # nolint
     options <- mapply(
       choiceValues,
       choiceNames,
-      FUN = function(value, name) {
+      seq_along(choiceValues),
+      FUN = function(value, name, idx) {
+        option_id <- paste0(inputId, "-", idx)
         inputTag <- # nolint
           shiny::tags$input(
             type = type,
             name = inputId,
+            id = option_id,
             value = value,
             class = "govuk-radios__input"
           )
@@ -183,6 +186,7 @@ generateOptions2 <- # nolint
           shiny::tags$label(
             pd$html,
             pd$deps,
+            `for` = option_id,
             class = "govuk-label govuk-radios__label"
           )
         )

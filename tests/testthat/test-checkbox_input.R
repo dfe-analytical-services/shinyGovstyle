@@ -71,3 +71,23 @@ test_that("Small", {
   small_check <- cbtag$children[[1]]$children[[1]]$children[[4]]$attribs$class
   expect_identical(small_check, "govuk-checkboxes govuk-checkboxes--small")
 })
+
+test_that("Labels are programmatically associated with inputs", {
+  cb_labels <- c("Option 1", "Option 2", "Option 3")
+  cb_ids <- c("op1", "op2", "op3")
+  cbtag <- checkbox_Input(
+    inputId = "cb_a11y",
+    label = "Label",
+    cb_labels = cb_labels,
+    checkboxIds = cb_ids
+  )
+  option_items <- cbtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
+
+  for (i in seq_along(cb_ids)) {
+    item <- option_items[[i]]
+    input_tag <- item$children[[1]]
+    label_tag <- item$children[[2]]
+    expect_identical(input_tag$attribs$id, cb_ids[i])
+    expect_identical(label_tag$attribs$`for`, cb_ids[i])
+  }
+})

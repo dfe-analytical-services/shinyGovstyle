@@ -1,6 +1,22 @@
-# In development 
+# shinyGovstyle 0.2.0
 
+* Updated govuk-frontend CSS from v5.4.0 to v6.1.0.
+* New `skip_to_main()` function to add a skip-to-main-content accessibility link.
+* New `gov_list()` function to render styled ordered and unordered lists.
+* New `download_link()`, `download_button()`, and `download_radios()` functions for download components.
+* New `external_link()` function for creating safe, accessible external links that open in a new tab.
+* New `service_navigation()` function with `update_service_navigation()` and `service_nav_link()` helpers for the GOV.UK service navigation component.
+* Footer now supports links.
+* `gov_table()` now supports reactive tables, sorting, and pagination.
+* Accordion sections now toggle by clicking anywhere in the section header, not just the title text.
+* File upload input now uses GDS-like styling.
+* `value_box()` updated to use GOV.UK tag colours; the redundant `inputId` argument has been removed.
+* Alt text validation in `header()` softened from errors to warnings.
+* `header()` arguments `main_text` and `secondary_text` have been renamed to `org_name` and `service_name` respectively. The old names are deprecated and will be removed in a future version. The header has also been fixed to correctly size and align on small screens, and `service_name` now wraps correctly on narrow viewports.
 * Many functions now cross-reference other functions in the same family (e.g., all 'text inputs' are cross-referenced in their individual function help files).
+* Fixed `gov_table()` crash when `width_overwrite = NULL`.
+* Fixed table caption placement.
+* Fixed header logo sizing issues.
 
 # shinyGovstyle 0.1.1
 

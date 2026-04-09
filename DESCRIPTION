@@ -1,6 +1,6 @@
 Package: shinyGovstyle
 Title: Custom Gov Style Inputs for Shiny
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: c(
     person("Ross", "Wyatt", , "ross.wyatt@justice.gov.uk", role = c("aut")),
     person("Cam", "Race", , "camrace8@gmail.com", role = c("aut", "cre")),

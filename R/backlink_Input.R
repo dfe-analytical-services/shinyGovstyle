@@ -10,8 +10,8 @@
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shiny::navlistPanel(

@@ -24,8 +24,8 @@ typeface guidance} for full details on when GDS Transport is permitted.
 ui <- shiny::fluidPage(
   font(),
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo="shinyGovstyle/images/moj_logo.png")
 )
 

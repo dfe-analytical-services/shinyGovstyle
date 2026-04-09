@@ -35,8 +35,8 @@ hidden tabset so to the end user it looks like it is a new page.
 \examples{
 ui <- shiny::fluidPage(
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice logo"
   ),
@@ -68,8 +68,8 @@ footer(
 # Full app with link controlling a hidden tab and a link to an external page
 ui <- shiny::fluidPage(
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice logo"
   ),

@@ -83,8 +83,8 @@ to request this as an addition to the package.
 
 ```{r, eval = FALSE}
 header(
-  main_text = "Department for Education",
-  secondary_text = "My dashboard"
+  org_name = "Department for Education",
+  service_name = "My dashboard"
 )
 ```
 
@@ -350,8 +350,8 @@ library(shinyGovstyle)
 ui <- bslib::page_fluid(
   skip_to_main(),
   header(
-    main_text = "My department",
-    secondary_text = "My dashboard"
+    org_name = "My department",
+    service_name = "My dashboard"
   ),
   service_navigation(
     c(

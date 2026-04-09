@@ -175,15 +175,28 @@ header <- function(
               )
             },
             shiny::tags$span(main_text, class = "govuk-header__product-name")
-          ),
-          shiny::tags$span(
-            secondary_text,
-            class = "govuk-header__content govuk-header__product-name"
           )
         )
       ),
+      if (!is.null(secondary_text)) {
+        shiny::tags$div(
+          class = "govuk-header__content",
+          shiny::tags$span(secondary_text, class = "govuk-header__service-name")
+        )
+      }
     )
   )
 
-  attachDependency(gov_header)
+  header_css <- htmltools::htmlDependency(
+    name = "header",
+    version = as.character(utils::packageVersion("shinyGovstyle")[[1]]),
+    src = c(href = "shinyGovstyle/css"),
+    stylesheet = "header-overrides.css"
+  )
+
+  htmltools::attachDependencies(
+    attachDependency(gov_header),
+    header_css,
+    append = TRUE
+  )
 }

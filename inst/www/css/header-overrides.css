@@ -1,0 +1,54 @@
+/*
+ * Header layout overrides.
+ *
+ * GOV.UK Frontend v6 removed the service name from the header
+ * As the majority of Shiny apps are not on a GOV.UK domain,
+ * we're adding back in the old CSS here to keep that option
+ */
+.govuk-header__service-name {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 1.125rem;
+    line-height: 1.1111111111;
+}
+
+@media (min-width:40.0625em) {
+    .govuk-header__service-name {
+        font-size: 1.5rem;
+        line-height: 1.25
+    }
+}
+
+@media print {
+    .govuk-header__service-name {
+        font-size: 18pt;
+        line-height: 1.15
+    }
+}
+
+.govuk-header__content, .govuk-header__logo {
+    box-sizing: border-box
+}
+
+.govuk-header__logo {
+    margin-bottom: 10px;
+    padding-right: 80px
+}
+
+@media (min-width:79em) {
+    /* At wide desktop the container is wide enough that the service
+       name can be truly centred on the page without overlapping the logo */
+    .govuk-header__container {
+        position: relative
+    }
+
+    .govuk-header__content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        flex: none;
+        text-align: center;
+        white-space: nowrap
+    }
+}

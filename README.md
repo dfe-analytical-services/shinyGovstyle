@@ -33,11 +33,6 @@ If you want to make use of the development version then install directly from Gi
 pak::pak("dfe-analytical-services/shinyGovstyle")
 ```
 
-This has previously also been available on conda though is no longer actively maintained, if you are using the package in this way, please let us know!
-```
-conda install r-shinygovstyle
-```
-
 To use error and word count elements you will need to load `useShinyjs()` from shinyjs in your ui.R file
 ```r
 shinyjs::useShinyjs()

@@ -1,10 +1,13 @@
 #' Header Function
 #'
 #' This function create a header banner. For use at top of the screen
-#' @param main_text Main text that goes in the header
-#' @param secondary_text Secondary header to supplement the main text
+#' @param org_name Organisation name that goes in the header
+#' @param service_name Service name to supplement the organisation name
 #' @param logo Add a link to a logo which will apply in the header. Use crown to
 #' use the crown SVG version on GOV UK
+#' @param main_text `r lifecycle::badge("deprecated")` Use `org_name` instead
+#' @param secondary_text `r lifecycle::badge("deprecated")` Use `service_name`
+#' instead
 #' @param main_link Add a link for clicking on main text
 #' `r lifecycle::badge("deprecated")`
 #' @param secondary_link Add a link for clicking on secondary
@@ -24,8 +27,8 @@
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png",
 #'     logo_alt_text = "Ministry of Justice Logo"
 #'   )
@@ -35,9 +38,11 @@
 #'
 #' if (interactive()) shinyApp(ui = ui, server = server)
 header <- function(
-  main_text = "Shiny example app",
-  secondary_text = NULL,
+  org_name = "Shiny example app",
+  service_name = NULL,
   logo = "shinyGovstyle/images/Dept_logo.svg",
+  main_text = lifecycle::deprecated(),
+  secondary_text = lifecycle::deprecated(),
   main_link = NULL,
   secondary_link = NULL,
   logo_alt_text = "Departmental logo",
@@ -46,6 +51,24 @@ header <- function(
   logo_width = 66,
   logo_height = 34
 ) {
+  if (lifecycle::is_present(main_text)) {
+    lifecycle::deprecate_warn(
+      when = "0.2.0",
+      what = "header(main_text)",
+      with = "header(org_name)"
+    )
+    org_name <- main_text
+  }
+
+  if (lifecycle::is_present(secondary_text)) {
+    lifecycle::deprecate_warn(
+      when = "0.2.0",
+      what = "header(secondary_text)",
+      with = "header(service_name)"
+    )
+    service_name <- secondary_text
+  }
+
   # checks for alt text
   if (!is.null(logo) && is.null(logo_alt_text)) {
     warning(
@@ -67,8 +90,8 @@ header <- function(
   if (!missing("main_alt_text")) {
     lifecycle::deprecate_warn(
       when = "0.2.0",
-      what = "header(main_link)",
-      details = "main_link will be dropped in v1.0.0"
+      what = "header(main_alt_text)",
+      details = "main_alt_text will be dropped in v1.0.0"
     )
   }
 
@@ -86,12 +109,6 @@ header <- function(
       what = "header(secondary_link)",
       details = "secondary_link will be dropped in v1.0.0"
     )
-  }
-
-  if (is.null(logo)) {
-    logo_src <- "null"
-  } else {
-    logo_src <- logo
   }
 
   gov_header <- shiny::tags$header(
@@ -112,10 +129,10 @@ header <- function(
       class = "govuk-header__container govuk-width-container",
       shiny::tags$div(
         class = "govuk-header__logo",
-        shiny::tags$a(
+        shiny::tags$span(
           shiny::tags$span(
             class = "govuk-header__logotype",
-            if (logo_src == "crown") {
+            if (!is.null(logo) && logo == "crown") {
               shiny::tags$svg(
                 `aria-hidden` = "true",
                 focusable = "false",
@@ -167,21 +184,21 @@ header <- function(
                   )
                 )
               )
-            } else {
+            } else if (!is.null(logo)) {
               shiny::tags$img(
                 src = logo,
                 class = "govuk-header__logotype-crown-fallback-image",
                 alt = logo_alt_text
               )
             },
-            shiny::tags$span(main_text, class = "govuk-header__product-name")
+            shiny::tags$span(org_name, class = "govuk-header__product-name")
           )
         )
       ),
-      if (!is.null(secondary_text)) {
+      if (!is.null(service_name)) {
         shiny::tags$div(
           class = "govuk-header__content",
-          shiny::tags$span(secondary_text, class = "govuk-header__service-name")
+          shiny::tags$span(service_name, class = "govuk-header__service-name")
         )
       }
     )

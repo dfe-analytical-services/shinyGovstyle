@@ -1,6 +1,10 @@
-# shinyGovstyle (development version)
+# In development 
 
 * Many functions now cross-reference other functions in the same family (e.g., all 'text inputs' are cross-referenced in their individual function help files).
+
+# shinyGovstyle 0.1.1
+
+* No user facing changes, moving to using snapshot testing for backlink_Input
 
 # shinyGovstyle 0.1.0
 

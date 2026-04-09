@@ -6,6 +6,7 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^CRAN-SUBMISSION$
 ^LICENSE\.md$
 ^data-raw$
 _\.new\.png$

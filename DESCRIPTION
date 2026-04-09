@@ -1,9 +1,9 @@
 Package: shinyGovstyle
-Title: Custom GOV.UK Style Inputs for Shiny
-Version: 0.1.0.9000
+Title: Custom Gov Style Inputs for Shiny
+Version: 0.1.1
 Authors@R: c(
-    person("Ross", "Wyatt", , "ross.wyatt@justice.gov.uk", role = "aut"),
-    person("Cam", "Race", , "cameron.race@education.gov.uk", role = c("aut", "cre")),
+    person("Ross", "Wyatt", , "ross.wyatt@justice.gov.uk", role = c("aut")),
+    person("Cam", "Race", , "camrace8@gmail.com", role = c("aut", "cre")),
     person("Sarah", "Wong", role = "aut"),
     person("Richard", "Bielby", , "richard.bielby@education.gov.uk", role = "ctb"),
     person("Charlotte", "Foster", , "charlotte.foster@education.gov.uk", role = "ctb"),

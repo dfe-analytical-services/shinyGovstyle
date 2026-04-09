@@ -26,6 +26,7 @@ full_width_overrides <- function() {
         ".govuk-width-container { max-width: 100%; padding-left: 15px; }",
         "@media (min-width: 641px) { .govuk-width-container { padding-left: 30px; } }",
         ".govuk-grid-row { margin-left: 0; margin-right: 0; }",
+        "[class*='govuk-grid-column-'] { padding: 0; }",
         ".govuk-main-wrapper { padding-top: 20px; }",
 
         # Cookie banner overrides

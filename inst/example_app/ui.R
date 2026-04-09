@@ -58,44 +58,47 @@ bslib::page_fluid(
     ),
 
     shinyGovstyle::gov_row(
-      shiny::tabsetPanel(
-        type = "hidden",
-        id = "tab-container",
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        shiny::tabsetPanel(
+          type = "hidden",
+          id = "tab-container",
 
-        shiny::tabPanel(
-          "Select Types",
-          value = "select_types",
-          mod_select_types_ui("select_types")
-        ),
+          shiny::tabPanel(
+            "Select Types",
+            value = "select_types",
+            mod_select_types_ui("select_types")
+          ),
 
-        shiny::tabPanel(
-          "Text Types",
-          value = "text_types",
-          mod_text_types_ui("text_types")
-        ),
+          shiny::tabPanel(
+            "Text Types",
+            value = "text_types",
+            mod_text_types_ui("text_types")
+          ),
 
-        shiny::tabPanel(
-          "Action types",
-          value = "action_types",
-          mod_action_types_ui("action_types")
-        ),
+          shiny::tabPanel(
+            "Action types",
+            value = "action_types",
+            mod_action_types_ui("action_types")
+          ),
 
-        shiny::tabPanel(
-          "Tables, tabs and accordions",
-          value = "tables_tabs_and_accordions",
-          mod_tables_tabs_ui("tables_tabs")
-        ),
+          shiny::tabPanel(
+            "Tables, tabs and accordions",
+            value = "tables_tabs_and_accordions",
+            mod_tables_tabs_ui("tables_tabs")
+          ),
 
-        shiny::tabPanel(
-          "Feedback Types",
-          value = "feedback_types",
-          mod_feedback_types_ui("feedback_types")
-        ),
+          shiny::tabPanel(
+            "Feedback Types",
+            value = "feedback_types",
+            mod_feedback_types_ui("feedback_types")
+          ),
 
-        shiny::tabPanel(
-          "Cookies",
-          value = "panel-cookies",
-          mod_cookies_ui("cookies")
+          shiny::tabPanel(
+            "Cookies",
+            value = "panel-cookies",
+            mod_cookies_ui("cookies")
+          )
         )
       )
     )

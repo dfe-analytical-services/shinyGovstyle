@@ -30,15 +30,18 @@ banner <- function(
   label
 ) {
   gov_banner <- shiny::tags$div(
-    class = "govuk-phase-banner govuk-width-container govuk-main-wrapper",
+    class = "govuk-phase-banner",
     id = inputId,
-    shiny::tags$p(
-      class = "govuk-phase-banner__content",
-      shiny::tags$strong(
-        class = "govuk-tag govuk-phase-banner__content__tag ",
-        type
-      ),
-      shiny::tags$span(class = "govuk-phase-banner__text", shiny::HTML(label))
+    shiny::tags$div(
+      class = "govuk-width-container",
+      shiny::tags$p(
+        class = "govuk-phase-banner__content",
+        shiny::tags$strong(
+          class = "govuk-tag govuk-phase-banner__content__tag ",
+          type
+        ),
+        shiny::tags$span(class = "govuk-phase-banner__text", shiny::HTML(label))
+      )
     )
   )
   attachDependency(gov_banner)

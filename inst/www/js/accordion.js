@@ -1,11 +1,13 @@
 // individual section buttons
-$(document).on('click', '.govuk-accordion__section-button', function (e) {
+$(document).on('click', '.govuk-accordion__section', function (e) {
 
   // get 'name' value from button
   var str = e.target.name;
 
   // get z value from name (Map argument)
-  var level = str.substring(str.length - 1);
+  var level = str.substr(str.length - 2);
+
+
 
   // get class from top div
   var cur_class = $('[name="accordion-default-heading-' + level + '"]').parent().parent().parent()[0].classList.value

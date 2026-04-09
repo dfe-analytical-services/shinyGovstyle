@@ -5,13 +5,16 @@
 \title{Header Function}
 \usage{
 header(
-  main_text,
-  secondary_text,
-  logo = NULL,
-  main_link = "#",
-  secondary_link = "#",
-  logo_width = 36,
-  logo_height = 32
+  main_text = "Shiny example app",
+  secondary_text = NULL,
+  logo = "shinyGovstyle/images/Dept_logo.svg",
+  main_link = NULL,
+  secondary_link = NULL,
+  logo_alt_text = "Departmental logo",
+  main_alt_text = NULL,
+  secondary_alt_text = NULL,
+  logo_width = 66,
+  logo_height = 34
 )
 }
 \arguments{
@@ -20,35 +23,55 @@ header(
 \item{secondary_text}{Secondary header to supplement the main text}
 
 \item{logo}{Add a link to a logo which will apply in the header. Use crown to
-use the crown svg version on gov uk.}
+use the crown SVG version on GOV UK}
 
-\item{main_link}{Add a link for clicking on main text}
+\item{main_link}{Add a link for clicking on main text
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
-\item{secondary_link}{Add a link for clicking on secondary header.}
+\item{secondary_link}{Add a link for clicking on secondary
+header \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 
-\item{logo_width}{Change the logo size width css to improve fit}
+\item{logo_alt_text}{Add alternative text for the logo. Should be used when a
+logo is used}
 
-\item{logo_height}{Change the logo size height css to improve fit}
+\item{main_alt_text}{Add alternative text for the main link. Should be used
+when a main link is used \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+
+\item{secondary_alt_text}{Add alternative text for the secondary link. Should
+be used when a secondary link is used \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+
+\item{logo_width}{Change the logo size width CSS to improve fit}
+
+\item{logo_height}{Change the logo size height CSS to improve fit}
 }
 \value{
-a header html shiny object
+a header HTML shiny tag object
 }
 \description{
-This function create a header banner.  For use at top of the screen
+This function create a header banner. For use at top of the screen
 }
 \examples{
-if (interactive()) {
-
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png")
+ui <- shiny::fluidPage(
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo = "shinyGovstyle/images/moj_logo.png",
+    logo_alt_text = "Ministry of Justice Logo"
   )
+)
 
-  server <- function(input, output, session) {}
+server <- function(input, output, session) {}
 
-  shinyApp(ui = ui, server = server)
+if (interactive()) shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle page structure: 
+\code{\link{banner}()},
+\code{\link{cookieBanner}()},
+\code{\link{footer}()},
+\code{\link{gov_layout}()},
+\code{\link{layouts}},
+\code{\link{skip_to_main}()}
 }
+\concept{Govstyle page structure}
 \keyword{header}

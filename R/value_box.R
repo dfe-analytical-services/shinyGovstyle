@@ -1,0 +1,87 @@
+#' Create a value text box with optional description and colour
+#'
+#' This function generates a value text box with an optional description and
+#' customisable colour.
+#'
+#' The text box can be used in Shiny applications to display highlighted
+#' information, such as statistics or key metrics.
+#'
+#' @param value Character. The primary value to display in the value box.
+#' Defaults to "your value goes here"
+#' @param text Character or NA. An optional description to appear below the
+#' value. If not provided (default is NA), the description will not be
+#' displayed
+#' @param colour Character. A colour to apply to the value box. Defaults
+#' to "blue". Choose from the following: "grey", "purple", "teal",
+#' "blue", "yellow", "orange", "red", "magenta", or "green"
+#'
+#' @return A Shiny `div` tag representing the value box, styled according
+#' to the specified parameters
+#' @family Govstyle feedback types
+#' @export
+#'
+#' @examples
+#' value_box(
+#'   value = "1,000,000",
+#'   text = "This is the latest value for the selected inputs.",
+#'   colour = "purple"
+#' )
+value_box <- function(
+  value = "your value goes here",
+  text = NA,
+  colour = "blue"
+) {
+  #check for deprecated colours
+  if (colour == "light-blue") {
+    warning(
+      "'light-blue' is no longer a supported colour.
+      Please select an alternative from:
+      'grey', 'purple', 'teal', 'blue', 'yellow',
+      'orange', 'red', 'magenta', or 'green'."
+    )
+  }
+  if (colour == "turquoise") {
+    warning(
+      "'turquoise' is no longer a supported colour.
+      Please select an alternative from:
+      'grey', 'purple', 'teal', 'blue', 'yellow',
+      'orange', 'red', 'magenta', or 'green'."
+    )
+  }
+  if (colour == "pink") {
+    warning(
+      "'pink' is no longer a supported colour.
+      Please select an alternative from:
+      'grey', 'purple', 'teal', 'blue', 'yellow',
+      'orange', 'red', 'magenta', or 'green'."
+    )
+  }
+
+  # Use the govuk-tag--<colour> class for coloring
+  class_colour <- paste0("govuk-tag--", colour)
+
+  # Conditional rendering of text only if it's provided
+  text_tag <- if (!is.na(text)) {
+    shiny::tags$div(
+      shiny::tags$br(),
+      shiny::tags$strong(
+        text,
+        class = "value-box-description"
+      )
+    )
+  } else {
+    NULL
+  }
+
+  # Define the value box with the value and optional text
+  gov_value <- shiny::tags$div(
+    class = paste("value-box-container", class_colour),
+    shiny::tags$strong(
+      value,
+      class = "value-box-value"
+    ),
+    text_tag
+  )
+
+  attachDependency(gov_value)
+}

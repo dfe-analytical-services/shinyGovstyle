@@ -7,33 +7,32 @@
 warning_text(inputId, text)
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value.}
+\item{inputId}{The input slot that will be used to access the value}
 
 \item{text}{Text that goes in the main}
 }
 \value{
-a warning box html shiny object
+a warning box HTML shiny tag object
 }
 \description{
-This function create warning text
+This function create warning text.
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shinyGovstyle::gov_layout(size = "two-thirds",
-      shinyGovstyle::warning_text(
-        inputId = "warn1",
-        text = "You can be fined up to £5,000 if you do not register.")
-    ),
-    shinyGovstyle::footer(full = TRUE)
-  )
-
-  server <- function(input, output, session) {}
-  shinyApp(ui = ui, server = server)
+shinyGovstyle::warning_text(
+  inputId = "warn1",
+  text = "You can be fined up to £5,000 if you do not register."
+)
 }
+\seealso{
+Other Govstyle feedback types: 
+\code{\link{details}()},
+\code{\link{gov_summary}()},
+\code{\link{insert_text}()},
+\code{\link{label_hint}()},
+\code{\link{noti_banner}()},
+\code{\link{panel_output}()},
+\code{\link{tag_Input}()},
+\code{\link{value_box}()}
 }
+\concept{Govstyle feedback types}
 \keyword{warning}

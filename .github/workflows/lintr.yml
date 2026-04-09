@@ -1,0 +1,21 @@
+name: lintr
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '19 8 * * 3'
+
+permissions:
+  actions: write
+  contents: read
+  packages: write
+  pull-requests: write
+  security-events: write
+
+jobs:
+  lint:
+    uses: dfe-analytical-services/dfeshiny/.github/workflows/lintr_reusable.yaml@main
+    with:
+      is_package: "true"

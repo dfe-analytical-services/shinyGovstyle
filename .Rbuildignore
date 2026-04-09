@@ -6,4 +6,13 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+<<<<<<< v0.1.1-cmd-test-fixes
 ^CRAN-SUBMISSION$
+=======
+^LICENSE\.md$
+^data-raw$
+_\.new\.png$
+^[.]?air[.]toml$
+^\.vscode$
+package.json
+>>>>>>> main

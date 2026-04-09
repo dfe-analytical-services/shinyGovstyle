@@ -7,51 +7,62 @@
 backlink_Input(inputId, label = "Back")
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value.}
+\item{inputId}{The input slot that will be used to access the value}
 
 \item{label}{The link text for the backlink, default is "Back"}
 }
 \value{
-a backlink html shiny object
+a backlink HTML shiny tag object
 }
 \description{
 This function adds a back link to the page
 }
 \examples{
-if (interactive()) {
-  ui <- fluidPage(
-    header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png"),
-    shiny::navlistPanel(
-      "",
-      id="nav",
-      widths = c(2, 10),
-      well = FALSE,
+ui <- shiny::fluidPage(
+  header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo = "shinyGovstyle/images/moj_logo.png"
+  ),
+  shiny::navlistPanel(
+    "",
+    id = "nav",
+    widths = c(2, 10),
+    well = FALSE,
+    # Create first panel
+    shiny::tabPanel(
+      "Select Types",
+      value = "panel1",
+      gov_layout(
+        size = "two-thirds",
+        backlink_Input("link1"),
+        shiny::tags$br(),
+        shiny::tags$br()
+      )
+    ),
+    shiny::tabPanel(
+      "Tab2",
+      value = "panel2"
+    )
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
 
-      #Create first panel
-      shiny::tabPanel(
-        "Select Types",
-        value = "panel1",
-        gov_layout(size = "two-thirds",
-          backlink_Input("link1"),
-          shiny::tags$br(), shiny::tags$br()
-       )),
-       shiny::tabPanel(
-         "Tab2",
-         value = "panel2")),
-   shinyGovstyle::footer(full = TRUE)
-  )
+server <- function(input, output, session) {
+  # Slightly confused in that it goes forward rather than back
+  # but shows how to use
+  observeEvent(input$link1, {
+    updateTabsetPanel(session, "nav", selected = "panel2")
+  })
+}
 
-  server <- function(input, output, session) {
-    #Slightly confused in that it goes forward rather than back, but shows how
-    #to use
-    observeEvent(input$link1,{
-      updateTabsetPanel(session, "nav", selected = "panel2")
-    })
-  }
-  shinyApp(ui = ui, server = server)
+if (interactive()) shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle navigation: 
+\code{\link{contents_link}()},
+\code{\link{service_navigation}()},
+\code{\link{update_service_navigation}()}
 }
+\concept{Govstyle navigation}
 \keyword{backlink}

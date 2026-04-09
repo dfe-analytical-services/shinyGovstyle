@@ -7,27 +7,35 @@
 font()
 }
 \value{
-no value returned.  This loads the font css file
+no value returned. This loads the font CSS file
 }
 \description{
-This function adds rge nta fonts to the app. See
-https://design-system.service.gov.uk/styles/typography/ for when they
-are allowed.
+Loads the GDS Transport font for use in your app. GDS Transport is a
+restricted typeface that must only be used on GOV.UK domains. If your app
+is not hosted on a GOV.UK domain, do not call this function — the GOV.UK
+Frontend CSS will fall back to Helvetica or Arial automatically.
+}
+\details{
+See the
+\href{https://design-system.service.gov.uk/styles/typeface/}{GOV.UK
+typeface guidance} for full details on when GDS Transport is permitted.
 }
 \examples{
-if (interactive()) {
+ui <- shiny::fluidPage(
+  font(),
+  shinyGovstyle::header(
+    main_text = "Example",
+    secondary_text = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png")
+)
 
-  ui <- fluidPage(
-    font(),
-    shinyGovstyle::header(
-      main_text = "Example",
-      secondary_text = "User Examples",
-      logo="shinyGovstyle/images/moj_logo.png")
-  )
+server <- function(input, output, session) {}
 
-  server <- function(input, output, session) {}
-
-  shinyApp(ui = ui, server = server)
+if (interactive()) shinyApp(ui = ui, server = server)
 }
+\seealso{
+Other Govstyle styling: 
+\code{\link{full_width_overrides}()}
 }
+\concept{Govstyle styling}
 \keyword{font}

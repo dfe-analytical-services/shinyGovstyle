@@ -1,0 +1,12 @@
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# these will always be requested as reviewer when someone
+# opens a pull request.
+*       @cjrace @sarahmwong
+
+
+# Keep individual file lines at the end so they can take
+# precedence over more generic rules above
+# Putting Cam as owner so that if there's any changes to
+# our link text list, he can update EES to match
+data-raw/bad_link_text.R @cjrace

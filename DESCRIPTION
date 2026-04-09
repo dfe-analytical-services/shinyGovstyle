@@ -1,17 +1,9 @@
 Package: shinyGovstyle
-<<<<<<< v0.1.1-cmd-test-fixes
 Title: Custom Gov Style Inputs for Shiny
 Version: 0.1.1
 Authors@R: c(
     person("Ross", "Wyatt", , "ross.wyatt@justice.gov.uk", role = c("aut")),
     person("Cam", "Race", , "camrace8@gmail.com", role = c("aut", "cre")),
-=======
-Title: Custom GOV.UK Style Inputs for Shiny
-Version: 0.1.0.9000
-Authors@R: c(
-    person("Ross", "Wyatt", , "ross.wyatt@justice.gov.uk", role = "aut"),
-    person("Cam", "Race", , "cameron.race@education.gov.uk", role = c("aut", "cre")),
->>>>>>> main
     person("Sarah", "Wong", role = "aut"),
     person("Richard", "Bielby", , "richard.bielby@education.gov.uk", role = "ctb"),
     person("Charlotte", "Foster", , "charlotte.foster@education.gov.uk", role = "ctb"),
@@ -21,17 +13,10 @@ Authors@R: c(
 Description: Collection of 'shiny' application styling that are based
     on the GOV.UK Design System. See
     <https://design-system.service.gov.uk/components/> for details.
-<<<<<<< v0.1.1-cmd-test-fixes
-License: GPL-3
-URL: https://github.com/dfe-analytical-services/shinyGovstyle
-BugReports: 
-    https://github.com/dfe-analytical-services/shinyGovstyle/issues
-=======
 License: GPL (>= 3)
 URL: https://github.com/dfe-analytical-services/shinyGovstyle
 BugReports: 
     https://github.com/dfe-analytical-services/shinyGovstyle/issues/new/choose
->>>>>>> main
 Depends: 
     R (>= 4.1.0)
 Imports: 
@@ -55,10 +40,7 @@ Suggests:
     rmarkdown
 Encoding: UTF-8
 RoxygenNote: 7.3.3
-<<<<<<< v0.1.1-cmd-test-fixes
-=======
 LazyData: true
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
->>>>>>> main

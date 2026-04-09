@@ -171,7 +171,7 @@ header <- function(
               shiny::tags$img(
                 src = logo,
                 class = "govuk-header__logotype-crown-fallback-image",
-                alt_text = logo_alt_text
+                alt = logo_alt_text
               )
             },
             shiny::tags$span(main_text, class = "govuk-header__product-name")

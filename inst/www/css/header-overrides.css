@@ -16,13 +16,13 @@
 /* Remove the upward offset designed for the GOV.UK crown SVG */
 .govuk-header__logotype {
     top: 0;
-    vertical-align: middle
+    vertical-align: middle;
 }
 
 .govuk-header__product-name {
     font-size: 1.5rem;
     font-weight: 400;
-    vertical-align: middle
+    vertical-align: middle;
 }
 
 .govuk-header__service-name {
@@ -30,16 +30,16 @@
     margin-bottom: 10px;
     font-size: 1.5rem;
     line-height: 1.1111111111;
-    font-weight: 400
+    font-weight: 400;
 }
 
 .govuk-header__content, .govuk-header__logo {
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 .govuk-header__logo {
     margin-bottom: 10px;
-    padding-right: 80px
+    padding-right: 80px;
 }
 
 
@@ -50,7 +50,7 @@
 @media (min-width:40.0625em) {
     .govuk-header__service-name {
         font-size: 2rem;
-        line-height: 1.25
+        line-height: 1.25;
     }
 }
 
@@ -64,7 +64,7 @@
     /* Container needs position:relative as the anchor for the absolutely
        positioned service name */
     .govuk-header__container {
-        position: relative
+        position: relative;
     }
 
     /* Symmetric padding so the org name's vertical centre matches the
@@ -75,7 +75,7 @@
         align-items: center;
         padding-top: 14px;
         padding-bottom: 14px;
-        margin-bottom: 0
+        margin-bottom: 0;
     }
 
     /* Truly centre the service name horizontally and vertically in the bar */
@@ -86,7 +86,7 @@
         transform: translate(-50%, -50%);
         flex: none;
         text-align: center;
-        white-space: nowrap
+        white-space: nowrap;
     }
 }
 
@@ -98,6 +98,6 @@
 @media print {
     .govuk-header__service-name {
         font-size: 18pt;
-        line-height: 1.15
+        line-height: 1.15;
     }
 }

@@ -1,3 +1,18 @@
+test_that("secondary_text renders with correct class", {
+  h <- header(main_text = "Test", secondary_text = "My Service")
+  html <- as.character(h)
+  expect_true(grepl("govuk-header__service-name", html))
+  expect_true(grepl("My Service", html))
+})
+
+
+test_that("omitting secondary_text omits header__content div", {
+  h <- header(main_text = "Test")
+  html <- as.character(h)
+  expect_false(grepl("govuk-header__content", html))
+})
+
+
 test_that("secondary_text is deprecated", {
   rlang::local_options(lifecycle_verbosity = "error")
   expect_error(header(secondary_link = "test text"), class = "defunctError")

@@ -37,7 +37,7 @@ banner <- function(
       shiny::tags$p(
         class = "govuk-phase-banner__content",
         shiny::tags$strong(
-          class = "govuk-tag govuk-phase-banner__content__tag ",
+          class = "govuk-tag govuk-phase-banner__content__tag",
           type
         ),
         shiny::tags$span(class = "govuk-phase-banner__text", shiny::HTML(label))

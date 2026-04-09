@@ -11,7 +11,6 @@
 #' @param error Whenever you want to include error handle on the component
 #' @param error_message If you want a default error message
 #' @return a checkbox HTML shiny tag object
-#' @keywords checkbox
 #' @family Govstyle select inputs
 #' @export
 #' @examples

@@ -8,7 +8,6 @@
 #' See the
 #' \href{https://design-system.service.gov.uk/styles/typeface/}{GOV.UK
 #' typeface guidance} for full details on when GDS Transport is permitted.
-#' @keywords font
 #' @return no value returned. This loads the font CSS file
 #' @export
 #' @family Govstyle styling

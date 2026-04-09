@@ -94,4 +94,3 @@ Other Govstyle select inputs:
 \code{\link{select_Input}()}
 }
 \concept{Govstyle select inputs}
-\keyword{checkbox}

@@ -55,5 +55,3 @@ Other Govstyle feedback types:
 \code{\link{warning_text}()}
 }
 \concept{Govstyle feedback types}
-\keyword{banner}
-\keyword{notification}

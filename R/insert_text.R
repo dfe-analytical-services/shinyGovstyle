@@ -5,7 +5,6 @@
 #' @param inputId The input slot that will be used to access the value
 #' @param text Text that you want to display on the insert
 #' @return a insert text HTML shiny tag object
-#' @keywords inserttext
 #' @family Govstyle feedback types
 #' @export
 #' @examples

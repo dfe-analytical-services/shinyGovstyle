@@ -68,5 +68,3 @@ Other Govstyle page structure:
 \code{\link{skip_to_main}()}
 }
 \concept{Govstyle page structure}
-\keyword{banner}
-\keyword{cookie}

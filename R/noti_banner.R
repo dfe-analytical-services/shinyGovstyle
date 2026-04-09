@@ -7,7 +7,6 @@
 #' @param type The type of banner. Options are standard and success.
 #' Standard is default
 #' @return a notification HTML shiny tag object
-#' @keywords notification banner
 #' @family Govstyle feedback types
 #' @export
 #' @examples

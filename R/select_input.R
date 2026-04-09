@@ -6,7 +6,6 @@
 #' @param select_text Add the text that will apply in the drop down as a list
 #' @param select_value Add the value that will be used for each selection
 #' @return a select input HTML shiny tag object
-#' @keywords select
 #' @family Govstyle select inputs
 #' @export
 #' @examples

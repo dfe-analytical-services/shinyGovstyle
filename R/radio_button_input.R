@@ -24,7 +24,6 @@
 #' @param custom_class If you want to add additional classes to the radio
 #' buttons
 #' @return radio buttons HTML shiny tag object
-#' @keywords radiobuttons
 #' @family Govstyle select inputs
 #' @export
 #' @examples

@@ -6,7 +6,6 @@
 #' @param type Main type of label e.g. alpha or beta. Can be any word
 #' @param label text to display
 #' @return a banner HTML shiny tag object
-#' @keywords banner
 #' @family Govstyle page structure
 #' @export
 #' @examples

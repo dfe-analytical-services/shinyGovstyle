@@ -11,7 +11,6 @@
 #' @param border set if the table should have borders. Default set
 #' to `TRUE`
 #' @return a summary list table HTML shiny tag object
-#' @keywords summary list
 #' @family Govstyle feedback types
 #' @export
 #' @examples

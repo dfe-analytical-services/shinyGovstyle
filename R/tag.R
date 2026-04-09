@@ -6,7 +6,6 @@
 #' @param colour The colour of the tag. Default is navy. Other options are
 #' grey, green, teal, blue, purple, magenta, red, orange and yellow
 #' @return a tag HTML shiny tag object
-#' @keywords tag
 #' @family Govstyle feedback types
 #' @export
 #' @examples

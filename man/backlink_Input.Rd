@@ -65,4 +65,3 @@ Other Govstyle navigation:
 \code{\link{update_service_navigation}()}
 }
 \concept{Govstyle navigation}
-\keyword{backlink}

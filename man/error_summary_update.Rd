@@ -59,4 +59,3 @@ Other Govstyle errors:
 \code{\link{error_summary}()}
 }
 \concept{Govstyle errors}
-\keyword{error_summary_update}

@@ -66,4 +66,3 @@ Other Govstyle errors:
 \code{\link{error_summary_update}()}
 }
 \concept{Govstyle errors}
-\keyword{error}

@@ -13,7 +13,6 @@
 #' example
 #' @return a HTML shiny layout div
 #' @family Govstyle page structure
-#' @keywords style
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(

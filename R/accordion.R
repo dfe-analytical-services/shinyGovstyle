@@ -5,8 +5,7 @@
 #' @param titles Add the titles for the accordion
 #' @param descriptions Add the main text for the accordion
 #' @return an accordion HTML shiny tag object
-#' @keywords accordion
-#' @family Govstyle tables, tabs, and accordions
+#' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

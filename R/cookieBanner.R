@@ -5,7 +5,6 @@
 #' See example for how to structure.
 #' @param service_name Name for this service to add to banner
 #' @return a cookie banner HTML shiny tag object
-#' @keywords cookie banner
 #' @family Govstyle page structure
 #' @export
 #' @examples

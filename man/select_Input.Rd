@@ -58,4 +58,3 @@ Other Govstyle select inputs:
 \code{\link{radio_button_Input}()}
 }
 \concept{Govstyle select inputs}
-\keyword{select}

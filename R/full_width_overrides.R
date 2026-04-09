@@ -8,7 +8,6 @@
 #' components from other packages, use at your own risk.
 #'
 #' @return HTML containing CSS styling overrides
-#' @keywords styling
 #' @family Govstyle styling
 #' @export
 #' @examples

@@ -6,7 +6,6 @@
 #' @param type The type of button. Options are default, start, secondary and
 #' warning. Defaults to "default"
 #' @return a HTML button shiny tag object
-#' @keywords button
 #' @export
 #' @family Govstyle select inputs
 #' @examples

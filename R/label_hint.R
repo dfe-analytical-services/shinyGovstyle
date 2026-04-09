@@ -7,7 +7,6 @@
 #' no hint label
 #' @return a label hint HTML shiny tag object
 #' @family Govstyle feedback types
-#' @keywords label
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

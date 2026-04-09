@@ -21,7 +21,6 @@
 #' @param logo_width Change the logo size width CSS to improve fit
 #' @param logo_height Change the logo size height CSS to improve fit
 #' @return a header HTML shiny tag object
-#' @keywords header
 #' @family Govstyle page structure
 #' @export
 #' @examples

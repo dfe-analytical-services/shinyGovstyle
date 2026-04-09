@@ -5,7 +5,6 @@
 #' @param main_text Add the header for the panel
 #' @param sub_text Add the main body of text for the panel
 #' @return a panel HTML shiny tag object
-#' @keywords panel
 #' @family Govstyle feedback types
 #' @export
 #' @examples

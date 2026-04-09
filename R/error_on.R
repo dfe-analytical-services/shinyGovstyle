@@ -6,7 +6,6 @@
 #' @param error_message if you want to add an additional error message
 #' Defaults to NULL, showing the original designed error message
 #' @return no return value.  This toggles on error CSS
-#' @keywords error
 #' @family Govstyle errors
 #' @export
 #' @examples

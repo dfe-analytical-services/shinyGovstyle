@@ -4,7 +4,6 @@
 #' been sorted.
 #' @param inputId The input Id to turn error handling on for
 #' @return no return value. This toggles off error CSS
-#' @keywords error
 #' @family Govstyle errors
 #' @export
 #' @examples

@@ -38,4 +38,3 @@ Other Govstyle styling:
 \code{\link{full_width_overrides}()}
 }
 \concept{Govstyle styling}
-\keyword{font}

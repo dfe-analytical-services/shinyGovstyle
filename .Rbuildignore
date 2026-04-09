@@ -14,3 +14,4 @@ _\.new\.png$
 ^\.vscode$
 package.json
 ^.claude$
+^man/figures/example_app\.gif$

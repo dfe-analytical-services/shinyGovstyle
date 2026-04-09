@@ -107,7 +107,11 @@ shinyGovstyle::run_example()
 - [`backlink_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/backlink_Input.md)
   : Back Link Function
 - [`contents_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.md)
-  **\[experimental\]** : Contents link function
+  **\[deprecated\]** : Contents link function
+- [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
+  : Service navigation
+- [`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md)
+  : Update the active item in a service navigation component
 
 ### Styling
 
@@ -224,3 +228,13 @@ shinyGovstyle::run_example()
 - [`run_example()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/run_example.md)
   : Run examples
 
+# Articles
+
+### All vignettes
+
+- [Headings and
+  text](https://dfe-analytical-services.github.io/shinyGovstyle/articles/headings-and-text.md):
+- [Layout
+  options](https://dfe-analytical-services.github.io/shinyGovstyle/articles/layout-options.md):
+- [Get
+  started](https://dfe-analytical-services.github.io/shinyGovstyle/articles/shinyGovstyle.md):

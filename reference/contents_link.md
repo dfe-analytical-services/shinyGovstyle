@@ -1,6 +1,6 @@
 # Contents link function
 
-**\[experimental\]**
+**\[deprecated\]**
 
 ## Usage
 
@@ -37,12 +37,12 @@ an action button HTML shiny tag object
 This function creates an action link to nav between tabs and optionally
 link to subcontents headers.
 
-This is experimental and may change in future.
-
 ## See also
 
 Other Govstyle navigation:
-[`backlink_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/backlink_Input.md)
+[`backlink_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/backlink_Input.md),
+[`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
+[`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md)
 
 ## Examples
 
@@ -234,6 +234,7 @@ ui <- shiny::fluidPage(
   ), # end of main_col
   footer(TRUE)
 ) # end of gov_row
+#> Warning: `contents_link()` was deprecated in shinyGovstyle 0.2.0.
 
 server <- function(input, output, session) {
   # Tab nav

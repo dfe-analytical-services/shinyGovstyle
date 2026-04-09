@@ -27,7 +27,7 @@ header(
 
 - secondary_text:
 
-  Secondary header to supplement the main text the main text
+  Secondary header to supplement the main text
 
 - logo:
 

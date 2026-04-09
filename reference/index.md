@@ -27,7 +27,11 @@
 - [`backlink_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/backlink_Input.md)
   : Back Link Function
 - [`contents_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.md)
-  **\[experimental\]** : Contents link function
+  **\[deprecated\]** : Contents link function
+- [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
+  : Service navigation
+- [`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md)
+  : Update the active item in a service navigation component
 
 ### Styling
 

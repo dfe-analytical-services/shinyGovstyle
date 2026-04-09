@@ -1,7 +1,6 @@
-# Clean heading text function This internal function is used in `subcontents_links()` and `heading_text()` to create an automated link between the two
+# Clean heading text function This internal function is used in `heading_text()` to create an automated link between the two
 
 Clean heading text function This internal function is used in
-`subcontents_links()` and
 [`heading_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/heading_text.md)
 to create an automated link between the two
 

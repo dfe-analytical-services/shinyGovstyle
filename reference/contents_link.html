@@ -15,7 +15,13 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/shinyGovstyle.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/headings-and-text.html">Headings and text</a></li>
+    <li><a class="dropdown-item" href="../articles/layout-options.html">Layout options</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -33,7 +39,7 @@
     </div>
 
     <div class="ref-description section level2">
-    <p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></p>
+    <p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a></p>
     </div>
 
     <div class="section level2">
@@ -70,12 +76,13 @@ automatically matches to Id in <code><a href="heading_text.html">heading_text()<
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function creates an action link to nav between tabs and optionally
 link to subcontents headers.</p>
-<p>This is experimental and may change in future.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other Govstyle navigation:
-<code><a href="backlink_Input.html">backlink_Input()</a></code></p></div>
+<code><a href="backlink_Input.html">backlink_Input()</a></code>,
+<code><a href="service_navigation.html">service_navigation()</a></code>,
+<code><a href="update_service_navigation.html">update_service_navigation()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -267,6 +274,7 @@ link to subcontents headers.</p>
 <span class="r-in"><span>  <span class="op">)</span>, <span class="co"># end of main_col</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="footer.html">footer</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="co"># end of gov_row</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`contents_link()` was deprecated in shinyGovstyle 0.2.0.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="co"># Tab nav</span></span></span>

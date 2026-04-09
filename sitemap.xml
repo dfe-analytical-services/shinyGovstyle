@@ -4,6 +4,10 @@
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/CONTRIBUTING.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/LICENSE.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/PULL_REQUEST_TEMPLATE.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/articles/headings-and-text.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/articles/index.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/articles/layout-options.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/articles/shinyGovstyle.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/authors.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/css_changes.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/index.html</loc></url>
@@ -53,12 +57,14 @@
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/run_example.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/select_Input.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/tag_Input.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/transport_data.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/transport_data_small.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/value_box.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.html</loc></url>

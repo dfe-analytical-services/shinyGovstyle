@@ -19,7 +19,11 @@ mod_select_types_ui <- function(id) {
       hint_label = "This includes changing your last name or spelling
                     your name differently."
     ),
-    shinyGovstyle::heading_text("radio_button_Input (stacked)", size = "s", level = 2),
+    shinyGovstyle::heading_text(
+      "radio_button_Input (stacked)",
+      size = "s",
+      level = 2
+    ),
     shinyGovstyle::radio_button_Input(
       inputId = shiny::NS(id, "name_changed_stacked"),
       label = "Have you changed your name?",

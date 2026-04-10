@@ -98,7 +98,7 @@ banner(
   type = "Beta",
   label = paste0(
     "This is a new service \u2014 your ",
-    "<a class="govuk-link" href="#">feedback</a> will help us to improve it."
+    '<a class="govuk-link" href="#">feedback</a> will help us to improve it.'
   )
 )
 ```

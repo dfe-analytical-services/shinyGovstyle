@@ -1,24 +1,24 @@
 mod_text_types_ui <- function(id) {
-  tagList(
+  shiny::tagList(
     heading_text("backlink_Input", size = "s", level = 2),
-    backlink_Input(NS(id, "select_types_back")),
+    backlink_Input(shiny::NS(id, "select_types_back")),
     heading_text("Text Types", size = "l"),
     label_hint(
-      NS(id, "label2"),
+      shiny::NS(id, "label2"),
       "These are some examples of the types of user
            text inputs that you can use"
     ),
     heading_text("date_Input", size = "s", level = 2),
     date_Input(
-      inputId = NS(id, "date1"),
+      inputId = shiny::NS(id, "date1"),
       label = "What is your date of birth?",
       hint_label = "For example, 31 3 1980"
     ),
     heading_text("text_Input", size = "s", level = 2),
-    text_Input(inputId = NS(id, "txt1"), label = "Event name"),
+    text_Input(inputId = shiny::NS(id, "txt1"), label = "Event name"),
     heading_text("text_area_Input", size = "s", level = 2),
     text_area_Input(
-      inputId = NS(id, "text_area1"),
+      inputId = shiny::NS(id, "text_area1"),
       label = "Can you provide more detail?",
       hint_label = paste0(
         "Do not include personal or financial information, ",
@@ -26,7 +26,7 @@ mod_text_types_ui <- function(id) {
       )
     ),
     text_area_Input(
-      inputId = NS(id, "text_area2"),
+      inputId = shiny::NS(id, "text_area2"),
       label = "How are you today?",
       hint_label = "Leave blank to trigger error",
       error = TRUE,
@@ -39,7 +39,11 @@ mod_text_types_ui <- function(id) {
       level = 2,
       id = "button_input_text_types"
     ),
-    button_Input(NS(id, "btn_error"), "Check for errors", type = "warning"),
+    button_Input(
+      shiny::NS(id, "btn_error"),
+      "Check for errors",
+      type = "warning"
+    ),
     heading_text("gov_list", size = "s", level = 2),
     shinyGovstyle::gov_text("List:"),
     gov_list(list = c("a", "b", "c")),
@@ -51,7 +55,7 @@ mod_text_types_ui <- function(id) {
 }
 
 mod_text_types_server <- function(id) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     shiny::observeEvent(
       input$text_area2,
       shinyGovstyle::word_count("text_area2", input$text_area2)
@@ -66,7 +70,7 @@ mod_text_types_server <- function(id) {
     })
 
     list(
-      prev_page = reactive(input$select_types_back)
+      prev_page = shiny::reactive(input$select_types_back)
     )
   })
 }

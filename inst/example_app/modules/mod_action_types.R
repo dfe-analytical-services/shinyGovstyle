@@ -1,5 +1,5 @@
 mod_action_types_ui <- function(id) {
-  tagList(
+  shiny::tagList(
     heading_text("Action types", size = "l"),
     label_hint(
       "label3",
@@ -39,7 +39,7 @@ mod_action_types_ui <- function(id) {
     ),
     heading_text("download_button", size = "s", level = 2),
     shinyGovstyle::download_button(
-      NS(id, "download_button_data"),
+      shiny::NS(id, "download_button_data"),
       "Download a demo data set",
       file_type = "CSV",
       file_size = "1 KB"
@@ -47,7 +47,7 @@ mod_action_types_ui <- function(id) {
     heading_text("download_link", size = "s", level = 2),
     shinyGovstyle::gov_text(
       shinyGovstyle::download_link(
-        NS(id, "download_data"),
+        shiny::NS(id, "download_data"),
         "Download a demo data set",
         file_type = "CSV",
         file_size = "1 KB"
@@ -63,7 +63,7 @@ mod_action_types_ui <- function(id) {
 }
 
 mod_action_types_server <- function(id) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     output$download_data <- shiny::downloadHandler(
       filename = "demo_data.csv",
       content = function(file) {

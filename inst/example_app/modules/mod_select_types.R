@@ -1,14 +1,14 @@
 mod_select_types_ui <- function(id) {
-  tagList(
+  shiny::tagList(
     heading_text("Select Types", size = "l"),
     label_hint(
-      NS(id, "label1"),
+      shiny::NS(id, "label1"),
       "These are some examples of the types of user
            select type inputs that you can use"
     ),
     heading_text("radio_button_Input (inline)", size = "s", level = 2),
     radio_button_Input(
-      inputId = NS(id, "name_changed"),
+      inputId = shiny::NS(id, "name_changed"),
       label = "Have you changed your name?",
       choices = c("Yes", "No"),
       inline = TRUE,
@@ -17,7 +17,7 @@ mod_select_types_ui <- function(id) {
     ),
     heading_text("radio_button_Input (stacked)", size = "s", level = 2),
     radio_button_Input(
-      inputId = NS(id, "name_changed_stacked"),
+      inputId = shiny::NS(id, "name_changed_stacked"),
       label = "Have you changed your name?",
       choices = c("Yes", "No"),
       inline = FALSE,
@@ -26,19 +26,23 @@ mod_select_types_ui <- function(id) {
     ),
     heading_text("checkbox_Input", size = "s", level = 2),
     checkbox_Input(
-      inputId = NS(id, "checkID"),
+      inputId = shiny::NS(id, "checkID"),
       cb_labels = c(
         "Waste from animal carcasses",
         "Waste from mines or quarries",
         "Farm or agricultural waste"
       ),
-      checkboxIds = c(NS(id, "op1"), NS(id, "op2"), NS(id, "op3")),
+      checkboxIds = c(
+        shiny::NS(id, "op1"),
+        shiny::NS(id, "op2"),
+        shiny::NS(id, "op3")
+      ),
       label = "Which types of waste do you transport?",
       hint_label = "Select all that apply."
     ),
     heading_text("select_Input", size = "s", level = 2),
     select_Input(
-      inputId = NS(id, "sorter"),
+      inputId = shiny::NS(id, "sorter"),
       label = "Sort by",
       select_text = c(
         "Recently published",
@@ -49,16 +53,16 @@ mod_select_types_ui <- function(id) {
       select_value = c("published", "updated", "view", "comments")
     ),
     heading_text("file_Input", size = "s", level = 2),
-    file_Input(inputId = NS(id, "file1"), label = "Upload a file"),
+    file_Input(inputId = shiny::NS(id, "file1"), label = "Upload a file"),
     heading_text("button_Input", size = "s", level = 2),
-    button_Input(NS(id, "text_types_next"), "Go to next page")
+    button_Input(shiny::NS(id, "text_types_next"), "Go to next page")
   )
 }
 
 mod_select_types_server <- function(id) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     list(
-      next_page = reactive(input$text_types_next)
+      next_page = shiny::reactive(input$text_types_next)
     )
   })
 }

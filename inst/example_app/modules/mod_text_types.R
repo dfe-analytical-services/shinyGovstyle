@@ -15,7 +15,10 @@ mod_text_types_ui <- function(id) {
       hint_label = "For example, 31 3 1980"
     ),
     shinyGovstyle::heading_text("text_Input", size = "s", level = 2),
-    shinyGovstyle::text_Input(inputId = shiny::NS(id, "txt1"), label = "Event name"),
+    shinyGovstyle::text_Input(
+      inputId = shiny::NS(id, "txt1"),
+      label = "Event name"
+    ),
     shinyGovstyle::heading_text("text_area_Input", size = "s", level = 2),
     shinyGovstyle::text_area_Input(
       inputId = shiny::NS(id, "text_area1"),

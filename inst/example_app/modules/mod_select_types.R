@@ -6,7 +6,11 @@ mod_select_types_ui <- function(id) {
       "These are some examples of the types of user
            select type inputs that you can use"
     ),
-    shinyGovstyle::heading_text("radio_button_Input (inline)", size = "s", level = 2),
+    shinyGovstyle::heading_text(
+      "radio_button_Input (inline)",
+      size = "s",
+      level = 2
+    ),
     shinyGovstyle::radio_button_Input(
       inputId = shiny::NS(id, "name_changed"),
       label = "Have you changed your name?",

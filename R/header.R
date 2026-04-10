@@ -211,7 +211,7 @@ header <- function(
   )
 
   htmltools::attachDependencies(
-    attachDependency(gov_header),
+    attachDependency(gov_header), # nolint
     header_css,
     append = TRUE
   )

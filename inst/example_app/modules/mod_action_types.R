@@ -1,13 +1,13 @@
 mod_action_types_ui <- function(id) {
   shiny::tagList(
-    heading_text("Action types", size = "l"),
-    label_hint(
+    shinyGovstyle::heading_text("Action types", size = "l"),
+    shinyGovstyle::label_hint(
       "label3",
       "These are some examples of the types of user
            action elements that you can use"
     ),
-    heading_text("external_link", size = "s", level = 2),
-    gov_text(
+    shinyGovstyle::heading_text("external_link", size = "s", level = 2),
+    shinyGovstyle::gov_text(
       paste0(
         "You can add external links with automatic ",
         "formatting such as to our "
@@ -37,14 +37,14 @@ mod_action_types_ui <- function(id) {
       ),
       "."
     ),
-    heading_text("download_button", size = "s", level = 2),
+    shinyGovstyle::heading_text("download_button", size = "s", level = 2),
     shinyGovstyle::download_button(
       shiny::NS(id, "download_button_data"),
       "Download a demo data set",
       file_type = "CSV",
       file_size = "1 KB"
     ),
-    heading_text("download_link", size = "s", level = 2),
+    shinyGovstyle::heading_text("download_link", size = "s", level = 2),
     shinyGovstyle::gov_text(
       shinyGovstyle::download_link(
         shiny::NS(id, "download_data"),
@@ -53,7 +53,7 @@ mod_action_types_ui <- function(id) {
         file_size = "1 KB"
       )
     ),
-    heading_text("download_radios", size = "s", level = 2),
+    shinyGovstyle::heading_text("download_radios", size = "s", level = 2),
     shinyGovstyle::gov_text(
       shinyGovstyle::download_radios(
         file_types = c("CSV", "XLSX", "ODS")

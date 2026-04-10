@@ -1,12 +1,12 @@
 mod_feedback_types_ui <- function(id) {
   shiny::tagList(
-    heading_text("Feedback page", size = "l"),
-    label_hint(
+    shinyGovstyle::heading_text("Feedback page", size = "l"),
+    shinyGovstyle::label_hint(
       shiny::NS(id, "label-feedback"),
       "These are some examples of the types of user
            feedback inputs that you can use"
     ),
-    heading_text("tag_Input", size = "s", level = 2),
+    shinyGovstyle::heading_text("tag_Input", size = "s", level = 2),
     shinyGovstyle::tag_Input(shiny::NS(id, "tag1"), "Default"),
     shinyGovstyle::tag_Input(shiny::NS(id, "tag2"), "Grey", "grey"),
     shinyGovstyle::tag_Input(shiny::NS(id, "tag3"), "Green", "green"),
@@ -19,8 +19,8 @@ mod_feedback_types_ui <- function(id) {
     shinyGovstyle::tag_Input(shiny::NS(id, "tag10"), "Yellow", "yellow"),
     shiny::tags$br(),
     shiny::tags$br(),
-    heading_text("details", size = "s", level = 2),
-    details(
+    shinyGovstyle::heading_text("details", size = "s", level = 2),
+    shinyGovstyle::details(
       inputId = shiny::NS(id, "detID"),
       label = "Help with nationality",
       help_text = paste(
@@ -30,20 +30,20 @@ mod_feedback_types_ui <- function(id) {
         "send copies of identity documents through the post."
       )
     ),
-    heading_text("insert_text", size = "s", level = 2),
-    insert_text(
+    shinyGovstyle::heading_text("insert_text", size = "s", level = 2),
+    shinyGovstyle::insert_text(
       inputId = shiny::NS(id, "insertId"),
       text = "It can take up to 8 weeks to register a lasting
                 power of attorney if there are no mistakes in the
                 application."
     ),
-    heading_text("warning_text", size = "s", level = 2),
-    warning_text(
+    shinyGovstyle::heading_text("warning_text", size = "s", level = 2),
+    shinyGovstyle::warning_text(
       inputId = shiny::NS(id, "warn"),
       text = "You can be fined up to \u00A35\u002C000 if you do
       not register."
     ),
-    heading_text("value_box", size = "s", level = 2),
+    shinyGovstyle::heading_text("value_box", size = "s", level = 2),
     shinyGovstyle::value_box(
       value = "Default (no description included)"
     ),
@@ -60,8 +60,8 @@ mod_feedback_types_ui <- function(id) {
       ),
       colour = "red"
     ),
-    heading_text("panel_output", size = "s", level = 2),
-    panel_output(
+    shinyGovstyle::heading_text("panel_output", size = "s", level = 2),
+    shinyGovstyle::panel_output(
       inputId = shiny::NS(id, "panId"),
       main_text = "Application complete",
       sub_text = paste(
@@ -69,14 +69,14 @@ mod_feedback_types_ui <- function(id) {
         "<strong>HDJ2123F</strong>"
       )
     ),
-    heading_text("noti_banner", size = "s", level = 2),
-    noti_banner(
+    shinyGovstyle::heading_text("noti_banner", size = "s", level = 2),
+    shinyGovstyle::noti_banner(
       shiny::NS(id, "notId"),
       title_txt = "Important",
       body_txt = "You have 7 days left to send your application.",
       type = "standard"
     ),
-    heading_text("gov_summary", size = "s", level = 2),
+    shinyGovstyle::heading_text("gov_summary", size = "s", level = 2),
     shinyGovstyle::gov_summary(
       shiny::NS(id, "sumID"),
       c(

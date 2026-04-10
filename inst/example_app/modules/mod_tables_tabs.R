@@ -1,12 +1,12 @@
 mod_tables_tabs_ui <- function(id) {
   shiny::tagList(
-    heading_text("Tables, tabs and accordions", size = "l"),
-    label_hint(
+    shinyGovstyle::heading_text("Tables, tabs and accordions", size = "l"),
+    shinyGovstyle::label_hint(
       shiny::NS(id, "label3"),
       "These are some examples of using tabs and tables"
     ),
 
-    heading_text("govTable", size = "s", level = 2),
+    shinyGovstyle::heading_text("govTable", size = "s", level = 2),
     shinyGovstyle::govTable(
       shiny::NS(id, "tab1"),
       shinyGovstyle::transport_data_small,
@@ -15,24 +15,24 @@ mod_tables_tabs_ui <- function(id) {
       num_col = c(2, 3)
     ),
 
-    heading_text(
+    shinyGovstyle::heading_text(
       "govReactable with static data",
       size = "s",
       level = 2
     ),
-    heading_text("Caption added separately", size = "l"),
-    govReactable(
+    shinyGovstyle::heading_text("Caption added separately", size = "l"),
+    shinyGovstyle::govReactable(
       shinyGovstyle::transport_data,
       right_col = c("bikes", "vans", "buses"),
       page_size = 5
     ),
 
-    heading_text(
+    shinyGovstyle::heading_text(
       "govReactable with reactive data",
       size = "s",
       level = 2
     ),
-    select_Input(
+    shinyGovstyle::select_Input(
       inputId = shiny::NS(id, "colourFilter"),
       label = "Select Colour",
       select_text = c(sort(unique(
@@ -42,12 +42,12 @@ mod_tables_tabs_ui <- function(id) {
         shinyGovstyle::transport_data$colours
       )))
     ),
-    govReactableOutput(
+    shinyGovstyle::govReactableOutput(
       shiny::NS(id, "interactive_table_test"),
       caption = "Caption in output function"
     ),
 
-    heading_text("govTabs", size = "s", level = 2),
+    shinyGovstyle::heading_text("govTabs", size = "s", level = 2),
     shinyGovstyle::govTabs(
       shiny::NS(id, "govTabs"),
       shinyGovstyle::case_data,
@@ -55,7 +55,7 @@ mod_tables_tabs_ui <- function(id) {
     ),
     shiny::tags$br(),
     shiny::tags$br(),
-    heading_text("accordions", size = "s", level = 2),
+    shinyGovstyle::heading_text("accordions", size = "s", level = 2),
     shinyGovstyle::accordion(
       shiny::NS(id, "acc1"),
       c(

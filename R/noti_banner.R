@@ -59,5 +59,5 @@ noti_banner <- function(
       )
     )
   )
-  attachDependency(gov_noti_banner)
+  attachDependency(gov_noti_banner) # nolint
 }

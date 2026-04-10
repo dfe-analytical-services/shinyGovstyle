@@ -1,13 +1,13 @@
 mod_select_types_ui <- function(id) {
   shiny::tagList(
-    heading_text("Select Types", size = "l"),
-    label_hint(
+    shinyGovstyle::heading_text("Select Types", size = "l"),
+    shinyGovstyle::label_hint(
       shiny::NS(id, "label1"),
       "These are some examples of the types of user
            select type inputs that you can use"
     ),
-    heading_text("radio_button_Input (inline)", size = "s", level = 2),
-    radio_button_Input(
+    shinyGovstyle::heading_text("radio_button_Input (inline)", size = "s", level = 2),
+    shinyGovstyle::radio_button_Input(
       inputId = shiny::NS(id, "name_changed"),
       label = "Have you changed your name?",
       choices = c("Yes", "No"),
@@ -15,8 +15,8 @@ mod_select_types_ui <- function(id) {
       hint_label = "This includes changing your last name or spelling
                     your name differently."
     ),
-    heading_text("radio_button_Input (stacked)", size = "s", level = 2),
-    radio_button_Input(
+    shinyGovstyle::heading_text("radio_button_Input (stacked)", size = "s", level = 2),
+    shinyGovstyle::radio_button_Input(
       inputId = shiny::NS(id, "name_changed_stacked"),
       label = "Have you changed your name?",
       choices = c("Yes", "No"),
@@ -24,8 +24,8 @@ mod_select_types_ui <- function(id) {
       hint_label = "This includes changing your last name or spelling
                     your name differently."
     ),
-    heading_text("checkbox_Input", size = "s", level = 2),
-    checkbox_Input(
+    shinyGovstyle::heading_text("checkbox_Input", size = "s", level = 2),
+    shinyGovstyle::checkbox_Input(
       inputId = shiny::NS(id, "checkID"),
       cb_labels = c(
         "Waste from animal carcasses",
@@ -40,8 +40,8 @@ mod_select_types_ui <- function(id) {
       label = "Which types of waste do you transport?",
       hint_label = "Select all that apply."
     ),
-    heading_text("select_Input", size = "s", level = 2),
-    select_Input(
+    shinyGovstyle::heading_text("select_Input", size = "s", level = 2),
+    shinyGovstyle::select_Input(
       inputId = shiny::NS(id, "sorter"),
       label = "Sort by",
       select_text = c(
@@ -52,10 +52,10 @@ mod_select_types_ui <- function(id) {
       ),
       select_value = c("published", "updated", "view", "comments")
     ),
-    heading_text("file_Input", size = "s", level = 2),
-    file_Input(inputId = shiny::NS(id, "file1"), label = "Upload a file"),
-    heading_text("button_Input", size = "s", level = 2),
-    button_Input(shiny::NS(id, "text_types_next"), "Go to next page")
+    shinyGovstyle::heading_text("file_Input", size = "s", level = 2),
+    shinyGovstyle::file_Input(inputId = shiny::NS(id, "file1"), label = "Upload a file"),
+    shinyGovstyle::heading_text("button_Input", size = "s", level = 2),
+    shinyGovstyle::button_Input(shiny::NS(id, "text_types_next"), "Go to next page")
   )
 }
 

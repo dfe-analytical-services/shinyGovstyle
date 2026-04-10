@@ -56,5 +56,3 @@ Other Govstyle text types:
 \code{\link{word_count}()}
 }
 \concept{Govstyle text types}
-\keyword{area}
-\keyword{text}

@@ -38,8 +38,8 @@ a box within the row. The gov_text is a container for text bodies.
 \examples{
 ui <- shiny::fluidPage(
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo="shinyGovstyle/images/moj_logo.png"),
   shinyGovstyle::gov_main_layout(
     shinyGovstyle::gov_row(
@@ -96,4 +96,3 @@ Other Govstyle page structure:
 \code{\link{skip_to_main}()}
 }
 \concept{Govstyle page structure}
-\keyword{style}

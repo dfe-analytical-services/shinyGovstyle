@@ -13,12 +13,11 @@
 #' example
 #' @return a HTML shiny layout div
 #' @family Govstyle page structure
-#' @keywords style
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"),
 #'   shinyGovstyle::gov_main_layout(
 #'     shinyGovstyle::gov_row(

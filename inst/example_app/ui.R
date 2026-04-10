@@ -9,8 +9,8 @@ bslib::page_fluid(
   shinyGovstyle::full_width_overrides(), # TODO: remove when built in
   shinyGovstyle::skip_to_main(),
   shinyGovstyle::header(
-    main_text = "Department for Education",
-    secondary_text = "shinyGovstyle showcase app"
+    org_name = "Department for Education",
+    service_name = "shinyGovstyle showcase app"
   ),
   shinyGovstyle::service_navigation(
     c(

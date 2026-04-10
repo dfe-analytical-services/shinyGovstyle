@@ -6,7 +6,6 @@
 #' @param error_message if you want to add an additional error message
 #' Defaults to NULL, showing the original designed error message
 #' @return no return value.  This toggles on error CSS
-#' @keywords error
 #' @family Govstyle errors
 #' @export
 #' @examples
@@ -14,8 +13,8 @@
 #'   # Required for error handling function
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::banner(

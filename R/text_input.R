@@ -13,7 +13,6 @@
 #' @param prefix Add a prefix to the box. Defaults to NULL
 #' @param suffix Add a suffix to the box. Defaults to NULL
 #' @return a text input HTML shiny tag object
-#' @keywords text input
 #' @family Govstyle text types
 #' @export
 #' @examples
@@ -21,8 +20,8 @@
 #'   # Required for error handling function
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::banner(

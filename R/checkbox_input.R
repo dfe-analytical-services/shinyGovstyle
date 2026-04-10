@@ -11,7 +11,6 @@
 #' @param error Whenever you want to include error handle on the component
 #' @param error_message If you want a default error message
 #' @return a checkbox HTML shiny tag object
-#' @keywords checkbox
 #' @family Govstyle select inputs
 #' @export
 #' @examples
@@ -19,8 +18,8 @@
 #'   # Required for error handling function
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"),
 #'   shinyGovstyle::banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'),

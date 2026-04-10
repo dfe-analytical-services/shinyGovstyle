@@ -9,14 +9,13 @@
 #' @param ... include the components of the UI that you want within the
 #' main page.
 #' @return a HTML shiny layout div
-#' @keywords style
 #' @family Govstyle page structure
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::gov_layout(

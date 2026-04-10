@@ -7,15 +7,14 @@
 #' @param error_title The title for the error summary
 #' @param error_list A list of text values to be displayed in the error body
 #' @return an error_summary HTML shiny tag object
-#' @keywords error_summary
 #' @family Govstyle errors
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::gov_layout(

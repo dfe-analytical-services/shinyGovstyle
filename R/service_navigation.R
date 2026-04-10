@@ -187,9 +187,14 @@ service_navigation <- function(
 #'     })
 #'   }
 #' }
-update_service_navigation <- function(session, inputId) {
-  # nolint
-  session$sendCustomMessage("update_service_navigation", inputId)
+update_service_navigation <- function(
+  session,
+  inputId # nolint: object_name_linter.
+) {
+  session$sendCustomMessage(
+    "update_service_navigation",
+    inputId
+  )
 }
 
 

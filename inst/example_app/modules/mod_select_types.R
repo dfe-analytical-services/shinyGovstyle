@@ -66,7 +66,10 @@ mod_select_types_ui <- function(id) {
       label = "Upload a file"
     ),
     shinyGovstyle::heading_text("button_Input", size = "s", level = 2),
-    shinyGovstyle::button_Input(shiny::NS(id, "text_types_next"), "Go to next page")
+    shinyGovstyle::button_Input(
+      shiny::NS(id, "text_types_next"),
+      "Go to next page"
+    )
   )
 }
 

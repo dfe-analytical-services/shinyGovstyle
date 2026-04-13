@@ -6,14 +6,13 @@
 #' @param select_text Add the text that will apply in the drop down as a list
 #' @param select_value Add the value that will be used for each selection
 #' @return a select input HTML shiny tag object
-#' @keywords select
 #' @family Govstyle select inputs
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png",
 #'     logo_alt_text = "Ministry of Justice logo"
 #'   ),

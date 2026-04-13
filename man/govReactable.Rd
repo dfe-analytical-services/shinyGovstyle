@@ -77,13 +77,10 @@ if (interactive()) {
 }
 }
 \seealso{
-Other Govstyle tables, tabs, and accordions: 
+Other Govstyle tables tabs and accordions: 
 \code{\link{accordion}()},
 \code{\link{govReactable-shiny}},
 \code{\link{govTable}()},
 \code{\link{govTabs}()}
 }
-\concept{Govstyle tables, tabs, and accordions}
-\keyword{GOV.UK}
-\keyword{reactable,}
-\keyword{table,}
+\concept{Govstyle tables tabs and accordions}

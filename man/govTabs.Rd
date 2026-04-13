@@ -23,8 +23,8 @@ with a grouping variable.
 \examples{
 ui <- shiny::fluidPage(
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice logo"
   ),
@@ -39,12 +39,10 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle tables, tabs, and accordions: 
+Other Govstyle tables tabs and accordions: 
 \code{\link{accordion}()},
 \code{\link{govReactable}()},
 \code{\link{govReactable-shiny}},
 \code{\link{govTable}()}
 }
-\concept{Govstyle tables, tabs, and accordions}
-\keyword{tab}
-\keyword{table}
+\concept{Govstyle tables tabs and accordions}

@@ -7,14 +7,13 @@
 #' @param type The type of banner. Options are standard and success.
 #' Standard is default
 #' @return a notification HTML shiny tag object
-#' @keywords notification banner
 #' @family Govstyle feedback types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::noti_banner(
@@ -60,5 +59,5 @@ noti_banner <- function(
       )
     )
   )
-  attachDependency(gov_noti_banner)
+  attachDependency(gov_noti_banner) # nolint
 }

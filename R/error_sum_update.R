@@ -6,15 +6,14 @@
 #' @param error_list An updated list of text values to be displayed in the
 #' error body
 #' @return an update error summary box
-#' @keywords error_summary_update
 #' @family Govstyle errors
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::gov_layout(

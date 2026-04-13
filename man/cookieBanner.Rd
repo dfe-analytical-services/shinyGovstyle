@@ -20,8 +20,8 @@ See example for how to structure.
 \examples{
 ui <- shiny::fluidPage(
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo="shinyGovstyle/images/moj_logo.png"),
   #Needs shinyjs to work
   shinyjs::useShinyjs(),
@@ -68,5 +68,3 @@ Other Govstyle page structure:
 \code{\link{skip_to_main}()}
 }
 \concept{Govstyle page structure}
-\keyword{banner}
-\keyword{cookie}

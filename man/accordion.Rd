@@ -22,8 +22,8 @@ This function inserts a accordion
 \examples{
 ui <- shiny::fluidPage(
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice logo"
   ),
@@ -56,11 +56,10 @@ server <- function(input, output, session) {}
 if (interactive()) shiny::shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle tables, tabs, and accordions: 
+Other Govstyle tables tabs and accordions: 
 \code{\link{govReactable}()},
 \code{\link{govReactable-shiny}},
 \code{\link{govTable}()},
 \code{\link{govTabs}()}
 }
-\concept{Govstyle tables, tabs, and accordions}
-\keyword{accordion}
+\concept{Govstyle tables tabs and accordions}

@@ -23,8 +23,8 @@ This function creates a tag.
 \examples{
 ui <- shiny::fluidPage(
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo="shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::gov_layout(
@@ -50,4 +50,3 @@ Other Govstyle feedback types:
 \code{\link{warning_text}()}
 }
 \concept{Govstyle feedback types}
-\keyword{tag}

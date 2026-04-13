@@ -1,27 +1,27 @@
 mod_feedback_types_ui <- function(id) {
-  tagList(
-    heading_text("Feedback page", size = "l"),
-    label_hint(
-      NS(id, "label-feedback"),
+  shiny::tagList(
+    shinyGovstyle::heading_text("Feedback page", size = "l"),
+    shinyGovstyle::label_hint(
+      shiny::NS(id, "label-feedback"),
       "These are some examples of the types of user
            feedback inputs that you can use"
     ),
-    heading_text("tag_Input", size = "s", level = 2),
-    shinyGovstyle::tag_Input(NS(id, "tag1"), "Default"),
-    shinyGovstyle::tag_Input(NS(id, "tag2"), "Grey", "grey"),
-    shinyGovstyle::tag_Input(NS(id, "tag3"), "Green", "green"),
-    shinyGovstyle::tag_Input(NS(id, "tag4"), "Teal", "teal"),
-    shinyGovstyle::tag_Input(NS(id, "tag5"), "Blue", "blue"),
-    shinyGovstyle::tag_Input(NS(id, "tag6"), "Purple", "purple"),
-    shinyGovstyle::tag_Input(NS(id, "tag7"), "Magenta", "magenta"),
-    shinyGovstyle::tag_Input(NS(id, "tag8"), "Red", "red"),
-    shinyGovstyle::tag_Input(NS(id, "tag9"), "Orange", "orange"),
-    shinyGovstyle::tag_Input(NS(id, "tag10"), "Yellow", "yellow"),
+    shinyGovstyle::heading_text("tag_Input", size = "s", level = 2),
+    shinyGovstyle::tag_Input(shiny::NS(id, "tag1"), "Default"),
+    shinyGovstyle::tag_Input(shiny::NS(id, "tag2"), "Grey", "grey"),
+    shinyGovstyle::tag_Input(shiny::NS(id, "tag3"), "Green", "green"),
+    shinyGovstyle::tag_Input(shiny::NS(id, "tag4"), "Teal", "teal"),
+    shinyGovstyle::tag_Input(shiny::NS(id, "tag5"), "Blue", "blue"),
+    shinyGovstyle::tag_Input(shiny::NS(id, "tag6"), "Purple", "purple"),
+    shinyGovstyle::tag_Input(shiny::NS(id, "tag7"), "Magenta", "magenta"),
+    shinyGovstyle::tag_Input(shiny::NS(id, "tag8"), "Red", "red"),
+    shinyGovstyle::tag_Input(shiny::NS(id, "tag9"), "Orange", "orange"),
+    shinyGovstyle::tag_Input(shiny::NS(id, "tag10"), "Yellow", "yellow"),
     shiny::tags$br(),
     shiny::tags$br(),
-    heading_text("details", size = "s", level = 2),
-    details(
-      inputId = NS(id, "detID"),
+    shinyGovstyle::heading_text("details", size = "s", level = 2),
+    shinyGovstyle::details(
+      inputId = shiny::NS(id, "detID"),
       label = "Help with nationality",
       help_text = paste(
         "We need to know your nationality so we can work out",
@@ -30,20 +30,20 @@ mod_feedback_types_ui <- function(id) {
         "send copies of identity documents through the post."
       )
     ),
-    heading_text("insert_text", size = "s", level = 2),
-    insert_text(
-      inputId = NS(id, "insertId"),
+    shinyGovstyle::heading_text("insert_text", size = "s", level = 2),
+    shinyGovstyle::insert_text(
+      inputId = shiny::NS(id, "insertId"),
       text = "It can take up to 8 weeks to register a lasting
                 power of attorney if there are no mistakes in the
                 application."
     ),
-    heading_text("warning_text", size = "s", level = 2),
-    warning_text(
-      inputId = NS(id, "warn"),
+    shinyGovstyle::heading_text("warning_text", size = "s", level = 2),
+    shinyGovstyle::warning_text(
+      inputId = shiny::NS(id, "warn"),
       text = "You can be fined up to \u00A35\u002C000 if you do
       not register."
     ),
-    heading_text("value_box", size = "s", level = 2),
+    shinyGovstyle::heading_text("value_box", size = "s", level = 2),
     shinyGovstyle::value_box(
       value = "Default (no description included)"
     ),
@@ -60,25 +60,25 @@ mod_feedback_types_ui <- function(id) {
       ),
       colour = "red"
     ),
-    heading_text("panel_output", size = "s", level = 2),
-    panel_output(
-      inputId = NS(id, "panId"),
+    shinyGovstyle::heading_text("panel_output", size = "s", level = 2),
+    shinyGovstyle::panel_output(
+      inputId = shiny::NS(id, "panId"),
       main_text = "Application complete",
       sub_text = paste(
         "Your reference number <br>",
         "<strong>HDJ2123F</strong>"
       )
     ),
-    heading_text("noti_banner", size = "s", level = 2),
-    noti_banner(
-      NS(id, "notId"),
+    shinyGovstyle::heading_text("noti_banner", size = "s", level = 2),
+    shinyGovstyle::noti_banner(
+      shiny::NS(id, "notId"),
       title_txt = "Important",
       body_txt = "You have 7 days left to send your application.",
       type = "standard"
     ),
-    heading_text("gov_summary", size = "s", level = 2),
+    shinyGovstyle::heading_text("gov_summary", size = "s", level = 2),
     shinyGovstyle::gov_summary(
-      NS(id, "sumID"),
+      shiny::NS(id, "sumID"),
       c(
         "Name",
         "Date of birth",

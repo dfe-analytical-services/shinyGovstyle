@@ -1,39 +1,39 @@
 mod_tables_tabs_ui <- function(id) {
-  tagList(
-    heading_text("Tables, tabs and accordions", size = "l"),
-    label_hint(
-      NS(id, "label3"),
+  shiny::tagList(
+    shinyGovstyle::heading_text("Tables, tabs and accordions", size = "l"),
+    shinyGovstyle::label_hint(
+      shiny::NS(id, "label3"),
       "These are some examples of using tabs and tables"
     ),
 
-    heading_text("govTable", size = "s", level = 2),
+    shinyGovstyle::heading_text("govTable", size = "s", level = 2),
     shinyGovstyle::govTable(
-      NS(id, "tab1"),
+      shiny::NS(id, "tab1"),
       shinyGovstyle::transport_data_small,
       "Static example",
       "l",
       num_col = c(2, 3)
     ),
 
-    heading_text(
+    shinyGovstyle::heading_text(
       "govReactable with static data",
       size = "s",
       level = 2
     ),
-    heading_text("Caption added separately", size = "l"),
-    govReactable(
+    shinyGovstyle::heading_text("Caption added separately", size = "l"),
+    shinyGovstyle::govReactable(
       shinyGovstyle::transport_data,
       right_col = c("bikes", "vans", "buses"),
       page_size = 5
     ),
 
-    heading_text(
+    shinyGovstyle::heading_text(
       "govReactable with reactive data",
       size = "s",
       level = 2
     ),
-    select_Input(
-      inputId = NS(id, "colourFilter"),
+    shinyGovstyle::select_Input(
+      inputId = shiny::NS(id, "colourFilter"),
       label = "Select Colour",
       select_text = c(sort(unique(
         shinyGovstyle::transport_data$colours
@@ -42,18 +42,22 @@ mod_tables_tabs_ui <- function(id) {
         shinyGovstyle::transport_data$colours
       )))
     ),
-    govReactableOutput(
-      NS(id, "interactive_table_test"),
+    shinyGovstyle::govReactableOutput(
+      shiny::NS(id, "interactive_table_test"),
       caption = "Caption in output function"
     ),
 
-    heading_text("govTabs", size = "s", level = 2),
-    shinyGovstyle::govTabs(NS(id, "govTabs"), shinyGovstyle::case_data, "tabs"),
+    shinyGovstyle::heading_text("govTabs", size = "s", level = 2),
+    shinyGovstyle::govTabs(
+      shiny::NS(id, "govTabs"),
+      shinyGovstyle::case_data,
+      "tabs"
+    ),
     shiny::tags$br(),
     shiny::tags$br(),
-    heading_text("accordions", size = "s", level = 2),
+    shinyGovstyle::heading_text("accordions", size = "s", level = 2),
     shinyGovstyle::accordion(
-      NS(id, "acc1"),
+      shiny::NS(id, "acc1"),
       c(
         "Writing well for the web",
         "Writing well for specialists",
@@ -71,7 +75,7 @@ mod_tables_tabs_ui <- function(id) {
 }
 
 mod_tables_tabs_server <- function(id) {
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
     filtered_data <- shiny::reactive({
       subset(shinyGovstyle::transport_data, colours == input$colourFilter)
     })

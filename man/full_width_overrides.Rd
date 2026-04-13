@@ -25,4 +25,3 @@ Other Govstyle styling:
 \code{\link{font}()}
 }
 \concept{Govstyle styling}
-\keyword{styling}

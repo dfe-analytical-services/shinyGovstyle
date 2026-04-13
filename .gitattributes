@@ -1,0 +1,39 @@
+# Auto-detect text files and normalize to LF
+* text=auto eol=lf
+
+# R source files
+*.R text eol=lf
+*.Rmd text eol=lf
+*.Rnw text eol=lf
+*.Rd text eol=lf
+*.rdb binary
+*.rdx binary
+
+# Config / docs
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.dcf text eol=lf
+*.toml text eol=lf
+
+# Web assets
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.svg text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+*.bat text eol=crlf
+
+# Binary files — no conversion
+*.png binary
+*.gif binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.pdf binary
+*.rda binary
+*.rds binary
+*.RData binary

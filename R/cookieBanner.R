@@ -5,14 +5,13 @@
 #' See example for how to structure.
 #' @param service_name Name for this service to add to banner
 #' @return a cookie banner HTML shiny tag object
-#' @keywords cookie banner
 #' @family Govstyle page structure
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"),
 #'   #Needs shinyjs to work
 #'   shinyjs::useShinyjs(),

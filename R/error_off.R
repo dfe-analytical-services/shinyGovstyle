@@ -4,7 +4,6 @@
 #' been sorted.
 #' @param inputId The input Id to turn error handling on for
 #' @return no return value. This toggles off error CSS
-#' @keywords error
 #' @family Govstyle errors
 #' @export
 #' @examples
@@ -12,8 +11,8 @@
 #'   # Required for error handling function
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::banner(

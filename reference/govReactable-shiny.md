@@ -60,7 +60,7 @@ assigned to a Shiny output slot
 
 ## See also
 
-Other Govstyle tables, tabs, and accordions:
+Other Govstyle tables tabs and accordions:
 [`accordion()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/accordion.md),
 [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md),
 [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md),

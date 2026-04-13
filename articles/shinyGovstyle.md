@@ -103,8 +103,8 @@ library(shinyGovstyle)
 ui <- bslib::page_fluid(
   skip_to_main(),
   header(
-    main_text = "My department",
-    secondary_text = "My dashboard"
+    org_name = "My department",
+    service_name = "My dashboard"
   ),
   banner(
     inputId = "phase",

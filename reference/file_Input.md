@@ -79,8 +79,8 @@ ui <- shiny::fluidPage(
   # Required for error handling function
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo="shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::banner(

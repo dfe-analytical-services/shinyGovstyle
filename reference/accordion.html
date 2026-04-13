@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">shinyGovstyle</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,7 @@
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>Other Govstyle tables, tabs, and accordions:
+    <div class="dont-index"><p>Other Govstyle tables tabs and accordions:
 <code><a href="govReactable.html">govReactable()</a></code>,
 <code><a href="govReactable-shiny.html">govReactable-shiny</a></code>,
 <code><a href="govTable.html">govTable()</a></code>,
@@ -80,8 +80,8 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="header.html">header</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    main_text <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
-<span class="r-in"><span>    secondary_text <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
+<span class="r-in"><span>    org_name <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
+<span class="r-in"><span>    service_name <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
 <span class="r-in"><span>    logo <span class="op">=</span> <span class="st">"shinyGovstyle/images/moj_logo.png"</span>,</span></span>
 <span class="r-in"><span>    logo_alt_text <span class="op">=</span> <span class="st">"Ministry of Justice logo"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
@@ -108,6 +108,17 @@
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="footer.html">footer</a></span><span class="op">(</span>full <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `main_link` argument of `header()` is deprecated as of shinyGovstyle 0.2.0.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> main_link will be dropped in v1.0.0</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `main_alt_text` argument of `header()` is deprecated as of shinyGovstyle</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> 0.2.0.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> main_alt_text will be dropped in v1.0.0</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `secondary_alt_text` argument of `header()` is deprecated as of</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> shinyGovstyle 0.2.0.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> secondary_alt_text will be dropped in v1.0.0</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The `secondary_link` argument of `header()` is deprecated as of shinyGovstyle</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> 0.2.0.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> secondary_link will be dropped in v1.0.0</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>

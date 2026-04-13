@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">shinyGovstyle</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -359,7 +359,10 @@ such as service problems or upcoming events.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/noti_banner.html">noti_banner</a></span><span class="op">(</span></span>
 <span>  inputId <span class="op">=</span> <span class="st">"service-notice"</span>,</span>
 <span>  title_txt <span class="op">=</span> <span class="st">"Important"</span>,</span>
-<span>  body_txt <span class="op">=</span> <span class="st">"This service will be unavailable on Saturday 14 June from 8am to 6pm."</span></span>
+<span>  body_txt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
+<span>    <span class="st">"This service will be unavailable on Saturday "</span>,</span>
+<span>    <span class="st">"14 June from 8am to 6pm."</span></span>
+<span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><strong>Success</strong> (green): to confirm that a previous action
 completed successfully. Uses <code>role="alert"</code> so screen readers
@@ -454,7 +457,10 @@ surrounding context to make sense of it.</p>
 <span><span class="fu"><a href="../reference/external_link.html">external_link</a></span><span class="op">(</span><span class="st">"https://www.example.gov.uk/apply"</span>, <span class="st">"click here"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Will error — raw URL as text</span></span>
-<span><span class="fu"><a href="../reference/external_link.html">external_link</a></span><span class="op">(</span><span class="st">"https://www.example.gov.uk/apply"</span>, <span class="st">"https://www.example.gov.uk/apply"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/external_link.html">external_link</a></span><span class="op">(</span></span>
+<span>  <span class="st">"https://www.example.gov.uk/apply"</span>,</span>
+<span>  <span class="st">"https://www.example.gov.uk/apply"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="grouped-links">Grouped links<a class="anchor" aria-label="anchor" href="#grouped-links"></a>

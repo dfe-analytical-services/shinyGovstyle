@@ -6,9 +6,11 @@ This function create a header banner. For use at top of the screen
 
 ``` r
 header(
-  main_text = "Shiny example app",
-  secondary_text = NULL,
+  org_name = "Shiny example app",
+  service_name = NULL,
   logo = "shinyGovstyle/images/Dept_logo.svg",
+  main_text = lifecycle::deprecated(),
+  secondary_text = lifecycle::deprecated(),
   main_link = NULL,
   secondary_link = NULL,
   logo_alt_text = "Departmental logo",
@@ -21,18 +23,26 @@ header(
 
 ## Arguments
 
-- main_text:
+- org_name:
 
-  Main text that goes in the header
+  Organisation name that goes in the header
 
-- secondary_text:
+- service_name:
 
-  Secondary header to supplement the main text
+  Service name to supplement the organisation name
 
 - logo:
 
   Add a link to a logo which will apply in the header. Use crown to use
   the crown SVG version on GOV UK
+
+- main_text:
+
+  **\[deprecated\]** Use `org_name` instead
+
+- secondary_text:
+
+  **\[deprecated\]** Use `service_name` instead
 
 - main_link:
 
@@ -83,8 +93,8 @@ Other Govstyle page structure:
 ``` r
 ui <- shiny::fluidPage(
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice Logo"
   )

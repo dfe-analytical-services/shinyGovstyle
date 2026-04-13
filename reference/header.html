@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">shinyGovstyle</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,9 +45,11 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">header</span><span class="op">(</span></span>
-<span>  main_text <span class="op">=</span> <span class="st">"Shiny example app"</span>,</span>
-<span>  secondary_text <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  org_name <span class="op">=</span> <span class="st">"Shiny example app"</span>,</span>
+<span>  service_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  logo <span class="op">=</span> <span class="st">"shinyGovstyle/images/Dept_logo.svg"</span>,</span>
+<span>  main_text <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  secondary_text <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  main_link <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  secondary_link <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  logo_alt_text <span class="op">=</span> <span class="st">"Departmental logo"</span>,</span>
@@ -62,17 +64,26 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-main-text">main_text<a class="anchor" aria-label="anchor" href="#arg-main-text"></a></dt>
-<dd><p>Main text that goes in the header</p></dd>
+<dl><dt id="arg-org-name">org_name<a class="anchor" aria-label="anchor" href="#arg-org-name"></a></dt>
+<dd><p>Organisation name that goes in the header</p></dd>
 
 
-<dt id="arg-secondary-text">secondary_text<a class="anchor" aria-label="anchor" href="#arg-secondary-text"></a></dt>
-<dd><p>Secondary header to supplement the main text</p></dd>
+<dt id="arg-service-name">service_name<a class="anchor" aria-label="anchor" href="#arg-service-name"></a></dt>
+<dd><p>Service name to supplement the organisation name</p></dd>
 
 
 <dt id="arg-logo">logo<a class="anchor" aria-label="anchor" href="#arg-logo"></a></dt>
 <dd><p>Add a link to a logo which will apply in the header. Use crown to
 use the crown SVG version on GOV UK</p></dd>
+
+
+<dt id="arg-main-text">main_text<a class="anchor" aria-label="anchor" href="#arg-main-text"></a></dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Use <code>org_name</code> instead</p></dd>
+
+
+<dt id="arg-secondary-text">secondary_text<a class="anchor" aria-label="anchor" href="#arg-secondary-text"></a></dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Use <code>service_name</code>
+instead</p></dd>
 
 
 <dt id="arg-main-link">main_link<a class="anchor" aria-label="anchor" href="#arg-main-link"></a></dt>
@@ -127,8 +138,8 @@ be used when a secondary link is used <a href="https://lifecycle.r-lib.org/artic
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">header</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    main_text <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
-<span class="r-in"><span>    secondary_text <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
+<span class="r-in"><span>    org_name <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
+<span class="r-in"><span>    service_name <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
 <span class="r-in"><span>    logo <span class="op">=</span> <span class="st">"shinyGovstyle/images/moj_logo.png"</span>,</span></span>
 <span class="r-in"><span>    logo_alt_text <span class="op">=</span> <span class="st">"Ministry of Justice Logo"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>

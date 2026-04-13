@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">shinyGovstyle</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,6 +37,44 @@
       <small>Source: <a href="https://github.com/dfe-analytical-services/shinyGovstyle/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="shinygovstyle-020">shinyGovstyle 0.2.0<a class="anchor" aria-label="anchor" href="#shinygovstyle-020"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-0-2-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-2-0"></a></h3>
+<ul><li>
+<code><a href="../reference/header.html">header()</a></code> arguments <code>main_text</code> and <code>secondary_text</code> have been renamed to <code>org_name</code> and <code>service_name</code> respectively. The old names are deprecated and will be removed in a future version.</li>
+<li>
+<code><a href="../reference/value_box.html">value_box()</a></code> has had the redundant <code>inputId</code> argument removed.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
+<ul><li>New <code><a href="../reference/download_link.html">download_link()</a></code>, <code><a href="../reference/download_button.html">download_button()</a></code>, and <code><a href="../reference/download_radios.html">download_radios()</a></code> functions for download components.</li>
+<li>New <code><a href="../reference/external_link.html">external_link()</a></code> function for creating safe, accessible external links that open in a new tab.</li>
+<li>New <code><a href="../reference/gov_list.html">gov_list()</a></code> function to render styled ordered and unordered lists.</li>
+<li>New <code><a href="../reference/service_navigation.html">service_navigation()</a></code> function with <code><a href="../reference/update_service_navigation.html">update_service_navigation()</a></code> and <code>service_nav_link()</code> helpers for the GOV.UK service navigation component.</li>
+<li>New <code><a href="../reference/skip_to_main.html">skip_to_main()</a></code> function to add a skip-to-main-content accessibility link.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-improvements-and-bug-fixes-0-2-0">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-0-2-0"></a></h3>
+<ul><li>Accordion sections now toggle by clicking anywhere in the section header, not just the title text.</li>
+<li>File upload input now uses GDS-like styling.</li>
+<li>
+<code><a href="../reference/footer.html">footer()</a></code> now supports links.</li>
+<li>
+<code>gov_table()</code> now supports reactive tables, sorting, and pagination.</li>
+<li>
+<code>gov_table()</code> no longer crashes when <code>width_overwrite = NULL</code>.</li>
+<li>
+<code><a href="../reference/header.html">header()</a></code> alt text validation softened from errors to warnings.</li>
+<li>
+<code><a href="../reference/header.html">header()</a></code> has been fixed to correctly size and align on small screens, and <code>service_name</code> now wraps correctly on narrow viewports.</li>
+<li>Many functions now cross-reference related functions in their help files.</li>
+<li>Table caption placement fixed.</li>
+<li>Updated govuk-frontend CSS from v5.4.0 to v6.1.0.</li>
+<li>
+<code><a href="../reference/value_box.html">value_box()</a></code> updated to use GOV.UK tag colours.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="shinygovstyle-011">shinyGovstyle 0.1.1<a class="anchor" aria-label="anchor" href="#shinygovstyle-011"></a></h2><p class="text-muted">CRAN release: 2026-01-08</p>
 <ul><li>No user facing changes, moving to using snapshot testing for backlink_Input</li>

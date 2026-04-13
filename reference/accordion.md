@@ -28,7 +28,7 @@ an accordion HTML shiny tag object
 
 ## See also
 
-Other Govstyle tables, tabs, and accordions:
+Other Govstyle tables tabs and accordions:
 [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md),
 [`govReactable-shiny`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable-shiny.md),
 [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md),
@@ -39,8 +39,8 @@ Other Govstyle tables, tabs, and accordions:
 ``` r
 ui <- shiny::fluidPage(
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice logo"
   ),
@@ -67,6 +67,17 @@ ui <- shiny::fluidPage(
   ),
   shinyGovstyle::footer(full = TRUE)
 )
+#> Warning: The `main_link` argument of `header()` is deprecated as of shinyGovstyle 0.2.0.
+#> ℹ main_link will be dropped in v1.0.0
+#> Warning: The `main_alt_text` argument of `header()` is deprecated as of shinyGovstyle
+#> 0.2.0.
+#> ℹ main_alt_text will be dropped in v1.0.0
+#> Warning: The `secondary_alt_text` argument of `header()` is deprecated as of
+#> shinyGovstyle 0.2.0.
+#> ℹ secondary_alt_text will be dropped in v1.0.0
+#> Warning: The `secondary_link` argument of `header()` is deprecated as of shinyGovstyle
+#> 0.2.0.
+#> ℹ secondary_link will be dropped in v1.0.0
 
 server <- function(input, output, session) {}
 

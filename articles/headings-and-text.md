@@ -216,7 +216,10 @@ problems or upcoming events.
 noti_banner(
   inputId = "service-notice",
   title_txt = "Important",
-  body_txt = "This service will be unavailable on Saturday 14 June from 8am to 6pm."
+  body_txt = paste0(
+    "This service will be unavailable on Saturday ",
+    "14 June from 8am to 6pm."
+  )
 )
 ```
 
@@ -289,7 +292,10 @@ external_link("https://www.example.gov.uk/apply", "Apply for a licence")
 external_link("https://www.example.gov.uk/apply", "click here")
 
 # Will error — raw URL as text
-external_link("https://www.example.gov.uk/apply", "https://www.example.gov.uk/apply")
+external_link(
+  "https://www.example.gov.uk/apply",
+  "https://www.example.gov.uk/apply"
+)
 ```
 
 ### Grouped links

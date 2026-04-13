@@ -32,12 +32,6 @@ from GitHub.
 pak::pak("dfe-analytical-services/shinyGovstyle")
 ```
 
-This has previously also been available on conda though is no longer
-actively maintained, if you are using the package in this way, please
-let us know!
-
-    conda install r-shinygovstyle
-
 To use error and word count elements you will need to load
 `useShinyjs()` from shinyjs in your ui.R file
 
@@ -55,12 +49,10 @@ log](https://github.com/dfe-analytical-services/shinyGovstyle/issues)
 incase there is already an existing discussion you can conrtibute to.
 
 More details on contributing can be found in the
-[CONTRIBUTING.md](https://dfe-analytical-services.github.io/shinyGovstyle/CONTRIBUTING.md)
-file.
+`.github/CONTRIBUTING.md` file.
 
-This package is also released with a [Contributor Code of
-Conduct](https://dfe-analytical-services.github.io/shinyGovstyle/CODE_OF_CONDUCT.md).
-By contributing to this project, you agree to abide by its terms.
+This package is also released with a `.github/CODE_OF_CONDUCT.md`. By
+contributing to this project, you agree to abide by its terms.
 
 ### Available components
 

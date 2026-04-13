@@ -29,7 +29,7 @@ a tab table HTML shiny tag object
 
 ## See also
 
-Other Govstyle tables, tabs, and accordions:
+Other Govstyle tables tabs and accordions:
 [`accordion()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/accordion.md),
 [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md),
 [`govReactable-shiny`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable-shiny.md),
@@ -40,8 +40,8 @@ Other Govstyle tables, tabs, and accordions:
 ``` r
 ui <- shiny::fluidPage(
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice logo"
   ),

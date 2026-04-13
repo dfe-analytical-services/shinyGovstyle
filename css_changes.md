@@ -298,14 +298,3 @@ and adding this chunk to the accordion section of css:
         color: #0f385c;
         background-color: #d2e2f1
     }
-
-- Add header content title back in
-
-&nbsp;
-
-    /* Add header content back in--------------------------------- */
-    .govuk-header__content{
-      width: 66.66%;
-      padding-left: 15px;
-      float: right
-    }

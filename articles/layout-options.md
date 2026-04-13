@@ -106,8 +106,8 @@ to request this as an addition to the package.
 
 ``` r
 header(
-  main_text = "Department for Education",
-  secondary_text = "My dashboard"
+  org_name = "Department for Education",
+  service_name = "My dashboard"
 )
 ```
 
@@ -121,7 +121,10 @@ feedback.
 banner(
   inputId = "phase-banner",
   type = "Beta",
-  label = 'This is a new service — your <a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+  label = paste0(
+    "This is a new service \u2014 your ",
+    '<a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+  )
 )
 ```
 
@@ -436,13 +439,15 @@ footer(
 shiny::tabsetPanel(
   type = "hidden",
   id = "main_panels",
-  shiny::tabPanel("Summary",                 value = "nav_summary",         "Content"),
-  shiny::tabPanel("Accessibility statement", value = "accessibility_panel", "Content")
+  shiny::tabPanel("Summary", value = "nav_summary", "Content"),
+  shiny::tabPanel("Accessibility statement", value = "accessibility_panel",
+                  "Content")
 )
 
 # server.R — navigate to the footer page (no update_service_navigation needed)
 shiny::observeEvent(input$accessibility_footer_link, {
-  shiny::updateTabsetPanel(session, "main_panels", selected = "accessibility_panel")
+  shiny::updateTabsetPanel(session, "main_panels",
+                           selected = "accessibility_panel")
 })
 ```
 
@@ -471,8 +476,8 @@ library(shinyGovstyle)
 ui <- bslib::page_fluid(
   skip_to_main(),
   header(
-    main_text = "My department",
-    secondary_text = "My dashboard"
+    org_name = "My department",
+    service_name = "My dashboard"
   ),
   service_navigation(
     c(
@@ -544,7 +549,8 @@ server <- function(input, output, session) {
     shiny::updateTabsetPanel(session, "main_panels", selected = "nav_about")
   })
   shiny::observeEvent(input$accessibility_footer_link, {
-    shiny::updateTabsetPanel(session, "main_panels", selected = "accessibility_panel")
+    shiny::updateTabsetPanel(session, "main_panels",
+                             selected = "accessibility_panel")
   })
 }
 

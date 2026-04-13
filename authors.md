@@ -19,7 +19,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/dfe-analytical-services/shinyGovstyle/blob/v0.2.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/dfe-analytical-services/shinyGovstyle/blob/main/DESCRIPTION)
 
 Wyatt R, Race C, Wong S (2026). *shinyGovstyle: Custom Gov Style Inputs
 for Shiny*. R package version 0.2.0,

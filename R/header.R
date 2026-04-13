@@ -78,7 +78,7 @@ header <- function(
     )
   }
 
-  if (!missing("main_link")) {
+  if (lifecycle::is_present(main_link)) {
     lifecycle::deprecate_warn(
       when = "0.2.0",
       what = "header(main_link)",
@@ -86,7 +86,7 @@ header <- function(
     )
   }
 
-  if (!missing("main_alt_text")) {
+  if (lifecycle::is_present(main_alt_text)) {
     lifecycle::deprecate_warn(
       when = "0.2.0",
       what = "header(main_alt_text)",
@@ -94,7 +94,7 @@ header <- function(
     )
   }
 
-  if (!missing("secondary_alt_text")) {
+  if (lifecycle::is_present(secondary_alt_text)) {
     lifecycle::deprecate_warn(
       when = "0.2.0",
       what = "header(secondary_alt_text)",
@@ -102,7 +102,7 @@ header <- function(
     )
   }
 
-  if (!missing("secondary_link")) {
+  if (lifecycle::is_present(secondary_link)) {
     lifecycle::deprecate_warn(
       when = "0.2.0",
       what = "header(secondary_link)",

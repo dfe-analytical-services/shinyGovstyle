@@ -5,14 +5,13 @@
 #' @param inputId The input slot that will be used to access the value
 #' @param text Text that you want to display on the insert
 #' @return a insert text HTML shiny tag object
-#' @keywords inserttext
 #' @family Govstyle feedback types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::gov_layout(

@@ -6,14 +6,13 @@
 #' @param label Main label text
 #' @param help_text Additional help information in the component
 #' @return a details box HTML shiny tag object
-#' @keywords details box
 #' @family Govstyle feedback types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::gov_layout(

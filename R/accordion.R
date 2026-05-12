@@ -5,14 +5,13 @@
 #' @param titles Add the titles for the accordion
 #' @param descriptions Add the main text for the accordion
 #' @return an accordion HTML shiny tag object
-#' @keywords accordion
-#' @family Govstyle tables, tabs, and accordions
+#' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png",
 #'     logo_alt_text = "Ministry of Justice logo"
 #'   ),

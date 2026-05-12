@@ -10,7 +10,6 @@
 #' @param error_message Message to display on error. Defaults to `NULL`
 #' @param word_limit Add a word limit to the display. Defaults to `NULL`
 #' @return a text area box HTML shiny tag object
-#' @keywords text area
 #' @family Govstyle text types
 #' @export
 #' @examples

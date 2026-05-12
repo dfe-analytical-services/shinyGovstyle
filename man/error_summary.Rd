@@ -25,8 +25,8 @@ https://design-system.service.gov.uk/components/error-summary/
 ui <- shiny::fluidPage(
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::gov_layout(
@@ -60,4 +60,3 @@ Other Govstyle errors:
 \code{\link{error_summary_update}()}
 }
 \concept{Govstyle errors}
-\keyword{error_summary}

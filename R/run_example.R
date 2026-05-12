@@ -11,7 +11,6 @@
 #' https://department-for-education.shinyapps.io/shinygovstyle-example-app/
 #'
 #' @return runs an R Shiny app with examples in
-#' @keywords example
 #' @export
 #' @examples
 #' if (interactive()) run_example()

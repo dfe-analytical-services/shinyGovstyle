@@ -20,8 +20,8 @@ This function adds a back link to the page
 \examples{
 ui <- shiny::fluidPage(
   header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
   shiny::navlistPanel(
@@ -60,7 +60,8 @@ if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle navigation: 
-\code{\link{contents_link}()}
+\code{\link{contents_link}()},
+\code{\link{service_navigation}()},
+\code{\link{update_service_navigation}()}
 }
 \concept{Govstyle navigation}
-\keyword{backlink}

@@ -62,5 +62,3 @@ Other Govstyle text types:
 \code{\link{text_area_Input}()}
 }
 \concept{Govstyle text types}
-\keyword{count}
-\keyword{word}

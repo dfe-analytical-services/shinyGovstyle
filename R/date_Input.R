@@ -11,7 +11,6 @@
 #' @param month Select a default month on start up. Defaults to `NULL`
 #' @param year Select a default year on start up. Defaults to `NULL`
 #' @return a data input HTML shiny tag object
-#' @keywords date
 #' @family Govstyle text types
 #' @export
 #' @examples
@@ -19,8 +18,8 @@
 #'   # Required for error handling function.
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::banner(

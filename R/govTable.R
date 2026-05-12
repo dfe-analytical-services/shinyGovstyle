@@ -13,8 +13,7 @@
 #' Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
 #' Default is `NULL`
 #' @return a table HTML shiny tag object
-#' @keywords table
-#' @family Govstyle tables, tabs, and accordions
+#' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(

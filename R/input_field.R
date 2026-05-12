@@ -10,7 +10,6 @@
 #' @param error Whenever to icnlud error handling. Defaults to FALSE
 #' @param error_message Message to display on error. Defaults to NULL
 #' @return a input field of HTML as a shiny tag object
-#' @keywords input field
 #' @family Govstyle text types
 #' @export
 #' @examples
@@ -18,8 +17,8 @@
 #'   # Required for error handling function
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::banner(

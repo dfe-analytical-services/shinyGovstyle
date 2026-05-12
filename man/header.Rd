@@ -5,9 +5,11 @@
 \title{Header Function}
 \usage{
 header(
-  main_text = "Shiny example app",
-  secondary_text = NULL,
+  org_name = "Shiny example app",
+  service_name = NULL,
   logo = "shinyGovstyle/images/Dept_logo.svg",
+  main_text = lifecycle::deprecated(),
+  secondary_text = lifecycle::deprecated(),
   main_link = NULL,
   secondary_link = NULL,
   logo_alt_text = "Departmental logo",
@@ -18,12 +20,17 @@ header(
 )
 }
 \arguments{
-\item{main_text}{Main text that goes in the header}
+\item{org_name}{Organisation name that goes in the header}
 
-\item{secondary_text}{Secondary header to supplement the main text}
+\item{service_name}{Service name to supplement the organisation name}
 
 \item{logo}{Add a link to a logo which will apply in the header. Use crown to
 use the crown SVG version on GOV UK}
+
+\item{main_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{org_name} instead}
+
+\item{secondary_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{service_name}
+instead}
 
 \item{main_link}{Add a link for clicking on main text
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
@@ -53,8 +60,8 @@ This function create a header banner. For use at top of the screen
 \examples{
 ui <- shiny::fluidPage(
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice Logo"
   )
@@ -74,4 +81,3 @@ Other Govstyle page structure:
 \code{\link{skip_to_main}()}
 }
 \concept{Govstyle page structure}
-\keyword{header}

@@ -6,14 +6,13 @@
 #' @param type Main type of label e.g. alpha or beta. Can be any word
 #' @param label text to display
 #' @return a banner HTML shiny tag object
-#' @keywords banner
 #' @family Govstyle page structure
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::banner(
@@ -30,15 +29,18 @@ banner <- function(
   label
 ) {
   gov_banner <- shiny::tags$div(
-    class = "govuk-phase-banner govuk-width-container govuk-main-wrapper",
+    class = "govuk-phase-banner",
     id = inputId,
-    shiny::tags$p(
-      class = "govuk-phase-banner__content",
-      shiny::tags$strong(
-        class = "govuk-tag govuk-phase-banner__content__tag ",
-        type
-      ),
-      shiny::tags$span(class = "govuk-phase-banner__text", shiny::HTML(label))
+    shiny::tags$div(
+      class = "govuk-width-container",
+      shiny::tags$p(
+        class = "govuk-phase-banner__content",
+        shiny::tags$strong(
+          class = "govuk-tag govuk-phase-banner__content__tag",
+          type
+        ),
+        shiny::tags$span(class = "govuk-phase-banner__text", shiny::HTML(label))
+      )
     )
   )
   attachDependency(gov_banner)

@@ -7,8 +7,8 @@
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples"
+#'     org_name = "Example",
+#'     service_name = "User Examples"
 #'   ),
 #'   shinyGovstyle::banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'
@@ -68,7 +68,8 @@ gov_list <- function(list, style = "none") {
   }
 
   # apply wrapper over list to get full list
-  list_wrapper(purrr::map(list, function(x) {
+  result <- list_wrapper(purrr::map(list, function(x) {
     shiny::tags$li(x)
   }))
+  attachDependency(result)
 }

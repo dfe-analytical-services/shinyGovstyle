@@ -35,4 +35,3 @@ Other Govstyle feedback types:
 \code{\link{value_box}()}
 }
 \concept{Govstyle feedback types}
-\keyword{warning}

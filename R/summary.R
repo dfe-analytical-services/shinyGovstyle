@@ -11,7 +11,6 @@
 #' @param border set if the table should have borders. Default set
 #' to `TRUE`
 #' @return a summary list table HTML shiny tag object
-#' @keywords summary list
 #' @family Govstyle feedback types
 #' @export
 #' @examples
@@ -31,8 +30,8 @@
 #'
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::gov_layout(

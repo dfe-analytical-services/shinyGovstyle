@@ -41,8 +41,8 @@ ui <- shiny::fluidPage(
   # Required for error handling function
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
-    main_text = "Example",
-    secondary_text = "User Examples",
+    org_name = "Example",
+    service_name = "User Examples",
     logo="shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::banner(
@@ -90,5 +90,3 @@ Other Govstyle text types:
 \code{\link{word_count}()}
 }
 \concept{Govstyle text types}
-\keyword{field}
-\keyword{input}

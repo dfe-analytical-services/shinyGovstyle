@@ -7,7 +7,6 @@
 #' @param word_limit Change the word limit if needed. Default will keep as
 #' what was used in text area component
 #' @return no value returned. Updates the word count in a shiny app
-#' @keywords word count
 #' @family Govstyle text types
 #' @export
 #' @examples

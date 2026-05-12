@@ -5,14 +5,13 @@
 #' @param main_text Add the header for the panel
 #' @param sub_text Add the main body of text for the panel
 #' @return a panel HTML shiny tag object
-#' @keywords panel
 #' @family Govstyle feedback types
 #' @export
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::gov_layout(size = "full",

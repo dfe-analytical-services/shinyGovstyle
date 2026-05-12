@@ -13,12 +13,11 @@
 #' example
 #' @return a HTML shiny layout div
 #' @family Govstyle page structure
-#' @keywords style
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"),
 #'   shinyGovstyle::gov_main_layout(
 #'     shinyGovstyle::gov_row(
@@ -73,9 +72,11 @@ gov_main_layout <- function(
   inputID = "main" # nolint
 ) {
   gov_main <- shiny::tags$div(
-    id = inputID,
     class = "govuk-width-container",
     shiny::tags$main(
+      id = inputID,
+      role = "main",
+      tabindex = "-1",
       class = "govuk-main-wrapper",
       ...
     )

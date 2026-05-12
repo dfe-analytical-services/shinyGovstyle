@@ -68,6 +68,16 @@ attachDependency <- # nolint
             script = "contents_link.js"
           )
         )
+      } else if (widget == "service_navigation") {
+        dep <- list(
+          dep,
+          htmltools::htmlDependency(
+            name = "service_navigation",
+            version = version,
+            src = c(href = "shinyGovstyle/js"),
+            script = "service_navigation.js"
+          )
+        )
       }
     }
 

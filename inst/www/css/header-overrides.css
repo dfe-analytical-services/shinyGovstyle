@@ -1,0 +1,103 @@
+/*
+ * Header layout overrides.
+ *
+ * GOV.UK Frontend v6 removed the service name from the header
+ * As the majority of Shiny apps are not on a GOV.UK domain,
+ * we're adding back in the old CSS here to keep that option.
+ * We've also added some of our own CSS here to make it all work
+ * smoothly.
+ */
+
+
+/* =============================================================================
+   All screen sizes
+   ============================================================================= */
+
+/* Remove the upward offset designed for the GOV.UK crown SVG */
+.govuk-header__logotype {
+    top: 0;
+    vertical-align: middle;
+}
+
+.govuk-header__product-name {
+    font-size: 1.5rem;
+    font-weight: 400;
+    vertical-align: middle;
+}
+
+.govuk-header__service-name {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    line-height: 1.1111111111;
+    font-weight: 400;
+}
+
+.govuk-header__content, .govuk-header__logo {
+    box-sizing: border-box;
+}
+
+.govuk-header__logo {
+    margin-bottom: 10px;
+    padding-right: 80px;
+}
+
+
+/* =============================================================================
+   Tablet and above (min-width: 40.0625em / 641px)
+   ============================================================================= */
+
+@media (min-width:40.0625em) {
+    .govuk-header__service-name {
+        font-size: 2rem;
+        line-height: 1.25;
+    }
+}
+
+
+/* =============================================================================
+   Wide desktop (min-width: 79em / 1264px)
+   Service name is centred on the page; organisation name sits on the left
+   ============================================================================= */
+
+@media (min-width:79em) {
+    /* Container needs position:relative as the anchor for the absolutely
+       positioned service name */
+    .govuk-header__container {
+        position: relative;
+    }
+
+    /* Symmetric padding so the org name's vertical centre matches the
+       container's 50% midpoint (v6 uses 16px top / 12px bottom which
+       offsets it by 2px). Flex centres the anchor within the padding box. */
+    .govuk-header__logo {
+        display: flex;
+        align-items: center;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        margin-bottom: 0;
+    }
+
+    /* Truly centre the service name horizontally and vertically in the bar */
+    .govuk-header__content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        flex: none;
+        text-align: center;
+        white-space: nowrap;
+    }
+}
+
+
+/* =============================================================================
+   Print
+   ============================================================================= */
+
+@media print {
+    .govuk-header__service-name {
+        font-size: 18pt;
+        line-height: 1.15;
+    }
+}

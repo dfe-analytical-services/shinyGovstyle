@@ -1,3 +1,4 @@
+^\.gitattributes$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^cran-comments\.md$
@@ -6,9 +7,12 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^CRAN-SUBMISSION$
 ^LICENSE\.md$
 ^data-raw$
 _\.new\.png$
 ^[.]?air[.]toml$
 ^\.vscode$
 package.json
+^.claude$
+^man/figures/example_app\.gif$

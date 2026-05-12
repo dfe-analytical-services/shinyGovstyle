@@ -1,9 +1,13 @@
 #' Font Function
 #'
-#' This function adds rge nta fonts to the app. See
-#' https://design-system.service.gov.uk/styles/typography/ for when they
-#' are allowed.
-#' @keywords font
+#' Loads the GDS Transport font for use in your app. GDS Transport is a
+#' restricted typeface that must only be used on GOV.UK domains. If your app
+#' is not hosted on a GOV.UK domain, do not call this function — the GOV.UK
+#' Frontend CSS will fall back to Helvetica or Arial automatically.
+#'
+#' See the
+#' \href{https://design-system.service.gov.uk/styles/typeface/}{GOV.UK
+#' typeface guidance} for full details on when GDS Transport is permitted.
 #' @return no value returned. This loads the font CSS file
 #' @export
 #' @family Govstyle styling
@@ -11,8 +15,8 @@
 #' ui <- shiny::fluidPage(
 #'   font(),
 #'   shinyGovstyle::header(
-#'     main_text = "Example",
-#'     secondary_text = "User Examples",
+#'     org_name = "Example",
+#'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png")
 #' )
 #'

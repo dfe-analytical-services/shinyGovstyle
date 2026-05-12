@@ -22,7 +22,7 @@ test_that("date error works", {
   expect_identical(
     paste(
       date_check$children[[1]]$children[[2]]$attribs$class,
-      date_check$children[[1]]$children[[2]]$attribs[3]$class
+      date_check$children[[1]]$children[[2]]$attribs[4]$class
     ),
     "govuk-error-message shinyjs-hide"
   )
@@ -31,6 +31,8 @@ test_that("date error works", {
     date_check$children[[1]]$children[[2]]$children[[1]],
     "Error test"
   )
+
+  expect_identical(date_check$children[[1]]$children[[2]]$attribs$role, "alert")
 })
 
 

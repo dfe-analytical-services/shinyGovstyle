@@ -43,9 +43,11 @@ test_that("Error", {
 
   err_class <- paste(
     rtag$children[[1]]$children[[3]]$attribs$class,
-    rtag$children[[1]]$children[[3]]$attribs[3]$class
+    rtag$children[[1]]$children[[3]]$attribs[4]$class
   )
   expect_identical(err_class, "govuk-error-message shinyjs-hide")
+
+  expect_identical(rtag$children[[1]]$children[[3]]$attribs$role, "alert")
 })
 
 test_that("Small", {

@@ -21,6 +21,8 @@
 
 ## Minor improvements and bug fixes
 
+* Error messages on input components now use `role="alert"` so they are
+  announced by screen readers when toggled via `error_on()` (#192).
 * Accordion sections now toggle by clicking anywhere in the section header, not
   just the title text.
 * File upload input now uses GDS-like styling.

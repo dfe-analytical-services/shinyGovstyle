@@ -21,6 +21,15 @@
 
 ## Minor improvements and bug fixes
 
+* `radio_button_Input()` now wraps radio buttons in a `<fieldset>` with a
+  `<legend>`, so screen readers announce the question as the group label
+  (#184).
+* `radio_button_Input()` inputs and labels are now programmatically associated
+  via matching `id`/`for` attributes, and checkbox labels now also carry `for`
+  attributes (#189).
+* `govTabs` now includes full ARIA roles (`tablist`, `tab`, `tabpanel`) and
+  attributes (`aria-selected`, `aria-controls`, `aria-labelledby`) so screen
+  readers correctly identify and navigate tabs (#187).
 * Accordion sections now toggle by clicking anywhere in the section header, not
   just the title text.
 * File upload input now uses GDS-like styling.

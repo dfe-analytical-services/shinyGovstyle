@@ -112,42 +112,35 @@ radio_button_Input <- # nolint
       shiny::tags$div(
         class = "govuk-form-group",
         id = paste0(inputId, "div"),
-        controlLabel2(inputId, label),
-        shiny::tags$div(
-          hint_label,
-          class = "govuk-hint"
-        ),
-        if (error == TRUE) {
-          shinyjs::hidden(
-            shiny::tags$p(
-              error_message,
-              class = "govuk-error-message",
-              id = paste0(inputId, "error"),
-              shiny::tags$span(
-                "Error:",
-                class = "govuk-visually-hidden"
+        shiny::tags$fieldset(
+          class = "govuk-fieldset",
+          shiny::tags$legend(
+            label,
+            class = "govuk-fieldset__legend"
+          ),
+          shiny::tags$div(
+            hint_label,
+            class = "govuk-hint"
+          ),
+          if (error == TRUE) {
+            shinyjs::hidden(
+              shiny::tags$p(
+                error_message,
+                class = "govuk-error-message",
+                id = paste0(inputId, "error"),
+                shiny::tags$span(
+                  "Error:",
+                  class = "govuk-visually-hidden"
+                )
               )
             )
-          )
-        },
-        options
+          },
+          options
+        )
       )
     )
 
     attachDependency(gov_radio, "radio")
-  }
-
-controlLabel2 <- # nolint
-  function(
-    controlName, # nolint
-    label
-  ) {
-    label %AND%
-      htmltools::tags$label(
-        class = "govuk-label",
-        `for` = controlName,
-        label
-      )
   }
 
 generateOptions2 <- # nolint

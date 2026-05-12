@@ -6,7 +6,7 @@ test_that("Default", {
     choices = choices,
     selected = "A"
   )
-  choicestag <- rtag$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- rtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -28,7 +28,7 @@ test_that("Error", {
     error = TRUE,
     error_message = "Error Test"
   )
-  choicestag <- rtag$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- rtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -38,12 +38,12 @@ test_that("Error", {
   checked <- unlist(checked)
   expect_equal(which(checked), 1)
 
-  err_msg <- rtag$children[[1]]$children[[3]]$children[[1]]
+  err_msg <- rtag$children[[1]]$children[[1]]$children[[3]]$children[[1]]
   expect_identical(err_msg, "Error Test")
 
   err_class <- paste(
-    rtag$children[[1]]$children[[3]]$attribs$class,
-    rtag$children[[1]]$children[[3]]$attribs[3]$class
+    rtag$children[[1]]$children[[1]]$children[[3]]$attribs$class,
+    rtag$children[[1]]$children[[1]]$children[[3]]$attribs[3]$class
   )
   expect_identical(err_class, "govuk-error-message shinyjs-hide")
 })
@@ -57,7 +57,7 @@ test_that("Small", {
     selected = "A",
     small = TRUE
   )
-  choicestag <- rtag$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- rtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -67,7 +67,7 @@ test_that("Small", {
   checked <- unlist(checked)
   expect_equal(which(checked), 1)
 
-  small_class <- rtag$children[[1]]$children[[4]]$attribs$class
+  small_class <- rtag$children[[1]]$children[[1]]$children[[4]]$attribs$class
   expect_identical(small_class, "govuk-radios govuk-radios--small")
 })
 
@@ -80,7 +80,7 @@ test_that("Inline", {
     selected = "A",
     inline = TRUE
   )
-  choicestag <- rtag$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- rtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -90,7 +90,7 @@ test_that("Inline", {
   checked <- unlist(checked)
   expect_equal(which(checked), 1)
 
-  inline_class <- rtag$children[[1]]$children[[4]]$attribs$class
+  inline_class <- rtag$children[[1]]$children[[1]]$children[[4]]$attribs$class
   expect_identical(inline_class, "govuk-radios govuk-radios--inline")
 })
 
@@ -102,7 +102,7 @@ test_that("Labels are programmatically associated with inputs", {
     choices = choices,
     selected = "Yes"
   )
-  option_items <- rtag$children[[1]]$children[[4]]$children[[1]]
+  option_items <- rtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
 
   for (i in seq_along(choices)) {
     item <- option_items[[i]]
@@ -112,4 +112,20 @@ test_that("Labels are programmatically associated with inputs", {
     expect_identical(input_tag$attribs$id, expected_id)
     expect_identical(label_tag$attribs$`for`, expected_id)
   }
+})
+
+test_that("Fieldset and legend wrap radio group", {
+  rtag <- radio_button_Input(
+    inputId = "radio_fieldset",
+    label = "Pick one",
+    choices = c("Yes", "No")
+  )
+  fieldset <- rtag$children[[1]]$children[[1]]
+  expect_identical(fieldset$name, "fieldset")
+  expect_identical(fieldset$attribs$class, "govuk-fieldset")
+
+  legend <- fieldset$children[[1]]
+  expect_identical(legend$name, "legend")
+  expect_identical(legend$attribs$class, "govuk-fieldset__legend")
+  expect_identical(legend$children[[1]], "Pick one")
 })

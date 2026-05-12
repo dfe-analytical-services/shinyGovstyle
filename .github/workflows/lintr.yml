@@ -23,7 +23,7 @@ permissions:
   security-events: write
 
 jobs:
-  lint:
+  lintr:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/dfe-analytical-services/dfe-r-base:latest

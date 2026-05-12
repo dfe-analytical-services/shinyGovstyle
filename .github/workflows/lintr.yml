@@ -1,5 +1,13 @@
 name: lintr
 
+# Inlined from dfe-analytical-services/dfeshiny lintr_reusable.yaml so that
+# devtools::load_all() and lintr::lint_package() run in a single Rscript
+# invocation. Splitting them across two Rscript steps means lintr runs without
+# the package namespace, so internal helpers like attachDependency are reported
+# as "no visible global function definition" (false positives that surface in
+# Security > Code scanning). Revert to the reusable workflow once the upstream
+# fix lands in dfeshiny.
+
 on:
   push:
     branches: [main]
@@ -16,6 +24,40 @@ permissions:
 
 jobs:
   lint:
-    uses: dfe-analytical-services/dfeshiny/.github/workflows/lintr_reusable.yaml@main
-    with:
-      is_package: "true"
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/dfe-analytical-services/dfe-r-base:latest
+      options: --user root
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            lintr
+            cyclocomp
+            devtools
+
+      - name: Load package and lint in one session
+        run: |
+          tryCatch(
+            devtools::load_all(),
+            error = function(e) message("load_all failed: ", conditionMessage(e))
+          )
+          lintr::sarif_output(lintr::lint_package(), "lintr-results.sarif")
+        shell: Rscript {0}
+        continue-on-error: true
+
+      - name: Upload analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: lintr-results.sarif
+          wait-for-processing: true

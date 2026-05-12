@@ -22,6 +22,7 @@ components should be available to use through this package.
 You can install the latest stable version from CRAN
 
 ``` r
+
 install.packages("shinyGovstyle")
 ```
 
@@ -29,6 +30,7 @@ If you want to make use of the development version then install directly
 from GitHub.
 
 ``` r
+
 pak::pak("dfe-analytical-services/shinyGovstyle")
 ```
 
@@ -36,6 +38,7 @@ To use error and word count elements you will need to load
 `useShinyjs()` from shinyjs in your ui.R file
 
 ``` r
+
 shinyjs::useShinyjs()
 ```
 
@@ -67,5 +70,6 @@ for the example app is in the `inst/example_app/` folder. You can easily
 run the app from the console using:
 
 ``` r
+
 shinyGovstyle::run_example()
 ```

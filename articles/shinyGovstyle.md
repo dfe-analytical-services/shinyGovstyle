@@ -53,12 +53,14 @@ modules](https://mastering-shiny.org/scaling-modules.html).
 Install the latest stable release from CRAN:
 
 ``` r
+
 install.packages("shinyGovstyle")
 ```
 
 To use the latest development version directly from GitHub:
 
 ``` r
+
 pak::pak("dfe-analytical-services/shinyGovstyle")
 ```
 
@@ -81,6 +83,7 @@ anywhere in your UI when using:
   — GOV.UK cookie consent banner
 
 ``` r
+
 ui <- bslib::page_fluid(
   shinyjs::useShinyjs(),
   # rest of your UI
@@ -97,6 +100,7 @@ which is generally [recommended for building responsive apps with R
 Shiny](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/).
 
 ``` r
+
 library(shiny)
 library(shinyGovstyle)
 

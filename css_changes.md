@@ -249,6 +249,7 @@ and adding this chunk to the accordion section of css:
 
 &nbsp;
 
+
     /*Styling for gov reactable*/
 
     /* custom sort indicators -------------------------------------------------- */

@@ -15,17 +15,18 @@ vignette.
 Creates a semantic HTML heading element with a GOV.UK heading CSS class.
 
 ``` r
+
 heading_text("Summary", size = "l", level = 2)
 ```
 
 ### Arguments
 
-| Argument     | Default | Description                                              |
-|--------------|---------|----------------------------------------------------------|
-| `text_input` | —       | The heading text to display                              |
-| `size`       | `"xl"`  | Visual size: `"xl"`, `"l"`, `"m"`, or `"s"`              |
-| `level`      | `1`     | HTML heading level: integer 1–6                          |
-| `id`         | auto    | Element ID — auto-generated from `text_input` if omitted |
+| Argument | Default | Description |
+|----|----|----|
+| `text_input` | — | The heading text to display |
+| `size` | `"xl"` | Visual size: `"xl"`, `"l"`, `"m"`, or `"s"` |
+| `level` | `1` | HTML heading level: integer 1–6 |
+| `id` | auto | Element ID — auto-generated from `text_input` if omitted |
 
 ### Visual size and semantic level are independent
 
@@ -41,6 +42,7 @@ example, a page where the first visible heading needs to be modest in
 size but is still structurally the `<h1>`:
 
 ``` r
+
 heading_text("User guide", size = "m", level = 1)
 ```
 
@@ -80,6 +82,7 @@ Relationships](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationship
 proper nouns.
 
 ``` r
+
 # Correct — sentence case
 heading_text("Summary of findings", size = "l", level = 1)
 
@@ -98,6 +101,7 @@ explicit `id` when you need a stable anchor to link to, or when two
 headings would otherwise generate the same ID:
 
 ``` r
+
 heading_text("Methodology", size = "l", level = 2, id = "methodology")
 ```
 
@@ -110,6 +114,7 @@ Use it when you want to add body text with correct GOV.UK styling
 without writing raw tag calls.
 
 ``` r
+
 gov_box(
   size = "two-thirds",
   gov_text("This is a paragraph of body text.")
@@ -130,6 +135,7 @@ HTML element used and the visual presentation:
 | `"number"`         | `<ol>`       | Numbered list     |
 
 ``` r
+
 gov_list(c("First item", "Second item", "Third item"), style = "bullet")
 
 gov_list(c("First step", "Second step", "Third step"), style = "number")
@@ -152,6 +158,7 @@ information that is related to, but not the main focus of, the
 surrounding content.
 
 ``` r
+
 insert_text(
   inputId = "processing-note",
   text = "It can take up to 8 weeks to process your application."
@@ -177,6 +184,7 @@ prominent “!” icon, used to warn users about something with serious
 consequences.
 
 ``` r
+
 warning_text(
   inputId = "fine-warning",
   text = "You can be fined up to £5,000 if you do not register."
@@ -213,6 +221,7 @@ problem, an upcoming deadline, or the outcome of a previous action.
 problems or upcoming events.
 
 ``` r
+
 noti_banner(
   inputId = "service-notice",
   title_txt = "Important",
@@ -228,6 +237,7 @@ successfully. Uses `role="alert"` so screen readers announce it
 automatically on page load.
 
 ``` r
+
 noti_banner(
   inputId = "submission-confirm",
   title_txt = "Success",
@@ -238,12 +248,12 @@ noti_banner(
 
 ### When to use each component
 
-| Situation                                           | Component                                                                                                                |
-|-----------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| Information not related to the current page task    | [`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md)                      |
-| Supplementary information related to the page       | [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)                      |
-| Serious consequences if the user misses information | [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)                    |
-| Form validation errors                              | [`error_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_summary.md) / error messages |
+| Situation | Component |
+|----|----|
+| Information not related to the current page task | [`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md) |
+| Supplementary information related to the page | [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md) |
+| Serious consequences if the user misses information | [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md) |
+| Form validation errors | [`error_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_summary.md) / error messages |
 
 Use notification banners sparingly — users often overlook them when they
 appear frequently. Show only one at a time, and never alongside an error
@@ -260,6 +270,7 @@ A wrapper for HTML anchor elements that produces safe, accessible
 external links with consistent behaviour.
 
 ``` r
+
 external_link("https://www.example.gov.uk/guidance", "Guidance for applicants")
 ```
 
@@ -285,6 +296,7 @@ which requires link text to describe the destination without needing the
 surrounding context to make sense of it.
 
 ``` r
+
 # Correct — descriptive
 external_link("https://www.example.gov.uk/apply", "Apply for a licence")
 
@@ -305,6 +317,7 @@ new tab)” on each is visually repetitive. Set `add_warning = FALSE` and
 add a single explanatory sentence above the group instead:
 
 ``` r
+
 gov_text("The following links open in a new tab.")
 shiny::tags$ul(
   shiny::tags$li(
@@ -345,6 +358,7 @@ for use in your app. By default the GOV.UK Frontend CSS specifies
 not loaded the browser falls back to Arial automatically.
 
 ``` r
+
 # Only include this if your app is on a GOV.UK domain
 font()
 ```

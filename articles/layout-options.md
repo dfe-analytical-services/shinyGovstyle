@@ -62,6 +62,7 @@ requirement and should always be the first element in your UI, before
 the header.
 
 ``` r
+
 skip_to_main()
 ```
 
@@ -86,6 +87,7 @@ for the server-side `observeEvent` pattern needed to handle accept and
 reject interactions.
 
 ``` r
+
 shinyjs::useShinyjs()
 cookieBanner("My service name")
 ```
@@ -105,6 +107,7 @@ issue](https://github.com/dfe-analytical-services/shinyGovstyle/issues/new/choos
 to request this as an addition to the package.
 
 ``` r
+
 header(
   org_name = "Department for Education",
   service_name = "My dashboard"
@@ -118,6 +121,7 @@ the maturity of your service and give a clear route for users to provide
 feedback.
 
 ``` r
+
 banner(
   inputId = "phase-banner",
   type = "Beta",
@@ -141,6 +145,7 @@ statement. You can add support links that point either to internal
 hidden tab panels or to external URLs.
 
 ``` r
+
 # Minimal footer
 footer()
 
@@ -171,6 +176,7 @@ padding. Everything between the page-level components and the footer
 lives inside it.
 
 ``` r
+
 gov_main_layout(
   # your content here
 )
@@ -208,6 +214,7 @@ Creates a GOV.UK grid row. You can have multiple rows inside
 each stacked vertically.
 
 ``` r
+
 gov_main_layout(
   gov_row(
     # columns go here
@@ -236,6 +243,7 @@ Sizes within a row should add up to a full width. For example,
 `"two-thirds"` and `"one-third"` sit side by side:
 
 ``` r
+
 gov_main_layout(
   gov_row(
     gov_box(
@@ -255,6 +263,7 @@ gov_main_layout(
 For a simple single-column layout, use `size = "full"`:
 
 ``` r
+
 gov_main_layout(
   gov_row(
     gov_box(
@@ -294,6 +303,7 @@ is a single-function alternative that combines a width container and a
 column in one call:
 
 ``` r
+
 gov_layout(
   size = "two-thirds",
   heading_text("Page title", size = "l"),
@@ -335,6 +345,7 @@ Pass a named character vector to
 The names are displayed as link text; the values become the inputIDs:
 
 ``` r
+
 service_navigation(
   c(
     "Summary" = "nav_summary",
@@ -357,6 +368,7 @@ user clicks a service navigation link, the JavaScript binding updates
 the active state automatically — you only need to switch the panel:
 
 ``` r
+
 # ui.R — shiny tabsetPanel
 shiny::tabsetPanel(
   type = "hidden",
@@ -379,6 +391,7 @@ and
 instead:
 
 ``` r
+
 # ui.R — bslib navset_hidden
 bslib::navset_hidden(
   id = "main_panels",
@@ -404,6 +417,7 @@ automatically. See
 for full details and examples.
 
 ``` r
+
 # server.R — programmatic navigation: must update both the panel and the nav
 shiny::observeEvent(input$next_btn, {
   shiny::updateTabsetPanel(session, "main_panels", selected = "nav_detail")
@@ -429,6 +443,7 @@ for these transitions. However, you should call it when navigating
 becomes active again.
 
 ``` r
+
 # ui.R — footer link, no entry in service_navigation()
 footer(
   full = TRUE,
@@ -470,6 +485,7 @@ The following is a minimal but complete multi-page app that uses all of
 the layout components covered in this vignette:
 
 ``` r
+
 library(shiny)
 library(shinyGovstyle)
 

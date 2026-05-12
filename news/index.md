@@ -2,6 +2,8 @@
 
 ## shinyGovstyle 0.2.0
 
+CRAN release: 2026-04-13
+
 ### Breaking changes
 
 - [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md)

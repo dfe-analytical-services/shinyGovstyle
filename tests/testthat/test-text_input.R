@@ -30,10 +30,12 @@ test_that("text box error works", {
   expect_identical(
     paste(
       text_check$children[[3]]$attribs$class,
-      text_check$children[[3]]$attribs[3]$class
+      text_check$children[[3]]$attribs[4]$class
     ),
     "govuk-error-message shinyjs-hide"
   )
+
+  expect_identical(text_check$children[[3]]$attribs$role, "alert")
 })
 
 test_that("text box prefix works", {

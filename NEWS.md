@@ -1,3 +1,28 @@
+# shinyGovstyle (development version)
+
+## New features
+
+* `gov_summary()` gains a `rows` argument accepting a list of row spec lists.
+  This unlocks all GOV.UK summary list variants: multiple actions per row,
+  per-row border removal (`no_border = TRUE`), HTML or tag objects as keys, and
+  mixed-action lists where some rows have actions and some do not.
+* New `gov_summary_card()` function wraps a summary list in a GOV.UK summary
+  card with a titled header and optional card-level actions.
+
+## Minor improvements and bug fixes
+
+* `gov_summary()` now emits `govuk-summary-list__row--no-actions` on rows
+  without actions, fixing border alignment in mixed-action lists at desktop
+  widths (closes #89 partially — structural fix).
+* Action buttons in `gov_summary()` now include a
+  `<span class="govuk-visually-hidden">` with the key text so screen readers
+  announce "Change [key name]" rather than just "Change".
+* A CSS override (`summary-overrides.css`) is now loaded alongside the summary
+  list. It keeps the stacked (single-column) layout in place until the desktop
+  breakpoint (769 px) rather than the tablet breakpoint (641 px), preventing
+  mid-character word-breaking in the key column on medium-width Shiny layouts
+  (closes #89).
+
 # shinyGovstyle 0.2.0
 
 ## Breaking changes

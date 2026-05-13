@@ -92,6 +92,73 @@ mod_feedback_types_ui <- function(id) {
         "07700 900457 <br> sarah.phillips@example.com"
       ),
       action = FALSE
+    ),
+    shinyGovstyle::heading_text("gov_summary (rows API — multiple actions)",
+                                size = "s", level = 2),
+    shinyGovstyle::gov_summary(
+      shiny::NS(id, "sumID2"),
+      rows = list(
+        list(
+          key = "Name",
+          value = "Sarah Philips",
+          actions = list(
+            list(id = shiny::NS(id, "change_name"),
+                 text = "Change",
+                 visually_hidden_text = "name")
+          )
+        ),
+        list(
+          key = "Date of birth",
+          value = "5 January 1978",
+          actions = list(
+            list(id = shiny::NS(id, "change_dob"),
+                 text = "Change",
+                 visually_hidden_text = "date of birth")
+          )
+        ),
+        list(
+          key = "Contact details",
+          value = "Not provided",
+          actions = list(
+            list(id = shiny::NS(id, "add_contact"),
+                 text = "Add",
+                 visually_hidden_text = "contact details"),
+            list(id = shiny::NS(id, "change_contact"),
+                 text = "Change",
+                 visually_hidden_text = "contact details")
+          )
+        ),
+        list(key = "Notes", value = "None", actions = list())
+      )
+    ),
+    shinyGovstyle::heading_text("gov_summary_card", size = "s", level = 2),
+    shinyGovstyle::gov_summary_card(
+      inputId = shiny::NS(id, "cardID"),
+      title = "Lead tenant",
+      card_actions = list(
+        list(id = shiny::NS(id, "delete_card"),
+             text = "Delete choice",
+             visually_hidden_text = "(Lead tenant)"),
+        list(id = shiny::NS(id, "withdraw_card"),
+             text = "Withdraw",
+             visually_hidden_text = "(Lead tenant)")
+      ),
+      rows = list(
+        list(
+          key = "Age",
+          value = "38",
+          actions = list(list(id = shiny::NS(id, "change_age"),
+                              text = "Change",
+                              visually_hidden_text = "age"))
+        ),
+        list(
+          key = "Nationality",
+          value = "French",
+          actions = list(list(id = shiny::NS(id, "change_nat"),
+                              text = "Change",
+                              visually_hidden_text = "nationality"))
+        )
+      )
     )
   )
 }

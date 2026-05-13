@@ -1,0 +1,66 @@
+/*
+ * Summary list breakpoint override.
+ *
+ * govuk-frontend switches the summary list to a fixed-layout table at 40.0625em
+ * (641px). In Shiny apps using gov_layout(size = "two-thirds") the resulting
+ * 30% key column is around 110-120px - too narrow for typical English key
+ * names, forcing overflow-wrap: break-word to break words mid-character.
+ *
+ * This override keeps the stacked layout in place until the desktop breakpoint
+ * (48.0625em / 769px), matching the rest of the GOV.UK responsive grid.
+ *
+ * Above 769px the original govuk-frontend rules apply unchanged.
+ */
+@media (min-width: 40.0625em) and (max-width: 48.0525em) {
+    .govuk-summary-list {
+        display: block;
+        margin-bottom: 20px;
+    }
+
+    .govuk-summary-list__row {
+        display: block;
+        margin-bottom: 15px;
+    }
+
+    .govuk-summary-list__key,
+    .govuk-summary-list__value,
+    .govuk-summary-list__actions {
+        display: block;
+        width: auto;
+        padding: 0;
+        text-align: left;
+        vertical-align: baseline;
+    }
+
+    .govuk-summary-list__value,
+    .govuk-summary-list__actions {
+        margin-bottom: 15px;
+    }
+
+    .govuk-summary-list__row--no-actions::after {
+        content: none;
+    }
+
+    /* Actions list inline-block + border separators mirror the mobile rules */
+    .govuk-summary-card__action,
+    .govuk-summary-list__actions-list-item {
+        margin-right: 10px;
+        padding-right: 10px;
+        border-right: 1px solid;
+        border-right-color: var(--govuk-border-colour, #cecece);
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    .govuk-summary-card__action:last-child,
+    .govuk-summary-list__actions-list-item:last-child {
+        margin-right: 0;
+        padding-right: 0;
+        border: 0;
+    }
+
+    .govuk-summary-card__action:not(:first-child),
+    .govuk-summary-list__actions-list-item:not(:first-child) {
+        border-left: 0;
+    }
+}

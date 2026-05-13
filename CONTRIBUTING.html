@@ -41,11 +41,18 @@
 
 <p>Ideas for shinyGovstyle should first be raised as a <a href="https://github.com/dfe-analytical-services/shinyGovstyle/issues" class="external-link">GitHub issue</a> after which anyone is free to write the code and create a pull request for review.</p>
 <p>For support and information on package development in R, we recommend using the <a href="https://r-pkgs.org/" class="external-link">R Packages (2e) guide by Hadley Wickham and Jennifer Bryan</a>, this contains a wealth of information and best practice for all kinds of activities around package development in R.</p>
+<p>For a technical overview of the package, principles and common helpful commands, please refer to <a href="../AGENTS.html">AGENTS.md</a>.</p>
 <div class="section level2">
 <h2 id="formatting">Formatting<a class="anchor" aria-label="anchor" href="#formatting"></a></h2>
 <p>We use <a href="https://posit-dev.github.io/air/" class="external-link">Air</a> to format the code and save any styling debate across the repo and keep us as close as we can to the expected lintr standards with minimal effort.</p>
-<p>If you’re working in VSCode or Positron, there is a settings.json file in the repo that includes format on save by default and should work for you without any additional work as long as you have the Air extension installed. If not, don’t fear, as we also have a GitHub action that will check all pull requests for styling and offer formatting as a suggestion you can accept and commit from the PR in GitHub. Unless there’s a reason not to, we recommend that if multiple suggestions are left, you go to the files changed view to accept them as one big batch, rather than individually committing everything.</p>
+<p>If you’re working in VSCode or Positron, there is a settings.json file in the repo that includes format on save by default and should work for you without any additional work as long as you have the Air extension installed.</p>
 <p>Air is still in development, so it’s worth checking <a href="https://posit-dev.github.io/air/editors.html" class="external-link">their documentation</a> if you’re a new contributor and want to see the best ways to use it within your chosen IDE.</p>
+<div class="section level3">
+<h3 id="air-suggestions-on-your-pr">Air suggestions on your PR<a class="anchor" aria-label="anchor" href="#air-suggestions-on-your-pr"></a></h3>
+<p>If you can’t run Air locally (or miss something), don’t worry, we have a GitHub Action that runs Air on every PR and uses <strong>ReviewDog</strong> to leave inline suggestions on anything that doesn’t match our formatting.</p>
+<p>These suggestions are purely about formatting and styling, so it’s generally safe to accept them all as-is, you don’t need to second-guess them.</p>
+<p>If there are several suggestions, the easiest way to apply them is to go to the <strong>Files changed</strong> tab on your PR and add each suggestion to a batch, then commit them all together as one commit. This avoids triggering CI on every individual change.</p>
+</div>
 <div class="section level3">
 <h3 id="no-lint">no lint<a class="anchor" aria-label="anchor" href="#no-lint"></a></h3>
 <p>There are a number of places where the original function and argument names do not follow snake_case and therefore fail lintr’s checks. To preserve backwards compatibility we’ve added <code># nolint</code> to these lines so that we can turn on lintr checks for the package without creating breaking changes for everyone who uses it.</p>
@@ -53,11 +60,30 @@
 </div>
 <div class="section level2">
 <h2 id="raising-new-changes">Raising new changes<a class="anchor" aria-label="anchor" href="#raising-new-changes"></a></h2>
+<div class="section level3">
+<h3 id="before-you-raise-a-pr">Before you raise a PR<a class="anchor" aria-label="anchor" href="#before-you-raise-a-pr"></a></h3>
+<p>Run through these checks locally first — it makes review faster and avoids back-and-forth:</p>
+<ul><li>
+<strong>Format with Air.</strong> If you can’t run Air locally, the GitHub Action will offer the same suggestions on your PR (see <a href="#air-suggestions-on-your-pr">Air suggestions on your PR</a>).</li>
+<li>
+<strong>Lint</strong> by running <code>devtools::load_all(); lintr::lint_package()</code> and resolving any new issues, loading the package before linting helps to avoid false positives.</li>
+<li>
+<strong>Run all tests locally</strong> with <code>devtools::test()</code> and then <code>devtools::check()</code>, in the latter, don’t worry about notes, but pay attention to any errors or warnings.</li>
+<li>
+<strong>Tests and documentation.</strong> Add or update tests for any new behaviour, re-run <code>devtools::document()</code> so the <code>man/</code> pages stay in sync, and review the vignettes, README, and other doc files in the repo to see if any of them should also be updated.</li>
+<li>
+<strong>Design system check.</strong> If you’ve added or changed a UI component, compare it against the <a href="https://design-system.service.gov.uk/" class="external-link">GOV.UK Design System</a> to make sure looks and behaves consistently with the GOVUK guidance.</li>
+<li>
+<strong>CSS changes.</strong> If you’ve edited <code>inst/www/css/govuk-frontend-x.x.x.min.css</code>, log the change in <code>css_changes.md</code> (see the <a href="#css-changes">CSS changes</a> section).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="branching-and-raising-a-pr">Branching and raising a PR<a class="anchor" aria-label="anchor" href="#branching-and-raising-a-pr"></a></h3>
 <p>New changes should be made on a branch off of the latest version of the main branch.</p>
 <p>If you don’t have access to push to the repo itself, you should start by creating a <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository" class="external-link">fork of the repository</a>. You’ll then be able to make a new branch in your own repo and push your suggested changes to that.</p>
 <p>Once ready, you should raise <a href="https://github.com/dfe-analytical-services/shinyGovstyle/compare" class="external-link">a PR in the main GitHub repository</a>, pointing at the <code>main</code> branch and one of the package maintainers will be able to review your changes.</p>
 <p>Once a pull request is reviewed and ready to be merged in, all commits in the PR should be squashed as a part of the merge to keep the Git history shorter and easier to navigate.</p>
 <p>The <code>main</code> branch acts as the development version of the package for users, releases of stable package versions to CRAN will be made by the maintainers when they feel it is appropriate to do so.</p>
+</div>
 <div class="section level3">
 <h3 id="code-owners">Code owners<a class="anchor" aria-label="anchor" href="#code-owners"></a></h3>
 <p>We make use of <a href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners" class="external-link">GitHub’s CODEOWNERS file</a> to set default reviewers for the repo and for specific parts of the code.</p>
@@ -65,7 +91,7 @@
 </div>
 <div class="section level2">
 <h2 id="css-changes">CSS changes<a class="anchor" aria-label="anchor" href="#css-changes"></a></h2>
-<p>All changes made to the main <code>inst/www/css/govuk-frontend-norem.css</code> file should be logged in the <code>css_changes.md</code> file, this way they can easily be reapplied whenever the CSS assests from GOV.UK are updated.</p>
+<p>All changes made to the main <code>inst/www/css/govuk-frontend-x.x.x.min.css</code> file should be logged in the <code>css_changes.md</code> file, this way they can easily be reapplied whenever the CSS assests from GOV.UK are updated.</p>
 <p>Alternatively, you can start a separate CSS file if your styling is separate to the GOV.UK styling.</p>
 </div>
 <div class="section level2">

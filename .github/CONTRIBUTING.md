@@ -8,15 +8,36 @@ For support and information on package development in R, we recommend using the 
 
 We use [Air](https://posit-dev.github.io/air/) to format the code and save any styling debate across the repo and keep us as close as we can to the expected lintr standards with minimal effort. 
 
-If you're working in VSCode or Positron, there is a settings.json file in the repo that includes format on save by default and should work for you without any additional work as long as you have the Air extension installed. If not, don't fear, as we also have a GitHub action that will check all pull requests for styling and offer formatting as a suggestion you can accept and commit from the PR in GitHub. Unless there's a reason not to, we recommend that if multiple suggestions are left, you go to the files changed view to accept them as one big batch, rather than individually committing everything.
+If you're working in VSCode or Positron, there is a settings.json file in the repo that includes format on save by default and should work for you without any additional work as long as you have the Air extension installed.
 
 Air is still in development, so it's worth checking [their documentation](https://posit-dev.github.io/air/editors.html) if you're a new contributor and want to see the best ways to use it within your chosen IDE.
+
+### Air suggestions on your PR
+
+If you can't run Air locally (or miss something), don't worry, we have a GitHub Action that runs Air on every PR and uses **ReviewDog** to leave inline suggestions on anything that doesn't match our formatting.
+
+These suggestions are purely about formatting and styling, so it's generally safe to accept them all as-is, you don't need to second-guess them.
+
+If there are several suggestions, the easiest way to apply them is to go to the **Files changed** tab on your PR and add each suggestion to a batch, then commit them all together as one commit. This avoids triggering CI on every individual change.
 
 ### no lint
 
 There are a number of places where the original function and argument names do not follow snake_case and therefore fail lintr's checks. To preserve backwards compatibility we've added `# nolint` to these lines so that we can turn on lintr checks for the package without creating breaking changes for everyone who uses it.
 
 ## Raising new changes
+
+### Before you raise a PR
+
+Run through these checks locally first — it makes review faster and avoids back-and-forth:
+
+- **Format with Air.** If you can't run Air locally, the GitHub Action will offer the same suggestions on your PR (see [Air suggestions on your PR](#air-suggestions-on-your-pr)).
+- **Lint** by running `devtools::load_all(); lintr::lint_package()` and resolving any new issues, loading the package before linting helps to avoid false positives.
+- **Run all tests locally** with `devtools::test()` and then `devtools::check()`, in the latter, don't worry about notes, but pay attention to any errors or warnings.
+- **Tests and documentation.** Add or update tests for any new behaviour, re-run `devtools::document()` so the `man/` pages stay in sync, and review the vignettes, README, and other doc files in the repo to see if any of them should also be updated.
+- **Design system check.** If you've added or changed a UI component, compare it against the [GOV.UK Design System](https://design-system.service.gov.uk/) to make sure looks and behaves consistently with the GOVUK guidance.
+- **CSS changes.** If you've edited `inst/www/css/govuk-frontend-x.x.x.min.css`, log the change in `css_changes.md` (see the [CSS changes](#css-changes) section).
+
+### Branching and raising a PR
 
 New changes should be made on a branch off of the latest version of the main branch.
 
@@ -34,7 +55,7 @@ We make use of [GitHub's CODEOWNERS file](https://docs.github.com/en/repositorie
 
 ## CSS changes
 
-All changes made to the main `inst/www/css/govuk-frontend-norem.css` file should be logged in the `css_changes.md` file, this way they can easily be reapplied whenever the CSS assests from GOV.UK are updated.
+All changes made to the main `inst/www/css/govuk-frontend-x.x.x.min.css` file should be logged in the `css_changes.md` file, this way they can easily be reapplied whenever the CSS assests from GOV.UK are updated.
 
 Alternatively, you can start a separate CSS file if your styling is separate to the GOV.UK styling.
 

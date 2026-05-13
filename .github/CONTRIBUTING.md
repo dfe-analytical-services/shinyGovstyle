@@ -4,6 +4,8 @@ Ideas for shinyGovstyle should first be raised as a [GitHub issue](https://githu
 
 For support and information on package development in R, we recommend using the [R Packages (2e) guide by Hadley Wickham and Jennifer Bryan](https://r-pkgs.org/), this contains a wealth of information and best practice for all kinds of activities around package development in R.
 
+For a technical overview of the package, principles and common helpful commands, please refer to [AGENTS.md](../AGENTS.md).
+
 ## Formatting
 
 We use [Air](https://posit-dev.github.io/air/) to format the code and save any styling debate across the repo and keep us as close as we can to the expected lintr standards with minimal effort. 

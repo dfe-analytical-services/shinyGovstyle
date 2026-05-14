@@ -51,6 +51,15 @@ test_that("function still runs if using deprecated argument", {
 })
 
 
+test_that("header() with only current args produces no lifecycle warnings", {
+  rlang::local_options(lifecycle_verbosity = "warning")
+  expect_no_warning(header(org_name = "Test", logo = NULL))
+  expect_no_warning(
+    header(org_name = "Test", service_name = "Svc", logo = NULL)
+  )
+})
+
+
 test_that("warning when logo used without logo_alt_text", {
   expect_warning(
     header(org_name = "Test", logo = "test.png", logo_alt_text = NULL),

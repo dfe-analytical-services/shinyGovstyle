@@ -1,0 +1,18 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branches: [main, master]
+  pull_request_target:
+
+name: Reusable
+
+permissions:
+  contents: read
+  packages: write
+  pull-requests: write
+
+jobs:
+  air:
+    name: Air
+    uses: dfe-analytical-services/dfeshiny/.github/workflows/air_reusable.yaml@main

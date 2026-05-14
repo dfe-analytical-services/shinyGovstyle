@@ -53,9 +53,9 @@ error_on <- function(
 ) {
   shinyjs::addClass(paste0(inputId, "div"), "govuk-form-group--error")
   if (!is.null(error_message)) {
-    shinyjs::html(paste0(inputId, "error"), error_message)
+    shinyjs::html(paste0(inputId, "-error"), error_message)
   }
-  shinyjs::show(paste0(inputId, "error"))
+  shinyjs::show(paste0(inputId, "-error"))
   shinyjs::addClass(
     selector = paste0("#", inputId, "div :input"),
     class = "govuk-input--error"

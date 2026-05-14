@@ -16,7 +16,9 @@ radio_button_Input(
   hint_label = NULL,
   error = FALSE,
   error_message = NULL,
-  custom_class = ""
+  custom_class = "",
+  label_size = c("m", "s", "l", "xl"),
+  heading_level = NULL
 )
 }
 \arguments{
@@ -52,6 +54,15 @@ label. Defaults to NULL}
 
 \item{custom_class}{If you want to add additional classes to the radio
 buttons}
+
+\item{label_size}{Size modifier for the legend. One of \code{"m"}, \code{"s"}, \code{"l"},
+or \code{"xl"}, matching the GDS \verb{govuk-fieldset__legend--*} classes. Defaults
+to \code{"m"}.}
+
+\item{heading_level}{Optional heading level for the legend. If supplied
+(an integer 1-6), the legend text is wrapped in a \verb{<hN>} with the GDS
+\code{govuk-fieldset__heading} class, following the GDS pattern for using a
+question as the page heading. Defaults to \code{NULL} (no heading wrap).}
 }
 \value{
 radio buttons HTML shiny tag object

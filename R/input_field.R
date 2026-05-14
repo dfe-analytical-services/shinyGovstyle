@@ -89,7 +89,7 @@ input_field <- function(
               shiny::tags$p(
                 error_message,
                 class = "govuk-error-message",
-                id = paste0(y, "error"),
+                id = paste0(y, "-error"),
                 shiny::tags$span("Error:", class = "govuk-visually-hidden")
               )
             )

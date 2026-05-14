@@ -23,6 +23,13 @@
 #' @param error_message If you want a default error message
 #' @param custom_class If you want to add additional classes to the radio
 #' buttons
+#' @param label_size Size modifier for the legend. One of `"m"`, `"s"`, `"l"`,
+#' or `"xl"`, matching the GDS `govuk-fieldset__legend--*` classes. Defaults
+#' to `"m"`.
+#' @param heading_level Optional heading level for the legend. If supplied
+#' (an integer 1-6), the legend text is wrapped in a `<hN>` with the GDS
+#' `govuk-fieldset__heading` class, following the GDS pattern for using a
+#' question as the page heading. Defaults to `NULL` (no heading wrap).
 #' @return radio buttons HTML shiny tag object
 #' @family Govstyle select inputs
 #' @export
@@ -88,7 +95,9 @@ radio_button_Input <- # nolint
     hint_label = NULL,
     error = FALSE,
     error_message = NULL,
-    custom_class = ""
+    custom_class = "",
+    label_size = c("m", "s", "l", "xl"),
+    heading_level = NULL
   ) {
     args <- normalizeChoicesArgs2(choices, choiceNames, choiceValues)
     selected <- shiny::restoreInput(id = inputId, default = selected)
@@ -112,42 +121,20 @@ radio_button_Input <- # nolint
       shiny::tags$div(
         class = "govuk-form-group",
         id = paste0(inputId, "div"),
-        controlLabel2(inputId, label),
-        shiny::tags$div(
-          hint_label,
-          class = "govuk-hint"
-        ),
-        if (error == TRUE) {
-          shinyjs::hidden(
-            shiny::tags$p(
-              error_message,
-              class = "govuk-error-message",
-              id = paste0(inputId, "error"),
-              shiny::tags$span(
-                "Error:",
-                class = "govuk-visually-hidden"
-              )
-            )
-          )
-        },
-        options
+        govFieldset(
+          inputId = inputId,
+          label = label,
+          content = options,
+          hint_label = hint_label,
+          error = error,
+          error_message = error_message,
+          label_size = label_size,
+          heading_level = heading_level
+        )
       )
     )
 
     attachDependency(gov_radio, "radio")
-  }
-
-controlLabel2 <- # nolint
-  function(
-    controlName, # nolint
-    label
-  ) {
-    label %AND%
-      htmltools::tags$label(
-        class = "govuk-label",
-        `for` = controlName,
-        label
-      )
   }
 
 generateOptions2 <- # nolint
@@ -205,13 +192,6 @@ generateOptions2 <- # nolint
     }
 
     shiny::div(class = class_build, options)
-  }
-
-`%AND%` <- # nolint
-  function(x, y) {
-    if (!is.null(x) && !anyNA(x) && !is.null(y) && !anyNA(y)) {
-      y
-    }
   }
 
 processDeps2 <- # nolint

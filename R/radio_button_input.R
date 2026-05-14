@@ -23,6 +23,13 @@
 #' @param error_message If you want a default error message
 #' @param custom_class If you want to add additional classes to the radio
 #' buttons
+#' @param label_size Size modifier for the legend. One of `"m"`, `"s"`, `"l"`,
+#' or `"xl"`, matching the GDS `govuk-fieldset__legend--*` classes. Defaults
+#' to `"m"`.
+#' @param heading_level Optional heading level for the legend. If supplied
+#' (an integer 1-6), the legend text is wrapped in a `<hN>` with the GDS
+#' `govuk-fieldset__heading` class, following the GDS pattern for using a
+#' question as the page heading. Defaults to `NULL` (no heading wrap).
 #' @return radio buttons HTML shiny tag object
 #' @family Govstyle select inputs
 #' @export
@@ -88,8 +95,16 @@ radio_button_Input <- # nolint
     hint_label = NULL,
     error = FALSE,
     error_message = NULL,
-    custom_class = ""
+    custom_class = "",
+    label_size = c("m", "s", "l", "xl"),
+    heading_level = NULL
   ) {
+    label_size <- match.arg(label_size)
+    if (!is.null(heading_level) &&
+          !(length(heading_level) == 1 &&
+              heading_level %in% 1:6)) {
+      stop("`heading_level` must be NULL or a single integer between 1 and 6.")
+    }
     args <- normalizeChoicesArgs2(choices, choiceNames, choiceValues)
     selected <- shiny::restoreInput(id = inputId, default = selected)
     selected <- as.character(selected)
@@ -106,37 +121,57 @@ radio_button_Input <- # nolint
       args$choiceValues
     )
     div_class <- paste("govuk-form-group govuk-radios", custom_class)
+    hint_id <- if (!is.null(hint_label)) paste0(inputId, "-hint")
+    error_id <- if (error == TRUE) paste0(inputId, "error")
+    described_by <- paste(c(hint_id, error_id), collapse = " ")
+    legend_class <- paste0(
+      "govuk-fieldset__legend govuk-fieldset__legend--",
+      label_size
+    )
+    legend_content <- if (!is.null(heading_level)) {
+      shiny::tag(
+        paste0("h", heading_level),
+        list(class = "govuk-fieldset__heading", label)
+      )
+    } else {
+      label
+    }
+    fieldset_args <- list(
+      class = "govuk-fieldset",
+      shiny::tags$legend(
+        legend_content,
+        class = legend_class
+      ),
+      shiny::tags$div(
+        hint_label,
+        id = hint_id,
+        class = "govuk-hint"
+      ),
+      if (error == TRUE) {
+        shinyjs::hidden(
+          shiny::tags$p(
+            error_message,
+            class = "govuk-error-message",
+            id = error_id,
+            shiny::tags$span(
+              "Error:",
+              class = "govuk-visually-hidden"
+            )
+          )
+        )
+      },
+      options
+    )
+    if (nzchar(described_by)) {
+      fieldset_args$`aria-describedby` <- described_by
+    }
     gov_radio <- shiny::tags$div(
       id = inputId,
       class = div_class,
       shiny::tags$div(
         class = "govuk-form-group",
         id = paste0(inputId, "div"),
-        shiny::tags$fieldset(
-          class = "govuk-fieldset",
-          shiny::tags$legend(
-            label,
-            class = "govuk-fieldset__legend"
-          ),
-          shiny::tags$div(
-            hint_label,
-            class = "govuk-hint"
-          ),
-          if (error == TRUE) {
-            shinyjs::hidden(
-              shiny::tags$p(
-                error_message,
-                class = "govuk-error-message",
-                id = paste0(inputId, "error"),
-                shiny::tags$span(
-                  "Error:",
-                  class = "govuk-visually-hidden"
-                )
-              )
-            )
-          },
-          options
-        )
+        do.call(shiny::tags$fieldset, fieldset_args)
       )
     )
 
@@ -198,13 +233,6 @@ generateOptions2 <- # nolint
     }
 
     shiny::div(class = class_build, options)
-  }
-
-`%AND%` <- # nolint
-  function(x, y) {
-    if (!is.null(x) && !anyNA(x) && !is.null(y) && !anyNA(y)) {
-      y
-    }
   }
 
 processDeps2 <- # nolint

@@ -22,14 +22,18 @@
 ## Minor improvements and bug fixes
 
 * `radio_button_Input()` now wraps radio buttons in a `<fieldset>` with a
-  `<legend>`, so screen readers announce the question as the group label
-  (#184).
+  `<legend>`, and any hint or error message is linked to the fieldset via
+  `aria-describedby`, so screen readers announce the question as the group
+  label and read the hint/error when the group receives focus. New
+  `label_size` (`"s"`/`"m"`/`"l"`/`"xl"`, default `"m"`) and `heading_level`
+  (1-6, optional) arguments let you control the legend size and optionally
+  wrap it as a page heading following the GDS pattern.
 * `radio_button_Input()` inputs and labels are now programmatically associated
   via matching `id`/`for` attributes, and checkbox labels now also carry `for`
-  attributes (#189).
+  attributes.
 * `govTabs` now includes full ARIA roles (`tablist`, `tab`, `tabpanel`) and
   attributes (`aria-selected`, `aria-controls`, `aria-labelledby`) so screen
-  readers correctly identify and navigate tabs (#187).
+  readers correctly identify and navigate tabs.
 * Accordion sections now toggle by clicking anywhere in the section header, not
   just the title text.
 * File upload input now uses GDS-like styling.

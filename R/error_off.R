@@ -51,7 +51,7 @@ error_off <- function(
   inputId # nolint
 ) {
   shinyjs::removeClass(paste0(inputId, "div"), "govuk-form-group--error")
-  shinyjs::hide(paste0(inputId, "error"))
+  shinyjs::hide(paste0(inputId, "-error"))
   shinyjs::removeClass(
     selector = paste0("#", inputId, "div :input"),
     class = "govuk-input--error"

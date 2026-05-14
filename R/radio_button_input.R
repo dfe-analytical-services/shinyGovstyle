@@ -99,12 +99,6 @@ radio_button_Input <- # nolint
     label_size = c("m", "s", "l", "xl"),
     heading_level = NULL
   ) {
-    label_size <- match.arg(label_size)
-    if (!is.null(heading_level) &&
-          !(length(heading_level) == 1 &&
-              heading_level %in% 1:6)) {
-      stop("`heading_level` must be NULL or a single integer between 1 and 6.")
-    }
     args <- normalizeChoicesArgs2(choices, choiceNames, choiceValues)
     selected <- shiny::restoreInput(id = inputId, default = selected)
     selected <- as.character(selected)
@@ -121,57 +115,22 @@ radio_button_Input <- # nolint
       args$choiceValues
     )
     div_class <- paste("govuk-form-group govuk-radios", custom_class)
-    hint_id <- if (!is.null(hint_label)) paste0(inputId, "-hint")
-    error_id <- if (error == TRUE) paste0(inputId, "error")
-    described_by <- paste(c(hint_id, error_id), collapse = " ")
-    legend_class <- paste0(
-      "govuk-fieldset__legend govuk-fieldset__legend--",
-      label_size
-    )
-    legend_content <- if (!is.null(heading_level)) {
-      shiny::tag(
-        paste0("h", heading_level),
-        list(class = "govuk-fieldset__heading", label)
-      )
-    } else {
-      label
-    }
-    fieldset_args <- list(
-      class = "govuk-fieldset",
-      shiny::tags$legend(
-        legend_content,
-        class = legend_class
-      ),
-      shiny::tags$div(
-        hint_label,
-        id = hint_id,
-        class = "govuk-hint"
-      ),
-      if (error == TRUE) {
-        shinyjs::hidden(
-          shiny::tags$p(
-            error_message,
-            class = "govuk-error-message",
-            id = error_id,
-            shiny::tags$span(
-              "Error:",
-              class = "govuk-visually-hidden"
-            )
-          )
-        )
-      },
-      options
-    )
-    if (nzchar(described_by)) {
-      fieldset_args$`aria-describedby` <- described_by
-    }
     gov_radio <- shiny::tags$div(
       id = inputId,
       class = div_class,
       shiny::tags$div(
         class = "govuk-form-group",
         id = paste0(inputId, "div"),
-        do.call(shiny::tags$fieldset, fieldset_args)
+        govFieldset(
+          inputId = inputId,
+          label = label,
+          content = options,
+          hint_label = hint_label,
+          error = error,
+          error_message = error_message,
+          label_size = label_size,
+          heading_level = heading_level
+        )
       )
     )
 

@@ -86,7 +86,7 @@ text_Input <- # nolint
           shiny::tags$p(
             error_message,
             class = "govuk-error-message",
-            id = paste0(inputId, "error"),
+            id = paste0(inputId, "-error"),
             shiny::tags$span("Error:", class = "govuk-visually-hidden")
           )
         )

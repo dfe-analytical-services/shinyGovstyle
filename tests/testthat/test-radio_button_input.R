@@ -197,7 +197,7 @@ test_that("Fieldset aria-describedby references hint and error ids", {
   fieldset <- htmltools::tagQuery(rtag)$find("fieldset")$selectedTags()[[1]]
   expect_identical(
     fieldset$attribs$`aria-describedby`,
-    "radio_aria-hint radio_ariaerror"
+    "radio_aria-hint radio_aria-error"
   )
 
   hint <- htmltools::tagQuery(rtag)$find(".govuk-hint")$selectedTags()[[1]]
@@ -206,7 +206,7 @@ test_that("Fieldset aria-describedby references hint and error ids", {
   err <- htmltools::tagQuery(rtag)$find(
     ".govuk-error-message"
   )$selectedTags()[[1]]
-  expect_identical(err$attribs$id, "radio_ariaerror")
+  expect_identical(err$attribs$id, "radio_aria-error")
 })
 
 test_that("Fieldset has no aria-describedby when no hint or error", {

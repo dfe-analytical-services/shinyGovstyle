@@ -24,6 +24,7 @@ test_that("summary list works", {
     border = FALSE
   )
 
+  # Action cell renders as a <button> styled with the govuk-link class.
   expect_identical(
     find_tag(summary_check, "govuk-link")$name,
     "button"

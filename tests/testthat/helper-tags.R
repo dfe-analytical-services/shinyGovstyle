@@ -1,8 +1,14 @@
 find_tags <- function(x, class) {
   if (inherits(x, "shiny.tag")) {
     classes <- htmltools::tagGetAttribute(x, "class")
-    here <- if (!is.null(classes) &&
-                class %in% strsplit(classes, "\\s+")[[1L]]) list(x) else list()
+    here <- if (
+      !is.null(classes) &&
+        class %in% strsplit(classes, "\\s+")[[1L]]
+    ) {
+      list(x)
+    } else {
+      list()
+    }
     c(
       here,
       unlist(lapply(x$children, find_tags, class = class), recursive = FALSE)
@@ -26,9 +32,15 @@ tag_text <- function(x, class) {
 }
 
 child_classes <- function(tag) {
-  vapply(tag$children, function(c) {
-    if (!inherits(c, "shiny.tag")) return(NA_character_)
-    cls <- htmltools::tagGetAttribute(c, "class")
-    if (is.null(cls)) NA_character_ else cls
-  }, character(1L))
+  vapply(
+    tag$children,
+    function(c) {
+      if (!inherits(c, "shiny.tag")) {
+        return(NA_character_)
+      }
+      cls <- htmltools::tagGetAttribute(c, "class")
+      if (is.null(cls)) NA_character_ else cls
+    },
+    character(1L)
+  )
 }

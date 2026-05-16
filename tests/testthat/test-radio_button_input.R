@@ -21,7 +21,7 @@ test_that("Default", {
     function(x) grepl(pattern = "checked", x = as.character(x))
   )
   checked <- unlist(checked)
-  expect_equal(unname(which(checked)), 1)
+  expect_identical(checked, c(TRUE, FALSE, FALSE))
 })
 
 
@@ -43,7 +43,7 @@ test_that("Error", {
     function(x) grepl(pattern = "checked", x = as.character(x))
   )
   checked <- unlist(checked)
-  expect_equal(unname(which(checked)), 1)
+  expect_identical(checked, c(TRUE, FALSE, FALSE))
 
   err <- find_tag(rtag, "govuk-error-message")
   expect_length(find_tags(rtag, "govuk-error-message"), 1L)
@@ -72,7 +72,7 @@ test_that("Small", {
     function(x) grepl(pattern = "checked", x = as.character(x))
   )
   checked <- unlist(checked)
-  expect_equal(unname(which(checked)), 1)
+  expect_identical(checked, c(TRUE, FALSE, FALSE))
 
   expect_identical(
     htmltools::tagGetAttribute(radios_container(rtag), "class"),
@@ -97,7 +97,7 @@ test_that("Inline", {
     function(x) grepl(pattern = "checked", x = as.character(x))
   )
   checked <- unlist(checked)
-  expect_equal(unname(which(checked)), 1)
+  expect_identical(checked, c(TRUE, FALSE, FALSE))
 
   expect_identical(
     htmltools::tagGetAttribute(radios_container(rtag), "class"),

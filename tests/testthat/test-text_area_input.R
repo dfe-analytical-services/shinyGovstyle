@@ -2,11 +2,11 @@ test_that("text area works", {
   text_area_check <- text_area_Input("input1", "Test area")
 
   expect_equal(
-    htmltools::tagGetAttribute(
+    as.numeric(htmltools::tagGetAttribute(
       find_tag(text_area_check, "govuk-textarea"),
       "rows"
-    ),
-    "5"
+    )),
+    5
   )
 
   expect_identical(
@@ -26,11 +26,11 @@ test_that("text area error works", {
   )
 
   expect_equal(
-    htmltools::tagGetAttribute(
+    as.numeric(htmltools::tagGetAttribute(
       find_tag(text_area_check, "govuk-textarea"),
       "rows"
-    ),
-    "10"
+    )),
+    10
   )
 
   err <- find_tag(text_area_check, "govuk-error-message")

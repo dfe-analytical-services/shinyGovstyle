@@ -17,6 +17,6 @@ test_that("cookie banner works", {
     cookie_banner_check$children
   )
   expect_length(hidden_msgs, 2L)
-  expect_identical(htmltools::tagGetAttribute(hidden_msgs[[1]], "id"), "cookieAcceptDiv")
-  expect_identical(htmltools::tagGetAttribute(hidden_msgs[[2]], "id"), "cookieRejectDiv")
+  ids <- vapply(hidden_msgs, htmltools::tagGetAttribute, character(1L), "id")
+  expect_setequal(ids, c("cookieAcceptDiv", "cookieRejectDiv"))
 })

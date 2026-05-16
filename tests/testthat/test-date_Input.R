@@ -20,14 +20,7 @@ test_that("date error works", {
 
   expect_length(find_tags(date_check, "govuk-date-input__item"), 3L)
 
-  err <- find_tag(date_check, "govuk-error-message")
-  expect_length(find_tags(date_check, "govuk-error-message"), 1L)
-  expect_identical(
-    htmltools::tagGetAttribute(err, "class"),
-    "govuk-error-message shinyjs-hide"
-  )
-
-  expect_identical(err$children[[1]], "Error test")
+  expect_hidden_error(date_check, "Error test")
 })
 
 

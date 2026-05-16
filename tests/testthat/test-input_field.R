@@ -12,10 +12,12 @@ test_that("field works", {
   errors <- find_tags(field_check, "govuk-error-message")
   expect_length(errors, 3L)
 
-  expect_identical(
-    htmltools::tagGetAttribute(errors[[1]], "class"),
-    "govuk-error-message shinyjs-hide"
+  error_classes <- vapply(
+    errors,
+    function(e) htmltools::tagGetAttribute(e, "class"),
+    character(1L)
   )
+  expect_true(all(error_classes == "govuk-error-message shinyjs-hide"))
 })
 
 test_that("field works with null width", {

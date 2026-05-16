@@ -25,14 +25,7 @@ test_that("text box error works", {
     error_message = "Error test"
   )
 
-  err <- find_tag(text_check, "govuk-error-message")
-  expect_length(find_tags(text_check, "govuk-error-message"), 1L)
-  expect_identical(err$children[[1]], "Error test")
-
-  expect_identical(
-    htmltools::tagGetAttribute(err, "class"),
-    "govuk-error-message shinyjs-hide"
-  )
+  expect_hidden_error(text_check, "Error test")
 })
 
 test_that("text box prefix works", {

@@ -25,14 +25,7 @@ test_that("file input error works", {
     error_message = "Error test"
   )
 
-  err <- find_tag(file_check, "govuk-error-message")
-  expect_length(find_tags(file_check, "govuk-error-message"), 1L)
-  expect_identical(err$children[[1]], "Error test")
-
-  expect_identical(
-    htmltools::tagGetAttribute(err, "class"),
-    "govuk-error-message shinyjs-hide"
-  )
+  expect_hidden_error(file_check, "Error test")
 })
 
 test_that("form group children appear in GOV.UK order", {

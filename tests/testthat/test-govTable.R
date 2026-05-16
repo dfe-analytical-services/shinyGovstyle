@@ -1,21 +1,20 @@
-test_that("table works", {
-  # headers/cells are indexed positionally because column order is semantically
-  # meaningful for a table — index i corresponds to column i of the source df.
+# headers/cells are indexed positionally because column order is semantically
+# meaningful for a table — index i corresponds to column i of the source df.
 
-  data_cell_classes <- function(table) {
-    rows <- find_tags(
-      find_tag(table, "govuk-table__body"),
-      "govuk-table__row"
-    )
-    lapply(rows, function(row) {
-      cells <- find_tags(row, "govuk-table__cell")
-      unname(vapply(cells, function(c) c$attribs$class, character(1L)))
-    })
-  }
+data_cell_classes <- function(table) {
+  rows <- find_tags(
+    find_tag(table, "govuk-table__body"),
+    "govuk-table__row"
+  )
+  lapply(rows, function(row) {
+    cells <- find_tags(row, "govuk-table__cell")
+    unname(vapply(cells, function(c) c$attribs$class, character(1L)))
+  })
+}
 
-  numeric_cell <- "govuk-table__cell govuk-table__cell--numeric"
+numeric_cell <- "govuk-table__cell govuk-table__cell--numeric"
 
-  # test table with specified widths
+test_that("table with specified widths sets header width classes", {
   table_check <- govTable(
     "tab1",
     shinyGovstyle::transport_data_small,
@@ -54,9 +53,10 @@ test_that("table works", {
   for (row_cells in data_cell_classes(table_check)) {
     expect_identical(row_cells, c(numeric_cell, numeric_cell))
   }
+})
 
-  # test table with unspecified widths
-  table_check2 <- govTable(
+test_that("table with NULL width_overwrite omits width classes", {
+  table_check <- govTable(
     "tab2",
     shinyGovstyle::transport_data_small,
     "Test",
@@ -65,31 +65,32 @@ test_that("table works", {
     width_overwrite = NULL
   )
 
-  headers2 <- find_tags(table_check2, "govuk-table__header")
+  headers <- find_tags(table_check, "govuk-table__header")
   expect_identical(
-    headers2[[1]]$attribs$class,
+    headers[[1]]$attribs$class,
     "govuk-table__header"
   )
   expect_identical(
-    headers2[[2]]$attribs$class,
+    headers[[2]]$attribs$class,
     "govuk-table__header govuk-table__header--numeric"
   )
   expect_identical(
-    headers2[[3]]$attribs$class,
+    headers[[3]]$attribs$class,
     "govuk-table__header govuk-table__header--numeric"
   )
 
   expect_length(
-    find_tags(find_tag(table_check2, "govuk-table__body"), "govuk-table__row"),
+    find_tags(find_tag(table_check, "govuk-table__body"), "govuk-table__row"),
     3L
   )
 
-  for (row_cells in data_cell_classes(table_check2)) {
+  for (row_cells in data_cell_classes(table_check)) {
     expect_identical(row_cells, c(numeric_cell, numeric_cell))
   }
+})
 
-  # and if the argument isn't mentioned at all
-  table_check3 <- govTable(
+test_that("table with width_overwrite omitted (default) omits width classes", {
+  table_check <- govTable(
     "tab2",
     shinyGovstyle::transport_data_small,
     "Test",
@@ -97,26 +98,26 @@ test_that("table works", {
     num_col = c(2, 3)
   )
 
-  headers3 <- find_tags(table_check3, "govuk-table__header")
+  headers <- find_tags(table_check, "govuk-table__header")
   expect_identical(
-    headers3[[1]]$attribs$class,
+    headers[[1]]$attribs$class,
     "govuk-table__header"
   )
   expect_identical(
-    headers3[[2]]$attribs$class,
+    headers[[2]]$attribs$class,
     "govuk-table__header govuk-table__header--numeric"
   )
   expect_identical(
-    headers3[[3]]$attribs$class,
+    headers[[3]]$attribs$class,
     "govuk-table__header govuk-table__header--numeric"
   )
 
   expect_length(
-    find_tags(find_tag(table_check3, "govuk-table__body"), "govuk-table__row"),
+    find_tags(find_tag(table_check, "govuk-table__body"), "govuk-table__row"),
     3L
   )
 
-  for (row_cells in data_cell_classes(table_check3)) {
+  for (row_cells in data_cell_classes(table_check)) {
     expect_identical(row_cells, c(numeric_cell, numeric_cell))
   }
 })

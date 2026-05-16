@@ -33,36 +33,27 @@ test_that("text area error works", {
     10
   )
 
-  err <- find_tag(text_area_check, "govuk-error-message")
-  expect_length(find_tags(text_area_check, "govuk-error-message"), 1L)
-  expect_identical(
-    htmltools::tagGetAttribute(err, "class"),
-    "govuk-error-message shinyjs-hide"
-  )
-
-  expect_identical(err$children[[1]], "Test error")
+  expect_hidden_error(text_area_check, "Test error")
 })
 
 test_that("text area word works", {
   text_area_check <- text_area_Input("input1", "Test area", word_limit = 300)
 
   hint <- find_tag(text_area_check, "govuk-character-count__message")
-  expect_identical(
-    paste(
-      vapply(
-        hint$children,
-        function(c) as.character(c$children[[1]]),
-        character(1L)
-      ),
-      collapse = " "
-    ),
-    "You have used 0 of the 300 allowed"
-  )
 
   expect_identical(
     htmltools::tagGetAttribute(hint, "class"),
     "govuk-hint govuk-character-count__message"
   )
+
+  hint_html <- as.character(hint)
+  expect_match(hint_html, "You have used", fixed = TRUE)
+  expect_match(hint_html, "of the 300 allowed", fixed = TRUE)
+
+  wc <- find_by_id_suffix(hint, "wc")[[1L]]
+  wl <- find_by_id_suffix(hint, "wl")[[1L]]
+  expect_match(as.character(wc), ">0<", fixed = TRUE)
+  expect_match(as.character(wl), "of the 300 allowed", fixed = TRUE)
 })
 
 test_that("form group children appear in GOV.UK order", {

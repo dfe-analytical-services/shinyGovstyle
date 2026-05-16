@@ -38,14 +38,7 @@ test_that("Error", {
   checked <- unlist(checked)
   expect_true(all(!checked))
 
-  err <- find_tag(cbtag, "govuk-error-message")
-  expect_length(find_tags(cbtag, "govuk-error-message"), 1L)
-  expect_identical(err$children[[1]], "Error Test")
-
-  expect_identical(
-    htmltools::tagGetAttribute(err, "class"),
-    "govuk-error-message shinyjs-hide"
-  )
+  expect_hidden_error(cbtag, "Error Test")
 })
 
 

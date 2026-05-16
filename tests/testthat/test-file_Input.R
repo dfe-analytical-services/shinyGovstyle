@@ -2,7 +2,7 @@ test_that("file input works", {
   file_check <- file_Input("inputId", "Test")
 
   expect_identical(
-    file_check$children[[1]]$children[[1]],
+    tag_text(file_check, "govuk-label"),
     "Test"
   )
 })
@@ -25,16 +25,34 @@ test_that("file input error works", {
     error_message = "Error test"
   )
 
+  err <- find_tag(file_check, "govuk-error-message")
+  expect_length(find_tags(file_check, "govuk-error-message"), 1L)
+  expect_identical(err$children[[1]], "Error test")
+
   expect_identical(
-    file_check$children[[2]]$children[[1]],
-    "Error test"
+    htmltools::tagGetAttribute(err, "class"),
+    "govuk-error-message shinyjs-hide"
+  )
+})
+
+test_that("form group children appear in GOV.UK order", {
+  file_check <- file_Input(
+    "inputId",
+    "Test",
+    error = TRUE,
+    error_message = "Error test"
   )
 
   expect_identical(
-    paste(
-      file_check$children[[2]]$attribs$class,
-      file_check$children[[2]]$attribs[3]$class
-    ),
-    "govuk-error-message shinyjs-hide"
+    htmltools::tagGetAttribute(file_check, "class"),
+    "govuk-form-group"
+  )
+  expect_identical(
+    child_classes(file_check),
+    c(
+      "govuk-label",
+      "govuk-error-message shinyjs-hide",
+      "input-group govuk-file-upload"
+    )
   )
 })

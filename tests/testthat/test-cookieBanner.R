@@ -1,25 +1,22 @@
 test_that("cookie banner works", {
   cookie_banner_check <- shinyGovstyle::cookieBanner("The best thing")
 
-  cookie_check_child <- cookie_banner_check$children[[1]]
-
-  expect_equal(
-    length(cookie_check_child$children[[2]]),
-    3
-  )
+  button_group <- find_tag(cookie_banner_check, "govuk-button-group")
+  expect_equal(length(button_group$children), 3)
 
   expect_identical(
-    cookie_check_child$children[[1]]$children[[1]]$children[[1]]$children[[1]],
+    tag_text(cookie_banner_check, "govuk-cookie-banner__heading"),
     "Cookies on The best thing"
   )
 
-  expect_identical(
-    cookie_banner_check$children[[2]]$attribs[3]$class,
-    "shinyjs-hide"
+  hidden_msgs <- Filter(
+    function(t) {
+      cls <- htmltools::tagGetAttribute(t, "class")
+      !is.null(cls) && "shinyjs-hide" %in% strsplit(cls, "\\s+")[[1L]]
+    },
+    cookie_banner_check$children
   )
-
-  expect_identical(
-    cookie_banner_check$children[[3]]$attribs[3]$class,
-    "shinyjs-hide"
-  )
+  expect_length(hidden_msgs, 2L)
+  expect_identical(htmltools::tagGetAttribute(hidden_msgs[[1]], "id"), "cookieAcceptDiv")
+  expect_identical(htmltools::tagGetAttribute(hidden_msgs[[2]], "id"), "cookieRejectDiv")
 })

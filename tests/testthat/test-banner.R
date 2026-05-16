@@ -2,12 +2,12 @@ test_that("banner check", {
   banner_check <- banner("bannerId", "alpha", "Banner test")
 
   expect_identical(
-    banner_check$children[[1]]$children[[1]]$children[[1]]$children[[1]],
+    tag_text(banner_check, "govuk-phase-banner__content__tag"),
     "alpha"
   )
 
   expect_identical(
-    banner_check$children[[1]]$children[[1]]$children[[2]]$children[[1]],
+    tag_text(banner_check, "govuk-phase-banner__text"),
     shiny::HTML("Banner test")
   )
 })

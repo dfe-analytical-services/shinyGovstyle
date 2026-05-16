@@ -14,7 +14,7 @@ test_that("summary list works", {
 
   summary_check <- gov_summary("sumID", headers, info, action = FALSE)
 
-  expect_equal(length(summary_check$children[[1]]), 4)
+  expect_length(find_tags(summary_check, "govuk-summary-list__row"), 4L)
 
   summary_check <- gov_summary(
     "sumID",
@@ -25,7 +25,7 @@ test_that("summary list works", {
   )
 
   expect_identical(
-    summary_check$children[[1]]$Name$children[[3]][[3]][[1]][[1]],
+    find_tag(summary_check, "govuk-link")$name,
     "button"
   )
 })

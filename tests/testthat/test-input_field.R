@@ -9,11 +9,11 @@ test_that("field works", {
 
   expect_equal(length(field_check), 3)
 
+  errors <- find_tags(field_check, "govuk-error-message")
+  expect_length(errors, 3L)
+
   expect_identical(
-    paste(
-      field_check$children[[2]]$`Field 1`$children[[2]]$attribs$class,
-      field_check$children[[2]]$`Field 1`$children[[2]]$attribs[3]$class
-    ),
+    htmltools::tagGetAttribute(errors[[1]], "class"),
     "govuk-error-message shinyjs-hide"
   )
 })

@@ -1,3 +1,10 @@
+radios_container <- function(rtag) {
+  # The outer wrapper div also carries the "govuk-radios" class
+  # (see R/radio_button_input.R), so take the inner (deepest) match.
+  all_matches <- find_tags(rtag, "govuk-radios")
+  all_matches[[length(all_matches)]]
+}
+
 test_that("Default", {
   choices <- c("A", "B", "C")
   rtag <- radio_button_Input(
@@ -6,7 +13,7 @@ test_that("Default", {
     choices = choices,
     selected = "A"
   )
-  choicestag <- rtag$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- radios_container(rtag)$children[[1]]
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -14,7 +21,7 @@ test_that("Default", {
     function(x) grepl(pattern = "checked", x = as.character(x))
   )
   checked <- unlist(checked)
-  expect_equal(which(checked), 1)
+  expect_equal(unname(which(checked)), 1)
 })
 
 
@@ -28,7 +35,7 @@ test_that("Error", {
     error = TRUE,
     error_message = "Error Test"
   )
-  choicestag <- rtag$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- radios_container(rtag)$children[[1]]
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -36,16 +43,16 @@ test_that("Error", {
     function(x) grepl(pattern = "checked", x = as.character(x))
   )
   checked <- unlist(checked)
-  expect_equal(which(checked), 1)
+  expect_equal(unname(which(checked)), 1)
 
-  err_msg <- rtag$children[[1]]$children[[3]]$children[[1]]
-  expect_identical(err_msg, "Error Test")
+  err <- find_tag(rtag, "govuk-error-message")
+  expect_length(find_tags(rtag, "govuk-error-message"), 1L)
+  expect_identical(err$children[[1]], "Error Test")
 
-  err_class <- paste(
-    rtag$children[[1]]$children[[3]]$attribs$class,
-    rtag$children[[1]]$children[[3]]$attribs[3]$class
+  expect_identical(
+    htmltools::tagGetAttribute(err, "class"),
+    "govuk-error-message shinyjs-hide"
   )
-  expect_identical(err_class, "govuk-error-message shinyjs-hide")
 })
 
 test_that("Small", {
@@ -57,7 +64,7 @@ test_that("Small", {
     selected = "A",
     small = TRUE
   )
-  choicestag <- rtag$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- radios_container(rtag)$children[[1]]
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -65,10 +72,12 @@ test_that("Small", {
     function(x) grepl(pattern = "checked", x = as.character(x))
   )
   checked <- unlist(checked)
-  expect_equal(which(checked), 1)
+  expect_equal(unname(which(checked)), 1)
 
-  small_class <- rtag$children[[1]]$children[[4]]$attribs$class
-  expect_identical(small_class, "govuk-radios govuk-radios--small")
+  expect_identical(
+    htmltools::tagGetAttribute(radios_container(rtag), "class"),
+    "govuk-radios govuk-radios--small"
+  )
 })
 
 test_that("Inline", {
@@ -80,7 +89,7 @@ test_that("Inline", {
     selected = "A",
     inline = TRUE
   )
-  choicestag <- rtag$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- radios_container(rtag)$children[[1]]
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -88,10 +97,12 @@ test_that("Inline", {
     function(x) grepl(pattern = "checked", x = as.character(x))
   )
   checked <- unlist(checked)
-  expect_equal(which(checked), 1)
+  expect_equal(unname(which(checked)), 1)
 
-  inline_class <- rtag$children[[1]]$children[[4]]$attribs$class
-  expect_identical(inline_class, "govuk-radios govuk-radios--inline")
+  expect_identical(
+    htmltools::tagGetAttribute(radios_container(rtag), "class"),
+    "govuk-radios govuk-radios--inline"
+  )
 })
 
 test_that("Labels are programmatically associated with inputs", {
@@ -102,7 +113,7 @@ test_that("Labels are programmatically associated with inputs", {
     choices = choices,
     selected = "Yes"
   )
-  option_items <- rtag$children[[1]]$children[[4]]$children[[1]]
+  option_items <- radios_container(rtag)$children[[1]]
 
   for (i in seq_along(choices)) {
     item <- option_items[[i]]
@@ -112,4 +123,29 @@ test_that("Labels are programmatically associated with inputs", {
     expect_identical(input_tag$attribs$id, expected_id)
     expect_identical(label_tag$attribs$`for`, expected_id)
   }
+})
+
+test_that("form group children appear in GOV.UK order", {
+  rtag <- radio_button_Input(
+    inputId = "Id029",
+    label = "Label",
+    choices = c("A", "B"),
+    selected = "A",
+    error = TRUE,
+    error_message = "Error Test"
+  )
+
+  # Outer wrapper duplicates the "govuk-form-group" class (see
+  # R/radio_button_input.R); the meaningful GOV.UK form group is nested.
+  form_groups <- find_tags(rtag, "govuk-form-group")
+  form_group <- form_groups[[length(form_groups)]]
+  expect_identical(
+    child_classes(form_group),
+    c(
+      "govuk-label",
+      "govuk-hint",
+      "govuk-error-message shinyjs-hide",
+      "govuk-radios"
+    )
+  )
 })

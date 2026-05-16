@@ -2,7 +2,7 @@ test_that("text box works", {
   text_check <- text_Input("txtId", "Text test")
 
   expect_identical(
-    text_check$children[[1]]$children[[1]],
+    tag_text(text_check, "govuk-label"),
     shiny::HTML("Text test")
   )
 })
@@ -11,7 +11,7 @@ test_that("text width change", {
   text_check <- text_Input("txtId", "Text test", width = 30)
 
   expect_identical(
-    text_check$children[[4]]$attribs$class,
+    htmltools::tagGetAttribute(find_tag(text_check, "govuk-input"), "class"),
     "govuk-input govuk-input--width-30"
   )
 })
@@ -25,13 +25,12 @@ test_that("text box error works", {
     error_message = "Error test"
   )
 
-  expect_identical(text_check$children[[3]]$children[[1]], "Error test")
+  err <- find_tag(text_check, "govuk-error-message")
+  expect_length(find_tags(text_check, "govuk-error-message"), 1L)
+  expect_identical(err$children[[1]], "Error test")
 
   expect_identical(
-    paste(
-      text_check$children[[3]]$attribs$class,
-      text_check$children[[3]]$attribs[3]$class
-    ),
+    htmltools::tagGetAttribute(err, "class"),
     "govuk-error-message shinyjs-hide"
   )
 })
@@ -39,18 +38,53 @@ test_that("text box error works", {
 test_that("text box prefix works", {
   text_check <- text_Input("txtId", "Text test", prefix = "£")
 
-  expect_identical(text_check$children[[4]]$children[[1]]$children[[1]], "£")
+  expect_identical(
+    tag_text(text_check, "govuk-input__prefix"),
+    "£"
+  )
 })
 
 test_that("text box suffix works", {
   text_check <- text_Input("txtId", "Text test", suffix = ".00")
 
-  expect_identical(text_check$children[[4]]$children[[2]]$children[[1]], ".00")
+  expect_identical(
+    tag_text(text_check, "govuk-input__suffix"),
+    ".00"
+  )
 })
 
 test_that("text box prefix suffix works", {
   text_check <- text_Input("txtId", "Text test", prefix = "£", suffix = ".00")
 
-  expect_identical(text_check$children[[4]]$children[[1]]$children[[1]], "£")
-  expect_identical(text_check$children[[4]]$children[[3]]$children[[1]], ".00")
+  expect_identical(
+    tag_text(text_check, "govuk-input__prefix"),
+    "£"
+  )
+  expect_identical(
+    tag_text(text_check, "govuk-input__suffix"),
+    ".00"
+  )
+})
+
+test_that("form group children appear in GOV.UK order", {
+  text_check <- text_Input(
+    "txtId",
+    "Text test",
+    error = TRUE,
+    error_message = "Error test"
+  )
+
+  expect_identical(
+    htmltools::tagGetAttribute(text_check, "class"),
+    "govuk-form-group"
+  )
+  expect_identical(
+    child_classes(text_check),
+    c(
+      "govuk-label",
+      "govuk-hint",
+      "govuk-error-message shinyjs-hide",
+      "govuk-input"
+    )
+  )
 })

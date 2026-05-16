@@ -6,7 +6,7 @@ test_that("Default", {
     cb_labels = choices,
     checkboxIds = choices
   )
-  choicestag <- cbtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- find_tag(cbtag, "govuk-checkboxes")$children[[1]]
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -28,7 +28,7 @@ test_that("Error", {
     error = TRUE,
     error_message = "Error Test"
   )
-  choicestag <- cbtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- find_tag(cbtag, "govuk-checkboxes")$children[[1]]
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -38,14 +38,14 @@ test_that("Error", {
   checked <- unlist(checked)
   expect_true(all(!checked))
 
-  err_msg <- cbtag$children[[1]]$children[[1]]$children[[3]]$children[[1]]
-  expect_identical(err_msg, "Error Test")
+  err <- find_tag(cbtag, "govuk-error-message")
+  expect_length(find_tags(cbtag, "govuk-error-message"), 1L)
+  expect_identical(err$children[[1]], "Error Test")
 
-  err_class <- paste(
-    cbtag$children[[1]]$children[[1]]$children[[3]]$attribs[1]$class,
-    cbtag$children[[1]]$children[[1]]$children[[3]]$attribs[3]$class
+  expect_identical(
+    htmltools::tagGetAttribute(err, "class"),
+    "govuk-error-message shinyjs-hide"
   )
-  expect_identical(err_class, "govuk-error-message shinyjs-hide")
 })
 
 
@@ -58,7 +58,7 @@ test_that("Small", {
     checkboxIds = choices,
     small = TRUE
   )
-  choicestag <- cbtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- find_tag(cbtag, "govuk-checkboxes")$children[[1]]
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -68,8 +68,10 @@ test_that("Small", {
   checked <- unlist(checked)
   expect_true(all(!checked))
 
-  small_check <- cbtag$children[[1]]$children[[1]]$children[[4]]$attribs$class
-  expect_identical(small_check, "govuk-checkboxes govuk-checkboxes--small")
+  expect_identical(
+    htmltools::tagGetAttribute(find_tag(cbtag, "govuk-checkboxes"), "class"),
+    "govuk-checkboxes govuk-checkboxes--small"
+  )
 })
 
 test_that("Labels are programmatically associated with inputs", {
@@ -81,7 +83,7 @@ test_that("Labels are programmatically associated with inputs", {
     cb_labels = cb_labels,
     checkboxIds = cb_ids
   )
-  option_items <- cbtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
+  option_items <- find_tag(cbtag, "govuk-checkboxes")$children[[1]]
 
   for (i in seq_along(cb_ids)) {
     item <- option_items[[i]]
@@ -90,4 +92,26 @@ test_that("Labels are programmatically associated with inputs", {
     expect_identical(input_tag$attribs$id, cb_ids[i])
     expect_identical(label_tag$attribs$`for`, cb_ids[i])
   }
+})
+
+test_that("fieldset children appear in GOV.UK order", {
+  cbtag <- checkbox_Input(
+    inputId = "Id029",
+    label = "Label",
+    cb_labels = c("A", "B"),
+    checkboxIds = c("A", "B"),
+    error = TRUE,
+    error_message = "Error Test"
+  )
+
+  fieldset <- find_tag(cbtag, "govuk-fieldset")
+  expect_identical(
+    child_classes(fieldset),
+    c(
+      "govuk-label",
+      "govuk-hint",
+      "govuk-error-message shinyjs-hide",
+      "govuk-checkboxes"
+    )
+  )
 })

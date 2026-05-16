@@ -9,22 +9,22 @@ test_that("table works", {
     width_overwrite = c("one-half", "one-quarter", "one-quarter")
   )
 
+  headers <- find_tags(table_check, "govuk-table__header")
   expect_identical(
-    table_check$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
+    headers[[1]]$attribs$class,
     "govuk-table__header govuk-!-width-one-half"
   )
-
   expect_identical(
-    table_check$children[[2]]$children[[1]][[3]][[1]][[2]]$attribs$class,
+    headers[[2]]$attribs$class,
     paste(
       "govuk-table__header govuk-table__header--numeric",
       "govuk-!-width-one-quarter"
     )
   )
 
-  expect_equal(
-    length(table_check$children[[3]]),
-    3
+  expect_length(
+    find_tags(find_tag(table_check, "govuk-table__body"), "govuk-table__row"),
+    3L
   )
 
   # test table with unspecified widths
@@ -37,19 +37,19 @@ test_that("table works", {
     width_overwrite = NULL
   )
 
+  headers2 <- find_tags(table_check2, "govuk-table__header")
   expect_identical(
-    table_check2$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
+    headers2[[1]]$attribs$class,
     "govuk-table__header"
   )
-
   expect_identical(
-    table_check2$children[[2]]$children[[1]][[3]][[1]][[2]]$attribs$class,
+    headers2[[2]]$attribs$class,
     "govuk-table__header govuk-table__header--numeric"
   )
 
-  expect_equal(
-    length(table_check2$children[[3]]),
-    3
+  expect_length(
+    find_tags(find_tag(table_check2, "govuk-table__body"), "govuk-table__row"),
+    3L
   )
 
   # and if the argument isn't mentioned at all
@@ -61,18 +61,18 @@ test_that("table works", {
     num_col = c(2, 3)
   )
 
+  headers3 <- find_tags(table_check3, "govuk-table__header")
   expect_identical(
-    table_check3$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
+    headers3[[1]]$attribs$class,
     "govuk-table__header"
   )
-
   expect_identical(
-    table_check3$children[[2]]$children[[1]][[3]][[1]][[2]]$attribs$class,
+    headers3[[2]]$attribs$class,
     "govuk-table__header govuk-table__header--numeric"
   )
 
-  expect_equal(
-    length(table_check3$children[[3]]),
-    3
+  expect_length(
+    find_tags(find_tag(table_check3, "govuk-table__body"), "govuk-table__row"),
+    3L
   )
 })

@@ -1,10 +1,12 @@
 test_that("contents_link", {
+  rlang::local_options(lifecycle_verbosity = "quiet")
   contents_check <- contents_link("Test content link", "test_content_link")
 
   expect_snapshot(contents_check)
 })
 
 test_that("subcontents in contents_link", {
+  rlang::local_options(lifecycle_verbosity = "quiet")
   contents_check <- contents_link(
     "Test content link",
     "test_content_link",
@@ -15,6 +17,7 @@ test_that("subcontents in contents_link", {
 })
 
 test_that("custom subcontents in contents_link", {
+  rlang::local_options(lifecycle_verbosity = "quiet")
   contents_check <- contents_link(
     "Test content link",
     "test_content_link",

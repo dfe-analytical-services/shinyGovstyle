@@ -11,11 +11,11 @@ header(
   logo = "shinyGovstyle/images/Dept_logo.svg",
   main_text = lifecycle::deprecated(),
   secondary_text = lifecycle::deprecated(),
-  main_link = NULL,
-  secondary_link = NULL,
+  main_link = lifecycle::deprecated(),
+  secondary_link = lifecycle::deprecated(),
   logo_alt_text = "Departmental logo",
-  main_alt_text = NULL,
-  secondary_alt_text = NULL,
+  main_alt_text = lifecycle::deprecated(),
+  secondary_alt_text = lifecycle::deprecated(),
   logo_width = 66,
   logo_height = 34
 )

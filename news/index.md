@@ -1,5 +1,14 @@
 # Changelog
 
+## shinyGovstyle (development version)
+
+### Bug fixes
+
+- [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md)
+  no longer emits spurious deprecation warnings for `main_link`,
+  `secondary_link`, `main_alt_text`, and `secondary_alt_text` when those
+  arguments are not used.
+
 ## shinyGovstyle 0.2.0
 
 CRAN release: 2026-04-13

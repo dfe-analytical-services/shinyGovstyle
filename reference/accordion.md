@@ -67,17 +67,6 @@ ui <- shiny::fluidPage(
   ),
   shinyGovstyle::footer(full = TRUE)
 )
-#> Warning: The `main_link` argument of `header()` is deprecated as of shinyGovstyle 0.2.0.
-#> ℹ main_link will be dropped in v1.0.0
-#> Warning: The `main_alt_text` argument of `header()` is deprecated as of shinyGovstyle
-#> 0.2.0.
-#> ℹ main_alt_text will be dropped in v1.0.0
-#> Warning: The `secondary_alt_text` argument of `header()` is deprecated as of
-#> shinyGovstyle 0.2.0.
-#> ℹ secondary_alt_text will be dropped in v1.0.0
-#> Warning: The `secondary_link` argument of `header()` is deprecated as of shinyGovstyle
-#> 0.2.0.
-#> ℹ secondary_link will be dropped in v1.0.0
 
 server <- function(input, output, session) {}
 

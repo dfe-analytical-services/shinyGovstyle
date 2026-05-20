@@ -46,6 +46,16 @@ text_area_Input <- # nolint
           )
         )
       },
+      if (!is.null(word_limit)) {
+        shiny::tags$div(
+          class = "govuk-hint govuk-character-count__message 
+          govuk-visually-hidden",
+          shiny::tags$span(
+            id = paste0(inputId, "wl"),
+            paste("You can enter up to ", word_limit, "words")
+          )
+        )
+      },
       shiny::tags$textarea(
         id = inputId,
         class = "govuk-textarea",
@@ -53,7 +63,8 @@ text_area_Input <- # nolint
       ),
       if (!is.null(word_limit)) {
         shiny::tags$div(
-          class = "govuk-hint govuk-character-count__message",
+          class = "govuk-hint govuk-character-count__message 
+          govuk-character-count__status",
           shiny::tags$span(
             "You have used"
           ),
@@ -63,7 +74,7 @@ text_area_Input <- # nolint
           ),
           shiny::tags$span(
             id = paste0(inputId, "wl"),
-            paste("of the", word_limit, "allowed")
+            paste("of the ", word_limit, " words allowed")
           )
         )
       }

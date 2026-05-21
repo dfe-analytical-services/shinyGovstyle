@@ -11,17 +11,20 @@ test_that("Returns shiny.tag object", {
 })
 
 test_that("content and URL are correctly formatted", {
-  expect_equal(test_button$attribs$href, "")
-  expect_true(grepl("Download specific data set", test_button$children[[1]]))
-})
-
-test_that("File type and size correctly append", {
-  expect_true(grepl("\\(CSV", test_button$children[[1]]))
-  expect_true(grepl("12 KB\\)", test_button$children[[1]]))
+  expect_identical(test_button$attribs$href, "")
+  expect_identical(
+    as.character(tag_text(test_button, "govuk-button")),
+    "Download specific data set (CSV, 12 KB)"
+  )
 })
 
 test_that("attributes are attached properly", {
-  expect_equal(test_button$attribs$target, "_blank")
+  expect_identical(test_button$attribs$target, "_blank")
+  expect_identical(test_button$attribs$id, "download_data")
+  expect_identical(
+    test_button$attribs$class,
+    "shiny-download-link govuk-button"
+  )
 })
 
 # Rest of tests against the function ==========================================
@@ -36,32 +39,25 @@ test_that("Rejects dodgy link text", {
 })
 
 test_that("Surrounding whitespace shrubbery is trimmed", {
-  expect_equal(
-    paste0(
-      download_button(
-        "download_data",
-        "   Download specific data set",
-        file_size = "96 MB"
-      )$children[[1]]
-    ),
+  trimmed_label <- function(label) {
+    as.character(
+      tag_text(
+        download_button("download_data", label, file_size = "96 MB"),
+        "govuk-button"
+      )
+    )
+  }
+
+  expect_identical(
+    trimmed_label("   Download specific data set"),
     "Download specific data set (CSV, 96 MB)"
   )
-
-  expect_equal(
-    paste0(download_button(
-      "download_data",
-      "Download specific data set    ",
-      file_size = "96 MB"
-    )$children[[1]]),
+  expect_identical(
+    trimmed_label("Download specific data set    "),
     "Download specific data set (CSV, 96 MB)"
   )
-
-  expect_equal(
-    paste0(download_button(
-      "download_data",
-      "   Download specific data set   ",
-      file_size = "96 MB"
-    )$children[[1]]),
+  expect_identical(
+    trimmed_label("   Download specific data set   "),
     "Download specific data set (CSV, 96 MB)"
   )
 })

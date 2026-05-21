@@ -9,14 +9,13 @@ test_that("gov_main_layout wraps a main element with govuk-main-wrapper", {
     "govuk-width-container"
   )
 
-  main_wrapper <- find_tag(layout, "govuk-main-wrapper")
-  expect_false(is.null(main_wrapper))
+  main_wrapper <- expect_has_tag(layout, "govuk-main-wrapper")
   expect_identical(main_wrapper$name, "main")
   expect_identical(htmltools::tagGetAttribute(main_wrapper, "id"), "main")
   expect_identical(htmltools::tagGetAttribute(main_wrapper, "role"), "main")
   expect_identical(htmltools::tagGetAttribute(main_wrapper, "tabindex"), "-1")
 
-  expect_false(is.null(find_tag(layout, "marker-child")))
+  expect_has_tag(layout, "marker-child")
 })
 
 test_that("gov_row renders a govuk-grid-row div and passes children through", {
@@ -24,7 +23,7 @@ test_that("gov_row renders a govuk-grid-row div and passes children through", {
 
   expect_identical(row$name, "div")
   expect_identical(htmltools::tagGetAttribute(row, "class"), "govuk-grid-row")
-  expect_false(is.null(find_tag(row, "marker-child")))
+  expect_has_tag(row, "marker-child")
 })
 
 test_that("gov_box renders a govuk-grid-column-{size} div and respects size", {
@@ -33,7 +32,7 @@ test_that("gov_box renders a govuk-grid-column-{size} div and respects size", {
     htmltools::tagGetAttribute(default_box, "class"),
     "govuk-grid-column-full"
   )
-  expect_false(is.null(find_tag(default_box, "marker-child")))
+  expect_has_tag(default_box, "marker-child")
 
   half_box <- gov_box(
     shiny::tags$div(class = "marker-child", "x"),

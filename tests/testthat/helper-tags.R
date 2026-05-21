@@ -1,6 +1,10 @@
 # find_tags() matches exact whitespace-split class tokens (not substrings).
 # Do not "fix" this to use grepl() — it would falsely match e.g. the
 # "govuk-date-input__item" class when looking up "govuk-date-input".
+#
+# Matches are returned in document order (depth-first pre-order). Callers that
+# index results positionally (e.g. headers[[1]], find_by_id_suffix(..)[[1L]])
+# depend on this ordering.
 find_tags <- function(x, class) {
   if (inherits(x, "shiny.tag")) {
     classes <- htmltools::tagGetAttribute(x, "class")
@@ -24,6 +28,7 @@ find_tags <- function(x, class) {
   }
 }
 
+# find_tag() returns the first match in document order, or NULL if none.
 find_tag <- function(x, class) {
   hits <- find_tags(x, class)
   if (length(hits) == 0L) NULL else hits[[1L]]
@@ -95,4 +100,21 @@ expect_hidden_error <- function(tag, message = NULL) {
   if (!is.null(message)) {
     testthat::expect_identical(errors[[1L]]$children[[1L]], message)
   }
+}
+
+# expect_has_tag() asserts a tag with `class` is present and returns it (so a
+# present-assertion can double as a lookup). Prefer this over
+# expect_false(is.null(find_tag(..))), which gives an uninformative message.
+expect_has_tag <- function(x, class) {
+  node <- find_tag(x, class)
+  testthat::expect(
+    !is.null(node),
+    sprintf("Expected a tag with class %s, but none was found.", shQuote(class))
+  )
+  invisible(node)
+}
+
+# expect_no_tag() asserts no tag with `class` is present.
+expect_no_tag <- function(x, class) {
+  testthat::expect_null(find_tag(x, class))
 }

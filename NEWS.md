@@ -1,3 +1,11 @@
+# shinyGovstyle (development version)
+
+## Bug fixes
+
+* `header()` no longer emits spurious deprecation warnings for `main_link`,
+  `secondary_link`, `main_alt_text`, and `secondary_alt_text` when those
+  arguments are not used.
+
 # shinyGovstyle 0.2.0
 
 ## Breaking changes

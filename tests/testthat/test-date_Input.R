@@ -97,3 +97,51 @@ test_that("Hint <div> is omitted when hint_label is NULL", {
   )$selectedTags()[[1]]
   expect_null(fieldset$attribs$`aria-describedby`)
 })
+
+test_that("label_size sets the legend size modifier", {
+  for (size in c("s", "m", "l", "xl")) {
+    date_check <- date_Input(
+      "dateid",
+      "Test Date",
+      label_size = size
+    )
+    legend <- htmltools::tagQuery(date_check)$find(
+      "legend"
+    )$selectedTags()[[1]]
+    expect_identical(
+      legend$attribs$class,
+      paste0("govuk-fieldset__legend govuk-fieldset__legend--", size)
+    )
+  }
+})
+
+test_that("label_size rejects unknown values", {
+  expect_error(
+    date_Input("dateid", "Test Date", label_size = "huge")
+  )
+})
+
+test_that("heading_level wraps the legend text in an <hN>", {
+  date_check <- date_Input(
+    "dateid",
+    "Test Date",
+    label_size = "l",
+    heading_level = 1
+  )
+  legend <- htmltools::tagQuery(date_check)$find("legend")$selectedTags()[[1]]
+  heading <- legend$children[[1]]
+  expect_identical(heading$name, "h1")
+  expect_identical(heading$attribs$class, "govuk-fieldset__heading")
+})
+
+test_that("heading_level rejects invalid values", {
+  expect_error(
+    date_Input("dateid", "Test Date", heading_level = 0)
+  )
+  expect_error(
+    date_Input("dateid", "Test Date", heading_level = 7)
+  )
+  expect_error(
+    date_Input("dateid", "Test Date", heading_level = c(1, 2))
+  )
+})

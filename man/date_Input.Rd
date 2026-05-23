@@ -12,7 +12,9 @@ date_Input(
   error_message = NULL,
   day = NULL,
   month = NULL,
-  year = NULL
+  year = NULL,
+  label_size = c("m", "s", "l", "xl"),
+  heading_level = NULL
 )
 }
 \arguments{
@@ -32,6 +34,15 @@ hint label}
 \item{month}{Select a default month on start up. Defaults to \code{NULL}}
 
 \item{year}{Select a default year on start up. Defaults to \code{NULL}}
+
+\item{label_size}{Size modifier for the legend. One of \code{"m"}, \code{"s"}, \code{"l"},
+or \code{"xl"}, matching the GDS \verb{govuk-fieldset__legend--*} classes. Defaults
+to \code{"m"}.}
+
+\item{heading_level}{Optional heading level for the legend. If supplied
+(an integer 1-6), the legend text is wrapped in a \verb{<hN>} with the GDS
+\code{govuk-fieldset__heading} class, following the GDS pattern for using a
+question as the page heading. Defaults to \code{NULL} (no heading wrap).}
 }
 \value{
 a data input HTML shiny tag object

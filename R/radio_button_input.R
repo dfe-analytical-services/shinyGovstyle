@@ -23,13 +23,7 @@
 #' @param error_message If you want a default error message
 #' @param custom_class If you want to add additional classes to the radio
 #' buttons
-#' @param label_size Size modifier for the legend. One of `"m"`, `"s"`, `"l"`,
-#' or `"xl"`, matching the GDS `govuk-fieldset__legend--*` classes. Defaults
-#' to `"m"`.
-#' @param heading_level Optional heading level for the legend. If supplied
-#' (an integer 1-6), the legend text is wrapped in a `<hN>` with the GDS
-#' `govuk-fieldset__heading` class, following the GDS pattern for using a
-#' question as the page heading. Defaults to `NULL` (no heading wrap).
+#' @inheritParams fieldset_args
 #' @return radio buttons HTML shiny tag object
 #' @family Govstyle select inputs
 #' @export

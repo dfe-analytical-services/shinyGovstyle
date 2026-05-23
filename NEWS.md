@@ -1,5 +1,15 @@
 # shinyGovstyle (development version)
 
+## Breaking changes
+
+* Error message element ids changed from `<inputId>error` to `<inputId>-error`
+  (matching the hint id format `<inputId>-hint`). This affects
+  `radio_button_Input()`, `checkbox_Input()`, `date_Input()`, `text_Input()`,
+  `text_area_Input()`, `file_Input()`, and `input_field()`. `error_on()` and
+  `error_off()` have been updated to match and continue to work transparently;
+  only custom CSS or JS that targets `#fooerror` selectors needs updating to
+  `#foo-error`.
+
 ## Bug fixes
 
 * `header()` no longer emits spurious deprecation warnings for `main_link`,
@@ -7,6 +17,25 @@
   arguments are not used.
 * Error messages on input components now use `role="alert"` so they are
   announced by screen readers when toggled via `error_on()`.
+
+## Minor improvements and bug fixes
+
+* `radio_button_Input()`, `checkbox_Input()`, and `date_Input()` now wrap their
+  contents in a `<fieldset>` with a `<legend>` (previously they used a
+  `<label>` inside the fieldset, which is invalid and meant screen readers did
+  not announce the question as group context). Any hint or error message is
+  linked to the fieldset via `aria-describedby`, so screen readers read the
+  hint/error when the group receives focus. `radio_button_Input()`,
+  `checkbox_Input()`, and `date_Input()` gain `label_size`
+  (`"s"`/`"m"`/`"l"`/`"xl"`, default `"m"`) and `heading_level` (1-6, optional)
+  arguments that control the legend size and optionally wrap it as a page
+  heading following the GDS pattern.
+* `radio_button_Input()` inputs and labels are now programmatically associated
+  via matching `id`/`for` attributes, and checkbox labels now also carry `for`
+  attributes.
+* `govTabs` now includes full ARIA roles (`tablist`, `tab`, `tabpanel`) and
+  attributes (`aria-selected`, `aria-controls`, `aria-labelledby`) so screen
+  readers correctly identify and navigate tabs.
 
 # shinyGovstyle 0.2.0
 
@@ -31,28 +60,6 @@
 
 ## Minor improvements and bug fixes
 
-* `radio_button_Input()`, `checkbox_Input()`, and `date_Input()` now wrap their
-  contents in a `<fieldset>` with a `<legend>` (previously they used a
-  `<label>` inside the fieldset, which is invalid and meant screen readers did
-  not announce the question as group context). Any hint or error message is
-  linked to the fieldset via `aria-describedby`, so screen readers read the
-  hint/error when the group receives focus. `radio_button_Input()` and
-  `checkbox_Input()` gain `label_size` (`"s"`/`"m"`/`"l"`/`"xl"`, default
-  `"m"`) and `heading_level` (1-6, optional) arguments that control the legend
-  size and optionally wrap it as a page heading following the GDS pattern.
-* `radio_button_Input()` inputs and labels are now programmatically associated
-  via matching `id`/`for` attributes, and checkbox labels now also carry `for`
-  attributes.
-* **Breaking:** error message element ids changed from `<inputId>error` to
-  `<inputId>-error` (matching the hint id format `<inputId>-hint`). This
-  affects `radio_button_Input()`, `checkbox_Input()`, `date_Input()`,
-  `text_Input()`, `text_area_Input()`, `file_Input()`, and `input_field()`.
-  `error_on()` and `error_off()` have been updated to match and continue to
-  work transparently; only custom CSS or JS that targets `#fooerror` selectors
-  needs updating to `#foo-error`.
-* `govTabs` now includes full ARIA roles (`tablist`, `tab`, `tabpanel`) and
-  attributes (`aria-selected`, `aria-controls`, `aria-labelledby`) so screen
-  readers correctly identify and navigate tabs.
 * Accordion sections now toggle by clicking anywhere in the section header, not
   just the title text.
 * File upload input now uses GDS-like styling.

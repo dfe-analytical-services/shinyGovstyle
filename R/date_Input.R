@@ -10,6 +10,7 @@
 #' @param day Select a default day on start up. Defaults to `NULL`
 #' @param month Select a default month on start up. Defaults to `NULL`
 #' @param year Select a default year on start up. Defaults to `NULL`
+#' @inheritParams fieldset_args
 #' @return a data input HTML shiny tag object
 #' @family Govstyle text types
 #' @export
@@ -66,7 +67,9 @@ date_Input <- # nolint
     error_message = NULL,
     day = NULL,
     month = NULL,
-    year = NULL
+    year = NULL,
+    label_size = c("m", "s", "l", "xl"),
+    heading_level = NULL
   ) {
     value <- shiny::restoreInput(id = inputId, default = FALSE) # nolint
     date_content <- shiny::tags$div(
@@ -145,7 +148,9 @@ date_Input <- # nolint
         content = date_content,
         hint_label = hint_label,
         error = error,
-        error_message = error_message
+        error_message = error_message,
+        label_size = label_size,
+        heading_level = heading_level
       )
     )
     attachDependency(gov_date, "date")

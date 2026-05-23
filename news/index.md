@@ -8,6 +8,9 @@
   no longer emits spurious deprecation warnings for `main_link`,
   `secondary_link`, `main_alt_text`, and `secondary_alt_text` when those
   arguments are not used.
+- Error messages on input components now use `role="alert"` so they are
+  announced by screen readers when toggled via
+  [`error_on()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_on.md).
 
 ## shinyGovstyle 0.2.0
 

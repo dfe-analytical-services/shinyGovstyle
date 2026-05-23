@@ -81,6 +81,7 @@ date_Input <- # nolint
               error_message,
               id = paste0(inputId, "error"),
               class = "govuk-error-message",
+              role = "alert",
               shiny::tags$span("Error:", class = "govuk-visually-hidden")
             )
           )

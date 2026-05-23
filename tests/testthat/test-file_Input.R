@@ -33,8 +33,10 @@ test_that("file input error works", {
   expect_identical(
     paste(
       file_check$children[[2]]$attribs$class,
-      file_check$children[[2]]$attribs[3]$class
+      file_check$children[[2]]$attribs[4]$class
     ),
     "govuk-error-message shinyjs-hide"
   )
+
+  expect_identical(file_check$children[[2]]$attribs$role, "alert")
 })

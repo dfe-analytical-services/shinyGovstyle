@@ -32,6 +32,7 @@ test_that("date error works", {
   expect_match(err_html, "govuk-error-message")
   expect_match(err_html, "shinyjs-hide")
   expect_identical(err_p$attribs$id, "dateid-error")
+  expect_identical(err_p$attribs$role, "alert")
 })
 
 

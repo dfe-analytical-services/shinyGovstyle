@@ -46,6 +46,7 @@ test_that("Error", {
   err_html <- as.character(err_p)
   expect_match(err_html, "govuk-error-message")
   expect_match(err_html, "shinyjs-hide")
+  expect_identical(err_p$attribs$role, "alert")
 })
 
 

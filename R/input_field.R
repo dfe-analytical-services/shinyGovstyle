@@ -90,6 +90,7 @@ input_field <- function(
                 error_message,
                 class = "govuk-error-message",
                 id = paste0(y, "-error"),
+                role = "alert",
                 shiny::tags$span("Error:", class = "govuk-visually-hidden")
               )
             )

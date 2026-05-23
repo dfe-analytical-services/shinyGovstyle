@@ -68,6 +68,7 @@ govFieldset <- # nolint
           error_message,
           class = "govuk-error-message",
           id = error_id,
+          role = "alert",
           shiny::tags$span("Error:", class = "govuk-visually-hidden")
         )
       )

@@ -119,6 +119,7 @@ file_Input <- # nolint
             error_message,
             class = "govuk-error-message",
             id = paste0(inputId, "-error"),
+            role = "alert",
             shiny::tags$span("Error:", class = "govuk-visually-hidden")
           )
         )

@@ -145,3 +145,13 @@ test_that("heading_level rejects invalid values", {
     date_Input("dateid", "Test Date", heading_level = c(1, 2))
   )
 })
+
+test_that("Day/Month/Year labels are associated with their inputs", {
+  date_check <- date_Input("dateid", "Test Date")
+  labels <- htmltools::tagQuery(date_check)$find(
+    ".govuk-date-input__label"
+  )$selectedTags()
+  expect_identical(labels[[1]]$attribs$`for`, "dateid_day")
+  expect_identical(labels[[2]]$attribs$`for`, "dateid_month")
+  expect_identical(labels[[3]]$attribs$`for`, "dateid_year")
+})

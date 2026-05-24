@@ -32,7 +32,8 @@
   heading following the GDS pattern.
 * `radio_button_Input()` inputs and labels are now programmatically associated
   via matching `id`/`for` attributes, and checkbox labels now also carry `for`
-  attributes.
+  attributes. `date_Input()` Day/Month/Year labels are likewise associated
+  with their underlying inputs via `for`/`id`.
 * `govTabs` now includes full ARIA roles (`tablist`, `tab`, `tabpanel`) and
   attributes (`aria-selected`, `aria-controls`, `aria-labelledby`) so screen
   readers correctly identify and navigate tabs.

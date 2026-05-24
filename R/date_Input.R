@@ -78,7 +78,8 @@ date_Input <- # nolint
           class = "govuk-form-group",
           shiny::tags$label(
             "Day",
-            class = "govuk-label govuk-date-input__label"
+            class = "govuk-label govuk-date-input__label",
+            `for` = paste0(inputId, "_day")
           ),
           shiny::tags$input(
             class = paste(
@@ -99,7 +100,8 @@ date_Input <- # nolint
           class = "govuk-form-group",
           shiny::tags$label(
             "Month",
-            class = "govuk-label govuk-date-input__label"
+            class = "govuk-label govuk-date-input__label",
+            `for` = paste0(inputId, "_month")
           ),
           shiny::tags$input(
             class = paste(
@@ -120,7 +122,8 @@ date_Input <- # nolint
           class = "govuk-form-group",
           shiny::tags$label(
             "Year",
-            class = "govuk-label govuk-date-input__label"
+            class = "govuk-label govuk-date-input__label",
+            `for` = paste0(inputId, "_year")
           ),
           shiny::tags$input(
             class = paste(

@@ -1,7 +1,7 @@
 #' Select Function
 #'
 #' This function inserts a select box
-#' @param inputId Input Id for the component
+#' @inheritParams id_arg
 #' @param label Insert the text for the label
 #' @param select_text Add the text that will apply in the drop down as a list
 #' @param select_value Add the value that will be used for each selection

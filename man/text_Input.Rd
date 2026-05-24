@@ -17,21 +17,24 @@ text_Input(
 )
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{label}{Display label for the control, or \code{NULL} for no label}
 
-\item{hint_label}{Display hint label for the control, or \code{NULL} for
-no hint label}
+\item{hint_label}{Optional hint text shown beneath the label to guide the
+user. \code{NULL} (default) omits the hint.}
 
 \item{type}{Type of text input to accept. Defaults to text}
 
 \item{width}{control the size of the box based on number of characters
 required.  Options are 30, 20, 10, 5, 4, 3, 2.  NULL will not limit the size}
 
-\item{error}{Whenever to include error handling. Defaults to FALSE}
+\item{error}{If \code{TRUE}, render the component in its error state and
+reserve a slot for the error message. Defaults to \code{FALSE}.}
 
-\item{error_message}{Message to display on error. Defaults to NULL}
+\item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
 
 \item{prefix}{Add a prefix to the box. Defaults to NULL}
 

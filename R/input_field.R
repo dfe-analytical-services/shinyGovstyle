@@ -7,8 +7,7 @@
 #' @param widths control the size of the box based on number of characters
 #' required.  Options are 30, 20, 10, 5, 4, 3, 2. NULL will not limit the size
 #' @param types text box types. Will default to text
-#' @param error Whenever to icnlud error handling. Defaults to FALSE
-#' @param error_message Message to display on error. Defaults to NULL
+#' @inheritParams hint_error_args
 #' @return a input field of HTML as a shiny tag object
 #' @family Govstyle text types
 #' @export
@@ -89,7 +88,7 @@ input_field <- function(
               shiny::tags$p(
                 error_message,
                 class = "govuk-error-message",
-                id = paste0(y, "error"),
+                id = paste0(y, "-error"),
                 role = "alert",
                 shiny::tags$span("Error:", class = "govuk-visually-hidden")
               )

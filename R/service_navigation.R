@@ -147,7 +147,7 @@ service_navigation <- function(
 #' `observeEvent()`.
 #'
 #' @param session The Shiny session object
-#' @param inputId The inputId of the service navigation link to set as active
+#' @inheritParams id_arg
 #'
 #' @returns NULL, called for side effects
 #' @family Govstyle navigation
@@ -200,8 +200,7 @@ update_service_navigation <- function(
 
 #' Create a service navigation link for use in `service_navigation()` function
 #'
-#' @param link Character string containing either link text or url
-#' @param link_name Name of a link where a URL has been provided in link_text
+#' @inheritParams link_args
 #'
 #' @returns HTML tag list item
 #' @noRd

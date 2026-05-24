@@ -8,7 +8,7 @@ download_button(outputId, button_label, file_type = "CSV", file_size = NULL)
 }
 \arguments{
 \item{outputId}{The name of the output slot that the
-\code{shiny::downloadHandler()} is assigned to}
+\code{shiny::downloadHandler()} is assigned to.}
 
 \item{button_label}{Text that will appear describing the download action.
 Vague text like 'click here' or 'here' will cause an error, as will ending
@@ -16,10 +16,11 @@ in a full stop. Leading and trailing white space will be automatically
 trimmed. If the string is shorter than 7 characters a console warning will
 be thrown. There is no way to hush this other than providing more detail}
 
-\item{file_type}{The file type to be download (default: CSV)}
+\item{file_type}{File extension shown to the user (e.g. \code{"CSV"}, \code{"PDF"}).
+Defaults to \code{"CSV"}.}
 
-\item{file_size}{The file size if known. Needs to be a string ending in one
-of KB, MB, GB or rows}
+\item{file_size}{Optional human-readable file size; a string ending in
+\code{KB}, \code{MB}, \code{GB}, or \code{rows}.}
 }
 \value{
 shiny tag object

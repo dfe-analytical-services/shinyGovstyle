@@ -9,7 +9,9 @@ update_service_navigation(session, inputId)
 \arguments{
 \item{session}{The Shiny session object}
 
-\item{inputId}{The inputId of the service navigation link to set as active}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 }
 \value{
 NULL, called for side effects

@@ -1,7 +1,7 @@
 #' Notification Banner Function
 #'
 #' This function creates a notification banner.
-#' @param inputId The input Id for the banner
+#' @inheritParams id_arg
 #' @param title_txt The wording that appears in the title
 #' @param body_txt The wording that appears in the banner body
 #' @param type The type of banner. Options are standard and success.

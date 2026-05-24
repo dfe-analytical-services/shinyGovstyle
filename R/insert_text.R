@@ -2,7 +2,7 @@
 #'
 #' This function loads the insert text component to display additional
 #' information in a special format.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param text Text that you want to display on the insert
 #' @return a insert text HTML shiny tag object
 #' @family Govstyle feedback types

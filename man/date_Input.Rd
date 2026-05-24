@@ -12,26 +12,40 @@ date_Input(
   error_message = NULL,
   day = NULL,
   month = NULL,
-  year = NULL
+  year = NULL,
+  label_size = c("m", "s", "l", "xl"),
+  heading_level = NULL
 )
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{label}{Display label for the control, or \code{NULL} for no label}
 
-\item{hint_label}{Display hint label for the control, or \code{NULL} for no
-hint label}
+\item{hint_label}{Optional hint text shown beneath the label to guide the
+user. \code{NULL} (default) omits the hint.}
 
-\item{error}{Whenever to include error components.Defaults to \code{FALSE}}
+\item{error}{If \code{TRUE}, render the component in its error state and
+reserve a slot for the error message. Defaults to \code{FALSE}.}
 
-\item{error_message}{Error handling message? Defaults to \code{NULL}}
+\item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
 
 \item{day}{Select a default day on start up. Defaults to \code{NULL}}
 
 \item{month}{Select a default month on start up. Defaults to \code{NULL}}
 
 \item{year}{Select a default year on start up. Defaults to \code{NULL}}
+
+\item{label_size}{Size modifier for the legend. One of \code{"m"}, \code{"s"}, \code{"l"},
+or \code{"xl"}, matching the GDS \verb{govuk-fieldset__legend--*} classes. Defaults
+to \code{"m"}.}
+
+\item{heading_level}{Optional heading level for the legend. If supplied
+(an integer 1-6), the legend text is wrapped in a \verb{<hN>} with the GDS
+\code{govuk-fieldset__heading} class, following the GDS pattern for using a
+question as the page heading. Defaults to \code{NULL} (no heading wrap).}
 }
 \value{
 a data input HTML shiny tag object

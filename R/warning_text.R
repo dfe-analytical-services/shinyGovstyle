@@ -1,7 +1,7 @@
 #' Warning Text Function
 #'
 #' This function create warning text.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param text Text that goes in the main
 #' @return a warning box HTML shiny tag object
 #' @family Govstyle feedback types

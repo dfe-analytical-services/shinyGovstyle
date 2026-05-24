@@ -1,7 +1,7 @@
 #' Label with Hint Function
 #'
 #' This function inserts a label and optional hint.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param label Display label for the control, or `NULL` for no label
 #' @param hint_input Display hint label for the control, or `NULL` for
 #' no hint label

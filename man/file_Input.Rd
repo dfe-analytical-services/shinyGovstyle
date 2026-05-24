@@ -17,7 +17,9 @@ file_Input(
 )
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{label}{Display label for the control, or \code{NULL} for no label}
 
@@ -35,9 +37,10 @@ object}
 
 \item{placeholder}{The text to show before a file has been uploaded}
 
-\item{error}{Whenever to icnlud error handling. Defaults to FALSE}
+\item{error}{If \code{TRUE}, render the component in its error state and
+reserve a slot for the error message. Defaults to \code{FALSE}.}
 
-\item{error_message}{Message to display on error. Defaults to NULL}
+\item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
 }
 \value{
 a file input HTML shiny tag object

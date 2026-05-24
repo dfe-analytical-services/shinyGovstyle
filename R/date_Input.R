@@ -1,15 +1,13 @@
 #' Date Input Function
 #'
 #' This function create a date input that follows GDS component
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param label Display label for the control, or `NULL` for no label
-#' @param hint_label Display hint label for the control, or `NULL` for no
-#' hint label
-#' @param error Whenever to include error components.Defaults to `FALSE`
-#' @param error_message Error handling message? Defaults to `NULL`
+#' @inheritParams hint_error_args
 #' @param day Select a default day on start up. Defaults to `NULL`
 #' @param month Select a default month on start up. Defaults to `NULL`
 #' @param year Select a default year on start up. Defaults to `NULL`
+#' @inheritParams fieldset_args
 #' @return a data input HTML shiny tag object
 #' @family Govstyle text types
 #' @export
@@ -66,95 +64,93 @@ date_Input <- # nolint
     error_message = NULL,
     day = NULL,
     month = NULL,
-    year = NULL
+    year = NULL,
+    label_size = c("m", "s", "l", "xl"),
+    heading_level = NULL
   ) {
     value <- shiny::restoreInput(id = inputId, default = FALSE) # nolint
+    date_content <- shiny::tags$div(
+      class = "govuk-date-input",
+      id = inputId,
+      shiny::tags$div(
+        class = "govuk-date-input__item",
+        shiny::tags$div(
+          class = "govuk-form-group",
+          shiny::tags$label(
+            "Day",
+            class = "govuk-label govuk-date-input__label",
+            `for` = paste0(inputId, "_day")
+          ),
+          shiny::tags$input(
+            class = paste(
+              "govuk-input govuk-date-input__input",
+              "govuk-input--width-2"
+            ),
+            id = paste0(inputId, "_day"),
+            name = inputId,
+            type = "number",
+            pattern = "[0-9]*",
+            value = day
+          )
+        )
+      ),
+      shiny::tags$div(
+        class = "govuk-date-input__item",
+        shiny::tags$div(
+          class = "govuk-form-group",
+          shiny::tags$label(
+            "Month",
+            class = "govuk-label govuk-date-input__label",
+            `for` = paste0(inputId, "_month")
+          ),
+          shiny::tags$input(
+            class = paste(
+              "govuk-input govuk-date-input__input",
+              "govuk-input--width-2"
+            ),
+            id = paste0(inputId, "_month"),
+            name = inputId,
+            type = "number",
+            pattern = "[0-9]*",
+            value = month
+          )
+        )
+      ),
+      shiny::tags$div(
+        class = "govuk-date-input__item",
+        shiny::tags$div(
+          class = "govuk-form-group",
+          shiny::tags$label(
+            "Year",
+            class = "govuk-label govuk-date-input__label",
+            `for` = paste0(inputId, "_year")
+          ),
+          shiny::tags$input(
+            class = paste(
+              "govuk-input govuk-date-input__input",
+              "govuk-input--width-4"
+            ),
+            id = paste0(inputId, "_year"),
+            name = inputId,
+            type = "number",
+            pattern = "[0-9]*",
+            value = year
+          )
+        )
+      )
+    )
     gov_date <- shiny::tags$div(
       class = "govuk-form-group",
       id = paste0(inputId, "div"),
-      shiny::tags$fieldset(
-        class = "govuk-fieldset",
-        shiny::tags$label(shiny::HTML(label), class = "govuk-label"),
-        if (error == TRUE) {
-          shinyjs::hidden(
-            shiny::tags$p(
-              error_message,
-              id = paste0(inputId, "error"),
-              class = "govuk-error-message",
-              role = "alert",
-              shiny::tags$span("Error:", class = "govuk-visually-hidden")
-            )
-          )
-        },
-        shiny::tags$div(hint_label, class = "govuk-hint"),
-        shiny::tags$div(
-          class = "govuk-date-input",
-          id = inputId,
-          shiny::tags$div(
-            class = "govuk-date-input__item",
-            shiny::tags$div(
-              class = "govuk-form-group",
-              shiny::tags$label(
-                "Day",
-                class = "govuk-label govuk-date-input__label"
-              ),
-              shiny::tags$input(
-                class = paste(
-                  "govuk-input govuk-date-input__input",
-                  "
-                            govuk-input--width-2"
-                ),
-                id = paste0(inputId, "_day"),
-                name = inputId,
-                type = "number",
-                pattern = "[0-9]*",
-                value = day
-              )
-            )
-          ),
-          shiny::tags$div(
-            class = "govuk-date-input__item",
-            shiny::tags$div(
-              class = "govuk-form-group",
-              shiny::tags$label(
-                "Month",
-                class = "govuk-label govuk-date-input__label"
-              ),
-              shiny::tags$input(
-                class = paste(
-                  "govuk-input govuk-date-input__input",
-                  "govuk-input--width-2"
-                ),
-                id = paste0(inputId, "_month"),
-                name = inputId,
-                type = "number",
-                pattern = "[0-9]*",
-                value = month
-              )
-            )
-          ),
-          shiny::tags$div(
-            class = "govuk-date-input__item",
-            shiny::tags$div(
-              class = "govuk-form-group",
-              shiny::tags$label(
-                "Year",
-                class = "govuk-label govuk-date-input__label"
-              ),
-              shiny::tags$input(
-                class = paste(
-                  "govuk-input govuk-date-input__input",
-                  "govuk-input--width-4"
-                ),
-                id = paste0(inputId, "_year"),
-                name = inputId,
-                type = "number",
-                pattern = "[0-9]*",
-                value = year
-              )
-            )
-          )
-        )
+      govFieldset(
+        inputId = inputId,
+        label = shiny::HTML(label),
+        content = date_content,
+        hint_label = hint_label,
+        error = error,
+        error_message = error_message,
+        label_size = label_size,
+        heading_level = heading_level
       )
     )
     attachDependency(gov_date, "date")

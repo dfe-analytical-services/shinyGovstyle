@@ -1,7 +1,7 @@
 #' Radio Button Function
 #'
 #' This function create radio buttons
-#' @param inputId The `input` slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param label Input label
 #' @param choices List of values to select from (if elements of the list are
 #' named then that name rather than the value is displayed to the user)
@@ -17,10 +17,7 @@
 #' must not be provided. The advantage of using both of these over a named list
 #' for choices is that choiceNames allows any type of UI object to be passed
 #' through (tag objects, icons, HTML code, ...), instead of just simple text
-#' @param hint_label Additional hint text you may want to display below the
-#' label. Defaults to NULL
-#' @param error Whenever you want to include error handle on the component
-#' @param error_message If you want a default error message
+#' @inheritParams hint_error_args
 #' @param custom_class If you want to add additional classes to the radio
 #' buttons
 #' @inheritParams fieldset_args

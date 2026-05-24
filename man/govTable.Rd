@@ -14,7 +14,9 @@ govTable(
 )
 }
 \arguments{
-\item{inputId}{Input Id for the table}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{df}{expects a dataframe to create a table}
 

@@ -18,7 +18,9 @@ checkbox_Input(
 )
 }
 \arguments{
-\item{inputId}{Input Id for the group of checkboxes}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{cb_labels}{Add the names of the options that will appear}
 
@@ -26,14 +28,16 @@ checkbox_Input(
 
 \item{label}{Insert the text for the checkbox group}
 
-\item{hint_label}{Insert optional hint/secondary text. Defaults to NULL}
+\item{hint_label}{Optional hint text shown beneath the label to guide the
+user. \code{NULL} (default) omits the hint.}
 
 \item{small}{change the sizing to a small version of the checkbox. Defaults
 to \code{FALSE}}
 
-\item{error}{Whenever you want to include error handle on the component}
+\item{error}{If \code{TRUE}, render the component in its error state and
+reserve a slot for the error message. Defaults to \code{FALSE}.}
 
-\item{error_message}{If you want a default error message}
+\item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
 
 \item{label_size}{Size modifier for the legend. One of \code{"m"}, \code{"s"}, \code{"l"},
 or \code{"xl"}, matching the GDS \verb{govuk-fieldset__legend--*} classes. Defaults

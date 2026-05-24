@@ -22,7 +22,9 @@ radio_button_Input(
 )
 }
 \arguments{
-\item{inputId}{The \code{input} slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{label}{Input label}
 
@@ -45,12 +47,13 @@ must not be provided. The advantage of using both of these over a named list
 for choices is that choiceNames allows any type of UI object to be passed
 through (tag objects, icons, HTML code, ...), instead of just simple text}
 
-\item{hint_label}{Additional hint text you may want to display below the
-label. Defaults to NULL}
+\item{hint_label}{Optional hint text shown beneath the label to guide the
+user. \code{NULL} (default) omits the hint.}
 
-\item{error}{Whenever you want to include error handle on the component}
+\item{error}{If \code{TRUE}, render the component in its error state and
+reserve a slot for the error message. Defaults to \code{FALSE}.}
 
-\item{error_message}{If you want a default error message}
+\item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
 
 \item{custom_class}{If you want to add additional classes to the radio
 buttons}

@@ -2,7 +2,7 @@
 #'
 #' This function turns on the error for the component. Can be used to
 #' validate inputs.
-#' @param inputId The input id that you to to turn the error on for
+#' @inheritParams id_arg
 #' @param error_message if you want to add an additional error message
 #' Defaults to NULL, showing the original designed error message
 #' @return no return value.  This toggles on error CSS

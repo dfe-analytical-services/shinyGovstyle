@@ -1,15 +1,12 @@
 #' Text Input Function
 #'
 #' This function create a text input.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param label Display label for the control, or `NULL` for no label
-#' @param hint_label Display hint label for the control, or `NULL` for
-#' no hint label
+#' @inheritParams hint_error_args
 #' @param type Type of text input to accept. Defaults to text
 #' @param width control the size of the box based on number of characters
 #' required.  Options are 30, 20, 10, 5, 4, 3, 2.  NULL will not limit the size
-#' @param error Whenever to include error handling. Defaults to FALSE
-#' @param error_message Message to display on error. Defaults to NULL
 #' @param prefix Add a prefix to the box. Defaults to NULL
 #' @param suffix Add a suffix to the box. Defaults to NULL
 #' @return a text input HTML shiny tag object

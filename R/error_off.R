@@ -2,7 +2,7 @@
 #'
 #' This function turns off the the error o the component, once issues have
 #' been sorted.
-#' @param inputId The input Id to turn error handling on for
+#' @inheritParams id_arg
 #' @return no return value. This toggles off error CSS
 #' @family Govstyle errors
 #' @export

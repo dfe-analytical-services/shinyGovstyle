@@ -1,15 +1,13 @@
 #' Checkbox Function
 #'
 #' This function inserts a checkbox group
-#' @param inputId Input Id for the group of checkboxes
+#' @inheritParams id_arg
 #' @param cb_labels Add the names of the options that will appear
 #' @param checkboxIds Add the values for each checkbox
 #' @param label Insert the text for the checkbox group
-#' @param hint_label Insert optional hint/secondary text. Defaults to NULL
+#' @inheritParams hint_error_args
 #' @param small change the sizing to a small version of the checkbox. Defaults
 #' to `FALSE`
-#' @param error Whenever you want to include error handle on the component
-#' @param error_message If you want a default error message
 #' @inheritParams fieldset_args
 #' @return a checkbox HTML shiny tag object
 #' @family Govstyle select inputs

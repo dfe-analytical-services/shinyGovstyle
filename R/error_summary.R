@@ -3,7 +3,7 @@
 #' This function loads the error summary component to display error text.
 #' This replicates the gov style error boxes linked below:
 #' https://design-system.service.gov.uk/components/error-summary/
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param error_title The title for the error summary
 #' @param error_list A list of text values to be displayed in the error body
 #' @return an error_summary HTML shiny tag object

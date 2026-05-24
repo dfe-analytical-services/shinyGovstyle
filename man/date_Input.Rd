@@ -18,16 +18,19 @@ date_Input(
 )
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{label}{Display label for the control, or \code{NULL} for no label}
 
-\item{hint_label}{Display hint label for the control, or \code{NULL} for no
-hint label}
+\item{hint_label}{Optional hint text shown beneath the label to guide the
+user. \code{NULL} (default) omits the hint.}
 
-\item{error}{Whenever to include error components.Defaults to \code{FALSE}}
+\item{error}{If \code{TRUE}, render the component in its error state and
+reserve a slot for the error message. Defaults to \code{FALSE}.}
 
-\item{error_message}{Error handling message? Defaults to \code{NULL}}
+\item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
 
 \item{day}{Select a default day on start up. Defaults to \code{NULL}}
 

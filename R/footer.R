@@ -243,8 +243,7 @@ footer <- function(full = FALSE, links = NULL) {
 
 #' Create a footer link for use in `footer()` function
 #'
-#' @param link Character string containing either link text or url
-#' @param link_name Name of a link where a URL has been provided in link_text
+#' @inheritParams link_args
 #'
 #' @returns HTML tag list item
 #'

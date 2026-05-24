@@ -2,7 +2,7 @@
 #'
 #' This function create a detail component that you can click for further
 #' details.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param label Main label text
 #' @param help_text Additional help information in the component
 #' @return a details box HTML shiny tag object

@@ -2,7 +2,7 @@
 #'
 #' This function create a detail component that you can click for further
 #' details.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param type Main type of label e.g. alpha or beta. Can be any word
 #' @param label text to display
 #' @return a banner HTML shiny tag object

@@ -7,7 +7,9 @@
 select_Input(inputId, label, select_text, select_value)
 }
 \arguments{
-\item{inputId}{Input Id for the component}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{label}{Insert the text for the label}
 

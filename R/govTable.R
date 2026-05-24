@@ -2,7 +2,7 @@
 #'
 #' This function inserts a gov styled table. Format is with header looking
 #' rows and columns
-#' @param inputId Input Id for the table
+#' @inheritParams id_arg
 #' @param df expects a dataframe to create a table
 #' @param caption adds a caption to the table as a header
 #' @param caption_size adjust the size of caption. Options are s, m, l, xl,

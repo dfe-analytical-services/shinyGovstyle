@@ -1,7 +1,7 @@
 #' Panel output
 #'
 #' This function inserts a panel.  Normally used for confirmation screens
-#' @param inputId The input slot that will be used to access the value.
+#' @inheritParams id_arg
 #' @param main_text Add the header for the panel
 #' @param sub_text Add the main body of text for the panel
 #' @return a panel HTML shiny tag object

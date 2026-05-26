@@ -47,7 +47,7 @@ insert_text <- # nolint
   ) {
     if (lifecycle::is_present(text)) {
       lifecycle::deprecate_warn(
-        when = "1.0.0",
+        when = "0.3.0",
         what = "insert_text(text)",
         with = "insert_text(content)"
       )

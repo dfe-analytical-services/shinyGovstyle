@@ -20,6 +20,20 @@
 #' @param service_name An optional character string
 #' containing the service name to be displayed in the
 #' navigation bar
+#' @param auto_page_title Logical. When `TRUE` (the default),
+#' the browser tab title is updated to match the active nav
+#' link whenever the user navigates — both by clicking a
+#' link and via `update_service_navigation()`. Set to `FALSE`
+#' to opt out and manage the page title yourself. Keeping
+#' the title in sync with the visible page is a GOV.UK
+#' Design System recommendation for accessibility.
+#' @param page_title_suffix Optional character string
+#' appended to the page title in the format
+#' `"<link text> | <suffix>"` — typically the service name.
+#' Only used when `auto_page_title = TRUE`. For finer
+#' control (e.g. when a page heading differs from its nav
+#' link label), call [update_page_title()] from your server
+#' code.
 #'
 #' @returns Shiny tag object
 #' @family Govstyle navigation
@@ -67,7 +81,9 @@
 #' if (interactive()) shiny::shinyApp(ui = ui, server = server)
 service_navigation <- function(
   links,
-  service_name = NULL
+  service_name = NULL,
+  auto_page_title = TRUE,
+  page_title_suffix = NULL
 ) {
   if (is.null(links) || length(links) == 0) {
     stop("links must be a non-empty character vector")
@@ -82,6 +98,14 @@ service_navigation <- function(
     `aria-label` = "Service information",
     class = "govuk-service-navigation",
     `data-module` = "govuk-service-navigation",
+    `data-auto-page-title` = if (isTRUE(auto_page_title)) "true",
+    `data-page-title-suffix` = if (
+      isTRUE(auto_page_title) &&
+        !is.null(page_title_suffix) &&
+        nzchar(page_title_suffix)
+    ) {
+      page_title_suffix
+    },
     shiny::tags$div(
       class = "govuk-width-container",
       shiny::tags$div(
@@ -154,39 +178,31 @@ service_navigation <- function(
 #' @export
 #'
 #' @examples
-#' # Nav link clicked — JS handles active state, just switch the panel.
-#' # Works the same whether you use shiny or bslib tab panels.
-#' if (interactive()) {
-#'   server <- function(input, output, session) {
-#'     # shiny tabsetPanel
-#'     shiny::observeEvent(input$page_two, {
-#'       shiny::updateTabsetPanel(session, "tabs", selected = "page_two")
-#'     })
+#' # Works the same with shiny::tabsetPanel() + shiny::updateTabsetPanel().
+#' ui <- shiny::fluidPage(
+#'   shinyGovstyle::service_navigation(c("Page one", "Page two")),
+#'   bslib::navset_hidden(
+#'     id = "tabs",
+#'     bslib::nav_panel("page_one", shiny::actionButton("next_btn", "Next")),
+#'     bslib::nav_panel("page_two", "Page two content")
+#'   )
+#' )
 #'
-#'     # bslib navset
-#'     shiny::observeEvent(input$page_two, {
-#'       bslib::nav_select("tabs", "page_two")
-#'     })
-#'   }
+#' server <- function(input, output, session) {
+#'   # Nav link clicked — JS handles the active state, just switch the panel.
+#'   shiny::observeEvent(input$page_two, {
+#'     bslib::nav_select("tabs", "page_two")
+#'   })
+#'
+#'   # Programmatic navigation — the nav link is not clicked, so call
+#'   # update_service_navigation() explicitly.
+#'   shiny::observeEvent(input$next_btn, {
+#'     bslib::nav_select("tabs", "page_two")
+#'     shinyGovstyle::update_service_navigation(session, "page_two")
+#'   })
 #' }
 #'
-#' # Programmatic navigation (e.g. a next / back button) — the nav link is not
-#' # clicked, so you must also call update_service_navigation() explicitly.
-#' if (interactive()) {
-#'   server <- function(input, output, session) {
-#'     # shiny tabsetPanel
-#'     shiny::observeEvent(input$next_btn, {
-#'       shiny::updateTabsetPanel(session, "tabs", selected = "page_two")
-#'       shinyGovstyle::update_service_navigation(session, "page_two")
-#'     })
-#'
-#'     # bslib navset
-#'     shiny::observeEvent(input$next_btn, {
-#'       bslib::nav_select("tabs", "page_two")
-#'       shinyGovstyle::update_service_navigation(session, "page_two")
-#'     })
-#'   }
-#' }
+#' if (interactive()) shiny::shinyApp(ui = ui, server = server)
 update_service_navigation <- function(
   session,
   inputId # nolint: object_name_linter.
@@ -195,6 +211,93 @@ update_service_navigation <- function(
     "update_service_navigation",
     inputId
   )
+}
+
+
+#' Auto-wire service navigation links to tabset panels
+#'
+#' @description
+#' Sets up one observer per nav link that switches the corresponding tab
+#' panel when the link is clicked. Eliminates the per-link
+#' `observeEvent()` boilerplate that multi-page apps would otherwise need.
+#'
+#' Call once in your server function, after [service_navigation()] has been
+#' added to the UI. The active nav highlight and (when
+#' `auto_page_title = TRUE`) the browser tab title are already handled
+#' client-side, so no additional wiring is needed.
+#'
+#' @param session The Shiny session object
+#' @param tabset_id The `id` of the `shiny::tabsetPanel()` or
+#'   `bslib::navset_hidden()` to switch
+#' @param link_to_panel A character vector mapping nav link inputIds to
+#'   tab panel values. Pass a **named** vector when inputIds differ from
+#'   panel values (names = inputIds, values = panel values). Pass an
+#'   **unnamed** vector as shorthand for the 1:1 case — each element is
+#'   used as both the nav inputId and the panel value.
+#'
+#' @returns NULL, called for side effects
+#' @family Govstyle navigation
+#' @export
+#'
+#' @examples
+#' ui <- shiny::fluidPage(
+#'   shinyGovstyle::service_navigation(
+#'     c(sn_summary = "Summary", sn_detail = "Detail")
+#'   ),
+#'   bslib::navset_hidden(
+#'     id = "tabs",
+#'     bslib::nav_panel("summary", "Summary content"),
+#'     bslib::nav_panel("detailed_data", "Detail content")
+#'   )
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   # Nav inputIds differ from panel values
+#'   shinyGovstyle::service_navigation_server(
+#'     session,
+#'     tabset_id = "tabs",
+#'     link_to_panel = c(
+#'       sn_summary = "summary",
+#'       sn_detail = "detailed_data"
+#'     )
+#'   )
+#'
+#'   # Or, when inputIds match panel values exactly:
+#'   # shinyGovstyle::service_navigation_server(
+#'   #   session,
+#'   #   tabset_id = "tabs",
+#'   #   link_to_panel = c("summary", "detailed_data")
+#'   # )
+#' }
+#'
+#' if (interactive()) shiny::shinyApp(ui = ui, server = server)
+service_navigation_server <- function(
+  session,
+  tabset_id, # nolint: object_name_linter.
+  link_to_panel
+) {
+  if (is.null(link_to_panel) || length(link_to_panel) == 0) {
+    stop("link_to_panel must be a non-empty character vector")
+  }
+  stopifnot(is.character(link_to_panel))
+  if (is.null(names(link_to_panel))) {
+    names(link_to_panel) <- link_to_panel
+  } else {
+    blanks <- names(link_to_panel) == ""
+    names(link_to_panel)[blanks] <- link_to_panel[blanks]
+  }
+
+  input <- session$input
+  lapply(seq_along(link_to_panel), function(i) {
+    input_id <- names(link_to_panel)[i]
+    panel <- link_to_panel[[i]]
+    shiny::observeEvent(
+      input[[input_id]],
+      shiny::updateTabsetPanel(session, tabset_id, selected = panel),
+      ignoreInit = TRUE
+    )
+  })
+  invisible(NULL)
 }
 
 
@@ -207,18 +310,13 @@ update_service_navigation <- function(
 #' @noRd
 #' @keywords internal
 #' @examples
-#' # Internal (i.e. within dashboard) link
-#' shinyGovstyle:::service_nav_link("Cookie statement")
 #' # Named internal link
 #' shinyGovstyle:::service_nav_link("cookie_statement", "Cookies")
 service_nav_link <- function(
   link,
-  link_name = NULL
+  link_name
 ) {
-  if (is.null(link_name)) {
-    warning("Link name provided is NULL for ", link)
-    link_name <- link
-  }
+  stopifnot(!is.null(link_name), nzchar(link_name))
   shiny::tags$li(
     class = "govuk-service-navigation__item",
     shiny::actionLink(

@@ -12,126 +12,61 @@ function(input, output, session) {
     file_contents = data.frame(x = c(1, 2, 3), y = c(4, 5, 6))
   )
 
+  # Service navigation link → tab panel wiring ================================
+  shinyGovstyle::service_navigation_server(
+    session,
+    tabset_id = "tab-container",
+    link_to_panel = c(
+      sn_select_types = "select_types",
+      sn_text_types = "text_types",
+      sn_action_types = "action_types",
+      sn_tables_tabs = "tables_tabs_and_accordions",
+      sn_feedback_types = "feedback_types",
+      sn_cookies = "panel-cookies"
+    )
+  )
+
   # Tab nav - button-driven (next / back cross module boundaries) =============
   shiny::observeEvent(
     select_types$next_page(),
-    {
-      shiny::updateTabsetPanel(
-        session,
-        "tab-container",
-        selected = "text_types"
-      )
-      update_service_navigation(session, "sn_text_types")
-    },
+    shinyGovstyle::navigate_to(
+      session,
+      "tab-container",
+      "sn_text_types",
+      panel = "text_types"
+    ),
     ignoreInit = TRUE
   )
 
   shiny::observeEvent(
     text_types$prev_page(),
-    {
-      shiny::updateTabsetPanel(
-        session,
-        "tab-container",
-        selected = "select_types"
-      )
-      update_service_navigation(session, "sn_select_types")
-    },
-    ignoreInit = TRUE
-  )
-
-  # Service navigation link observers =========================================
-  shiny::observeEvent(
-    input$sn_select_types,
-    {
-      shiny::updateTabsetPanel(
-        session,
-        "tab-container",
-        selected = "select_types"
-      )
-    },
-    ignoreInit = TRUE
-  )
-
-  shiny::observeEvent(
-    input$sn_text_types,
-    {
-      shiny::updateTabsetPanel(
-        session,
-        "tab-container",
-        selected = "text_types"
-      )
-    },
-    ignoreInit = TRUE
-  )
-
-  shiny::observeEvent(
-    input$sn_action_types,
-    {
-      shiny::updateTabsetPanel(
-        session,
-        "tab-container",
-        selected = "action_types"
-      )
-    },
-    ignoreInit = TRUE
-  )
-
-  shiny::observeEvent(
-    input$sn_tables_tabs,
-    {
-      shiny::updateTabsetPanel(
-        session,
-        "tab-container",
-        selected = "tables_tabs_and_accordions"
-      )
-    },
-    ignoreInit = TRUE
-  )
-
-  shiny::observeEvent(
-    input$sn_feedback_types,
-    {
-      shiny::updateTabsetPanel(
-        session,
-        "tab-container",
-        selected = "feedback_types"
-      )
-    },
-    ignoreInit = TRUE
-  )
-
-  shiny::observeEvent(
-    input$sn_cookies,
-    {
-      shiny::updateTabsetPanel(
-        session,
-        "tab-container",
-        selected = "panel-cookies"
-      )
-    },
+    shinyGovstyle::navigate_to(
+      session,
+      "tab-container",
+      "sn_select_types",
+      panel = "select_types"
+    ),
     ignoreInit = TRUE
   )
 
   # Cookie banner events ======================================================
   shiny::observeEvent(input$cookieLink, {
-    shiny::updateTabsetPanel(
+    shinyGovstyle::navigate_to(
       session,
       "tab-container",
-      selected = "panel-cookies"
+      "sn_cookies",
+      panel = "panel-cookies"
     )
-    update_service_navigation(session, "sn_cookies")
   })
 
   shiny::observeEvent(
     input$cookies_footer_link,
-    {
-      shiny::updateTabsetPanel(
-        session,
-        "tab-container",
-        selected = "panel-cookies"
-      )
-      update_service_navigation(session, "sn_cookies")
-    },
+    shinyGovstyle::navigate_to(
+      session,
+      "tab-container",
+      "sn_cookies",
+      panel = "panel-cookies"
+    ),
     ignoreInit = TRUE
   )
 

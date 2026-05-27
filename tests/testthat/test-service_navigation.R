@@ -123,7 +123,11 @@ test_that("service_navigation_server routes each link to its panel value", {
     .package = "shiny"
   )
   local_mocked_bindings(
-    observeEvent = function(eventExpr, handlerExpr, ...) {
+    observeEvent = function(
+      eventExpr,   # nolint: object_name_linter.
+      handlerExpr, # nolint: object_name_linter.
+      ...
+    ) {
       # Force the promise so each loop iteration's updateTabsetPanel call
       # fires immediately — sidesteps the need to drive the reactive loop.
       force(handlerExpr)

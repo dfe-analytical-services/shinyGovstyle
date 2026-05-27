@@ -60,7 +60,6 @@ accordion <- function(
           class = "govuk-accordion__show-all",
           `aria-expanded` = "false",
           shiny::tags$span(
-            id = "show-all-chevron",
             class = paste(
               "govuk-accordion-nav__chevron",
               "govuk-accordion-nav__chevron--down"
@@ -90,6 +89,7 @@ accordion <- function(
                   class = "govuk-accordion__section-button",
                   id = paste0("accordion-default-heading-", z_str),
                   name = paste0("accordion-default-heading-", z_str),
+                  `aria-expanded` = "false",
                   shiny::tags$span(
                     class = "govuk-accordion__section-heading-text",
                     shiny::tags$span(

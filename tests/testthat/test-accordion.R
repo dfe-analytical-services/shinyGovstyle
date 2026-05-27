@@ -1,3 +1,5 @@
+library(htmltools)
+
 test_that("accordion works", {
   accordion_check <- accordion(
     "acc1",
@@ -15,7 +17,9 @@ test_that("accordion works", {
     )
   )
 
-  expect_equal(length(accordion_check$children[[2]]), 4)
+  tq <- tagQuery(accordion_check)
+  t <- tq$find(".govuk-accordion__section")$selectedTags()
+  expect_equal(length(t), 4)
 })
 
 
@@ -52,12 +56,12 @@ test_that("accordion numbering works past 9", {
     )
   )
 
-  heading1 <- accordion_numbering_check$children[[2]][[1]]$children[[
-    1
-  ]]$children[[1]]$children[[1]]$attribs$name
-  heading11 <- accordion_numbering_check$children[[2]][[11]]$children[[
-    1
-  ]]$children[[1]]$children[[1]]$attribs$name
+  tq <- tagQuery(accordion_numbering_check)
+
+  tq$find("#accordion-default-heading-01")$selectedTags()[[1]]$attribs$name
+
+  heading1 <- tq$find("#accordion-default-heading-01")$selectedTags()[[1]]$attribs$name
+  heading11 <- tq$find("#accordion-default-heading-11")$selectedTags()[[1]]$attribs$name
 
   expect_equal(stringr::str_sub(heading1, -2), "01")
   expect_equal(stringr::str_sub(heading11, -2), "11")

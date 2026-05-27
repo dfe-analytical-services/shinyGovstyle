@@ -10,74 +10,72 @@ attachDependency <- # nolint
   function(tag, widget = NULL) {
     version <- as.character(packageVersion("shinyGovstyle")[[1]])
 
-    dep <- htmltools::htmlDependency(
-      name = "stylecss",
-      version = version,
-      src = c(href = "shinyGovstyle/css"),
-      stylesheet = "govuk-frontend-6.1.0.min.css"
+    # Base deps shipped with every shinyGovstyle component. The
+    # update_page_title handler is included here so update_page_title()
+    # works in any app that uses at least one shinyGovstyle function,
+    # regardless of whether service_navigation() is present.
+    dep <- list(
+      htmltools::htmlDependency(
+        name = "stylecss",
+        version = version,
+        src = c(href = "shinyGovstyle/css"),
+        stylesheet = "govuk-frontend-6.1.0.min.css"
+      ),
+      htmltools::htmlDependency(
+        name = "update_page_title",
+        version = version,
+        src = c(href = "shinyGovstyle/js"),
+        script = "update_page_title.js"
+      )
     )
 
     if (!is.null(widget)) {
-      if (widget == "radio") {
-        dep <- list(
-          dep,
-          htmltools::htmlDependency(
-            name = "radio_button_Input",
-            version = version,
-            src = c(href = "shinyGovstyle/js"),
-            script = "radio_button_input_binding.js"
-          )
+      widget_dep <- if (widget == "radio") {
+        htmltools::htmlDependency(
+          name = "radio_button_Input",
+          version = version,
+          src = c(href = "shinyGovstyle/js"),
+          script = "radio_button_input_binding.js"
         )
       } else if (widget == "date") {
-        dep <- list(
-          dep,
-          htmltools::htmlDependency(
-            name = "date_Input",
-            version = version,
-            src = c(href = "shinyGovstyle/js"),
-            script = "date_input_binding.js"
-          )
+        htmltools::htmlDependency(
+          name = "date_Input",
+          version = version,
+          src = c(href = "shinyGovstyle/js"),
+          script = "date_input_binding.js"
         )
       } else if (widget == "accordion") {
-        dep <- list(
-          dep,
-          htmltools::htmlDependency(
-            name = "accordion",
-            version = version,
-            src = c(href = "shinyGovstyle/js"),
-            script = "accordion.js"
-          )
+        htmltools::htmlDependency(
+          name = "accordion",
+          version = version,
+          src = c(href = "shinyGovstyle/js"),
+          script = "accordion.js"
         )
       } else if (widget == "govTab") {
-        dep <- list(
-          dep,
-          htmltools::htmlDependency(
-            name = "govTab",
-            version = version,
-            src = c(href = "shinyGovstyle/js"),
-            script = "govTab.js"
-          )
+        htmltools::htmlDependency(
+          name = "govTab",
+          version = version,
+          src = c(href = "shinyGovstyle/js"),
+          script = "govTab.js"
         )
       } else if (widget == "contents_link") {
-        dep <- list(
-          dep,
-          htmltools::htmlDependency(
-            name = "contents_link",
-            version = version,
-            src = c(href = "shinyGovstyle/js"),
-            script = "contents_link.js"
-          )
+        htmltools::htmlDependency(
+          name = "contents_link",
+          version = version,
+          src = c(href = "shinyGovstyle/js"),
+          script = "contents_link.js"
         )
       } else if (widget == "service_navigation") {
-        dep <- list(
-          dep,
-          htmltools::htmlDependency(
-            name = "service_navigation",
-            version = version,
-            src = c(href = "shinyGovstyle/js"),
-            script = "service_navigation.js"
-          )
+        htmltools::htmlDependency(
+          name = "service_navigation",
+          version = version,
+          src = c(href = "shinyGovstyle/js"),
+          script = "service_navigation.js"
         )
+      }
+
+      if (!is.null(widget_dep)) {
+        dep <- c(dep, list(widget_dep))
       }
     }
 

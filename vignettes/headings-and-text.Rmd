@@ -95,6 +95,66 @@ heading_text("Methodology", size = "l", level = 2, id = "methodology")
 
 ---
 
+## Page titles
+
+The page title is the text shown in the browser tab. It is set by the `<title>` element in the HTML `<head>`, and you can read or change it at runtime via `document.title`.
+
+### Why it matters
+
+* **Accessibility**: screen readers announce the page title on navigation. If the title never changes, users who rely on assistive technology have no way of telling that the page has moved on.
+* **Wayfinding**: users routinely have many tabs open. A title that reflects the current page lets them find the right tab at a glance.
+* **GOV.UK convention**: the [GOV.UK Design System](https://design-system.service.gov.uk/styles/page-template/) recommends a consistent format of `"<page name> | <service name>"`, and that the title is kept in sync with the visible page.
+
+For a Shiny app with multiple panels, an initial title set in `ui.R` is not enough on its own, the title also needs to update as the user navigates.
+
+### Three options
+
+**1. Static title only**
+
+Fine for single-page apps. Pass `title` to `bslib::page_fluid()` or `shiny::fluidPage()`:
+
+```{r, eval = FALSE}
+bslib::page_fluid(
+  title = "Annual school workforce statistics",
+  # ...
+)
+```
+
+**2. Automatic sync via `service_navigation()` (recommended)**
+
+If your app uses `service_navigation()` for top-level navigation, page-title sync is on by default. Set `page_title_suffix` to your service name to get the `"<page> | <service>"` format:
+
+```{r, eval = FALSE}
+service_navigation(
+  c("Summary" = "summary", "Detailed stats" = "detailed_stats"),
+  page_title_suffix = "School workforce"
+)
+```
+
+The tab title now updates to `"Summary | School workforce"` (and similar for each link) whenever the user navigates — both by clicking a nav link and via `update_service_navigation()` from your server code.
+
+To opt out, pass `auto_page_title = FALSE` and manage the title yourself with option 3.
+
+**3. Programmatic control with `update_page_title()`**
+
+Call from your server code when you need precise control. For example, when a page heading differs from its nav link label, or for pages reached without clicking a nav link (modal links, next/back buttons, footer shortcuts):
+
+```{r, eval = FALSE}
+shiny::observeEvent(input$footer_cookies_link, {
+  bslib::nav_select("tabs", "cookies")
+  update_service_navigation(session, "sn_cookies")
+  update_page_title(
+    session,
+    page_title = "Cookies",
+    service_name = "School workforce"
+  )
+})
+```
+
+When `service_name` is supplied the title is composed as `"<page_title> | <service_name>"`; when it is `NULL` only `page_title` is shown. The JavaScript handler ships with every shinyGovstyle component, so `update_page_title()` works in any app that uses at least one shinyGovstyle function in its UI.
+
+---
+
 ## `gov_text()`
 
 A wrapper that produces a `<p class="govuk-body">` paragraph element. Use it when you want to add body text with correct GOV.UK styling without writing raw tag calls.

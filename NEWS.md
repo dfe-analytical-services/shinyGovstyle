@@ -1,7 +1,31 @@
 # shinyGovstyle (development version)
 
+## New features
+
+* New `update_page_title()` function to update the browser tab title from
+  server code, mirroring `update_service_navigation()`. Compose a title
+  in the GOV.UK recommended format `"<page> | <service>"` by supplying
+  both `page_title` and `service_name`.
+* `service_navigation()` gains `auto_page_title` and `page_title_suffix`
+  arguments. With `auto_page_title = TRUE` (the default) the browser tab
+  title is kept in sync with the active nav link, both for direct clicks
+  and for programmatic navigation via `update_service_navigation()`.
+* New `service_navigation_server()` wires every nav link to its tab
+  panel in a single server-side call, eliminating the per-link
+  `observeEvent()` boilerplate that multi-page apps previously needed.
+* New `navigate_to()` combines `updateTabsetPanel()` and
+  `update_service_navigation()` into one call for programmatic
+  navigation (next / back buttons, footer shortcuts, modal links).
+  Accepts a `panel` argument when the nav link inputId and the tab
+  panel value differ.
+
 ## Bug fixes
 
+* `service_navigation()` now syncs the browser tab title with the active
+  page by default. Screen readers announce the title on navigation,
+  so a static title is an accessibility issue for multi-page dashboards.
+  This is a behaviour change — set `auto_page_title = FALSE` on
+  `service_navigation()` to restore the previous behaviour.
 * `header()` no longer emits spurious deprecation warnings for `main_link`,
   `secondary_link`, `main_alt_text`, and `secondary_alt_text` when those
   arguments are not used.

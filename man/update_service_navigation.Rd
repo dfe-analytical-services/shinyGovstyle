@@ -31,44 +31,39 @@ automatically, so you only need to switch the tab panel in your
 \code{observeEvent()}.
 }
 \examples{
-# Nav link clicked — JS handles active state, just switch the panel.
-# Works the same whether you use shiny or bslib tab panels.
-if (interactive()) {
-  server <- function(input, output, session) {
-    # shiny tabsetPanel
-    shiny::observeEvent(input$page_two, {
-      shiny::updateTabsetPanel(session, "tabs", selected = "page_two")
-    })
+# Works the same with shiny::tabsetPanel() + shiny::updateTabsetPanel().
+ui <- shiny::fluidPage(
+  shinyGovstyle::service_navigation(c("Page one", "Page two")),
+  bslib::navset_hidden(
+    id = "tabs",
+    bslib::nav_panel("page_one", shiny::actionButton("next_btn", "Next")),
+    bslib::nav_panel("page_two", "Page two content")
+  )
+)
 
-    # bslib navset
-    shiny::observeEvent(input$page_two, {
-      bslib::nav_select("tabs", "page_two")
-    })
-  }
+server <- function(input, output, session) {
+  # Nav link clicked — JS handles the active state, just switch the panel.
+  shiny::observeEvent(input$page_two, {
+    bslib::nav_select("tabs", "page_two")
+  })
+
+  # Programmatic navigation — the nav link is not clicked, so call
+  # update_service_navigation() explicitly.
+  shiny::observeEvent(input$next_btn, {
+    bslib::nav_select("tabs", "page_two")
+    shinyGovstyle::update_service_navigation(session, "page_two")
+  })
 }
 
-# Programmatic navigation (e.g. a next / back button) — the nav link is not
-# clicked, so you must also call update_service_navigation() explicitly.
-if (interactive()) {
-  server <- function(input, output, session) {
-    # shiny tabsetPanel
-    shiny::observeEvent(input$next_btn, {
-      shiny::updateTabsetPanel(session, "tabs", selected = "page_two")
-      shinyGovstyle::update_service_navigation(session, "page_two")
-    })
-
-    # bslib navset
-    shiny::observeEvent(input$next_btn, {
-      bslib::nav_select("tabs", "page_two")
-      shinyGovstyle::update_service_navigation(session, "page_two")
-    })
-  }
-}
+if (interactive()) shiny::shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle navigation: 
 \code{\link{backlink_Input}()},
 \code{\link{contents_link}()},
-\code{\link{service_navigation}()}
+\code{\link{navigate_to}()},
+\code{\link{service_navigation}()},
+\code{\link{service_navigation_server}()},
+\code{\link{update_page_title}()}
 }
 \concept{Govstyle navigation}

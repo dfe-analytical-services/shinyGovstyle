@@ -17,12 +17,12 @@ test_that("text accepts a tagList", {
     "warningId",
     shiny::tagList(
       "You can be fined up to ",
-      shiny::tags$strong("£5,000"),
+      shiny::tags$i("£5,000"),
       " if you do not register."
     )
   )
 
   html <- as.character(out)
   expect_match(html, "You can be fined up to", fixed = TRUE)
-  expect_match(html, "<strong>£5,000</strong>", fixed = TRUE)
+  expect_match(html, "<i>£5,000</i>", fixed = TRUE)
 })

@@ -37,6 +37,12 @@ Run through these checks locally first — it makes review faster and avoids bac
 - **Run all tests locally** with `devtools::test()` and then `devtools::check()`, in the latter, don't worry about notes, but pay attention to any errors or warnings.
 - **Tests and documentation.** Add or update tests for any new behaviour, re-run `devtools::document()` so the `man/` pages stay in sync, and review the vignettes, README, and other doc files in the repo to see if any of them should also be updated.
 - **Design system check.** If you've added or changed a UI component, compare it against the [GOV.UK Design System](https://design-system.service.gov.uk/) to make sure looks and behaves consistently with the GOVUK guidance.
+- **Accessibility check.** For any UI component change,test it with assistive tech manually.
+    - **Keyboard only.** Tab / Shift+Tab through the component, activate with Enter or Space, escape modals or menus with Esc. Focus should be visible at every stop.
+    - **Screen reader.** [NVDA](https://www.nvaccess.org/download/) on Windows (free), or VoiceOver on macOS (⌘F5). Confirm labels, errors, and state changes are announced. `role="alert"` regressions and missing `for` / `id` associations only show up here.
+    - **Forced colours / High Contrast.** Windows Settings, Accessibility, Contrast themes; or Chromium DevTools, Rendering, "Emulate CSS media feature forced-colors: active". Confirm all visual elements translate appropriately in the high contrast themes.As an example of potential issues, `box-shadow`, `background-color`, and `text-shadow` are dropped in forced-colours mode and need a `border` or `outline` based fallback inside an `@media (forced-colors: active)` block (see `inst/www/css/reactable-overrides.css` for a worked example).
+
+    This isn't a full audit, just a smoke test. If you're touching `inst/www/css/govuk-frontend-x.x.x.min.css` directly, or adding a new component, do a fuller pass.
 - **CSS changes.** If you've edited `inst/www/css/govuk-frontend-x.x.x.min.css`, log the change in `css_changes.md` (see the [CSS changes](#css-changes) section).
 
 ### Branching and raising a PR

@@ -120,7 +120,10 @@ govReactable <- # nolint
       stylesheet = "reactable-overrides.css"
     )
 
-    table$dependencies <- c(table$dependencies, list(stylecss_dep, reactable_css))
+    table$dependencies <- c(
+      table$dependencies,
+      list(stylecss_dep, reactable_css)
+    )
     table
   }
 

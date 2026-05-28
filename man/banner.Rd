@@ -11,7 +11,8 @@ banner(inputId, type, label)
 
 \item{type}{Main type of label e.g. alpha or beta. Can be any word}
 
-\item{label}{text to display}
+\item{label}{Text to display. Accepts a plain character string, or \code{shiny}
+tag objects such as \code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 }
 \value{
 a banner HTML shiny tag object

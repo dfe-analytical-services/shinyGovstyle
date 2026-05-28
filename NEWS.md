@@ -7,6 +7,8 @@
   arguments are not used.
 * Error messages on input components now use `role="alert"` so they are
   announced by screen readers when toggled via `error_on()`.
+* `govReactable()` table row, sort-header, and pagination highlights are now
+  visible in Windows High Contrast / forced-colours mode.
 
 # shinyGovstyle 0.2.0
 

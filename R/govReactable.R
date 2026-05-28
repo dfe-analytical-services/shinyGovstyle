@@ -101,7 +101,27 @@ govReactable <- # nolint
       class = "gov-table govuk-table",
       ...
     )
-    attachDependency(table)
+
+    # htmlwidgets only picks up dependencies from `widget$dependencies` —
+    # `htmltools::attachDependencies()` is silently dropped for widgets.
+    version <- as.character(utils::packageVersion("shinyGovstyle")[[1]])
+
+    stylecss_dep <- htmltools::htmlDependency(
+      name = "stylecss",
+      version = version,
+      src = c(href = "shinyGovstyle/css"),
+      stylesheet = "govuk-frontend-6.1.0.min.css"
+    )
+
+    reactable_css <- htmltools::htmlDependency(
+      name = "reactable-overrides",
+      version = version,
+      src = c(href = "shinyGovstyle/css"),
+      stylesheet = "reactable-overrides.css"
+    )
+
+    table$dependencies <- c(table$dependencies, list(stylecss_dep, reactable_css))
+    table
   }
 
 #' Shiny bindings for govReactable

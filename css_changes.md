@@ -15,6 +15,8 @@ These the things needed when updating the gov.uk css to make it work.
 - Add `font-size: 16px;` to root at top of file underneath
   `--govuk-frontend-version: VERSION NUMBER;`
 
+- Replace all instances of colour \#1a65a6 with \#175892
+
 - Change url links
 
 - For accordion need to fix the css by:

@@ -144,7 +144,7 @@ download_link <- function(
   # Create the link object
   link <- htmltools::tags$a(
     id = outputId,
-    class = "shiny-download-link disabled",
+    class = "shiny-download-link govuk-link disabled",
     href = "",
     target = "_blank",
     download = NA,

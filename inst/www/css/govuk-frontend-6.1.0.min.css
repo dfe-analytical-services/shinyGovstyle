@@ -19,7 +19,7 @@
     --govuk-border-colour: #cecece;
     --govuk-input-border-colour: #0b0c0c;
     --govuk-hover-colour: #cecece;
-    --govuk-link-colour: #1a65a6;
+    --govuk-link-colour: #175892;
     --govuk-link-visited-colour: #54319f;
     --govuk-link-hover-colour: #0f385c;
     --govuk-link-active-colour: #0b0c0c;
@@ -73,7 +73,7 @@
 }
 
 .govuk-link:link {
-    color: var(--govuk-link-colour, #1a65a6)
+    color: var(--govuk-link-colour, #175892)
 }
 
 .govuk-link:visited {
@@ -142,7 +142,7 @@
 
 .govuk-link--no-visited-state:link,
 .govuk-link--no-visited-state:visited {
-    color: var(--govuk-link-colour, #1a65a6)
+    color: var(--govuk-link-colour, #175892)
 }
 
 .govuk-link--no-visited-state:hover {
@@ -1132,7 +1132,7 @@
     margin-bottom: 9px;
     padding: 5px 2px 5px 0;
     border-width: 0;
-    color: var(--govuk-link-colour, #1a65a6);
+    color: var(--govuk-link-colour, #175892);
     background: none;
     cursor: pointer;
     -webkit-appearance: none
@@ -1357,7 +1357,7 @@
     font-size: 1.1875rem;
     line-height: 1.3157894737;
     font-weight: 400;
-    color: var(--govuk-link-colour, #1a65a6)
+    color: var(--govuk-link-colour, #175892)
 }
 
 @media print {
@@ -1396,7 +1396,7 @@
 @media (hover:none) {
     .js-enabled .govuk-accordion__section-header:hover {
         border-top-color: var(--govuk-border-colour, #cecece);
-        box-shadow: inset 0 3px 0 0 var(--govuk-link-colour, #1a65a6)
+        box-shadow: inset 0 3px 0 0 var(--govuk-link-colour, #175892)
     }
 
     .js-enabled .govuk-accordion__section-header:hover .govuk-accordion__section-button {
@@ -2747,7 +2747,7 @@ screen and (forced-colors:active) {
         width: -webkit-fit-content;
         width: fit-content;
         padding-left: 25px;
-        color: var(--govuk-link-colour, #1a65a6);
+        color: var(--govuk-link-colour, #175892);
         cursor: pointer
     }
 
@@ -3304,7 +3304,7 @@ screen and (forced-colors:active) {
 }
 
 .govuk-footer__link:link {
-    color: var(--govuk-link-colour, #1a65a6)
+    color: var(--govuk-link-colour, #175892)
 }
 
 .govuk-footer__link:visited {
@@ -3847,7 +3847,7 @@ screen and (forced-colors:active) {
 
 .govuk-notification-banner__link:link,
 .govuk-notification-banner__link:visited {
-    color: var(--govuk-link-colour, #1a65a6)
+    color: var(--govuk-link-colour, #175892)
 }
 
 .govuk-notification-banner__link:hover {
@@ -3984,7 +3984,7 @@ screen and (forced-colors:active) {
 
 .govuk-pagination__item--current,
 .govuk-pagination__item--current:hover {
-    background-color: var(--govuk-link-colour, #1a65a6)
+    background-color: var(--govuk-link-colour, #175892)
 }
 
 .govuk-pagination__item--current .govuk-pagination__link:link,
@@ -4685,7 +4685,7 @@ screen and (forced-colors:active) {
     margin: 10px 0;
     border-width: 0;
     border-style: solid;
-    border-color: var(--govuk-link-colour, #1a65a6)
+    border-color: var(--govuk-link-colour, #175892)
 }
 
 @media (min-width:40.0625em) {
@@ -4776,7 +4776,7 @@ screen and (forced-colors:active) {
 
 .govuk-service-navigation__link:link,
 .govuk-service-navigation__link:visited {
-    color: var(--govuk-link-colour, #1a65a6)
+    color: var(--govuk-link-colour, #175892)
 }
 
 .govuk-service-navigation__link:hover {
@@ -4820,7 +4820,7 @@ screen and (forced-colors:active) {
     margin: 10px 0;
     padding: 0;
     border: 0;
-    color: var(--govuk-link-colour, #1a65a6);
+    color: var(--govuk-link-colour, #175892);
     background: none;
     word-break: break-all;
     cursor: pointer;
@@ -5569,7 +5569,7 @@ screen and (-ms-high-contrast:active) {
 }
 
 .govuk-tabs__tab:link {
-    color: var(--govuk-link-colour, #1a65a6)
+    color: var(--govuk-link-colour, #175892)
 }
 
 .govuk-tabs__tab:visited {

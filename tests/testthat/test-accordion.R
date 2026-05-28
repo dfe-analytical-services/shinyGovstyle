@@ -60,8 +60,12 @@ test_that("accordion numbering works past 9", {
 
   tq$find("#accordion-default-heading-01")$selectedTags()[[1]]$attribs$name
 
-  heading1 <- tq$find("#accordion-default-heading-01")$selectedTags()[[1]]$attribs$name
-  heading11 <- tq$find("#accordion-default-heading-11")$selectedTags()[[1]]$attribs$name
+  heading1 <- tq$find("#accordion-default-heading-01")$selectedTags()[[
+    1
+  ]]$attribs$name
+  heading11 <- tq$find("#accordion-default-heading-11")$selectedTags()[[
+    1
+  ]]$attribs$name
 
   expect_equal(stringr::str_sub(heading1, -2), "01")
   expect_equal(stringr::str_sub(heading11, -2), "11")

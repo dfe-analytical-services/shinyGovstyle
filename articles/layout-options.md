@@ -125,12 +125,18 @@ feedback.
 banner(
   inputId = "phase-banner",
   type = "Beta",
-  label = paste0(
+  label = shiny::tagList(
     "This is a new service \u2014 your ",
-    '<a class="govuk-link" href="#">feedback</a> will help us to improve it.'
+    shiny::tags$a(class = "govuk-link", href = "#", "feedback"),
+    " will help us to improve it."
   )
 )
 ```
+
+`label` also accepts a plain character string or raw HTML
+(e.g. `"...<a class=\"govuk-link\" href=\"#\">feedback</a>..."`); the
+[`tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html)
+form above is preferred for readability and to avoid hand-written HTML.
 
 For more information on when and how to use this, read the documentation
 for the [GOV.UK Phase banner

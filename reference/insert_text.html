@@ -9,7 +9,7 @@ information in a special format."><meta property="og:image" content="https://dfe
 
     <a class="navbar-brand me-2" href="../index.html">shinyGovstyle</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +47,7 @@ information in a special format.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">insert_text</span><span class="op">(</span><span class="va">inputId</span>, <span class="va">text</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">insert_text</span><span class="op">(</span><span class="va">inputId</span>, <span class="va">content</span>, text <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -58,8 +58,14 @@ information in a special format.</p>
 <dd><p>The input slot that will be used to access the value</p></dd>
 
 
+<dt id="arg-content">content<a class="anchor" aria-label="anchor" href="#arg-content"></a></dt>
+<dd><p>Content to display on the insert. Accepts a plain character
+string, or <code>shiny</code> tag objects such as <code>shiny::tags$b("Bold")</code> or a
+<code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">shiny::tagList()</a></code>.</p></dd>
+
+
 <dt id="arg-text">text<a class="anchor" aria-label="anchor" href="#arg-text"></a></dt>
-<dd><p>Text that you want to display on the insert</p></dd>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Use <code>content</code> instead</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -91,9 +97,16 @@ information in a special format.</p>
 <span class="r-in"><span>    size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">insert_text</span><span class="op">(</span></span></span>
 <span class="r-in"><span>      inputId <span class="op">=</span> <span class="st">"note"</span>,</span></span>
-<span class="r-in"><span>      text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      content <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>        <span class="st">"It can take up to 8 weeks to register a lasting power of"</span>,</span></span>
 <span class="r-in"><span>        <span class="st">"attorney if there are no mistakes in the application."</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">insert_text</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      inputId <span class="op">=</span> <span class="st">"note-rich"</span>,</span></span>
+<span class="r-in"><span>      content <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">b</span><span class="op">(</span><span class="st">"Important: "</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        <span class="st">"you can also pass tag objects."</span></span></span>
 <span class="r-in"><span>      <span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>

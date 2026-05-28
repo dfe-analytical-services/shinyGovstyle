@@ -25,7 +25,9 @@ noti_banner(
 
 - body_txt:
 
-  The wording that appears in the banner body
+  The wording that appears in the banner body. Accepts a plain character
+  string, or `shiny` tag objects such as `shiny::tags$b("Bold")` or a
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
 
 - type:
 

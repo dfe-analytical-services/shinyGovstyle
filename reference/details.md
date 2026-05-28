@@ -21,7 +21,10 @@ details(inputId, label, help_text)
 
 - help_text:
 
-  Additional help information in the component
+  Additional help information in the component. Accepts a plain
+  character string, or `shiny` tag objects such as
+  `shiny::tags$b("Bold")` or a
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
 
 ## Value
 

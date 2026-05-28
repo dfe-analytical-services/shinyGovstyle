@@ -10,6 +10,55 @@ vignette.
 
 ------------------------------------------------------------------------
 
+## Rich content in body components
+
+The body-content arguments of
+[`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
+(`content`),
+[`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
+(`text`), and
+[`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md)
+(`body_txt`) accept more than plain character strings. You can pass a
+`shiny` tag, a
+[`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html),
+or
+[`shiny::HTML()`](https://rstudio.github.io/htmltools/reference/HTML.html)
+output to embed inline emphasis, links, or line breaks without writing
+raw HTML.
+
+``` r
+
+insert_text(
+  inputId = "processing-note",
+  content = shiny::tagList(
+    shiny::tags$b("Important: "),
+    "it can take up to 8 weeks to process. ",
+    shinyGovstyle::external_link(
+      "https://www.gov.uk/",
+      "View the latest information on GOV.UK"
+    ),
+    " before submitting."
+  )
+)
+```
+
+The same applies to
+[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md)
+(`label`),
+[`panel_output()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/panel_output.md)
+(`sub_text`),
+[`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md)
+(`help_text`), and
+[`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
+(`info`), which are covered in [Layout
+options](https://dfe-analytical-services.github.io/shinyGovstyle/articles/layout-options.md)
+and the function reference.
+
+Plain character strings continue to work unchanged, so the simpler
+per-component examples below remain valid.
+
+------------------------------------------------------------------------
+
 ## `heading_text()`
 
 Creates a semantic HTML heading element with a GOV.UK heading CSS class.
@@ -161,7 +210,7 @@ surrounding content.
 
 insert_text(
   inputId = "processing-note",
-  text = "It can take up to 8 weeks to process your application."
+  content = "It can take up to 8 weeks to process your application."
 )
 ```
 

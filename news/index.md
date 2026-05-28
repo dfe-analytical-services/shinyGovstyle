@@ -2,6 +2,33 @@
 
 ## shinyGovstyle (development version)
 
+### Breaking changes
+
+- [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
+  argument `text` has been renamed to `content` to reflect that it now
+  accepts more than plain text. The old name is deprecated and will be
+  removed in a future version.
+
+### New features
+
+- [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
+  (`content`),
+  [`panel_output()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/panel_output.md)
+  (`sub_text`),
+  [`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md)
+  (`body_txt`),
+  [`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md)
+  (`help_text`),
+  [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md)
+  (`label`),
+  [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
+  (`text`), and
+  [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
+  (`info`) now accept `shiny` tag objects (e.g. `shiny::tags$b("Bold")`)
+  and
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html)
+  values in addition to plain character strings.
+
 ### Bug fixes
 
 - [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md)
@@ -11,6 +38,12 @@
 - Error messages on input components now use `role="alert"` so they are
   announced by screen readers when toggled via
   [`error_on()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_on.md).
+- [`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md)
+  now applies the same HTML handling to `help_text` as it does to
+  `label`, so HTML strings render consistently across both arguments.
+- [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
+  now renders HTML strings in `text` consistently with other
+  body-content components.
 
 ## shinyGovstyle 0.2.0
 

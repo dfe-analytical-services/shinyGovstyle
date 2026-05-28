@@ -21,7 +21,12 @@ gov_summary(inputId, headers, info, action = FALSE, border = TRUE)
 
 - info:
 
-  summary information values for the table
+  Summary information values for the table. Each value accepts a plain
+  character string, or `shiny` tag objects such as
+  `shiny::tags$b("Bold")` or a
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
+  Pass a list rather than a character vector to mix tag and string
+  values.
 
 - action:
 

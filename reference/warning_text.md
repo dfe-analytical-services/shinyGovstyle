@@ -16,7 +16,9 @@ warning_text(inputId, text)
 
 - text:
 
-  Text that goes in the main
+  Text that goes in the main. Accepts a plain character string, or
+  `shiny` tag objects such as `shiny::tags$b("Bold")` or a
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
 
 ## Value
 

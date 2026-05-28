@@ -20,7 +20,9 @@ panel_output(inputId, main_text, sub_text)
 
 - sub_text:
 
-  Add the main body of text for the panel
+  Add the main body of text for the panel. Accepts a plain character
+  string, or `shiny` tag objects such as `shiny::tags$b("Bold")` or a
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
 
 ## Value
 

@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">shinyGovstyle</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,12 +80,44 @@ links, and typography. For page structure and layout, see the <a href="layout-op
 <hr>
 </div>
 <div class="section level2">
+<h2 id="rich-content-in-body-components">Rich content in body components<a class="anchor" aria-label="anchor" href="#rich-content-in-body-components"></a>
+</h2>
+<p>The body-content arguments of <code><a href="../reference/insert_text.html">insert_text()</a></code>
+(<code>content</code>), <code><a href="../reference/warning_text.html">warning_text()</a></code> (<code>text</code>),
+and <code><a href="../reference/noti_banner.html">noti_banner()</a></code> (<code>body_txt</code>) accept more than
+plain character strings. You can pass a <code>shiny</code> tag, a
+<code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">shiny::tagList()</a></code>, or <code><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">shiny::HTML()</a></code> output to
+embed inline emphasis, links, or line breaks without writing raw
+HTML.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/insert_text.html">insert_text</a></span><span class="op">(</span></span>
+<span>  inputId <span class="op">=</span> <span class="st">"processing-note"</span>,</span>
+<span>  content <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
+<span>    <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">b</span><span class="op">(</span><span class="st">"Important: "</span><span class="op">)</span>,</span>
+<span>    <span class="st">"it can take up to 8 weeks to process. "</span>,</span>
+<span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="../reference/external_link.html">external_link</a></span><span class="op">(</span></span>
+<span>      <span class="st">"https://www.gov.uk/"</span>,</span>
+<span>      <span class="st">"View the latest information on GOV.UK"</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="st">" before submitting."</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The same applies to <code><a href="../reference/banner.html">banner()</a></code> (<code>label</code>),
+<code><a href="../reference/panel_output.html">panel_output()</a></code> (<code>sub_text</code>),
+<code><a href="../reference/details.html">details()</a></code> (<code>help_text</code>), and
+<code><a href="../reference/gov_summary.html">gov_summary()</a></code> (<code>info</code>), which are covered in <a href="layout-options.html">Layout options</a> and the function
+reference.</p>
+<p>Plain character strings continue to work unchanged, so the simpler
+per-component examples below remain valid.</p>
+<hr>
+</div>
+<div class="section level2">
 <h2 id="heading_text">
 <code>heading_text()</code><a class="anchor" aria-label="anchor" href="#heading_text"></a>
 </h2>
 <p>Creates a semantic HTML heading element with a GOV.UK heading CSS
 class.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"Summary"</span>, size <span class="op">=</span> <span class="st">"l"</span>, level <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a>
@@ -141,7 +173,7 @@ screen readers and assistive technologies.</p>
 smaller visual heading at a higher semantic level, or vice versa. For
 example, a page where the first visible heading needs to be modest in
 size but is still structurally the <code>&lt;h1&gt;</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"User guide"</span>, size <span class="op">=</span> <span class="st">"m"</span>, level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p>Always set both arguments deliberately. Do not leave
 <code>level</code> at its default of <code>1</code> for every heading on
@@ -218,7 +250,7 @@ a requirement under <a href="https://www.w3.org/WAI/WCAG22/Understanding/info-an
 2.2 success criterion 1.3.1: Info and Relationships</a>.</p>
 <p><strong>Write headings in sentence case.</strong> Only capitalise the
 first word and proper nouns.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Correct — sentence case</span></span>
 <span><span class="fu"><a href="../reference/heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"Summary of findings"</span>, size <span class="op">=</span> <span class="st">"l"</span>, level <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
@@ -235,7 +267,7 @@ lowercasing <code>text_input</code> and replacing non-alphanumeric
 characters with underscores. Supply an explicit <code>id</code> when you
 need a stable anchor to link to, or when two headings would otherwise
 generate the same ID:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"Methodology"</span>, size <span class="op">=</span> <span class="st">"l"</span>, level <span class="op">=</span> <span class="fl">2</span>, id <span class="op">=</span> <span class="st">"methodology"</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
@@ -247,7 +279,7 @@ generate the same ID:</p>
 <p>A wrapper that produces a <code>&lt;p class="govuk-body"&gt;</code>
 paragraph element. Use it when you want to add body text with correct
 GOV.UK styling without writing raw tag calls.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layouts.html">gov_box</a></span><span class="op">(</span></span>
 <span>  size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span>
 <span>  <span class="fu"><a href="../reference/layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"This is a paragraph of body text."</span><span class="op">)</span></span>
@@ -285,7 +317,7 @@ controls both the HTML element used and the visual presentation:</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gov_list.html">gov_list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"First item"</span>, <span class="st">"Second item"</span>, <span class="st">"Third item"</span><span class="op">)</span>, style <span class="op">=</span> <span class="st">"bullet"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/gov_list.html">gov_list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"First step"</span>, <span class="st">"Second step"</span>, <span class="st">"Third step"</span><span class="op">)</span>, style <span class="op">=</span> <span class="st">"number"</span><span class="op">)</span></span></code></pre></div>
@@ -305,10 +337,10 @@ guidance</a>.</p>
 <p>Displays a GOV.UK inset text box — a bordered callout for
 supplementary information that is related to, but not the main focus of,
 the surrounding content.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/insert_text.html">insert_text</a></span><span class="op">(</span></span>
 <span>  inputId <span class="op">=</span> <span class="st">"processing-note"</span>,</span>
-<span>  text <span class="op">=</span> <span class="st">"It can take up to 8 weeks to process your application."</span></span>
+<span>  content <span class="op">=</span> <span class="st">"It can take up to 8 weeks to process your application."</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Use inset text for information the user needs to know but that is not
 the primary action or decision on the page — for example, a processing
@@ -326,7 +358,7 @@ inset text guidance</a>.</p>
 <p>Displays a GOV.UK warning text component: a bold statement with a
 prominent “!” icon, used to warn users about something with serious
 consequences.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/warning_text.html">warning_text</a></span><span class="op">(</span></span>
 <span>  inputId <span class="op">=</span> <span class="st">"fine-warning"</span>,</span>
 <span>  text <span class="op">=</span> <span class="st">"You can be fined up to £5,000 if you do not register."</span></span>
@@ -355,7 +387,7 @@ problem, an upcoming deadline, or the outcome of a previous action.</p>
 </h3>
 <p><strong>Standard</strong> (default, blue): for neutral information
 such as service problems or upcoming events.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/noti_banner.html">noti_banner</a></span><span class="op">(</span></span>
 <span>  inputId <span class="op">=</span> <span class="st">"service-notice"</span>,</span>
 <span>  title_txt <span class="op">=</span> <span class="st">"Important"</span>,</span>
@@ -367,7 +399,7 @@ such as service problems or upcoming events.</p>
 <p><strong>Success</strong> (green): to confirm that a previous action
 completed successfully. Uses <code>role="alert"</code> so screen readers
 announce it automatically on page load.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/noti_banner.html">noti_banner</a></span><span class="op">(</span></span>
 <span>  inputId <span class="op">=</span> <span class="st">"submission-confirm"</span>,</span>
 <span>  title_txt <span class="op">=</span> <span class="st">"Success"</span>,</span>
@@ -421,7 +453,7 @@ notification banner guidance</a>.</p>
 </h2>
 <p>A wrapper for HTML anchor elements that produces safe, accessible
 external links with consistent behaviour.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/external_link.html">external_link</a></span><span class="op">(</span><span class="st">"https://www.example.gov.uk/guidance"</span>, <span class="st">"Guidance for applicants"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="what-the-function-does-automatically">What the function does automatically<a class="anchor" aria-label="anchor" href="#what-the-function-does-automatically"></a>
@@ -449,7 +481,7 @@ is fewer than 7 characters.</p>
 2.2 success criterion 2.4.4: Link Purpose (In Context)</a>, which
 requires link text to describe the destination without needing the
 surrounding context to make sense of it.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Correct — descriptive</span></span>
 <span><span class="fu"><a href="../reference/external_link.html">external_link</a></span><span class="op">(</span><span class="st">"https://www.example.gov.uk/apply"</span>, <span class="st">"Apply for a licence"</span><span class="op">)</span></span>
 <span></span>
@@ -469,7 +501,7 @@ surrounding context to make sense of it.</p>
 new tab)” on each is visually repetitive. Set
 <code>add_warning = FALSE</code> and add a single explanatory sentence
 above the group instead:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"The following links open in a new tab."</span><span class="op">)</span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span>
 <span>  <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">li</span><span class="op">(</span></span>
@@ -507,7 +539,7 @@ GDS Transport typeface for use in your app. By default the GOV.UK
 Frontend CSS specifies
 <code>font-family: GDS Transport, arial, sans-serif</code> — if the font
 files are not loaded the browser falls back to Arial automatically.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Only include this if your app is on a GOV.UK domain</span></span>
 <span><span class="fu"><a href="../reference/font.html">font</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>For more information on when GDS Transport is permitted, read the <a href="https://design-system.service.gov.uk/styles/typeface/" class="external-link">GOV.UK

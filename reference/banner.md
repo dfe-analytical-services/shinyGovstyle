@@ -21,7 +21,9 @@ banner(inputId, type, label)
 
 - label:
 
-  text to display
+  Text to display. Accepts a plain character string, or `shiny` tag
+  objects such as `shiny::tags$b("Bold")` or a
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
 
 ## Value
 

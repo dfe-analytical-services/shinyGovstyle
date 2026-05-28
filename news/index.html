@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">shinyGovstyle</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,10 +40,24 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="shinygovstyle-development-version">shinyGovstyle (development version)<a class="anchor" aria-label="anchor" href="#shinygovstyle-development-version"></a></h2>
 <div class="section level3">
+<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<ul><li>
+<code><a href="../reference/insert_text.html">insert_text()</a></code> argument <code>text</code> has been renamed to <code>content</code> to reflect that it now accepts more than plain text. The old name is deprecated and will be removed in a future version.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>
+<code><a href="../reference/insert_text.html">insert_text()</a></code> (<code>content</code>), <code><a href="../reference/panel_output.html">panel_output()</a></code> (<code>sub_text</code>), <code><a href="../reference/noti_banner.html">noti_banner()</a></code> (<code>body_txt</code>), <code><a href="../reference/details.html">details()</a></code> (<code>help_text</code>), <code><a href="../reference/banner.html">banner()</a></code> (<code>label</code>), <code><a href="../reference/warning_text.html">warning_text()</a></code> (<code>text</code>), and <code><a href="../reference/gov_summary.html">gov_summary()</a></code> (<code>info</code>) now accept <code>shiny</code> tag objects (e.g. <code>shiny::tags$b("Bold")</code>) and <code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">shiny::tagList()</a></code> values in addition to plain character strings.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
 <ul><li>
 <code><a href="../reference/header.html">header()</a></code> no longer emits spurious deprecation warnings for <code>main_link</code>, <code>secondary_link</code>, <code>main_alt_text</code>, and <code>secondary_alt_text</code> when those arguments are not used.</li>
 <li>Error messages on input components now use <code>role="alert"</code> so they are announced by screen readers when toggled via <code><a href="../reference/error_on.html">error_on()</a></code>.</li>
+<li>
+<code><a href="../reference/details.html">details()</a></code> now applies the same HTML handling to <code>help_text</code> as it does to <code>label</code>, so HTML strings render consistently across both arguments.</li>
+<li>
+<code><a href="../reference/warning_text.html">warning_text()</a></code> now renders HTML strings in <code>text</code> consistently with other body-content components.</li>
 </ul></div>
 </div>
     <div class="section level2">

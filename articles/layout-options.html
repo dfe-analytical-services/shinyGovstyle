@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">shinyGovstyle</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -179,11 +179,16 @@ to provide feedback.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  inputId <span class="op">=</span> <span class="st">"phase-banner"</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"Beta"</span>,</span>
-<span>  label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
+<span>  label <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span>
 <span>    <span class="st">"This is a new service \u2014 your "</span>,</span>
-<span>    <span class="st">'&lt;a class="govuk-link" href="#"&gt;feedback&lt;/a&gt; will help us to improve it.'</span></span>
+<span>    <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">a</span><span class="op">(</span>class <span class="op">=</span> <span class="st">"govuk-link"</span>, href <span class="op">=</span> <span class="st">"#"</span>, <span class="st">"feedback"</span><span class="op">)</span>,</span>
+<span>    <span class="st">" will help us to improve it."</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
+<p><code>label</code> also accepts a plain character string or raw HTML
+(e.g. <code>"...&lt;a class=\"govuk-link\" href=\"#\"&gt;feedback&lt;/a&gt;..."</code>);
+the <code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList()</a></code> form above is preferred for readability and
+to avoid hand-written HTML.</p>
 <p>For more information on when and how to use this, read the
 documentation for the <a href="https://design-system.service.gov.uk/components/phase-banner/" class="external-link">GOV.UK
 Phase banner component</a>.</p>

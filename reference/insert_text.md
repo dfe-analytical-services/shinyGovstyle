@@ -6,7 +6,7 @@ information in a special format.
 ## Usage
 
 ``` r
-insert_text(inputId, text)
+insert_text(inputId, content, text = lifecycle::deprecated())
 ```
 
 ## Arguments
@@ -15,9 +15,15 @@ insert_text(inputId, text)
 
   The input slot that will be used to access the value
 
+- content:
+
+  Content to display on the insert. Accepts a plain character string, or
+  `shiny` tag objects such as `shiny::tags$b("Bold")` or a
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
+
 - text:
 
-  Text that you want to display on the insert
+  **\[deprecated\]** Use `content` instead
 
 ## Value
 
@@ -48,9 +54,16 @@ ui <- shiny::fluidPage(
     size = "two-thirds",
     shinyGovstyle::insert_text(
       inputId = "note",
-      text = paste(
+      content = paste(
         "It can take up to 8 weeks to register a lasting power of",
         "attorney if there are no mistakes in the application."
+      )
+    ),
+    shinyGovstyle::insert_text(
+      inputId = "note-rich",
+      content = shiny::tagList(
+        shiny::tags$b("Important: "),
+        "you can also pass tag objects."
       )
     )
   ),

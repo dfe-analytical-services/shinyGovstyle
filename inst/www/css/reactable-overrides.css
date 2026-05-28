@@ -7,7 +7,7 @@
  * override files (header-overrides.css, sr-only.css, font.css).
  *
  * The forced-colors block at the bottom restores visible highlights for
- * Windows High Contrast Mode users (issue #197) — the original
+ * Windows High Contrast Mode users (issue #197); the original
  * background-colour highlights are discarded by the browser under
  * forced-colors: active.
  */
@@ -58,7 +58,7 @@
  * forced-colors: active discards author background-color and box-shadow,
  * but respects outline, border, and the system colour keywords. Re-convey
  * each highlight using properties that survive HCM. The highlight will
- * resolve to the user's system colour, not GOV.UK yellow — that's correct
+ * resolve to the user's system colour, not GOV.UK yellow; that's correct
  * and intended. */
 @media screen and (forced-colors: active) {
   /* Body cells: don't draw a box around values in HCM. reactable's

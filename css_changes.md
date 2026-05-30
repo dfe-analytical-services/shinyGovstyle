@@ -11,6 +11,7 @@ color: #0b0c0c;
 
 * Add `font-size: 16px;` to root at top of file underneath `--govuk-frontend-version: VERSION NUMBER;`
 
+* Replace all instances of colour #1a65a6 with #175892
 
 * Change url links
 

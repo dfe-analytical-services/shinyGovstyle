@@ -16,7 +16,9 @@ noti_banner(
 
 \item{title_txt}{The wording that appears in the title}
 
-\item{body_txt}{The wording that appears in the banner body}
+\item{body_txt}{The wording that appears in the banner body. Accepts a
+plain character string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
 \item{type}{The type of banner. Options are standard and success.
 Standard is default}

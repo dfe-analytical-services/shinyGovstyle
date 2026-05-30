@@ -1,3 +1,31 @@
+# shinyGovstyle (development version)
+
+## Breaking changes
+
+* `insert_text()` argument `text` has been renamed to `content` to reflect
+  that it now accepts more than plain text. The old name is deprecated and
+  will be removed in a future version.
+
+## New features
+
+* `insert_text()` (`content`), `panel_output()` (`sub_text`), `noti_banner()`
+  (`body_txt`), `details()` (`help_text`), `banner()` (`label`),
+  `warning_text()` (`text`), and `gov_summary()` (`info`) now accept `shiny`
+  tag objects (e.g. `shiny::tags$b("Bold")`) and `shiny::tagList()` values in
+  addition to plain character strings.
+
+## Bug fixes
+
+* `header()` no longer emits spurious deprecation warnings for `main_link`,
+  `secondary_link`, `main_alt_text`, and `secondary_alt_text` when those
+  arguments are not used.
+* Error messages on input components now use `role="alert"` so they are
+  announced by screen readers when toggled via `error_on()`.
+* `details()` now applies the same HTML handling to `help_text` as it does to
+  `label`, so HTML strings render consistently across both arguments.
+* `warning_text()` now renders HTML strings in `text` consistently with other
+  body-content components.
+
 # shinyGovstyle 0.2.0
 
 ## Breaking changes

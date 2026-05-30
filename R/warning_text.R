@@ -2,7 +2,9 @@
 #'
 #' This function create warning text.
 #' @param inputId The input slot that will be used to access the value
-#' @param text Text that goes in the main
+#' @param text Text that goes in the main. Accepts a plain character string,
+#' or `shiny` tag objects such as `shiny::tags$b("Bold")` or a
+#' `shiny::tagList()`.
 #' @return a warning box HTML shiny tag object
 #' @family Govstyle feedback types
 #' @export
@@ -24,7 +26,7 @@ warning_text <- function(
       `aria-hidden` = "true"
     ),
     shiny::tags$strong(
-      text,
+      as_govuk_html(text),
       class = "govuk-warning-text__text",
       shiny::tags$span("Warning", class = "govuk-visually-hidden")
     )

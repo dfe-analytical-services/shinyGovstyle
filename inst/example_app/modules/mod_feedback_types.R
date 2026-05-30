@@ -33,7 +33,7 @@ mod_feedback_types_ui <- function(id) {
     shinyGovstyle::heading_text("insert_text", size = "s", level = 2),
     shinyGovstyle::insert_text(
       inputId = shiny::NS(id, "insertId"),
-      text = "It can take up to 8 weeks to register a lasting
+      content = "It can take up to 8 weeks to register a lasting
                 power of attorney if there are no mistakes in the
                 application."
     ),

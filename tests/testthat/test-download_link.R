@@ -23,7 +23,7 @@ test_that("attributes are attached properly", {
   expect_identical(test_link$attribs$id, "download_data")
   expect_identical(
     test_link$attribs$class,
-    "shiny-download-link disabled"
+    "shiny-download-link govuk-link disabled"
   )
 })
 

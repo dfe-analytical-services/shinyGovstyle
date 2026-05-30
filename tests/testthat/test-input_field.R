@@ -18,6 +18,13 @@ test_that("field works", {
     character(1L)
   )
   expect_true(all(error_classes == "govuk-error-message shinyjs-hide"))
+
+  error_roles <- vapply(
+    errors,
+    function(e) htmltools::tagGetAttribute(e, "role"),
+    character(1L)
+  )
+  expect_true(all(error_roles == "alert"))
 })
 
 test_that("field works with null width", {

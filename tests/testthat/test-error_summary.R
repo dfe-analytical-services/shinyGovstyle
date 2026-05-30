@@ -5,8 +5,11 @@ test_that("error_summary builds the documented structure", {
     c("error entry 1", "error entry 2")
   )
 
-  expect_identical(summary_tag$attribs$id, "error1")
-  expect_identical(summary_tag$attribs$class, "govuk-error-summary")
+  expect_identical(htmltools::tagGetAttribute(summary_tag, "id"), "error1")
+  expect_identical(
+    htmltools::tagGetAttribute(summary_tag, "class"),
+    "govuk-error-summary"
+  )
 
   expect_identical(
     as.character(tag_text(summary_tag, "govuk-error-summary__title")),
@@ -14,11 +17,11 @@ test_that("error_summary builds the documented structure", {
   )
 
   body <- find_tag_required(summary_tag, "govuk-error-summary__body")
-  expect_identical(body$attribs$id, "error1list")
+  expect_identical(htmltools::tagGetAttribute(body, "id"), "error1list")
 
   list_tag <- find_tag_required(summary_tag, "govuk-error-summary__list")
   expect_identical(
-    list_tag$attribs$class,
+    htmltools::tagGetAttribute(list_tag, "class"),
     "govuk-list govuk-error-summary__list"
   )
 

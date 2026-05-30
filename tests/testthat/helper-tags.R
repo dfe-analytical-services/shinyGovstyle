@@ -3,8 +3,8 @@
 # "govuk-date-input__item" class when looking up "govuk-date-input".
 #
 # Matches are returned in document order (depth-first pre-order). Callers that
-# index results positionally (e.g. headers[[1]], find_by_id_suffix(..)[[1L]])
-# depend on this ordering.
+# index results positionally (e.g. headers[[1]], or find_tags_by_id_suffix(..)
+# [[1L]]) depend on this ordering.
 find_tags <- function(x, class) {
   if (inherits(x, "shiny.tag")) {
     classes <- htmltools::tagGetAttribute(x, "class")
@@ -85,7 +85,10 @@ child_classes <- function(tag) {
   )
 }
 
-find_by_id_suffix <- function(x, suffix) {
+# find_tags_by_id_suffix() is the id-suffix analogue of find_tags(): it returns
+# every descendant whose id ends in `suffix`, in document order. Same recursive
+# contract. Most callers want the single-match find_by_id_suffix() below.
+find_tags_by_id_suffix <- function(x, suffix) {
   if (inherits(x, "shiny.tag")) {
     id <- htmltools::tagGetAttribute(x, "id")
     here <- if (!is.null(id) && grepl(paste0(suffix, "$"), id)) {
@@ -96,19 +99,38 @@ find_by_id_suffix <- function(x, suffix) {
     c(
       here,
       unlist(
-        lapply(x$children, find_by_id_suffix, suffix = suffix),
+        lapply(x$children, find_tags_by_id_suffix, suffix = suffix),
         recursive = FALSE
       )
     )
   } else if (is.list(x)) {
     result <- unlist(
-      lapply(x, find_by_id_suffix, suffix = suffix),
+      lapply(x, find_tags_by_id_suffix, suffix = suffix),
       recursive = FALSE
     )
     if (is.null(result)) list() else result
   } else {
     list()
   }
+}
+
+# find_by_id_suffix() returns the single descendant whose id ends in `suffix`,
+# erroring unless there is exactly one. Stricter than find_tag() /
+# find_tag_required() (ids are expected unique: >1 match means the markup
+# changed in a way the test should catch).
+find_by_id_suffix <- function(x, suffix) {
+  hits <- find_tags_by_id_suffix(x, suffix)
+  if (length(hits) != 1L) {
+    stop(
+      sprintf(
+        "Expected exactly one tag with id ending in %s, found %d",
+        shQuote(suffix),
+        length(hits)
+      ),
+      call. = FALSE
+    )
+  }
+  hits[[1L]]
 }
 
 # expect_hidden_error() asserts the standard "renders hidden by default"

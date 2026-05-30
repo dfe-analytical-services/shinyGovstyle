@@ -113,8 +113,11 @@ test_that("Labels are programmatically associated with inputs", {
     input_tag <- item$children[[1]]
     label_tag <- item$children[[2]]
     expected_id <- paste0("radio_a11y-", i)
-    expect_identical(input_tag$attribs$id, expected_id)
-    expect_identical(label_tag$attribs$`for`, expected_id)
+    expect_identical(htmltools::tagGetAttribute(input_tag, "id"), expected_id)
+    expect_identical(
+      htmltools::tagGetAttribute(label_tag, "for"),
+      expected_id
+    )
   }
 })
 

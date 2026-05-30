@@ -82,8 +82,8 @@ test_that("Labels are programmatically associated with inputs", {
     item <- option_items[[i]]
     input_tag <- item$children[[1]]
     label_tag <- item$children[[2]]
-    expect_identical(input_tag$attribs$id, cb_ids[i])
-    expect_identical(label_tag$attribs$`for`, cb_ids[i])
+    expect_identical(htmltools::tagGetAttribute(input_tag, "id"), cb_ids[i])
+    expect_identical(htmltools::tagGetAttribute(label_tag, "for"), cb_ids[i])
   }
 })
 

@@ -11,7 +11,7 @@ test_that("Returns shiny.tag object", {
 })
 
 test_that("content and URL are correctly formatted", {
-  expect_identical(test_link$attribs$href, "")
+  expect_identical(htmltools::tagGetAttribute(test_link, "href"), "")
   expect_identical(
     as.character(tag_text(test_link, "shiny-download-link")),
     "Download specific data set (CSV, 12 KB)"
@@ -19,10 +19,13 @@ test_that("content and URL are correctly formatted", {
 })
 
 test_that("attributes are attached properly", {
-  expect_identical(test_link$attribs$target, "_blank")
-  expect_identical(test_link$attribs$id, "download_data")
+  expect_identical(htmltools::tagGetAttribute(test_link, "target"), "_blank")
   expect_identical(
-    test_link$attribs$class,
+    htmltools::tagGetAttribute(test_link, "id"),
+    "download_data"
+  )
+  expect_identical(
+    htmltools::tagGetAttribute(test_link, "class"),
     "shiny-download-link govuk-link disabled"
   )
 })

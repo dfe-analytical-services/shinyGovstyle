@@ -50,8 +50,8 @@ test_that("text area word works", {
   expect_match(hint_html, "You have used", fixed = TRUE)
   expect_match(hint_html, "of the 300 allowed", fixed = TRUE)
 
-  wc <- find_by_id_suffix(hint, "wc")[[1L]]
-  wl <- find_by_id_suffix(hint, "wl")[[1L]]
+  wc <- find_by_id_suffix(hint, "wc")
+  wl <- find_by_id_suffix(hint, "wl")
   expect_match(as.character(wc), ">0<", fixed = TRUE)
   expect_match(as.character(wl), "of the 300 allowed", fixed = TRUE)
 })

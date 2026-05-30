@@ -17,10 +17,16 @@ test_that("Default link has the visible 'opens in new tab' suffix", {
 })
 
 test_that("attributes are attached properly", {
-  expect_identical(test_link$attribs$rel, "noopener noreferrer")
-  expect_identical(test_link$attribs$target, "_blank")
-  expect_identical(test_link$attribs$href, "https://shiny.posit.co/")
-  expect_identical(test_link$attribs$class, "govuk-link")
+  expect_identical(
+    htmltools::tagGetAttribute(test_link, "rel"),
+    "noopener noreferrer"
+  )
+  expect_identical(htmltools::tagGetAttribute(test_link, "target"), "_blank")
+  expect_identical(
+    htmltools::tagGetAttribute(test_link, "href"),
+    "https://shiny.posit.co/"
+  )
+  expect_identical(htmltools::tagGetAttribute(test_link, "class"), "govuk-link")
 })
 
 test_that("Rejects dodgy link text", {
@@ -110,20 +116,18 @@ test_that("Warning appears for short link text and not for long text", {
 
 test_that("Footer flag works as expected", {
   expect_identical(
-    external_link(
-      "www.test-link.co.uk",
-      "test link",
-      footer = FALSE
-    )$attribs$class,
+    htmltools::tagGetAttribute(
+      external_link("www.test-link.co.uk", "test link", footer = FALSE),
+      "class"
+    ),
     "govuk-link"
   )
 
   expect_identical(
-    external_link(
-      "www.test-link.co.uk",
-      "test link",
-      footer = TRUE
-    )$attribs$class,
+    htmltools::tagGetAttribute(
+      external_link("www.test-link.co.uk", "test link", footer = TRUE),
+      "class"
+    ),
     "govuk-link govuk-footer__link"
   )
 

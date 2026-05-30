@@ -8,7 +8,11 @@ data_cell_classes <- function(table) {
   )
   lapply(rows, function(row) {
     cells <- find_tags(row, "govuk-table__cell")
-    unname(vapply(cells, function(c) c$attribs$class, character(1L)))
+    unname(vapply(
+      cells,
+      function(cell) htmltools::tagGetAttribute(cell, "class"),
+      character(1L)
+    ))
   })
 }
 
@@ -26,18 +30,18 @@ test_that("table with specified widths sets header width classes", {
 
   headers <- find_tags(table_check, "govuk-table__header")
   expect_identical(
-    headers[[1]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[1]], "class"),
     "govuk-table__header govuk-!-width-one-half"
   )
   expect_identical(
-    headers[[2]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[2]], "class"),
     paste(
       "govuk-table__header govuk-table__header--numeric",
       "govuk-!-width-one-quarter"
     )
   )
   expect_identical(
-    headers[[3]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[3]], "class"),
     paste(
       "govuk-table__header govuk-table__header--numeric",
       "govuk-!-width-one-quarter"
@@ -67,15 +71,15 @@ test_that("table with NULL width_overwrite omits width classes", {
 
   headers <- find_tags(table_check, "govuk-table__header")
   expect_identical(
-    headers[[1]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[1]], "class"),
     "govuk-table__header"
   )
   expect_identical(
-    headers[[2]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[2]], "class"),
     "govuk-table__header govuk-table__header--numeric"
   )
   expect_identical(
-    headers[[3]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[3]], "class"),
     "govuk-table__header govuk-table__header--numeric"
   )
 
@@ -100,15 +104,15 @@ test_that("table with width_overwrite omitted (default) omits width classes", {
 
   headers <- find_tags(table_check, "govuk-table__header")
   expect_identical(
-    headers[[1]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[1]], "class"),
     "govuk-table__header"
   )
   expect_identical(
-    headers[[2]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[2]], "class"),
     "govuk-table__header govuk-table__header--numeric"
   )
   expect_identical(
-    headers[[3]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[3]], "class"),
     "govuk-table__header govuk-table__header--numeric"
   )
 

@@ -2,17 +2,17 @@ test_that("default works", {
   layout_test <- gov_layout()
 
   expect_identical(
-    layout_test$attribs$id,
+    htmltools::tagGetAttribute(layout_test, "id"),
     "main"
   )
 
   expect_identical(
-    layout_test$attribs$class,
+    htmltools::tagGetAttribute(layout_test, "class"),
     "govuk-width-container  govuk-main-wrapper"
   )
 
   expect_identical(
-    layout_test$children[[1]]$attribs$class,
+    htmltools::tagGetAttribute(layout_test$children[[1]], "class"),
     "govuk-grid-column-full"
   )
 })

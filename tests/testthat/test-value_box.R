@@ -5,7 +5,7 @@ test_that("value_box color class works", {
   # Check that the container class includes both
   # "value-box-container" and the color
   expect_identical(
-    box_yellow$attribs$class,
+    htmltools::tagGetAttribute(box_yellow, "class"),
     "value-box-container govuk-tag--yellow"
   )
 })
@@ -25,7 +25,7 @@ test_that("value_box default values work", {
 
   # Check default color class
   expect_identical(
-    box_default$attribs$class,
+    htmltools::tagGetAttribute(box_default, "class"),
     "value-box-container govuk-tag--blue"
   )
 })

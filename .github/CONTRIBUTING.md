@@ -30,13 +30,13 @@ There are a number of places where the original function and argument names do n
 
 Tests live in `tests/testthat/`. We aim for tests that read like a specification of the specifics we care about from a component, not a recording of its full HTML output, as that should be allowed to vary over time.
 
-### Rules
+### Principles to follow
 
 - **Navigate tag trees by class or id, not by position.** Use the helpers in `tests/testthat/helper-tags.R`: `find_tag()`, `find_tags()`, `find_tag_required()`, `tag_text()`, `child_classes()`, `find_by_id_suffix()`, `expect_has_tag()`, `expect_no_tag()`. Don't chain `$children[[N]]` to reach a nested tag; deep positional indexing breaks whenever the upstream GOV.UK Frontend markup is rearranged or we want to add or change elements of a component.
-- **Prefer code-based assertions** (`expect_identical()`, `expect_length()`, `expect_s3_class()`, `expect_error()`, `expect_warning()`) over `expect_snapshot()`. Reserve snapshots for components that embed HTML produced by an external dependency whose structure we don't control. In this package that means `{reactable}` (via `govReactable()`) and `shiny::actionLink()`, the only upstream renderers we currently embed. The same reasoning extends to any other higher-level Shiny rendering function (e.g. `shiny::actionButton()`, `shiny::downloadLink()`) should we embed one in future, but note that building a component from primitive tags (see below) is *not* the same as embedding one of these, even when the component wraps the same kind of input. `expect_snapshot()` defaults to `cran = FALSE`, so these snapshots don't run on CRAN; an upstream version bump that reshuffles the embedded markup therefore can't break our (or downstream packages') CRAN checks (see [#155](https://github.com/dfe-analytical-services/shinyGovstyle/issues/155)). Components built only from primitive tag builders like `shiny::tags$div` / `shiny::tags$a` are *not* in this category and should be asserted structurally; `backlink_Input()`, `contents_links()`, `cookieBanner()`, `footer()` and `service_navigation()` stay on snapshots because they embed `shiny::actionLink()`.
+- **Prefer code-based assertions** (`expect_identical()`, `expect_length()`, `expect_s3_class()`, `expect_error()`, `expect_warning()`) over `expect_snapshot()`. Reserve snapshots for components that embed HTML produced by an external dependency whose structure we don't control. In this package that means functions like `{reactable}` (via `govReactable()`) and `shiny::actionLink()` (used by multiple functions). The same reasoning extends to any other higher-level Shiny rendering function (e.g. `shiny::actionButton()`, `shiny::downloadLink()`) should we embed one in future. `expect_snapshot()` defaults to `cran = FALSE`, so these snapshots don't run on CRAN; an upstream version bump that reshuffles the embedded markup therefore can't break our (or downstream packages') CRAN checks (see [#155](https://github.com/dfe-analytical-services/shinyGovstyle/issues/155)).
 - **Use `expect_hidden_error()`** for any input that renders a hidden-by-default `govuk-error-message`.
 - **Add new shared assertions to `helper-tags.R`** rather than copy-pasting structural checks across test files.
-- **Cover error and warning paths**, not just the happy path. Every `stop()` / `warning()` in `R/` should have a matching `expect_error()` / `expect_warning()`.
+- **Cover error and warning paths**, not just the happy path. E.g. every `stop()` / `warning()` in `R/` should have a matching `expect_error()` / `expect_warning()`.
 
 ### Worked example
 
@@ -61,8 +61,7 @@ For hidden errors:
 
 ```r
 input <- text_input("name", "Your name", error = TRUE)
-expect_hidden_error(input)                    # contract only
-expect_hidden_error(input, "Enter your name") # contract + message
+expect_hidden_error(input, "Enter your name")
 ```
 
 ## Raising new changes

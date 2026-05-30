@@ -10,12 +10,14 @@ radio_labels <- function(x) {
 test_that("default file_types render one radio per allowed extension", {
   radios <- download_radios()
 
-  # The default file_sizes use "< 1 GB"; htmltools escapes the < as &lt; when
-  # building the label text node, so the assertion matches the escaped form.
+  # Assert the extensions (the contract) rather than the rendered size string,
+  # whose "< 1 GB" gets HTML-escaped to "&lt; 1 GB" by htmltools.
   expect_identical(
-    radio_labels(radios),
-    c("CSV (&lt; 1 GB)", "ODS (&lt; 1 GB)", "XLSX (&lt; 1 GB)")
+    sub(" \\(.*$", "", radio_labels(radios)),
+    c("CSV", "ODS", "XLSX")
   )
+  # Each label still carries the default size, without pinning the escaping
+  expect_true(all(grepl("1 GB", radio_labels(radios))))
 })
 
 test_that("file_types subset only renders the requested extensions", {

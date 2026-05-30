@@ -16,7 +16,7 @@ test_that("multiple and accept are wired onto the hidden file input", {
   )
 
   # The hidden <input type="file"> is the only descendant whose id is exactly
-  # the inputId — child wrapper ids are suffixed with div / file_div / error.
+  # the inputId (child wrapper ids are suffixed with div / file_div / error).
   hidden_inputs <- find_by_id_suffix(file_check, "inputId")
   expect_length(hidden_inputs, 1L)
 

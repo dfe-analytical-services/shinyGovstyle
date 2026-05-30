@@ -16,12 +16,12 @@ test_that("value_box default values work", {
 
   # Check default value
   expect_identical(
-    box_default$children[[1]]$children[[1]],
+    tag_text(box_default, "value-box-value"),
     "your value goes here"
   )
 
-  # Check that text is NULL when not provided
-  expect_null(box_default$children[[2]])
+  # Check that no description is rendered when text is not provided
+  expect_no_tag(box_default, "value-box-description")
 
   # Check default color class
   expect_identical(

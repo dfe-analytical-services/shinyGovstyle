@@ -32,7 +32,7 @@ Tests live in `tests/testthat/`. We aim for tests that read like a specification
 
 ### Rules
 
-- **Navigate tag trees by class or id, not by position.** Use the helpers in `tests/testthat/helper-tags.R` — `find_tag()`, `find_tags()`, `find_tag_required()`, `tag_text()`, `child_classes()`, `find_by_id_suffix()`, `expect_has_tag()`, `expect_no_tag()`. Don't chain `$children[[N]]` to reach a nested tag; deep positional indexing breaks whenever the upstream GOV.UK Frontend markup is rearranged or we want to add or change elements of a component.
+- **Navigate tag trees by class or id, not by position.** Use the helpers in `tests/testthat/helper-tags.R`: `find_tag()`, `find_tags()`, `find_tag_required()`, `tag_text()`, `child_classes()`, `find_by_id_suffix()`, `expect_has_tag()`, `expect_no_tag()`. Don't chain `$children[[N]]` to reach a nested tag; deep positional indexing breaks whenever the upstream GOV.UK Frontend markup is rearranged or we want to add or change elements of a component.
 - **Prefer code-based assertions** (`expect_identical()`, `expect_length()`, `expect_s3_class()`, `expect_error()`, `expect_warning()`) over `expect_snapshot()`. Reserve snapshots for components that embed HTML produced by an external dependency whose structure we don't control, e.g.: `{reactable}` (via `govReactable()`), and Shiny's higher-level rendering functions such as `shiny::actionLink()`, `shiny::actionButton()`, `shiny::fileInput()`, `shiny::downloadLink()`, `shiny::radioButtons()` and similar. Those embed upstream-owned markup that can change between versions; snapshotting them keeps reverse-dependency checks stable (see [#155](https://github.com/dfe-analytical-services/shinyGovstyle/issues/155)). Components built only from primitive tag builders like `shiny::tags$div` / `shiny::tags$a` are *not* in this category and should be asserted structurally.
 - **Use `expect_hidden_error()`** for any input that renders a hidden-by-default `govuk-error-message`.
 - **Add new shared assertions to `helper-tags.R`** rather than copy-pasting structural checks across test files.
@@ -69,7 +69,7 @@ expect_hidden_error(input, "Enter your name") # contract + message
 
 ### Before you raise a PR
 
-Run through these checks locally first — it makes review faster and avoids back-and-forth:
+Run through these checks locally first; it makes review faster and avoids back-and-forth:
 
 - **Format with Air.** If you can't run Air locally, the GitHub Action will offer the same suggestions on your PR (see [Air suggestions on your PR](#air-suggestions-on-your-pr)).
 - **Lint** by running `devtools::load_all(); lintr::lint_package()` and resolving any new issues, loading the package before linting helps to avoid false positives.

@@ -1,5 +1,5 @@
 # headers/cells are indexed positionally because column order is semantically
-# meaningful for a table — index i corresponds to column i of the source df.
+# meaningful for a table: index i corresponds to column i of the source df.
 
 data_cell_classes <- function(table) {
   rows <- find_tags(

@@ -1,5 +1,5 @@
 # find_tags() matches exact whitespace-split class tokens (not substrings).
-# Do not "fix" this to use grepl() — it would falsely match e.g. the
+# Do not "fix" this to use grepl(); it would falsely match e.g. the
 # "govuk-date-input__item" class when looking up "govuk-date-input".
 #
 # Matches are returned in document order (depth-first pre-order). Callers that
@@ -42,6 +42,33 @@ find_tag_required <- function(x, class) {
   node
 }
 
+# find_tags_by_name() is the tag-name analogue of find_tags(), for elements
+# that carry no stable class to match on (e.g. <option> inside a <select>).
+# Same document-order, recursive contract as find_tags().
+find_tags_by_name <- function(x, name) {
+  if (inherits(x, "shiny.tag")) {
+    here <- if (identical(x$name, name)) list(x) else list()
+    c(
+      here,
+      unlist(
+        lapply(x$children, find_tags_by_name, name = name),
+        recursive = FALSE
+      )
+    )
+  } else if (is.list(x)) {
+    result <- unlist(
+      lapply(x, find_tags_by_name, name = name),
+      recursive = FALSE
+    )
+    if (is.null(result)) list() else result
+  } else {
+    list()
+  }
+}
+
+# tag_text() returns the first child of the matched tag and assumes a single
+# text child. For tags with mixed or multiple children, look the tag up with
+# find_tag_required() and assert its children explicitly instead.
 tag_text <- function(x, class) {
   find_tag_required(x, class)$children[[1L]]
 }

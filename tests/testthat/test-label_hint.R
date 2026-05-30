@@ -1,4 +1,4 @@
-test_that("label hint workss", {
+test_that("label hint works", {
   label_check <- label_hint("hintID", "Upper", "Lower")
 
   expect_identical(tag_text(label_check, "govuk-label"), shiny::HTML("Upper"))

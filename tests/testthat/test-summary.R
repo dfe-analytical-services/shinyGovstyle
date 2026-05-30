@@ -35,8 +35,10 @@ test_that("info accepts a list of mixed string and tag values", {
   info <- list(
     "Sarah Philips",
     shiny::tagList(
-      "72 Guild Street", shiny::tags$br(),
-      "London", shiny::tags$br(),
+      "72 Guild Street",
+      shiny::tags$br(),
+      "London",
+      shiny::tags$br(),
       "SE23 6FH"
     )
   )

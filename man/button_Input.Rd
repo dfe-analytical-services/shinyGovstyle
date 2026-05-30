@@ -47,6 +47,7 @@ Other Govstyle select inputs:
 \code{\link{checkbox_Input}()},
 \code{\link{file_Input}()},
 \code{\link{radio_button_Input}()},
-\code{\link{select_Input}()}
+\code{\link{select_Input}()},
+\code{\link{update_radio_button_Input}()}
 }
 \concept{Govstyle select inputs}

@@ -74,6 +74,16 @@
 <li>
 <strong>Design system check.</strong> If you’ve added or changed a UI component, compare it against the <a href="https://design-system.service.gov.uk/" class="external-link">GOV.UK Design System</a> to make sure looks and behaves consistently with the GOVUK guidance.</li>
 <li>
+<strong>Accessibility check.</strong> For any UI component change, test it with assistive tech manually.
+<ul><li>
+<strong>Keyboard only.</strong> Tab / Shift+Tab through the component, activate with Enter or Space, escape modals or menus with Esc. Focus should be visible at every stop.</li>
+<li>
+<strong>Screen reader.</strong> <a href="https://www.nvaccess.org/download/" class="external-link">NVDA</a> on Windows (free), or VoiceOver on macOS (⌘F5). Confirm labels, errors, and state changes are announced. <code>role="alert"</code> regressions and missing <code>for</code> / <code>id</code> associations only show up here.</li>
+<li>
+<strong>Forced colours / High Contrast.</strong> Windows Settings, Accessibility, Contrast themes; or Chromium DevTools, Rendering, “Emulate CSS media feature forced-colors: active”. Confirm all visual elements translate appropriately in the high contrast themes. As an example of potential issues, <code>box-shadow</code>, <code>background-color</code>, and <code>text-shadow</code> are dropped in forced-colours mode and need a <code>border</code> or <code>outline</code> based fallback inside an <code>@media (forced-colors: active)</code> block (see <code>inst/www/css/reactable-overrides.css</code> for a worked example).</li>
+</ul>
+This isn’t a full audit, just a smoke test. If you’re touching <code>inst/www/css/govuk-frontend-x.x.x.min.css</code> directly, or adding a new component, do a fuller pass.</li>
+<li>
 <strong>CSS changes.</strong> If you’ve edited <code>inst/www/css/govuk-frontend-x.x.x.min.css</code>, log the change in <code>css_changes.md</code> (see the <a href="#css-changes">CSS changes</a> section).</li>
 </ul></div>
 <div class="section level3">

@@ -111,6 +111,32 @@ The pieces fit together as follows:
   `R/attachDependency.R`, reapply every edit catalogued in
   `css_changes.md`, and bump `package.json`. Full steps in
   CONTRIBUTING.md.
+- **Tag trees vs htmlwidgets handle CSS dependencies differently;
+  `attachDependency()` papers over the gap.** Most components in `R/`
+  build `htmltools` tags
+  (e.g. [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
+  [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
+  [`text_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.md));
+  for those, `attachDependency(tag)` writes the dep to
+  `attr(tag, "html_dependencies")` and
+  [`htmltools::renderTags()`](https://rstudio.github.io/htmltools/reference/renderTags.html)
+  picks it up when the page renders. Htmlwidget wrappers (currently only
+  [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md),
+  but any future `reactable` / `DT` / `leaflet` style wrapper) return an
+  `htmlwidget` object whose rendering path
+  (`htmlwidgets:::toHTML.htmlwidget`, then `shinyRenderWidget`) only
+  reads `widget$dependencies` and silently discards anything attached
+  via [`attr()`](https://rdrr.io/r/base/attr.html). The widget’s CSS
+  will then “work” only because some other component on the same page
+  happens to load the same stylesheet, which is exactly the trap PR
+  \#166 (commit `baf9359`) found and struggled with.
+  `attachDependency()` now branches on `inherits(tag, "htmlwidget")` and
+  writes to `widget$dependencies` for widgets, so callers in `R/` always
+  use the same one-liner regardless of return type.
+  [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md)
+  is the canonical widget example and uses `widget = "reactable"` to
+  pull in a separate override stylesheet
+  (`inst/www/css/reactable-overrides.css`) alongside the main govuk CSS.
 
 ## Conventions worth knowing
 

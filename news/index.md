@@ -38,6 +38,9 @@
 - Error messages on input components now use `role="alert"` so they are
   announced by screen readers when toggled via
   [`error_on()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_on.md).
+- [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md)
+  table row, sort-header, and pagination highlights are now visible in
+  Windows High Contrast / forced-colours mode.
 - [`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md)
   now applies the same HTML handling to `help_text` as it does to
   `label`, so HTML strings render consistently across both arguments.

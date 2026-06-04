@@ -4,8 +4,7 @@
 #' @param inputId Input Id for the group of checkboxes
 #' @param cb_labels Add the names of the options that will appear
 #' @param checkboxIds Add the values for each checkbox
-#' @param label Insert the text for the checkbox group
-#' @param hint_label Insert optional hint/secondary text. Defaults to NULL
+#' @inheritParams control_label_params
 #' @param small change the sizing to a small version of the checkbox. Defaults
 #' to `FALSE`
 #' @param error Whenever you want to include error handle on the component
@@ -84,8 +83,8 @@ checkbox_Input <- # nolint
         id = paste0(inputId, "div"),
         shiny::tags$fieldset(
           class = "govuk-fieldset",
-          shiny::tags$label(label, class = "govuk-label"),
-          shiny::tags$div(hint_label, class = "govuk-hint"),
+          shiny::tags$label(as_govuk_html(label), class = "govuk-label"),
+          shiny::tags$div(as_govuk_html(hint_label), class = "govuk-hint"),
           if (error == TRUE) {
             shinyjs::hidden(
               shiny::tags$p(

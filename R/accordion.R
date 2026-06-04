@@ -3,7 +3,10 @@
 #' This function inserts a accordion
 #' @param inputId Input Id for the accordion
 #' @param titles Add the titles for the accordion
-#' @param descriptions Add the main text for the accordion
+#' @param descriptions Add the main content for each accordion section. Each
+#' item accepts a plain character string (rendered as a `govuk-body`
+#' paragraph), or `shiny` tag objects and `shiny::tagList()` values for richer
+#' block content such as multiple paragraphs, lists, or links.
 #' @return an accordion HTML shiny tag object
 #' @family Govstyle tables tabs and accordions
 #' @export
@@ -28,11 +31,21 @@
 #'         "Know your audience",
 #'         "How people read"
 #'       ),
-#'       c(
+#'       list(
 #'         "This is the content for Writing well for the web.",
 #'         "This is the content for Writing well for specialists.",
 #'         "This is the content for Know your audience.",
-#'         "This is the content for How people read."
+#'         # Rich content: a paragraph followed by a bulleted list with a link
+#'         shiny::tagList(
+#'           shinyGovstyle::gov_text("People read in different ways, including:"),
+#'           shinyGovstyle::gov_list(
+#'             list(
+#'               "scanning for key words",
+#'               shiny::tags$a(href = "https://www.gov.uk", "following links")
+#'             ),
+#'             style = "bullet"
+#'           )
+#'         )
 #'       )
 #'     )
 #'   ),
@@ -130,10 +143,11 @@ accordion <- function(
               id = "accordion-default-content-1",
               class = "govuk-accordion__section-content",
               `aria-labelledby` = paste0("accordion-default-heading-", z_str),
-              shiny::tags$p(
-                class = "govuk-body",
-                y
-              )
+              if (is.character(y)) {
+                shiny::tags$p(class = "govuk-body", shiny::HTML(y))
+              } else {
+                as_govuk_html(y)
+              }
             )
           )
         },

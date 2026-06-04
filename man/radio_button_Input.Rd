@@ -22,7 +22,9 @@ radio_button_Input(
 \arguments{
 \item{inputId}{The \code{input} slot that will be used to access the value}
 
-\item{label}{Input label}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
 \item{choices}{List of values to select from (if elements of the list are
 named then that name rather than the value is displayed to the user)}
@@ -43,8 +45,8 @@ must not be provided. The advantage of using both of these over a named list
 for choices is that choiceNames allows any type of UI object to be passed
 through (tag objects, icons, HTML code, ...), instead of just simple text}
 
-\item{hint_label}{Additional hint text you may want to display below the
-label. Defaults to NULL}
+\item{hint_label}{Display hint label for the control, or \code{NULL} for no hint
+label. Accepts the same rich content as \code{label}, so it can include a link.}
 
 \item{error}{Whenever you want to include error handle on the component}
 

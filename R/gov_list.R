@@ -1,6 +1,8 @@
 #' Gov List function
 #'
-#' @param list vector of list
+#' @param list vector or list of items. Each item accepts a plain character
+#' string, or `shiny` tag objects such as `shiny::tags$a()` (e.g. to add a link
+#' to a bullet) or a `shiny::tagList()`.
 #' @param style options: "none", "bullet", "number". defaults to "none"
 #' @family Govstyle text types
 #' @export
@@ -21,7 +23,16 @@
 #'     shinyGovstyle::gov_text("Bulleted list:"),
 #'     gov_list(list = c("a", "b", "c"), style = "bullet"),
 #'     shinyGovstyle::gov_text("Numbered list:"),
-#'     gov_list(list = c("one", "two", "three"), style = "number")
+#'     gov_list(list = c("one", "two", "three"), style = "number"),
+#'     shinyGovstyle::gov_text("List with a link:"),
+#'     gov_list(
+#'       list = list(
+#'         "Plain item",
+#'         shiny::tags$a(href = "https://www.gov.uk", "A link"),
+#'         shiny::tagList("Item with ", shiny::tags$b("bold"), " text")
+#'       ),
+#'       style = "bullet"
+#'     )
 #'   )
 #' )
 #'
@@ -69,7 +80,7 @@ gov_list <- function(list, style = "none") {
 
   # apply wrapper over list to get full list
   result <- list_wrapper(purrr::map(list, function(x) {
-    shiny::tags$li(x)
+    shiny::tags$li(as_govuk_html(x))
   }))
   attachDependency(result)
 }

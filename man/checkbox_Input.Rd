@@ -22,9 +22,12 @@ checkbox_Input(
 
 \item{checkboxIds}{Add the values for each checkbox}
 
-\item{label}{Insert the text for the checkbox group}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
-\item{hint_label}{Insert optional hint/secondary text. Defaults to NULL}
+\item{hint_label}{Display hint label for the control, or \code{NULL} for no hint
+label. Accepts the same rich content as \code{label}, so it can include a link.}
 
 \item{small}{change the sizing to a small version of the checkbox. Defaults
 to \code{FALSE}}

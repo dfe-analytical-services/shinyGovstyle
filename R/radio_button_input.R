@@ -2,7 +2,7 @@
 #'
 #' This function create radio buttons
 #' @param inputId The `input` slot that will be used to access the value
-#' @param label Input label
+#' @inheritParams control_label_params
 #' @param choices List of values to select from (if elements of the list are
 #' named then that name rather than the value is displayed to the user)
 #' @param selected The initially selected value.
@@ -17,8 +17,6 @@
 #' must not be provided. The advantage of using both of these over a named list
 #' for choices is that choiceNames allows any type of UI object to be passed
 #' through (tag objects, icons, HTML code, ...), instead of just simple text
-#' @param hint_label Additional hint text you may want to display below the
-#' label. Defaults to NULL
 #' @param error Whenever you want to include error handle on the component
 #' @param error_message If you want a default error message
 #' @param custom_class If you want to add additional classes to the radio
@@ -114,7 +112,7 @@ radio_button_Input <- # nolint
         id = paste0(inputId, "div"),
         controlLabel2(inputId, label),
         shiny::tags$div(
-          hint_label,
+          as_govuk_html(hint_label),
           class = "govuk-hint"
         ),
         if (error == TRUE) {
@@ -147,7 +145,7 @@ controlLabel2 <- # nolint
       htmltools::tags$label(
         class = "govuk-label",
         `for` = controlName,
-        label
+        as_govuk_html(label)
       )
   }
 

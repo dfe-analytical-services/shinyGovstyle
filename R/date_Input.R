@@ -2,9 +2,7 @@
 #'
 #' This function create a date input that follows GDS component
 #' @param inputId The input slot that will be used to access the value
-#' @param label Display label for the control, or `NULL` for no label
-#' @param hint_label Display hint label for the control, or `NULL` for no
-#' hint label
+#' @inheritParams control_label_params
 #' @param error Whenever to include error components.Defaults to `FALSE`
 #' @param error_message Error handling message? Defaults to `NULL`
 #' @param day Select a default day on start up. Defaults to `NULL`
@@ -74,7 +72,7 @@ date_Input <- # nolint
       id = paste0(inputId, "div"),
       shiny::tags$fieldset(
         class = "govuk-fieldset",
-        shiny::tags$label(shiny::HTML(label), class = "govuk-label"),
+        shiny::tags$label(as_govuk_html(label), class = "govuk-label"),
         if (error == TRUE) {
           shinyjs::hidden(
             shiny::tags$p(
@@ -86,7 +84,7 @@ date_Input <- # nolint
             )
           )
         },
-        shiny::tags$div(hint_label, class = "govuk-hint"),
+        shiny::tags$div(as_govuk_html(hint_label), class = "govuk-hint"),
         shiny::tags$div(
           class = "govuk-date-input",
           id = inputId,

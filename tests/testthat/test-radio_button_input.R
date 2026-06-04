@@ -96,6 +96,20 @@ test_that("Inline", {
   expect_identical(inline_class, "govuk-radios govuk-radios--inline")
 })
 
+test_that("label and hint accept rich content", {
+  html <- as.character(
+    radio_button_Input(
+      inputId = "Id029",
+      label = shiny::tags$b("Bold label"),
+      choices = c("A", "B"),
+      hint_label = shiny::HTML('See <a href="#">guidance</a>')
+    )
+  )
+
+  expect_match(html, "<b>Bold label</b>", fixed = TRUE)
+  expect_match(html, '<a href="#">guidance</a>', fixed = TRUE)
+})
+
 test_that("Labels are programmatically associated with inputs", {
   choices <- c("Yes", "No", "Maybe")
   rtag <- radio_button_Input(

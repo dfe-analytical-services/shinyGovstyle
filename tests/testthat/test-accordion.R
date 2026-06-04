@@ -62,3 +62,34 @@ test_that("accordion numbering works past 9", {
   expect_equal(stringr::str_sub(heading1, -2), "01")
   expect_equal(stringr::str_sub(heading11, -2), "11")
 })
+
+test_that("string descriptions render as a govuk-body paragraph", {
+  html <- as.character(accordion("acc1", "Title", "Just text"))
+
+  expect_match(
+    html,
+    '<p class="govuk-body">Just text</p>',
+    fixed = TRUE
+  )
+})
+
+test_that("descriptions accept rich block content (tagList)", {
+  html <- as.character(
+    accordion(
+      "acc1",
+      "Title",
+      list(
+        shiny::tagList(
+          shinyGovstyle::gov_text("A paragraph"),
+          shinyGovstyle::gov_list(
+            list(shiny::tags$a(href = "https://www.gov.uk", "Link")),
+            style = "bullet"
+          )
+        )
+      )
+    )
+  )
+
+  expect_match(html, "govuk-list--bullet", fixed = TRUE)
+  expect_match(html, '<a href="https://www.gov.uk">Link</a>', fixed = TRUE)
+})

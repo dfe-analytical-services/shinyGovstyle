@@ -56,3 +56,27 @@ test_that("text box prefix suffix works", {
   expect_identical(text_check$children[[4]]$children[[1]]$children[[1]], "£")
   expect_identical(text_check$children[[4]]$children[[3]]$children[[1]], ".00")
 })
+
+test_that("label accepts a shiny.tag", {
+  html <- as.character(text_Input("txtId", shiny::tags$b("Bold label")))
+
+  expect_match(html, "<b>Bold label</b>", fixed = TRUE)
+})
+
+test_that("hint accepts a raw HTML string and renders unescaped", {
+  html <- as.character(
+    text_Input(
+      "txtId",
+      "Text test",
+      hint_label = shiny::HTML('See <a href="#">guidance</a>')
+    )
+  )
+
+  expect_match(html, '<a href="#">guidance</a>', fixed = TRUE)
+})
+
+test_that("NULL hint still renders an empty hint div", {
+  html <- as.character(text_Input("txtId", "Text test"))
+
+  expect_match(html, '<div class="govuk-hint"></div>', fixed = TRUE)
+})

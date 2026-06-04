@@ -26,6 +26,8 @@
   arguments are not used.
 * Error messages on input components now use `role="alert"` so they are
   announced by screen readers when toggled via `error_on()`.
+* `govReactable()` table row, sort-header, and pagination highlights are now
+  visible in Windows High Contrast / forced-colours mode.
 * `details()` now applies the same HTML handling to `help_text` as it does to
   `label`, so HTML strings render consistently across both arguments.
 * `warning_text()` now renders HTML strings in `text` consistently with other

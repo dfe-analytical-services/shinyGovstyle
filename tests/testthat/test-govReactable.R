@@ -17,3 +17,10 @@ test_that("table works", {
 
   expect_snapshot(stripped_ids)
 })
+
+test_that("govReactable attaches the reactable-overrides stylesheet", {
+  table <- govReactable(df = shinyGovstyle::transport_data)
+  dep_names <- vapply(table$dependencies, `[[`, character(1), "name")
+  expect_true("reactable-overrides" %in% dep_names)
+  expect_true("stylecss" %in% dep_names)
+})

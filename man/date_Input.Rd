@@ -67,6 +67,15 @@ ui <- shiny::fluidPage(
       hint_label = "For example, 12 11 2007",
       error = TRUE
     ),
+    # Rich content: a tag in the label and a link in the hint
+    shinyGovstyle::date_Input(
+      inputId = "dob_input3",
+      label = shiny::tags$b("Please enter your birthday"),
+      hint_label = shiny::tagList(
+        "Check the format in the ",
+        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+      )
+    ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
   ),

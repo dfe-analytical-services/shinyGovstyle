@@ -91,6 +91,16 @@ ui <- shiny::fluidPage(
       error = TRUE,
       error_message = "Select one"
     ),
+    # Rich content: a tag in the label and a link in the hint
+    shinyGovstyle::radio_button_Input(
+      inputId = "radio3",
+      choices = c("Yes", "No", "Maybe"),
+      label = shiny::tags$b("Choice option"),
+      hint_label = shiny::tagList(
+        "See the ",
+        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+      )
+    ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
   ),

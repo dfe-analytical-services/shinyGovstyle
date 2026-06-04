@@ -70,6 +70,17 @@ ui <- shiny::fluidPage(
       error = TRUE,
       error_message = "Select one"
     ),
+    # Rich content: a tag in the label and a link in the hint
+    shinyGovstyle::checkbox_Input(
+      inputId = "check3",
+      cb_labels = c("Option 1", "Option 2", "Option 3"),
+      checkboxIds = c("op1", "op2", "op3"),
+      label = shiny::tags$b("Choice option"),
+      hint_label = shiny::tagList(
+        "See the ",
+        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+      )
+    ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
   ),

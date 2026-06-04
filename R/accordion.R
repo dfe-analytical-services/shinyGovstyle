@@ -6,7 +6,12 @@
 #' @param descriptions Add the main content for each accordion section. Each
 #' item accepts a plain character string (rendered as a `govuk-body`
 #' paragraph), or `shiny` tag objects and `shiny::tagList()` values for richer
-#' block content such as multiple paragraphs, lists, or links.
+#' block content such as multiple paragraphs, lists, or links. Tag content is
+#' inserted as-is and is *not* wrapped in a `govuk-body` paragraph, so build
+#' rich content from the styled helpers, `shinyGovstyle::gov_text()` for
+#' paragraphs and `shinyGovstyle::gov_list()` for lists, to keep GOV.UK
+#' styling. A bare tag or string passed without those helpers will render
+#' without `govuk-body` styling.
 #' @return an accordion HTML shiny tag object
 #' @family Govstyle tables tabs and accordions
 #' @export
@@ -37,7 +42,9 @@
 #'         "This is the content for Know your audience.",
 #'         # Rich content: a paragraph followed by a bulleted list with a link
 #'         shiny::tagList(
-#'           shinyGovstyle::gov_text("People read in different ways, including:"),
+#'           shinyGovstyle::gov_text(
+#'             "People read in different ways, including:"
+#'           ),
 #'           shinyGovstyle::gov_list(
 #'             list(
 #'               "scanning for key words",

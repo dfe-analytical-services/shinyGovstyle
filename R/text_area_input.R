@@ -19,6 +19,16 @@
 #'     "National Insurance number or credit card details."
 #'   )
 #' )
+#'
+#' # Rich content: a link in the hint
+#' text_area_Input(
+#'   "taId2",
+#'   "Can you provide more detail?",
+#'   shiny::tagList(
+#'     "Read the ",
+#'     shinyGovstyle::external_link("https://www.gov.uk", "guidance on detail")
+#'   )
+#' )
 text_area_Input <- # nolint
   function(
     inputId, # nolint

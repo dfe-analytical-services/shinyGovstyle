@@ -47,6 +47,16 @@ text_area_Input(
     "National Insurance number or credit card details."
   )
 )
+
+# Rich content: a tag in the label and a link in the hint
+text_area_Input(
+  "taId2",
+  shiny::tags$b("Can you provide more detail?"),
+  shiny::tagList(
+    "Read the ",
+    shinyGovstyle::external_link("https://www.gov.uk", "guidance on detail")
+  )
+)
 }
 \seealso{
 Other Govstyle text types: 

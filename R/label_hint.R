@@ -19,6 +19,15 @@
 #'       inputId = "label1",
 #'       label = "This is a label",
 #'       hint_input = "This is a hint"
+#'     ),
+#'     # Rich content: a link in the hint
+#'     label_hint(
+#'       inputId = "label2",
+#'       label = "Bold label",
+#'       hint_input = shiny::tagList(
+#'         "See the ",
+#'         shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+#'       )
 #'     )
 #'   ),
 #'   shinyGovstyle::footer(full = TRUE)

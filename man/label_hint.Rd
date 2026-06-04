@@ -35,6 +35,15 @@ ui <- shiny::fluidPage(
       inputId = "label1",
       label = "This is a label",
       hint_input = "This is a hint"
+    ),
+    # Rich content: a tag in the label and a link in the hint
+    label_hint(
+      inputId = "label2",
+      label = shiny::tags$b("Bold label"),
+      hint_input = shiny::tagList(
+        "See the ",
+        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+      )
     )
   ),
   shinyGovstyle::footer(full = TRUE)

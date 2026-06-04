@@ -23,7 +23,7 @@ This vignette covers all functions in shinyGovstyle that produce styled text con
 
 ## Rich content in body components
 
-The body-content arguments of `insert_text()` (`content`), `warning_text()` (`text`), and `noti_banner()` (`body_txt`) accept more than plain character strings. You can pass a `shiny` tag, a `shiny::tagList()`, or `shiny::HTML()` output to embed inline emphasis, links, or line breaks without writing raw HTML.
+The body-content arguments of `insert_text()` (`content`), `warning_text()` (`text`), and `noti_banner()` (`body_txt`), along with the list items of `gov_list()` (`list`), accept more than plain character strings. You can pass a `shiny` tag, a `shiny::tagList()`, or `shiny::HTML()` output to embed inline emphasis, links, or line breaks without writing raw HTML.
 
 ```{r, eval = FALSE}
 insert_text(
@@ -40,7 +40,7 @@ insert_text(
 )
 ```
 
-The same applies to `banner()` (`label`), `panel_output()` (`sub_text`), `details()` (`help_text`), and `gov_summary()` (`info`), which are covered in [Layout options](layout-options.html) and the function reference.
+The same applies to `banner()` (`label`), `panel_output()` (`sub_text`), `details()` (`help_text`), `gov_summary()` (`info`), and `accordion()` (`descriptions`), which are covered in [Layout options](layout-options.html) and the function reference.
 
 Plain character strings continue to work unchanged, so the simpler per-component examples below remain valid.
 
@@ -149,7 +149,24 @@ gov_list(c("First item", "Second item", "Third item"), style = "bullet")
 gov_list(c("First step", "Second step", "Third step"), style = "number")
 ```
 
-Use `style = "number"` when order matters — steps in a process, ranked results, or sequential instructions. Use `style = "bullet"` for unordered items. The plain style (`"none"`) is useful when you want list semantics for screen readers without a visual marker.
+Use `style = "number"` when order matters (steps in a process, ranked results, or sequential instructions). Use `style = "bullet"` for unordered items. The plain style (`"none"`) is useful when you want list semantics for screen readers without a visual marker.
+
+### Rich content in list items
+
+Items are not limited to plain strings. Pass a `shiny` tag or a `shiny::tagList()` for any item that needs a link or inline emphasis, and mix them freely with plain-string items:
+
+```{r, eval = FALSE}
+gov_list(
+  list(
+    "An ordinary item",
+    shiny::tagList(
+      "An item with a ",
+      external_link("https://www.gov.uk", "link to GOV.UK")
+    )
+  ),
+  style = "bullet"
+)
+```
 
 For more information, read the [GOV.UK lists guidance](https://design-system.service.gov.uk/styles/lists/).
 

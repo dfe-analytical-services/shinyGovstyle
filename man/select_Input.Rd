@@ -44,6 +44,13 @@ ui <- shiny::fluidPage(
       ),
       select_value = c("published", "updated", "view", "comments")
     ),
+    # Rich content: a tag in the label
+    select_Input(
+      inputId = "sorter2",
+      label = shiny::tags$b("Sort by"),
+      select_text = c("Most views", "Most comments"),
+      select_value = c("view", "comments")
+    ),
     shiny::tags$br()
   ),
   shinyGovstyle::footer(full = TRUE)

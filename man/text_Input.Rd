@@ -68,6 +68,18 @@ ui <- shiny::fluidPage(
       hint_label = "This can be found on the letter",
       error = TRUE
     ),
+    # Rich content: a tag in the label and a link in the hint
+    shinyGovstyle::text_Input(
+      inputId = "eventId3",
+      label = shiny::tags$b("Event Name"),
+      hint_label = shiny::tagList(
+        "As shown on your ",
+        shinyGovstyle::external_link(
+          "https://www.gov.uk",
+          "confirmation letter"
+        )
+      )
+    ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
   ),

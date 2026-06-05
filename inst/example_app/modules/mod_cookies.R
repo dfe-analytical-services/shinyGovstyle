@@ -57,7 +57,7 @@ mod_cookies_ui <- function(id) {
   )
 }
 
-mod_cookies_server <- function(id, cookie_accept, cookie_reject) {
+mod_cookies_server <- function(id, cookie_accept, cookie_reject, active_tab) {
   shiny::moduleServer(id, function(input, output, session) {
     # Banner choices drive the settings radio server-side, so the radio stays
     # in sync with what the user clicked in the cookie banner without them
@@ -95,6 +95,18 @@ mod_cookies_server <- function(id, cookie_accept, cookie_reject) {
         if (identical(input$cookies_analytics, "yes")) "accept" else "reject"
       )
     })
+
+    # Clear the success banner when the user leaves the cookies tab, so a stale
+    # message isn't waiting for them when they come back.
+    shiny::observeEvent(
+      active_tab(),
+      {
+        if (!identical(active_tab(), "panel-cookies")) {
+          saved_choice(NULL)
+        }
+      },
+      ignoreInit = TRUE
+    )
 
     output$cookie_saved <- shiny::renderUI({
       choice <- saved_choice()

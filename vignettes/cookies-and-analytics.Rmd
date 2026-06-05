@@ -73,10 +73,10 @@ server <- function(input, output, session) {
   observeEvent(input$hideAccept, shinyjs::toggle(id = "cookieDiv"))
   observeEvent(input$hideReject, shinyjs::toggle(id = "cookieDiv"))
 
-  # input$cookieLink can take users to a dedicated cookies page, for example
-  # via shiny::updateTabsetPanel()
+  # input$cookieLink takes users to a dedicated cookies page. Here the page is
+  # a hidden tabsetPanel, so we switch to it with shiny::updateTabsetPanel().
   observeEvent(input$cookieLink, {
-    # navigate to your cookies page here
+    updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
   })
 }
 
@@ -86,49 +86,167 @@ if (interactive()) shinyApp(ui, server)
 ## A cookies settings page
 
 A common pattern is a dedicated cookies page with a radio group that lets the
-user change their analytics choice. Build the control with
-`radio_button_Input()`:
+user change their analytics choice, a button to save it, and a confirmation
+message. The example app that ships with this package builds exactly this as a
+Shiny module (see `inst/example_app/modules/mod_cookies.R`), and the rest of
+this section walks through that pattern.
+
+### Banner ids are global, the settings page is a module
+
+One subtlety drives the whole design. `cookieBanner()` uses **fixed, top-level
+ids** (`cookieAccept`, `cookieReject`, `hideAccept`, `hideReject` and
+`cookieLink`), so those inputs are never namespaced. The settings radio, on the
+other hand, lives inside a module and therefore is namespaced. To let the
+banner drive the radio, you bridge the top-level banner inputs into the module
+as reactives, and keep the banner's own `observeEvent()` handlers at the top
+level.
+
+### The module UI
+
+Build the control with `radio_button_Input()`, add a save button, and leave a
+`uiOutput()` placeholder for the confirmation message. Use `shiny::NS(id, ...)`
+so the ids are namespaced to the module:
 
 ```{r}
-shinyGovstyle::radio_button_Input(
-  inputId = "cookies_analytics",
-  label = "Do you want to accept analytics cookies?",
-  choices = c("Yes" = "yes", "No" = "no"),
-  selected = "no",
-  inline = TRUE
-)
+mod_cookies_ui <- function(id) {
+  shiny::tagList(
+    shinyGovstyle::heading_text("Cookies", size = "l", level = 1),
+    shinyGovstyle::gov_text(
+      "We use analytics cookies to measure how the service is used so we",
+      "can improve it."
+    ),
+    shiny::uiOutput(shiny::NS(id, "cookie_saved")),
+    shinyGovstyle::radio_button_Input(
+      inputId = shiny::NS(id, "cookies_analytics"),
+      label = "Do you want to accept analytics cookies?",
+      choices = c("Yes" = "yes", "No" = "no"),
+      selected = "no",
+      inline = TRUE
+    ),
+    shinyGovstyle::button_Input(
+      shiny::NS(id, "save_cookies"),
+      "Save cookie settings"
+    )
+  )
+}
 ```
 
-The challenge is keeping this radio in sync with the choice the user already
-made in the banner. When the user clicks "Accept analytics cookies", the radio
-on the settings page should reflect that without the user touching it. That is
-what `update_radio_button_Input()` is for:
+### The module server
+
+The server takes the banner choices and the active tab as reactive arguments.
+The banner choices keep the radio in sync via `update_radio_button_Input()`,
+saving shows a success `noti_banner()`, and leaving the tab clears any stale
+message:
 
 ```{r}
-server <- function(input, output, session) {
-  observeEvent(input$cookieAccept, {
-    shinyGovstyle::update_radio_button_Input(
-      session,
-      inputId = "cookies_analytics",
-      selected = "yes"
+mod_cookies_server <- function(id, cookie_accept, cookie_reject, active_tab) {
+  shiny::moduleServer(id, function(input, output, session) {
+    # Banner choices drive the settings radio without the user touching it.
+    # ignoreInit = TRUE stops these firing on startup.
+    shiny::observeEvent(
+      cookie_accept(),
+      shinyGovstyle::update_radio_button_Input(
+        session,
+        inputId = "cookies_analytics",
+        selected = "yes"
+      ),
+      ignoreInit = TRUE
     )
-  })
 
-  observeEvent(input$cookieReject, {
-    shinyGovstyle::update_radio_button_Input(
-      session,
-      inputId = "cookies_analytics",
-      selected = "no"
+    shiny::observeEvent(
+      cookie_reject(),
+      shinyGovstyle::update_radio_button_Input(
+        session,
+        inputId = "cookies_analytics",
+        selected = "no"
+      ),
+      ignoreInit = TRUE
     )
+
+    # Saving shows a success banner reflecting the live radio value.
+    saved_choice <- shiny::reactiveVal(NULL)
+
+    shiny::observeEvent(input$save_cookies, {
+      saved_choice(
+        if (identical(input$cookies_analytics, "yes")) "accept" else "reject"
+      )
+    })
+
+    # Clear the success banner when the user leaves the cookies tab, so a
+    # stale message isn't waiting for them when they come back.
+    shiny::observeEvent(
+      active_tab(),
+      {
+        if (!identical(active_tab(), "panel-cookies")) {
+          saved_choice(NULL)
+        }
+      },
+      ignoreInit = TRUE
+    )
+
+    output$cookie_saved <- shiny::renderUI({
+      choice <- saved_choice()
+      if (is.null(choice)) {
+        return(NULL)
+      }
+      shinyGovstyle::noti_banner(
+        session$ns("saved_banner"),
+        title_txt = "Success",
+        body_txt = paste0(
+          "You've updated your cookie preferences. You chose to ",
+          choice,
+          " analytics cookies."
+        ),
+        type = "success"
+      )
+    })
   })
 }
 ```
 
 `update_radio_button_Input()` mirrors `shiny::updateRadioButtons()`: only the
 arguments you pass are sent to the client, and the `inputId` is namespaced
-automatically when you call it inside a Shiny module. That means you can use
-the GOV.UK styled radio everywhere, including inside modules, and still drive
-its value programmatically.
+automatically when you call it inside a Shiny module. That is why the module
+server can use the plain id `"cookies_analytics"` even though the rendered
+input is namespaced.
+
+### Wiring it together at the top level
+
+The banner observers and the `cookieLink` navigation stay at the top level
+(because the banner ids are global), and the banner inputs are passed into the
+module as reactives:
+
+```{r}
+server <- function(input, output, session) {
+  mod_cookies_server(
+    "cookies",
+    cookie_accept = shiny::reactive(input$cookieAccept),
+    cookie_reject = shiny::reactive(input$cookieReject),
+    active_tab = shiny::reactive(input[["tab-container"]])
+  )
+
+  # Banner show/hide handlers (as in the banner example above)
+  observeEvent(input$cookieAccept, {
+    shinyjs::show(id = "cookieAcceptDiv")
+    shinyjs::hide(id = "cookieMain")
+  })
+  observeEvent(input$cookieReject, {
+    shinyjs::show(id = "cookieRejectDiv")
+    shinyjs::hide(id = "cookieMain")
+  })
+  observeEvent(input$hideAccept, shinyjs::toggle(id = "cookieDiv"))
+  observeEvent(input$hideReject, shinyjs::toggle(id = "cookieDiv"))
+
+  # The "View cookies" link in the banner opens the cookies tab
+  observeEvent(input$cookieLink, {
+    updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
+  })
+}
+```
+
+You can run this end to end with `shiny::runApp(system.file("example_app",
+package = "shinyGovstyle"))` and open the **Cookies** tab to see the radio stay
+in sync with the banner and the save confirmation appear.
 
 ## Extending for analytics
 

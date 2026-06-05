@@ -9,7 +9,8 @@ function(input, output, session) {
   mod_cookies_server(
     "cookies",
     cookie_accept = shiny::reactive(input$cookieAccept),
-    cookie_reject = shiny::reactive(input$cookieReject)
+    cookie_reject = shiny::reactive(input$cookieReject),
+    active_tab = shiny::reactive(input[["tab-container"]])
   )
 
   # download_radios is itself a Shiny module and must be called at the top

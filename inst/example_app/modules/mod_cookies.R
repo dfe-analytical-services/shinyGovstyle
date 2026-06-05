@@ -24,7 +24,10 @@ mod_cookies_ui <- function(id) {
       "you visit a website."
     ),
     shinyGovstyle::gov_text(
-      "We use cookies to make this site work and collect information about how you use our service."
+      paste(
+        "We use cookies to make this site work and collect information about",
+        "how you use our service."
+      )
     ),
     shinyGovstyle::heading_text("Analytics cookies", size = "m", level = 2),
     shinyGovstyle::gov_text(

@@ -5,6 +5,8 @@
 * `insert_text()` argument `text` has been renamed to `content` to reflect
   that it now accepts more than plain text. The old name is deprecated and
   will be removed in a future version.
+* `govTable()` now renders rows in dataframe order (rows were previously
+  reversed).
 
 ## New features
 
@@ -27,6 +29,11 @@
   `label`, so HTML strings render consistently across both arguments.
 * `warning_text()` now renders HTML strings in `text` consistently with other
   body-content components.
+* `govTable()` no longer errors with "evaluation nested too deeply: infinite
+  recursion" on large tables (around 1200+ rows). It now warns when given more
+  than 1000 rows and recommends `govReactable()` for very large or interactive
+  tables.
+
 
 # shinyGovstyle 0.2.0
 

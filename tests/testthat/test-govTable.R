@@ -1,5 +1,24 @@
-test_that("table works", {
-  # test table with specified widths
+# headers/cells are indexed positionally because column order is semantically
+# meaningful for a table: index i corresponds to column i of the source df.
+
+data_cell_classes <- function(table) {
+  rows <- find_tags(
+    find_tag(table, "govuk-table__body"),
+    "govuk-table__row"
+  )
+  lapply(rows, function(row) {
+    cells <- find_tags(row, "govuk-table__cell")
+    unname(vapply(
+      cells,
+      function(cell) htmltools::tagGetAttribute(cell, "class"),
+      character(1L)
+    ))
+  })
+}
+
+numeric_cell <- "govuk-table__cell govuk-table__cell--numeric"
+
+test_that("table with specified widths sets header width classes", {
   table_check <- govTable(
     "tab1",
     shinyGovstyle::transport_data_small,
@@ -9,26 +28,39 @@ test_that("table works", {
     width_overwrite = c("one-half", "one-quarter", "one-quarter")
   )
 
+  headers <- find_tags(table_check, "govuk-table__header")
   expect_identical(
-    table_check$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[1]], "class"),
     "govuk-table__header govuk-!-width-one-half"
   )
-
   expect_identical(
-    table_check$children[[2]]$children[[1]][[3]][[1]][[2]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[2]], "class"),
+    paste(
+      "govuk-table__header govuk-table__header--numeric",
+      "govuk-!-width-one-quarter"
+    )
+  )
+  expect_identical(
+    htmltools::tagGetAttribute(headers[[3]], "class"),
     paste(
       "govuk-table__header govuk-table__header--numeric",
       "govuk-!-width-one-quarter"
     )
   )
 
-  expect_equal(
-    length(table_check$children[[3]]),
-    3
+  body_rows <- find_tags(
+    find_tag(table_check, "govuk-table__body"),
+    "govuk-table__row"
   )
+  expect_length(body_rows, 3L)
 
-  # test table with unspecified widths
-  table_check2 <- govTable(
+  for (row_cells in data_cell_classes(table_check)) {
+    expect_identical(row_cells, c(numeric_cell, numeric_cell))
+  }
+})
+
+test_that("table with NULL width_overwrite omits width classes", {
+  table_check <- govTable(
     "tab2",
     shinyGovstyle::transport_data_small,
     "Test",
@@ -37,23 +69,32 @@ test_that("table works", {
     width_overwrite = NULL
   )
 
+  headers <- find_tags(table_check, "govuk-table__header")
   expect_identical(
-    table_check2$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[1]], "class"),
     "govuk-table__header"
   )
-
   expect_identical(
-    table_check2$children[[2]]$children[[1]][[3]][[1]][[2]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[2]], "class"),
+    "govuk-table__header govuk-table__header--numeric"
+  )
+  expect_identical(
+    htmltools::tagGetAttribute(headers[[3]], "class"),
     "govuk-table__header govuk-table__header--numeric"
   )
 
-  expect_equal(
-    length(table_check2$children[[3]]),
-    3
+  expect_length(
+    find_tags(find_tag(table_check, "govuk-table__body"), "govuk-table__row"),
+    3L
   )
 
-  # and if the argument isn't mentioned at all
-  table_check3 <- govTable(
+  for (row_cells in data_cell_classes(table_check)) {
+    expect_identical(row_cells, c(numeric_cell, numeric_cell))
+  }
+})
+
+test_that("table with width_overwrite omitted (default) omits width classes", {
+  table_check <- govTable(
     "tab2",
     shinyGovstyle::transport_data_small,
     "Test",
@@ -61,18 +102,26 @@ test_that("table works", {
     num_col = c(2, 3)
   )
 
+  headers <- find_tags(table_check, "govuk-table__header")
   expect_identical(
-    table_check3$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[1]], "class"),
     "govuk-table__header"
   )
-
   expect_identical(
-    table_check3$children[[2]]$children[[1]][[3]][[1]][[2]]$attribs$class,
+    htmltools::tagGetAttribute(headers[[2]], "class"),
+    "govuk-table__header govuk-table__header--numeric"
+  )
+  expect_identical(
+    htmltools::tagGetAttribute(headers[[3]], "class"),
     "govuk-table__header govuk-table__header--numeric"
   )
 
-  expect_equal(
-    length(table_check3$children[[3]]),
-    3
+  expect_length(
+    find_tags(find_tag(table_check, "govuk-table__body"), "govuk-table__row"),
+    3L
   )
+
+  for (row_cells in data_cell_classes(table_check)) {
+    expect_identical(row_cells, c(numeric_cell, numeric_cell))
+  }
 })

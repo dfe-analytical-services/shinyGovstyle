@@ -1,10 +1,11 @@
 test_that("date default works", {
   date_check <- date_Input("dateid", "Test Date")
 
-  expect_equal(length(date_check$children[[1]]$children[[4]]), 3)
+  date_input <- find_tag(date_check, "govuk-date-input")
+  expect_length(find_tags(date_check, "govuk-date-input__item"), 3L)
 
   expect_identical(
-    date_check$children[[1]]$children[[4]]$attribs$class,
+    htmltools::tagGetAttribute(date_input, "class"),
     "govuk-date-input"
   )
 })
@@ -17,22 +18,9 @@ test_that("date error works", {
     error_message = "Error test"
   )
 
-  expect_equal(length(date_check$children[[1]]$children[[4]]), 3)
+  expect_length(find_tags(date_check, "govuk-date-input__item"), 3L)
 
-  expect_identical(
-    paste(
-      date_check$children[[1]]$children[[2]]$attribs$class,
-      date_check$children[[1]]$children[[2]]$attribs[4]$class
-    ),
-    "govuk-error-message shinyjs-hide"
-  )
-
-  expect_identical(
-    date_check$children[[1]]$children[[2]]$children[[1]],
-    "Error test"
-  )
-
-  expect_identical(date_check$children[[1]]$children[[2]]$attribs$role, "alert")
+  expect_hidden_error(date_check, "Error test")
 })
 
 
@@ -45,21 +33,37 @@ test_that("date defaults values works", {
     year = 2020
   )
 
-  expect_equal(length(date_check$children[[1]]$children[[4]]), 3)
+  items <- find_tags(date_check, "govuk-date-input__item")
+  expect_length(items, 3L)
 
-  date_child <- date_check$children[[1]]$children[[4]]
-  expect_equal(
-    date_child$children[[1]]$children[[1]]$children[[2]]$attribs$value,
-    1
+  values <- vapply(
+    items,
+    function(item) {
+      input <- find_tag(item, "govuk-date-input__input")
+      as.character(htmltools::tagGetAttribute(input, "value"))
+    },
+    character(1L)
   )
 
-  expect_equal(
-    date_child$children[[2]]$children[[1]]$children[[2]]$attribs$value,
-    2
+  expect_identical(values, c("1", "2", "2020"))
+})
+
+test_that("fieldset children appear in GOV.UK order", {
+  date_check <- date_Input(
+    "dateid",
+    "Test Date",
+    error = TRUE,
+    error_message = "Error test"
   )
 
-  expect_equal(
-    date_child$children[[3]]$children[[1]]$children[[2]]$attribs$value,
-    2020
+  fieldset <- find_tag(date_check, "govuk-fieldset")
+  expect_identical(
+    child_classes(fieldset),
+    c(
+      "govuk-label",
+      "govuk-error-message shinyjs-hide",
+      "govuk-hint",
+      "govuk-date-input"
+    )
   )
 })

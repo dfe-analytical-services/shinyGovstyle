@@ -1,10 +1,15 @@
 test_that("banner renders type tag and string label", {
   out <- banner("bannerId", "alpha", "Banner test")
 
-  html <- as.character(out)
-  expect_match(html, "govuk-phase-banner", fixed = TRUE)
-  expect_match(html, "alpha", fixed = TRUE)
-  expect_match(html, "Banner test", fixed = TRUE)
+  expect_identical(
+    tag_text(out, "govuk-phase-banner__content__tag"),
+    "alpha"
+  )
+
+  expect_identical(
+    tag_text(out, "govuk-phase-banner__text"),
+    shiny::HTML("Banner test")
+  )
 })
 
 test_that("label accepts a shiny.tag", {

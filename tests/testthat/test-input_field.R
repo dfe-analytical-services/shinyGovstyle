@@ -9,18 +9,22 @@ test_that("field works", {
 
   expect_equal(length(field_check), 3)
 
-  expect_identical(
-    paste(
-      field_check$children[[2]]$`Field 1`$children[[2]]$attribs$class,
-      field_check$children[[2]]$`Field 1`$children[[2]]$attribs[4]$class
-    ),
-    "govuk-error-message shinyjs-hide"
-  )
+  errors <- find_tags(field_check, "govuk-error-message")
+  expect_length(errors, 3L)
 
-  expect_identical(
-    field_check$children[[2]]$`Field 1`$children[[2]]$attribs$role,
-    "alert"
+  error_classes <- vapply(
+    errors,
+    function(e) htmltools::tagGetAttribute(e, "class"),
+    character(1L)
   )
+  expect_true(all(error_classes == "govuk-error-message shinyjs-hide"))
+
+  error_roles <- vapply(
+    errors,
+    function(e) htmltools::tagGetAttribute(e, "role"),
+    character(1L)
+  )
+  expect_true(all(error_roles == "alert"))
 })
 
 test_that("field works with null width", {

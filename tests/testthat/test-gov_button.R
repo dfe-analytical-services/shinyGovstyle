@@ -6,12 +6,12 @@ test_that("button works", {
   button <- button_Input("btn1", "Click me")
 
   expect_identical(
-    button$attribs$id,
+    htmltools::tagGetAttribute(button, "id"),
     "btn1"
   )
 
   expect_identical(
-    button$attribs$class,
+    htmltools::tagGetAttribute(button, "class"),
     "govuk-button action-button"
   )
 
@@ -25,12 +25,12 @@ test_that("start_button works", {
   button <- button_Input("btn1", "Click me", type = "start")
 
   expect_identical(
-    button$attribs$id,
+    htmltools::tagGetAttribute(button, "id"),
     "btn1"
   )
 
   expect_identical(
-    button$attribs$class,
+    htmltools::tagGetAttribute(button, "class"),
     "govuk-button govuk-button--start action-button"
   )
 
@@ -44,12 +44,12 @@ test_that("secondary_button works", {
   button <- button_Input("btn1", "Click me", type = "secondary")
 
   expect_identical(
-    button$attribs$id,
+    htmltools::tagGetAttribute(button, "id"),
     "btn1"
   )
 
   expect_identical(
-    button$attribs$class,
+    htmltools::tagGetAttribute(button, "class"),
     "govuk-button govuk-button--secondary action-button"
   )
 
@@ -63,12 +63,12 @@ test_that("warning_button works", {
   button <- button_Input("btn1", "Click me", type = "warning")
 
   expect_identical(
-    button$attribs$id,
+    htmltools::tagGetAttribute(button, "id"),
     "btn1"
   )
 
   expect_identical(
-    button$attribs$class,
+    htmltools::tagGetAttribute(button, "class"),
     "govuk-button govuk-button--warning action-button"
   )
 

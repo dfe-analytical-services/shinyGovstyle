@@ -3,6 +3,6 @@
   "description": "GOV.UK Frontend assets for shinyGovstyle R package. Needs manual updating.",
   "main": "index.js",
   "dependencies": {
-    "govuk-frontend": "6.1.0"
+    "govuk-frontend": "6.3.0"
   }
 }

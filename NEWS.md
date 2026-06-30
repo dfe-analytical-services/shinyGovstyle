@@ -1,6 +1,6 @@
 # shinyGovstyle (development version)
 
-## Breaking changes
+## Future breaking changes
 
 * `insert_text()` argument `text` has been renamed to `content` to reflect
   that it now accepts more than plain text. The old name is deprecated and
@@ -8,6 +8,11 @@
 
 ## New features
 
+* New `update_radio_button_Input()` function, the server-side companion to
+  `radio_button_Input()` (mirroring `shiny::updateRadioButtons()`). Use it to
+  change the selected option, choices, or label of a radio group from the
+  server, for example to keep a cookies settings radio in sync with a cookie
+  banner choice. See the new "Cookies and analytics" vignette.
 * `insert_text()` (`content`), `panel_output()` (`sub_text`), `noti_banner()`
   (`body_txt`), `details()` (`help_text`), `banner()` (`label`),
   `warning_text()` (`text`), and `gov_summary()` (`info`) now accept `shiny`
@@ -27,6 +32,9 @@
   `label`, so HTML strings render consistently across both arguments.
 * `warning_text()` now renders HTML strings in `text` consistently with other
   body-content components.
+* The `radio_button_Input()` client binding now correctly replaces all options
+  when sent an `options` update (the previous selectors did not match the
+  rendered markup, so option replacement silently did nothing).
 
 # shinyGovstyle 0.2.0
 

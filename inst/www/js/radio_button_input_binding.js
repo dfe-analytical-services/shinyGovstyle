@@ -47,10 +47,22 @@ $.extend(radioGroupButtonsBinding2, {
   receiveMessage: function receiveMessage(el, data) {
       var $el = $(el);
 
-      // This will replace all the options
+      // This will replace all the options. The bound element is the outer
+      // .govuk-radios form group; the option items live in an inner
+      // .govuk-radios container, which we swap out wholesale for the
+      // server-rendered markup. Any --inline / --small modifier classes on the
+      // replacement therefore come from that new markup (driven by the
+      // inline / small arguments to update_radio_button_Input()), not from the
+      // container being replaced.
       if (data.hasOwnProperty('options')) {
-        $el.find('govuk-radios govuk-radios--inline').empty();
-        $el.find('govuk-radios govuk-radios--inline').append(data.options);
+        var $inner = $el.find('.govuk-radios').filter(function () {
+          return $(this).children('.govuk-radios__item').length > 0;
+        });
+        if ($inner.length) {
+          $inner.first().replaceWith(data.options);
+        } else {
+          $el.find('.govuk-radios').last().append(data.options);
+        }
       }
 
       if (data.hasOwnProperty('selected'))

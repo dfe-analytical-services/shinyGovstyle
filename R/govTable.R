@@ -5,7 +5,7 @@
 #' @details For very large or interactive tables, consider
 #' [govReactable()] instead. `govTable()` renders a static HTML table, which
 #' becomes slow to render and harder to navigate as the number of rows grows.
-#' A warning is emitted when `df` has more than 1000 rows.
+#' A warning is emitted when `df` has more than 50 rows.
 #' @param inputId Input Id for the table
 #' @param df expects a dataframe to create a table
 #' @param caption adds a caption to the table as a header
@@ -50,7 +50,7 @@ govTable <- # nolint
     # pagination, sorting, or filtering) as they grow. Steer users towards
     # govReactable() for very large tables. The threshold is arbitrary, chosen
     # around the point where server-side rendering exceeds a few seconds.
-    if (nrow(df) > 1000) {
+    if (nrow(df) > 50) {
       warning(
         inputId,
         ": govTable has ",

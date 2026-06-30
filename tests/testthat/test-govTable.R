@@ -99,13 +99,13 @@ test_that("large tables render without a recursion error", {
 })
 
 test_that("govTable warns for large tables", {
-  over_df <- data.frame(a = paste0("r", seq_len(1001)), b = seq_len(1001))
+  over_df <- data.frame(a = paste0("r", seq_len(51)), b = seq_len(51))
   expect_warning(
     govTable("over", over_df, "Test"),
     "Consider govReactable"
   )
 
-  under_df <- data.frame(a = paste0("r", seq_len(1000)), b = seq_len(1000))
+  under_df <- data.frame(a = paste0("r", seq_len(50)), b = seq_len(50))
   expect_no_warning(govTable("under", under_df, "Test"))
 })
 

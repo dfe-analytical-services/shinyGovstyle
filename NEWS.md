@@ -36,7 +36,7 @@
   body-content components.
 * `govTable()` no longer errors with "evaluation nested too deeply: infinite
   recursion" on large tables (around 1200+ rows). It now warns when given more
-  than 1000 rows and recommends `govReactable()` for very large or interactive
+  than 50 rows and recommends `govReactable()` for very large or interactive
   tables.
 * The `radio_button_Input()` client binding now correctly replaces all options
   when sent an `options` update (the previous selectors did not match the

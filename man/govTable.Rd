@@ -41,7 +41,7 @@ rows and columns
 For very large or interactive tables, consider
 \code{\link[=govReactable]{govReactable()}} instead. \code{govTable()} renders a static HTML table, which
 becomes slow to render and harder to navigate as the number of rows grows.
-A warning is emitted when \code{df} has more than 1000 rows.
+A warning is emitted when \code{df} has more than 50 rows.
 }
 \examples{
 ui <- shiny::fluidPage(

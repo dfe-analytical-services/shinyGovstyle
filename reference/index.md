@@ -54,6 +54,8 @@
   : Radio Button Function
 - [`select_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/select_Input.md)
   : Select Function
+- [`update_radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_radio_button_Input.md)
+  : Update a Govstyle radio button input on the client
 
 ### Text Types
 

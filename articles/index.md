@@ -2,6 +2,8 @@
 
 ### All vignettes
 
+- [Cookies and
+  analytics](https://dfe-analytical-services.github.io/shinyGovstyle/articles/cookies-and-analytics.md):
 - [Headings and
   text](https://dfe-analytical-services.github.io/shinyGovstyle/articles/headings-and-text.md):
 - [Layout

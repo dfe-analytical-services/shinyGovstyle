@@ -19,7 +19,8 @@
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/headings-and-text.html">Headings and text</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/cookies-and-analytics.html">Cookies and analytics</a></li>
+    <li><a class="dropdown-item" href="../articles/headings-and-text.html">Headings and text</a></li>
     <li><a class="dropdown-item" href="../articles/layout-options.html">Layout options</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -40,13 +41,14 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="shinygovstyle-development-version">shinyGovstyle (development version)<a class="anchor" aria-label="anchor" href="#shinygovstyle-development-version"></a></h2>
 <div class="section level3">
-<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<h3 id="future-breaking-changes-development-version">Future breaking changes<a class="anchor" aria-label="anchor" href="#future-breaking-changes-development-version"></a></h3>
 <ul><li>
 <code><a href="../reference/insert_text.html">insert_text()</a></code> argument <code>text</code> has been renamed to <code>content</code> to reflect that it now accepts more than plain text. The old name is deprecated and will be removed in a future version.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>
+<ul><li>New <code><a href="../reference/update_radio_button_Input.html">update_radio_button_Input()</a></code> function, the server-side companion to <code><a href="../reference/radio_button_Input.html">radio_button_Input()</a></code> (mirroring <code><a href="https://rdrr.io/pkg/shiny/man/updateRadioButtons.html" class="external-link">shiny::updateRadioButtons()</a></code>). Use it to change the selected option, choices, or label of a radio group from the server, for example to keep a cookies settings radio in sync with a cookie banner choice. See the new “Cookies and analytics” vignette.</li>
+<li>
 <code><a href="../reference/insert_text.html">insert_text()</a></code> (<code>content</code>), <code><a href="../reference/panel_output.html">panel_output()</a></code> (<code>sub_text</code>), <code><a href="../reference/noti_banner.html">noti_banner()</a></code> (<code>body_txt</code>), <code><a href="../reference/details.html">details()</a></code> (<code>help_text</code>), <code><a href="../reference/banner.html">banner()</a></code> (<code>label</code>), <code><a href="../reference/warning_text.html">warning_text()</a></code> (<code>text</code>), and <code><a href="../reference/gov_summary.html">gov_summary()</a></code> (<code>info</code>) now accept <code>shiny</code> tag objects (e.g. <code>shiny::tags$b("Bold")</code>) and <code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">shiny::tagList()</a></code> values in addition to plain character strings.</li>
 </ul></div>
 <div class="section level3">
@@ -60,6 +62,7 @@
 <code><a href="../reference/details.html">details()</a></code> now applies the same HTML handling to <code>help_text</code> as it does to <code>label</code>, so HTML strings render consistently across both arguments.</li>
 <li>
 <code><a href="../reference/warning_text.html">warning_text()</a></code> now renders HTML strings in <code>text</code> consistently with other body-content components.</li>
+<li>The <code><a href="../reference/radio_button_Input.html">radio_button_Input()</a></code> client binding now correctly replaces all options when sent an <code>options</code> update (the previous selectors did not match the rendered markup, so option replacement silently did nothing).</li>
 </ul></div>
 </div>
     <div class="section level2">

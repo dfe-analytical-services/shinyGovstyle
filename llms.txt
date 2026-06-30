@@ -130,6 +130,8 @@ shinyGovstyle::run_example()
   : Radio Button Function
 - [`select_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/select_Input.md)
   : Select Function
+- [`update_radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_radio_button_Input.md)
+  : Update a Govstyle radio button input on the client
 
 ### Text Types
 
@@ -228,6 +230,8 @@ shinyGovstyle::run_example()
 
 ### All vignettes
 
+- [Cookies and
+  analytics](https://dfe-analytical-services.github.io/shinyGovstyle/articles/cookies-and-analytics.md):
 - [Headings and
   text](https://dfe-analytical-services.github.io/shinyGovstyle/articles/headings-and-text.md):
 - [Layout

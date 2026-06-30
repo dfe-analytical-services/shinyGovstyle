@@ -2,7 +2,7 @@
 
 ## shinyGovstyle (development version)
 
-### Breaking changes
+### Future breaking changes
 
 - [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
   argument `text` has been renamed to `content` to reflect that it now
@@ -11,6 +11,16 @@
 
 ### New features
 
+- New
+  [`update_radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_radio_button_Input.md)
+  function, the server-side companion to
+  [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md)
+  (mirroring
+  [`shiny::updateRadioButtons()`](https://rdrr.io/pkg/shiny/man/updateRadioButtons.html)).
+  Use it to change the selected option, choices, or label of a radio
+  group from the server, for example to keep a cookies settings radio in
+  sync with a cookie banner choice. See the new “Cookies and analytics”
+  vignette.
 - [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
   (`content`),
   [`panel_output()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/panel_output.md)
@@ -47,6 +57,11 @@
 - [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
   now renders HTML strings in `text` consistently with other
   body-content components.
+- The
+  [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md)
+  client binding now correctly replaces all options when sent an
+  `options` update (the previous selectors did not match the rendered
+  markup, so option replacement silently did nothing).
 
 ## shinyGovstyle 0.2.0
 

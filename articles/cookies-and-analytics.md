@@ -1,0 +1,272 @@
+# Cookies and analytics
+
+## Overview
+
+Public services need to tell users about cookies and, where they set
+non-essential cookies (such as analytics), let users accept or reject
+them. shinyGovstyle gives you the building blocks for this:
+
+- [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md):
+  the GOV.UK styled banner that appears at the top of the page, with
+  accept / reject / hide message states wired up for you.
+- [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md):
+  a GOV.UK styled radio group, useful for a “change your cookie
+  settings” control on a dedicated cookies page.
+- [`update_radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_radio_button_Input.md):
+  the server-side companion that lets you change the selected option (or
+  the choices, or the label) of a radio group from your server code.
+
+shinyGovstyle is deliberately **agnostic about analytics**. It does not
+set, read, or send any analytics cookies itself. It gives you the
+consent UI and the reactive plumbing; you decide what to do with the
+user’s choice. The [Extending for analytics](#extending-for-analytics)
+section points to a worked example from DfE using Google Analytics.
+
+## The cookie banner
+
+[`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md)
+needs
+[`shinyjs::useShinyjs()`](https://rdrr.io/pkg/shinyjs/man/useShinyjs.html)
+to be present so the banner can show and hide its different states. All
+of the ids are preset, so the server logic is a fixed set of
+[`observeEvent()`](https://rdrr.io/pkg/shiny/man/observeEvent.html)
+handlers.
+
+``` r
+
+library(shiny)
+library(shinyGovstyle)
+
+ui <- fluidPage(
+  shinyjs::useShinyjs(),
+  shinyGovstyle::header(
+    org_name = "Example",
+    service_name = "User Examples"
+  ),
+  shinyGovstyle::cookieBanner("User Examples"),
+  shinyGovstyle::gov_layout(size = "two-thirds"),
+  shinyGovstyle::footer(full = TRUE)
+)
+
+server <- function(input, output, session) {
+  # Show the relevant confirmation message and hide the main banner
+  observeEvent(input$cookieAccept, {
+    shinyjs::show(id = "cookieAcceptDiv")
+    shinyjs::hide(id = "cookieMain")
+  })
+
+  observeEvent(input$cookieReject, {
+    shinyjs::show(id = "cookieRejectDiv")
+    shinyjs::hide(id = "cookieMain")
+  })
+
+  # Hide the whole banner once the user has read the confirmation
+  observeEvent(input$hideAccept, shinyjs::toggle(id = "cookieDiv"))
+  observeEvent(input$hideReject, shinyjs::toggle(id = "cookieDiv"))
+
+  # input$cookieLink takes users to a dedicated cookies page. Here the page is
+  # a hidden tabsetPanel, so we switch to it with shiny::updateTabsetPanel().
+  observeEvent(input$cookieLink, {
+    updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
+  })
+}
+
+if (interactive()) shinyApp(ui, server)
+```
+
+## A cookies settings page
+
+A common pattern is a dedicated cookies page with a radio group that
+lets the user change their analytics choice, a button to save it, and a
+confirmation message. The example app that ships with this package
+builds exactly this as a Shiny module (see
+`inst/example_app/modules/mod_cookies.R`), and the rest of this section
+walks through that pattern.
+
+### Banner ids are global, the settings page is a module
+
+One subtlety drives the whole design.
+[`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md)
+uses **fixed, top-level ids** (`cookieAccept`, `cookieReject`,
+`hideAccept`, `hideReject` and `cookieLink`), so those inputs are never
+namespaced. The settings radio, on the other hand, lives inside a module
+and therefore is namespaced. To let the banner drive the radio, you
+bridge the top-level banner inputs into the module as reactives, and
+keep the banner’s own
+[`observeEvent()`](https://rdrr.io/pkg/shiny/man/observeEvent.html)
+handlers at the top level.
+
+### The module UI
+
+Build the control with
+[`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md),
+add a save button, and leave a
+[`uiOutput()`](https://rdrr.io/pkg/shiny/man/htmlOutput.html)
+placeholder for the confirmation message. Use `shiny::NS(id, ...)` so
+the ids are namespaced to the module:
+
+``` r
+
+mod_cookies_ui <- function(id) {
+  shiny::tagList(
+    shinyGovstyle::heading_text("Cookies", size = "l", level = 1),
+    shinyGovstyle::gov_text(
+      "We use analytics cookies to measure how the service is used so we",
+      "can improve it."
+    ),
+    shiny::uiOutput(shiny::NS(id, "cookie_saved")),
+    shinyGovstyle::radio_button_Input(
+      inputId = shiny::NS(id, "cookies_analytics"),
+      label = "Do you want to accept analytics cookies?",
+      choices = c("Yes" = "yes", "No" = "no"),
+      selected = "no",
+      inline = TRUE
+    ),
+    shinyGovstyle::button_Input(
+      shiny::NS(id, "save_cookies"),
+      "Save cookie settings"
+    )
+  )
+}
+```
+
+### The module server
+
+The server takes the banner choices and the active tab as reactive
+arguments. The banner choices keep the radio in sync via
+[`update_radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_radio_button_Input.md),
+saving shows a success
+[`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md),
+and leaving the tab clears any stale message:
+
+``` r
+
+mod_cookies_server <- function(id, cookie_accept, cookie_reject, active_tab) {
+  shiny::moduleServer(id, function(input, output, session) {
+    # Banner choices drive the settings radio without the user touching it.
+    # ignoreInit = TRUE stops these firing on startup.
+    shiny::observeEvent(
+      cookie_accept(),
+      shinyGovstyle::update_radio_button_Input(
+        session,
+        inputId = "cookies_analytics",
+        selected = "yes"
+      ),
+      ignoreInit = TRUE
+    )
+
+    shiny::observeEvent(
+      cookie_reject(),
+      shinyGovstyle::update_radio_button_Input(
+        session,
+        inputId = "cookies_analytics",
+        selected = "no"
+      ),
+      ignoreInit = TRUE
+    )
+
+    # Saving shows a success banner reflecting the live radio value.
+    saved_choice <- shiny::reactiveVal(NULL)
+
+    shiny::observeEvent(input$save_cookies, {
+      saved_choice(
+        if (identical(input$cookies_analytics, "yes")) "accept" else "reject"
+      )
+    })
+
+    # Clear the success banner when the user leaves the cookies tab, so a
+    # stale message isn't waiting for them when they come back.
+    shiny::observeEvent(
+      active_tab(),
+      {
+        if (!identical(active_tab(), "panel-cookies")) {
+          saved_choice(NULL)
+        }
+      },
+      ignoreInit = TRUE
+    )
+
+    output$cookie_saved <- shiny::renderUI({
+      choice <- saved_choice()
+      if (is.null(choice)) {
+        return(NULL)
+      }
+      shinyGovstyle::noti_banner(
+        session$ns("saved_banner"),
+        title_txt = "Success",
+        body_txt = paste0(
+          "You've updated your cookie preferences. You chose to ",
+          choice,
+          " analytics cookies."
+        ),
+        type = "success"
+      )
+    })
+  })
+}
+```
+
+[`update_radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_radio_button_Input.md)
+mirrors
+[`shiny::updateRadioButtons()`](https://rdrr.io/pkg/shiny/man/updateRadioButtons.html):
+only the arguments you pass are sent to the client, and the `inputId` is
+namespaced automatically when you call it inside a Shiny module. That is
+why the module server can use the plain id `"cookies_analytics"` even
+though the rendered input is namespaced.
+
+### Wiring it together at the top level
+
+The banner observers and the `cookieLink` navigation stay at the top
+level (because the banner ids are global), and the banner inputs are
+passed into the module as reactives:
+
+``` r
+
+server <- function(input, output, session) {
+  mod_cookies_server(
+    "cookies",
+    cookie_accept = shiny::reactive(input$cookieAccept),
+    cookie_reject = shiny::reactive(input$cookieReject),
+    active_tab = shiny::reactive(input[["tab-container"]])
+  )
+
+  # Banner show/hide handlers (as in the banner example above)
+  observeEvent(input$cookieAccept, {
+    shinyjs::show(id = "cookieAcceptDiv")
+    shinyjs::hide(id = "cookieMain")
+  })
+  observeEvent(input$cookieReject, {
+    shinyjs::show(id = "cookieRejectDiv")
+    shinyjs::hide(id = "cookieMain")
+  })
+  observeEvent(input$hideAccept, shinyjs::toggle(id = "cookieDiv"))
+  observeEvent(input$hideReject, shinyjs::toggle(id = "cookieDiv"))
+
+  # The "View cookies" link in the banner opens the cookies tab
+  observeEvent(input$cookieLink, {
+    updateTabsetPanel(session, "tab-container", selected = "panel-cookies")
+  })
+}
+```
+
+You can run this end to end with
+`shiny::runApp(system.file("example_app", package = "shinyGovstyle"))`
+and open the **Cookies** tab to see the radio stay in sync with the
+banner and the save confirmation appear.
+
+## Extending for analytics
+
+shinyGovstyle stops at the consent UI on purpose. To actually act on the
+user’s choice (for example to load Google Analytics only after consent,
+store the decision in a cookie, and respond to it across sessions), you
+layer your own logic (or another package’s) on top of these components.
+
+[dfeshiny](https://github.com/dfe-analytical-services/dfeshiny) is a
+worked example of exactly this. It provides a cookies module
+(`cookies_banner_ui()` / `cookies_banner_server()` and
+`cookies_panel_ui()`) that builds on shinyGovstyle’s components and adds
+Google Analytics consent handling: reading and writing the consent
+cookie, and toggling analytics on or off based on the user’s choice. If
+you need a ready-made analytics consent flow rather than the building
+blocks, that module is a good place to start, and a good template if you
+are writing your own.

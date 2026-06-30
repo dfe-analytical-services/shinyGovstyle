@@ -96,6 +96,91 @@ test_that("Inline", {
   expect_identical(inline_class, "govuk-radios govuk-radios--inline")
 })
 
+# Build a lightweight stand-in for a Shiny session that records the messages
+# update_radio_button_Input() would send to the client. `ns` mimics module
+# namespacing so we can check the regenerated option markup is namespaced.
+mock_radio_session <- function(ns = function(id) id) {
+  captured <- new.env(parent = emptyenv())
+  captured$inputId <- NULL
+  captured$message <- NULL
+  list(
+    ns = ns,
+    sendInputMessage = function(
+      inputId, # nolint
+      message
+    ) {
+      captured$inputId <- inputId
+      captured$message <- message
+    },
+    captured = captured
+  )
+}
+
+test_that("update_radio_button_Input sends only the fields supplied", {
+  session <- mock_radio_session()
+
+  update_radio_button_Input(session, inputId = "cookies", selected = "yes")
+
+  expect_identical(session$captured$inputId, "cookies")
+  expect_identical(session$captured$message$selected, "yes")
+  expect_null(session$captured$message$options)
+  expect_null(session$captured$message$label)
+})
+
+test_that("update_radio_button_Input can update the label alone", {
+  session <- mock_radio_session()
+
+  update_radio_button_Input(session, inputId = "cookies", label = "New label")
+
+  expect_identical(session$captured$message$label, "New label")
+  expect_null(session$captured$message$selected)
+  expect_null(session$captured$message$options)
+})
+
+test_that("update_radio_button_Input regenerates option markup for choices", {
+  session <- mock_radio_session()
+
+  update_radio_button_Input(
+    session,
+    inputId = "cookies",
+    choices = c("Yes" = "yes", "No" = "no"),
+    selected = "yes"
+  )
+
+  options <- session$captured$message$options
+  expect_type(options, "character")
+  expect_match(options, "govuk-radios__item")
+  # The selected value is pre-checked in the rendered markup
+  expect_match(options, "checked")
+})
+
+test_that("update_radio_button_Input namespaces regenerated option inputs", {
+  session <- mock_radio_session(ns = function(id) paste0("mod-", id))
+
+  update_radio_button_Input(
+    session,
+    inputId = "cookies",
+    choices = c("Yes" = "yes", "No" = "no")
+  )
+
+  # The option inputs use the namespaced id as their `name` so the client
+  # binding can match them, mirroring radio_button_Input() markup.
+  expect_match(session$captured$message$options, "mod-cookies")
+})
+
+test_that("update_radio_button_Input rejects multiple selected values", {
+  session <- mock_radio_session()
+
+  expect_error(
+    update_radio_button_Input(
+      session,
+      inputId = "cookies",
+      selected = c("yes", "no")
+    ),
+    "length 1"
+  )
+})
+
 test_that("Labels are programmatically associated with inputs", {
   choices <- c("Yes", "No", "Maybe")
   rtag <- radio_button_Input(

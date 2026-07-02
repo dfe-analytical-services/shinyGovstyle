@@ -68,10 +68,10 @@ ui <- shiny::fluidPage(
       hint_label = "This can be found on the letter",
       error = TRUE
     ),
-    # Rich content: a tag in the label and a link in the hint
+    # Rich content: a link in the hint
     shinyGovstyle::text_Input(
       inputId = "eventId3",
-      label = shiny::tags$b("Event Name"),
+      label = "Event Name",
       hint_label = shiny::tagList(
         "As shown on your ",
         shinyGovstyle::external_link(

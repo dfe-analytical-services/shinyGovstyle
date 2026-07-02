@@ -48,10 +48,10 @@ text_area_Input(
   )
 )
 
-# Rich content: a tag in the label and a link in the hint
+# Rich content: a link in the hint
 text_area_Input(
   "taId2",
-  shiny::tags$b("Can you provide more detail?"),
+  "Can you provide more detail?",
   shiny::tagList(
     "Read the ",
     shinyGovstyle::external_link("https://www.gov.uk", "guidance on detail")

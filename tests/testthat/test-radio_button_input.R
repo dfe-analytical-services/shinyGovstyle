@@ -96,6 +96,20 @@ test_that("Inline", {
   expect_identical(inline_class, "govuk-radios govuk-radios--inline")
 })
 
+test_that("label and hint accept rich content", {
+  html <- as.character(
+    radio_button_Input(
+      inputId = "Id029",
+      label = shiny::tags$b("Bold label"),
+      choices = c("A", "B"),
+      hint_label = shiny::HTML('See <a href="#">guidance</a>')
+    )
+  )
+
+  expect_match(html, "<b>Bold label</b>", fixed = TRUE)
+  expect_match(html, '<a href="#">guidance</a>', fixed = TRUE)
+})
+
 # Build a lightweight stand-in for a Shiny session that records the messages
 # update_radio_button_Input() would send to the client. `ns` mimics module
 # namespacing so we can check the regenerated option markup is namespaced.

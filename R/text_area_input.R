@@ -2,9 +2,7 @@
 #'
 #' This function create a text area input.
 #' @param inputId The input slot that will be used to access the value
-#' @param label Display label for the control, or `NULL` for no label
-#' @param hint_label Display hint label for the control, or `NULL` for no
-#' hint label
+#' @inheritParams control_label_params
 #' @param row_no Size of the text entry box. Defaults to 5
 #' @param error Whenever to include error handling. Defaults to `FALSE`
 #' @param error_message Message to display on error. Defaults to `NULL`
@@ -21,6 +19,16 @@
 #'     "National Insurance number or credit card details."
 #'   )
 #' )
+#'
+#' # Rich content: a link in the hint
+#' text_area_Input(
+#'   "taId2",
+#'   "Can you provide more detail?",
+#'   shiny::tagList(
+#'     "Read the ",
+#'     shinyGovstyle::external_link("https://www.gov.uk", "guidance on detail")
+#'   )
+#' )
 text_area_Input <- # nolint
   function(
     inputId, # nolint
@@ -34,8 +42,8 @@ text_area_Input <- # nolint
     gov_textarea <- shiny::tags$div(
       class = "govuk-form-group govuk-character-count",
       id = paste0(inputId, "div"),
-      shiny::tags$label(shiny::HTML(label), class = "govuk-label"),
-      shiny::tags$div(hint_label, class = "govuk-hint"),
+      shiny::tags$label(as_govuk_html(label), class = "govuk-label"),
+      shiny::tags$div(as_govuk_html(hint_label), class = "govuk-hint"),
       if (error == TRUE) {
         shinyjs::hidden(
           shiny::tags$p(

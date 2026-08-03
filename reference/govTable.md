@@ -49,6 +49,14 @@ govTable(
 
 a table HTML shiny tag object
 
+## Details
+
+For very large or interactive tables, consider
+[`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md)
+instead. `govTable()` renders a static HTML table, which becomes slow to
+render and harder to navigate as the number of rows grows. A warning is
+emitted when `df` has more than 50 rows.
+
 ## See also
 
 Other Govstyle tables tabs and accordions:

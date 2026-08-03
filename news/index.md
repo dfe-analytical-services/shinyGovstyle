@@ -8,6 +8,8 @@
   argument `text` has been renamed to `content` to reflect that it now
   accepts more than plain text. The old name is deprecated and will be
   removed in a future version.
+- [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md)
+  now renders rows in dataframe order (rows were previously reversed).
 
 ### New features
 
@@ -57,6 +59,12 @@
 - [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
   now renders HTML strings in `text` consistently with other
   body-content components.
+- [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md)
+  no longer errors with “evaluation nested too deeply: infinite
+  recursion” on large tables (around 1200+ rows). It now warns when
+  given more than 50 rows and recommends
+  [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md)
+  for very large or interactive tables.
 - The
   [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md)
   client binding now correctly replaces all options when sent an

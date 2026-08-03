@@ -95,6 +95,13 @@ Default is <code>NULL</code></p></dd>
     <p>a table HTML shiny tag object</p>
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>For very large or interactive tables, consider
+<code><a href="govReactable.html">govReactable()</a></code> instead. <code>govTable()</code> renders a static HTML table, which
+becomes slow to render and harder to navigate as the number of rows grows.
+A warning is emitted when <code>df</code> has more than 50 rows.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other Govstyle tables tabs and accordions:
 <code><a href="accordion.html">accordion()</a></code>,
@@ -133,7 +140,7 @@ Default is <code>NULL</code></p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

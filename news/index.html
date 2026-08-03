@@ -44,6 +44,8 @@
 <h3 id="future-breaking-changes-development-version">Future breaking changes<a class="anchor" aria-label="anchor" href="#future-breaking-changes-development-version"></a></h3>
 <ul><li>
 <code><a href="../reference/insert_text.html">insert_text()</a></code> argument <code>text</code> has been renamed to <code>content</code> to reflect that it now accepts more than plain text. The old name is deprecated and will be removed in a future version.</li>
+<li>
+<code><a href="../reference/govTable.html">govTable()</a></code> now renders rows in dataframe order (rows were previously reversed).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
@@ -62,6 +64,8 @@
 <code><a href="../reference/details.html">details()</a></code> now applies the same HTML handling to <code>help_text</code> as it does to <code>label</code>, so HTML strings render consistently across both arguments.</li>
 <li>
 <code><a href="../reference/warning_text.html">warning_text()</a></code> now renders HTML strings in <code>text</code> consistently with other body-content components.</li>
+<li>
+<code><a href="../reference/govTable.html">govTable()</a></code> no longer errors with “evaluation nested too deeply: infinite recursion” on large tables (around 1200+ rows). It now warns when given more than 50 rows and recommends <code><a href="../reference/govReactable.html">govReactable()</a></code> for very large or interactive tables.</li>
 <li>The <code><a href="../reference/radio_button_Input.html">radio_button_Input()</a></code> client binding now correctly replaces all options when sent an <code>options</code> update (the previous selectors did not match the rendered markup, so option replacement silently did nothing).</li>
 </ul></div>
 </div>
@@ -156,7 +160,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

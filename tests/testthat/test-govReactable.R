@@ -24,3 +24,18 @@ test_that("govReactable attaches the reactable-overrides stylesheet", {
   expect_true("reactable-overrides" %in% dep_names)
   expect_true("stylecss" %in% dep_names)
 })
+
+test_that("govReactable handles large tables", {
+  # Unlike the static govTable(), reactable serialises the full dataset once
+  # and paginates client-side, so it scales to far larger tables.
+  n <- 100000L
+  big_df <- data.frame(
+    id = paste0("row", seq_len(n)),
+    value = seq_len(n)
+  )
+
+  html <- htmltools::renderTags(govReactable(big_df))$html
+
+  # The entire dataset is embedded in the payload, not truncated to a page.
+  expect_match(html, paste0("row", n), fixed = TRUE)
+})

@@ -26,11 +26,15 @@ text_Input(
 
 - label:
 
-  Display label for the control, or `NULL` for no label
+  Display label for the control, or `NULL` for no label. Accepts a plain
+  character string, an HTML string, or `shiny` tag objects such as
+  `shiny::tags$b("Bold")` or a
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
 
 - hint_label:
 
-  Display hint label for the control, or `NULL` for no hint label
+  Display hint label for the control, or `NULL` for no hint label.
+  Accepts the same rich content as `label`, so it can include a link.
 
 - type:
 
@@ -95,6 +99,18 @@ ui <- shiny::fluidPage(
       label = "Event Name",
       hint_label = "This can be found on the letter",
       error = TRUE
+    ),
+    # Rich content: a link in the hint
+    shinyGovstyle::text_Input(
+      inputId = "eventId3",
+      label = "Event Name",
+      hint_label = shiny::tagList(
+        "As shown on your ",
+        shinyGovstyle::external_link(
+          "https://www.gov.uk",
+          "confirmation letter"
+        )
+      )
     ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")

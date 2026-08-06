@@ -71,7 +71,7 @@
 <li>
 <strong>Run all tests locally</strong> with <code>devtools::test()</code> and then <code>devtools::check()</code>, in the latter, don’t worry about notes, but pay attention to any errors or warnings.</li>
 <li>
-<strong>Tests and documentation.</strong> Add or update tests for any new behaviour, re-run <code>devtools::document()</code> so the <code>man/</code> pages stay in sync, and review the vignettes, README, and other doc files in the repo to see if any of them should also be updated.</li>
+<strong>Tests and documentation.</strong> Add or update tests for any new behaviour, re-run <code>devtools::document()</code> so the <code>man/</code> pages stay in sync, and review the vignettes, README, and other doc files in the repo to see if any of them should also be updated. If you’re touching the shared <code>label</code>/<code>hint</code> arguments (or any other future shared arguments), edit the descriptions once in <code>R/params.R</code> (pulled in via <code>@inheritParams control_label_params</code>) rather than per file — see <a href="../AGENTS.html">AGENTS.md</a> for that convention.</li>
 <li>
 <strong>Design system check.</strong> If you’ve added or changed a UI component, compare it against the <a href="https://design-system.service.gov.uk/" class="external-link">GOV.UK Design System</a> to make sure looks and behaves consistently with the GOVUK guidance.</li>
 <li>

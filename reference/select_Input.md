@@ -16,7 +16,10 @@ select_Input(inputId, label, select_text, select_value)
 
 - label:
 
-  Insert the text for the label
+  Display label for the control, or `NULL` for no label. Accepts a plain
+  character string, an HTML string, or `shiny` tag objects such as
+  `shiny::tags$b("Bold")` or a
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
 
 - select_text:
 

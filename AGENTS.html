@@ -98,6 +98,8 @@
 <strong>Any hand-edit to <code>inst/www/css/govuk-frontend-x.x.x.min.css</code> must be logged in <code>css_changes.md</code></strong> — that file is the single source of truth used to reapply local overrides whenever the upstream CSS is refreshed.</li>
 <li>
 <strong>Formatting is enforced by <a href="https://posit-dev.github.io/air/" class="external-link">Air</a></strong>, not by manual style choices. A GitHub Action runs Air on every PR and posts ReviewDog suggestions; accepting them in a single batched commit is the expected workflow.</li>
+<li>
+<strong>Shared parameter docs live in <code>R/params.R</code>.</strong> The form-control components (<code><a href="reference/label_hint.html">label_hint()</a></code>, <code><a href="reference/text_Input.html">text_Input()</a></code>, <code><a href="reference/date_Input.html">date_Input()</a></code>, <code><a href="reference/select_Input.html">select_Input()</a></code>, <code><a href="reference/checkbox_Input.html">checkbox_Input()</a></code>, <code><a href="reference/radio_button_Input.html">radio_button_Input()</a></code>, …) reuse one set of <code>label</code>/<code>hint</code> descriptions via <code>@inheritParams control_label_params</code> rather than repeating the rich-content wording per file. <code>R/params.R</code> defines no component — it is documentation only — so it is the deliberate exception to the one-component-per-file layout. Update the wording there once, then re-run <code>devtools::document()</code> so every affected <code>man/</code> page picks it up.</li>
 </ul></div>
 </div>
 

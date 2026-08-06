@@ -29,7 +29,10 @@ radio_button_Input(
 
 - label:
 
-  Input label
+  Display label for the control, or `NULL` for no label. Accepts a plain
+  character string, an HTML string, or `shiny` tag objects such as
+  `shiny::tags$b("Bold")` or a
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
 
 - choices:
 
@@ -62,8 +65,8 @@ radio_button_Input(
 
 - hint_label:
 
-  Additional hint text you may want to display below the label. Defaults
-  to NULL
+  Display hint label for the control, or `NULL` for no hint label.
+  Accepts the same rich content as `label`, so it can include a link.
 
 - error:
 
@@ -121,6 +124,16 @@ ui <- shiny::fluidPage(
       inline = TRUE,
       error = TRUE,
       error_message = "Select one"
+    ),
+    # Rich content: a link in the hint
+    shinyGovstyle::radio_button_Input(
+      inputId = "radio3",
+      choices = c("Yes", "No", "Maybe"),
+      label = "Choice option",
+      hint_label = shiny::tagList(
+        "See the ",
+        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+      )
     ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")

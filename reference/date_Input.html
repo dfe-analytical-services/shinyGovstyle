@@ -66,12 +66,14 @@
 
 
 <dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
-<dd><p>Display label for the control, or <code>NULL</code> for no label</p></dd>
+<dd><p>Display label for the control, or <code>NULL</code> for no label. Accepts
+a plain character string, an HTML string, or <code>shiny</code> tag objects such as
+<code>shiny::tags$b("Bold")</code> or a <code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">shiny::tagList()</a></code>.</p></dd>
 
 
 <dt id="arg-hint-label">hint_label<a class="anchor" aria-label="anchor" href="#arg-hint-label"></a></dt>
-<dd><p>Display hint label for the control, or <code>NULL</code> for no
-hint label</p></dd>
+<dd><p>Display hint label for the control, or <code>NULL</code> for no hint
+label. Accepts the same rich content as <code>label</code>, so it can include a link.</p></dd>
 
 
 <dt id="arg-error">error<a class="anchor" aria-label="anchor" href="#arg-error"></a></dt>
@@ -135,6 +137,15 @@ hint label</p></dd>
 <span class="r-in"><span>      label <span class="op">=</span> <span class="st">"Please enter your birthday"</span>,</span></span>
 <span class="r-in"><span>      hint_label <span class="op">=</span> <span class="st">"For example, 12 11 2007"</span>,</span></span>
 <span class="r-in"><span>      error <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="co"># Rich content: a link in the hint</span></span></span>
+<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">date_Input</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      inputId <span class="op">=</span> <span class="st">"dob_input3"</span>,</span></span>
+<span class="r-in"><span>      label <span class="op">=</span> <span class="st">"Please enter your birthday"</span>,</span></span>
+<span class="r-in"><span>      hint_label <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="st">"Check the format in the "</span>,</span></span>
+<span class="r-in"><span>        <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="external_link.html">external_link</a></span><span class="op">(</span><span class="st">"https://www.gov.uk"</span>, <span class="st">"GOV.UK guidance"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="co"># Button to trigger error</span></span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="button_Input.html">button_Input</a></span><span class="op">(</span>inputId <span class="op">=</span> <span class="st">"submit"</span>, label <span class="op">=</span> <span class="st">"Submit"</span><span class="op">)</span></span></span>

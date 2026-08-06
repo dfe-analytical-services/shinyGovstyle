@@ -40,6 +40,31 @@
   and
   [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html)
   values in addition to plain character strings.
+- [`gov_list()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_list.md)
+  (`list`) and
+  [`accordion()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/accordion.md)
+  (`descriptions`) now accept `shiny` tag objects and
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html)
+  values, so list items and accordion sections can contain links and
+  other rich content.
+  [`accordion()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/accordion.md)
+  section content is no longer forced into a single paragraph, so it can
+  hold block content such as lists or multiple paragraphs (plain-string
+  sections are unchanged).
+- The `label` and `hint_label` / `hint_input` arguments of
+  [`label_hint()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/label_hint.md),
+  [`text_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.md),
+  [`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md),
+  [`date_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/date_Input.md),
+  [`select_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/select_Input.md),
+  [`checkbox_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/checkbox_Input.md),
+  and
+  [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md)
+  now consistently accept plain strings, HTML strings, `shiny` tag
+  objects, and
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html)
+  values. Previously labels accepted HTML strings but not tags, while
+  hints accepted tags but not HTML strings.
 
 ### Bug fixes
 

@@ -18,7 +18,9 @@ The body-content arguments of
 [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
 (`text`), and
 [`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md)
-(`body_txt`) accept more than plain character strings. You can pass a
+(`body_txt`), along with the list items of
+[`gov_list()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_list.md)
+(`list`), accept more than plain character strings. You can pass a
 `shiny` tag, a
 [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html),
 or
@@ -48,9 +50,11 @@ The same applies to
 [`panel_output()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/panel_output.md)
 (`sub_text`),
 [`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md)
-(`help_text`), and
+(`help_text`),
 [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
-(`info`), which are covered in [Layout
+(`info`), and
+[`accordion()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/accordion.md)
+(`descriptions`), which are covered in [Layout
 options](https://dfe-analytical-services.github.io/shinyGovstyle/articles/layout-options.md)
 and the function reference.
 
@@ -190,10 +194,31 @@ gov_list(c("First item", "Second item", "Third item"), style = "bullet")
 gov_list(c("First step", "Second step", "Third step"), style = "number")
 ```
 
-Use `style = "number"` when order matters — steps in a process, ranked
-results, or sequential instructions. Use `style = "bullet"` for
+Use `style = "number"` when order matters (steps in a process, ranked
+results, or sequential instructions). Use `style = "bullet"` for
 unordered items. The plain style (`"none"`) is useful when you want list
 semantics for screen readers without a visual marker.
+
+### Rich content in list items
+
+Items are not limited to plain strings. Pass a `shiny` tag or a
+[`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html)
+for any item that needs a link or inline emphasis, and mix them freely
+with plain-string items:
+
+``` r
+
+gov_list(
+  list(
+    "An ordinary item",
+    shiny::tagList(
+      "An item with a ",
+      external_link("https://www.gov.uk", "link to GOV.UK")
+    )
+  ),
+  style = "bullet"
+)
+```
 
 For more information, read the [GOV.UK lists
 guidance](https://design-system.service.gov.uk/styles/lists/).

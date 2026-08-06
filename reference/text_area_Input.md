@@ -24,11 +24,15 @@ text_area_Input(
 
 - label:
 
-  Display label for the control, or `NULL` for no label
+  Display label for the control, or `NULL` for no label. Accepts a plain
+  character string, an HTML string, or `shiny` tag objects such as
+  `shiny::tags$b("Bold")` or a
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
 
 - hint_label:
 
-  Display hint label for the control, or `NULL` for no hint label
+  Display hint label for the control, or `NULL` for no hint label.
+  Accepts the same rich content as `label`, so it can include a link.
 
 - row_no:
 
@@ -75,5 +79,21 @@ text_area_Input(
 #>   <label class="govuk-label">Can you provide more detail?</label>
 #>   <div class="govuk-hint">Do not include personal or financial information, like your National Insurance number or credit card details.</div>
 #>   <textarea id="taId" class="govuk-textarea" rows="5"></textarea>
+#> </div>
+
+# Rich content: a link in the hint
+text_area_Input(
+  "taId2",
+  "Can you provide more detail?",
+  shiny::tagList(
+    "Read the ",
+    shinyGovstyle::external_link("https://www.gov.uk", "guidance on detail")
+  )
+)
+#> <div class="govuk-form-group govuk-character-count" id="taId2div">
+#>   <label class="govuk-label">Can you provide more detail?</label>
+#>   <div class="govuk-hint">
+#>     Read the <a href="https://www.gov.uk" class="govuk-link" target="_blank" rel="noopener noreferrer">guidance on detail (opens in new tab)</a></div>
+#>   <textarea id="taId2" class="govuk-textarea" rows="5"></textarea>
 #> </div>
 ```

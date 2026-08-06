@@ -53,7 +53,9 @@
 
 
 <dl><dt id="arg-list">list<a class="anchor" aria-label="anchor" href="#arg-list"></a></dt>
-<dd><p>vector of list</p></dd>
+<dd><p>vector or list of items. Each item accepts a plain character
+string, or <code>shiny</code> tag objects such as <code>shiny::tags$a()</code> (e.g. to add a link
+to a bullet) or a <code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">shiny::tagList()</a></code>.</p></dd>
 
 
 <dt id="arg-style">style<a class="anchor" aria-label="anchor" href="#arg-style"></a></dt>
@@ -89,7 +91,16 @@
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"Bulleted list:"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">gov_list</span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>, style <span class="op">=</span> <span class="st">"bullet"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"Numbered list:"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu">gov_list</span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"three"</span><span class="op">)</span>, style <span class="op">=</span> <span class="st">"number"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu">gov_list</span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"three"</span><span class="op">)</span>, style <span class="op">=</span> <span class="st">"number"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"List with a link:"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu">gov_list</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="st">"Plain item"</span>,</span></span>
+<span class="r-in"><span>        <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">a</span><span class="op">(</span>href <span class="op">=</span> <span class="st">"https://www.gov.uk"</span>, <span class="st">"A link"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>        <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span><span class="st">"Item with "</span>, <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">b</span><span class="op">(</span><span class="st">"bold"</span><span class="op">)</span>, <span class="st">" text"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span>,</span></span>
+<span class="r-in"><span>      style <span class="op">=</span> <span class="st">"bullet"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>

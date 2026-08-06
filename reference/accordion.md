@@ -20,7 +20,18 @@ accordion(inputId, titles, descriptions)
 
 - descriptions:
 
-  Add the main text for the accordion
+  Add the main content for each accordion section. Each item accepts a
+  plain character string (rendered as a `govuk-body` paragraph), or
+  `shiny` tag objects and
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html)
+  values for richer block content such as multiple paragraphs, lists, or
+  links. Tag content is inserted as-is and is *not* wrapped in a
+  `govuk-body` paragraph, so build rich content from the styled helpers,
+  [`shinyGovstyle::gov_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+  for paragraphs and
+  [`shinyGovstyle::gov_list()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_list.md)
+  for lists, to keep GOV.UK styling. A bare tag or string passed without
+  those helpers will render without `govuk-body` styling.
 
 ## Value
 
@@ -57,11 +68,23 @@ ui <- shiny::fluidPage(
         "Know your audience",
         "How people read"
       ),
-      c(
+      list(
         "This is the content for Writing well for the web.",
         "This is the content for Writing well for specialists.",
         "This is the content for Know your audience.",
-        "This is the content for How people read."
+        # Rich content: a paragraph followed by a bulleted list with a link
+        shiny::tagList(
+          shinyGovstyle::gov_text(
+            "People read in different ways, including:"
+          ),
+          shinyGovstyle::gov_list(
+            list(
+              "scanning for key words",
+              shiny::tags$a(href = "https://www.gov.uk", "following links")
+            ),
+            style = "bullet"
+          )
+        )
       )
     )
   ),

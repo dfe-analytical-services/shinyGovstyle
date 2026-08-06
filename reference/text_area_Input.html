@@ -65,12 +65,14 @@
 
 
 <dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
-<dd><p>Display label for the control, or <code>NULL</code> for no label</p></dd>
+<dd><p>Display label for the control, or <code>NULL</code> for no label. Accepts
+a plain character string, an HTML string, or <code>shiny</code> tag objects such as
+<code>shiny::tags$b("Bold")</code> or a <code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">shiny::tagList()</a></code>.</p></dd>
 
 
 <dt id="arg-hint-label">hint_label<a class="anchor" aria-label="anchor" href="#arg-hint-label"></a></dt>
-<dd><p>Display hint label for the control, or <code>NULL</code> for no
-hint label</p></dd>
+<dd><p>Display hint label for the control, or <code>NULL</code> for no hint
+label. Accepts the same rich content as <code>label</code>, so it can include a link.</p></dd>
 
 
 <dt id="arg-row-no">row_no<a class="anchor" aria-label="anchor" href="#arg-row-no"></a></dt>
@@ -118,6 +120,22 @@ hint label</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;label class="govuk-label"&gt;Can you provide more detail?&lt;/label&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="govuk-hint"&gt;Do not include personal or financial information, like your National Insurance number or credit card details.&lt;/div&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;textarea id="taId" class="govuk-textarea" rows="5"&gt;&lt;/textarea&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/div&gt;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Rich content: a link in the hint</span></span></span>
+<span class="r-in"><span><span class="fu">text_area_Input</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"taId2"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Can you provide more detail?"</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"Read the "</span>,</span></span>
+<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="external_link.html">external_link</a></span><span class="op">(</span><span class="st">"https://www.gov.uk"</span>, <span class="st">"guidance on detail"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;div class="govuk-form-group govuk-character-count" id="taId2div"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;label class="govuk-label"&gt;Can you provide more detail?&lt;/label&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="govuk-hint"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Read the &lt;a href="https://www.gov.uk" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;guidance on detail (opens in new tab)&lt;/a&gt;&lt;/div&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;textarea id="taId2" class="govuk-textarea" rows="5"&gt;&lt;/textarea&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/div&gt;</span>
 </code></pre></div>
     </div>

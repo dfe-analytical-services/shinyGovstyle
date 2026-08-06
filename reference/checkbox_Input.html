@@ -74,11 +74,14 @@
 
 
 <dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
-<dd><p>Insert the text for the checkbox group</p></dd>
+<dd><p>Display label for the control, or <code>NULL</code> for no label. Accepts
+a plain character string, an HTML string, or <code>shiny</code> tag objects such as
+<code>shiny::tags$b("Bold")</code> or a <code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">shiny::tagList()</a></code>.</p></dd>
 
 
 <dt id="arg-hint-label">hint_label<a class="anchor" aria-label="anchor" href="#arg-hint-label"></a></dt>
-<dd><p>Insert optional hint/secondary text. Defaults to NULL</p></dd>
+<dd><p>Display hint label for the control, or <code>NULL</code> for no hint
+label. Accepts the same rich content as <code>label</code>, so it can include a link.</p></dd>
 
 
 <dt id="arg-small">small<a class="anchor" aria-label="anchor" href="#arg-small"></a></dt>
@@ -136,6 +139,17 @@ to <code>FALSE</code></p></dd>
 <span class="r-in"><span>      hint_label <span class="op">=</span> <span class="st">"Select the best fit"</span>,</span></span>
 <span class="r-in"><span>      error <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>      error_message <span class="op">=</span> <span class="st">"Select one"</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="co"># Rich content: a link in the hint</span></span></span>
+<span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">checkbox_Input</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      inputId <span class="op">=</span> <span class="st">"check3"</span>,</span></span>
+<span class="r-in"><span>      cb_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Option 1"</span>, <span class="st">"Option 2"</span>, <span class="st">"Option 3"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      checkboxIds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"op1"</span>, <span class="st">"op2"</span>, <span class="st">"op3"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      label <span class="op">=</span> <span class="st">"Choice option"</span>,</span></span>
+<span class="r-in"><span>      hint_label <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">tagList</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="st">"See the "</span>,</span></span>
+<span class="r-in"><span>        <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="external_link.html">external_link</a></span><span class="op">(</span><span class="st">"https://www.gov.uk"</span>, <span class="st">"GOV.UK guidance"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="co"># Button to trigger error</span></span></span>
 <span class="r-in"><span>    <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="button_Input.html">button_Input</a></span><span class="op">(</span>inputId <span class="op">=</span> <span class="st">"submit"</span>, label <span class="op">=</span> <span class="st">"Submit"</span><span class="op">)</span></span></span>

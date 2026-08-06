@@ -12,7 +12,10 @@ gov_list(list, style = "none")
 
 - list:
 
-  vector of list
+  vector or list of items. Each item accepts a plain character string,
+  or `shiny` tag objects such as `shiny::tags$a()` (e.g. to add a link
+  to a bullet) or a
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
 
 - style:
 
@@ -47,7 +50,16 @@ ui <- shiny::fluidPage(
     shinyGovstyle::gov_text("Bulleted list:"),
     gov_list(list = c("a", "b", "c"), style = "bullet"),
     shinyGovstyle::gov_text("Numbered list:"),
-    gov_list(list = c("one", "two", "three"), style = "number")
+    gov_list(list = c("one", "two", "three"), style = "number"),
+    shinyGovstyle::gov_text("List with a link:"),
+    gov_list(
+      list = list(
+        "Plain item",
+        shiny::tags$a(href = "https://www.gov.uk", "A link"),
+        shiny::tagList("Item with ", shiny::tags$b("bold"), " text")
+      ),
+      style = "bullet"
+    )
   )
 )
 

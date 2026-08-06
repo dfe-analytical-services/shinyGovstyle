@@ -154,3 +154,18 @@ The pieces fit together as follows:
   not by manual style choices. A GitHub Action runs Air on every PR and
   posts ReviewDog suggestions; accepting them in a single batched commit
   is the expected workflow.
+- **Shared parameter docs live in `R/params.R`.** The form-control
+  components
+  ([`label_hint()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/label_hint.md),
+  [`text_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.md),
+  [`date_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/date_Input.md),
+  [`select_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/select_Input.md),
+  [`checkbox_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/checkbox_Input.md),
+  [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md),
+  …) reuse one set of `label`/`hint` descriptions via
+  `@inheritParams control_label_params` rather than repeating the
+  rich-content wording per file. `R/params.R` defines no component — it
+  is documentation only — so it is the deliberate exception to the
+  one-component-per-file layout. Update the wording there once, then
+  re-run `devtools::document()` so every affected `man/` page picks it
+  up.

@@ -31,11 +31,33 @@ text_area_Input <- # nolint
     error_message = NULL,
     word_limit = NULL
   ) {
+    described_by <- c()
+    if (!is.null(hint_label)) {
+      described_by <- c(described_by, paste0(inputId, "-hint"))
+    }
+    if (!is.null(word_limit)) {
+      described_by <- c(described_by, paste0(inputId, "-info"))
+    }
+
     gov_textarea <- shiny::tags$div(
-      class = "govuk-form-group govuk-character-count",
+      class = if (!is.null(word_limit)) {
+        "govuk-form-group govuk-character-count"
+      } else {
+        "govuk-form-group"
+      },
       id = paste0(inputId, "div"),
-      shiny::tags$label(shiny::HTML(label), class = "govuk-label"),
-      shiny::tags$div(hint_label, class = "govuk-hint"),
+      `data-module` = if (!is.null(word_limit)) {
+        "govuk-character-count"
+      },
+      `data-maxwords` = if (!is.null(word_limit)) word_limit,
+      shiny::tags$label(shiny::HTML(label), class = "govuk-label", `for` = inputId),
+      if (!is.null(hint_label)) {
+        shiny::tags$div(
+          hint_label,
+          class = "govuk-hint",
+          id = paste0(inputId, "-hint")
+        )
+      },
       if (error == TRUE) {
         shinyjs::hidden(
           shiny::tags$p(
@@ -46,38 +68,25 @@ text_area_Input <- # nolint
           )
         )
       },
-      if (!is.null(word_limit)) {
-        shiny::tags$div(
-          class = "govuk-hint govuk-character-count__message 
-          govuk-visually-hidden",
-          shiny::tags$span(
-            id = paste0(inputId, "wl"),
-            paste("You can enter up to ", word_limit, "words")
-          )
-        )
-      },
       shiny::tags$textarea(
         id = inputId,
-        class = "govuk-textarea",
-        rows = row_no
+        class = if (!is.null(word_limit)) {
+          "govuk-textarea govuk-js-character-count"
+        } else {
+          "govuk-textarea"
+        },
+        rows = row_no,
+        `aria-describedby` = if (length(described_by) > 0) {
+          paste(described_by, collapse = " ")
+        }
       ),
       if (!is.null(word_limit)) {
         shiny::tags$div(
-          class = "govuk-hint govuk-character-count__message 
-          govuk-character-count__status",
-          shiny::tags$span(
-            "You have used"
-          ),
-          shiny::tags$span(
-            id = paste0(inputId, "wc"),
-            "0"
-          ),
-          shiny::tags$span(
-            id = paste0(inputId, "wl"),
-            paste("of the ", word_limit, " words allowed")
-          )
+          class = "govuk-hint govuk-character-count__message",
+          id = paste0(inputId, "-info"),
+          paste("You can enter up to", word_limit, "words")
         )
       }
     )
-    attachDependency(gov_textarea)
+    attachDependency(gov_textarea, "textarea")
   }

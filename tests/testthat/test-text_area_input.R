@@ -44,9 +44,8 @@ test_that("text area error works", {
 test_that("text area word works", {
   text_area_check <- text_area_Input("input1", "Test area", word_limit = 300)
 
-
   expect_identical(
-      text_area_check$children[[5]]$children[[1]],
+    text_area_check$children[[5]]$children[[1]],
     "You can enter up to 300 words"
   )
 

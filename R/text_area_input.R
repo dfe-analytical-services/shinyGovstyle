@@ -50,7 +50,11 @@ text_area_Input <- # nolint
         "govuk-character-count"
       },
       `data-maxwords` = if (!is.null(word_limit)) word_limit,
-      shiny::tags$label(shiny::HTML(label), class = "govuk-label", `for` = inputId),
+      shiny::tags$label(
+        shiny::HTML(label),
+        class = "govuk-label",
+        `for` = inputId
+      ),
       if (!is.null(hint_label)) {
         shiny::tags$div(
           hint_label,

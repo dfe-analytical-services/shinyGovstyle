@@ -11,7 +11,9 @@ details(inputId, label, help_text)
 
 \item{label}{Main label text}
 
-\item{help_text}{Additional help information in the component}
+\item{help_text}{Additional help information in the component. Accepts a
+plain character string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 }
 \value{
 a details box HTML shiny tag object

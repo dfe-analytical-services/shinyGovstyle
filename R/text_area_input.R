@@ -2,9 +2,7 @@
 #'
 #' This function create a text area input.
 #' @param inputId The input slot that will be used to access the value
-#' @param label Display label for the control, or `NULL` for no label
-#' @param hint_label Display hint label for the control, or `NULL` for no
-#' hint label
+#' @inheritParams control_label_params
 #' @param row_no Size of the text entry box. Defaults to 5
 #' @param error Whenever to include error handling. Defaults to `FALSE`
 #' @param error_message Message to display on error. Defaults to `NULL`
@@ -19,6 +17,16 @@
 #'   paste(
 #'     "Do not include personal or financial information, like your",
 #'     "National Insurance number or credit card details."
+#'   )
+#' )
+#'
+#' # Rich content: a link in the hint
+#' text_area_Input(
+#'   "taId2",
+#'   "Can you provide more detail?",
+#'   shiny::tagList(
+#'     "Read the ",
+#'     shinyGovstyle::external_link("https://www.gov.uk", "guidance on detail")
 #'   )
 #' )
 text_area_Input <- # nolint
@@ -68,6 +76,7 @@ text_area_Input <- # nolint
             error_message,
             class = "govuk-error-message",
             id = paste0(inputId, "error"),
+            role = "alert",
             shiny::tags$span("Error:", class = "govuk-visually-hidden")
           )
         )

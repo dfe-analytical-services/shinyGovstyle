@@ -9,7 +9,9 @@ warning_text(inputId, text)
 \arguments{
 \item{inputId}{The input slot that will be used to access the value}
 
-\item{text}{Text that goes in the main}
+\item{text}{Text that goes in the main. Accepts a plain character string,
+or \code{shiny} tag objects such as \code{shiny::tags$b("Bold")} or a
+\code{shiny::tagList()}.}
 }
 \value{
 a warning box HTML shiny tag object

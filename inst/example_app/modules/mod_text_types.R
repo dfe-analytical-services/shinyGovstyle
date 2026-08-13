@@ -77,10 +77,6 @@ mod_text_types_ui <- function(id) {
 
 mod_text_types_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
-    shiny::observeEvent(
-      input$text_area2,
-      shinyGovstyle::word_count("text_area2", input$text_area2)
-    )
 
     shiny::observeEvent(input$btn_error, {
       if (input$text_area2 == "") {

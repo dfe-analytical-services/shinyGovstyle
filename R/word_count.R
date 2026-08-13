@@ -1,5 +1,11 @@
 #' Word Count Function
 #'
+#' @description
+#' `r lifecycle::badge('deprecated)`
+#' This helper function was deprecated as text_area_Input no longer relies on this, and uses js instead.
+#' The text_area_Input function can still be used as before
+#' @keywords internal
+#'
 #' This function create tracks the word count and should be used with the
 #' text area function.
 #' @param inputId The input slot of the text area that you want to affect
@@ -44,6 +50,11 @@ word_count <- function(
   input,
   word_limit = NULL
 ) {
+  lifecycle::deprecate_warn(
+    '1.0.0',
+    'word_count',
+    details = 'This helper function is no longer required. Use text_area_Input() instead.'
+  )
   if (input == "") {
     word_no <- 0
   } else {

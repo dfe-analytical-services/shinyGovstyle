@@ -40,11 +40,11 @@ text_area_Input <- # nolint
     word_limit = NULL
   ) {
     described_by <- c()
-    if (!is.null(hint_label)) {
-      described_by <- c(described_by, paste0(inputId, "-hint"))
-    }
     if (!is.null(word_limit)) {
       described_by <- c(described_by, paste0(inputId, "-info"))
+    }
+    if (!is.null(hint_label)) {
+      described_by <- c(described_by, paste0(inputId, "-hint"))
     }
 
     gov_textarea <- shiny::tags$div(
@@ -59,13 +59,13 @@ text_area_Input <- # nolint
       },
       `data-maxwords` = if (!is.null(word_limit)) word_limit,
       shiny::tags$label(
-        shiny::HTML(label),
+        as_govuk_html(label),
         class = "govuk-label",
         `for` = inputId
       ),
       if (!is.null(hint_label)) {
         shiny::tags$div(
-          hint_label,
+          as_govuk_html(hint_label),
           class = "govuk-hint",
           id = paste0(inputId, "-hint")
         )

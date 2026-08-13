@@ -22,7 +22,7 @@
     var $info = $('#' + $textarea.attr('id') + '-info');
 
     if ($info.length) {
-      $info.text('You have ' + (maxWords - wordCount) + ' words left');
+      $info.text('You have ' + (maxWords - wordCount) + ' words remaining');
     }
 
     if (wordCount > maxWords) {

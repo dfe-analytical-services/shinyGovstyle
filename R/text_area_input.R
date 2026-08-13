@@ -63,6 +63,16 @@ text_area_Input <- # nolint
         class = "govuk-label",
         `for` = inputId
       ),
+      if (!is.null(word_limit)) {
+        shiny::tags$div(
+          class = "govuk-hint govuk-character-count__message
+          govuk-visually-hidden",
+          shiny::tags$span(
+            id = paste0(inputId, "-wl"),
+            paste("You can enter up to ", word_limit, "words")
+          )
+        )
+      },
       if (!is.null(hint_label)) {
         shiny::tags$div(
           as_govuk_html(hint_label),

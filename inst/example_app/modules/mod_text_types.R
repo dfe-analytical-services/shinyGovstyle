@@ -77,7 +77,6 @@ mod_text_types_ui <- function(id) {
 
 mod_text_types_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
-
     shiny::observeEvent(input$btn_error, {
       if (input$text_area2 == "") {
         shinyGovstyle::error_on("text_area2")

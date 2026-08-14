@@ -18,8 +18,13 @@ what was used in text area component}
 no value returned. Updates the word count in a shiny app
 }
 \description{
-This function create tracks the word count and should be used with the
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This helper function create tracks the word count and should be used with the
 text area function.
+This helper function was deprecated as text_area_Input no longer
+relies on this, and uses js instead.
+The text_area_Input function can still be used as before
 }
 \examples{
 ui <- shiny::fluidPage(
@@ -53,12 +58,13 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle text types: 
-\code{\link{date_Input}()},
-\code{\link{gov_list}()},
-\code{\link{heading_text}()},
-\code{\link{input_field}()},
-\code{\link{text_Input}()},
-\code{\link{text_area_Input}()}
+Other Govstyle text types:
+\code{\link[=date_Input]{date_Input()}},
+\code{\link[=gov_list]{gov_list()}},
+\code{\link[=heading_text]{heading_text()}},
+\code{\link[=input_field]{input_field()}},
+\code{\link[=text_Input]{text_Input()}},
+\code{\link[=text_area_Input]{text_area_Input()}}
 }
 \concept{Govstyle text types}
+\keyword{internal}

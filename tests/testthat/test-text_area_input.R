@@ -2,7 +2,7 @@ test_that("text area works", {
   text_area_check <- text_area_Input("input1", "Test area")
 
   expect_equal(
-    text_area_check$children[[4]]$attribs$rows,
+    text_area_check$children[[5]]$attribs$rows,
     5
   )
 
@@ -23,36 +23,36 @@ test_that("text area error works", {
   )
 
   expect_equal(
-    text_area_check$children[[4]]$attribs$rows,
+    text_area_check$children[[5]]$attribs$rows,
     10
   )
 
   expect_identical(
     paste(
-      text_area_check$children[[3]]$attribs$class,
-      text_area_check$children[[3]]$attribs[4]$class
+      text_area_check$children[[4]]$attribs$class,
+      text_area_check$children[[4]]$attribs[4]$class
     ),
     "govuk-error-message shinyjs-hide"
   )
 
   expect_identical(
-    text_area_check$children[[3]]$children[[1]],
+    text_area_check$children[[4]]$children[[1]],
     "Test error"
   )
 
-  expect_identical(text_area_check$children[[3]]$attribs$role, "alert")
+  expect_identical(text_area_check$children[[4]]$attribs$role, "alert")
 })
 
 test_that("text area word works", {
   text_area_check <- text_area_Input("input1", "Test area", word_limit = 300)
 
   expect_identical(
-    text_area_check$children[[5]]$children[[1]],
+    text_area_check$children[[6]]$children[[1]],
     "You can enter up to 300 words"
   )
 
   expect_identical(
-    text_area_check$children[[5]]$attribs$class,
+    text_area_check$children[[6]]$attribs$class,
     "govuk-hint govuk-character-count__message"
   )
 })

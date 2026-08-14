@@ -20,29 +20,30 @@
 
     var wordCount = countWords($textarea.val());
     var $info = $('#' + $textarea.attr('id') + '-info');
+    var $error = $('#' + $textarea.attr('id') + '-error');
 
 
 
-    if ($info.length && (maxWords - wordCount) != 1) {
-      $info.text('You have ' + (maxWords - wordCount) + ' words remaining');
-    }
-    if ($info.length && (maxWords - wordCount) == 1) {
-      $info.text('You have 1 word remaining');
-    }
-
-    if ($info.length && (maxWords - wordCount) == -1) {
+    if ($info.length && wordCount > maxWords) {
+      // Over the limit: switch to error state
       $textarea.addClass('govuk-textarea--error');
-      $info.text('You have 1 word too many');
+      $info.removeClass('govuk-hint').addClass('govuk-error-message');
+      
+      if ((maxWords - wordCount) == -1) {
+        $info.text('You have 1 word too many');
+      } else {
+        $info.text('You have ' + -(maxWords - wordCount) + ' words too many');
+      }
     } else {
+      // Within the limit: switch back to hint state
       $textarea.removeClass('govuk-textarea--error');
-    }
-
-
-    if ($info.length && wordCount > maxWords && (maxWords - wordCount) != -1) {
-      $textarea.addClass('govuk-textarea--error');
-      $info.text('You have ' + -(maxWords - wordCount) + ' words too many');
-    } else {
-      $textarea.removeClass('govuk-textarea--error');
+      $info.removeClass('govuk-error-message').addClass('govuk-hint');
+      
+      if ((maxWords - wordCount) == 1) {
+        $info.text('You have 1 word remaining');
+      } else {
+        $info.text('You have ' + (maxWords - wordCount) + ' words remaining');
+      }
     }
   }
 

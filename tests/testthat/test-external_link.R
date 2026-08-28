@@ -128,3 +128,16 @@ test_that("Footer flag works as expected", {
     )
   )
 })
+
+test_that("external_link() also attaches the base shinyGovstyle dependencies", {
+  # So update_page_title() works in apps that use external_link() without
+  # any other shinyGovstyle component.
+  dep_names <- vapply(
+    htmltools::findDependencies(test_link),
+    function(x) x$name,
+    character(1)
+  )
+  expect_true("stylecss" %in% dep_names)
+  expect_true("update_page_title" %in% dep_names)
+  expect_true("sr-only" %in% dep_names)
+})

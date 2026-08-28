@@ -1,6 +1,23 @@
 
 // Service navigation JS
 
+// Compose and apply the page title from a nav link, when the parent
+// <section> has data-auto-page-title set. Reads an optional suffix from
+// data-page-title-suffix on the same <section>.
+function applyAutoPageTitle(link) {
+  if (!link) return;
+  var section = link.closest(".govuk-service-navigation");
+  if (!section) return;
+  if (section.getAttribute("data-auto-page-title") !== "true") return;
+  var suffix = section.getAttribute("data-page-title-suffix");
+  var pageText = link.textContent.trim();
+  if (suffix && suffix.length > 0) {
+    document.title = pageText + " | " + suffix;
+  } else {
+    document.title = pageText;
+  }
+}
+
 // Allow programmatic update of active nav item from R server code
 Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
   var items = document.getElementsByClassName(
@@ -19,6 +36,7 @@ Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
     if (item) {
       item.classList.add("govuk-service-navigation__item--active");
     }
+    applyAutoPageTitle(link);
   }
 });
 
@@ -43,6 +61,8 @@ $(document).on(
     ).classList.add(
       "govuk-service-navigation__item--active"
     );
+
+    applyAutoPageTitle(this);
   }
 );
 

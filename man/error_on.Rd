@@ -60,9 +60,9 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle errors: 
-\code{\link{error_off}()},
-\code{\link{error_summary}()},
-\code{\link{error_summary_update}()}
+Other Govstyle errors:
+\code{\link[=error_off]{error_off()}},
+\code{\link[=error_summary]{error_summary()}},
+\code{\link[=error_summary_update]{error_summary_update()}}
 }
 \concept{Govstyle errors}

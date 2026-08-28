@@ -88,11 +88,11 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle select inputs: 
-\code{\link{button_Input}()},
-\code{\link{checkbox_Input}()},
-\code{\link{radio_button_Input}()},
-\code{\link{select_Input}()},
-\code{\link{update_radio_button_Input}()}
+Other Govstyle select inputs:
+\code{\link[=button_Input]{button_Input()}},
+\code{\link[=checkbox_Input]{checkbox_Input()}},
+\code{\link[=radio_button_Input]{radio_button_Input()}},
+\code{\link[=select_Input]{select_Input()}},
+\code{\link[=update_radio_button_Input]{update_radio_button_Input()}}
 }
 \concept{Govstyle select inputs}

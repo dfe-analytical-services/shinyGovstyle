@@ -3,7 +3,7 @@
     Code
       service_navigation(links = c("Page 1", "Page 2", "Page 3"))
     Output
-      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation" data-auto-page-title="true">
         <div class="govuk-width-container">
           <div class="govuk-service-navigation__container">
             <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
@@ -30,7 +30,7 @@
       service_navigation(service_name = "My app", c(`Page 1` = "p1", `Page 2` = "p2",
         `Page 3` = "p3"))
     Output
-      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation" data-auto-page-title="true">
         <div class="govuk-width-container">
           <div class="govuk-service-navigation__container">
             <span class="govuk-service-navigation__service-name">
@@ -59,7 +59,7 @@
     Code
       service_navigation(links = "Solo page")
     Output
-      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation" data-auto-page-title="true">
         <div class="govuk-width-container">
           <div class="govuk-service-navigation__container">
             <nav aria-label="Menu" class="govuk-service-navigation__wrapper">

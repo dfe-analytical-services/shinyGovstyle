@@ -74,12 +74,10 @@ cookieBanner <- # nolint
               ),
               shiny::tags$div(
                 class = "govuk-cookie-banner__content",
-                shiny::tags$p(
-                  class = "govuk-body",
+                gov_text(
                   "We use some essential cookies to make this service work."
                 ),
-                shiny::tags$p(
-                  class = "govuk-body",
+                gov_text(
                   "We\u0027d also use analytics cookies so we can understand
                 how you use the service and make improvements."
                 )
@@ -103,8 +101,7 @@ cookieBanner <- # nolint
                 class = "govuk-grid-column-two-thirds",
                 shiny::tags$div(
                   class = "govuk-cookie-banner__content",
-                  shiny::tags$p(
-                    class = "govuk-body",
+                  gov_text(
                     paste(
                       "You\u0027ve accepted additional cookies. You can",
                       "change your cookie settings at any time."
@@ -129,8 +126,7 @@ cookieBanner <- # nolint
                 class = "govuk-grid-column-two-thirds",
                 shiny::tags$div(
                   class = "govuk-cookie-banner__content",
-                  shiny::tags$p(
-                    class = "govuk-body",
+                  gov_text(
                     paste(
                       "You\u0027ve rejected additional cookies. You can",
                       "change your cookie settings at any time."

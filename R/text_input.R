@@ -2,9 +2,7 @@
 #'
 #' This function create a text input.
 #' @param inputId The input slot that will be used to access the value
-#' @param label Display label for the control, or `NULL` for no label
-#' @param hint_label Display hint label for the control, or `NULL` for
-#' no hint label
+#' @inheritParams control_label_params
 #' @param type Type of text input to accept. Defaults to text
 #' @param width control the size of the box based on number of characters
 #' required.  Options are 30, 20, 10, 5, 4, 3, 2.  NULL will not limit the size
@@ -37,6 +35,18 @@
 #'       label = "Event Name",
 #'       hint_label = "This can be found on the letter",
 #'       error = TRUE
+#'     ),
+#'     # Rich content: a link in the hint
+#'     shinyGovstyle::text_Input(
+#'       inputId = "eventId3",
+#'       label = "Event Name",
+#'       hint_label = shiny::tagList(
+#'         "As shown on your ",
+#'         shinyGovstyle::external_link(
+#'           "https://www.gov.uk",
+#'           "confirmation letter"
+#'         )
+#'       )
 #'     ),
 #'     # Button to trigger error
 #'     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
@@ -79,8 +89,8 @@ text_Input <- # nolint
     gov_text <- shiny::tags$div(
       class = "govuk-form-group",
       id = paste0(inputId, "div"),
-      shiny::tags$label(shiny::HTML(label), class = "govuk-label"),
-      shiny::tags$div(hint_label, class = "govuk-hint"),
+      shiny::tags$label(as_govuk_html(label), class = "govuk-label"),
+      shiny::tags$div(as_govuk_html(hint_label), class = "govuk-hint"),
       if (error == TRUE) {
         shinyjs::hidden(
           shiny::tags$p(

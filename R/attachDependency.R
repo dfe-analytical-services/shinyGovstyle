@@ -1,6 +1,7 @@
 #' Attach shinyGovstyle dependencies
 #'
-#' @param tag An object which has (or should have) HTML dependencies
+#' @param tag An object which has (or should have) HTML dependencies. Can be
+#'   either an `htmltools` tag or an `htmlwidget` object.
 #' @param widget Name of a widget for particular dependencies
 #'
 #' @noRd
@@ -78,8 +79,32 @@ attachDependency <- # nolint
             script = "service_navigation.js"
           )
         )
+      } else if (widget == "reactable") {
+        dep <- list(
+          dep,
+          htmltools::htmlDependency(
+            name = "reactable-overrides",
+            version = version,
+            src = c(href = "shinyGovstyle/css"),
+            stylesheet = "reactable-overrides.css"
+          )
+        )
       }
     }
 
-    htmltools::attachDependencies(tag, dep, append = TRUE)
+    # htmlwidgets' rendering path (htmlwidgets:::toHTML.htmlwidget) only reads
+    # `widget$dependencies` and silently drops anything attached via
+    # `htmltools::attachDependencies()`. Branch on the object type so callers
+    # don't have to.
+    if (inherits(tag, "htmlwidget")) {
+      dep_list <- if (is.list(dep) && !inherits(dep, "html_dependency")) {
+        dep
+      } else {
+        list(dep)
+      }
+      tag$dependencies <- c(tag$dependencies, dep_list)
+      tag
+    } else {
+      htmltools::attachDependencies(tag, dep, append = TRUE)
+    }
   }

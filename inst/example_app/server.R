@@ -5,6 +5,14 @@ function(input, output, session) {
   mod_action_types_server("action_types")
   mod_tables_tabs_server("tables_tabs")
 
+  # Cookies page: banner accept/reject drive the settings radio server-side
+  mod_cookies_server(
+    "cookies",
+    cookie_accept = shiny::reactive(input$cookieAccept),
+    cookie_reject = shiny::reactive(input$cookieReject),
+    active_tab = shiny::reactive(input[["tab-container"]])
+  )
+
   # download_radios is itself a Shiny module and must be called at the top
   # level so its namespace matches the plain IDs rendered by download_radios()
   shinyGovstyle::download_radios_handler(

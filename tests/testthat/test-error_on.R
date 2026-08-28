@@ -36,8 +36,18 @@ test_that("error_on flags the underlying input as in-error", {
     },
     calls_for(r, "addClass")
   )
-  # One call for the input selector, one for the file_div selector
+  # One call for the input selector, one for the file_div selector. Assert the
+  # selectors themselves: a wrong selector would stop the error styling reaching
+  # the input while leaving the call count unchanged.
   expect_length(input_error_calls, 2L)
+  expect_setequal(
+    vapply(
+      input_error_calls,
+      function(c) recorded_arg(c, "selector", 1L),
+      character(1L)
+    ),
+    c("#eventIddiv :input", "#eventIdfile_div")
+  )
 })
 
 test_that("error_on shows the error message slot", {
@@ -70,7 +80,12 @@ test_that("error_on dispatches the supplied message into <id>error", {
   html_calls <- calls_for(r, "html")
   expect_length(html_calls, 1L)
   expect_identical(recorded_arg(html_calls[[1L]], "id", 1L), "eventIderror")
-  expect_identical(recorded_arg(html_calls[[1L]], "html", 2L), "Required")
+  # The visually hidden "Error:" prefix is sent with the message: shinyjs::html()
+  # replaces the paragraph's contents, so a bare message would drop it.
+  expect_identical(
+    recorded_arg(html_calls[[1L]], "html", 2L),
+    "<span class=\"govuk-visually-hidden\">Error:</span> Required"
+  )
 })
 
 test_that("error_on does not dispatch html() when error_message is NULL", {

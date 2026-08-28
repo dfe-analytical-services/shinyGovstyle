@@ -53,7 +53,12 @@ error_on <- function(
 ) {
   shinyjs::addClass(paste0(inputId, "div"), "govuk-form-group--error")
   if (!is.null(error_message)) {
-    shinyjs::html(paste0(inputId, "error"), error_message)
+    # Rebuild the full inner HTML: shinyjs::html() replaces the paragraph's
+    # contents, so the visually hidden "Error:" prefix has to be sent with it.
+    shinyjs::html(
+      paste0(inputId, "error"),
+      paste0(as.character(govuk_error_prefix()), " ", error_message)
+    )
   }
   shinyjs::show(paste0(inputId, "error"))
   shinyjs::addClass(

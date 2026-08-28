@@ -61,8 +61,8 @@ test_that("fieldset children appear in GOV.UK order", {
     child_classes(fieldset),
     c(
       "govuk-label",
-      "govuk-error-message shinyjs-hide",
       "govuk-hint",
+      "govuk-error-message shinyjs-hide",
       "govuk-date-input"
     )
   )

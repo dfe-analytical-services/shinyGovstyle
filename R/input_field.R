@@ -84,17 +84,7 @@ input_field <- function(
           class = "govuk-form-group",
           id = paste0(y, "div"),
           shiny::tags$label(shiny::HTML(x), class = "govuk-label"),
-          if (error) {
-            shinyjs::hidden(
-              shiny::tags$p(
-                error_message,
-                class = "govuk-error-message",
-                id = paste0(y, "error"),
-                role = "alert",
-                shiny::tags$span("Error:", class = "govuk-visually-hidden")
-              )
-            )
-          },
+          if (error == TRUE) govuk_error_message(y, error_message),
           shiny::tags$input(id = y, class = width_class, type = a)
         )
       },

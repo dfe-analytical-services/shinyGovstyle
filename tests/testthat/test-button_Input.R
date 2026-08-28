@@ -17,10 +17,13 @@ test_that("start button has start modifier and start-icon svg", {
     htmltools::tagGetAttribute(btn, "class"),
     "govuk-button govuk-button--start action-button"
   )
-  expect_identical(tag_text(btn, "govuk-button"), "Start now")
+  # A start button carries the label plus the arrow svg, so assert both
+  # children rather than reaching for the single-child tag_text().
+  expect_identical(rendered_children(btn)[[1L]], "Start now")
 
   icon <- expect_has_tag(btn, "govuk-button__start-icon")
   expect_identical(icon$name, "svg")
+  expect_identical(rendered_children(btn)[[2L]], icon)
 })
 
 test_that("secondary button has secondary modifier and no start-icon", {

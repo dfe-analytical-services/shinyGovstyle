@@ -1,4 +1,4 @@
-# cookie banner HTML is as expected
+# cookie banner link markup is as expected
 
     Code
       cookieBanner("The best thing")

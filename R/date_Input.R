@@ -82,18 +82,8 @@ date_Input <- # nolint
       shiny::tags$fieldset(
         class = "govuk-fieldset",
         shiny::tags$label(as_govuk_html(label), class = "govuk-label"),
-        if (error == TRUE) {
-          shinyjs::hidden(
-            shiny::tags$p(
-              error_message,
-              id = paste0(inputId, "error"),
-              class = "govuk-error-message",
-              role = "alert",
-              shiny::tags$span("Error:", class = "govuk-visually-hidden")
-            )
-          )
-        },
         shiny::tags$div(as_govuk_html(hint_label), class = "govuk-hint"),
+        if (error == TRUE) govuk_error_message(inputId, error_message),
         shiny::tags$div(
           class = "govuk-date-input",
           id = inputId,

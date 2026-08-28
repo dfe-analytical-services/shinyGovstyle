@@ -32,7 +32,8 @@ test_that("cookie banner works", {
   expect_setequal(ids, c("cookieAcceptDiv", "cookieRejectDiv"))
 })
 
-test_that("cookie banner HTML is as expected", {
+test_that("cookie banner link markup is as expected", {
   local_edition(3)
+
   expect_snapshot(cookieBanner("The best thing"))
 })

@@ -2,6 +2,13 @@ test_that("banner renders type tag and string label", {
   out <- banner("bannerId", "alpha", "Banner test")
 
   expect_identical(
+    htmltools::tagGetAttribute(out, "class"),
+    "govuk-phase-banner"
+  )
+
+  expect_identical(htmltools::tagGetAttribute(out, "id"), "bannerId")
+
+  expect_identical(
     tag_text(out, "govuk-phase-banner__content__tag"),
     "alpha"
   )

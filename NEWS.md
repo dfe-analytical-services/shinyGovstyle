@@ -40,6 +40,12 @@
   arguments are not used.
 * Error messages on input components now use `role="alert"` so they are
   announced by screen readers when toggled via `error_on()`.
+* The visually hidden "Error:" prefix on input component error messages now
+  comes before the message text, so screen readers announce "Error: Enter your
+  name" rather than "Enter your name Error:". The prefix also survives
+  `error_on(error_message = ...)`, which previously replaced it.
+* `date_Input()` now renders its hint before the error message, matching the
+  GOV.UK Design System and the other input components.
 * `govReactable()` table row, sort-header, and pagination highlights are now
   visible in Windows High Contrast / forced-colours mode.
 * `details()` now applies the same HTML handling to `help_text` as it does to

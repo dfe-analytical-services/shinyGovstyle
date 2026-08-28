@@ -66,11 +66,37 @@ find_tags_by_name <- function(x, name) {
   }
 }
 
-# tag_text() returns the first child of the matched tag and assumes a single
-# text child. For tags with mixed or multiple children, look the tag up with
-# find_tag_required() and assert its children explicitly instead.
+# rendered_children() drops children that produce no output: NULL (htmltools
+# keeps it in $children, which is how an unused `if (error == TRUE)` branch
+# reaches us) and the empty list left behind by a skipped tagList branch.
+rendered_children <- function(tag) {
+  Filter(
+    function(c) {
+      !is.null(c) &&
+        !(is.list(c) && !inherits(c, "shiny.tag") && length(c) == 0L)
+    },
+    tag$children
+  )
+}
+
+# tag_text() returns the single text child of the matched tag. It errors if the
+# tag has any other number of children, so a regression that appends stray
+# content next to the text is caught rather than silently ignored. For tags with
+# mixed or multiple children, look the tag up with find_tag_required() and
+# assert its children explicitly instead.
 tag_text <- function(x, class) {
-  find_tag_required(x, class)$children[[1L]]
+  node_children <- rendered_children(find_tag_required(x, class))
+  if (length(node_children) != 1L) {
+    stop(
+      sprintf(
+        "Expected tag with class %s to have exactly one child, found %d",
+        shQuote(class),
+        length(node_children)
+      ),
+      call. = FALSE
+    )
+  }
+  node_children[[1L]]
 }
 
 # tag_text_by_name() is the tag-name analogue of tag_text(), for elements that
@@ -84,13 +110,24 @@ tag_text_by_name <- function(x, name) {
   vapply(hits, function(h) as.character(h$children[[1L]]), character(1L))
 }
 
+# child_classes() returns one entry per rendered child of `tag`: the child's
+# class, NA for a tag with no class, or a "<text>" / "<list>" sentinel for
+# anything that is not a tag. Sentinels rather than silent filtering, so a stray
+# text node or a list-wrapped block shows up in the failure diff. Children
+# that render nothing are dropped by rendered_children().
 child_classes <- function(tag) {
-  tag_children <- Filter(function(c) inherits(c, "shiny.tag"), tag$children)
+  tag_children <- rendered_children(tag)
   vapply(
     tag_children,
     function(c) {
-      cls <- htmltools::tagGetAttribute(c, "class")
-      if (is.null(cls)) NA_character_ else cls
+      if (inherits(c, "shiny.tag")) {
+        cls <- htmltools::tagGetAttribute(c, "class")
+        if (is.null(cls)) NA_character_ else cls
+      } else if (is.list(c)) {
+        "<list>"
+      } else {
+        "<text>"
+      }
     },
     character(1L)
   )
@@ -102,7 +139,9 @@ child_classes <- function(tag) {
 find_tags_by_id_suffix <- function(x, suffix) {
   if (inherits(x, "shiny.tag")) {
     id <- htmltools::tagGetAttribute(x, "id")
-    here <- if (!is.null(id) && grepl(paste0(suffix, "$"), id)) {
+    # endsWith(), not grepl(): a suffix containing regex metacharacters (".",
+    # "[", "+") would otherwise match the wrong element.
+    here <- if (!is.null(id) && endsWith(id, suffix)) {
       list(x)
     } else {
       list()
@@ -146,8 +185,8 @@ find_by_id_suffix <- function(x, suffix) {
 
 # expect_hidden_error() asserts the standard "renders hidden by default"
 # contract: exactly one govuk-error-message tag, class
-# "govuk-error-message shinyjs-hide", role "alert", and (optionally) the
-# message text. Tests that want to assert *further* properties of the error
+# "govuk-error-message shinyjs-hide", role "alert", a leading visually hidden
+# "Error:" prefix, and (optionally) the message text as the final child. Tests that want to assert *further* properties of the error
 # tag should keep their own `find_tag(.., "govuk-error-message")` lookup
 # alongside this helper call rather than replacing it.
 expect_hidden_error <- function(tag, message = NULL) {
@@ -161,8 +200,20 @@ expect_hidden_error <- function(tag, message = NULL) {
     htmltools::tagGetAttribute(errors[[1L]], "role"),
     "alert"
   )
+  # GOV.UK Design System: the visually hidden prefix comes before the message
+  # text so screen readers announce "Error: <message>", not "<message> Error:".
+  error_children <- errors[[1L]]$children
+  prefix <- error_children[[1L]]
+  testthat::expect_identical(
+    htmltools::tagGetAttribute(prefix, "class"),
+    "govuk-visually-hidden"
+  )
+  testthat::expect_identical(prefix$children[[1L]], "Error:")
   if (!is.null(message)) {
-    testthat::expect_identical(errors[[1L]]$children[[1L]], message)
+    testthat::expect_identical(
+      error_children[[length(error_children)]],
+      message
+    )
   }
 }
 

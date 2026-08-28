@@ -34,9 +34,11 @@ test_that("start_button works", {
     "govuk-button govuk-button--start action-button"
   )
 
+  # A start button carries the label plus the arrow svg, so assert the label
+  # child rather than reaching for the single-child tag_text().
   expect_identical(
     "Click me",
-    tag_text(button, "govuk-button")
+    rendered_children(button)[[1L]]
   )
 })
 

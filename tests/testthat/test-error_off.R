@@ -34,7 +34,18 @@ test_that("error_off clears the underlying input error class", {
     },
     calls_for(r, "removeClass")
   )
+  # Assert the selectors themselves: a wrong selector would leave the error
+  # styling stuck on screen after the user fixes their input, while leaving the
+  # call count unchanged.
   expect_length(input_error_calls, 2L)
+  expect_setequal(
+    vapply(
+      input_error_calls,
+      function(c) recorded_arg(c, "selector", 1L),
+      character(1L)
+    ),
+    c("#eventIddiv :input", "#eventIdfile_div")
+  )
 })
 
 test_that("error_off hides the error message slot", {

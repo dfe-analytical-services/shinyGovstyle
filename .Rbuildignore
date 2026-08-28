@@ -15,4 +15,5 @@ _\.new\.png$
 ^\.vscode$
 package.json
 ^.claude$
+^.posit$
 ^man/figures/example_app\.gif$

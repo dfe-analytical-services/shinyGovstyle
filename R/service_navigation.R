@@ -242,7 +242,7 @@ update_service_navigation <- function(
 #' @examples
 #' ui <- shiny::fluidPage(
 #'   shinyGovstyle::service_navigation(
-#'     c(sn_summary = "Summary", sn_detail = "Detail")
+#'     c(Summary = "sn_summary", Detail = "sn_detail")
 #'   ),
 #'   bslib::navset_hidden(
 #'     id = "tabs",

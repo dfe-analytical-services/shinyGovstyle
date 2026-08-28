@@ -56,3 +56,24 @@ test_that("update_page_title errors on missing or empty page_title", {
   expect_error(update_page_title(session, page_title = character(0)))
   expect_error(update_page_title(session, page_title = ""))
 })
+
+test_that("update_page_title.js registers a handler for the message it sends", {
+  # update_page_title() is only ever exercised end-to-end via
+  # service_navigation.js's own title-sync path (a separate code path), so
+  # nothing else catches a mismatch between the message name sent here and
+  # the name the browser handler listens for. Guard against that directly.
+  js_path <- system.file(
+    "www",
+    "js",
+    "update_page_title.js",
+    package = "shinyGovstyle"
+  )
+  expect_true(file.exists(js_path))
+  js <- paste(readLines(js_path, warn = FALSE), collapse = "\n")
+
+  expect_match(
+    js,
+    'Shiny\\.addCustomMessageHandler\\(\\s*"update_page_title"',
+    perl = TRUE
+  )
+})

@@ -1,3 +1,33 @@
+#' Base shinyGovstyle dependencies
+#'
+#' The core stylesheet plus the `update_page_title` handler, shipped with
+#' every shinyGovstyle UI function (via [attachDependency()] or directly)
+#' so that `update_page_title()` works in any app that uses at least one
+#' shinyGovstyle function, regardless of whether `service_navigation()` is
+#' present.
+#'
+#' @noRd
+#' @importFrom utils packageVersion
+#' @importFrom htmltools htmlDependency
+base_dependencies <- function() {
+  version <- as.character(packageVersion("shinyGovstyle")[[1]])
+
+  list(
+    htmltools::htmlDependency(
+      name = "stylecss",
+      version = version,
+      src = c(href = "shinyGovstyle/css"),
+      stylesheet = "govuk-frontend-6.1.0.min.css"
+    ),
+    htmltools::htmlDependency(
+      name = "update_page_title",
+      version = version,
+      src = c(href = "shinyGovstyle/js"),
+      script = "update_page_title.js"
+    )
+  )
+}
+
 #' Attach shinyGovstyle dependencies
 #'
 #' @param tag An object which has (or should have) HTML dependencies. Can be
@@ -11,24 +41,7 @@ attachDependency <- # nolint
   function(tag, widget = NULL) {
     version <- as.character(packageVersion("shinyGovstyle")[[1]])
 
-    # Base deps shipped with every shinyGovstyle component. The
-    # update_page_title handler is included here so update_page_title()
-    # works in any app that uses at least one shinyGovstyle function,
-    # regardless of whether service_navigation() is present.
-    dep <- list(
-      htmltools::htmlDependency(
-        name = "stylecss",
-        version = version,
-        src = c(href = "shinyGovstyle/css"),
-        stylesheet = "govuk-frontend-6.1.0.min.css"
-      ),
-      htmltools::htmlDependency(
-        name = "update_page_title",
-        version = version,
-        src = c(href = "shinyGovstyle/js"),
-        script = "update_page_title.js"
-      )
-    )
+    dep <- base_dependencies()
 
     if (!is.null(widget)) {
       widget_dep <- if (widget == "radio") {

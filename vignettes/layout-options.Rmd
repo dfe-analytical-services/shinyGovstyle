@@ -298,11 +298,14 @@ For navigation that can't be wired declaratively — next / back buttons, modal 
 ```{r, eval = FALSE}
 # server.R — programmatic navigation in one call
 shiny::observeEvent(input$next_btn, {
-  shinyGovstyle::navigate_to(session, "main_panels", "nav_detail")
+  shinyGovstyle::navigate_to(
+    session, "main_panels",
+    inputId = "nav_detail", panel = "detailed_data"
+  )
 })
 ```
 
-`navigate_to()` assumes the nav link inputId matches the panel value. For mismatched mappings, call `shiny::updateTabsetPanel()` and `update_service_navigation()` separately. See `?navigate_to` and `?update_service_navigation` for full details.
+`navigate_to()` defaults to using the nav link `inputId` as the target panel value. Here `nav_detail`'s panel value is `detailed_data` (per the `link_to_panel` mapping above), so pass `panel` explicitly whenever the inputId and panel value differ. See `?navigate_to` for full details.
 
 ### Keeping the page title in sync
 

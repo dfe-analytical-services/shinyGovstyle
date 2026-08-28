@@ -65,8 +65,8 @@ if (interactive()) shiny::shinyApp(ui = ui, server = server)
 # with any other inputs in the app. The panel values are unrelated names.
 ui <- shiny::fluidPage(
   shinyGovstyle::service_navigation(
-    # names = nav inputIds, values = link text shown to the user
-    c(sn_home = "Home", sn_cookies = "Cookies")
+    # names = link text shown to the user, values = nav inputIds
+    c(Home = "sn_home", Cookies = "sn_cookies")
   ),
   bslib::navset_hidden(
     id = "tabs",

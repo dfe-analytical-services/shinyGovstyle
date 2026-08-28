@@ -13,7 +13,7 @@
 #' @examples
 #' shinyGovstyle::full_width_overrides()
 full_width_overrides <- function() {
-  shiny::tags$head(
+  tag <- shiny::tags$head(
     shiny::tags$style(
       shiny::HTML(
         # Overall overrides
@@ -44,4 +44,9 @@ full_width_overrides <- function() {
       )
     )
   )
+
+  # Also attach the base shinyGovstyle dependencies (stylesheet and the
+  # update_page_title handler) so update_page_title() works in apps that use
+  # full_width_overrides() without any other shinyGovstyle component.
+  attachDependency(tag)
 }

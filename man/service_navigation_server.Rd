@@ -34,7 +34,7 @@ client-side, so no additional wiring is needed.
 \examples{
 ui <- shiny::fluidPage(
   shinyGovstyle::service_navigation(
-    c(sn_summary = "Summary", sn_detail = "Detail")
+    c(Summary = "sn_summary", Detail = "sn_detail")
   ),
   bslib::navset_hidden(
     id = "tabs",

@@ -10,7 +10,9 @@ error_on(inputId, error_message = NULL)
 \item{inputId}{The input id that you to to turn the error on for}
 
 \item{error_message}{if you want to add an additional error message
-Defaults to NULL, showing the original designed error message}
+Defaults to NULL, showing the original designed error message. Plain
+character strings are escaped and render as literal text; pass a \code{shiny}
+tag, \code{shiny::tagList()}, or \code{shiny::HTML()} to render markup.}
 }
 \value{
 no return value.  This toggles on error CSS

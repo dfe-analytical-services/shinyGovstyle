@@ -96,17 +96,7 @@ checkbox_Input <- # nolint
           class = "govuk-fieldset",
           shiny::tags$label(as_govuk_html(label), class = "govuk-label"),
           shiny::tags$div(as_govuk_html(hint_label), class = "govuk-hint"),
-          if (error == TRUE) {
-            shinyjs::hidden(
-              shiny::tags$p(
-                error_message,
-                class = "govuk-error-message",
-                id = paste0(inputId, "error"),
-                role = "alert",
-                shiny::tags$span("Error:", class = "govuk-visually-hidden")
-              )
-            )
-          },
+          if (error == TRUE) govuk_error_message(inputId, error_message),
           shiny::tags$div(
             class = class_build,
             Map(

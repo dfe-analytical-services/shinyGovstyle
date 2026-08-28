@@ -4,7 +4,9 @@
 #' validate inputs.
 #' @param inputId The input id that you to to turn the error on for
 #' @param error_message if you want to add an additional error message
-#' Defaults to NULL, showing the original designed error message
+#' Defaults to NULL, showing the original designed error message. Plain
+#' character strings are escaped and render as literal text; pass a `shiny`
+#' tag, `shiny::tagList()`, or `shiny::HTML()` to render markup.
 #' @return no return value.  This toggles on error CSS
 #' @family Govstyle errors
 #' @export
@@ -53,7 +55,9 @@ error_on <- function(
 ) {
   shinyjs::addClass(paste0(inputId, "div"), "govuk-form-group--error")
   if (!is.null(error_message)) {
-    shinyjs::html(paste0(inputId, "error"), error_message)
+    # Rebuild the full inner HTML: shinyjs::html() replaces the paragraph's
+    # contents, so the visually hidden "Error:" prefix has to be sent with it.
+    shinyjs::html(paste0(inputId, "error"), govuk_error_html(error_message))
   }
   shinyjs::show(paste0(inputId, "error"))
   shinyjs::addClass(

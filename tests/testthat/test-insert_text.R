@@ -1,8 +1,11 @@
 test_that("string content is wrapped with shiny::HTML", {
   insert_text <- insert_text("insert1", "Test insert")
 
-  expect_identical(insert_text$attribs$id, "insert1")
-  expect_identical(insert_text$attribs$class, "govuk-inset-text")
+  expect_identical(htmltools::tagGetAttribute(insert_text, "id"), "insert1")
+  expect_identical(
+    htmltools::tagGetAttribute(insert_text, "class"),
+    "govuk-inset-text"
+  )
   expect_match(as.character(insert_text), "Test insert", fixed = TRUE)
 })
 

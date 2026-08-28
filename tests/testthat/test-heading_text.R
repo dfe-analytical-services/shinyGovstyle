@@ -8,7 +8,7 @@ test_that("default", {
 
   expect_identical(
     shiny::HTML("Test Time"),
-    head_text$children[[1]]
+    tag_text(head_text, "govuk-heading-xl")
   )
 })
 
@@ -22,6 +22,6 @@ test_that("medium_works", {
 
   expect_identical(
     shiny::HTML("Test Time"),
-    head_text$children[[1]]
+    tag_text(head_text, "govuk-heading-m")
   )
 })

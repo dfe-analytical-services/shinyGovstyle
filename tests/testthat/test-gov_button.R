@@ -17,7 +17,7 @@ test_that("button works", {
 
   expect_identical(
     "Click me",
-    button$children[[1]]
+    tag_text(button, "govuk-button")
   )
 })
 
@@ -36,7 +36,7 @@ test_that("start_button works", {
 
   expect_identical(
     "Click me",
-    button$children[[1]]
+    tag_text(button, "govuk-button")
   )
 })
 
@@ -55,7 +55,7 @@ test_that("secondary_button works", {
 
   expect_identical(
     "Click me",
-    button$children[[1]]
+    tag_text(button, "govuk-button")
   )
 })
 
@@ -74,6 +74,6 @@ test_that("warning_button works", {
 
   expect_identical(
     "Click me",
-    button$children[[1]]
+    tag_text(button, "govuk-button")
   )
 })

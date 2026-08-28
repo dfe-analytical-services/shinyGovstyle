@@ -1,13 +1,14 @@
 test_that("tag works", {
   tag_check <- shinyGovstyle::tag_Input("tag1", "Complete")
-  expect_identical(
-    tag_check$children[[1]],
-    "Complete"
-  )
 
   expect_identical(
     htmltools::tagGetAttribute(tag_check, "class"),
     "govuk-tag"
+  )
+
+  expect_identical(
+    tag_text(tag_check, "govuk-tag"),
+    "Complete"
   )
 })
 

@@ -4,7 +4,7 @@
 # child string with expect_identical(), which is exact-match without being a
 # snapshot.
 
-link_text <- function(link) as.character(link$children[[1L]])
+link_text <- function(link) as.character(tag_text(link, "govuk-link"))
 
 test_link <- external_link("https://shiny.posit.co/", "R Shiny")
 

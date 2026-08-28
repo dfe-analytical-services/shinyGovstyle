@@ -73,6 +73,17 @@ tag_text <- function(x, class) {
   find_tag_required(x, class)$children[[1L]]
 }
 
+# tag_text_by_name() is the tag-name analogue of tag_text(), for elements that
+# carry no stable class to match on (e.g. <li> inside a plain list, <option>
+# inside a <select>). Unlike tag_text() (which assumes a single match),
+# name-based elements are typically repeated, so this returns the first child
+# text of *every* match, in document order, as a character vector. Each
+# matched tag is still assumed to have a single text child.
+tag_text_by_name <- function(x, name) {
+  hits <- find_tags_by_name(x, name)
+  vapply(hits, function(h) as.character(h$children[[1L]]), character(1L))
+}
+
 child_classes <- function(tag) {
   tag_children <- Filter(function(c) inherits(c, "shiny.tag"), tag$children)
   vapply(

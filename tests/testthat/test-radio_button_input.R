@@ -13,7 +13,7 @@ test_that("Default", {
     choices = choices,
     selected = "A"
   )
-  choicestag <- radios_container(rtag)$children[[1]]
+  choicestag <- find_tags(rtag, "govuk-radios__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -35,7 +35,7 @@ test_that("Error", {
     error = TRUE,
     error_message = "Error Test"
   )
-  choicestag <- radios_container(rtag)$children[[1]]
+  choicestag <- find_tags(rtag, "govuk-radios__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -57,7 +57,7 @@ test_that("Small", {
     selected = "A",
     small = TRUE
   )
-  choicestag <- radios_container(rtag)$children[[1]]
+  choicestag <- find_tags(rtag, "govuk-radios__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -82,7 +82,7 @@ test_that("Inline", {
     selected = "A",
     inline = TRUE
   )
-  choicestag <- radios_container(rtag)$children[[1]]
+  choicestag <- find_tags(rtag, "govuk-radios__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -106,12 +106,12 @@ test_that("Labels are programmatically associated with inputs", {
     choices = choices,
     selected = "Yes"
   )
-  option_items <- radios_container(rtag)$children[[1]]
+  option_items <- find_tags(rtag, "govuk-radios__item")
 
   for (i in seq_along(choices)) {
     item <- option_items[[i]]
-    input_tag <- item$children[[1]]
-    label_tag <- item$children[[2]]
+    input_tag <- find_tag(item, "govuk-radios__input")
+    label_tag <- find_tag(item, "govuk-label")
     expected_id <- paste0("radio_a11y-", i)
     expect_identical(htmltools::tagGetAttribute(input_tag, "id"), expected_id)
     expect_identical(

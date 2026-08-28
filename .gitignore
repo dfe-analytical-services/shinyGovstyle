@@ -8,3 +8,4 @@ docs/
 .claude/
 inst/doc
 AGENTS.md
+.posit/

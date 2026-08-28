@@ -25,13 +25,8 @@ test_that("error_summary builds the documented structure", {
     "govuk-list govuk-error-summary__list"
   )
 
-  # error_summary() builds <li> tags via Map(), which leaves them as a
-  # length-1 list nested inside $children. Unwrap that before walking the items.
-  li_tags <- list_tag$children[[1L]]
-  entries <- vapply(
-    li_tags,
-    function(li) as.character(li$children[[1L]]),
-    character(1L)
+  expect_identical(
+    unname(tag_text_by_name(list_tag, "li")),
+    c("error entry 1", "error entry 2")
   )
-  expect_identical(unname(entries), c("error entry 1", "error entry 2"))
 })

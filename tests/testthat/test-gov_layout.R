@@ -11,8 +11,5 @@ test_that("default works", {
     "govuk-width-container  govuk-main-wrapper"
   )
 
-  expect_identical(
-    htmltools::tagGetAttribute(layout_test$children[[1]], "class"),
-    "govuk-grid-column-full"
-  )
+  expect_has_tag(layout_test, "govuk-grid-column-full")
 })

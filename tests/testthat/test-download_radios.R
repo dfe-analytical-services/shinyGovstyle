@@ -2,7 +2,7 @@ radio_labels <- function(x) {
   labels <- find_tags(x, "govuk-radios__label")
   vapply(
     labels,
-    function(label) as.character(label$children[[1L]]),
+    function(label) as.character(tag_text(label, "govuk-radios__label")),
     character(1L)
   )
 }

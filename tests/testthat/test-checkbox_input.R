@@ -6,7 +6,7 @@ test_that("Default", {
     cb_labels = choices,
     checkboxIds = choices
   )
-  choicestag <- find_tag(cbtag, "govuk-checkboxes")$children[[1]]
+  choicestag <- find_tags(cbtag, "govuk-checkboxes__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -28,7 +28,7 @@ test_that("Error", {
     error = TRUE,
     error_message = "Error Test"
   )
-  choicestag <- find_tag(cbtag, "govuk-checkboxes")$children[[1]]
+  choicestag <- find_tags(cbtag, "govuk-checkboxes__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -51,7 +51,7 @@ test_that("Small", {
     checkboxIds = choices,
     small = TRUE
   )
-  choicestag <- find_tag(cbtag, "govuk-checkboxes")$children[[1]]
+  choicestag <- find_tags(cbtag, "govuk-checkboxes__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -76,12 +76,12 @@ test_that("Labels are programmatically associated with inputs", {
     cb_labels = cb_labels,
     checkboxIds = cb_ids
   )
-  option_items <- find_tag(cbtag, "govuk-checkboxes")$children[[1]]
+  option_items <- find_tags(cbtag, "govuk-checkboxes__item")
 
   for (i in seq_along(cb_ids)) {
     item <- option_items[[i]]
-    input_tag <- item$children[[1]]
-    label_tag <- item$children[[2]]
+    input_tag <- find_tag(item, "govuk-checkboxes__input")
+    label_tag <- find_tag(item, "govuk-label")
     expect_identical(htmltools::tagGetAttribute(input_tag, "id"), cb_ids[i])
     expect_identical(htmltools::tagGetAttribute(label_tag, "for"), cb_ids[i])
   }

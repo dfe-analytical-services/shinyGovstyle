@@ -6,7 +6,7 @@ test_that("default button has plain govuk-button class and renders label", {
     "govuk-button action-button"
   )
   expect_identical(htmltools::tagGetAttribute(btn, "id"), "btnId")
-  expect_identical(btn$children[[1L]], "Continue")
+  expect_identical(tag_text(btn, "govuk-button"), "Continue")
   expect_no_tag(btn, "govuk-button__start-icon")
 })
 
@@ -17,7 +17,7 @@ test_that("start button has start modifier and start-icon svg", {
     htmltools::tagGetAttribute(btn, "class"),
     "govuk-button govuk-button--start action-button"
   )
-  expect_identical(btn$children[[1L]], "Start now")
+  expect_identical(tag_text(btn, "govuk-button"), "Start now")
 
   icon <- expect_has_tag(btn, "govuk-button__start-icon")
   expect_identical(icon$name, "svg")

@@ -5,6 +5,8 @@
 * `insert_text()` argument `text` has been renamed to `content` to reflect
   that it now accepts more than plain text. The old name is deprecated and
   will be removed in a future version.
+* `govTable()` now renders rows in dataframe order (rows were previously
+  reversed).
 
 ## New features
 
@@ -18,6 +20,18 @@
   `warning_text()` (`text`), and `gov_summary()` (`info`) now accept `shiny`
   tag objects (e.g. `shiny::tags$b("Bold")`) and `shiny::tagList()` values in
   addition to plain character strings.
+* `gov_list()` (`list`) and `accordion()` (`descriptions`) now accept `shiny`
+  tag objects and `shiny::tagList()` values, so list items and accordion
+  sections can contain links and other rich content. `accordion()` section
+  content is no longer forced into a single paragraph, so it can hold block
+  content such as lists or multiple paragraphs (plain-string sections are
+  unchanged).
+* The `label` and `hint_label` / `hint_input` arguments of `label_hint()`,
+  `text_Input()`, `text_area_Input()`, `date_Input()`, `select_Input()`,
+  `checkbox_Input()`, and `radio_button_Input()` now consistently accept plain
+  strings, HTML strings, `shiny` tag objects, and `shiny::tagList()` values.
+  Previously labels accepted HTML strings but not tags, while hints accepted
+  tags but not HTML strings.
 
 ## Bug fixes
 
@@ -32,6 +46,10 @@
   `label`, so HTML strings render consistently across both arguments.
 * `warning_text()` now renders HTML strings in `text` consistently with other
   body-content components.
+* `govTable()` no longer errors with "evaluation nested too deeply: infinite
+  recursion" on large tables (around 1200+ rows). It now warns when given more
+  than 50 rows and recommends `govReactable()` for very large or interactive
+  tables.
 * The `radio_button_Input()` client binding now correctly replaces all options
   when sent an `options` update (the previous selectors did not match the
   rendered markup, so option replacement silently did nothing).

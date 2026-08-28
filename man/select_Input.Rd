@@ -9,7 +9,9 @@ select_Input(inputId, label, select_text, select_value)
 \arguments{
 \item{inputId}{Input Id for the component}
 
-\item{label}{Insert the text for the label}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
 \item{select_text}{Add the text that will apply in the drop down as a list}
 

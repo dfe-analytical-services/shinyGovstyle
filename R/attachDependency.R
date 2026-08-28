@@ -39,6 +39,18 @@ attachDependency <- # nolint
             script = "date_input_binding.js"
           )
         )
+      } else if (widget == "textarea") {
+        dep <- list(
+          dep,
+          htmltools::htmlDependency(
+            name = "text_area_input",
+            version = version,
+            src = c(href = "shinyGovstyle/js"),
+            script = c(
+              "text_area_input.js"
+            )
+          )
+        )
       } else if (widget == "accordion") {
         dep <- list(
           dep,

@@ -13,7 +13,10 @@ test_that("cookie banner works", {
   bodies <- find_tags(cookie_banner_check, "govuk-body")
   expect_gte(length(bodies), 2)
   expect_match(
-    paste(vapply(bodies, function(b) as.character(b), character(1L)), collapse = " "),
+    paste(
+      vapply(bodies, function(b) as.character(b), character(1L)),
+      collapse = " "
+    ),
     "We use some essential cookies to make this service work."
   )
 

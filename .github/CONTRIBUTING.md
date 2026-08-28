@@ -60,7 +60,11 @@ expect_identical(htmltools::tagGetAttribute(cell, "class"), "govuk-table__cell")
 For hidden errors:
 
 ```r
-input <- text_Input("name", "Your name", error = TRUE)
+input <- text_Input(
+  "name", "Your name",
+  error = TRUE,
+  error_message = "Enter your name"
+)
 expect_hidden_error(input, "Enter your name")
 ```
 

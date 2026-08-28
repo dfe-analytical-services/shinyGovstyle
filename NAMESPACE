@@ -57,8 +57,10 @@ export(update_service_navigation)
 export(value_box)
 export(warning_text)
 export(word_count)
-importFrom(htmltools,attachDependencies)
-importFrom(htmltools,findDependencies)
-importFrom(htmltools,htmlDependency)
+importFrom(htmltools,
+  attachDependencies,
+  findDependencies,
+  htmlDependency
+)
 importFrom(shiny,addResourcePath)
 importFrom(utils,packageVersion)

@@ -88,12 +88,12 @@ server <- function(input, output, session) {
 if (interactive()) shiny::shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle navigation: 
-\code{\link{backlink_Input}()},
-\code{\link{contents_link}()},
-\code{\link{service_navigation}()},
-\code{\link{service_navigation_server}()},
-\code{\link{update_page_title}()},
-\code{\link{update_service_navigation}()}
+Other Govstyle navigation:
+\code{\link[=backlink_Input]{backlink_Input()}},
+\code{\link[=contents_link]{contents_link()}},
+\code{\link[=service_navigation]{service_navigation()}},
+\code{\link[=service_navigation_server]{service_navigation_server()}},
+\code{\link[=update_page_title]{update_page_title()}},
+\code{\link[=update_service_navigation]{update_service_navigation()}}
 }
 \concept{Govstyle navigation}

@@ -3,7 +3,9 @@
 #' This function creates a notification banner.
 #' @param inputId The input Id for the banner
 #' @param title_txt The wording that appears in the title
-#' @param body_txt The wording that appears in the banner body
+#' @param body_txt The wording that appears in the banner body. Accepts a
+#' plain character string, or `shiny` tag objects such as
+#' `shiny::tags$b("Bold")` or a `shiny::tagList()`.
 #' @param type The type of banner. Options are standard and success.
 #' Standard is default
 #' @return a notification HTML shiny tag object
@@ -55,7 +57,7 @@ noti_banner <- function(
       class = "govuk-notification-banner__content",
       shiny::tags$p(
         class = "govuk-notification-banner__heading",
-        shiny::HTML(body_txt)
+        as_govuk_html(body_txt)
       )
     )
   )

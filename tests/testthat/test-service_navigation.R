@@ -124,7 +124,7 @@ test_that("service_navigation_server routes each link to its panel value", {
   )
   local_mocked_bindings(
     observeEvent = function(
-      eventExpr,   # nolint: object_name_linter.
+      eventExpr, # nolint: object_name_linter.
       handlerExpr, # nolint: object_name_linter.
       ...
     ) {

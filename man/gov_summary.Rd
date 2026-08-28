@@ -11,7 +11,10 @@ gov_summary(inputId, headers, info, action = FALSE, border = TRUE)
 
 \item{headers}{input for the row headers value}
 
-\item{info}{summary information values for the table}
+\item{info}{Summary information values for the table. Each value accepts a
+plain character string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}. Pass a list rather than a
+character vector to mix tag and string values.}
 
 \item{action}{whenever a change link is needed. Sets input to the value of
 the headers using lowercase and with underscore to replace gaps. Default

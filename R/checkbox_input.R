@@ -4,8 +4,7 @@
 #' @param inputId Input Id for the group of checkboxes
 #' @param cb_labels Add the names of the options that will appear
 #' @param checkboxIds Add the values for each checkbox
-#' @param label Insert the text for the checkbox group
-#' @param hint_label Insert optional hint/secondary text. Defaults to NULL
+#' @inheritParams control_label_params
 #' @param small change the sizing to a small version of the checkbox. Defaults
 #' to `FALSE`
 #' @param error Whenever you want to include error handle on the component
@@ -40,6 +39,17 @@
 #'       hint_label = "Select the best fit",
 #'       error = TRUE,
 #'       error_message = "Select one"
+#'     ),
+#'     # Rich content: a link in the hint
+#'     shinyGovstyle::checkbox_Input(
+#'       inputId = "check3",
+#'       cb_labels = c("Option 1", "Option 2", "Option 3"),
+#'       checkboxIds = c("op1", "op2", "op3"),
+#'       label = "Choice option",
+#'       hint_label = shiny::tagList(
+#'         "See the ",
+#'         shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+#'       )
 #'     ),
 #'     # Button to trigger error
 #'     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
@@ -84,8 +94,8 @@ checkbox_Input <- # nolint
         id = paste0(inputId, "div"),
         shiny::tags$fieldset(
           class = "govuk-fieldset",
-          shiny::tags$label(label, class = "govuk-label"),
-          shiny::tags$div(hint_label, class = "govuk-hint"),
+          shiny::tags$label(as_govuk_html(label), class = "govuk-label"),
+          shiny::tags$div(as_govuk_html(hint_label), class = "govuk-hint"),
           if (error == TRUE) {
             shinyjs::hidden(
               shiny::tags$p(

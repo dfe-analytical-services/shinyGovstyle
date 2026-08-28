@@ -11,6 +11,7 @@ color: #0b0c0c;
 
 * Add `font-size: 16px;` to root at top of file underneath `--govuk-frontend-version: VERSION NUMBER;`
 
+* Replace all instances of colour #1a65a6 with #175892
 
 * Change url links
 
@@ -236,54 +237,6 @@ color: #0b0c0c;
     font-weight: 400;
 }
 ```
-
-* Styling for govReactable reactable
-```
-
-/*Styling for gov reactable*/
-
-/* custom sort indicators -------------------------------------------------- */
-.bar-sort-header:hover,
-.bar-sort-header:focus {
-  background: #fd0;
-}
-
-/* Add a top bar on ascending sort */
-.bar-sort-header[aria-sort="ascending"] {
-  box-shadow: inset 0 0.188rem 0 0 #1d70b8;
-}
-
-/* Add a bottom bar on descending sort */
-.bar-sort-header[aria-sort="descending"] {
-  box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
-}
-
-/* Add an animation when toggling between ascending and descending sort */
-.bar-sort-header {
-  transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-/* Table row and highlighting -------------------------------------------------- */
-
-.gov-table .rt-tr-highlight {
-    border-bottom: 1px solid #b1b4b6;
-}
-.gov-table .rt-tr-highlight:hover {
-    background-color: #fd0 !important;
-}
-
-
-/* Highlight on the page button indicators --------------------------------- */
-.rt-page-button:hover,
-.rt-page-button:focus,
-.rt-page-button:active {
-    background: #fd0 !important;
-    box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
-}
-
-
-```
-
 
 * Add back blue tag colour - removed as default
 ```

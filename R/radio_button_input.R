@@ -301,7 +301,7 @@ generateOptions2 <- # nolint
             value = value,
             class = "govuk-radios__input"
           )
-        if (is.null(selected) == FALSE & value %in% selected) {
+        if (!is.null(selected) && value %in% selected) {
           inputTag$attribs$checked <- "checked" # nolint
         }
         pd <- processDeps2(name, session)

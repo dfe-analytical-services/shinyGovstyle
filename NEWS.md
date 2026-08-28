@@ -44,6 +44,11 @@
   comes before the message text, so screen readers announce "Error: Enter your
   name" rather than "Enter your name Error:". The prefix also survives
   `error_on(error_message = ...)`, which previously replaced it.
+* `error_on()` now escapes a plain string `error_message` instead of sending it
+  to the browser as raw HTML, so it renders the same way as the message baked
+  into the component (`<` and `&` are no longer swallowed, and interpolated
+  user content can no longer inject markup). Pass a `shiny` tag,
+  `shiny::tagList()`, or `shiny::HTML()` to render markup deliberately.
 * `date_Input()` now renders its hint before the error message, matching the
   GOV.UK Design System and the other input components.
 * `govReactable()` table row, sort-header, and pagination highlights are now

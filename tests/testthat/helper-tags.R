@@ -186,9 +186,10 @@ find_by_id_suffix <- function(x, suffix) {
 # expect_hidden_error() asserts the standard "renders hidden by default"
 # contract: exactly one govuk-error-message tag, class
 # "govuk-error-message shinyjs-hide", role "alert", a leading visually hidden
-# "Error:" prefix, and (optionally) the message text as the final child. Tests that want to assert *further* properties of the error
-# tag should keep their own `find_tag(.., "govuk-error-message")` lookup
-# alongside this helper call rather than replacing it.
+# "Error:" prefix, and (optionally) the message text as the final child.
+# Tests that want to assert *further* properties of the error tag should keep
+# their own `find_tag(.., "govuk-error-message")` lookup alongside this helper
+# call rather than replacing it.
 expect_hidden_error <- function(tag, message = NULL) {
   errors <- find_tags(tag, "govuk-error-message")
   testthat::expect_length(errors, 1L)

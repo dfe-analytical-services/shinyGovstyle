@@ -54,13 +54,13 @@ Navigate by class instead:
 
 ```r
 cell <- find_tag_required(table, "govuk-table__cell")
-expect_identical(cell$attribs$class, "govuk-table__cell")
+expect_identical(htmltools::tagGetAttribute(cell, "class"), "govuk-table__cell")
 ```
 
 For hidden errors:
 
 ```r
-input <- text_input("name", "Your name", error = TRUE)
+input <- text_Input("name", "Your name", error = TRUE)
 expect_hidden_error(input, "Enter your name")
 ```
 

@@ -2,8 +2,8 @@
 #'
 #' This function create a date input that follows GDS component
 #' @inheritParams id_arg
-#' @param label Display label for the control, or `NULL` for no label
-#' @inheritParams hint_error_args
+#' @inheritParams control_label_params
+#' @inheritParams error_args
 #' @param day Select a default day on start up. Defaults to `NULL`
 #' @param month Select a default month on start up. Defaults to `NULL`
 #' @param year Select a default year on start up. Defaults to `NULL`
@@ -36,6 +36,15 @@
 #'       label = "Please enter your birthday",
 #'       hint_label = "For example, 12 11 2007",
 #'       error = TRUE
+#'     ),
+#'     # Rich content: a link in the hint
+#'     shinyGovstyle::date_Input(
+#'       inputId = "dob_input3",
+#'       label = "Please enter your birthday",
+#'       hint_label = shiny::tagList(
+#'         "Check the format in the ",
+#'         shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+#'       )
 #'     ),
 #'     # Button to trigger error
 #'     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")

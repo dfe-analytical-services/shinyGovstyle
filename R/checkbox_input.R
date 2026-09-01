@@ -4,8 +4,8 @@
 #' @inheritParams id_arg
 #' @param cb_labels Add the names of the options that will appear
 #' @param checkboxIds Add the values for each checkbox
-#' @param label Insert the text for the checkbox group
-#' @inheritParams hint_error_args
+#' @inheritParams control_label_params
+#' @inheritParams error_args
 #' @param small change the sizing to a small version of the checkbox. Defaults
 #' to `FALSE`
 #' @inheritParams fieldset_args
@@ -39,6 +39,17 @@
 #'       hint_label = "Select the best fit",
 #'       error = TRUE,
 #'       error_message = "Select one"
+#'     ),
+#'     # Rich content: a link in the hint
+#'     shinyGovstyle::checkbox_Input(
+#'       inputId = "check3",
+#'       cb_labels = c("Option 1", "Option 2", "Option 3"),
+#'       checkboxIds = c("op1", "op2", "op3"),
+#'       label = "Choice option",
+#'       hint_label = shiny::tagList(
+#'         "See the ",
+#'         shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+#'       )
 #'     ),
 #'     # Button to trigger error
 #'     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")

@@ -19,10 +19,12 @@ text_area_Input(
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{label}{Display label for the control, or \code{NULL} for no label}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
-\item{hint_label}{Optional hint text shown beneath the label to guide the
-user. \code{NULL} (default) omits the hint.}
+\item{hint_label}{Display hint label for the control, or \code{NULL} for no hint
+label. Accepts the same rich content as \code{label}, so it can include a link.}
 
 \item{row_no}{Size of the text entry box. Defaults to 5}
 
@@ -46,6 +48,16 @@ text_area_Input(
   paste(
     "Do not include personal or financial information, like your",
     "National Insurance number or credit card details."
+  )
+)
+
+# Rich content: a link in the hint
+text_area_Input(
+  "taId2",
+  "Can you provide more detail?",
+  shiny::tagList(
+    "Read the ",
+    shinyGovstyle::external_link("https://www.gov.uk", "guidance on detail")
   )
 )
 }

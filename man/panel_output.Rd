@@ -13,7 +13,9 @@ input components this is also the name used to access the value via
 
 \item{main_text}{Add the header for the panel}
 
-\item{sub_text}{Add the main body of text for the panel}
+\item{sub_text}{Add the main body of text for the panel. Accepts a plain
+character string, or \code{shiny} tag objects such as \code{shiny::tags$b("Bold")}
+or a \code{shiny::tagList()}.}
 }
 \value{
 a panel HTML shiny tag object

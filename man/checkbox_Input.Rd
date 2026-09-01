@@ -26,10 +26,12 @@ input components this is also the name used to access the value via
 
 \item{checkboxIds}{Add the values for each checkbox}
 
-\item{label}{Insert the text for the checkbox group}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
-\item{hint_label}{Optional hint text shown beneath the label to guide the
-user. \code{NULL} (default) omits the hint.}
+\item{hint_label}{Display hint label for the control, or \code{NULL} for no hint
+label. Accepts the same rich content as \code{label}, so it can include a link.}
 
 \item{small}{change the sizing to a small version of the checkbox. Defaults
 to \code{FALSE}}
@@ -82,6 +84,17 @@ ui <- shiny::fluidPage(
       error = TRUE,
       error_message = "Select one"
     ),
+    # Rich content: a link in the hint
+    shinyGovstyle::checkbox_Input(
+      inputId = "check3",
+      cb_labels = c("Option 1", "Option 2", "Option 3"),
+      checkboxIds = c("op1", "op2", "op3"),
+      label = "Choice option",
+      hint_label = shiny::tagList(
+        "See the ",
+        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+      )
+    ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
   ),
@@ -106,6 +119,7 @@ Other Govstyle select inputs:
 \code{\link{button_Input}()},
 \code{\link{file_Input}()},
 \code{\link{radio_button_Input}()},
-\code{\link{select_Input}()}
+\code{\link{select_Input}()},
+\code{\link{update_radio_button_Input}()}
 }
 \concept{Govstyle select inputs}

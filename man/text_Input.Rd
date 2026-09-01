@@ -21,10 +21,12 @@ text_Input(
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{label}{Display label for the control, or \code{NULL} for no label}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
-\item{hint_label}{Optional hint text shown beneath the label to guide the
-user. \code{NULL} (default) omits the hint.}
+\item{hint_label}{Display hint label for the control, or \code{NULL} for no hint
+label. Accepts the same rich content as \code{label}, so it can include a link.}
 
 \item{type}{Type of text input to accept. Defaults to text}
 
@@ -68,6 +70,18 @@ ui <- shiny::fluidPage(
       label = "Event Name",
       hint_label = "This can be found on the letter",
       error = TRUE
+    ),
+    # Rich content: a link in the hint
+    shinyGovstyle::text_Input(
+      inputId = "eventId3",
+      label = "Event Name",
+      hint_label = shiny::tagList(
+        "As shown on your ",
+        shinyGovstyle::external_link(
+          "https://www.gov.uk",
+          "confirmation letter"
+        )
+      )
     ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")

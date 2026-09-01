@@ -26,7 +26,9 @@ radio_button_Input(
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{label}{Input label}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
 \item{choices}{List of values to select from (if elements of the list are
 named then that name rather than the value is displayed to the user)}
@@ -47,8 +49,8 @@ must not be provided. The advantage of using both of these over a named list
 for choices is that choiceNames allows any type of UI object to be passed
 through (tag objects, icons, HTML code, ...), instead of just simple text}
 
-\item{hint_label}{Optional hint text shown beneath the label to guide the
-user. \code{NULL} (default) omits the hint.}
+\item{hint_label}{Display hint label for the control, or \code{NULL} for no hint
+label. Accepts the same rich content as \code{label}, so it can include a link.}
 
 \item{error}{If \code{TRUE}, render the component in its error state and
 reserve a slot for the error message. Defaults to \code{FALSE}.}
@@ -103,6 +105,16 @@ ui <- shiny::fluidPage(
       error = TRUE,
       error_message = "Select one"
     ),
+    # Rich content: a link in the hint
+    shinyGovstyle::radio_button_Input(
+      inputId = "radio3",
+      choices = c("Yes", "No", "Maybe"),
+      label = "Choice option",
+      hint_label = shiny::tagList(
+        "See the ",
+        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+      )
+    ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
   ),
@@ -128,6 +140,7 @@ Other Govstyle select inputs:
 \code{\link{button_Input}()},
 \code{\link{checkbox_Input}()},
 \code{\link{file_Input}()},
-\code{\link{select_Input}()}
+\code{\link{select_Input}()},
+\code{\link{update_radio_button_Input}()}
 }
 \concept{Govstyle select inputs}

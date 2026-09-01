@@ -11,7 +11,9 @@ select_Input(inputId, label, select_text, select_value)
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{label}{Insert the text for the label}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
 \item{select_text}{Add the text that will apply in the drop down as a list}
 
@@ -57,6 +59,7 @@ Other Govstyle select inputs:
 \code{\link{button_Input}()},
 \code{\link{checkbox_Input}()},
 \code{\link{file_Input}()},
-\code{\link{radio_button_Input}()}
+\code{\link{radio_button_Input}()},
+\code{\link{update_radio_button_Input}()}
 }
 \concept{Govstyle select inputs}

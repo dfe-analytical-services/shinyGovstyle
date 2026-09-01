@@ -11,7 +11,9 @@ warning_text(inputId, text)
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{text}{Text that goes in the main}
+\item{text}{Text that goes in the main. Accepts a plain character string,
+or \code{shiny} tag objects such as \code{shiny::tags$b("Bold")} or a
+\code{shiny::tagList()}.}
 }
 \value{
 a warning box HTML shiny tag object

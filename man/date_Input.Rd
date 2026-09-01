@@ -22,10 +22,12 @@ date_Input(
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{label}{Display label for the control, or \code{NULL} for no label}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
-\item{hint_label}{Optional hint text shown beneath the label to guide the
-user. \code{NULL} (default) omits the hint.}
+\item{hint_label}{Display hint label for the control, or \code{NULL} for no hint
+label. Accepts the same rich content as \code{label}, so it can include a link.}
 
 \item{error}{If \code{TRUE}, render the component in its error state and
 reserve a slot for the error message. Defaults to \code{FALSE}.}
@@ -78,6 +80,15 @@ ui <- shiny::fluidPage(
       label = "Please enter your birthday",
       hint_label = "For example, 12 11 2007",
       error = TRUE
+    ),
+    # Rich content: a link in the hint
+    shinyGovstyle::date_Input(
+      inputId = "dob_input3",
+      label = "Please enter your birthday",
+      hint_label = shiny::tagList(
+        "Check the format in the ",
+        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+      )
     ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")

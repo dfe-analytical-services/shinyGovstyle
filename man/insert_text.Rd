@@ -4,14 +4,18 @@
 \alias{insert_text}
 \title{Insert Text Function}
 \usage{
-insert_text(inputId, text)
+insert_text(inputId, content, text = lifecycle::deprecated())
 }
 \arguments{
 \item{inputId}{The id assigned to the component's root element. For Shiny
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{text}{Text that you want to display on the insert}
+\item{content}{Content to display on the insert. Accepts a plain character
+string, or \code{shiny} tag objects such as \code{shiny::tags$b("Bold")} or a
+\code{shiny::tagList()}.}
+
+\item{text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{content} instead}
 }
 \value{
 a insert text HTML shiny tag object
@@ -31,9 +35,16 @@ ui <- shiny::fluidPage(
     size = "two-thirds",
     shinyGovstyle::insert_text(
       inputId = "note",
-      text = paste(
+      content = paste(
         "It can take up to 8 weeks to register a lasting power of",
         "attorney if there are no mistakes in the application."
+      )
+    ),
+    shinyGovstyle::insert_text(
+      inputId = "note-rich",
+      content = shiny::tagList(
+        shiny::tags$b("Important: "),
+        "you can also pass tag objects."
       )
     )
   ),

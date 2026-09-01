@@ -126,8 +126,10 @@ test_that("label_size sets the legend size modifier", {
 test_that("label_size rejects unknown values", {
   expect_error(
     checkbox_Input(
-      inputId = "cb", label = "Q",
-      cb_labels = c("a", "b"), checkboxIds = c("a", "b"),
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
       label_size = "huge"
     )
   )
@@ -152,22 +154,28 @@ test_that("heading_level wraps the legend text in an <hN>", {
 test_that("heading_level rejects invalid values", {
   expect_error(
     checkbox_Input(
-      inputId = "cb", label = "Q",
-      cb_labels = c("a", "b"), checkboxIds = c("a", "b"),
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
       heading_level = 0
     )
   )
   expect_error(
     checkbox_Input(
-      inputId = "cb", label = "Q",
-      cb_labels = c("a", "b"), checkboxIds = c("a", "b"),
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
       heading_level = 7
     )
   )
   expect_error(
     checkbox_Input(
-      inputId = "cb", label = "Q",
-      cb_labels = c("a", "b"), checkboxIds = c("a", "b"),
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
       heading_level = c(1, 2)
     )
   )

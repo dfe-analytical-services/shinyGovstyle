@@ -2,7 +2,7 @@
 #'
 #' This function turns on the error for the component. Can be used to
 #' validate inputs.
-#' @param inputId The input id that you to to turn the error on for
+#' @inheritParams id_arg
 #' @param error_message if you want to add an additional error message
 #' Defaults to NULL, showing the original designed error message
 #' @return no return value.  This toggles on error CSS
@@ -53,9 +53,9 @@ error_on <- function(
 ) {
   shinyjs::addClass(paste0(inputId, "div"), "govuk-form-group--error")
   if (!is.null(error_message)) {
-    shinyjs::html(paste0(inputId, "error"), error_message)
+    shinyjs::html(paste0(inputId, "-error"), error_message)
   }
-  shinyjs::show(paste0(inputId, "error"))
+  shinyjs::show(paste0(inputId, "-error"))
   shinyjs::addClass(
     selector = paste0("#", inputId, "div :input"),
     class = "govuk-input--error"

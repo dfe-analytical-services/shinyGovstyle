@@ -1,11 +1,10 @@
 #' Text Area Input Function
 #'
 #' This function create a text area input.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @inheritParams control_label_params
+#' @inheritParams error_args
 #' @param row_no Size of the text entry box. Defaults to 5
-#' @param error Whenever to include error handling. Defaults to `FALSE`
-#' @param error_message Message to display on error. Defaults to `NULL`
 #' @param word_limit Add a word limit to the display. Defaults to `NULL`
 #' @return a text area box HTML shiny tag object
 #' @family Govstyle text types
@@ -49,7 +48,7 @@ text_area_Input <- # nolint
           shiny::tags$p(
             error_message,
             class = "govuk-error-message",
-            id = paste0(inputId, "error"),
+            id = paste0(inputId, "-error"),
             role = "alert",
             shiny::tags$span("Error:", class = "govuk-visually-hidden")
           )

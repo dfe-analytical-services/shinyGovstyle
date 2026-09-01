@@ -1,7 +1,7 @@
 #' Label with Hint Function
 #'
 #' This function inserts a label and optional hint.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @inheritParams control_label_params
 #' @return a label hint HTML shiny tag object
 #' @family Govstyle feedback types

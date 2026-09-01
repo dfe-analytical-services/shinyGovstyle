@@ -2,7 +2,7 @@
 #'
 #' This function creates a tabs based table. It requires a single dataframe
 #' with a grouping variable.
-#' @param inputId The Id to access the summary list
+#' @inheritParams id_arg
 #' @param headers input for the row headers value
 #' @param info Summary information values for the table. Each value accepts a
 #' plain character string, or `shiny` tag objects such as

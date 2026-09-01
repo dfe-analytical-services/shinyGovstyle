@@ -2,7 +2,7 @@
 #'
 #' This function create a detail component that you can click for further
 #' details.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param type Main type of label e.g. alpha or beta. Can be any word
 #' @param label Text to display. Accepts a plain character string, or `shiny`
 #' tag objects such as `shiny::tags$b("Bold")` or a `shiny::tagList()`.

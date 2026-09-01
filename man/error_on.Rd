@@ -7,7 +7,9 @@
 error_on(inputId, error_message = NULL)
 }
 \arguments{
-\item{inputId}{The input id that you to to turn the error on for}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{error_message}{if you want to add an additional error message
 Defaults to NULL, showing the original designed error message}

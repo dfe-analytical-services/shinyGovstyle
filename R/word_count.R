@@ -2,7 +2,7 @@
 #'
 #' This function create tracks the word count and should be used with the
 #' text area function.
-#' @param inputId The input slot of the text area that you want to affect
+#' @inheritParams id_arg
 #' @param input The text input that is associated with the box
 #' @param word_limit Change the word limit if needed. Default will keep as
 #' what was used in text area component

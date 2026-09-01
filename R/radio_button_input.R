@@ -1,7 +1,7 @@
 #' Radio Button Function
 #'
 #' This function create radio buttons
-#' @param inputId The `input` slot that will be used to access the value
+#' @inheritParams id_arg
 #' @inheritParams control_label_params
 #' @param choices List of values to select from (if elements of the list are
 #' named then that name rather than the value is displayed to the user)
@@ -17,10 +17,10 @@
 #' must not be provided. The advantage of using both of these over a named list
 #' for choices is that choiceNames allows any type of UI object to be passed
 #' through (tag objects, icons, HTML code, ...), instead of just simple text
-#' @param error Whenever you want to include error handle on the component
-#' @param error_message If you want a default error message
+#' @inheritParams error_args
 #' @param custom_class If you want to add additional classes to the radio
 #' buttons
+#' @inheritParams fieldset_args
 #' @return radio buttons HTML shiny tag object
 #' @family Govstyle select inputs
 #' @export
@@ -96,7 +96,9 @@ radio_button_Input <- # nolint
     hint_label = NULL,
     error = FALSE,
     error_message = NULL,
-    custom_class = ""
+    custom_class = "",
+    label_size = c("m", "s", "l", "xl"),
+    heading_level = NULL
   ) {
     args <- normalizeChoicesArgs2(choices, choiceNames, choiceValues)
     selected <- shiny::restoreInput(id = inputId, default = selected)
@@ -120,26 +122,16 @@ radio_button_Input <- # nolint
       shiny::tags$div(
         class = "govuk-form-group",
         id = paste0(inputId, "div"),
-        controlLabel2(inputId, label),
-        shiny::tags$div(
-          as_govuk_html(hint_label),
-          class = "govuk-hint"
-        ),
-        if (error == TRUE) {
-          shinyjs::hidden(
-            shiny::tags$p(
-              error_message,
-              class = "govuk-error-message",
-              id = paste0(inputId, "error"),
-              role = "alert",
-              shiny::tags$span(
-                "Error:",
-                class = "govuk-visually-hidden"
-              )
-            )
-          )
-        },
-        options
+        govFieldset(
+          inputId = inputId,
+          label = label,
+          content = options,
+          hint_label = hint_label,
+          error = error,
+          error_message = error_message,
+          label_size = label_size,
+          heading_level = heading_level
+        )
       )
     )
 
@@ -263,19 +255,6 @@ update_radio_button_Input <- # nolint
     session$sendInputMessage(inputId, message)
   }
 
-controlLabel2 <- # nolint
-  function(
-    controlName, # nolint
-    label
-  ) {
-    label %AND%
-      htmltools::tags$label(
-        class = "govuk-label",
-        `for` = controlName,
-        as_govuk_html(label)
-      )
-  }
-
 generateOptions2 <- # nolint
   function(
     inputId, # nolint
@@ -331,13 +310,6 @@ generateOptions2 <- # nolint
     }
 
     shiny::div(class = class_build, options)
-  }
-
-`%AND%` <- # nolint
-  function(x, y) {
-    if (!is.null(x) && !anyNA(x) && !is.null(y) && !anyNA(y)) {
-      y
-    }
   }
 
 processDeps2 <- # nolint

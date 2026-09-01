@@ -1,7 +1,7 @@
 #' Warning Text Function
 #'
 #' This function create warning text.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param text Text that goes in the main. Accepts a plain character string,
 #' or `shiny` tag objects such as `shiny::tags$b("Bold")` or a
 #' `shiny::tagList()`.

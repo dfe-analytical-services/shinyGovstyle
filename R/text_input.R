@@ -1,13 +1,12 @@
 #' Text Input Function
 #'
 #' This function create a text input.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @inheritParams control_label_params
+#' @inheritParams error_args
 #' @param type Type of text input to accept. Defaults to text
 #' @param width control the size of the box based on number of characters
 #' required.  Options are 30, 20, 10, 5, 4, 3, 2.  NULL will not limit the size
-#' @param error Whenever to include error handling. Defaults to FALSE
-#' @param error_message Message to display on error. Defaults to NULL
 #' @param prefix Add a prefix to the box. Defaults to NULL
 #' @param suffix Add a suffix to the box. Defaults to NULL
 #' @return a text input HTML shiny tag object
@@ -96,7 +95,7 @@ text_Input <- # nolint
           shiny::tags$p(
             error_message,
             class = "govuk-error-message",
-            id = paste0(inputId, "error"),
+            id = paste0(inputId, "-error"),
             role = "alert",
             shiny::tags$span("Error:", class = "govuk-visually-hidden")
           )

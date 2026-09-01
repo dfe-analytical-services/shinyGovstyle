@@ -7,7 +7,9 @@
 word_count(inputId, input, word_limit = NULL)
 }
 \arguments{
-\item{inputId}{The input slot of the text area that you want to affect}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{input}{The text input that is associated with the box}
 

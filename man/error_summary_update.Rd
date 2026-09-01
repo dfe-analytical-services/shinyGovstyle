@@ -7,7 +7,9 @@
 error_summary_update(inputId, error_list)
 }
 \arguments{
-\item{inputId}{The input Id of the error summary you want to update}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{error_list}{An updated list of text values to be displayed in the
 error body}

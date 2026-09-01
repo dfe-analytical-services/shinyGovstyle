@@ -1,12 +1,17 @@
+date_items <- function(dtag) {
+  htmltools::tagQuery(dtag)$find(".govuk-date-input__item")$selectedTags()
+}
+
 test_that("date default works", {
   date_check <- date_Input("dateid", "Test Date")
 
-  expect_equal(length(date_check$children[[1]]$children[[4]]), 3)
+  items <- date_items(date_check)
+  expect_length(items, 3)
 
-  expect_identical(
-    date_check$children[[1]]$children[[4]]$attribs$class,
-    "govuk-date-input"
-  )
+  date_div <- htmltools::tagQuery(date_check)$find(
+    ".govuk-date-input"
+  )$selectedTags()[[1]]
+  expect_identical(date_div$attribs$class, "govuk-date-input")
 })
 
 test_that("date error works", {
@@ -17,22 +22,17 @@ test_that("date error works", {
     error_message = "Error test"
   )
 
-  expect_equal(length(date_check$children[[1]]$children[[4]]), 3)
+  expect_length(date_items(date_check), 3)
 
-  expect_identical(
-    paste(
-      date_check$children[[1]]$children[[2]]$attribs$class,
-      date_check$children[[1]]$children[[2]]$attribs[4]$class
-    ),
-    "govuk-error-message shinyjs-hide"
-  )
-
-  expect_identical(
-    date_check$children[[1]]$children[[2]]$children[[1]],
-    "Error test"
-  )
-
-  expect_identical(date_check$children[[1]]$children[[2]]$attribs$role, "alert")
+  err_p <- htmltools::tagQuery(date_check)$find(
+    ".govuk-error-message"
+  )$selectedTags()[[1]]
+  expect_identical(err_p$children[[1]], "Error test")
+  err_html <- as.character(err_p)
+  expect_match(err_html, "govuk-error-message")
+  expect_match(err_html, "shinyjs-hide")
+  expect_identical(err_p$attribs$id, "dateid-error")
+  expect_identical(err_p$attribs$role, "alert")
 })
 
 
@@ -45,21 +45,113 @@ test_that("date defaults values works", {
     year = 2020
   )
 
-  expect_equal(length(date_check$children[[1]]$children[[4]]), 3)
+  inputs <- htmltools::tagQuery(date_check)$find(
+    ".govuk-date-input__input"
+  )$selectedTags()
+  expect_length(inputs, 3)
+  expect_equal(inputs[[1]]$attribs$value, 1)
+  expect_equal(inputs[[2]]$attribs$value, 2)
+  expect_equal(inputs[[3]]$attribs$value, 2020)
+})
 
-  date_child <- date_check$children[[1]]$children[[4]]
-  expect_equal(
-    date_child$children[[1]]$children[[1]]$children[[2]]$attribs$value,
-    1
-  )
+test_that("Fieldset and legend wrap date input", {
+  date_check <- date_Input("dateid", "Test Date")
+  fieldset <- htmltools::tagQuery(date_check)$find(
+    "fieldset"
+  )$selectedTags()[[1]]
+  expect_identical(fieldset$attribs$class, "govuk-fieldset")
 
-  expect_equal(
-    date_child$children[[2]]$children[[1]]$children[[2]]$attribs$value,
-    2
+  legend <- htmltools::tagQuery(fieldset)$find("legend")$selectedTags()[[1]]
+  expect_identical(
+    legend$attribs$class,
+    "govuk-fieldset__legend govuk-fieldset__legend--m"
   )
+})
 
-  expect_equal(
-    date_child$children[[3]]$children[[1]]$children[[2]]$attribs$value,
-    2020
+test_that("Hint id and aria-describedby wired up when hint supplied", {
+  date_check <- date_Input(
+    "dateid",
+    "Test Date",
+    hint_label = "DD MM YYYY"
   )
+  hint <- htmltools::tagQuery(date_check)$find(
+    ".govuk-hint"
+  )$selectedTags()[[1]]
+  expect_identical(hint$attribs$id, "dateid-hint")
+
+  fieldset <- htmltools::tagQuery(date_check)$find(
+    "fieldset"
+  )$selectedTags()[[1]]
+  expect_identical(fieldset$attribs$`aria-describedby`, "dateid-hint")
+})
+
+test_that("Hint <div> is omitted when hint_label is NULL", {
+  date_check <- date_Input("dateid", "Test Date")
+  hints <- htmltools::tagQuery(date_check)$find(
+    ".govuk-hint"
+  )$selectedTags()
+  expect_length(hints, 0)
+
+  fieldset <- htmltools::tagQuery(date_check)$find(
+    "fieldset"
+  )$selectedTags()[[1]]
+  expect_null(fieldset$attribs$`aria-describedby`)
+})
+
+test_that("label_size sets the legend size modifier", {
+  for (size in c("s", "m", "l", "xl")) {
+    date_check <- date_Input(
+      "dateid",
+      "Test Date",
+      label_size = size
+    )
+    legend <- htmltools::tagQuery(date_check)$find(
+      "legend"
+    )$selectedTags()[[1]]
+    expect_identical(
+      legend$attribs$class,
+      paste0("govuk-fieldset__legend govuk-fieldset__legend--", size)
+    )
+  }
+})
+
+test_that("label_size rejects unknown values", {
+  expect_error(
+    date_Input("dateid", "Test Date", label_size = "huge")
+  )
+})
+
+test_that("heading_level wraps the legend text in an <hN>", {
+  date_check <- date_Input(
+    "dateid",
+    "Test Date",
+    label_size = "l",
+    heading_level = 1
+  )
+  legend <- htmltools::tagQuery(date_check)$find("legend")$selectedTags()[[1]]
+  heading <- legend$children[[1]]
+  expect_identical(heading$name, "h1")
+  expect_identical(heading$attribs$class, "govuk-fieldset__heading")
+})
+
+test_that("heading_level rejects invalid values", {
+  expect_error(
+    date_Input("dateid", "Test Date", heading_level = 0)
+  )
+  expect_error(
+    date_Input("dateid", "Test Date", heading_level = 7)
+  )
+  expect_error(
+    date_Input("dateid", "Test Date", heading_level = c(1, 2))
+  )
+})
+
+test_that("Day/Month/Year labels are associated with their inputs", {
+  date_check <- date_Input("dateid", "Test Date")
+  labels <- htmltools::tagQuery(date_check)$find(
+    ".govuk-date-input__label"
+  )$selectedTags()
+  expect_identical(labels[[1]]$attribs$`for`, "dateid_day")
+  expect_identical(labels[[2]]$attribs$`for`, "dateid_month")
+  expect_identical(labels[[3]]$attribs$`for`, "dateid_year")
 })

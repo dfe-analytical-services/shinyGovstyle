@@ -7,7 +7,9 @@
 insert_text(inputId, content, text = lifecycle::deprecated())
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{content}{Content to display on the insert. Accepts a plain character
 string, or \code{shiny} tag objects such as \code{shiny::tags$b("Bold")} or a

@@ -75,6 +75,24 @@
 - Error messages on input components now use `role="alert"` so they are
   announced by screen readers when toggled via
   [`error_on()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_on.md).
+- The visually hidden “Error:” prefix on input component error messages
+  now comes before the message text, so screen readers announce “Error:
+  Enter your name” rather than “Enter your name Error:”. The prefix also
+  survives `error_on(error_message = ...)`, which previously replaced
+  it.
+- [`error_on()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_on.md)
+  now escapes a plain string `error_message` instead of sending it to
+  the browser as raw HTML, so it renders the same way as the message
+  baked into the component (`<` and `&` are no longer swallowed, and
+  interpolated user content can no longer inject markup). Pass a `shiny`
+  tag,
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html),
+  or
+  [`shiny::HTML()`](https://rstudio.github.io/htmltools/reference/HTML.html)
+  to render markup deliberately.
+- [`date_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/date_Input.md)
+  now renders its hint before the error message, matching the GOV.UK
+  Design System and the other input components.
 - [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md)
   table row, sort-header, and pagination highlights are now visible in
   Windows High Contrast / forced-colours mode.

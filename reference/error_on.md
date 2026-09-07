@@ -18,7 +18,12 @@ error_on(inputId, error_message = NULL)
 - error_message:
 
   if you want to add an additional error message Defaults to NULL,
-  showing the original designed error message
+  showing the original designed error message. Plain character strings
+  are escaped and render as literal text; pass a `shiny` tag,
+  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html),
+  or
+  [`shiny::HTML()`](https://rstudio.github.io/htmltools/reference/HTML.html)
+  to render markup.
 
 ## Value
 

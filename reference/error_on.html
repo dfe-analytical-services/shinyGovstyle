@@ -61,7 +61,9 @@ validate inputs.</p>
 
 <dt id="arg-error-message">error_message<a class="anchor" aria-label="anchor" href="#arg-error-message"></a></dt>
 <dd><p>if you want to add an additional error message
-Defaults to NULL, showing the original designed error message</p></dd>
+Defaults to NULL, showing the original designed error message. Plain
+character strings are escaped and render as literal text; pass a <code>shiny</code>
+tag, <code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">shiny::tagList()</a></code>, or <code><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">shiny::HTML()</a></code> to render markup.</p></dd>
 
 </dl></div>
     <div class="section level2">

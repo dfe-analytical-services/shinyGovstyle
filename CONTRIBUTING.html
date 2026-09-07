@@ -60,10 +60,49 @@
 </div>
 </div>
 <div class="section level2">
+<h2 id="testing">Testing<a class="anchor" aria-label="anchor" href="#testing"></a></h2>
+<p>Tests live in <code>tests/testthat/</code>. We aim for tests that read like a specification of the specifics we care about from a component, not a recording of its full HTML output, as that should be allowed to vary over time.</p>
+<div class="section level3">
+<h3 id="principles-to-follow">Principles to follow<a class="anchor" aria-label="anchor" href="#principles-to-follow"></a></h3>
+<ul><li>
+<strong>Navigate tag trees by class or id, not by position.</strong> Use the helpers in <code>tests/testthat/helper-tags.R</code>: <code>find_tag()</code>, <code>find_tags()</code>, <code>find_tag_required()</code>, <code>tag_text()</code>, <code>tag_text_by_name()</code>, <code>child_classes()</code>, <code>find_by_id_suffix()</code>, <code>expect_has_tag()</code>, <code>expect_no_tag()</code>. Don’t chain <code>$children[[N]]</code> to reach a nested tag; deep positional indexing breaks whenever the upstream GOV.UK Frontend markup is rearranged or we want to add or change elements of a component.</li>
+<li>
+<strong>Prefer code-based assertions</strong> (<code>expect_identical()</code>, <code>expect_length()</code>, <code>expect_s3_class()</code>, <code>expect_error()</code>, <code>expect_warning()</code>) over <code>expect_snapshot()</code>. Reserve snapshots for components that embed HTML produced by an external dependency whose structure we don’t control. In this package that means functions like <a href="https://glin.github.io/reactable/" class="external-link">reactable</a> (via <code><a href="reference/govReactable.html">govReactable()</a></code>) and <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">shiny::actionLink()</a></code> (used by multiple functions). The same reasoning extends to any other higher-level Shiny rendering function (e.g. <code><a href="https://rdrr.io/pkg/shiny/man/actionButton.html" class="external-link">shiny::actionButton()</a></code>, <code><a href="https://rdrr.io/pkg/shiny/man/downloadButton.html" class="external-link">shiny::downloadLink()</a></code>) should we embed one in future. <code>expect_snapshot()</code> defaults to <code>cran = FALSE</code>, so these snapshots don’t run on CRAN; an upstream version bump that reshuffles the embedded markup therefore can’t break our (or downstream packages’) CRAN checks (see <a href="https://github.com/dfe-analytical-services/shinyGovstyle/issues/155" class="external-link">#155</a>).</li>
+<li>
+<strong>Use <code>expect_hidden_error()</code></strong> for any input that renders a hidden-by-default <code>govuk-error-message</code>.</li>
+<li>
+<strong>Add new shared assertions to <code>helper-tags.R</code></strong> rather than copy-pasting structural checks across test files.</li>
+<li>
+<strong>Cover error and warning paths</strong>, not just the happy path. E.g. every <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code> / <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code> in <code>R/</code> should have a matching <code>expect_error()</code> / <code>expect_warning()</code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="worked-example">Worked example<a class="anchor" aria-label="anchor" href="#worked-example"></a></h3>
+<p>Don’t reach into the tag tree by position:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Brittle: breaks if GOV.UK Frontend changes the wrapper structure</span></span>
+<span><span class="fu">expect_equal</span><span class="op">(</span></span>
+<span>  <span class="va">table</span><span class="op">$</span><span class="va">children</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">children</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">attribs</span><span class="op">$</span><span class="va">class</span>,</span>
+<span>  <span class="st">"govuk-table__cell"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Navigate by class instead:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cell</span> <span class="op">&lt;-</span> <span class="fu">find_tag_required</span><span class="op">(</span><span class="va">table</span>, <span class="st">"govuk-table__cell"</span><span class="op">)</span></span>
+<span><span class="fu">expect_identical</span><span class="op">(</span><span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/htmltools/reference/tagAppendAttributes.html" class="external-link">tagGetAttribute</a></span><span class="op">(</span><span class="va">cell</span>, <span class="st">"class"</span><span class="op">)</span>, <span class="st">"govuk-table__cell"</span><span class="op">)</span></span></code></pre></div>
+<p>For hidden errors:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">input</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/text_Input.html">text_Input</a></span><span class="op">(</span></span>
+<span>  <span class="st">"name"</span>, <span class="st">"Your name"</span>,</span>
+<span>  error <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  error_message <span class="op">=</span> <span class="st">"Enter your name"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu">expect_hidden_error</span><span class="op">(</span><span class="va">input</span>, <span class="st">"Enter your name"</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
 <h2 id="raising-new-changes">Raising new changes<a class="anchor" aria-label="anchor" href="#raising-new-changes"></a></h2>
 <div class="section level3">
 <h3 id="before-you-raise-a-pr">Before you raise a PR<a class="anchor" aria-label="anchor" href="#before-you-raise-a-pr"></a></h3>
-<p>Run through these checks locally first — it makes review faster and avoids back-and-forth:</p>
+<p>Run through these checks locally first; it makes review faster and avoids back-and-forth:</p>
 <ul><li>
 <strong>Format with Air.</strong> If you can’t run Air locally, the GitHub Action will offer the same suggestions on your PR (see <a href="#air-suggestions-on-your-pr">Air suggestions on your PR</a>).</li>
 <li>

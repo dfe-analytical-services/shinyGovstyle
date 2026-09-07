@@ -61,6 +61,11 @@
 <ul><li>
 <code><a href="../reference/header.html">header()</a></code> no longer emits spurious deprecation warnings for <code>main_link</code>, <code>secondary_link</code>, <code>main_alt_text</code>, and <code>secondary_alt_text</code> when those arguments are not used.</li>
 <li>Error messages on input components now use <code>role="alert"</code> so they are announced by screen readers when toggled via <code><a href="../reference/error_on.html">error_on()</a></code>.</li>
+<li>The visually hidden “Error:” prefix on input component error messages now comes before the message text, so screen readers announce “Error: Enter your name” rather than “Enter your name Error:”. The prefix also survives <code>error_on(error_message = ...)</code>, which previously replaced it.</li>
+<li>
+<code><a href="../reference/error_on.html">error_on()</a></code> now escapes a plain string <code>error_message</code> instead of sending it to the browser as raw HTML, so it renders the same way as the message baked into the component (<code>&lt;</code> and <code>&amp;</code> are no longer swallowed, and interpolated user content can no longer inject markup). Pass a <code>shiny</code> tag, <code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">shiny::tagList()</a></code>, or <code><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">shiny::HTML()</a></code> to render markup deliberately.</li>
+<li>
+<code><a href="../reference/date_Input.html">date_Input()</a></code> now renders its hint before the error message, matching the GOV.UK Design System and the other input components.</li>
 <li>
 <code><a href="../reference/govReactable.html">govReactable()</a></code> table row, sort-header, and pagination highlights are now visible in Windows High Contrast / forced-colours mode.</li>
 <li>

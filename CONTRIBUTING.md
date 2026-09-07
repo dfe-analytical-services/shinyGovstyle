@@ -54,11 +54,88 @@ preserve backwards compatibility we’ve added `# nolint` to these lines
 so that we can turn on lintr checks for the package without creating
 breaking changes for everyone who uses it.
 
+## Testing
+
+Tests live in `tests/testthat/`. We aim for tests that read like a
+specification of the specifics we care about from a component, not a
+recording of its full HTML output, as that should be allowed to vary
+over time.
+
+### Principles to follow
+
+- **Navigate tag trees by class or id, not by position.** Use the
+  helpers in `tests/testthat/helper-tags.R`: `find_tag()`,
+  `find_tags()`, `find_tag_required()`, `tag_text()`,
+  `tag_text_by_name()`, `child_classes()`, `find_by_id_suffix()`,
+  `expect_has_tag()`, `expect_no_tag()`. Don’t chain `$children[[N]]` to
+  reach a nested tag; deep positional indexing breaks whenever the
+  upstream GOV.UK Frontend markup is rearranged or we want to add or
+  change elements of a component.
+- **Prefer code-based assertions** (`expect_identical()`,
+  `expect_length()`, `expect_s3_class()`, `expect_error()`,
+  `expect_warning()`) over `expect_snapshot()`. Reserve snapshots for
+  components that embed HTML produced by an external dependency whose
+  structure we don’t control. In this package that means functions like
+  [reactable](https://glin.github.io/reactable/) (via
+  [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md))
+  and
+  [`shiny::actionLink()`](https://rdrr.io/pkg/shiny/man/actionButton.html)
+  (used by multiple functions). The same reasoning extends to any other
+  higher-level Shiny rendering function
+  (e.g. [`shiny::actionButton()`](https://rdrr.io/pkg/shiny/man/actionButton.html),
+  [`shiny::downloadLink()`](https://rdrr.io/pkg/shiny/man/downloadButton.html))
+  should we embed one in future. `expect_snapshot()` defaults to
+  `cran = FALSE`, so these snapshots don’t run on CRAN; an upstream
+  version bump that reshuffles the embedded markup therefore can’t break
+  our (or downstream packages’) CRAN checks (see
+  [\#155](https://github.com/dfe-analytical-services/shinyGovstyle/issues/155)).
+- **Use `expect_hidden_error()`** for any input that renders a
+  hidden-by-default `govuk-error-message`.
+- **Add new shared assertions to `helper-tags.R`** rather than
+  copy-pasting structural checks across test files.
+- **Cover error and warning paths**, not just the happy path. E.g. every
+  [`stop()`](https://rdrr.io/r/base/stop.html) /
+  [`warning()`](https://rdrr.io/r/base/warning.html) in `R/` should have
+  a matching `expect_error()` / `expect_warning()`.
+
+### Worked example
+
+Don’t reach into the tag tree by position:
+
+``` r
+
+# Brittle: breaks if GOV.UK Frontend changes the wrapper structure
+expect_equal(
+  table$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
+  "govuk-table__cell"
+)
+```
+
+Navigate by class instead:
+
+``` r
+
+cell <- find_tag_required(table, "govuk-table__cell")
+expect_identical(htmltools::tagGetAttribute(cell, "class"), "govuk-table__cell")
+```
+
+For hidden errors:
+
+``` r
+
+input <- text_Input(
+  "name", "Your name",
+  error = TRUE,
+  error_message = "Enter your name"
+)
+expect_hidden_error(input, "Enter your name")
+```
+
 ## Raising new changes
 
 ### Before you raise a PR
 
-Run through these checks locally first — it makes review faster and
+Run through these checks locally first; it makes review faster and
 avoids back-and-forth:
 
 - **Format with Air.** If you can’t run Air locally, the GitHub Action

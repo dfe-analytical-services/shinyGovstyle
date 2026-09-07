@@ -153,6 +153,17 @@ test_that("heading_level rejects invalid values", {
   expect_error(
     date_Input("dateid", "Test Date", heading_level = c(1, 2))
   )
+  expect_error(
+    date_Input("dateid", "Test Date", heading_level = TRUE)
+  )
+  expect_error(
+    date_Input("dateid", "Test Date", heading_level = 2.5)
+  )
+})
+
+test_that("label accepts a shiny.tag", {
+  html <- as.character(date_Input("dateid", shiny::tags$b("Bold label")))
+  expect_match(html, "<b>Bold label</b>", fixed = TRUE)
 })
 
 test_that("Day/Month/Year labels are associated with their inputs", {

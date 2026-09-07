@@ -1,3 +1,9 @@
+# Internal helpers: the canonical `-hint`/`-error` id suffixes, shared by
+# govFieldset(), govuk_error_message(), error_on(), and error_off() so the
+# convention only exists in one place.
+govuk_hint_id <- function(inputId) paste0(inputId, "-hint") # nolint
+govuk_error_id <- function(inputId) paste0(inputId, "-error") # nolint
+
 #' Build a govuk-fieldset block (internal)
 #'
 #' Returns a `<fieldset class="govuk-fieldset">` with a legend, optional hint,
@@ -42,13 +48,17 @@ govFieldset <- # nolint
           "."
         )
       }
-      if (!(heading_level %in% 1:6)) {
+      if (
+        !is.numeric(heading_level) ||
+          heading_level %% 1 != 0 ||
+          !(heading_level %in% 1:6)
+      ) {
         stop("`heading_level` must be an integer between 1 and 6.")
       }
     }
 
-    hint_id <- if (!is.null(hint_label)) paste0(inputId, "-hint")
-    error_id <- if (isTRUE(error)) paste0(inputId, "-error")
+    hint_id <- if (!is.null(hint_label)) govuk_hint_id(inputId)
+    error_id <- if (isTRUE(error)) govuk_error_id(inputId)
     described_by <- paste(c(hint_id, error_id), collapse = " ")
     if (!nzchar(described_by)) {
       described_by <- NULL
@@ -117,12 +127,11 @@ govuk_error_prefix <- function() {
 # error_on() reveals it. The prefix comes before the message so screen readers
 # announce "Error: <message>" (GOV.UK Design System, error message component).
 # error_message is passed through unwrapped so plain strings keep escaping.
-# The id matches the "-error" suffix used elsewhere for aria-describedby.
 govuk_error_message <- function(input_id, error_message) {
   shinyjs::hidden(
     shiny::tags$p(
       class = "govuk-error-message",
-      id = paste0(input_id, "-error"),
+      id = govuk_error_id(input_id),
       role = "alert",
       govuk_error_prefix(),
       " ",

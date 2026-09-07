@@ -202,6 +202,24 @@ test_that("heading_level rejects invalid values", {
       heading_level = c(1, 2)
     )
   )
+  expect_error(
+    checkbox_Input(
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
+      heading_level = TRUE
+    )
+  )
+  expect_error(
+    checkbox_Input(
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
+      heading_level = 2.5
+    )
+  )
 })
 
 test_that("Fieldset aria-describedby references hint and error ids", {

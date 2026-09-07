@@ -153,7 +153,7 @@ date_Input <- # nolint
       id = paste0(inputId, "div"),
       govFieldset(
         inputId = inputId,
-        label = shiny::HTML(label),
+        label = label,
         content = date_content,
         hint_label = hint_label,
         error = error,

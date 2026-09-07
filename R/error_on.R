@@ -57,9 +57,9 @@ error_on <- function(
   if (!is.null(error_message)) {
     # Rebuild the full inner HTML: shinyjs::html() replaces the paragraph's
     # contents, so the visually hidden "Error:" prefix has to be sent with it.
-    shinyjs::html(paste0(inputId, "-error"), govuk_error_html(error_message))
+    shinyjs::html(govuk_error_id(inputId), govuk_error_html(error_message))
   }
-  shinyjs::show(paste0(inputId, "-error"))
+  shinyjs::show(govuk_error_id(inputId))
   shinyjs::addClass(
     selector = paste0("#", inputId, "div :input"),
     class = "govuk-input--error"

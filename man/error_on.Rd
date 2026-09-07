@@ -12,7 +12,9 @@ input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
 \item{error_message}{if you want to add an additional error message
-Defaults to NULL, showing the original designed error message}
+Defaults to NULL, showing the original designed error message. Plain
+character strings are escaped and render as literal text; pass a \code{shiny}
+tag, \code{shiny::tagList()}, or \code{shiny::HTML()} to render markup.}
 }
 \value{
 no return value.  This toggles on error CSS

@@ -125,20 +125,7 @@ radio_button_Input <- # nolint
           as_govuk_html(hint_label),
           class = "govuk-hint"
         ),
-        if (error == TRUE) {
-          shinyjs::hidden(
-            shiny::tags$p(
-              error_message,
-              class = "govuk-error-message",
-              id = paste0(inputId, "error"),
-              role = "alert",
-              shiny::tags$span(
-                "Error:",
-                class = "govuk-visually-hidden"
-              )
-            )
-          )
-        },
+        if (error == TRUE) govuk_error_message(inputId, error_message),
         options
       )
     )

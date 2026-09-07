@@ -113,17 +113,7 @@ file_Input <- # nolint
         paste0("width: ", shiny::validateCssUnit(width), ";")
       },
       shiny::tags$label(label, class = "govuk-label", tabindex = "-1"),
-      if (error == TRUE) {
-        shinyjs::hidden(
-          shiny::tags$p(
-            error_message,
-            class = "govuk-error-message",
-            id = paste0(inputId, "error"),
-            role = "alert",
-            shiny::tags$span("Error:", class = "govuk-visually-hidden")
-          )
-        )
-      },
+      if (error == TRUE) govuk_error_message(inputId, error_message),
       shiny::div(
         id = paste0(inputId, "file_div"),
         class = "input-group govuk-file-upload",

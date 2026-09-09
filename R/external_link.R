@@ -200,6 +200,11 @@ external_link <- function(
     stylesheet = "sr-only.css"
   )
 
+  # Also attach the base shinyGovstyle dependencies (stylesheet and the
+  # update_page_title handler) so update_page_title() works in apps that use
+  # external_link() without any other shinyGovstyle component.
+  link <- attachDependency(link)
+
   # Return the link with the CSS attached
   htmltools::attachDependencies(link, dependency, append = TRUE)
 }

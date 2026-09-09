@@ -26,10 +26,15 @@
 font <- function() {
   version <- as.character(packageVersion("shinyGovstyle")[[1]])
 
-  htmltools::htmlDependency(
+  font_dep <- htmltools::htmlDependency(
     name = "font",
     version = version,
     src = c(href = "shinyGovstyle/css"),
     stylesheet = "font.css"
   )
+
+  # Also include the base shinyGovstyle dependencies (stylesheet and the
+  # update_page_title handler) so update_page_title() works in apps that use
+  # font() without any other shinyGovstyle component.
+  c(base_dependencies(), list(font_dep))
 }

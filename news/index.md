@@ -14,6 +14,34 @@
 ### New features
 
 - New
+  [`update_page_title()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_page_title.md)
+  function to update the browser tab title from server code, mirroring
+  [`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md).
+  Compose a title in the GOV.UK recommended format
+  `"<page> | <service>"` by supplying both `page_title` and
+  `service_name`.
+- [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
+  gains `auto_page_title` and `page_title_suffix` arguments. With
+  `auto_page_title = TRUE` (the default) the browser tab title is kept
+  in sync with the active nav link, both for direct clicks and for
+  programmatic navigation via
+  [`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md).
+- New
+  [`service_navigation_server()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation_server.md)
+  wires every nav link to its tab panel in a single server-side call,
+  eliminating the per-link
+  [`observeEvent()`](https://rdrr.io/pkg/shiny/man/observeEvent.html)
+  boilerplate that multi-page apps previously needed.
+- New
+  [`navigate_to()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md)
+  combines
+  [`updateTabsetPanel()`](https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html)
+  and
+  [`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md)
+  into one call for programmatic navigation (next / back buttons, footer
+  shortcuts, modal links). Accepts a `panel` argument when the nav link
+  inputId and the tab panel value differ.
+- New
   [`update_radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_radio_button_Input.md)
   function, the server-side companion to
   [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md)
@@ -68,6 +96,13 @@
 
 ### Bug fixes
 
+- [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
+  now syncs the browser tab title with the active page by default.
+  Screen readers announce the title on navigation, so a static title is
+  an accessibility issue for multi-page dashboards. This is a behaviour
+  change — set `auto_page_title = FALSE` on
+  [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
+  to restore the previous behaviour.
 - [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md)
   no longer emits spurious deprecation warnings for `main_link`,
   `secondary_link`, `main_alt_text`, and `secondary_alt_text` when those

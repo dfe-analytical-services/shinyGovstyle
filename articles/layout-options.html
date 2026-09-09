@@ -408,55 +408,66 @@ underscores (e.g. <code>"Detailed data"</code> becomes
 <div class="section level3">
 <h3 id="wiring-navigation-to-panels">Wiring navigation to panels<a class="anchor" aria-label="anchor" href="#wiring-navigation-to-panels"></a>
 </h3>
-<p>Use a hidden tab panel for the content area and
-<code><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent()</a></code> in your server to switch panels when a
-navigation link is clicked. When the user clicks a service navigation
-link, the JavaScript binding updates the active state automatically —
-you only need to switch the panel:</p>
+<p>Use a hidden tab panel for the content area.
+<code><a href="../reference/service_navigation_server.html">service_navigation_server()</a></code> then wires every nav link to
+its panel in a single call — no per-link <code>observeEvent</code>
+boilerplate:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># ui.R — shiny tabsetPanel</span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html" class="external-link">tabsetPanel</a></span><span class="op">(</span></span>
 <span>  type <span class="op">=</span> <span class="st">"hidden"</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">"main_panels"</span>,</span>
-<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"Summary"</span>,       value <span class="op">=</span> <span class="st">"nav_summary"</span>,  <span class="st">"Content"</span><span class="op">)</span>,</span>
-<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"Detailed data"</span>, value <span class="op">=</span> <span class="st">"nav_detail"</span>,   <span class="st">"Content"</span><span class="op">)</span>,</span>
-<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"User guide"</span>,    value <span class="op">=</span> <span class="st">"nav_guide"</span>,    <span class="st">"Content"</span><span class="op">)</span></span>
+<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"Summary"</span>,       value <span class="op">=</span> <span class="st">"summary"</span>,       <span class="st">"Content"</span><span class="op">)</span>,</span>
+<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"Detailed data"</span>, value <span class="op">=</span> <span class="st">"detailed_data"</span>, <span class="st">"Content"</span><span class="op">)</span>,</span>
+<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span><span class="st">"User guide"</span>,    value <span class="op">=</span> <span class="st">"user_guide"</span>,    <span class="st">"Content"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># server.R — nav link click: JS handles the active state, just switch the panel</span></span>
-<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">nav_summary</span>, <span class="op">{</span></span>
-<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html" class="external-link">updateTabsetPanel</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">"main_panels"</span>, selected <span class="op">=</span> <span class="st">"nav_summary"</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-<p>If you prefer bslib tab panels, use
-<code><a href="https://rstudio.github.io/bslib/reference/navset.html" class="external-link">bslib::navset_hidden()</a></code> and <code><a href="https://rstudio.github.io/bslib/reference/nav_select.html" class="external-link">bslib::nav_select()</a></code>
-instead:</p>
+<span><span class="co"># server.R — auto-wire the nav links to the panels</span></span>
+<span><span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="../reference/service_navigation_server.html">service_navigation_server</a></span><span class="op">(</span></span>
+<span>  <span class="va">session</span>,</span>
+<span>  tabset_id <span class="op">=</span> <span class="st">"main_panels"</span>,</span>
+<span>  link_to_panel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    nav_summary  <span class="op">=</span> <span class="st">"summary"</span>,</span>
+<span>    nav_detail   <span class="op">=</span> <span class="st">"detailed_data"</span>,</span>
+<span>    nav_guide    <span class="op">=</span> <span class="st">"user_guide"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><code>link_to_panel</code> is a named character vector — names are
+nav link inputIds, values are panel values. If your inputIds already
+match your panel values, pass an unnamed vector instead.</p>
+<p><code><a href="https://rstudio.github.io/bslib/reference/navset.html" class="external-link">bslib::navset_hidden()</a></code> also responds to
+<code><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html" class="external-link">updateTabsetPanel()</a></code>, so the same call works whether your
+tab panel is shiny or bslib.</p>
+<p>For navigation that can’t be wired declaratively — next / back
+buttons, modal links, footer shortcuts — use <code><a href="../reference/navigate_to.html">navigate_to()</a></code>
+to combine the panel switch and the nav-active update in one call:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># ui.R — bslib navset_hidden</span></span>
-<span><span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/bslib/reference/navset.html" class="external-link">navset_hidden</a></span><span class="op">(</span></span>
-<span>  id <span class="op">=</span> <span class="st">"main_panels"</span>,</span>
-<span>  <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/bslib/reference/nav-items.html" class="external-link">nav_panel</a></span><span class="op">(</span><span class="st">"Summary"</span>,       value <span class="op">=</span> <span class="st">"nav_summary"</span>,  <span class="st">"Content"</span><span class="op">)</span>,</span>
-<span>  <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/bslib/reference/nav-items.html" class="external-link">nav_panel</a></span><span class="op">(</span><span class="st">"Detailed data"</span>, value <span class="op">=</span> <span class="st">"nav_detail"</span>,   <span class="st">"Content"</span><span class="op">)</span>,</span>
-<span>  <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/bslib/reference/nav-items.html" class="external-link">nav_panel</a></span><span class="op">(</span><span class="st">"User guide"</span>,    value <span class="op">=</span> <span class="st">"nav_guide"</span>,    <span class="st">"Content"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># server.R</span></span>
-<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">nav_summary</span>, <span class="op">{</span></span>
-<span>  <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/bslib/reference/nav_select.html" class="external-link">nav_select</a></span><span class="op">(</span><span class="st">"main_panels"</span>, <span class="st">"nav_summary"</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-<p>Repeat the <code>observeEvent</code> block for each navigation
-link.</p>
-<p><code><a href="../reference/update_service_navigation.html">update_service_navigation()</a></code> is only needed when
-navigation is triggered <strong>programmatically</strong> — for example,
-via a next / back button — because in that case the nav link itself is
-not clicked and the active state does not update automatically. See
-<code><a href="../reference/update_service_navigation.html">?update_service_navigation</a></code> for full details and
-examples.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># server.R — programmatic navigation: must update both the panel and the nav</span></span>
+<code class="sourceCode R"><span><span class="co"># server.R — programmatic navigation in one call</span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">next_btn</span>, <span class="op">{</span></span>
-<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html" class="external-link">updateTabsetPanel</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">"main_panels"</span>, selected <span class="op">=</span> <span class="st">"nav_detail"</span><span class="op">)</span></span>
-<span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="../reference/update_service_navigation.html">update_service_navigation</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">"nav_detail"</span><span class="op">)</span></span>
+<span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="../reference/navigate_to.html">navigate_to</a></span><span class="op">(</span></span>
+<span>    <span class="va">session</span>, <span class="st">"main_panels"</span>,</span>
+<span>    inputId <span class="op">=</span> <span class="st">"nav_detail"</span>, panel <span class="op">=</span> <span class="st">"detailed_data"</span></span>
+<span>  <span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="../reference/navigate_to.html">navigate_to()</a></code> defaults to using the nav link
+<code>inputId</code> as the target panel value. Here
+<code>nav_detail</code>’s panel value is <code>detailed_data</code> (per
+the <code>link_to_panel</code> mapping above), so pass
+<code>panel</code> explicitly whenever the inputId and panel value
+differ. See <code><a href="../reference/navigate_to.html">?navigate_to</a></code> for full details.</p>
+</div>
+<div class="section level3">
+<h3 id="keeping-the-page-title-in-sync">Keeping the page title in sync<a class="anchor" aria-label="anchor" href="#keeping-the-page-title-in-sync"></a>
+</h3>
+<p><code><a href="../reference/service_navigation.html">service_navigation()</a></code> syncs the browser tab title with
+the active nav link by default, both for link clicks and for
+programmatic navigation via <code><a href="../reference/update_service_navigation.html">update_service_navigation()</a></code>.
+Pass <code>page_title_suffix</code> to get the recommended
+<code>"&lt;page&gt; | &lt;service&gt;"</code> format, or
+<code>auto_page_title = FALSE</code> to opt out. For pages where the
+heading differs from the nav label (or for pages not in the nav), call
+<code><a href="../reference/update_page_title.html">update_page_title()</a></code> explicitly. See the <a href="headings-and-text.html#page-titles">Page titles section of the
+Headings and text vignette</a> for the full rationale and examples.</p>
 </div>
 <div class="section level3">
 <h3 id="footer-only-pages">Footer-only pages<a class="anchor" aria-label="anchor" href="#footer-only-pages"></a>
@@ -472,7 +483,12 @@ call <code><a href="../reference/update_service_navigation.html">update_service_
 However, you should call it when navigating <em>back</em> to a main page
 from a footer-linked page, so the correct nav item becomes active
 again.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p>Footer-only pages also fall outside the
+<code><a href="../reference/service_navigation.html">service_navigation()</a></code> auto page-title sync — there is no nav
+link for the JavaScript binding to read. Call
+<code><a href="../reference/update_page_title.html">update_page_title()</a></code> so the browser tab title reflects the
+new page:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># ui.R — footer link, no entry in service_navigation()</span></span>
 <span><span class="fu"><a href="../reference/footer.html">footer</a></span><span class="op">(</span></span>
 <span>  full <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -492,6 +508,11 @@ again.</p>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">accessibility_footer_link</span>, <span class="op">{</span></span>
 <span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html" class="external-link">updateTabsetPanel</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">"main_panels"</span>,</span>
 <span>                           selected <span class="op">=</span> <span class="st">"accessibility_panel"</span><span class="op">)</span></span>
+<span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="../reference/update_page_title.html">update_page_title</a></span><span class="op">(</span></span>
+<span>    <span class="va">session</span>,</span>
+<span>    page_title <span class="op">=</span> <span class="st">"Accessibility statement"</span>,</span>
+<span>    service_name <span class="op">=</span> <span class="st">"My dashboard"</span></span>
+<span>  <span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -515,11 +536,12 @@ pages without touching the overall app structure.</p>
 </h2>
 <p>The following is a minimal but complete multi-page app that uses all
 of the layout components covered in this vignette:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.posit.co/" class="external-link">shiny</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dfe-analytical-services/shinyGovstyle" class="external-link">shinyGovstyle</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/bslib/reference/page.html" class="external-link">page_fluid</a></span><span class="op">(</span></span>
+<span>  title <span class="op">=</span> <span class="st">"Summary | My dashboard"</span>,</span>
 <span>  <span class="fu"><a href="../reference/skip_to_main.html">skip_to_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../reference/header.html">header</a></span><span class="op">(</span></span>
 <span>    org_name <span class="op">=</span> <span class="st">"My department"</span>,</span>
@@ -529,7 +551,8 @@ of the layout components covered in this vignette:</p>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>      <span class="st">"Summary"</span>  <span class="op">=</span> <span class="st">"nav_summary"</span>,</span>
 <span>      <span class="st">"About"</span>    <span class="op">=</span> <span class="st">"nav_about"</span></span>
-<span>    <span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    page_title_suffix <span class="op">=</span> <span class="st">"My dashboard"</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>    inputId <span class="op">=</span> <span class="st">"phase"</span>,</span>
@@ -588,15 +611,20 @@ of the layout components covered in this vignette:</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">nav_summary</span>, <span class="op">{</span></span>
-<span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html" class="external-link">updateTabsetPanel</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">"main_panels"</span>, selected <span class="op">=</span> <span class="st">"nav_summary"</span><span class="op">)</span></span>
-<span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">nav_about</span>, <span class="op">{</span></span>
-<span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html" class="external-link">updateTabsetPanel</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">"main_panels"</span>, selected <span class="op">=</span> <span class="st">"nav_about"</span><span class="op">)</span></span>
-<span>  <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/service_navigation_server.html">service_navigation_server</a></span><span class="op">(</span></span>
+<span>    <span class="va">session</span>,</span>
+<span>    tabset_id <span class="op">=</span> <span class="st">"main_panels"</span>,</span>
+<span>    link_to_panel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nav_summary"</span>, <span class="st">"nav_about"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
 <span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">accessibility_footer_link</span>, <span class="op">{</span></span>
 <span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html" class="external-link">updateTabsetPanel</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">"main_panels"</span>,</span>
 <span>                             selected <span class="op">=</span> <span class="st">"accessibility_panel"</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/update_page_title.html">update_page_title</a></span><span class="op">(</span></span>
+<span>      <span class="va">session</span>,</span>
+<span>      page_title <span class="op">=</span> <span class="st">"Accessibility statement"</span>,</span>
+<span>      service_name <span class="op">=</span> <span class="st">"My dashboard"</span></span>
+<span>    <span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>

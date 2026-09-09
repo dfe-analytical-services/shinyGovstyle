@@ -367,11 +367,10 @@ underscores (e.g. `"Detailed data"` becomes `detailed_data`).
 
 ### Wiring navigation to panels
 
-Use a hidden tab panel for the content area and
-[`observeEvent()`](https://rdrr.io/pkg/shiny/man/observeEvent.html) in
-your server to switch panels when a navigation link is clicked. When the
-user clicks a service navigation link, the JavaScript binding updates
-the active state automatically — you only need to switch the panel:
+Use a hidden tab panel for the content area.
+[`service_navigation_server()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation_server.md)
+then wires every nav link to its panel in a single call — no per-link
+`observeEvent` boilerplate:
 
 ``` r
 
@@ -379,57 +378,69 @@ the active state automatically — you only need to switch the panel:
 shiny::tabsetPanel(
   type = "hidden",
   id = "main_panels",
-  shiny::tabPanel("Summary",       value = "nav_summary",  "Content"),
-  shiny::tabPanel("Detailed data", value = "nav_detail",   "Content"),
-  shiny::tabPanel("User guide",    value = "nav_guide",    "Content")
+  shiny::tabPanel("Summary",       value = "summary",       "Content"),
+  shiny::tabPanel("Detailed data", value = "detailed_data", "Content"),
+  shiny::tabPanel("User guide",    value = "user_guide",    "Content")
 )
 
-# server.R — nav link click: JS handles the active state, just switch the panel
-shiny::observeEvent(input$nav_summary, {
-  shiny::updateTabsetPanel(session, "main_panels", selected = "nav_summary")
-})
+# server.R — auto-wire the nav links to the panels
+shinyGovstyle::service_navigation_server(
+  session,
+  tabset_id = "main_panels",
+  link_to_panel = c(
+    nav_summary  = "summary",
+    nav_detail   = "detailed_data",
+    nav_guide    = "user_guide"
+  )
+)
 ```
 
-If you prefer bslib tab panels, use
+`link_to_panel` is a named character vector — names are nav link
+inputIds, values are panel values. If your inputIds already match your
+panel values, pass an unnamed vector instead.
+
 [`bslib::navset_hidden()`](https://rstudio.github.io/bslib/reference/navset.html)
-and
-[`bslib::nav_select()`](https://rstudio.github.io/bslib/reference/nav_select.html)
-instead:
+also responds to
+[`updateTabsetPanel()`](https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html),
+so the same call works whether your tab panel is shiny or bslib.
+
+For navigation that can’t be wired declaratively — next / back buttons,
+modal links, footer shortcuts — use
+[`navigate_to()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md)
+to combine the panel switch and the nav-active update in one call:
 
 ``` r
 
-# ui.R — bslib navset_hidden
-bslib::navset_hidden(
-  id = "main_panels",
-  bslib::nav_panel("Summary",       value = "nav_summary",  "Content"),
-  bslib::nav_panel("Detailed data", value = "nav_detail",   "Content"),
-  bslib::nav_panel("User guide",    value = "nav_guide",    "Content")
-)
-
-# server.R
-shiny::observeEvent(input$nav_summary, {
-  bslib::nav_select("main_panels", "nav_summary")
-})
-```
-
-Repeat the `observeEvent` block for each navigation link.
-
-[`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md)
-is only needed when navigation is triggered **programmatically** — for
-example, via a next / back button — because in that case the nav link
-itself is not clicked and the active state does not update
-automatically. See
-[`?update_service_navigation`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md)
-for full details and examples.
-
-``` r
-
-# server.R — programmatic navigation: must update both the panel and the nav
+# server.R — programmatic navigation in one call
 shiny::observeEvent(input$next_btn, {
-  shiny::updateTabsetPanel(session, "main_panels", selected = "nav_detail")
-  shinyGovstyle::update_service_navigation(session, "nav_detail")
+  shinyGovstyle::navigate_to(
+    session, "main_panels",
+    inputId = "nav_detail", panel = "detailed_data"
+  )
 })
 ```
+
+[`navigate_to()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md)
+defaults to using the nav link `inputId` as the target panel value. Here
+`nav_detail`’s panel value is `detailed_data` (per the `link_to_panel`
+mapping above), so pass `panel` explicitly whenever the inputId and
+panel value differ. See
+[`?navigate_to`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md)
+for full details.
+
+### Keeping the page title in sync
+
+[`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
+syncs the browser tab title with the active nav link by default, both
+for link clicks and for programmatic navigation via
+[`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md).
+Pass `page_title_suffix` to get the recommended `"<page> | <service>"`
+format, or `auto_page_title = FALSE` to opt out. For pages where the
+heading differs from the nav label (or for pages not in the nav), call
+[`update_page_title()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_page_title.md)
+explicitly. See the [Page titles section of the Headings and text
+vignette](https://dfe-analytical-services.github.io/shinyGovstyle/articles/headings-and-text.html#page-titles)
+for the full rationale and examples.
 
 ### Footer-only pages
 
@@ -447,6 +458,13 @@ call
 for these transitions. However, you should call it when navigating
 *back* to a main page from a footer-linked page, so the correct nav item
 becomes active again.
+
+Footer-only pages also fall outside the
+[`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
+auto page-title sync — there is no nav link for the JavaScript binding
+to read. Call
+[`update_page_title()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_page_title.md)
+so the browser tab title reflects the new page:
 
 ``` r
 
@@ -469,6 +487,11 @@ shiny::tabsetPanel(
 shiny::observeEvent(input$accessibility_footer_link, {
   shiny::updateTabsetPanel(session, "main_panels",
                            selected = "accessibility_panel")
+  shinyGovstyle::update_page_title(
+    session,
+    page_title = "Accessibility statement",
+    service_name = "My dashboard"
+  )
 })
 ```
 
@@ -496,6 +519,7 @@ library(shiny)
 library(shinyGovstyle)
 
 ui <- bslib::page_fluid(
+  title = "Summary | My dashboard",
   skip_to_main(),
   header(
     org_name = "My department",
@@ -505,7 +529,8 @@ ui <- bslib::page_fluid(
     c(
       "Summary"  = "nav_summary",
       "About"    = "nav_about"
-    )
+    ),
+    page_title_suffix = "My dashboard"
   ),
   banner(
     inputId = "phase",
@@ -564,15 +589,20 @@ ui <- bslib::page_fluid(
 )
 
 server <- function(input, output, session) {
-  shiny::observeEvent(input$nav_summary, {
-    shiny::updateTabsetPanel(session, "main_panels", selected = "nav_summary")
-  })
-  shiny::observeEvent(input$nav_about, {
-    shiny::updateTabsetPanel(session, "main_panels", selected = "nav_about")
-  })
+  service_navigation_server(
+    session,
+    tabset_id = "main_panels",
+    link_to_panel = c("nav_summary", "nav_about")
+  )
+
   shiny::observeEvent(input$accessibility_footer_link, {
     shiny::updateTabsetPanel(session, "main_panels",
                              selected = "accessibility_panel")
+    update_page_title(
+      session,
+      page_title = "Accessibility statement",
+      service_name = "My dashboard"
+    )
   })
 }
 

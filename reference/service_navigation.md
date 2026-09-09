@@ -12,7 +12,12 @@ toggle may not work correctly.
 ## Usage
 
 ``` r
-service_navigation(links, service_name = NULL)
+service_navigation(
+  links,
+  service_name = NULL,
+  auto_page_title = TRUE,
+  page_title_suffix = NULL
+)
 ```
 
 ## Arguments
@@ -31,6 +36,25 @@ service_navigation(links, service_name = NULL)
   An optional character string containing the service name to be
   displayed in the navigation bar
 
+- auto_page_title:
+
+  Logical. When `TRUE` (the default), the browser tab title is updated
+  to match the active nav link whenever the user navigates — both by
+  clicking a link and via
+  [`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md).
+  Set to `FALSE` to opt out and manage the page title yourself. Keeping
+  the title in sync with the visible page is a GOV.UK Design System
+  recommendation for accessibility.
+
+- page_title_suffix:
+
+  Optional character string appended to the page title in the format
+  `"<link text> | <suffix>"` — typically the service name. Only used
+  when `auto_page_title = TRUE`. For finer control (e.g. when a page
+  heading differs from its nav link label), call
+  [`update_page_title()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_page_title.md)
+  from your server code.
+
 ## Value
 
 Shiny tag object
@@ -40,6 +64,9 @@ Shiny tag object
 Other Govstyle navigation:
 [`backlink_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/backlink_Input.md),
 [`contents_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.md),
+[`navigate_to()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md),
+[`service_navigation_server()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation_server.md),
+[`update_page_title()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_page_title.md),
 [`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md)
 
 ## Examples

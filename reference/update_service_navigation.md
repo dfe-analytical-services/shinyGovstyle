@@ -40,42 +40,37 @@ NULL, called for side effects
 Other Govstyle navigation:
 [`backlink_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/backlink_Input.md),
 [`contents_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.md),
-[`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
+[`navigate_to()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md),
+[`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
+[`service_navigation_server()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation_server.md),
+[`update_page_title()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_page_title.md)
 
 ## Examples
 
 ``` r
-# Nav link clicked — JS handles active state, just switch the panel.
-# Works the same whether you use shiny or bslib tab panels.
-if (interactive()) {
-  server <- function(input, output, session) {
-    # shiny tabsetPanel
-    shiny::observeEvent(input$page_two, {
-      shiny::updateTabsetPanel(session, "tabs", selected = "page_two")
-    })
+# Works the same with shiny::tabsetPanel() + shiny::updateTabsetPanel().
+ui <- shiny::fluidPage(
+  shinyGovstyle::service_navigation(c("Page one", "Page two")),
+  bslib::navset_hidden(
+    id = "tabs",
+    bslib::nav_panel("page_one", shiny::actionButton("next_btn", "Next")),
+    bslib::nav_panel("page_two", "Page two content")
+  )
+)
 
-    # bslib navset
-    shiny::observeEvent(input$page_two, {
-      bslib::nav_select("tabs", "page_two")
-    })
-  }
+server <- function(input, output, session) {
+  # Nav link clicked — JS handles the active state, just switch the panel.
+  shiny::observeEvent(input$page_two, {
+    bslib::nav_select("tabs", "page_two")
+  })
+
+  # Programmatic navigation — the nav link is not clicked, so call
+  # update_service_navigation() explicitly.
+  shiny::observeEvent(input$next_btn, {
+    bslib::nav_select("tabs", "page_two")
+    shinyGovstyle::update_service_navigation(session, "page_two")
+  })
 }
 
-# Programmatic navigation (e.g. a next / back button) — the nav link is not
-# clicked, so you must also call update_service_navigation() explicitly.
-if (interactive()) {
-  server <- function(input, output, session) {
-    # shiny tabsetPanel
-    shiny::observeEvent(input$next_btn, {
-      shiny::updateTabsetPanel(session, "tabs", selected = "page_two")
-      shinyGovstyle::update_service_navigation(session, "page_two")
-    })
-
-    # bslib navset
-    shiny::observeEvent(input$next_btn, {
-      bslib::nav_select("tabs", "page_two")
-      shinyGovstyle::update_service_navigation(session, "page_two")
-    })
-  }
-}
+if (interactive()) shiny::shinyApp(ui = ui, server = server)
 ```

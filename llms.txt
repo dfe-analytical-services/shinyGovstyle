@@ -104,8 +104,14 @@ shinyGovstyle::run_example()
   : Back Link Function
 - [`contents_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.md)
   **\[deprecated\]** : Contents link function
+- [`navigate_to()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md)
+  : Navigate to a page in one call
 - [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
   : Service navigation
+- [`service_navigation_server()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation_server.md)
+  : Auto-wire service navigation links to tabset panels
+- [`update_page_title()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_page_title.md)
+  : Update the browser page title
 - [`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md)
   : Update the active item in a service navigation component
 

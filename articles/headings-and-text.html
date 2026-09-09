@@ -277,13 +277,96 @@ generate the same ID:</p>
 </div>
 </div>
 <div class="section level2">
+<h2 id="page-titles">Page titles<a class="anchor" aria-label="anchor" href="#page-titles"></a>
+</h2>
+<p>The page title is the text shown in the browser tab. It is set by the
+<code>&lt;title&gt;</code> element in the HTML
+<code>&lt;head&gt;</code>, and you can read or change it at runtime via
+<code>document.title</code>.</p>
+<div class="section level3">
+<h3 id="why-it-matters">Why it matters<a class="anchor" aria-label="anchor" href="#why-it-matters"></a>
+</h3>
+<ul>
+<li>
+<strong>Accessibility</strong>: screen readers announce the page
+title on navigation. If the title never changes, users who rely on
+assistive technology have no way of telling that the page has moved
+on.</li>
+<li>
+<strong>Wayfinding</strong>: users routinely have many tabs open. A
+title that reflects the current page lets them find the right tab at a
+glance.</li>
+<li>
+<strong>GOV.UK convention</strong>: the <a href="https://design-system.service.gov.uk/styles/page-template/" class="external-link">GOV.UK
+Design System</a> recommends a consistent format of
+<code>"&lt;page name&gt; | &lt;service name&gt;"</code>, and that the
+title is kept in sync with the visible page.</li>
+</ul>
+<p>For a Shiny app with multiple panels, an initial title set in
+<code>ui.R</code> is not enough on its own, the title also needs to
+update as the user navigates.</p>
+</div>
+<div class="section level3">
+<h3 id="three-options">Three options<a class="anchor" aria-label="anchor" href="#three-options"></a>
+</h3>
+<p><strong>1. Static title only</strong></p>
+<p>Fine for single-page apps. Pass <code>title</code> to
+<code><a href="https://rstudio.github.io/bslib/reference/page.html" class="external-link">bslib::page_fluid()</a></code> or <code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">shiny::fluidPage()</a></code>:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/bslib/reference/page.html" class="external-link">page_fluid</a></span><span class="op">(</span></span>
+<span>  title <span class="op">=</span> <span class="st">"Annual school workforce statistics"</span>,</span>
+<span>  <span class="co"># ...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p><strong>2. Automatic sync via <code><a href="../reference/service_navigation.html">service_navigation()</a></code>
+(recommended)</strong></p>
+<p>If your app uses <code><a href="../reference/service_navigation.html">service_navigation()</a></code> for top-level
+navigation, page-title sync is on by default. Set
+<code>page_title_suffix</code> to your service name to get the
+<code>"&lt;page&gt; | &lt;service&gt;"</code> format:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/service_navigation.html">service_navigation</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Summary"</span> <span class="op">=</span> <span class="st">"summary"</span>, <span class="st">"Detailed stats"</span> <span class="op">=</span> <span class="st">"detailed_stats"</span><span class="op">)</span>,</span>
+<span>  page_title_suffix <span class="op">=</span> <span class="st">"School workforce"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The tab title now updates to
+<code>"Summary | School workforce"</code> (and similar for each link)
+whenever the user navigates — both by clicking a nav link and via
+<code><a href="../reference/update_service_navigation.html">update_service_navigation()</a></code> from your server code.</p>
+<p>To opt out, pass <code>auto_page_title = FALSE</code> and manage the
+title yourself with option 3.</p>
+<p><strong>3. Programmatic control with
+<code><a href="../reference/update_page_title.html">update_page_title()</a></code></strong></p>
+<p>Call from your server code when you need precise control. For
+example, when a page heading differs from its nav link label, or for
+pages reached without clicking a nav link (modal links, next/back
+buttons, footer shortcuts):</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">footer_cookies_link</span>, <span class="op">{</span></span>
+<span>  <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/bslib/reference/nav_select.html" class="external-link">nav_select</a></span><span class="op">(</span><span class="st">"tabs"</span>, <span class="st">"cookies"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/update_service_navigation.html">update_service_navigation</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">"sn_cookies"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/update_page_title.html">update_page_title</a></span><span class="op">(</span></span>
+<span>    <span class="va">session</span>,</span>
+<span>    page_title <span class="op">=</span> <span class="st">"Cookies"</span>,</span>
+<span>    service_name <span class="op">=</span> <span class="st">"School workforce"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
+<p>When <code>service_name</code> is supplied the title is composed as
+<code>"&lt;page_title&gt; | &lt;service_name&gt;"</code>; when it is
+<code>NULL</code> only <code>page_title</code> is shown. The JavaScript
+handler ships with every shinyGovstyle component, so
+<code><a href="../reference/update_page_title.html">update_page_title()</a></code> works in any app that uses at least one
+shinyGovstyle function in its UI.</p>
+<hr>
+</div>
+</div>
+<div class="section level2">
 <h2 id="gov_text">
 <code>gov_text()</code><a class="anchor" aria-label="anchor" href="#gov_text"></a>
 </h2>
 <p>A wrapper that produces a <code>&lt;p class="govuk-body"&gt;</code>
 paragraph element. Use it when you want to add body text with correct
 GOV.UK styling without writing raw tag calls.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layouts.html">gov_box</a></span><span class="op">(</span></span>
 <span>  size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span>
 <span>  <span class="fu"><a href="../reference/layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"This is a paragraph of body text."</span><span class="op">)</span></span>
@@ -321,7 +404,7 @@ controls both the HTML element used and the visual presentation:</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gov_list.html">gov_list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"First item"</span>, <span class="st">"Second item"</span>, <span class="st">"Third item"</span><span class="op">)</span>, style <span class="op">=</span> <span class="st">"bullet"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/gov_list.html">gov_list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"First step"</span>, <span class="st">"Second step"</span>, <span class="st">"Third step"</span><span class="op">)</span>, style <span class="op">=</span> <span class="st">"number"</span><span class="op">)</span></span></code></pre></div>
@@ -336,7 +419,7 @@ readers without a visual marker.</p>
 <p>Items are not limited to plain strings. Pass a <code>shiny</code> tag
 or a <code><a href="https://rstudio.github.io/htmltools/reference/tagList.html" class="external-link">shiny::tagList()</a></code> for any item that needs a link or
 inline emphasis, and mix them freely with plain-string items:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gov_list.html">gov_list</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    <span class="st">"An ordinary item"</span>,</span>
@@ -359,7 +442,7 @@ guidance</a>.</p>
 <p>Displays a GOV.UK inset text box — a bordered callout for
 supplementary information that is related to, but not the main focus of,
 the surrounding content.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/insert_text.html">insert_text</a></span><span class="op">(</span></span>
 <span>  inputId <span class="op">=</span> <span class="st">"processing-note"</span>,</span>
 <span>  content <span class="op">=</span> <span class="st">"It can take up to 8 weeks to process your application."</span></span>
@@ -380,7 +463,7 @@ inset text guidance</a>.</p>
 <p>Displays a GOV.UK warning text component: a bold statement with a
 prominent “!” icon, used to warn users about something with serious
 consequences.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/warning_text.html">warning_text</a></span><span class="op">(</span></span>
 <span>  inputId <span class="op">=</span> <span class="st">"fine-warning"</span>,</span>
 <span>  text <span class="op">=</span> <span class="st">"You can be fined up to £5,000 if you do not register."</span></span>
@@ -409,7 +492,7 @@ problem, an upcoming deadline, or the outcome of a previous action.</p>
 </h3>
 <p><strong>Standard</strong> (default, blue): for neutral information
 such as service problems or upcoming events.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/noti_banner.html">noti_banner</a></span><span class="op">(</span></span>
 <span>  inputId <span class="op">=</span> <span class="st">"service-notice"</span>,</span>
 <span>  title_txt <span class="op">=</span> <span class="st">"Important"</span>,</span>
@@ -421,7 +504,7 @@ such as service problems or upcoming events.</p>
 <p><strong>Success</strong> (green): to confirm that a previous action
 completed successfully. Uses <code>role="alert"</code> so screen readers
 announce it automatically on page load.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/noti_banner.html">noti_banner</a></span><span class="op">(</span></span>
 <span>  inputId <span class="op">=</span> <span class="st">"submission-confirm"</span>,</span>
 <span>  title_txt <span class="op">=</span> <span class="st">"Success"</span>,</span>
@@ -475,7 +558,7 @@ notification banner guidance</a>.</p>
 </h2>
 <p>A wrapper for HTML anchor elements that produces safe, accessible
 external links with consistent behaviour.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/external_link.html">external_link</a></span><span class="op">(</span><span class="st">"https://www.example.gov.uk/guidance"</span>, <span class="st">"Guidance for applicants"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="what-the-function-does-automatically">What the function does automatically<a class="anchor" aria-label="anchor" href="#what-the-function-does-automatically"></a>
@@ -503,7 +586,7 @@ is fewer than 7 characters.</p>
 2.2 success criterion 2.4.4: Link Purpose (In Context)</a>, which
 requires link text to describe the destination without needing the
 surrounding context to make sense of it.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Correct — descriptive</span></span>
 <span><span class="fu"><a href="../reference/external_link.html">external_link</a></span><span class="op">(</span><span class="st">"https://www.example.gov.uk/apply"</span>, <span class="st">"Apply for a licence"</span><span class="op">)</span></span>
 <span></span>
@@ -523,7 +606,7 @@ surrounding context to make sense of it.</p>
 new tab)” on each is visually repetitive. Set
 <code>add_warning = FALSE</code> and add a single explanatory sentence
 above the group instead:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"The following links open in a new tab."</span><span class="op">)</span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span>
 <span>  <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">li</span><span class="op">(</span></span>
@@ -561,7 +644,7 @@ GDS Transport typeface for use in your app. By default the GOV.UK
 Frontend CSS specifies
 <code>font-family: GDS Transport, arial, sans-serif</code> — if the font
 files are not loaded the browser falls back to Arial automatically.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Only include this if your app is on a GOV.UK domain</span></span>
 <span><span class="fu"><a href="../reference/font.html">font</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>For more information on when GDS Transport is permitted, read the <a href="https://design-system.service.gov.uk/styles/typeface/" class="external-link">GOV.UK

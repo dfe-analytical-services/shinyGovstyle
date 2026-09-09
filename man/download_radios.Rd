@@ -54,10 +54,10 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui, server)
 }
 \seealso{
-Other Govstyle actions: 
-\code{\link{download_button}()},
-\code{\link{download_link}()},
-\code{\link{download_radios_handler}()},
-\code{\link{external_link}()}
+Other Govstyle actions:
+\code{\link[=download_button]{download_button()}},
+\code{\link[=download_link]{download_link()}},
+\code{\link[=download_radios_handler]{download_radios_handler()}},
+\code{\link[=external_link]{external_link()}}
 }
 \concept{Govstyle actions}

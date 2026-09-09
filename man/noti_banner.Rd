@@ -46,14 +46,14 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle feedback types: 
-\code{\link{details}()},
-\code{\link{gov_summary}()},
-\code{\link{insert_text}()},
-\code{\link{label_hint}()},
-\code{\link{panel_output}()},
-\code{\link{tag_Input}()},
-\code{\link{value_box}()},
-\code{\link{warning_text}()}
+Other Govstyle feedback types:
+\code{\link[=details]{details()}},
+\code{\link[=gov_summary]{gov_summary()}},
+\code{\link[=insert_text]{insert_text()}},
+\code{\link[=label_hint]{label_hint()}},
+\code{\link[=panel_output]{panel_output()}},
+\code{\link[=tag_Input]{tag_Input()}},
+\code{\link[=value_box]{value_box()}},
+\code{\link[=warning_text]{warning_text()}}
 }
 \concept{Govstyle feedback types}

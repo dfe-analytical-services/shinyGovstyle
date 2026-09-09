@@ -62,7 +62,7 @@ Related links and guidance:
 \details{
 Intentionally basic wrapper for HTML anchor elements making it easier to
 create safe external links with standard and accessible behaviour. For more
-information on how the tag is generated, see \code{\link[htmltools:builder]{htmltools::tags()}}.
+information on how the tag is generated, see \code{\link[htmltools:tags]{htmltools::tags()}}.
 }
 \examples{
 external_link("https://shiny.posit.co/", "R Shiny")
@@ -109,10 +109,10 @@ shiny::tags$ul(
 )
 }
 \seealso{
-Other Govstyle actions: 
-\code{\link{download_button}()},
-\code{\link{download_link}()},
-\code{\link{download_radios}()},
-\code{\link{download_radios_handler}()}
+Other Govstyle actions:
+\code{\link[=download_button]{download_button()}},
+\code{\link[=download_link]{download_link()}},
+\code{\link[=download_radios]{download_radios()}},
+\code{\link[=download_radios_handler]{download_radios_handler()}}
 }
 \concept{Govstyle actions}

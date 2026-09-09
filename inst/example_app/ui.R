@@ -1,6 +1,6 @@
 bslib::page_fluid(
   theme = bs_theme(version = 5),
-  title = "ShinyGovstyle component showcase",
+  title = "Select Types | shinyGovstyle",
   shinyGovstyle::cookieBanner("shinyGovstyle component showcase"),
   shinyjs::useShinyjs(),
 
@@ -20,7 +20,8 @@ bslib::page_fluid(
       "Tables, tabs and accordions" = "sn_tables_tabs",
       "Feedback types" = "sn_feedback_types",
       "Cookies" = "sn_cookies"
-    )
+    ),
+    page_title_suffix = "shinyGovstyle"
   ),
 
   shinyGovstyle::banner(

@@ -23,6 +23,12 @@
 #' @param borderless Remove inner borders from table
 #' @param min_widths Customise minimum column width using a list of columns and
 #' minimum width in pixels
+#' @param columns A named list of `reactable::colDef()` objects, keyed by
+#' column name, for column-specific overrides such as number formatting
+#' (e.g. fixed decimal places). Only the fields you set are applied; any
+#' field you leave unset (such as `sortable`, `align` or `html`) keeps
+#' govReactable's GOV.UK default for that column. Column names not present
+#' in `df` are ignored.
 #' @param ... Additional arguments passed to `reactable::reactable`
 #' @return A `reactable` HTML widget styled with GOV.UK classes
 #' @family Govstyle tables tabs and accordions
@@ -51,6 +57,23 @@
 #'       Petal.Width = 75
 #'     )
 #'   )
+#'
+#'   # Column-specific formatting, e.g. counts with no decimals alongside
+#'   # a percentage column fixed to 1 decimal place
+#'   count_pct_data <- data.frame(
+#'     region = c("North", "South", "East"),
+#'     count = c(1234, 56, 789),
+#'     percent = c(4, 4.7, 12.34)
+#'   )
+#'   govReactable(
+#'     count_pct_data,
+#'     right_col = c("count", "percent"),
+#'     columns = list(
+#'       percent = reactable::colDef(
+#'         format = reactable::colFormat(digits = 1)
+#'       )
+#'     )
+#'   )
 #' }
 govReactable <- # nolint
   function(
@@ -60,6 +83,7 @@ govReactable <- # nolint
     highlight = TRUE,
     borderless = TRUE,
     min_widths = list(),
+    columns = list(),
     ...
   ) {
     # Generate column definitions
@@ -67,7 +91,7 @@ govReactable <- # nolint
       lapply(seq_along(names(df)), function(index) {
         col <- names(df)[index]
 
-        reactable::colDef(
+        default_args <- list(
           name = col,
           sortable = TRUE,
           headerClass = "bar-sort-header",
@@ -84,6 +108,16 @@ govReactable <- # nolint
             NULL
           }
         )
+
+        # Merge in any user-supplied colDef for this column, so only the
+        # fields the user actually set (non-NULL) override the GOV.UK
+        # defaults above.
+        if (!is.null(columns[[col]])) {
+          user_fields <- Filter(Negate(is.null), unclass(columns[[col]]))
+          default_args <- utils::modifyList(default_args, user_fields)
+        }
+
+        do.call(reactable::colDef, default_args)
       }),
       names(df)
     )

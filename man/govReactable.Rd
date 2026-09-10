@@ -11,6 +11,7 @@ govReactable(
   highlight = TRUE,
   borderless = TRUE,
   min_widths = list(),
+  columns = list(),
   ...
 )
 }
@@ -29,6 +30,13 @@ left-aligned}
 
 \item{min_widths}{Customise minimum column width using a list of columns and
 minimum width in pixels}
+
+\item{columns}{A named list of \code{reactable::colDef()} objects, keyed by
+column name, for column-specific overrides such as number formatting
+(e.g. fixed decimal places). Only the fields you set are applied; any
+field you leave unset (such as \code{sortable}, \code{align} or \code{html}) keeps
+govReactable's GOV.UK default for that column. Column names not present
+in \code{df} are ignored.}
 
 \item{...}{Additional arguments passed to \code{reactable::reactable}}
 }
@@ -72,6 +80,23 @@ if (interactive()) {
       Sepal.Width = 75,
       Petal.Length = 75,
       Petal.Width = 75
+    )
+  )
+
+  # Column-specific formatting, e.g. counts with no decimals alongside
+  # a percentage column fixed to 1 decimal place
+  count_pct_data <- data.frame(
+    region = c("North", "South", "East"),
+    count = c(1234, 56, 789),
+    percent = c(4, 4.7, 12.34)
+  )
+  govReactable(
+    count_pct_data,
+    right_col = c("count", "percent"),
+    columns = list(
+      percent = reactable::colDef(
+        format = reactable::colFormat(digits = 1)
+      )
     )
   )
 }

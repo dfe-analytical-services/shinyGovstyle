@@ -31,12 +31,14 @@ left-aligned}
 \item{min_widths}{Customise minimum column width using a list of columns and
 minimum width in pixels}
 
-\item{columns}{A named list of \code{reactable::colDef()} objects, keyed by
-column name, for column-specific overrides such as number formatting
-(e.g. fixed decimal places). Only the fields you set are applied; any
-field you leave unset (such as \code{sortable}, \code{align} or \code{html}) keeps
-govReactable's GOV.UK default for that column. Column names not present
-in \code{df} are ignored.}
+\item{columns}{Customise individual columns, for example to fix the
+number of decimal places shown. Give a named list, where each name
+matches a column in \code{df} and each value is built with
+\code{reactable::colDef()} (see examples). Any column left out of this list
+is unaffected, and keeps govReactable's usual GOV.UK look. For a column
+you do include, anything you don't set on it, such as sorting or
+alignment, also keeps that same default. Names that don't match a
+column in \code{df} are ignored.}
 
 \item{...}{Additional arguments passed to \code{reactable::reactable}}
 }
@@ -83,8 +85,25 @@ if (interactive()) {
     )
   )
 
-  # Column-specific formatting, e.g. counts with no decimals alongside
-  # a percentage column fixed to 1 decimal place
+  # Show one column to a fixed number of decimal places, leaving every
+  # other column and style (sorting, alignment, etc.) untouched
+  sales_data <- data.frame(
+    shop = c("Shop A", "Shop B", "Shop C"),
+    growth = c(4, 4.7, 12.34)
+  )
+  govReactable(
+    sales_data,
+    columns = list(
+      growth = reactable::colDef(
+        format = reactable::colFormat(digits = 1)
+      )
+    )
+  )
+
+  # A more involved example: only `percent` is customised, so `region`
+  # and `count` keep the normal GOV.UK defaults untouched
+  # (counts shown as whole numbers alongside a percentage column fixed
+  # to 1 decimal place)
   count_pct_data <- data.frame(
     region = c("North", "South", "East"),
     count = c(1234, 56, 789),

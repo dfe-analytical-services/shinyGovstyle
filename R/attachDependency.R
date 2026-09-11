@@ -1,7 +1,7 @@
 #' Base shinyGovstyle dependencies
 #'
 #' The core stylesheet plus the `update_page_title` handler, shipped with
-#' every shinyGovstyle UI function (via [attachDependency()] or directly)
+#' every shinyGovstyle UI function (via `attachDependency()` or directly)
 #' so that `update_page_title()` works in any app that uses at least one
 #' shinyGovstyle function, regardless of whether `service_navigation()` is
 #' present.

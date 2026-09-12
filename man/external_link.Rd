@@ -16,9 +16,15 @@ trailing white space will be automatically trimmed. If the string is shorter
 than 7 characters a console warning will be thrown. There is no way to hush
 this other than providing more detail}
 
-\item{add_warning}{Boolean for adding "(opens in new tab)" at the end of the
-link text to warn users of the behaviour. Be careful and consider
-accessibility before removing the visual warning}
+\item{add_warning}{One of TRUE (default), FALSE, or "icon", controlling how
+users are warned that the link opens in a new tab. TRUE appends "(opens in
+new tab)" to the visible link text. FALSE removes the visible text (a
+visually hidden span still warns screen reader users) with no replacement
+visual cue, for use with an explanatory sentence above a group of links.
+"icon" behaves like FALSE but also adds a small decorative arrow icon
+after the link text, giving sighted users a visual cue without repeating
+the full text. Be careful and consider accessibility before moving away
+from the default}
 
 \item{footer}{Apply standard GDS footer CSS styling. Logical,
 default = FALSE}
@@ -51,6 +57,15 @@ avoiding repeating (opens in new tab), then you can set add_warning = FALSE
 and add a line of text above all of the links saying something like 'The
 following links open in a new tab'.
 
+Setting add_warning = FALSE removes the visible text warning entirely, so
+sighted users lose the visual cue that the link behaves differently. Set
+add_warning = "icon" instead to add a small decorative arrow icon after the
+link text, giving sighted users a visual warning without repeating the full
+"(opens in new tab)" text. The icon is purely decorative (hidden from
+screen readers, which still get the same hidden warning as add_warning =
+FALSE), so it should be paired with an explanatory sentence above a group
+of links, not relied on as the only warning.
+
 Related links and guidance:
 \itemize{
 \item \href{https://design-system.service.gov.uk/styles/links/}{Government digital services guidelines on the use of links}
@@ -73,6 +88,13 @@ external_link(
   add_warning = FALSE
 )
 
+# Give sighted users a visual warning without repeating the text
+external_link(
+  "https://shiny.posit.co/",
+  "R Shiny",
+  add_warning = "icon"
+)
+
 # This will trim and show as 'R Shiny'
 external_link("https://shiny.posit.co/", "  R Shiny")
 
@@ -84,28 +106,25 @@ shiny::tags$p(
 # Example of multiple links together
 shiny::tags$h2("Related resources")
 shiny::tags$p("The following links open in a new tab.")
-shiny::tags$ul(
-  shiny::tags$li(
+gov_list(
+  list = list(
     external_link(
       "https://shiny.posit.co/",
       "R Shiny documentation",
       add_warning = FALSE
-    )
-  ),
-  shiny::tags$li(
+    ),
     external_link(
       "https://www.python.org/",
       "Python documentation",
       add_warning = FALSE
-    )
-  ),
-  shiny::tags$li(
+    ),
     external_link(
       "https://nextjs.org/",
       "Next.js documentation",
       add_warning = FALSE
     )
-  )
+  ),
+  style = "bullet"
 )
 }
 \seealso{

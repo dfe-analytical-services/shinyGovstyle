@@ -372,6 +372,16 @@ shiny::tags$ul(
 )
 ```
 
+Removing the visible "(opens in new tab)" text also removes the visual cue for sighted users. Set `add_warning = "icon"` to add a small decorative arrow icon after the link text instead, it is hidden from screen readers (who still get the same hidden warning as `add_warning = FALSE`), so keep the explanatory sentence above the group:
+
+```{r, eval = FALSE}
+external_link(
+  "https://www.example.gov.uk/a",
+  "Guidance document A",
+  add_warning = "icon"
+)
+```
+
 For more information, read the [GOV.UK links guidance](https://design-system.service.gov.uk/styles/links/).
 
 ---

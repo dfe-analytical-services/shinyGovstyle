@@ -20,7 +20,7 @@ a backlink HTML shiny tag object
 This function adds a back link to the page
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   header(
     org_name = "Example",
     service_name = "User Examples",

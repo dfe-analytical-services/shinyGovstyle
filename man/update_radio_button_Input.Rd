@@ -71,7 +71,7 @@ behaviour (such as analytics cookie consent) on top of shinyGovstyle. See
 the cookies and analytics vignette for an example of extending it.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyjs::useShinyjs(),
   shinyGovstyle::radio_button_Input(
     inputId = "cookies",

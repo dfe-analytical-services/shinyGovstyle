@@ -64,8 +64,17 @@ test_that("width defaults to standard and doesn't add a wide/full class", {
   h <- header(org_name = "Test")
   container <- find_tag_required(h, "govuk-width-container")
   expect_null(htmltools::tagGetAttribute(container, "style"))
+  expect_no_tag(h, "govuk-width-container--standard")
   expect_no_tag(h, "govuk-width-container--wide")
   expect_no_tag(h, "govuk-width-container--full")
+})
+
+test_that("width = 'standard' explicitly still renders the standard class", {
+  # Distinguishing "left at default" from "explicitly standard" is what
+  # lets an app inside gov_page(width = "wide") opt one component back
+  # down to standard width — see test-gov_page.R.
+  h <- header(org_name = "Test", width = "standard")
+  expect_has_tag(h, "govuk-width-container--standard")
 })
 
 

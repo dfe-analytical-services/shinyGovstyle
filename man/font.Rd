@@ -21,7 +21,7 @@ See the
 typeface guidance} for full details on when GDS Transport is permitted.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   font(),
   shinyGovstyle::header(
     org_name = "Example",

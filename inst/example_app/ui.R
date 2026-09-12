@@ -1,19 +1,16 @@
-bslib::page_fluid(
-  theme = bs_theme(version = 5),
+shinyGovstyle::gov_page(
+  theme = bslib::bs_theme(version = 5),
   title = "Select Types | shinyGovstyle",
-  shinyGovstyle::cookieBanner(
-    "shinyGovstyle component showcase",
-    width = "full"
-  ),
-  shinyjs::useShinyjs(),
+  description = "A showcase of the components available in shinyGovstyle",
+  width = demo_width,
 
-  shiny::tags$head(shiny::HTML("<html lang='en'>")),
+  shinyGovstyle::cookieBanner("shinyGovstyle component showcase"),
+  shinyjs::useShinyjs(),
 
   shinyGovstyle::skip_to_main(),
   shinyGovstyle::header(
     org_name = "Department for Education",
-    service_name = "shinyGovstyle showcase app",
-    width = "full"
+    service_name = "shinyGovstyle showcase app"
   ),
   shinyGovstyle::service_navigation(
     c(
@@ -24,9 +21,10 @@ bslib::page_fluid(
       "Feedback types" = "sn_feedback_types",
       "Cookies" = "sn_cookies"
     ),
-    page_title_suffix = "shinyGovstyle",
-    width = "full"
+    page_title_suffix = "shinyGovstyle"
   ),
+
+  mod_width_toggle_ui("width_toggle"),
 
   shinyGovstyle::banner(
     "banner",
@@ -35,12 +33,10 @@ bslib::page_fluid(
       'This is a new service \u002D your <a class="govuk-link" href=',
       '"https://github.com/dfe-analytical-services/shinyGovstyle/issues/new',
       '/choose">feedback</a> will help us to improve it.'
-    ),
-    width = "full"
+    )
   ),
 
   shinyGovstyle::gov_main_layout(
-    width = "full",
     shinyGovstyle::gov_row(
       size = "two-thirds",
       shinyGovstyle::gov_text(
@@ -54,13 +50,14 @@ bslib::page_fluid(
           ),
           link_text = "main GitHub branch"
         ),
-        ". The page is using the \"full\" width option, and is still being",
-        " developed to work with the ",
+        ". The page is built with ",
         shinyGovstyle::external_link(
           href = "https://rstudio.github.io/bslib/",
           link_text = "bslib package"
         ),
-        ", it may change in future releases."
+        "'s ", shiny::tags$code("page_fluid()"), ", via ",
+        shiny::tags$code("shinyGovstyle::gov_page()"),
+        ", using the \"full\" width option."
       )
     ),
 
@@ -113,7 +110,6 @@ bslib::page_fluid(
 
   shinyGovstyle::footer(
     TRUE,
-    width = "full",
     links = c(
       `Cookies` = "cookies_footer_link",
       `GitHub repository` = paste(
@@ -121,4 +117,4 @@ bslib::page_fluid(
       )
     )
   )
-) # end of page_fluid
+) # end of gov_page

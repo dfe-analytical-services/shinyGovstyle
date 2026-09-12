@@ -1,5 +1,7 @@
 /*
- * Optional wide/full modifiers for .govuk-width-container.
+ * Wide/full/standard modifiers for .govuk-width-container, and the ambient
+ * versions gov_page(width = ...) uses to set a default for every component
+ * on the page.
  *
  * GOV.UK Frontend caps the container at max-width: 960px, with margin: auto
  * from 1020px up so it centres in the viewport. Setting max-width: 100% is
@@ -8,11 +10,36 @@
  * exactly like it would on a real (unmodified) GOV.UK page that happened to
  * have no max-width. Below 1020px, GOV.UK Frontend's own fixed 15px/30px
  * margin still applies, unchanged — that's not specific to wide/full.
+ *
+ * "--standard" is written out explicitly (960px, the same value GOV.UK
+ * Frontend's own base .govuk-width-container rule already uses) purely so
+ * every component always carries an explicit --standard/--wide/--full
+ * class. That lets the ambient [data-govuk-page-width] selectors below tell
+ * "this component was left at its default, inherit the page's ambient
+ * width" apart from "this component explicitly asked to stay standard even
+ * on an otherwise wide/full page" — both would otherwise render the exact
+ * same bare .govuk-width-container class.
  */
 
+.govuk-width-container--standard {
+    max-width: 960px;
+}
+
 .govuk-width-container--wide,
-.govuk-width-container--full {
+.govuk-width-container--full,
+[data-govuk-page-width="wide"] .govuk-width-container:not([class*="govuk-width-container--"]),
+[data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) {
     max-width: 100%;
+}
+
+/*
+ * A custom ambient width (gov_page(width = "1400px")) can't be matched by a
+ * fixed class selector, so gov_page() carries it as a CSS variable on its
+ * wrapper div instead, and this rule reads it back. Same gutter-preserving
+ * treatment as "wide" — a custom width doesn't zero grid gutters.
+ */
+[data-govuk-page-width="custom"] .govuk-width-container:not([class*="govuk-width-container--"]) {
+    max-width: var(--govuk-page-max-width);
 }
 
 /*
@@ -23,24 +50,28 @@
  * padding replaces it.
  */
 
-.govuk-width-container--full {
+.govuk-width-container--full,
+[data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) {
     padding-left: 15px;
     padding-right: 15px;
 }
 
 @media (min-width: 40.0625em) {
-    .govuk-width-container--full {
+    .govuk-width-container--full,
+    [data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) {
         padding-left: 30px;
         padding-right: 30px;
     }
 }
 
-.govuk-width-container--full .govuk-grid-row {
+.govuk-width-container--full .govuk-grid-row,
+[data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) .govuk-grid-row {
     margin-right: 0;
     margin-left: 0;
 }
 
-.govuk-width-container--full [class*="govuk-grid-column-"] {
+.govuk-width-container--full [class*="govuk-grid-column-"],
+[data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) [class*="govuk-grid-column-"] {
     padding-right: 0;
     padding-left: 0;
 }
@@ -56,7 +87,10 @@
  * untouched.
  */
 .container-fluid:has(.govuk-width-container--wide),
-.container-fluid:has(.govuk-width-container--full) {
+.container-fluid:has(.govuk-width-container--full),
+.container-fluid:has([data-govuk-page-width="wide"]),
+.container-fluid:has([data-govuk-page-width="full"]),
+.container-fluid:has([data-govuk-page-width="custom"]) {
     padding-right: 0;
     padding-left: 0;
 }
@@ -73,6 +107,9 @@
 .govuk-width-container--wide .govuk-main-wrapper,
 .govuk-width-container--wide.govuk-main-wrapper,
 .govuk-width-container--full .govuk-main-wrapper,
-.govuk-width-container--full.govuk-main-wrapper {
+.govuk-width-container--full.govuk-main-wrapper,
+[data-govuk-page-width="wide"] .govuk-main-wrapper,
+[data-govuk-page-width="full"] .govuk-main-wrapper,
+[data-govuk-page-width="custom"] .govuk-main-wrapper {
     padding-top: 20px;
 }

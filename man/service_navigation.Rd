@@ -61,7 +61,7 @@ page will cause ID conflicts and the mobile menu toggle
 may not work correctly.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header("Title", "Secondary heading"),
   shinyGovstyle::service_navigation(
      c("Summary data", "Detailed stats 1", "User guide")

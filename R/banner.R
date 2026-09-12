@@ -15,7 +15,7 @@
 #' @family Govstyle page structure
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -35,7 +35,7 @@ banner <- function(
   label,
   width = "standard"
 ) {
-  wc <- gov_width_container(width)
+  wc <- gov_width_container(width, is_default = missing(width))
 
   gov_banner <- shiny::tags$div(
     class = "govuk-phase-banner",

@@ -41,7 +41,7 @@ If adding a link to an internal page, generally you will be controlling a
 hidden tabset so to the end user it looks like it is a new page.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -74,7 +74,7 @@ footer(
 )
 
 # Full app with link controlling a hidden tab and a link to an external page
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -141,6 +141,7 @@ Other Govstyle page structure:
 \code{\link[=banner]{banner()}},
 \code{\link[=cookieBanner]{cookieBanner()}},
 \code{\link[=gov_layout]{gov_layout()}},
+\code{\link[=gov_page]{gov_page()}},
 \code{\link[=header]{header()}},
 \code{\link{layouts}},
 \code{\link[=skip_to_main]{skip_to_main()}}

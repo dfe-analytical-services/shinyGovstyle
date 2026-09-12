@@ -20,7 +20,7 @@
 #' @return a HTML shiny layout div
 #' @family Govstyle page structure
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -78,7 +78,7 @@ gov_main_layout <- function(
   inputID = "main", # nolint
   width = "standard"
 ) {
-  wc <- gov_width_container(width)
+  wc <- gov_width_container(width, is_default = missing(width))
 
   gov_main <- shiny::tags$div(
     class = wc$class,

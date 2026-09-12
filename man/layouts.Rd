@@ -43,7 +43,7 @@ overarching layout. The gov_row creates a each row and gov_box creates
 a box within the row. The gov_text is a container for text bodies.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -99,6 +99,7 @@ Other Govstyle page structure:
 \code{\link[=cookieBanner]{cookieBanner()}},
 \code{\link[=footer]{footer()}},
 \code{\link[=gov_layout]{gov_layout()}},
+\code{\link[=gov_page]{gov_page()}},
 \code{\link[=header]{header()}},
 \code{\link[=skip_to_main]{skip_to_main()}}
 }

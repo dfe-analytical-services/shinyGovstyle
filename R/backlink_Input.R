@@ -7,7 +7,7 @@
 #' @family Govstyle navigation
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",

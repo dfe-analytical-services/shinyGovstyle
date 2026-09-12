@@ -24,7 +24,7 @@ This function creates a cookie banner. You need to have
 See example for how to structure.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -69,6 +69,7 @@ Other Govstyle page structure:
 \code{\link[=banner]{banner()}},
 \code{\link[=footer]{footer()}},
 \code{\link[=gov_layout]{gov_layout()}},
+\code{\link[=gov_page]{gov_page()}},
 \code{\link[=header]{header()}},
 \code{\link{layouts}},
 \code{\link[=skip_to_main]{skip_to_main()}}

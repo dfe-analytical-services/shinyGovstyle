@@ -13,7 +13,7 @@
 #' @family Govstyle page structure
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -54,7 +54,7 @@
 #' if (interactive()) shinyApp(ui = ui, server = server)
 cookieBanner <- # nolint
   function(service_name, width = "standard") {
-    wc <- gov_width_container(width)
+    wc <- gov_width_container(width, is_default = missing(width))
 
     gov_cookie_link <- shiny::actionLink(
       inputId = "cookieLink",

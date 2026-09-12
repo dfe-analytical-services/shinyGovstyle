@@ -64,8 +64,14 @@ test_that("width defaults to standard and doesn't add a wide/full class", {
   nav <- service_navigation(links = c("Page 1", "Page 2"))
   container <- find_tag_required(nav, "govuk-width-container")
   expect_null(htmltools::tagGetAttribute(container, "style"))
+  expect_no_tag(nav, "govuk-width-container--standard")
   expect_no_tag(nav, "govuk-width-container--wide")
   expect_no_tag(nav, "govuk-width-container--full")
+})
+
+test_that("width = 'standard' explicitly still renders the standard class", {
+  nav <- service_navigation(links = c("Page 1", "Page 2"), width = "standard")
+  expect_has_tag(nav, "govuk-width-container--standard")
 })
 
 test_that("width = 'wide' adds the wide modifier class", {

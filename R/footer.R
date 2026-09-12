@@ -29,7 +29,7 @@
 #' @family Govstyle page structure
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -62,7 +62,7 @@
 #' )
 #'
 #' # Full app with link controlling a hidden tab and a link to an external page
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -124,7 +124,7 @@
 #'
 #' if (interactive()) shinyApp(ui = ui, server = server)
 footer <- function(full = FALSE, links = NULL, width = "standard") {
-  wc <- gov_width_container(width)
+  wc <- gov_width_container(width, is_default = missing(width))
 
   if (is.null(names(links))) {
     link_names <- links

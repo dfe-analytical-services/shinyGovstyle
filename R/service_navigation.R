@@ -45,7 +45,7 @@
 #' @export
 #'
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header("Title", "Secondary heading"),
 #'   shinyGovstyle::service_navigation(
 #'      c("Summary data", "Detailed stats 1", "User guide")
@@ -91,7 +91,7 @@ service_navigation <- function(
   page_title_suffix = NULL,
   width = "standard"
 ) {
-  wc <- gov_width_container(width)
+  wc <- gov_width_container(width, is_default = missing(width))
 
   if (is.null(links) || length(links) == 0) {
     stop("links must be a non-empty character vector")
@@ -188,7 +188,7 @@ service_navigation <- function(
 #'
 #' @examples
 #' # Works the same with shiny::tabsetPanel() + shiny::updateTabsetPanel().
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::service_navigation(c("Page one", "Page two")),
 #'   bslib::navset_hidden(
 #'     id = "tabs",
@@ -249,7 +249,7 @@ update_service_navigation <- function(
 #' @export
 #'
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::service_navigation(
 #'     c(Summary = "sn_summary", Detail = "sn_detail")
 #'   ),

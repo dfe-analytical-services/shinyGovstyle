@@ -17,8 +17,14 @@ test_that("default works", {
 test_that("width defaults to standard", {
   layout_test <- gov_layout()
   expect_null(htmltools::tagGetAttribute(layout_test, "style"))
+  expect_no_tag(layout_test, "govuk-width-container--standard")
   expect_no_tag(layout_test, "govuk-width-container--wide")
   expect_no_tag(layout_test, "govuk-width-container--full")
+})
+
+test_that("width = 'standard' explicitly renders the standard class", {
+  layout_test <- gov_layout(width = "standard")
+  expect_has_tag(layout_test, "govuk-width-container--standard")
 })
 
 test_that("width = 'full' adds the full modifier class", {

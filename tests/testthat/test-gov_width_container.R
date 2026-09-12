@@ -1,5 +1,19 @@
-test_that("standard width returns the base class and no style", {
+test_that("standard width adds the standard modifier class and no style", {
   wc <- gov_width_container("standard")
+  expect_identical(
+    wc$class,
+    "govuk-width-container govuk-width-container--standard"
+  )
+  expect_null(wc$style)
+})
+
+test_that("a truly-unset width (is_default = TRUE) renders a bare class", {
+  # This is what lets gov_page()'s ambient width CSS style it: a component
+  # explicitly set to width = "standard" gets the --standard class above
+  # (and stays standard even inside an ambient wide/full page), while a
+  # component simply left at its default renders no modifier class at all,
+  # so it's free to inherit the page's ambient width.
+  wc <- gov_width_container("standard", is_default = TRUE)
   expect_identical(wc$class, "govuk-width-container")
   expect_null(wc$style)
 })

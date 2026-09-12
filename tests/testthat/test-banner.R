@@ -47,8 +47,14 @@ test_that("width defaults to standard and doesn't add a wide/full class", {
   out <- banner("bannerId", "alpha", "Banner test")
   container <- find_tag_required(out, "govuk-width-container")
   expect_null(htmltools::tagGetAttribute(container, "style"))
+  expect_no_tag(out, "govuk-width-container--standard")
   expect_no_tag(out, "govuk-width-container--wide")
   expect_no_tag(out, "govuk-width-container--full")
+})
+
+test_that("width = 'standard' explicitly still renders the standard class", {
+  out <- banner("bannerId", "alpha", "Banner test", width = "standard")
+  expect_has_tag(out, "govuk-width-container--standard")
 })
 
 

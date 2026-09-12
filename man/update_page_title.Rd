@@ -45,7 +45,7 @@ shinyGovstyle function in its UI.
 }
 \examples{
 # Programmatic navigation — keep the page title in sync with the new page.
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::service_navigation(c("Page one", "Page two")),
   bslib::navset_hidden(
     id = "tabs",

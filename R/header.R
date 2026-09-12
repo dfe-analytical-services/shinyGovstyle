@@ -29,7 +29,7 @@
 #' @family Govstyle page structure
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -56,7 +56,7 @@ header <- function(
   logo_height = 34,
   width = "standard"
 ) {
-  wc <- gov_width_container(width)
+  wc <- gov_width_container(width, is_default = missing(width))
   if (lifecycle::is_present(main_text)) {
     lifecycle::deprecate_warn(
       when = "0.2.0",

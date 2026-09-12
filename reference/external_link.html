@@ -25,6 +25,11 @@ link text, giving sighted users a visual warning without repeating the full
 screen readers, which still get the same hidden warning as add_warning =
 FALSE), so it should be paired with an explanatory sentence above a group
 of links, not relied on as the only warning.
+If href starts with mailto: (case-insensitive), the new-tab behaviour
+is skipped entirely: no target=&quot;_blank&quot;/rel=&quot;noopener noreferrer&quot;, no
+&quot;(opens in new tab)&quot; text or hidden span, and add_warning = &quot;icon&quot; has no
+effect, since a mailto link hands off to the mail client rather than
+opening a new browser tab. link_text validation still applies as normal.
 Related links and guidance:
 Government digital services guidelines on the use of links
 Anchor tag HTML element and its properties
@@ -57,6 +62,11 @@ link text, giving sighted users a visual warning without repeating the full
 screen readers, which still get the same hidden warning as add_warning =
 FALSE), so it should be paired with an explanatory sentence above a group
 of links, not relied on as the only warning.
+If href starts with mailto: (case-insensitive), the new-tab behaviour
+is skipped entirely: no target=&quot;_blank&quot;/rel=&quot;noopener noreferrer&quot;, no
+&quot;(opens in new tab)&quot; text or hidden span, and add_warning = &quot;icon&quot; has no
+effect, since a mailto link hands off to the mail client rather than
+opening a new browser tab. link_text validation still applies as normal.
 Related links and guidance:
 Government digital services guidelines on the use of links
 Anchor tag HTML element and its properties
@@ -127,6 +137,11 @@ link text, giving sighted users a visual warning without repeating the full
 screen readers, which still get the same hidden warning as add_warning =
 FALSE), so it should be paired with an explanatory sentence above a group
 of links, not relied on as the only warning.</p>
+<p>If <code>href</code> starts with <code>mailto:</code> (case-insensitive), the new-tab behaviour
+is skipped entirely: no <code>target="_blank"</code>/<code>rel="noopener noreferrer"</code>, no
+"(opens in new tab)" text or hidden span, and <code>add_warning = "icon"</code> has no
+effect, since a mailto link hands off to the mail client rather than
+opening a new browser tab. <code>link_text</code> validation still applies as normal.</p>
 <p>Related links and guidance:</p><ul><li><p><a href="https://design-system.service.gov.uk/styles/links/" class="external-link">Government digital services guidelines on the use of links</a></p></li>
 <li><p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a" class="external-link">Anchor tag HTML element and its properties</a></p></li>
 <li><p><a href="https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context" class="external-link">WCAG 2.2 success criteria 2.4.4: Link Purpose (In Context)</a></p></li>
@@ -164,7 +179,7 @@ visual cue, for use with an explanatory sentence above a group of links.
 "icon" behaves like FALSE but also adds a small decorative arrow icon
 after the link text, giving sighted users a visual cue without repeating
 the full text. Be careful and consider accessibility before moving away
-from the default</p></dd>
+from the default. Has no effect when <code>href</code> is a <code>mailto:</code> link.</p></dd>
 
 
 <dt id="arg-footer">footer<a class="anchor" aria-label="anchor" href="#arg-footer"></a></dt>
@@ -217,6 +232,10 @@ information on how the tag is generated, see <code><a href="https://rstudio.gith
 <span class="r-in"><span><span class="co"># This will trim and show as 'R Shiny'</span></span></span>
 <span class="r-in"><span><span class="fu">external_link</span><span class="op">(</span><span class="st">"https://shiny.posit.co/"</span>, <span class="st">"  R Shiny"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;R Shiny (opens in new tab)&lt;/a&gt;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># mailto: links skip the new-tab attributes, text, and icon</span></span></span>
+<span class="r-in"><span><span class="fu">external_link</span><span class="op">(</span><span class="st">"mailto:feedback@example.com"</span>, <span class="st">"feedback@example.com"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;a href="mailto:feedback@example.com" class="govuk-link"&gt;feedback@example.com&lt;/a&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example of within text</span></span></span>
 <span class="r-in"><span><span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">p</span><span class="op">(</span></span></span>

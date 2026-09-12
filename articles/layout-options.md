@@ -120,6 +120,22 @@ Displays a phase banner immediately below the header, used to indicate
 the maturity of your service and give a clear route for users to provide
 feedback.
 
+The `feedback_url` argument is the recommended shortcut for the standard
+GOV.UK feedback wording 014 pass a URL (or a `mailto:` link for
+contact-style text) and the text is generated for you:
+
+``` r
+
+banner(
+  inputId = "phase-banner",
+  type = "Beta",
+  feedback_url = "https://example.com/feedback"
+)
+```
+
+For custom wording, use `label` instead (exactly one of `label` or
+`feedback_url` should be supplied):
+
 ``` r
 
 banner(

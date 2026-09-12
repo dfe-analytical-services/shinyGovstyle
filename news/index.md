@@ -116,6 +116,18 @@
   [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html)
   values. Previously labels accepted HTML strings but not tags, while
   hints accepted tags but not HTML strings.
+- [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md)
+  gains a `feedback_url` argument that auto-generates the standard
+  GOV.UK phase banner feedback text (e.g. “This is a new service - your
+  feedback (opens in new tab) will help us to improve it.”), or
+  contact-style text if `feedback_url` is a `mailto:` link. `label` is
+  now optional, but exactly one of `label` or `feedback_url` must be
+  supplied.
+- [`external_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/external_link.md)
+  now natively supports `mailto:` links: when `href` starts with
+  `mailto:`, the “opens in new tab” attributes, text, and icon are all
+  skipped, since a mailto link hands off to the mail client rather than
+  opening a new tab. Existing link-text validations still apply.
 
 ### Bug fixes
 

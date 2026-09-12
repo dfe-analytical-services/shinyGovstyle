@@ -36,6 +36,13 @@ warning as add_warning = FALSE), so it should be paired with an
 explanatory sentence above a group of links, not relied on as the only
 warning.
 
+If `href` starts with `mailto:` (case-insensitive), the new-tab
+behaviour is skipped entirely: no
+`target="_blank"`/`rel="noopener noreferrer"`, no "(opens in new tab)"
+text or hidden span, and `add_warning = "icon"` has no effect, since a
+mailto link hands off to the mail client rather than opening a new
+browser tab. `link_text` validation still applies as normal.
+
 Related links and guidance:
 
 - [Government digital services guidelines on the use of
@@ -81,7 +88,8 @@ external_link(href, link_text, add_warning = TRUE, footer = FALSE)
   group of links. "icon" behaves like FALSE but also adds a small
   decorative arrow icon after the link text, giving sighted users a
   visual cue without repeating the full text. Be careful and consider
-  accessibility before moving away from the default
+  accessibility before moving away from the default. Has no effect when
+  `href` is a `mailto:` link.
 
 - footer:
 
@@ -133,6 +141,10 @@ external_link(
 # This will trim and show as 'R Shiny'
 external_link("https://shiny.posit.co/", "  R Shiny")
 #> <a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer">R Shiny (opens in new tab)</a>
+
+# mailto: links skip the new-tab attributes, text, and icon
+external_link("mailto:feedback@example.com", "feedback@example.com")
+#> <a href="mailto:feedback@example.com" class="govuk-link">feedback@example.com</a>
 
 # Example of within text
 shiny::tags$p(

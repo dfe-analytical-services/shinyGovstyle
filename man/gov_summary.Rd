@@ -7,7 +7,9 @@
 gov_summary(inputId, headers, info, action = FALSE, border = TRUE)
 }
 \arguments{
-\item{inputId}{The Id to access the summary list}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{headers}{input for the row headers value}
 

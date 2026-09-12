@@ -12,7 +12,9 @@ noti_banner(
 )
 }
 \arguments{
-\item{inputId}{The input Id for the banner}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{title_txt}{The wording that appears in the title}
 

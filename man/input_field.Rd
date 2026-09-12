@@ -26,9 +26,10 @@ required.  Options are 30, 20, 10, 5, 4, 3, 2. NULL will not limit the size}
 
 \item{types}{text box types. Will default to text}
 
-\item{error}{Whenever to icnlud error handling. Defaults to FALSE}
+\item{error}{If \code{TRUE}, render the component in its error state and
+reserve a slot for the error message. Defaults to \code{FALSE}.}
 
-\item{error_message}{Message to display on error. Defaults to NULL}
+\item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
 }
 \value{
 a input field of HTML as a shiny tag object

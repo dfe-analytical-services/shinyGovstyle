@@ -16,7 +16,7 @@ heading_text <- function(text_input, size = "xl", id, level = 1) {
     id <- clean_heading_text(text_input)
   }
 
-  if (!level %in% 1:6) {
+  if (!is.numeric(level) || level %% 1 != 0 || !(level %in% 1:6)) {
     stop("level must be an integer between 1 and 6")
   }
 

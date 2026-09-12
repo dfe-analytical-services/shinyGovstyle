@@ -60,5 +60,5 @@ test_that("error_off hides the error message slot", {
 
   hide_calls <- calls_for(r, "hide")
   expect_length(hide_calls, 1L)
-  expect_identical(recorded_arg(hide_calls[[1L]], "id", 1L), "eventIderror")
+  expect_identical(recorded_arg(hide_calls[[1L]], "id", 1L), "eventId-error")
 })

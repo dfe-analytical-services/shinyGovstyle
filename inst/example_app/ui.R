@@ -27,10 +27,9 @@ shinyGovstyle::gov_page(
   shinyGovstyle::banner(
     "banner",
     "Beta",
-    paste0(
-      'This is a new service \u002D your <a class="govuk-link" href=',
-      '"https://github.com/dfe-analytical-services/shinyGovstyle/issues/new',
-      '/choose">feedback</a> will help us to improve it.'
+    feedback_url = paste0(
+      "https://github.com/dfe-analytical-services/shinyGovstyle/issues/new",
+      "/choose"
     )
   ),
 

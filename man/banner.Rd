@@ -4,7 +4,7 @@
 \alias{banner}
 \title{Banner Function}
 \usage{
-banner(inputId, type, label, width = "standard")
+banner(inputId, type, label = NULL, feedback_url = NULL, width = "standard")
 }
 \arguments{
 \item{inputId}{The id assigned to the component's root element. For Shiny
@@ -22,6 +22,16 @@ GOV.UK's usual 960px content width), \code{"three-quarters"}
 \code{"full"} (no max-width, so the container fills the viewport, with
 grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
 \code{"90vw"}) for a custom max-width.}
+tag objects such as \code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}. Not
+required if \code{feedback_url} is supplied instead.}
+
+\item{feedback_url}{Optional URL used to auto-generate the standard GOV.UK
+phase banner feedback text, e.g. "This is a new service - your feedback
+(opens in new tab) will help us to improve it.", with \code{feedback} linking to
+\code{feedback_url}. If \code{feedback_url} starts with \verb{mailto:} the text instead
+reads "This is a new service - please contact [email address] if you
+have any questions or feedback.". Exactly one of \code{label} or \code{feedback_url}
+must be supplied.}
 }
 \value{
 a banner HTML shiny tag object
@@ -45,6 +55,20 @@ ui <- shinyGovstyle::gov_page(
 server <- function(input, output, session) {}
 
 if (interactive()) shinyApp(ui = ui, server = server)
+
+# Auto-generate the standard feedback text from a URL
+shinyGovstyle::banner(
+  inputId = "banner",
+  type = "Beta",
+  feedback_url = "https://example.com/feedback"
+)
+
+# Auto-generate contact text from a mailto: link
+shinyGovstyle::banner(
+  inputId = "banner",
+  type = "Beta",
+  feedback_url = "mailto:feedback@example.com"
+)
 }
 \seealso{
 Other Govstyle page structure:

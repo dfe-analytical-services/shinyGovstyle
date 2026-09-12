@@ -20,11 +20,7 @@
 #' be used when a secondary link is used `r lifecycle::badge("deprecated")`
 #' @param logo_width Change the logo size width CSS to improve fit
 #' @param logo_height Change the logo size height CSS to improve fit
-#' @param width Width of the header bar. One of `"standard"` (the default,
-#' GOV.UK's usual 960px content width), `"three-quarters"` (three-quarters
-#' of the viewport, never narrower than standard), `"full"` (no max-width,
-#' so the container fills the viewport, with grid gutters also removed),
-#' or a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
+#' @inheritParams width_arg
 #' @return a header HTML shiny tag object
 #' @family Govstyle page structure
 #' @export

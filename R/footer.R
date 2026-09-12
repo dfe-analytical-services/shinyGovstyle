@@ -14,18 +14,12 @@
 #' hidden tabset so to the end user it looks like it is a new page.
 #'
 #' @param full Whenever you want to have blank footer or official gov version.
-#' Defaults to `FALSE`
+#' Defaults to `FALSE`. Not to be confused with the `width` argument below,
+#' which controls the footer's own width rather than its content.
 #' @param links A vector of actionLinks to be added to the footer, inputIDs
 #' are auto-generated and are the snake case version of the link text, e.g.
 #' "Accessibility Statement" will have an inputID of accessibility_statement
-#' @param width Width of the footer. One of `"standard"` (the default,
-#' GOV.UK's usual 960px content width), `"three-quarters"` (three-quarters
-#' of the viewport, never narrower than standard), `"full"` (no max-width,
-#' so the container fills the viewport, with grid gutters also removed),
-#' or a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom max-width. Not
-#' to be confused with the `full` argument above, which controls footer
-#' content rather
-#' than footer width.
+#' @inheritParams width_arg
 #' @return a footer HTML shiny tag object
 #' @family Govstyle page structure
 #' @export
@@ -40,8 +34,7 @@
 #'   shinyGovstyle::banner(
 #'     inputId = "banner", type = "beta", "This is a new service"
 #'   ),
-#'   shiny::tags$br(),
-#'   shiny::tags$br(),
+#'   shinyGovstyle::gov_text("Placeholder text"),
 #'   shinyGovstyle::footer(full = TRUE)
 #' )
 #'

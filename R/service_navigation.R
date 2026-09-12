@@ -34,12 +34,7 @@
 #' control (e.g. when a page heading differs from its nav
 #' link label), call [update_page_title()] from your server
 #' code.
-#' @param width Width of the service navigation bar. One of `"standard"`
-#' (the default, GOV.UK's usual 960px content width), `"three-quarters"`
-#' (three-quarters of the viewport, never narrower than standard), `"full"`
-#' (no max-width, so the container fills the viewport, with grid gutters
-#' also removed), or a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom
-#' max-width.
+#' @inheritParams width_arg
 #'
 #' @returns Shiny tag object
 #' @family Govstyle navigation

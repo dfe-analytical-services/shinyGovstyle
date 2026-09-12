@@ -4,12 +4,7 @@
 #' `shinyjs::useShinyjs()` enabled for this to work. All the Ids are preset.
 #' See example for how to structure.
 #' @param service_name Name for this service to add to banner
-#' @param width Width of the cookie banner. One of `"standard"` (the
-#' default, GOV.UK's usual 960px content width), `"three-quarters"`
-#' (three-quarters of the viewport, never narrower than standard), `"full"`
-#' (no max-width, so the container fills the viewport, with grid gutters
-#' also removed), or a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom
-#' max-width.
+#' @inheritParams width_arg
 #' @return a cookie banner HTML shiny tag object
 #' @family Govstyle page structure
 #' @export

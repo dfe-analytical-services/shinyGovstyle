@@ -23,12 +23,12 @@ example}
 
 \item{inputID}{ID of the main div. Defaults to "main"}
 
-\item{width}{Width of the main content container, only used by
-\code{gov_main_layout()}. One of \code{"standard"} (the default, GOV.UK's usual
-960px content width), \code{"three-quarters"} (three-quarters of the
-viewport, never narrower than standard), \code{"full"} (no max-width, so the
-container fills the viewport, with grid gutters also removed), or a CSS
-length (e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width.}
+\item{width}{Width of the component. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard),
+\code{"full"} (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
 
 \item{size}{size of the box in the row. Optional are full, one-half,
 two-thirds, one-third and one-quarter. Defaults to "full"}

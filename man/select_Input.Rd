@@ -46,7 +46,7 @@ ui <- shinyGovstyle::gov_page(
       ),
       select_value = c("published", "updated", "view", "comments")
     ),
-    shiny::tags$br()
+    shinyGovstyle::gov_text("Placeholder text")
   ),
   shinyGovstyle::footer(full = TRUE)
 )

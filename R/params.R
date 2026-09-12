@@ -104,3 +104,21 @@ download_args <- function(outputId, file_type, file_size) NULL # nolint
 #'
 #' @keywords internal
 link_args <- function(link, link_name) NULL
+
+#' Shared width argument (internal)
+#'
+#' Documentation-only function. Holds the canonical `@param` entry for a
+#' component's own `width`, inherited via `@inheritParams` by every
+#' component that wraps a `.govuk-width-container`. `gov_page()` documents
+#' its `width` separately, since there it sets an ambient default for child
+#' components rather than the component's own width.
+#'
+#' @param width Width of the component. One of `"standard"` (the default,
+#'   GOV.UK's usual 960px content width), `"three-quarters"`
+#'   (three-quarters of the viewport, never narrower than standard),
+#'   `"full"` (no max-width, so the container fills the viewport, with
+#'   grid gutters also removed), or a CSS length (e.g. `"1400px"`,
+#'   `"90vw"`) for a custom max-width.
+#'
+#' @keywords internal
+width_arg <- function(width) NULL

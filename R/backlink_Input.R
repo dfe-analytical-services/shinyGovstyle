@@ -25,8 +25,7 @@
 #'       gov_layout(
 #'         size = "two-thirds",
 #'         backlink_Input("link1"),
-#'         shiny::tags$br(),
-#'         shiny::tags$br()
+#'         gov_text("Placeholder text")
 #'       )
 #'     ),
 #'     shiny::tabPanel(

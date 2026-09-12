@@ -6,12 +6,7 @@
 #' @param inputID ID of the main div. Defaults to "main"
 #' @param size Layout of the page. Optional are full, one-half, two-thirds,
 #' one-third and one-quarter. Defaults to "full"
-#' @param width Width of the page container. One of `"standard"` (the
-#' default, GOV.UK's usual 960px content width), `"three-quarters"`
-#' (three-quarters of the viewport, never narrower than standard), `"full"`
-#' (no max-width, so the container fills the viewport, with grid gutters
-#' also removed), or a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom
-#' max-width.
+#' @inheritParams width_arg
 #' @param ... include the components of the UI that you want within the
 #' main page.
 #' @return a HTML shiny layout div

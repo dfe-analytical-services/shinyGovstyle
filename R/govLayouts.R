@@ -8,12 +8,7 @@
 #' @param inputID ID of the main div. Defaults to "main"
 #' @param size size of the box in the row. Optional are full, one-half,
 #' two-thirds, one-third and one-quarter. Defaults to "full"
-#' @param width Width of the main content container, only used by
-#' `gov_main_layout()`. One of `"standard"` (the default, GOV.UK's usual
-#' 960px content width), `"three-quarters"` (three-quarters of the
-#' viewport, never narrower than standard), `"full"` (no max-width, so the
-#' container fills the viewport, with grid gutters also removed), or a CSS
-#' length (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
+#' @inheritParams width_arg
 #' @param ... include the components of the UI that you want within the
 #' main page. These components are made to flow through each other. See
 #' example

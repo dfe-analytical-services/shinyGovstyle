@@ -40,7 +40,11 @@ update_radio_button_Input(
 
 - label:
 
-  New label for the input, or `NULL` to leave unchanged
+  New label for the input, or `NULL` to leave unchanged. Sent to the
+  client as plain text: if the group was created with `heading_level`
+  set, the `<hN>` heading wrapper around the legend is preserved, but
+  rich HTML/tag content is not — the legend always ends up as plain text
+  after an update, the same limitation this function has always had.
 
 - choices:
 

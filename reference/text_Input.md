@@ -22,7 +22,9 @@ text_Input(
 
 - inputId:
 
-  The input slot that will be used to access the value
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 - label:
 
@@ -47,11 +49,12 @@ text_Input(
 
 - error:
 
-  Whenever to include error handling. Defaults to FALSE
+  If `TRUE`, render the component in its error state and reserve a slot
+  for the error message. Defaults to `FALSE`.
 
 - error_message:
 
-  Message to display on error. Defaults to NULL
+  Text shown when `error` is `TRUE`. Defaults to `NULL`.
 
 - prefix:
 

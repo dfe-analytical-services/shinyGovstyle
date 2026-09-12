@@ -17,7 +17,9 @@ radio_button_Input(
   hint_label = NULL,
   error = FALSE,
   error_message = NULL,
-  custom_class = ""
+  custom_class = "",
+  label_size = c("m", "s", "l", "xl"),
+  heading_level = NULL
 )
 ```
 
@@ -25,7 +27,9 @@ radio_button_Input(
 
 - inputId:
 
-  The `input` slot that will be used to access the value
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 - label:
 
@@ -70,15 +74,29 @@ radio_button_Input(
 
 - error:
 
-  Whenever you want to include error handle on the component
+  If `TRUE`, render the component in its error state and reserve a slot
+  for the error message. Defaults to `FALSE`.
 
 - error_message:
 
-  If you want a default error message
+  Text shown when `error` is `TRUE`. Defaults to `NULL`.
 
 - custom_class:
 
   If you want to add additional classes to the radio buttons
+
+- label_size:
+
+  Size modifier for the legend. One of `"m"`, `"s"`, `"l"`, or `"xl"`,
+  matching the GDS `govuk-fieldset__legend--*` classes. Defaults to
+  `"m"`.
+
+- heading_level:
+
+  Optional heading level for the legend. If supplied (an integer 1-6),
+  the legend text is wrapped in a `<hN>` with the GDS
+  `govuk-fieldset__heading` class, following the GDS pattern for using a
+  question as the page heading. Defaults to `NULL` (no heading wrap).
 
 ## Value
 

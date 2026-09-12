@@ -13,7 +13,9 @@ error_on(inputId, error_message = NULL)
 
 - inputId:
 
-  The input id that you to to turn the error on for
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 - error_message:
 

@@ -13,7 +13,9 @@ checkbox_Input(
   hint_label = NULL,
   small = FALSE,
   error = FALSE,
-  error_message = NULL
+  error_message = NULL,
+  label_size = c("m", "s", "l", "xl"),
+  heading_level = NULL
 )
 ```
 
@@ -21,7 +23,9 @@ checkbox_Input(
 
 - inputId:
 
-  Input Id for the group of checkboxes
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 - cb_labels:
 
@@ -50,11 +54,25 @@ checkbox_Input(
 
 - error:
 
-  Whenever you want to include error handle on the component
+  If `TRUE`, render the component in its error state and reserve a slot
+  for the error message. Defaults to `FALSE`.
 
 - error_message:
 
-  If you want a default error message
+  Text shown when `error` is `TRUE`. Defaults to `NULL`.
+
+- label_size:
+
+  Size modifier for the legend. One of `"m"`, `"s"`, `"l"`, or `"xl"`,
+  matching the GDS `govuk-fieldset__legend--*` classes. Defaults to
+  `"m"`.
+
+- heading_level:
+
+  Optional heading level for the legend. If supplied (an integer 1-6),
+  the legend text is wrapped in a `<hN>` with the GDS
+  `govuk-fieldset__heading` class, following the GDS pattern for using a
+  question as the page heading. Defaults to `NULL` (no heading wrap).
 
 ## Value
 

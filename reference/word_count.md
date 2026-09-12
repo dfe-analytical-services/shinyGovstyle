@@ -13,7 +13,9 @@ word_count(inputId, input, word_limit = NULL)
 
 - inputId:
 
-  The input slot of the text area that you want to affect
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 - input:
 

@@ -12,7 +12,9 @@ select_Input(inputId, label, select_text, select_value)
 
 - inputId:
 
-  Input Id for the component
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 - label:
 

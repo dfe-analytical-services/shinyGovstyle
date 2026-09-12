@@ -13,7 +13,9 @@ govTabs(inputId, df, group_col)
 
 - inputId:
 
-  The Id to access the tag
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 - df:
 

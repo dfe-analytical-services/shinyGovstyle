@@ -41,11 +41,12 @@ input_field(
 
 - error:
 
-  Whenever to icnlud error handling. Defaults to FALSE
+  If `TRUE`, render the component in its error state and reserve a slot
+  for the error message. Defaults to `FALSE`.
 
 - error_message:
 
-  Message to display on error. Defaults to NULL
+  Text shown when `error` is `TRUE`. Defaults to `NULL`.
 
 ## Value
 

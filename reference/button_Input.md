@@ -12,7 +12,9 @@ button_Input(inputId, label, type = "default")
 
 - inputId:
 
-  The input slot that will be used to access the value
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 - label:
 

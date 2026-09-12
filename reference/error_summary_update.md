@@ -15,7 +15,9 @@ error_summary_update(inputId, error_list)
 
 - inputId:
 
-  The input Id of the error summary you want to update
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 - error_list:
 

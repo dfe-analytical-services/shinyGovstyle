@@ -14,11 +14,11 @@ footer_link(link, link_name = NULL)
 
 - link:
 
-  Character string containing either link text or url
+  Character string containing either link text or url.
 
 - link_name:
 
-  Name of a link where a URL has been provided in link_text
+  Name of a link where a URL has been provided in `link`.
 
 ## Value
 

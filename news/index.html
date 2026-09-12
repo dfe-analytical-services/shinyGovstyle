@@ -41,11 +41,10 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="shinygovstyle-development-version">shinyGovstyle (development version)<a class="anchor" aria-label="anchor" href="#shinygovstyle-development-version"></a></h2>
 <div class="section level3">
-<h3 id="future-breaking-changes-development-version">Future breaking changes<a class="anchor" aria-label="anchor" href="#future-breaking-changes-development-version"></a></h3>
-<ul><li>
-<code><a href="../reference/insert_text.html">insert_text()</a></code> argument <code>text</code> has been renamed to <code>content</code> to reflect that it now accepts more than plain text. The old name is deprecated and will be removed in a future version.</li>
+<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<ul><li>Error message element ids changed from <code>&lt;inputId&gt;error</code> to <code>&lt;inputId&gt;-error</code> (matching the hint id format <code>&lt;inputId&gt;-hint</code>). This affects <code><a href="../reference/radio_button_Input.html">radio_button_Input()</a></code>, <code><a href="../reference/checkbox_Input.html">checkbox_Input()</a></code>, <code><a href="../reference/date_Input.html">date_Input()</a></code>, <code><a href="../reference/text_Input.html">text_Input()</a></code>, <code><a href="../reference/text_area_Input.html">text_area_Input()</a></code>, <code><a href="../reference/file_Input.html">file_Input()</a></code>, and <code><a href="../reference/input_field.html">input_field()</a></code>. <code><a href="../reference/error_on.html">error_on()</a></code> and <code><a href="../reference/error_off.html">error_off()</a></code> have been updated to match and continue to work transparently; only custom CSS or JS that targets <code>#fooerror</code> selectors needs updating to <code>#foo-error</code>.</li>
 <li>
-<code><a href="../reference/govTable.html">govTable()</a></code> now renders rows in dataframe order (rows were previously reversed).</li>
+<code><a href="../reference/insert_text.html">insert_text()</a></code> argument <code>text</code> has been renamed to <code>content</code> to reflect that it now accepts more than plain text. The old name is deprecated and will be removed in a future version.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
@@ -82,6 +81,19 @@
 <li>
 <code><a href="../reference/govTable.html">govTable()</a></code> no longer errors with “evaluation nested too deeply: infinite recursion” on large tables (around 1200+ rows). It now warns when given more than 50 rows and recommends <code><a href="../reference/govReactable.html">govReactable()</a></code> for very large or interactive tables.</li>
 <li>The <code><a href="../reference/radio_button_Input.html">radio_button_Input()</a></code> client binding now correctly replaces all options when sent an <code>options</code> update (the previous selectors did not match the rendered markup, so option replacement silently did nothing).</li>
+<li>
+<code><a href="../reference/radio_button_Input.html">radio_button_Input()</a></code>’s client binding now correctly reads and updates the group label (<code>update_radio_button_Input(label = ...)</code>, and Shiny’s built-in bookmarking) — the previous selector targeted the old <code>&lt;label for=...&gt;</code> markup, which no longer exists now that the label renders inside a <code>&lt;legend&gt;</code> via the shared fieldset helper.</li>
+<li>
+<code><a href="../reference/govTable.html">govTable()</a></code> now renders rows in dataframe order (row order was previously silently reversed).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-improvements-and-bug-fixes-development-version">Minor improvements and bug fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-bug-fixes-development-version"></a></h3>
+<ul><li>
+<code><a href="../reference/radio_button_Input.html">radio_button_Input()</a></code>, <code><a href="../reference/checkbox_Input.html">checkbox_Input()</a></code>, and <code><a href="../reference/date_Input.html">date_Input()</a></code> now wrap their contents in a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code> (previously they used a <code>&lt;label&gt;</code> inside the fieldset, which is invalid and meant screen readers did not announce the question as group context). Any hint or error message is linked to the fieldset via <code>aria-describedby</code>, so screen readers read the hint/error when the group receives focus. <code><a href="../reference/radio_button_Input.html">radio_button_Input()</a></code>, <code><a href="../reference/checkbox_Input.html">checkbox_Input()</a></code>, and <code><a href="../reference/date_Input.html">date_Input()</a></code> gain <code>label_size</code> (<code>"s"</code>/<code>"m"</code>/<code>"l"</code>/<code>"xl"</code>, default <code>"m"</code>) and <code>heading_level</code> (1-6, optional) arguments that control the legend size and optionally wrap it as a page heading following the GDS pattern.</li>
+<li>
+<code><a href="../reference/radio_button_Input.html">radio_button_Input()</a></code> inputs and labels are now programmatically associated via matching <code>id</code>/<code>for</code> attributes, and checkbox labels now also carry <code>for</code> attributes. <code><a href="../reference/date_Input.html">date_Input()</a></code> Day/Month/Year labels are likewise associated with their underlying inputs via <code>for</code>/<code>id</code>.</li>
+<li>
+<code>govTabs</code> now includes full ARIA roles (<code>tablist</code>, <code>tab</code>, <code>tabpanel</code>) and attributes (<code>aria-selected</code>, <code>aria-controls</code>, <code>aria-labelledby</code>) so screen readers correctly identify and navigate tabs.</li>
 </ul></div>
 </div>
     <div class="section level2">

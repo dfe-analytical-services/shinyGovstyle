@@ -13,7 +13,9 @@ gov_summary(inputId, headers, info, action = FALSE, border = TRUE)
 
 - inputId:
 
-  The Id to access the summary list
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 - headers:
 

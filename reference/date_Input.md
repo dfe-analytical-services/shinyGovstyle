@@ -13,7 +13,9 @@ date_Input(
   error_message = NULL,
   day = NULL,
   month = NULL,
-  year = NULL
+  year = NULL,
+  label_size = c("m", "s", "l", "xl"),
+  heading_level = NULL
 )
 ```
 
@@ -21,7 +23,9 @@ date_Input(
 
 - inputId:
 
-  The input slot that will be used to access the value
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 - label:
 
@@ -37,11 +41,12 @@ date_Input(
 
 - error:
 
-  Whenever to include error components.Defaults to `FALSE`
+  If `TRUE`, render the component in its error state and reserve a slot
+  for the error message. Defaults to `FALSE`.
 
 - error_message:
 
-  Error handling message? Defaults to `NULL`
+  Text shown when `error` is `TRUE`. Defaults to `NULL`.
 
 - day:
 
@@ -54,6 +59,19 @@ date_Input(
 - year:
 
   Select a default year on start up. Defaults to `NULL`
+
+- label_size:
+
+  Size modifier for the legend. One of `"m"`, `"s"`, `"l"`, or `"xl"`,
+  matching the GDS `govuk-fieldset__legend--*` classes. Defaults to
+  `"m"`.
+
+- heading_level:
+
+  Optional heading level for the legend. If supplied (an integer 1-6),
+  the legend text is wrapped in a `<hN>` with the GDS
+  `govuk-fieldset__heading` class, following the GDS pattern for using a
+  question as the page heading. Defaults to `NULL` (no heading wrap).
 
 ## Value
 

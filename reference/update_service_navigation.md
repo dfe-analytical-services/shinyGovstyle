@@ -29,7 +29,9 @@ update_service_navigation(session, inputId)
 
 - inputId:
 
-  The inputId of the service navigation link to set as active
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 ## Value
 

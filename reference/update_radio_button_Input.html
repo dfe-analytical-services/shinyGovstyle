@@ -84,7 +84,11 @@ Defaults to the current reactive domain.</p></dd>
 
 
 <dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
-<dd><p>New label for the input, or <code>NULL</code> to leave unchanged</p></dd>
+<dd><p>New label for the input, or <code>NULL</code> to leave unchanged. Sent to
+the client as plain text: if the group was created with <code>heading_level</code>
+set, the <code>&lt;hN&gt;</code> heading wrapper around the legend is preserved, but rich
+HTML/tag content is not — the legend always ends up as plain text after an
+update, the same limitation this function has always had.</p></dd>
 
 
 <dt id="arg-choices">choices<a class="anchor" aria-label="anchor" href="#arg-choices"></a></dt>

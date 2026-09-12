@@ -27,7 +27,7 @@ download_link(outputId, link_text, file_type = "CSV", file_size = NULL)
 
   The name of the output slot that the
   [`shiny::downloadHandler()`](https://rdrr.io/pkg/shiny/man/downloadHandler.html)
-  is assigned to
+  is assigned to.
 
 - link_text:
 
@@ -39,12 +39,13 @@ download_link(outputId, link_text, file_type = "CSV", file_size = NULL)
 
 - file_type:
 
-  The file type to be download (default: CSV)
+  File extension shown to the user (e.g. `"CSV"`, `"PDF"`). Defaults to
+  `"CSV"`.
 
 - file_size:
 
-  The file size if known. Needs to be a string ending in one of KB, MB,
-  GB or rows
+  Optional human-readable file size; a string ending in `KB`, `MB`,
+  `GB`, or `rows`.
 
 ## Value
 

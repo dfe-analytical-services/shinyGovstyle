@@ -153,7 +153,7 @@ avoids back-and-forth:
   repo to see if any of them should also be updated. If you’re touching
   the shared `label`/`hint` arguments (or any other future shared
   arguments), edit the descriptions once in `R/params.R` (pulled in via
-  `@inheritParams control_label_params`) rather than per file — see
+  `@inheritParams control_label_params`) rather than per file - see
   [AGENTS.md](https://dfe-analytical-services.github.io/AGENTS.md) for
   that convention.
 - **Design system check.** If you’ve added or changed a UI component,

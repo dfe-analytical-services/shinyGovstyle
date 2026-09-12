@@ -2,14 +2,29 @@
 
 ## shinyGovstyle (development version)
 
-### Future breaking changes
+### Breaking changes
 
+- Error message element ids changed from `<inputId>error` to
+  `<inputId>-error` (matching the hint id format `<inputId>-hint`). This
+  affects
+  [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md),
+  [`checkbox_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/checkbox_Input.md),
+  [`date_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/date_Input.md),
+  [`text_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.md),
+  [`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md),
+  [`file_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/file_Input.md),
+  and
+  [`input_field()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/input_field.md).
+  [`error_on()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_on.md)
+  and
+  [`error_off()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_off.md)
+  have been updated to match and continue to work transparently; only
+  custom CSS or JS that targets `#fooerror` selectors needs updating to
+  `#foo-error`.
 - [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
   argument `text` has been renamed to `content` to reflect that it now
   accepts more than plain text. The old name is deprecated and will be
   removed in a future version.
-- [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md)
-  now renders rows in dataframe order (rows were previously reversed).
 
 ### New features
 
@@ -148,6 +163,45 @@
   client binding now correctly replaces all options when sent an
   `options` update (the previous selectors did not match the rendered
   markup, so option replacement silently did nothing).
+- [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md)’s
+  client binding now correctly reads and updates the group label
+  (`update_radio_button_Input(label = ...)`, and Shiny’s built-in
+  bookmarking) — the previous selector targeted the old
+  `<label for=...>` markup, which no longer exists now that the label
+  renders inside a `<legend>` via the shared fieldset helper.
+- [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md)
+  now renders rows in dataframe order (row order was previously silently
+  reversed).
+
+### Minor improvements and bug fixes
+
+- [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md),
+  [`checkbox_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/checkbox_Input.md),
+  and
+  [`date_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/date_Input.md)
+  now wrap their contents in a `<fieldset>` with a `<legend>`
+  (previously they used a `<label>` inside the fieldset, which is
+  invalid and meant screen readers did not announce the question as
+  group context). Any hint or error message is linked to the fieldset
+  via `aria-describedby`, so screen readers read the hint/error when the
+  group receives focus.
+  [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md),
+  [`checkbox_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/checkbox_Input.md),
+  and
+  [`date_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/date_Input.md)
+  gain `label_size` (`"s"`/`"m"`/`"l"`/`"xl"`, default `"m"`) and
+  `heading_level` (1-6, optional) arguments that control the legend size
+  and optionally wrap it as a page heading following the GDS pattern.
+- [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md)
+  inputs and labels are now programmatically associated via matching
+  `id`/`for` attributes, and checkbox labels now also carry `for`
+  attributes.
+  [`date_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/date_Input.md)
+  Day/Month/Year labels are likewise associated with their underlying
+  inputs via `for`/`id`.
+- `govTabs` now includes full ARIA roles (`tablist`, `tab`, `tabpanel`)
+  and attributes (`aria-selected`, `aria-controls`, `aria-labelledby`)
+  so screen readers correctly identify and navigate tabs.
 
 ## shinyGovstyle 0.2.0
 

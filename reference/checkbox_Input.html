@@ -53,7 +53,9 @@
 <span>  hint_label <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  small <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  error <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  error_message <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  error_message <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  label_size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"m"</span>, <span class="st">"s"</span>, <span class="st">"l"</span>, <span class="st">"xl"</span><span class="op">)</span>,</span>
+<span>  heading_level <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -62,7 +64,9 @@
 
 
 <dl><dt id="arg-inputid">inputId<a class="anchor" aria-label="anchor" href="#arg-inputid"></a></dt>
-<dd><p>Input Id for the group of checkboxes</p></dd>
+<dd><p>The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+<code>input$&lt;inputId&gt;</code>.</p></dd>
 
 
 <dt id="arg-cb-labels">cb_labels<a class="anchor" aria-label="anchor" href="#arg-cb-labels"></a></dt>
@@ -90,11 +94,25 @@ to <code>FALSE</code></p></dd>
 
 
 <dt id="arg-error">error<a class="anchor" aria-label="anchor" href="#arg-error"></a></dt>
-<dd><p>Whenever you want to include error handle on the component</p></dd>
+<dd><p>If <code>TRUE</code>, render the component in its error state and
+reserve a slot for the error message. Defaults to <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-error-message">error_message<a class="anchor" aria-label="anchor" href="#arg-error-message"></a></dt>
-<dd><p>If you want a default error message</p></dd>
+<dd><p>Text shown when <code>error</code> is <code>TRUE</code>. Defaults to <code>NULL</code>.</p></dd>
+
+
+<dt id="arg-label-size">label_size<a class="anchor" aria-label="anchor" href="#arg-label-size"></a></dt>
+<dd><p>Size modifier for the legend. One of <code>"m"</code>, <code>"s"</code>, <code>"l"</code>,
+or <code>"xl"</code>, matching the GDS <code>govuk-fieldset__legend--*</code> classes. Defaults
+to <code>"m"</code>.</p></dd>
+
+
+<dt id="arg-heading-level">heading_level<a class="anchor" aria-label="anchor" href="#arg-heading-level"></a></dt>
+<dd><p>Optional heading level for the legend. If supplied
+(an integer 1-6), the legend text is wrapped in a <code>&lt;hN&gt;</code> with the GDS
+<code>govuk-fieldset__heading</code> class, following the GDS pattern for using a
+question as the page heading. Defaults to <code>NULL</code> (no heading wrap).</p></dd>
 
 </dl></div>
     <div class="section level2">

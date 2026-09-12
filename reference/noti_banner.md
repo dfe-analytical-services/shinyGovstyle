@@ -17,7 +17,9 @@ noti_banner(
 
 - inputId:
 
-  The input Id for the banner
+  The id assigned to the component's root element. For Shiny input
+  components this is also the name used to access the value via
+  `input$<inputId>`.
 
 - title_txt:
 

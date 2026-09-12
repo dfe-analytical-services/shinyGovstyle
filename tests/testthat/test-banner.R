@@ -69,6 +69,9 @@ test_that("a custom width sets an inline max-width style", {
   expect_identical(
     htmltools::tagGetAttribute(container, "style"),
     "max-width: 1400px;"
+  )
+})
+
 test_that("feedback_url auto-generates the standard feedback text", {
   out <- banner(
     "bannerId",

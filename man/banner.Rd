@@ -14,14 +14,6 @@ input components this is also the name used to access the value via
 \item{type}{Main type of label e.g. alpha or beta. Can be any word}
 
 \item{label}{Text to display. Accepts a plain character string, or \code{shiny}
-tag objects such as \code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
-
-\item{width}{Width of the component. One of \code{"standard"} (the default,
-GOV.UK's usual 960px content width), \code{"three-quarters"}
-(three-quarters of the viewport, never narrower than standard),
-\code{"full"} (no max-width, so the container fills the viewport, with
-grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
-\code{"90vw"}) for a custom max-width.}
 tag objects such as \code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}. Not
 required if \code{feedback_url} is supplied instead.}
 
@@ -32,6 +24,13 @@ phase banner feedback text, e.g. "This is a new service - your feedback
 reads "This is a new service - please contact [email address] if you
 have any questions or feedback.". Exactly one of \code{label} or \code{feedback_url}
 must be supplied.}
+
+\item{width}{Width of the component. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard),
+\code{"full"} (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
 }
 \value{
 a banner HTML shiny tag object

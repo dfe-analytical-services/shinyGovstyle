@@ -71,14 +71,18 @@ govFieldset <- # nolint
     legend_content <- if (!is.null(heading_level)) {
       shiny::tag(
         paste0("h", heading_level),
-        list(class = "govuk-fieldset__heading", label)
+        list(class = "govuk-fieldset__heading", as_govuk_html(label))
       )
     } else {
-      label
+      as_govuk_html(label)
     }
 
     hint_tag <- if (!is.null(hint_label)) {
-      shiny::tags$div(hint_label, id = hint_id, class = "govuk-hint")
+      shiny::tags$div(
+        as_govuk_html(hint_label),
+        id = hint_id,
+        class = "govuk-hint"
+      )
     }
 
     error_tag <- if (isTRUE(error)) {

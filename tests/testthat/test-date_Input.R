@@ -85,6 +85,11 @@ test_that("Fieldset and legend wrap date input", {
   )
 })
 
+test_that("label with markup renders as HTML, not escaped text", {
+  date_check <- date_Input("dateid", "<b>Bold</b>")
+  expect_match(as.character(date_check), "<b>Bold</b>", fixed = TRUE)
+})
+
 test_that("Hint id and aria-describedby wired up when hint supplied", {
   date_check <- date_Input(
     "dateid",
@@ -137,8 +142,7 @@ test_that("heading_level wraps the legend text in an <hN>", {
     label_size = "l",
     heading_level = 1
   )
-  legend <- find_tag(date_check, "govuk-fieldset__legend")
-  heading <- legend$children[[1]]
+  heading <- find_tag(date_check, "govuk-fieldset__heading")
   expect_identical(heading$name, "h1")
   expect_identical(heading$attribs$class, "govuk-fieldset__heading")
 })

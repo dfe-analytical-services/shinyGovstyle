@@ -126,7 +126,20 @@ test_that("Fieldset and legend wrap checkbox group with default --m size", {
     htmltools::tagGetAttribute(legend, "class"),
     "govuk-fieldset__legend govuk-fieldset__legend--m"
   )
-  expect_identical(legend$children[[1]], "Pick one")
+  expect_identical(
+    tag_text(fieldset, "govuk-fieldset__legend"),
+    shiny::HTML("Pick one")
+  )
+})
+
+test_that("label with markup renders as HTML, not escaped text", {
+  cbtag <- checkbox_Input(
+    inputId = "cb",
+    label = "<b>Bold</b>",
+    cb_labels = c("a", "b"),
+    checkboxIds = c("a", "b")
+  )
+  expect_match(as.character(cbtag), "<b>Bold</b>", fixed = TRUE)
 })
 
 test_that("label_size sets the legend size modifier", {
@@ -167,11 +180,13 @@ test_that("heading_level wraps the legend text in an <hN>", {
     label_size = "l",
     heading_level = 1
   )
-  legend <- find_tag(cbtag, "govuk-fieldset__legend")
-  heading <- legend$children[[1]]
+  heading <- find_tag(cbtag, "govuk-fieldset__heading")
   expect_identical(heading$name, "h1")
   expect_identical(heading$attribs$class, "govuk-fieldset__heading")
-  expect_identical(heading$children[[1]], "Q")
+  expect_identical(
+    tag_text(cbtag, "govuk-fieldset__heading"),
+    shiny::HTML("Q")
+  )
 })
 
 test_that("heading_level rejects invalid values", {

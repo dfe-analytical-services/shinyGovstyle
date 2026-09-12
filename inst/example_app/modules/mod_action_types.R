@@ -22,20 +22,33 @@ mod_action_types_ui <- function(id) {
       "."
     ),
     shinyGovstyle::gov_text(
-      paste(
-        "You can also add external links that don't have the",
-        "warning in brackets but do have the warning for screen",
-        "readers, such as this link to our "
-      ),
-      shinyGovstyle::external_link(
-        href = paste0(
-          "https://dfe-analytical-services.github.io/",
-          "shinyGovstyle/"
+      paste0(
+        "When displaying several external links together, you can set ",
+        "add_warning = FALSE and add a single note above the group ",
+        "instead of repeating the warning on every link:"
+      )
+    ),
+    shinyGovstyle::gov_text("The following links open in a new tab."),
+    shinyGovstyle::gov_list(
+      list = list(
+        shinyGovstyle::external_link(
+          href = paste0(
+            "https://dfe-analytical-services.github.io/",
+            "shinyGovstyle/"
+          ),
+          link_text = "package documentation site",
+          add_warning = FALSE
         ),
-        link_text = "package documentation site",
-        add_warning = FALSE
+        shinyGovstyle::external_link(
+          href = paste0(
+            "https://dfe-analytical-services.github.io/",
+            "shinyGovstyle/CONTRIBUTING.html"
+          ),
+          link_text = "contributing guidelines",
+          add_warning = FALSE
+        )
       ),
-      "."
+      style = "bullet"
     ),
     shinyGovstyle::gov_text(
       paste(

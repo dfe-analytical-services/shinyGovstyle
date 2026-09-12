@@ -43,7 +43,9 @@ gov_width_container <- function(width, is_default = FALSE) {
   if (!is_css_length(width)) {
     stop(
       "`width` must be \"standard\", \"three-quarters\", \"full\", or a ",
-      "CSS length (e.g. \"1400px\", \"90vw\"), not \"", width, "\"",
+      "CSS length (e.g. \"1400px\", \"90vw\"), not \"",
+      width,
+      "\"",
       call. = FALSE
     )
   }

@@ -54,7 +54,9 @@ shinyGovstyle::gov_page(
             href = "https://rstudio.github.io/bslib/",
             link_text = "bslib package"
           ),
-          "'s ", shiny::tags$code("page_fluid()"), ", via ",
+          "'s ",
+          shiny::tags$code("page_fluid()"),
+          ", via ",
           shiny::tags$code("shinyGovstyle::gov_page()"),
           "; it's currently using the \"full\" width option, so try",
           " \"standard\" and \"three quarters\" with the switcher below."

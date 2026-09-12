@@ -50,6 +50,21 @@ mod_action_types_ui <- function(id) {
       ),
       style = "bullet"
     ),
+    shinyGovstyle::gov_text(
+      paste(
+        "Or set add_warning = \"icon\" to show a small visual icon",
+        "instead of the bracketed text, such as this link to our "
+      ),
+      shinyGovstyle::external_link(
+        href = paste0(
+          "https://dfe-analytical-services.github.io/",
+          "shinyGovstyle/news/index.html"
+        ),
+        link_text = "changelog",
+        add_warning = "icon"
+      ),
+      "."
+    ),
     shinyGovstyle::heading_text("download_button", size = "s", level = 2),
     shinyGovstyle::download_button(
       shiny::NS(id, "download_button_data"),

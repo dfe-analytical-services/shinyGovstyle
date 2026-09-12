@@ -43,14 +43,45 @@ test_that("Rejects dodgy link text", {
   expect_error(external_link("https://shiny.posit.co/", "www.google.com"))
 })
 
-test_that("Rejects non-boolean for add_warning", {
+test_that("Rejects invalid values for add_warning", {
   expect_error(
     external_link(
       "https://shiny.posit.co/",
       "R Shiny",
       add_warning = "Funky non-boolean"
     ),
-    "add_warning must be a TRUE or FALSE value"
+    'add_warning must be TRUE, FALSE, or "icon"',
+    fixed = TRUE
+  )
+})
+
+test_that("add_warning = TRUE/FALSE (default and opposite) add no svg", {
+  expect_false(grepl("<svg", link_text(test_link), fixed = TRUE))
+
+  hidden_link <-
+    external_link("https://shiny.posit.co/", "R Shiny", add_warning = FALSE)
+  expect_false(grepl("<svg", link_text(hidden_link), fixed = TRUE))
+})
+
+test_that("add_warning = 'icon' adds a decorative svg after the link text", {
+  icon_link <- external_link(
+    "https://shiny.posit.co/",
+    "R Shiny",
+    add_warning = "icon"
+  )
+  rendered <- link_text(icon_link)
+
+  expect_true(grepl("<svg", rendered, fixed = TRUE))
+  expect_true(grepl('aria-hidden="true"', rendered, fixed = TRUE))
+  expect_true(grepl('focusable="false"', rendered, fixed = TRUE))
+  # The sr-only warning text (same as add_warning = FALSE) still comes
+  # before the decorative icon, so screen readers still get the warning
+  expect_true(
+    grepl(
+      "R Shiny<span class=\"sr-only\"> (opens in new tab)</span><svg",
+      rendered,
+      fixed = TRUE
+    )
   )
 })
 

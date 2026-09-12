@@ -160,7 +160,11 @@ radio_button_Input <- # nolint
 #' @param session The `session` object passed to the Shiny server function.
 #' Defaults to the current reactive domain.
 #' @param inputId The id of the [radio_button_Input()] to update
-#' @param label New label for the input, or `NULL` to leave unchanged
+#' @param label New label for the input, or `NULL` to leave unchanged. Sent to
+#' the client as plain text: if the group was created with `heading_level`
+#' set, the `<hN>` heading wrapper around the legend is preserved, but rich
+#' HTML/tag content is not — the legend always ends up as plain text after an
+#' update, the same limitation this function has always had.
 #' @param choices New vector of choices, or `NULL` to leave unchanged (if
 #' elements of the vector are named then that name rather than the value is
 #' displayed to the user)

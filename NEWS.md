@@ -90,6 +90,11 @@
 * The `radio_button_Input()` client binding now correctly replaces all options
   when sent an `options` update (the previous selectors did not match the
   rendered markup, so option replacement silently did nothing).
+* `radio_button_Input()`'s client binding now correctly reads and updates the
+  group label (`update_radio_button_Input(label = ...)`, and Shiny's
+  built-in bookmarking) — the previous selector targeted the old
+  `<label for=...>` markup, which no longer exists now that the label
+  renders inside a `<legend>` via the shared fieldset helper.
 * `govTable()` now renders rows in dataframe order (row order was previously
   silently reversed).
 

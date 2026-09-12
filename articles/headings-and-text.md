@@ -489,21 +489,20 @@ add a single explanatory sentence above the group instead:
 ``` r
 
 gov_text("The following links open in a new tab.")
-shiny::tags$ul(
-  shiny::tags$li(
+gov_list(
+  list = list(
     external_link(
       "https://www.example.gov.uk/a",
       "Guidance document A",
       add_warning = FALSE
-    )
-  ),
-  shiny::tags$li(
+    ),
     external_link(
       "https://www.example.gov.uk/b",
       "Guidance document B",
       add_warning = FALSE
     )
-  )
+  ),
+  style = "bullet"
 )
 ```
 

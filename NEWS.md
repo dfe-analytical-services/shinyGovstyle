@@ -53,6 +53,11 @@
   strings, HTML strings, `shiny` tag objects, and `shiny::tagList()` values.
   Previously labels accepted HTML strings but not tags, while hints accepted
   tags but not HTML strings.
+* `banner()` gains a `feedback_url` argument that auto-generates the standard
+  GOV.UK phase banner feedback text (e.g. "This is a new service - your
+  feedback (opens in new tab) will help us to improve it."), or contact-style
+  text if `feedback_url` is a `mailto:` link. `label` is now optional, but
+  exactly one of `label` or `feedback_url` must be supplied.
 
 ## Bug fixes
 

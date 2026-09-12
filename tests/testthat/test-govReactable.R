@@ -104,6 +104,45 @@ test_that("columns argument only affects the named column", {
   expect_null(count_col$format)
 })
 
+test_that("columns argument merges user class/headerClass over defaults", {
+  # Regression test: reactable::colDef() renames `class`, `headerClass`,
+  # `footerClass`, and `defaultSortOrder` to `className`, `headerClassName`,
+  # `footerClassName`, and `defaultSortDesc` respectively in its returned
+  # object. Passing any of these through `columns` used to error with
+  # "unused argument (headerClassName = ...)" because the already-renamed
+  # field was fed back into reactable::colDef() as if it were an input
+  # argument (#243).
+  df <- data.frame(count = c(1234, 56, 789), percent = c(4, 4.7, 12.34))
+
+  table <- govReactable(
+    df,
+    columns = list(
+      percent = reactable::colDef(
+        class = "custom-percent-cell",
+        headerClass = "custom-percent-header"
+      )
+    )
+  )
+
+  percent_col <- table$x$tag$attribs$columns[[
+    which(
+      vapply(
+        table$x$tag$attribs$columns,
+        function(col) identical(col$id, "percent"),
+        logical(1)
+      )
+    )
+  ]]
+
+  # User-supplied renamed fields are applied under their *output* names
+  expect_identical(percent_col$className, "custom-percent-cell")
+  expect_identical(percent_col$headerClassName, "custom-percent-header")
+
+  # GOV.UK defaults survive for fields the user didn't touch
+  expect_true(percent_col$sortable)
+  expect_identical(percent_col$na, "NA")
+})
+
 test_that("govReactable handles large tables", {
   # Unlike the static govTable(), reactable serialises the full dataset once
   # and paginates client-side, so it scales to far larger tables.

@@ -128,15 +128,25 @@ govReactable <- # nolint
           }
         )
 
+        default_col <- do.call(reactable::colDef, default_args)
+
         # Merge in any user-supplied colDef for this column, so only the
         # fields the user actually set (non-NULL) override the GOV.UK
-        # defaults above.
+        # defaults above. reactable::colDef() renames a handful of its
+        # input arguments in its returned object (class -> className,
+        # headerClass -> headerClassName, footerClass -> footerClassName,
+        # defaultSortOrder -> defaultSortDesc), so both `default_col` and
+        # the user's colDef are built via reactable::colDef() first
+        # (giving both the same *output*-name scheme), then merged
+        # directly as list objects instead of re-calling colDef() with
+        # the user's already-renamed fields as if they were input names.
         if (!is.null(columns[[col]])) {
           user_fields <- Filter(Negate(is.null), unclass(columns[[col]]))
-          default_args <- utils::modifyList(default_args, user_fields)
+          merged_col <- utils::modifyList(unclass(default_col), user_fields)
+          structure(merged_col, class = "colDef")
+        } else {
+          default_col
         }
-
-        do.call(reactable::colDef, default_args)
       }),
       names(df)
     )

@@ -20,11 +20,12 @@
 #' assistive technology. Defaults to `NULL` (no description tag).
 #' @param width Default width for every shinyGovstyle component used inside
 #' `...` that doesn't set its own `width`. One of `"standard"` (the
-#' default, GOV.UK's usual 960px content width), `"wide"` (no max-width, so
-#' the page fills the viewport instead of centring at 960px), `"full"`
-#' (same as `"wide"`, with grid gutters also removed), or a CSS length
-#' (e.g. `"1400px"`, `"90vw"`) for a custom max-width. A component that sets
-#' its own `width` always overrides this default.
+#' default, GOV.UK's usual 960px content width), `"three-quarters"`
+#' (three-quarters of the viewport, never narrower than standard), `"full"`
+#' (no max-width, so the page fills the viewport, with grid gutters also
+#' removed), or a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom
+#' max-width. A component that sets its own `width` always overrides this
+#' default.
 #' @param theme A `bslib::bs_theme()` object, passed straight to
 #' `bslib::page_fluid()`.
 #' @return a page HTML shiny tag object
@@ -34,7 +35,7 @@
 #' ui <- shinyGovstyle::gov_page(
 #'   title = "My dashboard",
 #'   description = "A dashboard showing my department's latest statistics",
-#'   width = "wide",
+#'   width = "three-quarters",
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "My dashboard"
@@ -60,15 +61,15 @@ gov_page <- function(
   width = "standard",
   theme = bslib::bs_theme()
 ) {
-  tiers <- c("standard", "wide", "full")
+  tiers <- c("standard", "three-quarters", "full")
   page_width <- width
   page_style <- NULL
 
   if (!width %in% tiers) {
     if (!is_css_length(width)) {
       stop(
-        "`width` must be \"standard\", \"wide\", \"full\", or a CSS length ",
-        "(e.g. \"1400px\", \"90vw\"), not \"", width, "\"",
+        "`width` must be \"standard\", \"three-quarters\", \"full\", or a ",
+        "CSS length (e.g. \"1400px\", \"90vw\"), not \"", width, "\"",
         call. = FALSE
       )
     }

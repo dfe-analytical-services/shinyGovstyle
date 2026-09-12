@@ -32,11 +32,12 @@ assistive technology. Defaults to \code{NULL} (no description tag).}
 
 \item{width}{Default width for every shinyGovstyle component used inside
 \code{...} that doesn't set its own \code{width}. One of \code{"standard"} (the
-default, GOV.UK's usual 960px content width), \code{"wide"} (no max-width, so
-the page fills the viewport instead of centring at 960px), \code{"full"}
-(same as \code{"wide"}, with grid gutters also removed), or a CSS length
-(e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width. A component that sets
-its own \code{width} always overrides this default.}
+default, GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard), \code{"full"}
+(no max-width, so the page fills the viewport, with grid gutters also
+removed), or a CSS length (e.g. \code{"1400px"}, \code{"90vw"}) for a custom
+max-width. A component that sets its own \code{width} always overrides this
+default.}
 
 \item{theme}{A \code{bslib::bs_theme()} object, passed straight to
 \code{bslib::page_fluid()}.}
@@ -55,7 +56,7 @@ page in one place, instead of repeating \verb{width = } on each of them.
 ui <- shinyGovstyle::gov_page(
   title = "My dashboard",
   description = "A dashboard showing my department's latest statistics",
-  width = "wide",
+  width = "three-quarters",
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "My dashboard"

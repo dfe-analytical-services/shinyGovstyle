@@ -16,19 +16,19 @@ is_css_length <- function(x) {
 #' footer, banner, cookieBanner, service_navigation, gov_main_layout and
 #' gov_layout) so the `width` argument behaves consistently everywhere.
 #'
-#' @param width One of `"standard"`, `"wide"`, `"full"`, or a CSS length
-#' (e.g. `"1400px"`, `"90vw"`).
+#' @param width One of `"standard"`, `"three-quarters"`, `"full"`, or a CSS
+#' length (e.g. `"1400px"`, `"90vw"`).
 #' @param is_default `TRUE` when the caller didn't explicitly pass `width`
 #' (i.e. `missing(width)` in the calling component). A truly-unset
 #' `"standard"` renders a bare class with no modifier, so `gov_page()`'s
 #' ambient width CSS can style it; an *explicit* `width = "standard"`
 #' renders the `--standard` modifier class, so it stays standard even
-#' inside an ambient `"wide"`/`"full"` `gov_page()`.
+#' inside an ambient `"three-quarters"`/`"full"` `gov_page()`.
 #' @return A list with `class` and `style` (`style` is `NULL` unless `width`
 #' is a custom CSS length).
 #' @noRd
 gov_width_container <- function(width, is_default = FALSE) {
-  tiers <- c("standard", "wide", "full")
+  tiers <- c("standard", "three-quarters", "full")
 
   if (width %in% tiers) {
     if (width == "standard" && is_default) {
@@ -42,14 +42,14 @@ gov_width_container <- function(width, is_default = FALSE) {
 
   if (!is_css_length(width)) {
     stop(
-      "`width` must be \"standard\", \"wide\", \"full\", or a CSS length ",
-      "(e.g. \"1400px\", \"90vw\"), not \"", width, "\"",
+      "`width` must be \"standard\", \"three-quarters\", \"full\", or a ",
+      "CSS length (e.g. \"1400px\", \"90vw\"), not \"", width, "\"",
       call. = FALSE
     )
   }
 
   list(
-    class = "govuk-width-container govuk-width-container--wide",
+    class = "govuk-width-container govuk-width-container--custom",
     style = paste0("max-width: ", width, ";")
   )
 }

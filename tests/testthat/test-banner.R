@@ -43,12 +43,12 @@ test_that("label accepts a tagList with an external link", {
 })
 
 
-test_that("width defaults to standard and doesn't add a wide/full class", {
+test_that("width defaults to standard, no three-quarters/full class", {
   out <- banner("bannerId", "alpha", "Banner test")
   container <- find_tag_required(out, "govuk-width-container")
   expect_null(htmltools::tagGetAttribute(container, "style"))
   expect_no_tag(out, "govuk-width-container--standard")
-  expect_no_tag(out, "govuk-width-container--wide")
+  expect_no_tag(out, "govuk-width-container--three-quarters")
   expect_no_tag(out, "govuk-width-container--full")
 })
 
@@ -58,9 +58,9 @@ test_that("width = 'standard' explicitly still renders the standard class", {
 })
 
 
-test_that("width = 'wide' adds the wide modifier class", {
-  out <- banner("bannerId", "alpha", "Banner test", width = "wide")
-  expect_has_tag(out, "govuk-width-container--wide")
+test_that("width = 'three-quarters' adds the three-quarters modifier class", {
+  out <- banner("bannerId", "alpha", "Banner test", width = "three-quarters")
+  expect_has_tag(out, "govuk-width-container--three-quarters")
 })
 
 

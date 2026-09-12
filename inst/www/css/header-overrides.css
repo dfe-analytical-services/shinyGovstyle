@@ -61,32 +61,37 @@
    ============================================================================= */
 
 @media (min-width:79em) {
-    /* Container needs position:relative as the anchor for the absolutely
-       positioned service name */
+    /* Lay the logo and service name out as a row, centred as a group. A
+       flex row (rather than the old absolute-positioned centring) means
+       that when a long organisation name and service name together don't
+       fit on one line — most likely at the standard, 960px-capped width —
+       the service name wraps onto its own line below instead of
+       overlapping the logo. */
     .govuk-header__container {
-        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 10px 40px;
     }
 
     /* Symmetric padding so the org name's vertical centre matches the
        container's 50% midpoint (v6 uses 16px top / 12px bottom which
-       offsets it by 2px). Flex centres the anchor within the padding box. */
+       offsets it by 2px). Flex centres the logo within the padding box.
+       The 80px right padding reserved for mobile/tablet is dropped here —
+       there's no mobile menu button to clear at this width. */
     .govuk-header__logo {
         display: flex;
         align-items: center;
         padding-top: 14px;
         padding-bottom: 14px;
+        padding-right: 0;
         margin-bottom: 0;
     }
 
-    /* Truly centre the service name horizontally and vertically in the bar */
     .govuk-header__content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
         flex: none;
         text-align: center;
-        white-space: nowrap;
     }
 }
 

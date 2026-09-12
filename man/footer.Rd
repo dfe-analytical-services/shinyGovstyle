@@ -15,11 +15,12 @@ are auto-generated and are the snake case version of the link text, e.g.
 "Accessibility Statement" will have an inputID of accessibility_statement}
 
 \item{width}{Width of the footer. One of \code{"standard"} (the default,
-GOV.UK's usual 960px content width), \code{"wide"} (no max-width, so the
-container fills the viewport instead of centring at 960px), \code{"full"}
-(same as \code{"wide"}, with grid gutters also removed), or a CSS length
-(e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width. Not to be confused
-with the \code{full} argument above, which controls footer content rather
+GOV.UK's usual 960px content width), \code{"three-quarters"} (three-quarters
+of the viewport, never narrower than standard), \code{"full"} (no max-width,
+so the container fills the viewport, with grid gutters also removed),
+or a CSS length (e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width. Not
+to be confused with the \code{full} argument above, which controls footer
+content rather
 than footer width.}
 }
 \value{

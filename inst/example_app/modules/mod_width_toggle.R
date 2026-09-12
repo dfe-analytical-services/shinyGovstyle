@@ -80,21 +80,17 @@ mod_width_toggle_ui <- function(id) {
       }
       "
     )),
-    shiny::tags$p(
-      class = "govuk-body-s",
-      shiny::tags$em(
-        "Preview: try gov_page()'s width options below. ",
-        "This toggle is a demo-only convenience — in a real app, ",
-        "width is a fixed choice you make once, not something users switch."
-      )
-    ),
     shiny::uiOutput(shiny::NS(id, "toggle"))
   )
 }
 
 mod_width_toggle_server <- function(id, initial = "full") {
   shiny::moduleServer(id, function(input, output, session) {
-    tiers <- c(standard = "Standard", wide = "Wide", full = "Full")
+    tiers <- c(
+      standard = "Standard",
+      "three-quarters" = "Three quarters",
+      full = "Full"
+    )
     current <- shiny::reactiveVal(initial)
 
     output$toggle <- shiny::renderUI({

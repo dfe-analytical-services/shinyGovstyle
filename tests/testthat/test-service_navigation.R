@@ -60,12 +60,12 @@ test_that("auto_page_title = FALSE omits the data attribute", {
   expect_false(grepl("data-page-title-suffix", html, fixed = TRUE))
 })
 
-test_that("width defaults to standard and doesn't add a wide/full class", {
+test_that("width defaults to standard, no three-quarters/full class", {
   nav <- service_navigation(links = c("Page 1", "Page 2"))
   container <- find_tag_required(nav, "govuk-width-container")
   expect_null(htmltools::tagGetAttribute(container, "style"))
   expect_no_tag(nav, "govuk-width-container--standard")
-  expect_no_tag(nav, "govuk-width-container--wide")
+  expect_no_tag(nav, "govuk-width-container--three-quarters")
   expect_no_tag(nav, "govuk-width-container--full")
 })
 
@@ -74,9 +74,12 @@ test_that("width = 'standard' explicitly still renders the standard class", {
   expect_has_tag(nav, "govuk-width-container--standard")
 })
 
-test_that("width = 'wide' adds the wide modifier class", {
-  nav <- service_navigation(links = c("Page 1", "Page 2"), width = "wide")
-  expect_has_tag(nav, "govuk-width-container--wide")
+test_that("width = 'three-quarters' adds the three-quarters modifier class", {
+  nav <- service_navigation(
+    links = c("Page 1", "Page 2"),
+    width = "three-quarters"
+  )
+  expect_has_tag(nav, "govuk-width-container--three-quarters")
 })
 
 test_that("a custom width sets an inline max-width style", {

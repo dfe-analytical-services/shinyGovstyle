@@ -48,10 +48,12 @@ test_that("width sets the data-govuk-page-width marker for each tier", {
   )
   expect_identical(
     htmltools::tagGetAttribute(
-      find_width_marker(gov_page(width = "wide", shiny::tags$p("hi"))),
+      find_width_marker(
+        gov_page(width = "three-quarters", shiny::tags$p("hi"))
+      ),
       "data-govuk-page-width"
     ),
-    "wide"
+    "three-quarters"
   )
   expect_identical(
     htmltools::tagGetAttribute(
@@ -78,20 +80,21 @@ test_that("a custom width sets the custom marker and CSS variable", {
 
 test_that("a child left at its own default is free to inherit", {
   # No explicit class on the child, so CSS's
-  # [data-govuk-page-width="wide"] .govuk-width-container:not(...) rule is
-  # the only thing giving it a width — that's the ambient mechanism.
-  page <- gov_page(width = "wide", footer())
+  # [data-govuk-page-width="three-quarters"]
+  # .govuk-width-container:not(...) rule is the only thing giving it a
+  # width — that's the ambient mechanism.
+  page <- gov_page(width = "three-quarters", footer())
   expect_no_tag(page, "govuk-width-container--standard")
-  expect_no_tag(page, "govuk-width-container--wide")
+  expect_no_tag(page, "govuk-width-container--three-quarters")
   expect_no_tag(page, "govuk-width-container--full")
 })
 
 test_that("a child component can opt out of the ambient width", {
-  page <- gov_page(width = "wide", footer(width = "standard"))
+  page <- gov_page(width = "three-quarters", footer(width = "standard"))
   marker <- find_width_marker(page)
   expect_identical(
     htmltools::tagGetAttribute(marker, "data-govuk-page-width"),
-    "wide"
+    "three-quarters"
   )
   expect_has_tag(page, "govuk-width-container--standard")
 })

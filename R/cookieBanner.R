@@ -5,10 +5,11 @@
 #' See example for how to structure.
 #' @param service_name Name for this service to add to banner
 #' @param width Width of the cookie banner. One of `"standard"` (the
-#' default, GOV.UK's usual 960px content width), `"wide"` (no max-width, so
-#' the container fills the viewport instead of centring at 960px), `"full"`
-#' (same as `"wide"`, with grid gutters also removed), or a CSS length
-#' (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
+#' default, GOV.UK's usual 960px content width), `"three-quarters"`
+#' (three-quarters of the viewport, never narrower than standard), `"full"`
+#' (no max-width, so the container fills the viewport, with grid gutters
+#' also removed), or a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom
+#' max-width.
 #' @return a cookie banner HTML shiny tag object
 #' @family Govstyle page structure
 #' @export

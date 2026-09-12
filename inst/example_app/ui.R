@@ -24,8 +24,6 @@ shinyGovstyle::gov_page(
     page_title_suffix = "shinyGovstyle"
   ),
 
-  mod_width_toggle_ui("width_toggle"),
-
   shinyGovstyle::banner(
     "banner",
     "Beta",
@@ -38,26 +36,30 @@ shinyGovstyle::gov_page(
 
   shinyGovstyle::gov_main_layout(
     shinyGovstyle::gov_row(
-      size = "two-thirds",
-      shinyGovstyle::gov_text(
-        "This example app showcases the components available in the",
-        "latest development version of the shinyGovstyle package.",
-        "The source code for the app can be found on the ",
-        shinyGovstyle::external_link(
-          href = paste0(
-            "https://github.com/dfe-analytical-services/shinyGovstyle/",
-            "blob/main/inst/example_app"
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        shinyGovstyle::gov_text(
+          "This example app showcases the components available in the",
+          "latest development version of the shinyGovstyle package.",
+          "The source code is on the ",
+          shinyGovstyle::external_link(
+            href = paste0(
+              "https://github.com/dfe-analytical-services/shinyGovstyle/",
+              "blob/main/inst/example_app"
+            ),
+            link_text = "main GitHub branch"
           ),
-          link_text = "main GitHub branch"
+          ". The page is built with ",
+          shinyGovstyle::external_link(
+            href = "https://rstudio.github.io/bslib/",
+            link_text = "bslib package"
+          ),
+          "'s ", shiny::tags$code("page_fluid()"), ", via ",
+          shiny::tags$code("shinyGovstyle::gov_page()"),
+          "; it's currently using the \"full\" width option, so try",
+          " \"standard\" and \"three quarters\" with the switcher below."
         ),
-        ". The page is built with ",
-        shinyGovstyle::external_link(
-          href = "https://rstudio.github.io/bslib/",
-          link_text = "bslib package"
-        ),
-        "'s ", shiny::tags$code("page_fluid()"), ", via ",
-        shiny::tags$code("shinyGovstyle::gov_page()"),
-        ", using the \"full\" width option."
+        mod_width_toggle_ui("width_toggle")
       )
     ),
 

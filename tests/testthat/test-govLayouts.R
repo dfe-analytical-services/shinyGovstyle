@@ -22,7 +22,7 @@ test_that("gov_main_layout width defaults to standard", {
   layout <- gov_main_layout(shiny::tags$div("hello"))
   expect_null(htmltools::tagGetAttribute(layout, "style"))
   expect_no_tag(layout, "govuk-width-container--standard")
-  expect_no_tag(layout, "govuk-width-container--wide")
+  expect_no_tag(layout, "govuk-width-container--three-quarters")
   expect_no_tag(layout, "govuk-width-container--full")
 })
 

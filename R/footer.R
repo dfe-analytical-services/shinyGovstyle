@@ -19,11 +19,12 @@
 #' are auto-generated and are the snake case version of the link text, e.g.
 #' "Accessibility Statement" will have an inputID of accessibility_statement
 #' @param width Width of the footer. One of `"standard"` (the default,
-#' GOV.UK's usual 960px content width), `"wide"` (no max-width, so the
-#' container fills the viewport instead of centring at 960px), `"full"`
-#' (same as `"wide"`, with grid gutters also removed), or a CSS length
-#' (e.g. `"1400px"`, `"90vw"`) for a custom max-width. Not to be confused
-#' with the `full` argument above, which controls footer content rather
+#' GOV.UK's usual 960px content width), `"three-quarters"` (three-quarters
+#' of the viewport, never narrower than standard), `"full"` (no max-width,
+#' so the container fills the viewport, with grid gutters also removed),
+#' or a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom max-width. Not
+#' to be confused with the `full` argument above, which controls footer
+#' content rather
 #' than footer width.
 #' @return a footer HTML shiny tag object
 #' @family Govstyle page structure

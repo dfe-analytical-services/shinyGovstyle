@@ -17,10 +17,10 @@ input components this is also the name used to access the value via
 tag objects such as \code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
 \item{width}{Width of the banner. One of \code{"standard"} (the default,
-GOV.UK's usual 960px content width), \code{"wide"} (no max-width, so the
-container fills the viewport instead of centring at 960px), \code{"full"}
-(same as \code{"wide"}, with grid gutters also removed), or a CSS length
-(e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width.}
+GOV.UK's usual 960px content width), \code{"three-quarters"} (three-quarters
+of the viewport, never narrower than standard), \code{"full"} (no max-width,
+so the container fills the viewport, with grid gutters also removed),
+or a CSS length (e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width.}
 }
 \value{
 a banner HTML shiny tag object

@@ -10,19 +10,19 @@ test_that("standard width adds the standard modifier class and no style", {
 test_that("a truly-unset width (is_default = TRUE) renders a bare class", {
   # This is what lets gov_page()'s ambient width CSS style it: a component
   # explicitly set to width = "standard" gets the --standard class above
-  # (and stays standard even inside an ambient wide/full page), while a
-  # component simply left at its default renders no modifier class at all,
-  # so it's free to inherit the page's ambient width.
+  # (and stays standard even inside an ambient three-quarters/full page),
+  # while a component simply left at its default renders no modifier class
+  # at all, so it's free to inherit the page's ambient width.
   wc <- gov_width_container("standard", is_default = TRUE)
   expect_identical(wc$class, "govuk-width-container")
   expect_null(wc$style)
 })
 
-test_that("wide width adds the wide modifier class and no style", {
-  wc <- gov_width_container("wide")
+test_that("three-quarters width adds the modifier class and no style", {
+  wc <- gov_width_container("three-quarters")
   expect_identical(
     wc$class,
-    "govuk-width-container govuk-width-container--wide"
+    "govuk-width-container govuk-width-container--three-quarters"
   )
   expect_null(wc$style)
 })
@@ -36,11 +36,11 @@ test_that("full width adds the full modifier class and no style", {
   expect_null(wc$style)
 })
 
-test_that("a custom CSS length uses the wide class with an inline style", {
+test_that("a custom CSS length uses the custom class with an inline style", {
   wc <- gov_width_container("1400px")
   expect_identical(
     wc$class,
-    "govuk-width-container govuk-width-container--wide"
+    "govuk-width-container govuk-width-container--custom"
   )
   expect_identical(wc$style, "max-width: 1400px;")
 

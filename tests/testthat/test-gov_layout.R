@@ -18,7 +18,7 @@ test_that("width defaults to standard", {
   layout_test <- gov_layout()
   expect_null(htmltools::tagGetAttribute(layout_test, "style"))
   expect_no_tag(layout_test, "govuk-width-container--standard")
-  expect_no_tag(layout_test, "govuk-width-container--wide")
+  expect_no_tag(layout_test, "govuk-width-container--three-quarters")
   expect_no_tag(layout_test, "govuk-width-container--full")
 })
 

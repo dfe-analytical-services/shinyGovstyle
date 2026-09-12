@@ -60,27 +60,27 @@ test_that("header() with only current args produces no lifecycle warnings", {
 })
 
 
-test_that("width defaults to standard and doesn't add a wide/full class", {
+test_that("width defaults to standard, no three-quarters/full class", {
   h <- header(org_name = "Test")
   container <- find_tag_required(h, "govuk-width-container")
   expect_null(htmltools::tagGetAttribute(container, "style"))
   expect_no_tag(h, "govuk-width-container--standard")
-  expect_no_tag(h, "govuk-width-container--wide")
+  expect_no_tag(h, "govuk-width-container--three-quarters")
   expect_no_tag(h, "govuk-width-container--full")
 })
 
 test_that("width = 'standard' explicitly still renders the standard class", {
   # Distinguishing "left at default" from "explicitly standard" is what
-  # lets an app inside gov_page(width = "wide") opt one component back
-  # down to standard width — see test-gov_page.R.
+  # lets an app inside gov_page(width = "three-quarters") opt one
+  # component back down to standard width — see test-gov_page.R.
   h <- header(org_name = "Test", width = "standard")
   expect_has_tag(h, "govuk-width-container--standard")
 })
 
 
-test_that("width = 'wide' adds the wide modifier class", {
-  h <- header(org_name = "Test", width = "wide")
-  expect_has_tag(h, "govuk-width-container--wide")
+test_that("width = 'three-quarters' adds the three-quarters modifier class", {
+  h <- header(org_name = "Test", width = "three-quarters")
+  expect_has_tag(h, "govuk-width-container--three-quarters")
 })
 
 

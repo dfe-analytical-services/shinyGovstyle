@@ -46,26 +46,51 @@ By default, shinyGovstyle components use GOV.UK's standard content width (960px,
 
 ```{r, eval = FALSE}
 gov_page(
-  width = "wide", # or "full", or a CSS length like "1400px"
+  width = "three-quarters", # or "full", or a CSS length like "1400px"
   # ...
 )
 ```
 
 - **`"standard"`** (the default) — GOV.UK's usual 960px content width.
-- **`"wide"`** — no maximum width, so the page fills the browser window, but keeps GOV.UK's own left/right margins.
-- **`"full"`** — the same as `"wide"`, but also removes the gaps between grid columns, so content can run edge to edge.
+- **`"three-quarters"`** — three-quarters of the browser window's width (never narrower than standard), keeping GOV.UK's own left/right margins.
+- **`"full"`** — no maximum width, so the page fills the browser window, and also removes the gaps between grid columns, so content can run edge to edge.
 - **A CSS length**, e.g. `"1400px"` or `"90vw"`, for a specific maximum width instead of one of the presets above.
 
-Every shinyGovstyle component that renders part of the page frame (`header()`, `footer()`, `banner()`, `cookieBanner()`, `service_navigation()`, `gov_main_layout()`, `gov_layout()`) also accepts its own `width` argument. Setting it on `gov_page()` sets the default for all of them at once; setting it on an individual component overrides that default just for that one component — useful if, say, everything on your page should be wide except the footer:
+Every shinyGovstyle component that renders part of the page frame (`header()`, `footer()`, `banner()`, `cookieBanner()`, `service_navigation()`, `gov_main_layout()`, `gov_layout()`) also accepts its own `width` argument. Setting it on `gov_page()` sets the default for all of them at once; setting it on an individual component overrides that default just for that one component — useful if, say, everything on your page should be wider except the footer:
 
 ```{r, eval = FALSE}
 gov_page(
-  width = "wide",
+  width = "three-quarters",
   header(...),
   gov_main_layout(...),
   footer(..., width = "standard") # this one stays at the standard width
 )
 ```
+
+### Content width vs page width {#content-width}
+
+`gov_page(width = ...)` only sets the *outer* ceiling: how wide the page frame is allowed to get. It's a separate thing from how wide any one piece of *content* looks, which is controlled by `gov_row()`/`gov_box(size = ...)` (see [The primary layout system](#the-primary-layout-system) below). GOV.UK's own [Design System guidance](https://design-system.service.gov.uk/styles/layout/) recommends keeping body text to a two-thirds-width column even on a wide page, so lines of text don't get so long they're hard to read (aim for no more than about 75 characters per line). A full-width table, on the other hand, is exactly the kind of content that benefits from the extra room a wider page gives you.
+
+In practice this means: pick a page `width` for the *space you need* (e.g. `"full"` for a dashboard with wide tables), then use `gov_box(size = ...)` around each section of content to control how wide *that section* looks, independently of the page:
+
+```{r, eval = FALSE}
+gov_page(
+  width = "full",
+  gov_main_layout(
+    gov_row(
+      gov_box(
+        size = "two-thirds",
+        gov_text("Readable body text stays narrow, even on a wide page.")
+      )
+    ),
+    gov_row(
+      gov_box(size = "full", govTable(my_wide_data))
+    )
+  )
+)
+```
+
+The example showcase app does exactly this: its Cookies tab sits inside a `gov_box(size = "two-thirds")`, so it reads as a normal, narrow text page even though the app itself uses `gov_page(width = "full")`.
 
 ---
 

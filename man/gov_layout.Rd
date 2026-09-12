@@ -16,10 +16,11 @@ main page.}
 one-third and one-quarter. Defaults to "full"}
 
 \item{width}{Width of the page container. One of \code{"standard"} (the
-default, GOV.UK's usual 960px content width), \code{"wide"} (no max-width, so
-the container fills the viewport instead of centring at 960px), \code{"full"}
-(same as \code{"wide"}, with grid gutters also removed), or a CSS length
-(e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width.}
+default, GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard), \code{"full"}
+(no max-width, so the container fills the viewport, with grid gutters
+also removed), or a CSS length (e.g. \code{"1400px"}, \code{"90vw"}) for a custom
+max-width.}
 }
 \value{
 a HTML shiny layout div

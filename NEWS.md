@@ -36,9 +36,9 @@
 * `header()`, `footer()`, `banner()`, `cookieBanner()`,
   `service_navigation()`, `gov_main_layout()` and `gov_layout()` gain a
   `width` argument for building wider, dashboard-style layouts:
-  `"standard"` (the default, GOV.UK's usual 960px content width), `"wide"`
-  (no max-width, so the page fills the viewport instead of centring at
-  960px), `"full"` (edge-to-edge, with grid gutters also removed), or a
+  `"standard"` (the default, GOV.UK's usual 960px content width),
+  `"three-quarters"` (three-quarters of the viewport, never narrower than
+  standard), `"full"` (edge-to-edge, with grid gutters also removed), or a
   CSS length (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
 * `external_link()`'s `add_warning` argument now also accepts `"icon"`, in
   addition to `TRUE`/`FALSE`. Setting `add_warning = "icon"` adds a small
@@ -129,6 +129,13 @@
   renders inside a `<legend>` via the shared fieldset helper.
 * `govTable()` now renders rows in dataframe order (row order was previously
   silently reversed).
+* At `width = "standard"` (the default), a long organisation name and
+  service name in `header()` no longer overlap on wide screens; the
+  service name now wraps onto its own line instead.
+* A page built with `gov_page()`/`bslib::page_fluid()` no longer shows an
+  extra gutter next to GOV.UK's own left/right margin at any `width` tier:
+  Bootstrap's own container padding, which used to stack on top of it, is
+  now removed consistently.
 
 ## Minor improvements and bug fixes
 

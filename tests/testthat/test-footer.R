@@ -58,12 +58,12 @@ test_that("footer links add correctly", {
 })
 
 
-test_that("width defaults to standard and doesn't add a wide/full class", {
+test_that("width defaults to standard, no three-quarters/full class", {
   footer_check <- footer()
   container <- find_tag_required(footer_check, "govuk-width-container")
   expect_null(htmltools::tagGetAttribute(container, "style"))
   expect_no_tag(footer_check, "govuk-width-container--standard")
-  expect_no_tag(footer_check, "govuk-width-container--wide")
+  expect_no_tag(footer_check, "govuk-width-container--three-quarters")
   expect_no_tag(footer_check, "govuk-width-container--full")
 })
 

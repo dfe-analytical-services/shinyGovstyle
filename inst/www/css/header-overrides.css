@@ -61,12 +61,9 @@
    ============================================================================= */
 
 @media (min-width:79em) {
-    /* Lay the logo and service name out as a row, centred as a group. A
-       flex row (rather than the old absolute-positioned centring) means
-       that when a long organisation name and service name together don't
-       fit on one line — most likely at the standard, 960px-capped width —
-       the service name wraps onto its own line below instead of
-       overlapping the logo. */
+    /* Flex row instead of the old absolute-positioned centring, so a long
+       org name and service name that don't fit on one line wrap onto a
+       second line instead of overlapping. */
     .govuk-header__container {
         display: flex;
         flex-wrap: wrap;
@@ -75,11 +72,9 @@
         gap: 10px 40px;
     }
 
-    /* Symmetric padding so the org name's vertical centre matches the
-       container's 50% midpoint (v6 uses 16px top / 12px bottom which
-       offsets it by 2px). Flex centres the logo within the padding box.
-       The 80px right padding reserved for mobile/tablet is dropped here —
-       there's no mobile menu button to clear at this width. */
+    /* Symmetric top/bottom padding centres the org name correctly (v6's
+       16px/12px split offsets it by 2px). Drop the mobile/tablet right
+       padding: there's no menu button to clear at this width. */
     .govuk-header__logo {
         display: flex;
         align-items: center;

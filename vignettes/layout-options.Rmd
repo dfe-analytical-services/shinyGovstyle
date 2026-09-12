@@ -19,13 +19,16 @@ library(shinyGovstyle)
 
 shinyGovstyle provides a set of layout functions that produce the HTML structure GOV.UK Frontend CSS expects. This vignette covers all of the layout functions available and explains how they fit together to build a complete app.
 
-Every app starts with **`gov_page()`**, the outer wrapper for the whole page. Inside it go the **page-level components** — `header()`, `footer()`, `banner()`, `cookieBanner()`, `skip_to_main()`, and `service_navigation()` — which form the frame that's consistent across every page of your app, and the **content layout functions** — `gov_main_layout()`, `gov_row()`, `gov_box()`, and `gov_layout()` — which structure whatever's different on each page.
+Every app starts with **`gov_page()`**, the outer wrapper for the whole page. Inside it go:
+
+- **Page-level components** (`header()`, `footer()`, `banner()`, `cookieBanner()`, `skip_to_main()`, and `service_navigation()`) form the frame of the page that sits outside the main content area.
+- **Content layout functions** (`gov_main_layout()`, `gov_row()`, `gov_box()`, and `gov_layout()`) structure content within the main content area.
 
 ---
 
 ## `gov_page()`
 
-`gov_page()` is a small wrapper around [bslib](https://rstudio.github.io/bslib/)'s `page_fluid()`. Use it in place of `bslib::page_fluid()` or `shiny::fluidPage()` as the very first thing your UI creates — everything else in this vignette goes inside it:
+`gov_page()` is a small wrapper around [bslib](https://rstudio.github.io/bslib/)'s `page_fluid()`. `bslib` is now generally the recommended way to build R Shiny UIs, in place of `shiny::fluidPage()`, and other `bslib` components can be mixed freely into a shinyGovstyle app. Use `gov_page()` as the very first thing your UI creates: everything else in this vignette goes inside it.
 
 ```{r, eval = FALSE}
 ui <- gov_page(
@@ -36,27 +39,27 @@ ui <- gov_page(
 
 Three arguments are worth knowing about:
 
-- **`lang`** — the page's language, `"en"` by default. Screen readers rely on this to pick the right pronunciation and voice, so it matters for accessibility even on a page you never plan to translate. Set it to `"cy"` for a Welsh-language service, for example.
-- **`description`** — a short summary of the page, added as a `<meta name="description">` tag for search engines and some assistive technology. Optional; there's no tag at all if you leave it out.
-- **`width`** (see [Page width](#page-width) below) — sets a default width for every shinyGovstyle component used inside it, so you don't have to repeat `width = ` on each one individually.
+- **`lang`**: the page's language, `"en"` by default. Screen readers rely on this to pick the right pronunciation and voice, so it matters for accessibility even on a page you never plan to translate. Set it to `"cy"` for a Welsh-language service, for example.
+- **`description`**: a short summary of the page, added as a `<meta name="description">` tag for search engines and some assistive technology. Optional; there's no tag at all if you leave it out. Keep it to one concise sentence: search engines typically truncate meta descriptions at around 150-160 characters.
+- **`width`** (see [Page width](#page-width) below): sets a default width for every shinyGovstyle component used inside it, so you don't have to repeat `width = ` on each one individually.
 
 ### Page width {#page-width}
 
-By default, shinyGovstyle components use GOV.UK's standard content width (960px, centred on the page) — the right choice for most services. If you're building something more like a dashboard, where you want to make full use of a wide screen, pass `width` to `gov_page()`:
+By default, `gov_page()` lets shinyGovstyle components fill the browser window (`width = "full"`), which suits most dashboard-style apps. For an ordinary content page, where GOV.UK's usual narrower reading width is more appropriate, pass `width` to `gov_page()`:
 
 ```{r, eval = FALSE}
 gov_page(
-  width = "three-quarters", # or "full", or a CSS length like "1400px"
+  width = "standard", # or "three-quarters", or a CSS length like "1400px"
   # ...
 )
 ```
 
-- **`"standard"`** (the default) — GOV.UK's usual 960px content width.
-- **`"three-quarters"`** — three-quarters of the browser window's width (never narrower than standard), keeping GOV.UK's own left/right margins.
-- **`"full"`** — no maximum width, so the page fills the browser window, and also removes the gaps between grid columns, so content can run edge to edge.
+- **`"full"`** (the default): no maximum width, so the page fills the browser window, and also removes the gaps between grid columns, so content can run edge to edge.
+- **`"standard"`**: GOV.UK's usual 960px content width, the better choice for an ordinary content-style page.
+- **`"three-quarters"`**: three-quarters of the browser window's width (never narrower than standard), keeping GOV.UK's own left/right margins.
 - **A CSS length**, e.g. `"1400px"` or `"90vw"`, for a specific maximum width instead of one of the presets above.
 
-Every shinyGovstyle component that renders part of the page frame (`header()`, `footer()`, `banner()`, `cookieBanner()`, `service_navigation()`, `gov_main_layout()`, `gov_layout()`) also accepts its own `width` argument. Setting it on `gov_page()` sets the default for all of them at once; setting it on an individual component overrides that default just for that one component — useful if, say, everything on your page should be wider except the footer:
+Every shinyGovstyle component that renders part of the page frame (`header()`, `footer()`, `banner()`, `cookieBanner()`, `service_navigation()`, `gov_main_layout()`, `gov_layout()`) also accepts its own `width` argument. Setting it on `gov_page()` sets the default for all of them at once. Setting it on an individual component overrides that default just for that one component, which is useful if, say, everything on your page should be wider except the footer:
 
 ```{r, eval = FALSE}
 gov_page(
@@ -160,7 +163,7 @@ header(
 
 Displays a phase banner immediately below the header, used to indicate the maturity of your service and give a clear route for users to provide feedback.
 
-The `feedback_url` argument is the recommended shortcut for the standard GOV.UK feedback wording \u2014 pass a URL (or a `mailto:` link for contact-style text) and the text is generated for you:
+The `feedback_url` argument is the recommended shortcut for the standard GOV.UK feedback wording: pass a URL (or a `mailto:` link for contact-style text) and the text is generated for you:
 
 ```{r, eval = FALSE}
 banner(

@@ -1,5 +1,5 @@
 # gov_page() carries lang/bs_theme as object attributes rather than in the
-# rendered tag tree (that's how bslib::page_fluid() itself works — Shiny's
+# rendered tag tree (that's how bslib::page_fluid() itself works: Shiny's
 # page-rendering machinery reads attr(x, "lang") when building the final
 # <html> document), so these tests check attr()/htmltools::renderTags()
 # rather than searching the rendered HTML string for "<html lang=...>".
@@ -64,6 +64,16 @@ test_that("width sets the data-govuk-page-width marker for each tier", {
   )
 })
 
+test_that("width defaults to 'full' when not supplied", {
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_width_marker(gov_page(shiny::tags$p("hi"))),
+      "data-govuk-page-width"
+    ),
+    "full"
+  )
+})
+
 test_that("a custom width sets the custom marker and CSS variable", {
   marker <- find_width_marker(
     gov_page(width = "1400px", shiny::tags$p("hi"))
@@ -82,7 +92,7 @@ test_that("a child left at its own default is free to inherit", {
   # No explicit class on the child, so CSS's
   # [data-govuk-page-width="three-quarters"]
   # .govuk-width-container:not(...) rule is the only thing giving it a
-  # width — that's the ambient mechanism.
+  # width: that's the ambient mechanism.
   page <- gov_page(width = "three-quarters", footer())
   expect_no_tag(page, "govuk-width-container--standard")
   expect_no_tag(page, "govuk-width-container--three-quarters")

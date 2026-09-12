@@ -72,7 +72,7 @@ test_that("width defaults to standard, no three-quarters/full class", {
 test_that("width = 'standard' explicitly still renders the standard class", {
   # Distinguishing "left at default" from "explicitly standard" is what
   # lets an app inside gov_page(width = "three-quarters") opt one
-  # component back down to standard width — see test-gov_page.R.
+  # component back down to standard width; see test-gov_page.R.
   h <- header(org_name = "Test", width = "standard")
   expect_has_tag(h, "govuk-width-container--standard")
 })

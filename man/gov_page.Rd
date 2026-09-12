@@ -9,7 +9,7 @@ gov_page(
   title = NULL,
   lang = "en",
   description = NULL,
-  width = "standard",
+  width = "full",
   theme = bslib::bs_theme()
 )
 }
@@ -28,16 +28,18 @@ Defaults to \code{"en"}.}
 
 \item{description}{Short summary of the page, added as a
 \verb{<meta name="description">} tag. Used by search engines and some
-assistive technology. Defaults to \code{NULL} (no description tag).}
+assistive technology. Defaults to \code{NULL} (no description tag). Keep it to
+one concise sentence: search engines typically truncate meta descriptions
+at around 150-160 characters.}
 
 \item{width}{Default width for every shinyGovstyle component used inside
-\code{...} that doesn't set its own \code{width}. One of \code{"standard"} (the
-default, GOV.UK's usual 960px content width), \code{"three-quarters"}
-(three-quarters of the viewport, never narrower than standard), \code{"full"}
-(no max-width, so the page fills the viewport, with grid gutters also
-removed), or a CSS length (e.g. \code{"1400px"}, \code{"90vw"}) for a custom
-max-width. A component that sets its own \code{width} always overrides this
-default.}
+\code{...} that doesn't set its own \code{width}. One of \code{"full"} (the default, no
+max-width, so the page fills the viewport, with grid gutters also
+removed), \code{"standard"} (GOV.UK's usual 960px content width, the better
+choice for an ordinary content-style page), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard), or a CSS
+length (e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width. A component
+that sets its own \code{width} always overrides this default.}
 
 \item{theme}{A \code{bslib::bs_theme()} object, passed straight to
 \code{bslib::page_fluid()}.}
@@ -47,10 +49,14 @@ a page HTML shiny tag object
 }
 \description{
 \code{gov_page()} wraps \code{bslib::page_fluid()} so a shinyGovstyle app starts
-from GOV.UK-friendly defaults instead of a blank page. It sets the page
-language (important for screen readers), lets you add a page description,
-and lets you set a default width for every shinyGovstyle component in the
-page in one place, instead of repeating \verb{width = } on each of them.
+from GOV.UK-friendly defaults instead of a blank page. \code{bslib} is now
+generally the recommended way to build R Shiny UIs (rather than
+\code{shiny::fluidPage()}), so shinyGovstyle builds on it too; you can mix
+other \code{bslib} components into a shinyGovstyle app freely. \code{gov_page()}
+sets the page language (important for screen readers), lets you add a
+page description, and lets you set a default width for every
+shinyGovstyle component in the page in one place, instead of repeating
+\verb{width = } on each of them.
 }
 \examples{
 ui <- shinyGovstyle::gov_page(

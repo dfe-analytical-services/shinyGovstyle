@@ -1,33 +1,19 @@
 /*
- * Standard/three-quarters/full modifiers for .govuk-width-container, and the
- * ambient versions gov_page(width = ...) uses to set a default for every
- * component on the page.
- *
- * GOV.UK Frontend caps the container at max-width: 960px, with margin: auto
- * from 1020px up so it centres in the viewport. Below 1020px, GOV.UK
- * Frontend's own fixed 15px/30px margin still applies, unchanged — that's
- * not specific to any tier here.
- *
- * "--standard" is written out explicitly (960px, the same value GOV.UK
- * Frontend's own base .govuk-width-container rule already uses) purely so
- * every component always carries an explicit --standard/--three-quarters/
- * --full class. That lets the ambient [data-govuk-page-width] selectors
- * below tell "this component was left at its default, inherit the page's
- * ambient width" apart from "this component explicitly asked to stay
- * standard even on an otherwise wider gov_page()" — both would otherwise
- * render the exact same bare .govuk-width-container class.
+ * Width tiers for .govuk-width-container: explicit "--standard/
+ * --three-quarters/--full" modifier classes for a component's own width,
+ * plus ambient [data-govuk-page-width] versions that gov_page(width = ...)
+ * uses to set a default for every component on the page. Both a bare class
+ * and a modifier class need to exist for "standard", so the ambient
+ * selectors can tell "left at its default, inherit the page width" apart
+ * from "explicitly asked to stay standard".
  */
 
 .govuk-width-container--standard {
     max-width: 960px;
 }
 
-/*
- * "three-quarters" is a genuine halfway point between standard and full:
- * three-quarters of the viewport, floored at standard's 960px so it's never
- * accidentally narrower than "standard" on a modest desktop window. Unlike
- * "full", it keeps the normal grid gutters (only "full" goes edge-to-edge).
- */
+/* Three-quarters of the viewport, floored at standard's 960px so it's never
+   narrower on a modest window. Keeps the normal grid gutters, unlike "full". */
 .govuk-width-container--three-quarters,
 [data-govuk-page-width="three-quarters"] .govuk-width-container:not([class*="govuk-width-container--"]) {
     max-width: max(960px, 75vw);
@@ -38,26 +24,16 @@
     max-width: 100%;
 }
 
-/*
- * A custom ambient width (gov_page(width = "1400px")) can't be matched by a
- * fixed class selector, so gov_page() carries it as a CSS variable on its
- * wrapper div instead, and this rule reads it back. Same gutter-preserving
- * treatment as "three-quarters" — a custom width doesn't zero grid gutters.
- * A component-level custom width (e.g. header(width = "1400px")) sets the
- * same max-width directly as an inline style instead, which needs no CSS
- * rule of its own here — the inline style always wins.
- */
+/* A custom ambient width (gov_page(width = "1400px")) is set as a CSS
+   variable on the page wrapper, since a fixed class selector can't match it.
+   A component's own custom width sets max-width as an inline style instead. */
 [data-govuk-page-width="custom"] .govuk-width-container:not([class*="govuk-width-container--"]) {
     max-width: var(--govuk-page-max-width);
 }
 
-/*
- * "full" additionally goes edge-to-edge: the grid row/column gutters are
- * zeroed out (scoped to inside a --full container only, so it doesn't
- * affect unrelated grids elsewhere on the page), which would otherwise
- * leave content flush against the viewport edge, so a small symmetric
- * padding replaces it.
- */
+/* "full" also goes edge-to-edge: zero the grid gutters (scoped inside a
+   --full container only) and replace them with a small symmetric padding
+   so content isn't flush against the viewport edge. */
 
 .govuk-width-container--full,
 [data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) {
@@ -85,33 +61,19 @@
     padding-left: 0;
 }
 
-/*
- * shiny::fluidPage()/bslib::page_fluid() wrap the whole page in Bootstrap's
- * .container-fluid, which carries its own small side padding (0.75rem).
- * GOV.UK Frontend's own .govuk-width-container margin already provides the
- * correct spacing on its own at every tier (standard included), so this
- * extra Bootstrap padding is never wanted — it just stacks an unwanted
- * gutter on top. Zero it whenever a page actually contains a
- * .govuk-width-container, so an app's other, unrelated .container-fluid
- * elements are untouched.
- */
+/* shiny::fluidPage()/bslib::page_fluid() wrap the page in Bootstrap's
+   .container-fluid, which adds its own side padding on top of
+   .govuk-width-container's margin. Zero it, but only where a
+   .govuk-width-container is actually present, so other .container-fluid
+   elements in the app are untouched. */
 .container-fluid:has(.govuk-width-container) {
     padding-right: 0;
     padding-left: 0;
 }
 
-/*
- * GOV.UK Frontend gives .govuk-main-wrapper a 40px top padding from 641px
- * up, on top of the phase banner's own bottom border/padding, so a
- * dashboard-style page reads as having an extra bar of whitespace before
- * the content starts. Keep it at the mobile value (20px) instead, matching
- * gov_main_layout()/gov_layout()'s own structure where .govuk-main-wrapper
- * is sometimes a child of the width container (gov_main_layout()) and
- * sometimes the same element (gov_layout()). Standard width is left alone
- * (unchanged from GOV.UK Frontend's own default) — only the wider tiers,
- * where the removed gutters/borders make the extra padding read as a gap,
- * need the override.
- */
+/* GOV.UK Frontend's 40px top padding on .govuk-main-wrapper reads as a
+   stray gap once the wider tiers remove their gutters/borders, so drop it
+   back to the mobile value (20px) for every tier except standard. */
 .govuk-width-container--three-quarters .govuk-main-wrapper,
 .govuk-width-container--three-quarters.govuk-main-wrapper,
 .govuk-width-container--full .govuk-main-wrapper,

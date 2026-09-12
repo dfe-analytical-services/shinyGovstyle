@@ -1,10 +1,14 @@
 #' GOV.UK styled page wrapper
 #'
 #' `gov_page()` wraps `bslib::page_fluid()` so a shinyGovstyle app starts
-#' from GOV.UK-friendly defaults instead of a blank page. It sets the page
-#' language (important for screen readers), lets you add a page description,
-#' and lets you set a default width for every shinyGovstyle component in the
-#' page in one place, instead of repeating `width = ` on each of them.
+#' from GOV.UK-friendly defaults instead of a blank page. `bslib` is now
+#' generally the recommended way to build R Shiny UIs (rather than
+#' `shiny::fluidPage()`), so shinyGovstyle builds on it too; you can mix
+#' other `bslib` components into a shinyGovstyle app freely. `gov_page()`
+#' sets the page language (important for screen readers), lets you add a
+#' page description, and lets you set a default width for every
+#' shinyGovstyle component in the page in one place, instead of repeating
+#' `width = ` on each of them.
 #'
 #' @param ... The rest of your page: `header()`, `banner()`,
 #' `service_navigation()`, `gov_main_layout()`, `footer()`, and so on.
@@ -17,15 +21,17 @@
 #' Defaults to `"en"`.
 #' @param description Short summary of the page, added as a
 #' `<meta name="description">` tag. Used by search engines and some
-#' assistive technology. Defaults to `NULL` (no description tag).
+#' assistive technology. Defaults to `NULL` (no description tag). Keep it to
+#' one concise sentence: search engines typically truncate meta descriptions
+#' at around 150-160 characters.
 #' @param width Default width for every shinyGovstyle component used inside
-#' `...` that doesn't set its own `width`. One of `"standard"` (the
-#' default, GOV.UK's usual 960px content width), `"three-quarters"`
-#' (three-quarters of the viewport, never narrower than standard), `"full"`
-#' (no max-width, so the page fills the viewport, with grid gutters also
-#' removed), or a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom
-#' max-width. A component that sets its own `width` always overrides this
-#' default.
+#' `...` that doesn't set its own `width`. One of `"full"` (the default, no
+#' max-width, so the page fills the viewport, with grid gutters also
+#' removed), `"standard"` (GOV.UK's usual 960px content width, the better
+#' choice for an ordinary content-style page), `"three-quarters"`
+#' (three-quarters of the viewport, never narrower than standard), or a CSS
+#' length (e.g. `"1400px"`, `"90vw"`) for a custom max-width. A component
+#' that sets its own `width` always overrides this default.
 #' @param theme A `bslib::bs_theme()` object, passed straight to
 #' `bslib::page_fluid()`.
 #' @return a page HTML shiny tag object
@@ -58,7 +64,7 @@ gov_page <- function(
   title = NULL,
   lang = "en",
   description = NULL,
-  width = "standard",
+  width = "full",
   theme = bslib::bs_theme()
 ) {
   tiers <- c("standard", "three-quarters", "full")

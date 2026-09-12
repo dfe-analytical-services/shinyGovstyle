@@ -92,7 +92,7 @@ Shiny module (see `inst/example_app/modules/mod_cookies.R`), and the rest of
 this section walks through that pattern.
 
 A [Shiny module](https://shiny.posit.co/r/articles/improve/modules/) is
-just a pair of functions — one for the UI, one for the server — that are
+just a pair of functions (one for the UI, one for the server) that are
 namespaced together so their input/output ids can't clash with the rest of
 your app. It's the standard way to package up a reusable, self-contained
 piece of UI like a settings page. If you haven't used modules before, the

@@ -79,7 +79,7 @@ ui <- gov_page(
 Every shinyGovstyle app starts with `gov_page()`. It's a small wrapper around [bslib](https://rstudio.github.io/bslib/)'s `page_fluid()` (bslib is [generally recommended for building responsive apps with R Shiny](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/)) that also takes care of two things every GOV.UK-style page should get right from the start:
 
 - **`lang`** sets the page's language (`"en"` by default). Screen readers use this to pick the right pronunciation, so it matters even if you never touch it.
-- **`width`** sets a default width for every shinyGovstyle component inside it — see the [Layout options](layout-options.html#page-width) vignette if you want a wider, dashboard-style layout.
+- **`width`** sets a default width for every shinyGovstyle component inside it: see the [Layout options](layout-options.html#page-width) vignette if you want a wider, dashboard-style layout.
 
 The skeleton below shows the components that appear on every page of a shinyGovstyle app:
 

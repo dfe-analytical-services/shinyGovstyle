@@ -110,7 +110,7 @@ govReactable <- # nolint
       lapply(seq_along(names(df)), function(index) {
         col <- names(df)[index]
 
-        default_args <- list(
+        default_col <- reactable::colDef(
           name = col,
           sortable = TRUE,
           headerClass = "bar-sort-header",
@@ -127,8 +127,6 @@ govReactable <- # nolint
             NULL
           }
         )
-
-        default_col <- do.call(reactable::colDef, default_args)
 
         # Merge in any user-supplied colDef for this column, so only the
         # fields the user actually set (non-NULL) override the GOV.UK

@@ -2,7 +2,7 @@
 #'
 #' This function creates a tabs based table. It requires a single dataframe
 #' with a grouping variable.
-#' @param inputId The Id to access the tag
+#' @inheritParams id_arg
 #' @param df A single dataframe with all data. See example for structure
 #' @param group_col The column name with the groups to be used as tabs
 #' @return a tab table HTML shiny tag object

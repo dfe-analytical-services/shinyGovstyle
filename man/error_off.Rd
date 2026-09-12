@@ -7,7 +7,9 @@
 error_off(inputId)
 }
 \arguments{
-\item{inputId}{The input Id to turn error handling on for}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 }
 \value{
 no return value. This toggles off error CSS

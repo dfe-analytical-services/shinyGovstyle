@@ -7,7 +7,9 @@
 accordion(inputId, titles, descriptions)
 }
 \arguments{
-\item{inputId}{Input Id for the accordion}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{titles}{Add the titles for the accordion}
 

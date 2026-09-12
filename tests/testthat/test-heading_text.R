@@ -25,3 +25,10 @@ test_that("medium_works", {
     tag_text(head_text, "govuk-heading-m")
   )
 })
+
+test_that("level must be a whole number between 1 and 6", {
+  expect_error(heading_text("x", level = 0))
+  expect_error(heading_text("x", level = 7))
+  expect_error(heading_text("x", level = TRUE))
+  expect_error(heading_text("x", level = 2.5))
+})

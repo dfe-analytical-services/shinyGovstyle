@@ -1,7 +1,7 @@
 #' Accordion Function
 #'
 #' This function inserts a accordion
-#' @param inputId Input Id for the accordion
+#' @inheritParams id_arg
 #' @param titles Add the titles for the accordion
 #' @param descriptions Add the main content for each accordion section. Each
 #' item accepts a plain character string (rendered as a `govuk-body`

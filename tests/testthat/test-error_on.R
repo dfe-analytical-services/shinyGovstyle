@@ -63,10 +63,10 @@ test_that("error_on shows the error message slot", {
 
   show_calls <- calls_for(r, "show")
   expect_length(show_calls, 1L)
-  expect_identical(recorded_arg(show_calls[[1L]], "id", 1L), "eventIderror")
+  expect_identical(recorded_arg(show_calls[[1L]], "id", 1L), "eventId-error")
 })
 
-test_that("error_on dispatches the supplied message into <id>error", {
+test_that("error_on dispatches the supplied message into <id>-error", {
   r <- make_call_recorder()
 
   testthat::with_mocked_bindings(
@@ -79,7 +79,7 @@ test_that("error_on dispatches the supplied message into <id>error", {
 
   html_calls <- calls_for(r, "html")
   expect_length(html_calls, 1L)
-  expect_identical(recorded_arg(html_calls[[1L]], "id", 1L), "eventIderror")
+  expect_identical(recorded_arg(html_calls[[1L]], "id", 1L), "eventId-error")
   # The visually hidden "Error:" prefix is sent with the message:
   # shinyjs::html() replaces the paragraph's contents, so a bare message
   # would drop it.

@@ -39,7 +39,7 @@ $.extend(radioGroupButtonsBinding2, {
       }
 
       return {
-        label: $(el).parent().find('label[for="' + $escape4but(el.id) + '"]').text(),
+        label: $(el).find('.govuk-fieldset__legend').first().text(),
         value: this.getValue(el),
         options: options
     };
@@ -68,8 +68,18 @@ $.extend(radioGroupButtonsBinding2, {
       if (data.hasOwnProperty('selected'))
         this.setValue(el, data.selected);
 
-      if (data.hasOwnProperty('label'))
-        $(el).parent().find('label[for="' + $escape4but(el.id) + '"]').text(data.label);
+      if (data.hasOwnProperty('label')) {
+        // The legend may wrap its text in an <hN class="govuk-fieldset__heading">
+        // when heading_level is set; retarget onto that element so an update
+        // doesn't strip the heading wrapper out of the DOM.
+        var $legend = $(el).find('.govuk-fieldset__legend').first();
+        var $heading = $legend.find('.govuk-fieldset__heading');
+        if ($heading.length) {
+          $heading.text(data.label);
+        } else {
+          $legend.text(data.label);
+        }
+      }
 
       $(el).trigger('change');
   }

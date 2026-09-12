@@ -7,7 +7,9 @@
 tag_Input(inputId, text, colour = "navy")
 }
 \arguments{
-\item{inputId}{The Id to access the tag}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{text}{The text in the tag}
 

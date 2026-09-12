@@ -60,6 +60,31 @@ test_that("header() with only current args produces no lifecycle warnings", {
 })
 
 
+test_that("width defaults to standard and doesn't add a wide/full class", {
+  h <- header(org_name = "Test")
+  container <- find_tag_required(h, "govuk-width-container")
+  expect_null(htmltools::tagGetAttribute(container, "style"))
+  expect_no_tag(h, "govuk-width-container--wide")
+  expect_no_tag(h, "govuk-width-container--full")
+})
+
+
+test_that("width = 'wide' adds the wide modifier class", {
+  h <- header(org_name = "Test", width = "wide")
+  expect_has_tag(h, "govuk-width-container--wide")
+})
+
+
+test_that("a custom width sets an inline max-width style", {
+  h <- header(org_name = "Test", width = "1400px")
+  container <- find_tag_required(h, "govuk-width-container")
+  expect_identical(
+    htmltools::tagGetAttribute(container, "style"),
+    "max-width: 1400px;"
+  )
+})
+
+
 test_that("warning when logo used without logo_alt_text", {
   expect_warning(
     header(org_name = "Test", logo = "test.png", logo_alt_text = NULL),

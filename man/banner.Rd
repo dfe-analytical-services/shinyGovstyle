@@ -4,7 +4,7 @@
 \alias{banner}
 \title{Banner Function}
 \usage{
-banner(inputId, type, label)
+banner(inputId, type, label, width = "standard")
 }
 \arguments{
 \item{inputId}{The id assigned to the component's root element. For Shiny
@@ -15,6 +15,12 @@ input components this is also the name used to access the value via
 
 \item{label}{Text to display. Accepts a plain character string, or \code{shiny}
 tag objects such as \code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
+
+\item{width}{Width of the banner. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"wide"} (no max-width, so the
+container fills the viewport instead of centring at 960px), \code{"full"}
+(same as \code{"wide"}, with grid gutters also removed), or a CSS length
+(e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width.}
 }
 \value{
 a banner HTML shiny tag object

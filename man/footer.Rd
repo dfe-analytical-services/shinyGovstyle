@@ -4,7 +4,7 @@
 \alias{footer}
 \title{Footer Function}
 \usage{
-footer(full = FALSE, links = NULL)
+footer(full = FALSE, links = NULL, width = "standard")
 }
 \arguments{
 \item{full}{Whenever you want to have blank footer or official gov version.
@@ -13,6 +13,14 @@ Defaults to \code{FALSE}}
 \item{links}{A vector of actionLinks to be added to the footer, inputIDs
 are auto-generated and are the snake case version of the link text, e.g.
 "Accessibility Statement" will have an inputID of accessibility_statement}
+
+\item{width}{Width of the footer. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"wide"} (no max-width, so the
+container fills the viewport instead of centring at 960px), \code{"full"}
+(same as \code{"wide"}, with grid gutters also removed), or a CSS length
+(e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width. Not to be confused
+with the \code{full} argument above, which controls footer content rather
+than footer width.}
 }
 \value{
 a footer HTML shiny tag object

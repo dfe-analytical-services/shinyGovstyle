@@ -1,16 +1,19 @@
 bslib::page_fluid(
   theme = bs_theme(version = 5),
   title = "Select Types | shinyGovstyle",
-  shinyGovstyle::cookieBanner("shinyGovstyle component showcase"),
+  shinyGovstyle::cookieBanner(
+    "shinyGovstyle component showcase",
+    width = "full"
+  ),
   shinyjs::useShinyjs(),
 
   shiny::tags$head(shiny::HTML("<html lang='en'>")),
 
-  shinyGovstyle::full_width_overrides(), # TODO: remove when built in
   shinyGovstyle::skip_to_main(),
   shinyGovstyle::header(
     org_name = "Department for Education",
-    service_name = "shinyGovstyle showcase app"
+    service_name = "shinyGovstyle showcase app",
+    width = "full"
   ),
   shinyGovstyle::service_navigation(
     c(
@@ -21,7 +24,8 @@ bslib::page_fluid(
       "Feedback types" = "sn_feedback_types",
       "Cookies" = "sn_cookies"
     ),
-    page_title_suffix = "shinyGovstyle"
+    page_title_suffix = "shinyGovstyle",
+    width = "full"
   ),
 
   shinyGovstyle::banner(
@@ -31,10 +35,12 @@ bslib::page_fluid(
       'This is a new service \u002D your <a class="govuk-link" href=',
       '"https://github.com/dfe-analytical-services/shinyGovstyle/issues/new',
       '/choose">feedback</a> will help us to improve it.'
-    )
+    ),
+    width = "full"
   ),
 
   shinyGovstyle::gov_main_layout(
+    width = "full",
     shinyGovstyle::gov_row(
       size = "two-thirds",
       shinyGovstyle::gov_text(
@@ -48,7 +54,7 @@ bslib::page_fluid(
           ),
           link_text = "main GitHub branch"
         ),
-        ". The page layout has some custom CSS overrides, and is still being",
+        ". The page is using the \"full\" width option, and is still being",
         " developed to work with the ",
         shinyGovstyle::external_link(
           href = "https://rstudio.github.io/bslib/",
@@ -107,6 +113,7 @@ bslib::page_fluid(
 
   shinyGovstyle::footer(
     TRUE,
+    width = "full",
     links = c(
       `Cookies` = "cookies_footer_link",
       `GitHub repository` = paste(

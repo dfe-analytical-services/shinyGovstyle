@@ -4,7 +4,7 @@
 \alias{gov_layout}
 \title{Page Layout Function}
 \usage{
-gov_layout(..., inputID = "main", size = "full")
+gov_layout(..., inputID = "main", size = "full", width = "standard")
 }
 \arguments{
 \item{...}{include the components of the UI that you want within the
@@ -14,6 +14,12 @@ main page.}
 
 \item{size}{Layout of the page. Optional are full, one-half, two-thirds,
 one-third and one-quarter. Defaults to "full"}
+
+\item{width}{Width of the page container. One of \code{"standard"} (the
+default, GOV.UK's usual 960px content width), \code{"wide"} (no max-width, so
+the container fills the viewport instead of centring at 960px), \code{"full"}
+(same as \code{"wide"}, with grid gutters also removed), or a CSS length
+(e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width.}
 }
 \value{
 a HTML shiny layout div

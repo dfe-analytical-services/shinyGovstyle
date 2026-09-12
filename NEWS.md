@@ -12,9 +12,20 @@
 * `insert_text()` argument `text` has been renamed to `content` to reflect
   that it now accepts more than plain text. The old name is deprecated and
   will be removed in a future version.
+* Removed the experimental `full_width_overrides()` function. Use the new
+  `width` argument on `header()`, `footer()`, `banner()`, `cookieBanner()`,
+  `service_navigation()`, `gov_main_layout()` and `gov_layout()` instead
+  (see below).
 
 ## New features
 
+* `header()`, `footer()`, `banner()`, `cookieBanner()`,
+  `service_navigation()`, `gov_main_layout()` and `gov_layout()` gain a
+  `width` argument for building wider, dashboard-style layouts:
+  `"standard"` (the default, GOV.UK's usual 960px content width), `"wide"`
+  (no max-width, but keeps GOV.UK's own left/right gutters), `"full"`
+  (edge-to-edge, with grid gutters also removed), or a CSS length (e.g.
+  `"1400px"`, `"90vw"`) for a custom max-width.
 * `external_link()`'s `add_warning` argument now also accepts `"icon"`, in
   addition to `TRUE`/`FALSE`. Setting `add_warning = "icon"` adds a small
   decorative arrow icon after the link text, giving sighted users a visual

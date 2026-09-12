@@ -8,7 +8,7 @@
 \alias{gov_text}
 \title{Page Layout Functions}
 \usage{
-gov_main_layout(..., inputID = "main")
+gov_main_layout(..., inputID = "main", width = "standard")
 
 gov_row(...)
 
@@ -22,6 +22,13 @@ main page. These components are made to flow through each other. See
 example}
 
 \item{inputID}{ID of the main div. Defaults to "main"}
+
+\item{width}{Width of the main content container, only used by
+\code{gov_main_layout()}. One of \code{"standard"} (the default, GOV.UK's usual
+960px content width), \code{"wide"} (no max-width, so the container fills
+the viewport instead of centring at 960px), \code{"full"} (same as \code{"wide"},
+with grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
 
 \item{size}{size of the box in the row. Optional are full, one-half,
 two-thirds, one-third and one-quarter. Defaults to "full"}

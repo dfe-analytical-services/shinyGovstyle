@@ -6,6 +6,11 @@
 #' @param inputID ID of the main div. Defaults to "main"
 #' @param size Layout of the page. Optional are full, one-half, two-thirds,
 #' one-third and one-quarter. Defaults to "full"
+#' @param width Width of the page container. One of `"standard"` (the
+#' default, GOV.UK's usual 960px content width), `"wide"` (no max-width, so
+#' the container fills the viewport instead of centring at 960px), `"full"`
+#' (same as `"wide"`, with grid gutters also removed), or a CSS length
+#' (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
 #' @param ... include the components of the UI that you want within the
 #' main page.
 #' @return a HTML shiny layout div
@@ -37,11 +42,15 @@
 gov_layout <- function(
   ...,
   inputID = "main", # nolint
-  size = "full"
+  size = "full",
+  width = "standard"
 ) {
+  wc <- gov_width_container(width)
+
   gov_layout <- shiny::tags$div(
     id = inputID,
-    class = "govuk-width-container  govuk-main-wrapper",
+    class = paste0(wc$class, " govuk-main-wrapper"),
+    style = wc$style,
     shiny::tags$div(
       id = paste0(inputID, "_sub"),
       class = paste0("govuk-grid-column-", size),

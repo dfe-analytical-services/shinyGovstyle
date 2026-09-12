@@ -8,7 +8,8 @@ service_navigation(
   links,
   service_name = NULL,
   auto_page_title = TRUE,
-  page_title_suffix = NULL
+  page_title_suffix = NULL,
+  width = "standard"
 )
 }
 \arguments{
@@ -39,6 +40,12 @@ Only used when \code{auto_page_title = TRUE}. For finer
 control (e.g. when a page heading differs from its nav
 link label), call \code{\link[=update_page_title]{update_page_title()}} from your server
 code.}
+
+\item{width}{Width of the service navigation bar. One of \code{"standard"}
+(the default, GOV.UK's usual 960px content width), \code{"wide"} (no
+max-width, so the container fills the viewport instead of centring at
+960px), \code{"full"} (same as \code{"wide"}, with grid gutters also removed), or
+a CSS length (e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width.}
 }
 \value{
 Shiny tag object

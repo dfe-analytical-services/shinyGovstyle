@@ -18,6 +18,26 @@ test_that("gov_main_layout wraps a main element with govuk-main-wrapper", {
   expect_has_tag(layout, "marker-child")
 })
 
+test_that("gov_main_layout width defaults to standard", {
+  layout <- gov_main_layout(shiny::tags$div("hello"))
+  expect_null(htmltools::tagGetAttribute(layout, "style"))
+  expect_no_tag(layout, "govuk-width-container--wide")
+  expect_no_tag(layout, "govuk-width-container--full")
+})
+
+test_that("gov_main_layout width = 'full' adds the full modifier class", {
+  layout <- gov_main_layout(shiny::tags$div("hello"), width = "full")
+  expect_has_tag(layout, "govuk-width-container--full")
+})
+
+test_that("gov_main_layout custom width sets an inline max-width style", {
+  layout <- gov_main_layout(shiny::tags$div("hello"), width = "1400px")
+  expect_identical(
+    htmltools::tagGetAttribute(layout, "style"),
+    "max-width: 1400px;"
+  )
+})
+
 test_that("gov_row renders a govuk-grid-row div and passes children through", {
   row <- gov_row(shiny::tags$div(class = "marker-child", "row content"))
 

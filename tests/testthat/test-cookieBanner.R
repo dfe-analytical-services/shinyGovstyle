@@ -37,3 +37,32 @@ test_that("cookie banner link markup is as expected", {
 
   expect_snapshot(cookieBanner("The best thing"))
 })
+
+
+test_that("width defaults to standard and doesn't add a wide/full class", {
+  cookie_banner_check <- cookieBanner("The best thing")
+  container <- find_tag_required(cookie_banner_check, "govuk-width-container")
+  expect_null(htmltools::tagGetAttribute(container, "style"))
+  expect_no_tag(cookie_banner_check, "govuk-width-container--wide")
+  expect_no_tag(cookie_banner_check, "govuk-width-container--full")
+})
+
+
+test_that("width = 'full' adds the full modifier class to every message", {
+  cookie_banner_check <- cookieBanner("The best thing", width = "full")
+  full_containers <- find_tags(
+    cookie_banner_check,
+    "govuk-width-container--full"
+  )
+  expect_length(full_containers, 3L)
+})
+
+
+test_that("a custom width sets an inline max-width style", {
+  cookie_banner_check <- cookieBanner("The best thing", width = "1400px")
+  container <- find_tag_required(cookie_banner_check, "govuk-width-container")
+  expect_identical(
+    htmltools::tagGetAttribute(container, "style"),
+    "max-width: 1400px;"
+  )
+})

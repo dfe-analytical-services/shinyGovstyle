@@ -1,0 +1,78 @@
+/*
+ * Optional wide/full modifiers for .govuk-width-container.
+ *
+ * GOV.UK Frontend caps the container at max-width: 960px, with margin: auto
+ * from 1020px up so it centres in the viewport. Setting max-width: 100% is
+ * all "wide" needs: with nothing left to centre, that auto margin collapses
+ * to 0 on its own, so the container fills the viewport at desktop widths
+ * exactly like it would on a real (unmodified) GOV.UK page that happened to
+ * have no max-width. Below 1020px, GOV.UK Frontend's own fixed 15px/30px
+ * margin still applies, unchanged — that's not specific to wide/full.
+ */
+
+.govuk-width-container--wide,
+.govuk-width-container--full {
+    max-width: 100%;
+}
+
+/*
+ * "full" additionally goes edge-to-edge: the grid row/column gutters are
+ * zeroed out (scoped to inside a --full container only, so it doesn't
+ * affect unrelated grids elsewhere on the page), which would otherwise
+ * leave content flush against the viewport edge, so a small symmetric
+ * padding replaces it.
+ */
+
+.govuk-width-container--full {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+@media (min-width: 40.0625em) {
+    .govuk-width-container--full {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+.govuk-width-container--full .govuk-grid-row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.govuk-width-container--full [class*="govuk-grid-column-"] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+/*
+ * shiny::fluidPage()/bslib::page_fluid() wrap the whole page in Bootstrap's
+ * .container-fluid, which carries its own small side padding (0.75rem).
+ * That's invisible on a standard-width page (dwarfed by the GOV.UK
+ * container's own margin), but on a wide/full page it's the only thing
+ * left holding content in from the viewport edge, so it reads as an
+ * unwanted gutter. Zero it, but only when it actually wraps a wide/full
+ * container, so an app's other, unrelated .container-fluid elements are
+ * untouched.
+ */
+.container-fluid:has(.govuk-width-container--wide),
+.container-fluid:has(.govuk-width-container--full) {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+/*
+ * GOV.UK Frontend gives .govuk-main-wrapper a 40px top padding from 641px
+ * up, on top of the phase banner's own bottom border/padding, so a
+ * dashboard-style page reads as having an extra bar of whitespace before
+ * the content starts. Keep it at the mobile value (20px) instead, matching
+ * gov_main_layout()/gov_layout()'s own structure where .govuk-main-wrapper
+ * is sometimes a child of the width container (gov_main_layout()) and
+ * sometimes the same element (gov_layout()).
+ */
+.govuk-width-container--wide .govuk-main-wrapper,
+.govuk-width-container--wide.govuk-main-wrapper,
+.govuk-width-container--full .govuk-main-wrapper,
+.govuk-width-container--full.govuk-main-wrapper {
+    padding-top: 20px;
+}

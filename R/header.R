@@ -20,6 +20,11 @@
 #' be used when a secondary link is used `r lifecycle::badge("deprecated")`
 #' @param logo_width Change the logo size width CSS to improve fit
 #' @param logo_height Change the logo size height CSS to improve fit
+#' @param width Width of the header bar. One of `"standard"` (the default,
+#' GOV.UK's usual 960px content width), `"wide"` (no max-width, so the
+#' container fills the viewport instead of centring at 960px), `"full"`
+#' (same as `"wide"`, with grid gutters also removed), or a CSS length
+#' (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
 #' @return a header HTML shiny tag object
 #' @family Govstyle page structure
 #' @export
@@ -48,8 +53,10 @@ header <- function(
   main_alt_text = lifecycle::deprecated(),
   secondary_alt_text = lifecycle::deprecated(),
   logo_width = 66,
-  logo_height = 34
+  logo_height = 34,
+  width = "standard"
 ) {
+  wc <- gov_width_container(width)
   if (lifecycle::is_present(main_text)) {
     lifecycle::deprecate_warn(
       when = "0.2.0",
@@ -125,7 +132,8 @@ header <- function(
       "image {filter: invert(1);}"
     )),
     shiny::tags$div(
-      class = "govuk-header__container govuk-width-container",
+      class = paste0("govuk-header__container ", wc$class),
+      style = wc$style,
       shiny::tags$div(
         class = "govuk-header__logo",
         shiny::tags$span(

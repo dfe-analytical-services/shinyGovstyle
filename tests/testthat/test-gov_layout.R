@@ -8,8 +8,28 @@ test_that("default works", {
 
   expect_identical(
     htmltools::tagGetAttribute(layout_test, "class"),
-    "govuk-width-container  govuk-main-wrapper"
+    "govuk-width-container govuk-main-wrapper"
   )
 
   expect_has_tag(layout_test, "govuk-grid-column-full")
+})
+
+test_that("width defaults to standard", {
+  layout_test <- gov_layout()
+  expect_null(htmltools::tagGetAttribute(layout_test, "style"))
+  expect_no_tag(layout_test, "govuk-width-container--wide")
+  expect_no_tag(layout_test, "govuk-width-container--full")
+})
+
+test_that("width = 'full' adds the full modifier class", {
+  layout_test <- gov_layout(width = "full")
+  expect_has_tag(layout_test, "govuk-width-container--full")
+})
+
+test_that("a custom width sets an inline max-width style", {
+  layout_test <- gov_layout(width = "1400px")
+  expect_identical(
+    htmltools::tagGetAttribute(layout_test, "style"),
+    "max-width: 1400px;"
+  )
 })

@@ -41,3 +41,28 @@ test_that("label accepts a tagList with an external link", {
   expect_match(html, "href=\"https://example.com\"", fixed = TRUE)
   expect_match(html, ">feedback</a>", fixed = TRUE)
 })
+
+
+test_that("width defaults to standard and doesn't add a wide/full class", {
+  out <- banner("bannerId", "alpha", "Banner test")
+  container <- find_tag_required(out, "govuk-width-container")
+  expect_null(htmltools::tagGetAttribute(container, "style"))
+  expect_no_tag(out, "govuk-width-container--wide")
+  expect_no_tag(out, "govuk-width-container--full")
+})
+
+
+test_that("width = 'wide' adds the wide modifier class", {
+  out <- banner("bannerId", "alpha", "Banner test", width = "wide")
+  expect_has_tag(out, "govuk-width-container--wide")
+})
+
+
+test_that("a custom width sets an inline max-width style", {
+  out <- banner("bannerId", "alpha", "Banner test", width = "1400px")
+  container <- find_tag_required(out, "govuk-width-container")
+  expect_identical(
+    htmltools::tagGetAttribute(container, "style"),
+    "max-width: 1400px;"
+  )
+})

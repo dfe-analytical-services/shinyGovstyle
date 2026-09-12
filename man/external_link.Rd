@@ -24,7 +24,7 @@ visual cue, for use with an explanatory sentence above a group of links.
 "icon" behaves like FALSE but also adds a small decorative arrow icon
 after the link text, giving sighted users a visual cue without repeating
 the full text. Be careful and consider accessibility before moving away
-from the default}
+from the default. Has no effect when \code{href} is a \verb{mailto:} link.}
 
 \item{footer}{Apply standard GDS footer CSS styling. Logical,
 default = FALSE}
@@ -66,6 +66,12 @@ screen readers, which still get the same hidden warning as add_warning =
 FALSE), so it should be paired with an explanatory sentence above a group
 of links, not relied on as the only warning.
 
+If \code{href} starts with \verb{mailto:} (case-insensitive), the new-tab behaviour
+is skipped entirely: no \code{target="_blank"}/\code{rel="noopener noreferrer"}, no
+"(opens in new tab)" text or hidden span, and \code{add_warning = "icon"} has no
+effect, since a mailto link hands off to the mail client rather than
+opening a new browser tab. \code{link_text} validation still applies as normal.
+
 Related links and guidance:
 \itemize{
 \item \href{https://design-system.service.gov.uk/styles/links/}{Government digital services guidelines on the use of links}
@@ -97,6 +103,9 @@ external_link(
 
 # This will trim and show as 'R Shiny'
 external_link("https://shiny.posit.co/", "  R Shiny")
+
+# mailto: links skip the new-tab attributes, text, and icon
+external_link("mailto:feedback@example.com", "feedback@example.com")
 
 # Example of within text
 shiny::tags$p(

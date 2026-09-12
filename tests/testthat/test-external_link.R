@@ -191,3 +191,70 @@ test_that("external_link() also attaches the base shinyGovstyle dependencies", {
   expect_true("update_page_title" %in% dep_names)
   expect_true("sr-only" %in% dep_names)
 })
+
+test_that("mailto: links omit target/rel and the opens-in-new-tab text", {
+  mailto_link <- external_link(
+    "mailto:feedback@example.com",
+    "feedback@example.com"
+  )
+
+  expect_null(htmltools::tagGetAttribute(mailto_link, "target"))
+  expect_null(htmltools::tagGetAttribute(mailto_link, "rel"))
+  expect_identical(
+    htmltools::tagGetAttribute(mailto_link, "href"),
+    "mailto:feedback@example.com"
+  )
+  expect_identical(
+    htmltools::tagGetAttribute(mailto_link, "class"),
+    "govuk-link"
+  )
+  expect_identical(link_text(mailto_link), "feedback@example.com")
+})
+
+test_that("mailto: link detection is case-insensitive", {
+  mailto_link <- external_link(
+    "MAILTO:feedback@example.com",
+    "feedback@example.com"
+  )
+
+  expect_null(htmltools::tagGetAttribute(mailto_link, "target"))
+  expect_null(htmltools::tagGetAttribute(mailto_link, "rel"))
+  expect_identical(link_text(mailto_link), "feedback@example.com")
+})
+
+test_that("add_warning has no effect on mailto: links", {
+  hidden_attempt <- external_link(
+    "mailto:feedback@example.com",
+    "feedback@example.com",
+    add_warning = FALSE
+  )
+  icon_attempt <- external_link(
+    "mailto:feedback@example.com",
+    "feedback@example.com",
+    add_warning = "icon"
+  )
+
+  expect_identical(link_text(hidden_attempt), "feedback@example.com")
+  expect_identical(link_text(icon_attempt), "feedback@example.com")
+  expect_false(grepl("<svg", link_text(icon_attempt), fixed = TRUE))
+})
+
+test_that("mailto: links still validate link_text", {
+  expect_error(external_link("mailto:feedback@example.com", "here"))
+  expect_error(external_link("mailto:feedback@example.com", "Full stop."))
+  expect_warning(external_link("mailto:feedback@example.com", "Hi"))
+})
+
+test_that("Footer flag still works for mailto: links", {
+  expect_identical(
+    htmltools::tagGetAttribute(
+      external_link(
+        "mailto:feedback@example.com",
+        "feedback@example.com",
+        footer = TRUE
+      ),
+      "class"
+    ),
+    "govuk-link govuk-footer__link"
+  )
+})

@@ -86,8 +86,8 @@ banner <- function(
 }
 
 # Internal helper: builds the standard GOV.UK phase banner feedback label from
-# a URL. mailto: links get contact-style wording since they don't open a new
-# tab; other URLs get the usual external link treatment via external_link().
+# a URL. mailto: links get contact-style wording; external_link() itself
+# suppresses the new-tab attributes/text for mailto hrefs.
 feedback_banner_label <- function(feedback_url) {
   if (grepl("^mailto:", feedback_url, ignore.case = TRUE)) {
     email_address <- sub("^mailto:", "", feedback_url, ignore.case = TRUE)
@@ -95,11 +95,7 @@ feedback_banner_label <- function(feedback_url) {
 
     shiny::tagList(
       "This is a new service - please contact ",
-      shiny::tags$a(
-        href = feedback_url,
-        class = "govuk-link",
-        email_address
-      ),
+      external_link(feedback_url, email_address),
       " if you have any questions or feedback."
     )
   } else {

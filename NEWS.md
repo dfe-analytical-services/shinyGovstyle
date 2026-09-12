@@ -65,6 +65,10 @@
   feedback (opens in new tab) will help us to improve it."), or contact-style
   text if `feedback_url` is a `mailto:` link. `label` is now optional, but
   exactly one of `label` or `feedback_url` must be supplied.
+* `external_link()` now natively supports `mailto:` links: when `href` starts
+  with `mailto:`, the "opens in new tab" attributes, text, and icon are all
+  skipped, since a mailto link hands off to the mail client rather than
+  opening a new tab. Existing link-text validations still apply.
 
 ## Bug fixes
 

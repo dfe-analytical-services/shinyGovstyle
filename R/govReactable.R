@@ -23,6 +23,14 @@
 #' @param borderless Remove inner borders from table
 #' @param min_widths Customise minimum column width using a list of columns and
 #' minimum width in pixels
+#' @param columns Customise individual columns, for example to fix the
+#' number of decimal places shown. Give a named list, where each name
+#' matches a column in `df` and each value is built with
+#' `reactable::colDef()` (see examples). Any column left out of this list
+#' is unaffected, and keeps govReactable's usual GOV.UK look. For a column
+#' you do include, anything you don't set on it, such as sorting or
+#' alignment, also keeps that same default. Names that don't match a
+#' column in `df` are ignored.
 #' @param ... Additional arguments passed to `reactable::reactable`
 #' @return A `reactable` HTML widget styled with GOV.UK classes
 #' @family Govstyle tables tabs and accordions
@@ -51,6 +59,40 @@
 #'       Petal.Width = 75
 #'     )
 #'   )
+#'
+#'   # Show one column to a fixed number of decimal places, leaving every
+#'   # other column and style (sorting, alignment, etc.) untouched
+#'   sales_data <- data.frame(
+#'     shop = c("Shop A", "Shop B", "Shop C"),
+#'     growth = c(4, 4.7, 12.34)
+#'   )
+#'   govReactable(
+#'     sales_data,
+#'     columns = list(
+#'       growth = reactable::colDef(
+#'         format = reactable::colFormat(digits = 1)
+#'       )
+#'     )
+#'   )
+#'
+#'   # A more involved example: only `percent` is customised, so `region`
+#'   # and `count` keep the normal GOV.UK defaults untouched
+#'   # (counts shown as whole numbers alongside a percentage column fixed
+#'   # to 1 decimal place)
+#'   count_pct_data <- data.frame(
+#'     region = c("North", "South", "East"),
+#'     count = c(1234, 56, 789),
+#'     percent = c(4, 4.7, 12.34)
+#'   )
+#'   govReactable(
+#'     count_pct_data,
+#'     right_col = c("count", "percent"),
+#'     columns = list(
+#'       percent = reactable::colDef(
+#'         format = reactable::colFormat(digits = 1)
+#'       )
+#'     )
+#'   )
 #' }
 govReactable <- # nolint
   function(
@@ -60,6 +102,7 @@ govReactable <- # nolint
     highlight = TRUE,
     borderless = TRUE,
     min_widths = list(),
+    columns = list(),
     ...
   ) {
     # Generate column definitions
@@ -67,7 +110,7 @@ govReactable <- # nolint
       lapply(seq_along(names(df)), function(index) {
         col <- names(df)[index]
 
-        reactable::colDef(
+        default_col <- reactable::colDef(
           name = col,
           sortable = TRUE,
           headerClass = "bar-sort-header",
@@ -84,6 +127,24 @@ govReactable <- # nolint
             NULL
           }
         )
+
+        # Merge in any user-supplied colDef for this column, so only the
+        # fields the user actually set (non-NULL) override the GOV.UK
+        # defaults above. reactable::colDef() renames a handful of its
+        # input arguments in its returned object (class -> className,
+        # headerClass -> headerClassName, footerClass -> footerClassName,
+        # defaultSortOrder -> defaultSortDesc), so both `default_col` and
+        # the user's colDef are built via reactable::colDef() first
+        # (giving both the same *output*-name scheme), then merged
+        # directly as list objects instead of re-calling colDef() with
+        # the user's already-renamed fields as if they were input names.
+        if (!is.null(columns[[col]])) {
+          user_fields <- Filter(Negate(is.null), unclass(columns[[col]]))
+          merged_col <- utils::modifyList(unclass(default_col), user_fields)
+          structure(merged_col, class = "colDef")
+        } else {
+          default_col
+        }
       }),
       names(df)
     )

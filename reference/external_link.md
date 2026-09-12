@@ -26,6 +26,16 @@ avoiding repeating (opens in new tab), then you can set add_warning =
 FALSE and add a line of text above all of the links saying something
 like 'The following links open in a new tab'.
 
+Setting add_warning = FALSE removes the visible text warning entirely,
+so sighted users lose the visual cue that the link behaves differently.
+Set add_warning = "icon" instead to add a small decorative arrow icon
+after the link text, giving sighted users a visual warning without
+repeating the full "(opens in new tab)" text. The icon is purely
+decorative (hidden from screen readers, which still get the same hidden
+warning as add_warning = FALSE), so it should be paired with an
+explanatory sentence above a group of links, not relied on as the only
+warning.
+
 Related links and guidance:
 
 - [Government digital services guidelines on the use of
@@ -63,9 +73,15 @@ external_link(href, link_text, add_warning = TRUE, footer = FALSE)
 
 - add_warning:
 
-  Boolean for adding "(opens in new tab)" at the end of the link text to
-  warn users of the behaviour. Be careful and consider accessibility
-  before removing the visual warning
+  One of TRUE (default), FALSE, or "icon", controlling how users are
+  warned that the link opens in a new tab. TRUE appends "(opens in new
+  tab)" to the visible link text. FALSE removes the visible text (a
+  visually hidden span still warns screen reader users) with no
+  replacement visual cue, for use with an explanatory sentence above a
+  group of links. "icon" behaves like FALSE but also adds a small
+  decorative arrow icon after the link text, giving sighted users a
+  visual cue without repeating the full text. Be careful and consider
+  accessibility before moving away from the default
 
 - footer:
 
@@ -103,6 +119,17 @@ external_link(
 )
 #> <a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer">R Shiny<span class="sr-only"> (opens in new tab)</span></a>
 
+# Give sighted users a visual warning without repeating the text
+external_link(
+  "https://shiny.posit.co/",
+  "R Shiny",
+  add_warning = "icon"
+)
+#> <a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer">R Shiny<span class="sr-only"> (opens in new tab)</span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false" style="margin-left: 4px; vertical-align: middle;">
+#>   <path d="M5 1H1v10h10V7" stroke="currentColor" stroke-width="1.2" fill="none"></path>
+#>   <path d="M6 1h5v5M11 1L5 7" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+#> </svg></a>
+
 # This will trim and show as 'R Shiny'
 external_link("https://shiny.posit.co/", "  R Shiny")
 #> <a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer">R Shiny (opens in new tab)</a>
@@ -120,30 +147,27 @@ shiny::tags$h2("Related resources")
 #> <h2>Related resources</h2>
 shiny::tags$p("The following links open in a new tab.")
 #> <p>The following links open in a new tab.</p>
-shiny::tags$ul(
-  shiny::tags$li(
+gov_list(
+  list = list(
     external_link(
       "https://shiny.posit.co/",
       "R Shiny documentation",
       add_warning = FALSE
-    )
-  ),
-  shiny::tags$li(
+    ),
     external_link(
       "https://www.python.org/",
       "Python documentation",
       add_warning = FALSE
-    )
-  ),
-  shiny::tags$li(
+    ),
     external_link(
       "https://nextjs.org/",
       "Next.js documentation",
       add_warning = FALSE
     )
-  )
+  ),
+  style = "bullet"
 )
-#> <ul>
+#> <ul class="govuk-list govuk-list--bullet">
 #>   <li><a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer">R Shiny documentation<span class="sr-only"> (opens in new tab)</span></a></li>
 #>   <li><a href="https://www.python.org/" class="govuk-link" target="_blank" rel="noopener noreferrer">Python documentation<span class="sr-only"> (opens in new tab)</span></a></li>
 #>   <li><a href="https://nextjs.org/" class="govuk-link" target="_blank" rel="noopener noreferrer">Next.js documentation<span class="sr-only"> (opens in new tab)</span></a></li>

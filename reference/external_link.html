@@ -17,6 +17,14 @@ If you are displaying lots of links together and want to save space by
 avoiding repeating (opens in new tab), then you can set add_warning = FALSE
 and add a line of text above all of the links saying something like 'The
 following links open in a new tab'.
+Setting add_warning = FALSE removes the visible text warning entirely, so
+sighted users lose the visual cue that the link behaves differently. Set
+add_warning = &quot;icon&quot; instead to add a small decorative arrow icon after the
+link text, giving sighted users a visual warning without repeating the full
+&quot;(opens in new tab)&quot; text. The icon is purely decorative (hidden from
+screen readers, which still get the same hidden warning as add_warning =
+FALSE), so it should be paired with an explanatory sentence above a group
+of links, not relied on as the only warning.
 Related links and guidance:
 Government digital services guidelines on the use of links
 Anchor tag HTML element and its properties
@@ -41,6 +49,14 @@ If you are displaying lots of links together and want to save space by
 avoiding repeating (opens in new tab), then you can set add_warning = FALSE
 and add a line of text above all of the links saying something like 'The
 following links open in a new tab'.
+Setting add_warning = FALSE removes the visible text warning entirely, so
+sighted users lose the visual cue that the link behaves differently. Set
+add_warning = &quot;icon&quot; instead to add a small decorative arrow icon after the
+link text, giving sighted users a visual warning without repeating the full
+&quot;(opens in new tab)&quot; text. The icon is purely decorative (hidden from
+screen readers, which still get the same hidden warning as add_warning =
+FALSE), so it should be paired with an explanatory sentence above a group
+of links, not relied on as the only warning.
 Related links and guidance:
 Government digital services guidelines on the use of links
 Anchor tag HTML element and its properties
@@ -103,6 +119,14 @@ trailing white space inputted into link_text.</p>
 avoiding repeating (opens in new tab), then you can set add_warning = FALSE
 and add a line of text above all of the links saying something like 'The
 following links open in a new tab'.</p>
+<p>Setting add_warning = FALSE removes the visible text warning entirely, so
+sighted users lose the visual cue that the link behaves differently. Set
+add_warning = "icon" instead to add a small decorative arrow icon after the
+link text, giving sighted users a visual warning without repeating the full
+"(opens in new tab)" text. The icon is purely decorative (hidden from
+screen readers, which still get the same hidden warning as add_warning =
+FALSE), so it should be paired with an explanatory sentence above a group
+of links, not relied on as the only warning.</p>
 <p>Related links and guidance:</p><ul><li><p><a href="https://design-system.service.gov.uk/styles/links/" class="external-link">Government digital services guidelines on the use of links</a></p></li>
 <li><p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a" class="external-link">Anchor tag HTML element and its properties</a></p></li>
 <li><p><a href="https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context" class="external-link">WCAG 2.2 success criteria 2.4.4: Link Purpose (In Context)</a></p></li>
@@ -132,9 +156,15 @@ this other than providing more detail</p></dd>
 
 
 <dt id="arg-add-warning">add_warning<a class="anchor" aria-label="anchor" href="#arg-add-warning"></a></dt>
-<dd><p>Boolean for adding "(opens in new tab)" at the end of the
-link text to warn users of the behaviour. Be careful and consider
-accessibility before removing the visual warning</p></dd>
+<dd><p>One of TRUE (default), FALSE, or "icon", controlling how
+users are warned that the link opens in a new tab. TRUE appends "(opens in
+new tab)" to the visible link text. FALSE removes the visible text (a
+visually hidden span still warns screen reader users) with no replacement
+visual cue, for use with an explanatory sentence above a group of links.
+"icon" behaves like FALSE but also adds a small decorative arrow icon
+after the link text, giving sighted users a visual cue without repeating
+the full text. Be careful and consider accessibility before moving away
+from the default</p></dd>
 
 
 <dt id="arg-footer">footer<a class="anchor" aria-label="anchor" href="#arg-footer"></a></dt>
@@ -173,6 +203,17 @@ information on how the tag is generated, see <code><a href="https://rstudio.gith
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;R Shiny&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Give sighted users a visual warning without repeating the text</span></span></span>
+<span class="r-in"><span><span class="fu">external_link</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"https://shiny.posit.co/"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"R Shiny"</span>,</span></span>
+<span class="r-in"><span>  add_warning <span class="op">=</span> <span class="st">"icon"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;R Shiny&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false" style="margin-left: 4px; vertical-align: middle;"&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;path d="M5 1H1v10h10V7" stroke="currentColor" stroke-width="1.2" fill="none"&gt;&lt;/path&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;path d="M6 1h5v5M11 1L5 7" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"&gt;&lt;/path&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/svg&gt;&lt;/a&gt;</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># This will trim and show as 'R Shiny'</span></span></span>
 <span class="r-in"><span><span class="fu">external_link</span><span class="op">(</span><span class="st">"https://shiny.posit.co/"</span>, <span class="st">"  R Shiny"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;R Shiny (opens in new tab)&lt;/a&gt;</span>
@@ -190,30 +231,27 @@ information on how the tag is generated, see <code><a href="https://rstudio.gith
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;h2&gt;Related resources&lt;/h2&gt;</span>
 <span class="r-in"><span><span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">p</span><span class="op">(</span><span class="st">"The following links open in a new tab."</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;p&gt;The following links open in a new tab.&lt;/p&gt;</span>
-<span class="r-in"><span><span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">ul</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">li</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="gov_list.html">gov_list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="fu">external_link</span><span class="op">(</span></span></span>
 <span class="r-in"><span>      <span class="st">"https://shiny.posit.co/"</span>,</span></span>
 <span class="r-in"><span>      <span class="st">"R Shiny documentation"</span>,</span></span>
 <span class="r-in"><span>      add_warning <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">li</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">external_link</span><span class="op">(</span></span></span>
 <span class="r-in"><span>      <span class="st">"https://www.python.org/"</span>,</span></span>
 <span class="r-in"><span>      <span class="st">"Python documentation"</span>,</span></span>
 <span class="r-in"><span>      add_warning <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">li</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">external_link</span><span class="op">(</span></span></span>
 <span class="r-in"><span>      <span class="st">"https://nextjs.org/"</span>,</span></span>
 <span class="r-in"><span>      <span class="st">"Next.js documentation"</span>,</span></span>
 <span class="r-in"><span>      add_warning <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  style <span class="op">=</span> <span class="st">"bullet"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ul&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ul class="govuk-list govuk-list--bullet"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;li&gt;&lt;a href="https://shiny.posit.co/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;R Shiny documentation&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;li&gt;&lt;a href="https://www.python.org/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;Python documentation&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;li&gt;&lt;a href="https://nextjs.org/" class="govuk-link" target="_blank" rel="noopener noreferrer"&gt;Next.js documentation&lt;span class="sr-only"&gt; (opens in new tab)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span>

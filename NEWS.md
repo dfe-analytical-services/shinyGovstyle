@@ -15,6 +15,13 @@
 
 ## New features
 
+* `external_link()`'s `add_warning` argument now also accepts `"icon"`, in
+  addition to `TRUE`/`FALSE`. Setting `add_warning = "icon"` adds a small
+  decorative arrow icon after the link text, giving sighted users a visual
+  warning that the link opens in a new tab without repeating the "(opens in
+  new tab)" text — useful for grouped links (see the "Grouped links" section
+  of the "Headings and text" vignette). The icon is hidden from screen
+  readers, which get the same hidden warning as `add_warning = FALSE`.
 * New `update_page_title()` function to update the browser tab title from
   server code, mirroring `update_service_navigation()`. Compose a title
   in the GOV.UK recommended format `"<page> | <service>"` by supplying

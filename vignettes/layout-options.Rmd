@@ -72,7 +72,11 @@ gov_page(
 
 ### Content width vs page width {#content-width}
 
-`gov_page(width = ...)` only sets the *outer* ceiling: how wide the page frame is allowed to get. It's a separate thing from how wide any one piece of *content* looks, which is controlled by `gov_row()`/`gov_box(size = ...)` (see [The primary layout system](#the-primary-layout-system) below). GOV.UK's own [Design System guidance](https://design-system.service.gov.uk/styles/layout/) recommends keeping body text to a two-thirds-width column even on a wide page, so lines of text don't get so long they're hard to read (aim for no more than about 75 characters per line). A full-width table, on the other hand, is exactly the kind of content that benefits from the extra room a wider page gives you.
+`gov_page(width = ...)` only sets the *outer* ceiling: how wide the page frame is allowed to get. It's a separate thing from how wide any one piece of *content* looks, which is controlled by `gov_row()`/`gov_box(size = ...)` (see [The primary layout system](#the-primary-layout-system) below).
+
+**Recommended setup:** for a dashboard-style app, set `gov_page(width = "full")` so wide tables, charts and value boxes get the room they need. Then, for any text-heavy page or section within that same app (a cookies page, a user guide, an accessibility statement), wrap its content in `gov_box(size = "two-thirds")`, GOV.UK's standard reading-width column, rather than letting it stretch the full width of the page.
+
+> **Avoid full-width body text.** GOV.UK's own [Design System guidance](https://design-system.service.gov.uk/styles/layout/) recommends keeping body text to a two-thirds-width column even on a wide page, so lines don't get so long they're hard to read (aim for no more than about 75 characters per line). Rendering paragraphs in a `gov_box(size = "full")` on a `"full"`-width page produces lines that stretch the entire screen: technically valid, but noticeably harder to read. Reserve full width for content that actually benefits from the extra room, like a wide table.
 
 In practice this means: pick a page `width` for the *space you need* (e.g. `"full"` for a dashboard with wide tables), then use `gov_box(size = ...)` around each section of content to control how wide *that section* looks, independently of the page:
 
@@ -489,7 +493,10 @@ ui <- gov_page(
         "About", value = "nav_about",
         gov_row(
           gov_box(
-            size = "full",
+            # Text-only page: two-thirds keeps it readable even though the
+            # app itself uses gov_page(width = "full"). See "Content width
+            # vs page width" above.
+            size = "two-thirds",
             heading_text("About this dashboard", size = "l"),
             gov_text("This page describes the dashboard.")
           )
@@ -500,7 +507,7 @@ ui <- gov_page(
         "Accessibility statement", value = "accessibility_panel",
         gov_row(
           gov_box(
-            size = "full",
+            size = "two-thirds",
             heading_text("Accessibility statement", size = "l"),
             gov_text("This page describes the accessibility of the dashboard.")
           )

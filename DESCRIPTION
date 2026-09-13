@@ -32,8 +32,9 @@ Imports:
     stringr,
     writexl
 Suggests:
-    bslib,
+    bslib (>= 0.9.0),
     knitr,
+    pkgdown (>= 2.1.1),
     rlang,
     rmarkdown,
     shinytest2,

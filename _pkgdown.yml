@@ -1,6 +1,8 @@
 url: https://dfe-analytical-services.github.io/shinyGovstyle
 template:
   bootstrap: 5
+  bslib:
+    brand: inst/_brand.yml
 
 reference:
 - title: Core layout

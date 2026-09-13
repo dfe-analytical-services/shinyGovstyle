@@ -84,6 +84,26 @@ defaults:
         display: none !important;
       }
 
+      // GOV.UK Design System's link underline: thicker and offset from the
+      // text rather than sitting flush against descenders, thicker again on
+      // hover with ink-skipping off (so the underline doesn't break around
+      // descenders like "g"/"y"). Bootstrap's `link-decoration: underline`
+      // default only sets `text-decoration`, not these - see
+      // https://design-system.service.gov.uk/styles/typography/#links
+      // `max()`/`min()` mixing px and rem must be interpolated as a string
+      // (`#{"..."}`) - Sass's own `max()` function (distinct from the CSS
+      // one) errors on incompatible units, so this forces it through as
+      // plain, unevaluated CSS for the browser to resolve instead.
+      a {
+        text-decoration-thickness: #{"max(1px, .0625rem)"};
+        text-underline-offset: .1105em;
+      }
+
+      a:hover {
+        text-decoration-thickness: #{"max(3px, .1875rem)"};
+        text-decoration-skip-ink: none;
+      }
+
       // Approximates GOV.UK's distinctive two-tone focus state: a solid
       // yellow background with a black "shadow" beneath, and no reliance
       // on colour alone (focused elements are never just outlined). Text

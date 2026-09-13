@@ -31,12 +31,18 @@
     max-width: var(--govuk-page-max-width);
 }
 
-/* "full" also goes edge-to-edge: zero the grid gutters (scoped inside a
-   --full container only) and replace them with a small symmetric padding
-   so content isn't flush against the viewport edge. */
+/* "full" also goes edge-to-edge: zero the container's own native margin
+   (15px/30px, or auto-centred from 1020px up) as well as the grid gutters
+   (scoped inside a --full container only), replacing them with a small
+   symmetric padding so content isn't flush against the viewport edge. Without
+   zeroing the margin too, "full" ends up with margin *and* padding stacked -
+   effectively narrower than "standard"/"three-quarters" on a small screen,
+   where their grid-row/grid-column trick nets out to just the margin. */
 
 .govuk-width-container--full,
 [data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) {
+    margin-left: 0;
+    margin-right: 0;
     padding-left: 15px;
     padding-right: 15px;
 }

@@ -38,8 +38,15 @@
 }
 
 .govuk-header__logo {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     padding-right: 80px;
+}
+
+/* The mirror only does anything at the wide-desktop breakpoint below; keep
+   it fully out of the layout everywhere else so it can never affect the
+   stacked mobile/tablet header. */
+.govuk-header__logo--mirror {
+    display: none;
 }
 
 
@@ -57,25 +64,36 @@
 
 /* =============================================================================
    Wide desktop (min-width: 79em / 1264px)
-   Service name is centred on the page; organisation name sits on the left
+
+   Org name, service name and an invisible aria-hidden mirror of the org
+   name/logo (see header.R's build_logo()) share a 3-column grid where the
+   two outer columns are forced to equal width. Because the mirror is a
+   byte-for-byte copy of the real org name/logo, that equal-width pairing
+   makes the service name in the middle column genuinely centred on the
+   page - adapting to the org name's actual rendered width, not a guess
+   based on a breakpoint or character count.
+
+   If the org name and service name are too wide to both fit, the service
+   name wraps onto a second line within its own column - it never overlaps
+   the org name, because the org name and its mirror always keep their own
+   dedicated columns.
+
+   Applies at every width tier: even "standard" (a fixed 960px) benefits,
+   since this degrades gracefully by wrapping rather than requiring a
+   separate stacked-only treatment.
    ============================================================================= */
 
 @media (min-width:79em) {
-    /* Flex row instead of the old absolute-positioned centring, so a long
-       org name and service name that don't fit on one line wrap onto a
-       second line instead of overlapping. */
     .govuk-header__container {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
         align-items: center;
-        justify-content: center;
-        gap: 10px 40px;
+        column-gap: 40px;
     }
 
-    /* Symmetric top/bottom padding centres the org name correctly (v6's
-       16px/12px split offsets it by 2px). Drop the mobile/tablet right
-       padding: there's no menu button to clear at this width. */
     .govuk-header__logo {
+        grid-column: 1;
+        justify-self: start;
         display: flex;
         align-items: center;
         padding-top: 14px;
@@ -85,8 +103,15 @@
     }
 
     .govuk-header__content {
-        flex: none;
+        grid-column: 2;
+        justify-self: center;
         text-align: center;
+    }
+
+    .govuk-header__logo--mirror {
+        grid-column: 3;
+        justify-self: end;
+        visibility: hidden;
     }
 }
 

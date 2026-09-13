@@ -37,6 +37,7 @@ shinyGovstyle::gov_page(
     shinyGovstyle::gov_row(
       shinyGovstyle::gov_box(
         size = "two-thirds",
+        mod_width_toggle_ui("width_toggle"),
         shinyGovstyle::gov_text(
           "This example app showcases the components available in the",
           "latest development version of the shinyGovstyle package.",
@@ -57,10 +58,8 @@ shinyGovstyle::gov_page(
           shiny::tags$code("page_fluid()"),
           ", via ",
           shiny::tags$code("shinyGovstyle::gov_page()"),
-          "; it's currently using the \"full\" width option, so try",
-          " \"standard\" and \"three quarters\" with the switcher below."
-        ),
-        mod_width_toggle_ui("width_toggle")
+          "; try the different width options with the switcher above."
+        )
       )
     ),
 

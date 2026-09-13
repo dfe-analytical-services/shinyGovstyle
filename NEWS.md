@@ -136,13 +136,6 @@
   renders inside a `<legend>` via the shared fieldset helper.
 * `govTable()` now renders rows in dataframe order (row order was previously
   silently reversed).
-* At `width = "standard"` (the default), a long organisation name and
-  service name in `header()` no longer overlap on wide screens; the
-  service name now wraps onto its own line instead.
-* A page built with `gov_page()`/`bslib::page_fluid()` no longer shows an
-  extra gutter next to GOV.UK's own left/right margin at any `width` tier:
-  Bootstrap's own container padding, which used to stack on top of it, is
-  now removed consistently.
 
 ## Minor improvements and bug fixes
 

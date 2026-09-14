@@ -45,6 +45,7 @@ Other Govstyle tables tabs and accordions:
 \code{\link[=accordion]{accordion()}},
 \code{\link[=govReactable]{govReactable()}},
 \code{\link{govReactable-shiny}},
-\code{\link[=govTable]{govTable()}}
+\code{\link[=govTable]{govTable()}},
+\code{\link[=gov_table_sort_hint]{gov_table_sort_hint()}}
 }
 \concept{Govstyle tables tabs and accordions}

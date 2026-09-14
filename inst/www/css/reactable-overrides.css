@@ -34,6 +34,56 @@
   transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+/* Permanent sort chevron + larger click target (issue #190) --------------
+ * reactable's built-in sort icon is disabled (showSortIcon = FALSE, see
+ * govReactable()) because it's too small and only appears on the active
+ * column; it would also visually clash with this chevron. Sighted users
+ * otherwise have no permanent indication that a column is sortable at all,
+ * unlike the ONS sortable table pattern this mirrors. The chevron is built
+ * from plain borders (the same technique as .govuk-accordion-nav__chevron)
+ * rather than an SVG/icon font, so it degrades predictably under
+ * forced-colors mode. */
+.bar-sort-header {
+  position: relative;
+  padding-right: 2.5rem !important;
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+}
+
+.bar-sort-header:after {
+  content: "";
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  margin-top: -0.4375rem;
+  transform: rotate(-45deg);
+  border-top: 0.1875rem solid #505a5f;
+  border-right: 0.1875rem solid #505a5f;
+}
+
+/* Unsorted default points down (indicates "select to sort ascending") */
+.bar-sort-header[aria-sort="none"]:after,
+.bar-sort-header:not([aria-sort]):after {
+  transform: rotate(135deg);
+  margin-top: -0.3125rem;
+}
+
+/* Ascending: chevron points up, coloured to match the active-sort bar */
+.bar-sort-header[aria-sort="ascending"]:after {
+  border-color: #1d70b8;
+}
+
+/* Descending: chevron points down, coloured to match the active-sort bar */
+.bar-sort-header[aria-sort="descending"]:after {
+  transform: rotate(135deg);
+  margin-top: -0.3125rem;
+  border-color: #1d70b8;
+}
+
 
 /* Table row and highlighting --------------------------------------------- */
 
@@ -84,6 +134,17 @@
   }
   .gov-table .bar-sort-header[aria-sort="descending"] {
     border-bottom: 0.188rem solid CanvasText;
+  }
+  /* The chevron's border-color already survives forced-colors, but its
+     neutral grey (unsorted) and GOV.UK blue (active) both get flattened to
+     the same system colour; force the active state to a distinct system
+     colour keyword so the two remain visually different. */
+  .gov-table .bar-sort-header:after {
+    border-color: CanvasText;
+  }
+  .gov-table .bar-sort-header[aria-sort="ascending"]:after,
+  .gov-table .bar-sort-header[aria-sort="descending"]:after {
+    border-color: Highlight;
   }
   .bar-sort-header:hover,
   .bar-sort-header:focus {

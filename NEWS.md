@@ -15,6 +15,14 @@
 
 ## New features
 
+* Sortable `govReactable()` table headers now have a permanent, high-contrast
+  sort chevron and a larger click target, and their accessible name (e.g. via
+  screen readers or voice control) now matches the visible header text
+  instead of reactable's default "Sort {name}" (see issue #190).
+  `govReactableOutput()` gains a `show_sort_hint = TRUE` argument that shows a
+  hint above the table explaining that headings can be selected to sort; the
+  new exported `gov_table_sort_hint()` adds the same hint to static tables
+  built directly with `govReactable()`.
 * `external_link()`'s `add_warning` argument now also accepts `"icon"`, in
   addition to `TRUE`/`FALSE`. Setting `add_warning = "icon"` adds a small
   decorative arrow icon after the link text, giving sighted users a visual

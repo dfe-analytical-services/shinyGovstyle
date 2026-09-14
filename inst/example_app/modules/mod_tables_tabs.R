@@ -21,6 +21,7 @@ mod_tables_tabs_ui <- function(id) {
       level = 2
     ),
     shinyGovstyle::heading_text("Caption added separately", size = "l"),
+    shinyGovstyle::gov_table_sort_hint(),
     shinyGovstyle::govReactable(
       shinyGovstyle::transport_data,
       right_col = c("bikes", "vans", "buses"),

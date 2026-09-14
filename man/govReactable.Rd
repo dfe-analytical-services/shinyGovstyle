@@ -39,8 +39,11 @@ A \code{reactable} HTML widget styled with GOV.UK classes
 This function is opinionated and sets table defaults that are in
 keeping with the wider GOV.UK design system. Some defaults are overrideable,
 such as \code{highlight=TRUE} and \code{borderless=TRUE}, however some are fixed, such
-as \code{showSortIcon=FALSE} as the default sort icon is inaccessible. Additional
-arguments from \code{reactable::reactable} can be passed to customise the table.
+as \code{showSortIcon=FALSE} as the default sort icon is inaccessible. \code{language}
+is also fixed, so each sortable header's accessible name matches its
+visible text (see issue #190) rather than reactable's default
+\code{"Sort {name}"}. Additional arguments from \code{reactable::reactable} can be
+passed to customise the table.
 }
 \details{
 This function inserts a government-styled table using \code{reactable}.
@@ -81,6 +84,7 @@ Other Govstyle tables tabs and accordions:
 \code{\link[=accordion]{accordion()}},
 \code{\link{govReactable-shiny}},
 \code{\link[=govTable]{govTable()}},
-\code{\link[=govTabs]{govTabs()}}
+\code{\link[=govTabs]{govTabs()}},
+\code{\link[=gov_table_sort_hint]{gov_table_sort_hint()}}
 }
 \concept{Govstyle tables tabs and accordions}

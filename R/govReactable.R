@@ -11,8 +11,11 @@
 #' This function is opinionated and sets table defaults that are in
 #' keeping with the wider GOV.UK design system. Some defaults are overrideable,
 #' such as `highlight=TRUE` and `borderless=TRUE`, however some are fixed, such
-#' as `showSortIcon=FALSE` as the default sort icon is inaccessible. Additional
-#' arguments from `reactable::reactable` can be passed to customise the table.
+#' as `showSortIcon=FALSE` as the default sort icon is inaccessible. `language`
+#' is also fixed, so each sortable header's accessible name matches its
+#' visible text (see issue #190) rather than reactable's default
+#' `"Sort {name}"`. Additional arguments from `reactable::reactable` can be
+#' passed to customise the table.
 #'
 #' @param df A dataframe used to generate the table
 #' @param right_col A vector of column names that should be right-aligned.
@@ -96,6 +99,7 @@ govReactable <- # nolint
       highlight = highlight,
       borderless = borderless,
       showSortIcon = FALSE,
+      language = reactable::reactableLang(sortLabel = "{name}"),
       fullWidth = TRUE,
       wrap = TRUE,
       class = "gov-table govuk-table",
@@ -114,6 +118,10 @@ govReactable <- # nolint
 #' Options are s, m, l, xl, with l as the default
 #' @param heading_level The HTML heading level for
 #' the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2"
+#' @param show_sort_hint Show a hint above the table explaining that
+#' column headings can be selected to sort the table (see issue #190).
+#' Default is `TRUE`. For static tables built with `govReactable()` directly,
+#' add this hint manually with `gov_table_sort_hint()`.
 #' @param expr An expression that generates a `reactable` widget
 #' @param env The environment in which to evaluate `expr`
 #' @param quoted Is `expr` a quoted expression (with [quote()])?
@@ -147,7 +155,8 @@ govReactableOutput <- # nolint
     output_table_name,
     caption,
     caption_size = "l",
-    heading_level = "h2"
+    heading_level = "h2",
+    show_sort_hint = TRUE
   ) {
     # Validate heading_level input
     allowed_levels <- c("h2", "h3", "h4", "h5")
@@ -158,6 +167,11 @@ govReactableOutput <- # nolint
       )
     }
 
+    # Validate show_sort_hint input
+    if (!is.logical(show_sort_hint) || length(show_sort_hint) != 1) {
+      stop("show_sort_hint must be TRUE or FALSE")
+    }
+
     heading_tag <- do.call(
       shiny::tags[[heading_level]],
       list(
@@ -166,11 +180,39 @@ govReactableOutput <- # nolint
       )
     )
 
+    sort_hint <- if (show_sort_hint) {
+      gov_table_sort_hint()
+    } else {
+      NULL
+    }
+
     htmltools::div(
       heading_tag,
+      sort_hint,
       reactable::reactableOutput(output_table_name)
     )
   }
+
+#' Sort hint text for govReactable tables
+#'
+#' Returns a short paragraph explaining that a table's column headings can be
+#' selected to sort the table, and selected again to reverse the sort order
+#' (see issue #190). `govReactableOutput()` includes this automatically via
+#' `show_sort_hint = TRUE`. For static tables built directly with
+#' `govReactable()`, add this manually alongside the caption.
+#'
+#' @return A `shiny.tag` containing the hint text
+#' @family Govstyle tables tabs and accordions
+#' @examples
+#' gov_table_sort_hint()
+#' @export
+gov_table_sort_hint <- function() {
+  shiny::tags$p(
+    class = "govuk-body",
+    "Select a column heading to sort the table by that column. ",
+    "Select it again to reverse the sort order."
+  )
+}
 
 # use renderReactable to render the govTables - naming just for convention
 # This function wraps reactable::renderReactable.

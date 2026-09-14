@@ -33,6 +33,7 @@ Imports:
     stringr,
     writexl
 Suggests:
+    brand.yml,
     bslib (>= 0.9.0),
     knitr,
     pkgdown (>= 2.1.1),

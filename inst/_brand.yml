@@ -8,11 +8,8 @@ meta:
 
 logo:
   images:
-    crest: logo/govuk-crest.svg
-    favicon: logo/favicon.ico
+    favicon: logo/logo.png
   small: favicon
-  medium: crest
-  large: crest
 
 color:
   palette:
@@ -30,9 +27,8 @@ color:
     border-colour: "#cecece"
     surface-background-colour: "#f4f8fb"
     surface-border-colour: "#8eb8dc"
-    # Not a GOV.UK Frontend token (it doesn't style code blocks). Taken
-    # from design-system.service.gov.uk's own compiled CSS, which pairs
-    # this background with the standard text colour.
+    # Not an official GOV.UK Frontend token - taken from the design
+    # system site's own CSS for code blocks.
     code-background-colour: "#f3f3f3"
   foreground: text-colour
   background: "#ffffff"
@@ -43,9 +39,8 @@ color:
   warning: focus-colour
   info: link-colour
 
-# GDS Transport (GOV.UK's typeface) is only licensed for *.gov.uk services,
-# so it's excluded here. This is the plain Arial fallback that GOV.UK
-# Frontend itself uses when GDS Transport isn't available.
+# GOV.UK's real typeface (GDS Transport) is *.gov.uk-only, so this uses
+# GOV.UK Frontend's own Arial fallback instead.
 typography:
   base:
     family: "Arial, sans-serif"
@@ -69,25 +64,15 @@ typography:
 defaults:
   bootstrap:
     defaults:
-      link-hover-color: "#0f385c" # link-hover-colour
+      link-hover-color: "#0f385c" # = link-hover-colour above
       link-decoration: underline
     rules: |
-      // Quarto/bslib shows this brand's logo (the GOV.UK crest) in the
-      // navbar by default. Hidden here, since most sites using this brand
-      // aren't official government services. To show it, override
-      // .navbar-logo (e.g. in your own _quarto.yml `format.html.css`):
-      //   .navbar-logo { display: inline-block !important; }
-      .navbar-logo {
-        display: none !important;
-      }
-
-      // Matches GOV.UK's link underline style: thicker, offset from the
-      // text, and thicker again on hover with no gaps around descenders
-      // like "g"/"y". Bootstrap's `link-decoration: underline` only sets
-      // `text-decoration`, not these extra properties - see
-      // https://design-system.service.gov.uk/styles/typography/#links
-      // The CSS `max()` is wrapped in `#{"..."}` so Sass passes it
-      // straight to the browser instead of trying to evaluate it itself.
+      // Matches GOV.UK's link underline: thicker, offset from the text,
+      // and no gaps around descenders like "g"/"y". Bootstrap's
+      // link-decoration only sets text-decoration, not these extra
+      // properties - see design-system.service.gov.uk/styles/typography/#links
+      // #{"..."} stops Sass evaluating max() itself, passing it to CSS
+      // unchanged.
       a {
         text-decoration-thickness: #{"max(1px, .0625rem)"};
         text-underline-offset: .1105em;
@@ -98,14 +83,12 @@ defaults:
         text-decoration-skip-ink: none;
       }
 
-      // Matches GOV.UK's focus style: a solid yellow background with a
-      // black shadow beneath, never just an outline. Text is forced to
-      // black, otherwise components with their own focus colour (e.g.
-      // white navbar links) would keep white text on yellow, which fails
-      // accessibility checks. Bootstrap's own :focus rules also use
-      // !important and can be more specific than a single :focus selector,
-      // so :focus is repeated here to win on specificity instead of
-      // targeting every component individually.
+      // GOV.UK's focus style: solid yellow background, black shadow
+      // beneath, never just an outline. Text is forced black so
+      // light-coloured components (e.g. white navbar links) stay
+      // readable on yellow. :focus is repeated to out-specificity
+      // Bootstrap's own !important focus rules, rather than overriding
+      // every component individually.
       :focus:focus:focus:focus:focus {
         outline: 3px solid transparent !important;
         background-color: $warning !important;
@@ -114,22 +97,18 @@ defaults:
         color: $body-color !important;
       }
 
-      // Some components (e.g. Quarto's search icon) set their own colour
-      // on a child element instead of inheriting it, so the rule above
-      // doesn't reach them - this forces it down explicitly.
-      // `background-color` is also reset, so inline code (which has its
-      // own grey background) doesn't sit as a grey box on top of the
-      // yellow focus fill.
+      // Some components (e.g. Quarto's search icon) set colour on a
+      // child element instead of inheriting it, so this forces it down.
+      // Also resets background-color, so inline code's own grey
+      // background doesn't show through the yellow focus fill.
       :focus:focus:focus:focus:focus * {
         color: $body-color !important;
         background-color: transparent !important;
       }
 
-      // Inputs and search boxes keep their own background and get an
-      // outline instead of a fill, so typed text stays readable -
-      // matching GOV.UK's real input focus style, which is outline-only.
-      // The extra type selector makes this win over the general focus
-      // rule above for the same element.
+      // Inputs keep their own background and get an outline instead of
+      // a fill, matching GOV.UK's outline-only input focus style. The
+      // type selector wins over the general focus rule above.
       input:focus:focus:focus:focus:focus,
       textarea:focus:focus:focus:focus:focus,
       select:focus:focus:focus:focus:focus {

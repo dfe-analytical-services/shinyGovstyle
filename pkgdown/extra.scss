@@ -1,14 +1,10 @@
-// _brand.yml only themes bslib content, not pkgdown's navbar - and it's
-// synced from upstream weekly, so it shouldn't be hand-edited. Those
-// pkgdown-specific overrides live here instead.
-//
-// Gives the navbar GOV.UK's solid blue header, with white nav links/icons
-// that switch to the black-on-yellow highlight on hover and focus
-// (including pkgdown's built-in GitHub icon link).
+// _brand.yml is synced from upstream and doesn't theme pkgdown's
+// navbar, so those overrides live here instead: a solid blue header
+// with white nav links/icons that switch to black-on-yellow on hover
+// and focus (including pkgdown's built-in GitHub icon link).
 
-// pkgdown adds a `bg-light` class to the navbar, and Bootstrap's
-// `.bg-light` uses !important - so this needs !important too, to win
-// regardless of cascade order.
+// Overrides pkgdown's .bg-light navbar class, which also uses
+// !important.
 .navbar {
   background-color: $primary !important;
 }
@@ -41,17 +37,17 @@
   background-color: $warning;
 }
 
-// Matches the top-level nav links' black-on-yellow hover, replacing
-// pkgdown's default light grey.
+// Same black-on-yellow hover as the top-level nav links, replacing
+// pkgdown's default grey.
 .dropdown-menu .dropdown-item:hover,
 .dropdown-menu .dropdown-item:focus {
   color: $body-color;
   background-color: $warning;
 }
 
-// pkgdown's "On this page" sidebar highlights the hovered/focused entry
-// with a faint blue tint by default. Matches GOV.UK's yellow focus style
-// used elsewhere; the selector shape must match to win the cascade.
+// Replaces the sidebar's default blue tint with the same yellow focus
+// style used elsewhere. Selector shape must match pkgdown's own to win
+// the cascade.
 #toc > .nav a.nav-link:hover,
 #toc > .nav a.nav-link:focus {
   color: $body-color;

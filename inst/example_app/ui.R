@@ -1,6 +1,6 @@
 bslib::page_fluid(
   theme = bs_theme(version = 5),
-  title = "ShinyGovstyle component showcase",
+  title = "Select Types | shinyGovstyle",
   shinyGovstyle::cookieBanner("shinyGovstyle component showcase"),
   shinyjs::useShinyjs(),
 
@@ -20,16 +20,16 @@ bslib::page_fluid(
       "Tables, tabs and accordions" = "sn_tables_tabs",
       "Feedback types" = "sn_feedback_types",
       "Cookies" = "sn_cookies"
-    )
+    ),
+    page_title_suffix = "shinyGovstyle"
   ),
 
   shinyGovstyle::banner(
     "banner",
     "Beta",
-    paste0(
-      'This is a new service \u002D your <a class="govuk-link" href=',
-      '"https://github.com/dfe-analytical-services/shinyGovstyle/issues/new',
-      '/choose">feedback</a> will help us to improve it.'
+    feedback_url = paste0(
+      "https://github.com/dfe-analytical-services/shinyGovstyle/issues/new",
+      "/choose"
     )
   ),
 

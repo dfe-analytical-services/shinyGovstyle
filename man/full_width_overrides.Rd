@@ -21,7 +21,7 @@ components from other packages, use at your own risk.
 shinyGovstyle::full_width_overrides()
 }
 \seealso{
-Other Govstyle styling: 
-\code{\link{font}()}
+Other Govstyle styling:
+\code{\link[=font]{font()}}
 }
 \concept{Govstyle styling}

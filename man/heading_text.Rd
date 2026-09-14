@@ -26,12 +26,12 @@ shinyGovstyle::heading_text("This is great text")
 shinyGovstyle::heading_text("This is great text", size = "l", level = 2)
 }
 \seealso{
-Other Govstyle text types: 
-\code{\link{date_Input}()},
-\code{\link{gov_list}()},
-\code{\link{input_field}()},
-\code{\link{text_Input}()},
-\code{\link{text_area_Input}()},
-\code{\link{word_count}()}
+Other Govstyle text types:
+\code{\link[=date_Input]{date_Input()}},
+\code{\link[=gov_list]{gov_list()}},
+\code{\link[=input_field]{input_field()}},
+\code{\link[=text_Input]{text_Input()}},
+\code{\link[=text_area_Input]{text_area_Input()}},
+\code{\link[=word_count]{word_count()}}
 }
 \concept{Govstyle text types}

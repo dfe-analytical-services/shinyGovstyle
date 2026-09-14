@@ -7,7 +7,9 @@
 accordion(inputId, titles, descriptions)
 }
 \arguments{
-\item{inputId}{Input Id for the accordion}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{titles}{Add the titles for the accordion}
 
@@ -76,10 +78,10 @@ server <- function(input, output, session) {}
 if (interactive()) shiny::shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle tables tabs and accordions: 
-\code{\link{govReactable}()},
+Other Govstyle tables tabs and accordions:
+\code{\link[=govReactable]{govReactable()}},
 \code{\link{govReactable-shiny}},
-\code{\link{govTable}()},
-\code{\link{govTabs}()}
+\code{\link[=govTable]{govTable()}},
+\code{\link[=govTabs]{govTabs()}}
 }
 \concept{Govstyle tables tabs and accordions}

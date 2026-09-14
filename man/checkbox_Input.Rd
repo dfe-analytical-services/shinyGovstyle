@@ -12,11 +12,15 @@ checkbox_Input(
   hint_label = NULL,
   small = FALSE,
   error = FALSE,
-  error_message = NULL
+  error_message = NULL,
+  label_size = c("m", "s", "l", "xl"),
+  heading_level = NULL
 )
 }
 \arguments{
-\item{inputId}{Input Id for the group of checkboxes}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{cb_labels}{Add the names of the options that will appear}
 
@@ -32,9 +36,19 @@ label. Accepts the same rich content as \code{label}, so it can include a link.}
 \item{small}{change the sizing to a small version of the checkbox. Defaults
 to \code{FALSE}}
 
-\item{error}{Whenever you want to include error handle on the component}
+\item{error}{If \code{TRUE}, render the component in its error state and
+reserve a slot for the error message. Defaults to \code{FALSE}.}
 
-\item{error_message}{If you want a default error message}
+\item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
+
+\item{label_size}{Size modifier for the legend. One of \code{"m"}, \code{"s"}, \code{"l"},
+or \code{"xl"}, matching the GDS \verb{govuk-fieldset__legend--*} classes. Defaults
+to \code{"m"}.}
+
+\item{heading_level}{Optional heading level for the legend. If supplied
+(an integer 1-6), the legend text is wrapped in a \verb{<hN>} with the GDS
+\code{govuk-fieldset__heading} class, following the GDS pattern for using a
+question as the page heading. Defaults to \code{NULL} (no heading wrap).}
 }
 \value{
 a checkbox HTML shiny tag object
@@ -101,11 +115,11 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle select inputs: 
-\code{\link{button_Input}()},
-\code{\link{file_Input}()},
-\code{\link{radio_button_Input}()},
-\code{\link{select_Input}()},
-\code{\link{update_radio_button_Input}()}
+Other Govstyle select inputs:
+\code{\link[=button_Input]{button_Input()}},
+\code{\link[=file_Input]{file_Input()}},
+\code{\link[=radio_button_Input]{radio_button_Input()}},
+\code{\link[=select_Input]{select_Input()}},
+\code{\link[=update_radio_button_Input]{update_radio_button_Input()}}
 }
 \concept{Govstyle select inputs}

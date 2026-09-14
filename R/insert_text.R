@@ -2,7 +2,7 @@
 #'
 #' This function loads the insert text component to display additional
 #' information in a special format.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param content Content to display on the insert. Accepts a plain character
 #' string, or `shiny` tag objects such as `shiny::tags$b("Bold")` or a
 #' `shiny::tagList()`.

@@ -9,7 +9,7 @@
 #' relies on this, and uses js instead.
 #' The text_area_Input function can still be used as before
 #' @keywords internal
-#' @param inputId The input slot of the text area that you want to affect
+#' @inheritParams id_arg
 #' @param input The text input that is associated with the box
 #' @param word_limit Change the word limit if needed. Default will keep as
 #' what was used in text area component

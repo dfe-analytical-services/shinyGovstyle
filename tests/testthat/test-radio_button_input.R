@@ -1,3 +1,10 @@
+radios_container <- function(rtag) {
+  # The outer wrapper div also carries the "govuk-radios" class
+  # (see R/radio_button_input.R), so take the inner (deepest) match.
+  all_matches <- find_tags(rtag, "govuk-radios")
+  all_matches[[length(all_matches)]]
+}
+
 test_that("Default", {
   choices <- c("A", "B", "C")
   rtag <- radio_button_Input(
@@ -6,7 +13,7 @@ test_that("Default", {
     choices = choices,
     selected = "A"
   )
-  choicestag <- rtag$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- find_tags(rtag, "govuk-radios__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -14,7 +21,7 @@ test_that("Default", {
     function(x) grepl(pattern = "checked", x = as.character(x))
   )
   checked <- unlist(checked)
-  expect_equal(which(checked), 1)
+  expect_identical(checked, c(TRUE, FALSE, FALSE))
 })
 
 
@@ -28,7 +35,7 @@ test_that("Error", {
     error = TRUE,
     error_message = "Error Test"
   )
-  choicestag <- rtag$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- find_tags(rtag, "govuk-radios__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -36,18 +43,9 @@ test_that("Error", {
     function(x) grepl(pattern = "checked", x = as.character(x))
   )
   checked <- unlist(checked)
-  expect_equal(which(checked), 1)
+  expect_identical(checked, c(TRUE, FALSE, FALSE))
 
-  err_msg <- rtag$children[[1]]$children[[3]]$children[[1]]
-  expect_identical(err_msg, "Error Test")
-
-  err_class <- paste(
-    rtag$children[[1]]$children[[3]]$attribs$class,
-    rtag$children[[1]]$children[[3]]$attribs[4]$class
-  )
-  expect_identical(err_class, "govuk-error-message shinyjs-hide")
-
-  expect_identical(rtag$children[[1]]$children[[3]]$attribs$role, "alert")
+  expect_hidden_error(rtag, "Error Test")
 })
 
 test_that("Small", {
@@ -59,7 +57,7 @@ test_that("Small", {
     selected = "A",
     small = TRUE
   )
-  choicestag <- rtag$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- find_tags(rtag, "govuk-radios__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -67,10 +65,12 @@ test_that("Small", {
     function(x) grepl(pattern = "checked", x = as.character(x))
   )
   checked <- unlist(checked)
-  expect_equal(which(checked), 1)
+  expect_identical(checked, c(TRUE, FALSE, FALSE))
 
-  small_class <- rtag$children[[1]]$children[[4]]$attribs$class
-  expect_identical(small_class, "govuk-radios govuk-radios--small")
+  expect_identical(
+    htmltools::tagGetAttribute(radios_container(rtag), "class"),
+    "govuk-radios govuk-radios--small"
+  )
 })
 
 test_that("Inline", {
@@ -82,7 +82,7 @@ test_that("Inline", {
     selected = "A",
     inline = TRUE
   )
-  choicestag <- rtag$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- find_tags(rtag, "govuk-radios__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -90,10 +90,12 @@ test_that("Inline", {
     function(x) grepl(pattern = "checked", x = as.character(x))
   )
   checked <- unlist(checked)
-  expect_equal(which(checked), 1)
+  expect_identical(checked, c(TRUE, FALSE, FALSE))
 
-  inline_class <- rtag$children[[1]]$children[[4]]$attribs$class
-  expect_identical(inline_class, "govuk-radios govuk-radios--inline")
+  expect_identical(
+    htmltools::tagGetAttribute(radios_container(rtag), "class"),
+    "govuk-radios govuk-radios--inline"
+  )
 })
 
 test_that("label and hint accept rich content", {
@@ -203,14 +205,189 @@ test_that("Labels are programmatically associated with inputs", {
     choices = choices,
     selected = "Yes"
   )
-  option_items <- rtag$children[[1]]$children[[4]]$children[[1]]
+  option_items <- find_tags(rtag, "govuk-radios__item")
 
   for (i in seq_along(choices)) {
     item <- option_items[[i]]
-    input_tag <- item$children[[1]]
-    label_tag <- item$children[[2]]
+    input_tag <- find_tag(item, "govuk-radios__input")
+    label_tag <- find_tag(item, "govuk-label")
     expected_id <- paste0("radio_a11y-", i)
-    expect_identical(input_tag$attribs$id, expected_id)
-    expect_identical(label_tag$attribs$`for`, expected_id)
+    expect_identical(htmltools::tagGetAttribute(input_tag, "id"), expected_id)
+    expect_identical(
+      htmltools::tagGetAttribute(label_tag, "for"),
+      expected_id
+    )
   }
+})
+
+test_that("fieldset children appear in GOV.UK order", {
+  rtag <- radio_button_Input(
+    inputId = "Id029",
+    label = "Label",
+    choices = c("A", "B"),
+    selected = "A",
+    error = TRUE,
+    error_message = "Error Test"
+  )
+
+  fieldset <- find_tag(rtag, "govuk-fieldset")
+  expect_identical(
+    child_classes(fieldset),
+    c(
+      "govuk-fieldset__legend govuk-fieldset__legend--m",
+      "govuk-error-message shinyjs-hide",
+      "govuk-radios"
+    )
+  )
+})
+
+test_that("Fieldset and legend wrap radio group with default --m size", {
+  rtag <- radio_button_Input(
+    inputId = "radio_fieldset",
+    label = "Pick one",
+    choices = c("Yes", "No")
+  )
+  fieldset <- find_tag(rtag, "govuk-fieldset")
+  expect_identical(
+    htmltools::tagGetAttribute(fieldset, "class"),
+    "govuk-fieldset"
+  )
+
+  legend <- find_tag(fieldset, "govuk-fieldset__legend")
+  expect_identical(
+    htmltools::tagGetAttribute(legend, "class"),
+    "govuk-fieldset__legend govuk-fieldset__legend--m"
+  )
+  expect_identical(
+    tag_text(fieldset, "govuk-fieldset__legend"),
+    shiny::HTML("Pick one")
+  )
+})
+
+test_that("label with markup renders as HTML, not escaped text", {
+  rtag <- radio_button_Input(
+    inputId = "r",
+    label = "<b>Bold</b>",
+    choices = c("a", "b")
+  )
+  expect_match(as.character(rtag), "<b>Bold</b>", fixed = TRUE)
+})
+
+test_that("label_size sets the legend size modifier", {
+  for (size in c("s", "m", "l", "xl")) {
+    rtag <- radio_button_Input(
+      inputId = "r",
+      label = "Q",
+      choices = c("a", "b"),
+      label_size = size
+    )
+    legend <- find_tag(rtag, "govuk-fieldset__legend")
+    expect_identical(
+      htmltools::tagGetAttribute(legend, "class"),
+      paste0("govuk-fieldset__legend govuk-fieldset__legend--", size)
+    )
+  }
+})
+
+test_that("label_size rejects unknown values", {
+  expect_error(
+    radio_button_Input(
+      inputId = "r",
+      label = "Q",
+      choices = c("a", "b"),
+      label_size = "huge"
+    )
+  )
+})
+
+test_that("heading_level wraps the legend text in an <hN>", {
+  rtag <- radio_button_Input(
+    inputId = "r",
+    label = "Q",
+    choices = c("a", "b"),
+    label_size = "l",
+    heading_level = 1
+  )
+  heading <- find_tag(rtag, "govuk-fieldset__heading")
+  expect_identical(heading$name, "h1")
+  expect_identical(heading$attribs$class, "govuk-fieldset__heading")
+  expect_identical(
+    tag_text(rtag, "govuk-fieldset__heading"),
+    shiny::HTML("Q")
+  )
+})
+
+test_that("heading_level rejects invalid values", {
+  expect_error(
+    radio_button_Input(
+      inputId = "r",
+      label = "Q",
+      choices = c("a", "b"),
+      heading_level = 0
+    )
+  )
+  expect_error(
+    radio_button_Input(
+      inputId = "r",
+      label = "Q",
+      choices = c("a", "b"),
+      heading_level = 7
+    )
+  )
+  expect_error(
+    radio_button_Input(
+      inputId = "r",
+      label = "Q",
+      choices = c("a", "b"),
+      heading_level = c(1, 2)
+    )
+  )
+  expect_error(
+    radio_button_Input(
+      inputId = "r",
+      label = "Q",
+      choices = c("a", "b"),
+      heading_level = TRUE
+    )
+  )
+  expect_error(
+    radio_button_Input(
+      inputId = "r",
+      label = "Q",
+      choices = c("a", "b"),
+      heading_level = 2.5
+    )
+  )
+})
+
+test_that("Fieldset aria-describedby references hint and error ids", {
+  rtag <- radio_button_Input(
+    inputId = "radio_aria",
+    label = "Pick one",
+    choices = c("Yes", "No"),
+    hint_label = "Choose wisely",
+    error = TRUE,
+    error_message = "Required"
+  )
+  fieldset <- find_tag(rtag, "govuk-fieldset")
+  expect_identical(
+    htmltools::tagGetAttribute(fieldset, "aria-describedby"),
+    "radio_aria-hint radio_aria-error"
+  )
+
+  hint <- find_tag(rtag, "govuk-hint")
+  expect_identical(htmltools::tagGetAttribute(hint, "id"), "radio_aria-hint")
+
+  err <- find_tag(rtag, "govuk-error-message")
+  expect_identical(htmltools::tagGetAttribute(err, "id"), "radio_aria-error")
+})
+
+test_that("Fieldset has no aria-describedby when no hint or error", {
+  rtag <- radio_button_Input(
+    inputId = "radio_plain",
+    label = "Pick one",
+    choices = c("Yes", "No")
+  )
+  fieldset <- find_tag(rtag, "govuk-fieldset")
+  expect_null(htmltools::tagGetAttribute(fieldset, "aria-describedby"))
 })

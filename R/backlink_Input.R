@@ -1,7 +1,7 @@
 #' Back Link Function
 #'
 #' This function adds a back link to the page
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param label The link text for the backlink, default is "Back"
 #' @return a backlink HTML shiny tag object
 #' @family Govstyle navigation

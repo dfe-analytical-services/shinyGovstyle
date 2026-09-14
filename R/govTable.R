@@ -2,11 +2,11 @@
 #'
 #' This function inserts a gov styled table. Format is with header looking
 #' rows and columns
+#' @inheritParams id_arg
 #' @details For very large or interactive tables, consider
 #' [govReactable()] instead. `govTable()` renders a static HTML table, which
 #' becomes slow to render and harder to navigate as the number of rows grows.
 #' A warning is emitted when `df` has more than 50 rows.
-#' @param inputId Input Id for the table
 #' @param df expects a dataframe to create a table
 #' @param caption adds a caption to the table as a header
 #' @param caption_size adjust the size of caption. Options are s, m, l, xl,

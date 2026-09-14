@@ -16,3 +16,5 @@ _\.new\.png$
 package.json
 ^.claude$
 ^man/figures/example_app\.gif$
+^AGENTS.md$
+^.posit$

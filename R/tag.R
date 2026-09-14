@@ -1,7 +1,7 @@
 #' Tag Function
 #'
 #' This function creates a tag.
-#' @param inputId The Id to access the tag
+#' @inheritParams id_arg
 #' @param text The text in the tag
 #' @param colour The colour of the tag. Default is navy. Other options are
 #' grey, green, teal, blue, purple, magenta, red, orange and yellow

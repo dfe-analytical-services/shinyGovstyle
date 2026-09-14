@@ -1,11 +1,10 @@
 #' Text Area Input Function
 #'
 #' This function create a text area input.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @inheritParams control_label_params
+#' @inheritParams error_args
 #' @param row_no Size of the text entry box. Defaults to 5
-#' @param error Whenever to include error handling. Defaults to `FALSE`
-#' @param error_message Message to display on error. Defaults to `NULL`
 #' @param word_limit Add a word limit to the display. Defaults to `NULL`
 #' @return a text area box HTML shiny tag object
 #' @family Govstyle text types
@@ -44,7 +43,10 @@ text_area_Input <- # nolint
       described_by <- c(described_by, paste0(inputId, "-info"))
     }
     if (!is.null(hint_label)) {
-      described_by <- c(described_by, paste0(inputId, "-hint"))
+      described_by <- c(described_by, govuk_hint_id(inputId))
+    }
+    if (error == TRUE) {
+      described_by <- c(described_by, govuk_error_id(inputId))
     }
 
     word_limit_text <- if (!is.null(word_limit)) {
@@ -85,20 +87,10 @@ text_area_Input <- # nolint
         shiny::tags$div(
           as_govuk_html(hint_label),
           class = "govuk-hint",
-          id = paste0(inputId, "-hint")
+          id = govuk_hint_id(inputId)
         )
       },
-      if (error == TRUE) {
-        shinyjs::hidden(
-          shiny::tags$p(
-            error_message,
-            class = "govuk-error-message",
-            id = paste0(inputId, "error"),
-            role = "alert",
-            shiny::tags$span("Error:", class = "govuk-visually-hidden")
-          )
-        )
-      },
+      if (error == TRUE) govuk_error_message(inputId, error_message),
       shiny::tags$textarea(
         id = inputId,
         class = if (!is.null(word_limit)) {

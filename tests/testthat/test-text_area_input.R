@@ -1,14 +1,18 @@
 test_that("text area works", {
   text_area_check <- text_area_Input("input1", "Test area")
-  query <- htmltools::tagQuery(text_area_check)
 
-  textarea <- query$find("textarea")$selectedTags()
-  expect_length(textarea, 1)
-  expect_equal(textarea[[1]]$attribs$rows, 5)
+  expect_equal(
+    as.numeric(htmltools::tagGetAttribute(
+      find_tag(text_area_check, "govuk-textarea"),
+      "rows"
+    )),
+    5
+  )
 
-  label <- query$find(".govuk-label")$selectedTags()
-  expect_length(label, 1)
-  expect_identical(label[[1]]$children[[1]], shiny::HTML("Test area"))
+  expect_identical(
+    tag_text(text_area_check, "govuk-label"),
+    shiny::HTML("Test area")
+  )
 })
 
 
@@ -20,57 +24,80 @@ test_that("text area error works", {
     error_message = "Test error",
     row_no = 10
   )
-  query <- htmltools::tagQuery(text_area_check)
 
-  textarea <- query$find("textarea")$selectedTags()
-  expect_length(textarea, 1)
-  expect_equal(textarea[[1]]$attribs$rows, 10)
-
-  error_msg <- query$find("#input1error")$selectedTags()
-  expect_length(error_msg, 1)
-  # shinyjs::hidden() adds its own "class" attrib alongside ours, so the tag
-  # ends up with two class entries rather than one space-separated value.
-  error_classes <- error_msg[[1]]$attribs[
-    names(error_msg[[1]]$attribs) == "class"
-  ]
-  expect_identical(
-    paste(unlist(error_classes), collapse = " "),
-    "govuk-error-message shinyjs-hide"
+  expect_equal(
+    as.numeric(htmltools::tagGetAttribute(
+      find_tag(text_area_check, "govuk-textarea"),
+      "rows"
+    )),
+    10
   )
-  expect_identical(error_msg[[1]]$children[[1]], "Test error")
-  expect_identical(error_msg[[1]]$attribs$role, "alert")
+
+  expect_hidden_error(text_area_check, "Test error")
 })
 
 test_that("text area word works", {
   text_area_check <- text_area_Input("input1", "Test area", word_limit = 300)
-  query <- htmltools::tagQuery(text_area_check)
 
-  textarea <- query$find("textarea")$selectedTags()
+  textarea <- find_tag(text_area_check, "govuk-textarea")
   expect_identical(
-    textarea[[1]]$attribs$`aria-describedby`,
+    htmltools::tagGetAttribute(textarea, "aria-describedby"),
     "input1-info"
   )
 
-  info <- query$find("#input1-info")$selectedTags()
-  expect_length(info, 1)
-  expect_identical(info[[1]]$children[[1]], "You can enter up to 300 words")
-  expect_match(info[[1]]$attribs$class, "govuk-visually-hidden")
-
-  status <- query$find("#input1-status")$selectedTags()
-  expect_length(status, 1)
-  expect_identical(status[[1]]$attribs$`aria-hidden`, "true")
+  info <- find_by_id_suffix(text_area_check, "input1-info")
   expect_identical(
-    status[[1]]$children[[1]],
-    "You can enter up to 300 words"
+    htmltools::tagGetAttribute(info, "class"),
+    "govuk-hint govuk-character-count__message govuk-visually-hidden"
   )
+  expect_identical(info$children[[1]], "You can enter up to 300 words")
+
+  # "input1-status" (not just "-status"): "-sr-status" also ends in "-status".
+  status <- find_by_id_suffix(text_area_check, "input1-status")
+  expect_identical(htmltools::tagGetAttribute(status, "aria-hidden"), "true")
   expect_identical(
-    status[[1]]$attribs$class,
+    htmltools::tagGetAttribute(status, "class"),
     "govuk-hint govuk-character-count__message govuk-character-count__status"
   )
+  expect_identical(status$children[[1]], "You can enter up to 300 words")
 
-  sr_status <- query$find("#input1-sr-status")$selectedTags()
-  expect_length(sr_status, 1)
-  expect_identical(sr_status[[1]]$attribs$`aria-live`, "polite")
-  expect_identical(sr_status[[1]]$attribs$`aria-atomic`, "true")
-  expect_match(sr_status[[1]]$attribs$class, "govuk-visually-hidden")
+  sr_status <- find_by_id_suffix(text_area_check, "input1-sr-status")
+  expect_identical(
+    htmltools::tagGetAttribute(sr_status, "aria-live"),
+    "polite"
+  )
+  expect_identical(
+    htmltools::tagGetAttribute(sr_status, "aria-atomic"),
+    "true"
+  )
+  expect_match(
+    htmltools::tagGetAttribute(sr_status, "class"),
+    "govuk-visually-hidden"
+  )
+})
+
+test_that("form group children appear in GOV.UK order", {
+  text_area_check <- text_area_Input(
+    "input1",
+    "Test area",
+    error = TRUE,
+    error_message = "Test error",
+    word_limit = 300
+  )
+
+  expect_identical(
+    htmltools::tagGetAttribute(text_area_check, "class"),
+    "govuk-form-group govuk-character-count"
+  )
+  expect_identical(
+    child_classes(text_area_check),
+    c(
+      "govuk-label",
+      "govuk-hint govuk-character-count__message govuk-visually-hidden",
+      "govuk-error-message shinyjs-hide",
+      "govuk-textarea govuk-js-character-count",
+      # the word-limit info/status/sr-status divs, wrapped in a tagList
+      "<list>"
+    )
+  )
 })

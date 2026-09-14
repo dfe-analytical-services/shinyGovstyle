@@ -22,7 +22,11 @@ Defaults to the current reactive domain.}
 
 \item{inputId}{The id of the \code{\link[=radio_button_Input]{radio_button_Input()}} to update}
 
-\item{label}{New label for the input, or \code{NULL} to leave unchanged}
+\item{label}{New label for the input, or \code{NULL} to leave unchanged. Sent to
+the client as plain text: if the group was created with \code{heading_level}
+set, the \verb{<hN>} heading wrapper around the legend is preserved, but rich
+HTML/tag content is not — the legend always ends up as plain text after an
+update, the same limitation this function has always had.}
 
 \item{choices}{New vector of choices, or \code{NULL} to leave unchanged (if
 elements of the vector are named then that name rather than the value is
@@ -94,11 +98,11 @@ if (interactive()) shinyApp(ui = ui, server = server)
 \seealso{
 \code{\link[=radio_button_Input]{radio_button_Input()}}
 
-Other Govstyle select inputs: 
-\code{\link{button_Input}()},
-\code{\link{checkbox_Input}()},
-\code{\link{file_Input}()},
-\code{\link{radio_button_Input}()},
-\code{\link{select_Input}()}
+Other Govstyle select inputs:
+\code{\link[=button_Input]{button_Input()}},
+\code{\link[=checkbox_Input]{checkbox_Input()}},
+\code{\link[=file_Input]{file_Input()}},
+\code{\link[=radio_button_Input]{radio_button_Input()}},
+\code{\link[=select_Input]{select_Input()}}
 }
 \concept{Govstyle select inputs}

@@ -77,10 +77,10 @@ if (interactive()) {
 }
 }
 \seealso{
-Other Govstyle tables tabs and accordions: 
-\code{\link{accordion}()},
+Other Govstyle tables tabs and accordions:
+\code{\link[=accordion]{accordion()}},
 \code{\link{govReactable-shiny}},
-\code{\link{govTable}()},
-\code{\link{govTabs}()}
+\code{\link[=govTable]{govTable()}},
+\code{\link[=govTabs]{govTabs()}}
 }
 \concept{Govstyle tables tabs and accordions}

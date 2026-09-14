@@ -7,7 +7,9 @@
 error_summary(inputId, error_title, error_list)
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{error_title}{The title for the error summary}
 
@@ -54,9 +56,9 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle errors: 
-\code{\link{error_off}()},
-\code{\link{error_on}()},
-\code{\link{error_summary_update}()}
+Other Govstyle errors:
+\code{\link[=error_off]{error_off()}},
+\code{\link[=error_on]{error_on()}},
+\code{\link[=error_summary_update]{error_summary_update()}}
 }
 \concept{Govstyle errors}

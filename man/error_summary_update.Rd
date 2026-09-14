@@ -7,7 +7,9 @@
 error_summary_update(inputId, error_list)
 }
 \arguments{
-\item{inputId}{The input Id of the error summary you want to update}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{error_list}{An updated list of text values to be displayed in the
 error body}
@@ -53,9 +55,9 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle errors: 
-\code{\link{error_off}()},
-\code{\link{error_on}()},
-\code{\link{error_summary}()}
+Other Govstyle errors:
+\code{\link[=error_off]{error_off()}},
+\code{\link[=error_on]{error_on()}},
+\code{\link[=error_summary]{error_summary()}}
 }
 \concept{Govstyle errors}

@@ -7,7 +7,9 @@
 select_Input(inputId, label, select_text, select_value)
 }
 \arguments{
-\item{inputId}{Input Id for the component}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{label}{Display label for the control, or \code{NULL} for no label. Accepts
 a plain character string, an HTML string, or \code{shiny} tag objects such as
@@ -53,11 +55,11 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle select inputs: 
-\code{\link{button_Input}()},
-\code{\link{checkbox_Input}()},
-\code{\link{file_Input}()},
-\code{\link{radio_button_Input}()},
-\code{\link{update_radio_button_Input}()}
+Other Govstyle select inputs:
+\code{\link[=button_Input]{button_Input()}},
+\code{\link[=checkbox_Input]{checkbox_Input()}},
+\code{\link[=file_Input]{file_Input()}},
+\code{\link[=radio_button_Input]{radio_button_Input()}},
+\code{\link[=update_radio_button_Input]{update_radio_button_Input()}}
 }
 \concept{Govstyle select inputs}

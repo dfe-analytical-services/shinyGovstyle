@@ -22,6 +22,28 @@ test_that("accordion works", {
   expect_equal(length(t), 4)
 })
 
+test_that("accordion section buttons start with aria-expanded false", {
+  accordion_check <- accordion(
+    "acc1",
+    c(
+      "Writing well for the web",
+      "Writing well for specialists",
+      "Know your audience",
+      "How people read"
+    ),
+    c(
+      "This is the content for Writing well for the web.",
+      "This is the content for Writing well for specialists.",
+      "This is the content for Know your audience.",
+      "This is the content for How people read."
+    )
+  )
+
+  tq <- tagQuery(accordion_check)
+  button <- tq$find(".govuk-accordion__section-button")$selectedTags()[[1]]
+  expect_equal(button$attribs$`aria-expanded`, "false")
+})
+
 
 test_that("accordion numbering works past 9", {
   accordion_numbering_check <- accordion(
@@ -57,8 +79,6 @@ test_that("accordion numbering works past 9", {
   )
 
   tq <- tagQuery(accordion_numbering_check)
-
-  tq$find("#accordion-default-heading-01")$selectedTags()[[1]]$attribs$name
 
   heading1 <- tq$find("#accordion-default-heading-01")$selectedTags()[[
     1

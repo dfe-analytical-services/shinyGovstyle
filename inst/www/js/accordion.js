@@ -1,12 +1,16 @@
 // On click of individual sections
 $(document).on('click', '.govuk-accordion__section', function (e) {
 
+  // ignore clicks that aren't on the section's header button (e.g. clicks
+  // inside the section content, which also bubble up to this handler)
+  var button = e.target.closest('button');
+  if (!button) return;
+
   // get class from top div
   var top_div = e.target.closest('.govuk-accordion__section');
 
   var cur_class = top_div.classList.value;
 
-  var button = e.target.closest('button');
   var toggle_chevron = button.querySelector(".govuk-accordion-nav__chevron");
   var toggle_text = button.querySelector(".govuk-accordion__section-toggle-text");
 
@@ -31,6 +35,26 @@ $(document).on('click', '.govuk-accordion__section', function (e) {
 
  }
 
+  // keep the Show all/Hide all control in sync with the sections it controls
+  var accordion_div = e.target.closest('.govuk-accordion');
+  var all_sections = accordion_div.querySelectorAll('.govuk-accordion__section');
+  var all_expanded = Array.prototype.every.call(all_sections, function (section) {
+    return section.classList.contains('govuk-accordion__section--expanded');
+  });
+
+  var show_all_button = accordion_div.querySelector('.govuk-accordion__show-all');
+  var show_all_chevron = show_all_button.querySelector('.govuk-accordion-nav__chevron');
+  var show_all_text = show_all_button.querySelector('.govuk-accordion__show-all-text');
+
+  if (all_expanded) {
+    show_all_text.innerText = "Hide all sections";
+    show_all_chevron.classList.remove("govuk-accordion-nav__chevron--down");
+    show_all_button.ariaExpanded = "true";
+  } else {
+    show_all_text.innerText = "Show all sections";
+    show_all_chevron.classList.add("govuk-accordion-nav__chevron--down");
+    show_all_button.ariaExpanded = "false";
+  }
 
 });
 

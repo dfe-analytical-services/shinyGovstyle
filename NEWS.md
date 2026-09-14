@@ -5,6 +5,15 @@
 * `header()` no longer emits spurious deprecation warnings for `main_link`,
   `secondary_link`, `main_alt_text`, and `secondary_alt_text` when those
   arguments are not used.
+* `accordion()` sections now operate independently of one another, so
+  expanding or collapsing sections in one accordion no longer affects a
+  different accordion on the same page.
+* `accordion()` sections and the "Show all sections" control now correctly
+  announce their state via `aria-expanded`, and toggling an individual
+  section keeps the "Show all sections" control's text, chevron, and
+  `aria-expanded` state in sync.
+* `accordion()` JS and tests now use class/id selectors instead of
+  position-based traversal, making the behaviour more robust.
 
 # shinyGovstyle 0.2.0
 

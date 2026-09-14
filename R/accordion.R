@@ -127,7 +127,7 @@ accordion <- function(
               )
             ),
             shiny::tags$div(
-              id = "accordion-default-content-1",
+              id = paste0("accordion-default-content-", z_str),
               class = "govuk-accordion__section-content",
               `aria-labelledby` = paste0("accordion-default-heading-", z_str),
               shiny::tags$p(

@@ -20,9 +20,10 @@ mod_tables_tabs_ui <- function(id) {
       size = "s",
       level = 2
     ),
-    shinyGovstyle::heading_text("Caption added separately", size = "l"),
     shinyGovstyle::govReactable(
       shinyGovstyle::transport_data,
+      caption = "Caption added directly",
+      caption_size = "l",
       right_col = c("bikes", "vans", "buses"),
       page_size = 5
     ),

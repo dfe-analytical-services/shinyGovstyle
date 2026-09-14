@@ -4,6 +4,47 @@
 govuk_hint_id <- function(inputId) paste0(inputId, "-hint") # nolint
 govuk_error_id <- function(inputId) paste0(inputId, "-error") # nolint
 
+# Internal helper: the caption_size options ("s", "m", "l", "xl") documented
+# by govTable(), govReactable(), and govReactableOutput(), so the allowed
+# values and the validation only exist in one place.
+validate_caption_size <- function(caption_size) {
+  allowed_sizes <- c("s", "m", "l", "xl")
+  if (!caption_size %in% allowed_sizes) {
+    stop(
+      "caption_size must be one of: ",
+      paste(allowed_sizes, collapse = ", ")
+    )
+  }
+}
+
+# Internal helper: the 1-6 heading level convention shared by heading_text(),
+# govFieldset() (and so checkbox_Input(), radio_button_Input(), and
+# date_Input()), govReactable(), and govReactableOutput(). `arg_name` lets
+# callers whose public argument isn't literally called `heading_level` (e.g.
+# heading_text()'s `level`) keep an accurate error message.
+validate_heading_level <- function(level, arg_name = "heading_level") {
+  if (length(level) != 1) {
+    stop(
+      arg_name, " must be a single value, not length ",
+      length(level),
+      "."
+    )
+  }
+  if (!is.numeric(level) || level %% 1 != 0 || !(level %in% 1:6)) {
+    stop(arg_name, " must be an integer between 1 and 6.")
+  }
+}
+
+# Internal helper: builds an `<hN>` heading tag shared by heading_text(),
+# govFieldset(), govReactable(), and govReactableOutput(), so the
+# `shiny::tags[[paste0("h", level)]]` pattern only exists in one place.
+build_heading_tag <- function(level, content, class, id = NULL) {
+  do.call(
+    shiny::tags[[paste0("h", level)]],
+    list(content, class = class, id = id)
+  )
+}
+
 #' Build a govuk-fieldset block (internal)
 #'
 #' Returns a `<fieldset class="govuk-fieldset">` with a legend, optional hint,
@@ -41,20 +82,7 @@ govFieldset <- # nolint
   ) {
     label_size <- match.arg(label_size)
     if (!is.null(heading_level)) {
-      if (length(heading_level) != 1) {
-        stop(
-          "`heading_level` must be a single value, not length ",
-          length(heading_level),
-          "."
-        )
-      }
-      if (
-        !is.numeric(heading_level) ||
-          heading_level %% 1 != 0 ||
-          !(heading_level %in% 1:6)
-      ) {
-        stop("`heading_level` must be an integer between 1 and 6.")
-      }
+      validate_heading_level(heading_level)
     }
 
     hint_id <- if (!is.null(hint_label)) govuk_hint_id(inputId)
@@ -69,9 +97,10 @@ govFieldset <- # nolint
       label_size
     )
     legend_content <- if (!is.null(heading_level)) {
-      shiny::tag(
-        paste0("h", heading_level),
-        list(class = "govuk-fieldset__heading", as_govuk_html(label))
+      build_heading_tag(
+        heading_level,
+        as_govuk_html(label),
+        "govuk-fieldset__heading"
       )
     } else {
       as_govuk_html(label)

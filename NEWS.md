@@ -12,6 +12,14 @@
 * `insert_text()` argument `text` has been renamed to `content` to reflect
   that it now accepts more than plain text. The old name is deprecated and
   will be removed in a future version.
+* `govReactableOutput()`'s `heading_level` argument now expects an integer
+  between 1 and 6 (e.g. `heading_level = 2`), matching the convention already
+  used by `heading_text()`'s `level` and by `heading_level` on
+  `checkbox_Input()`, `radio_button_Input()`, and `date_Input()`. The old
+  string format (e.g. `"h2"`) still works but is deprecated and will be
+  removed in a future version (a warning is emitted); update to the integer
+  form when convenient. The allowed range has also widened from `"h2"`-`"h5"`
+  to the full 1-6 for the new integer form.
 
 ## New features
 
@@ -69,6 +77,10 @@
   with `mailto:`, the "opens in new tab" attributes, text, and icon are all
   skipped, since a mailto link hands off to the mail client rather than
   opening a new tab. Existing link-text validations still apply.
+* `govReactable()` gains `caption`, `caption_size`, and `heading_level`
+  arguments, mirroring `govReactableOutput()`, so a heading can be added to a
+  static table (e.g. in R Markdown/Quarto) without a separate `heading_text()`
+  call.
 
 ## Bug fixes
 
@@ -95,6 +107,13 @@
   GOV.UK Design System and the other input components.
 * `govReactable()` table row, sort-header, and pagination highlights are now
   visible in Windows High Contrast / forced-colours mode.
+* `govReactable()`'s and `govReactableOutput()`'s `caption` is now
+  programmatically linked to the table via `aria-labelledby`, so screen
+  reader users are told what the table is about. Previously the caption
+  heading and the table had no relationship beyond visual proximity.
+* `govTable()`, `govReactable()`, and `govReactableOutput()` now error if
+  `caption_size` isn't one of the documented `"s"`, `"m"`, `"l"`, `"xl"`
+  options, instead of silently emitting an invalid CSS class.
 * `details()` now applies the same HTML handling to `help_text` as it does to
   `label`, so HTML strings render consistently across both arguments.
 * `warning_text()` now renders HTML strings in `text` consistently with other

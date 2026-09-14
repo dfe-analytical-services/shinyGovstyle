@@ -46,6 +46,8 @@ govTable <- # nolint
     num_col = NULL,
     width_overwrite = NULL
   ) {
+    validate_caption_size(caption_size)
+
     # Static HTML tables become slow to render and hard to navigate (no
     # pagination, sorting, or filtering) as they grow. Steer users towards
     # govReactable() for very large tables. The threshold is arbitrary, chosen

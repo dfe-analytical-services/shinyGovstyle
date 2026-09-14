@@ -25,6 +25,79 @@ test_that("govReactable attaches the reactable-overrides stylesheet", {
   expect_true("stylecss" %in% dep_names)
 })
 
+test_that("govReactable without a caption returns the bare widget", {
+  table <- govReactable(df = shinyGovstyle::transport_data)
+  expect_s3_class(table, "reactable")
+  expect_s3_class(table, "htmlwidget")
+})
+
+test_that("govReactable links a supplied caption to the table", {
+  table <- govReactable(
+    df = shinyGovstyle::transport_data,
+    caption = "Transport data"
+  )
+
+  html <- htmltools::renderTags(table)$html
+
+  expect_match(
+    html,
+    '<h2 class="govuk-heading-l" id="transport_data">Transport data</h2>',
+    fixed = TRUE
+  )
+  expect_match(
+    html,
+    '<div role="region" aria-labelledby="transport_data">',
+    fixed = TRUE
+  )
+})
+
+test_that("govReactable caption respects caption_size and heading_level", {
+  table <- govReactable(
+    df = shinyGovstyle::transport_data,
+    caption = "Transport data",
+    caption_size = "xl",
+    heading_level = 3
+  )
+
+  html <- htmltools::renderTags(table)$html
+
+  expect_match(
+    html,
+    '<h3 class="govuk-heading-xl" id="transport_data">Transport data</h3>',
+    fixed = TRUE
+  )
+})
+
+test_that("govReactable errors on an invalid heading_level", {
+  expect_error(
+    govReactable(
+      df = shinyGovstyle::transport_data,
+      caption = "Transport data",
+      heading_level = 0
+    ),
+    "heading_level must be an integer between 1 and 6"
+  )
+  expect_error(
+    govReactable(
+      df = shinyGovstyle::transport_data,
+      caption = "Transport data",
+      heading_level = 7
+    ),
+    "heading_level must be an integer between 1 and 6"
+  )
+})
+
+test_that("govReactable errors on an invalid caption_size", {
+  expect_error(
+    govReactable(
+      df = shinyGovstyle::transport_data,
+      caption = "Transport data",
+      caption_size = "xxl"
+    ),
+    "caption_size must be one of"
+  )
+})
+
 test_that("govReactable handles large tables", {
   # Unlike the static govTable(), reactable serialises the full dataset once
   # and paginates client-side, so it scales to far larger tables.

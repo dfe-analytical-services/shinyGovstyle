@@ -3,9 +3,9 @@
 #' This function inserts a government-styled table using `reactable`.
 #' You can use this in R markdown or Quarto documents, or use
 #' renderGovReactable({}) and govReactableOutput() for tables in R Shiny.
-#' govReactableOutput() gives the ability to add a caption, for static
-#' tables made using just govReactable(), use heading_text() to add
-#' captions to tables.
+#' Pass `caption` to add a heading that is programmatically linked to the
+#' table (via `aria-labelledby`), so screen reader users know what the table
+#' is about.
 #'
 #' @description
 #' This function is opinionated and sets table defaults that are in
@@ -23,8 +23,16 @@
 #' @param borderless Remove inner borders from table
 #' @param min_widths Customise minimum column width using a list of columns and
 #' minimum width in pixels
+#' @param caption Adds a caption to the table as a heading, linked to the
+#' table via `aria-labelledby`. `NULL` (default) renders the table with no
+#' caption.
+#' @param caption_size Adjust the size of caption.
+#' Options are s, m, l, xl, with l as the default
+#' @param heading_level Heading level for the caption, an integer between 1
+#' and 6. Defaults to 2
 #' @param ... Additional arguments passed to `reactable::reactable`
-#' @return A `reactable` HTML widget styled with GOV.UK classes
+#' @return A `reactable` HTML widget styled with GOV.UK classes, or (if
+#' `caption` is supplied) that widget together with a linked caption heading
 #' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
@@ -51,6 +59,15 @@
 #'       Petal.Width = 75
 #'     )
 #'   )
+#'
+#'   # Add a caption linked to the table for screen reader users
+#'   govReactable(
+#'     iris,
+#'     caption = "Iris measurements",
+#'     right_col = c(
+#'       "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
+#'     )
+#'   )
 #' }
 govReactable <- # nolint
   function(
@@ -60,6 +77,9 @@ govReactable <- # nolint
     highlight = TRUE,
     borderless = TRUE,
     min_widths = list(),
+    caption = NULL,
+    caption_size = "l",
+    heading_level = 2,
     ...
   ) {
     # Generate column definitions
@@ -102,8 +122,66 @@ govReactable <- # nolint
       ...
     )
 
-    attachDependency(table, widget = "reactable")
+    table <- attachDependency(table, widget = "reactable")
+
+    if (is.null(caption)) {
+      return(table)
+    }
+
+    cap <- reactable_caption(caption, caption_size, heading_level)
+    htmltools::tagList(
+      cap$tag,
+      htmltools::tags$div(
+        role = "region",
+        `aria-labelledby` = cap$id,
+        table
+      )
+    )
   }
+
+# Internal helper: builds the caption heading shared by govReactable() and
+# govReactableOutput(), reusing clean_heading_text() (the same slugifier
+# heading_text() uses) to generate an id, so the caller can link the table to
+# the heading via aria-labelledby.
+reactable_caption <- function(caption, caption_size, heading_level) {
+  validate_heading_level(heading_level)
+  validate_caption_size(caption_size)
+
+  id <- clean_heading_text(caption)
+  tag <- build_heading_tag(
+    heading_level,
+    caption,
+    paste0("govuk-heading-", caption_size),
+    id
+  )
+
+  list(tag = tag, id = id)
+}
+
+# Internal helper: govReactableOutput() shipped in CRAN release 0.2.0 with a
+# string heading_level ("h2"-"h5"), before the rest of the package's integer
+# 1-6 convention existed. Accept the old strings for one deprecation cycle
+# (removal planned for 1.0.0) so 0.2.0 callers don't break outright.
+coerce_heading_level <- function(heading_level) {
+  if (!is.character(heading_level)) {
+    return(heading_level)
+  }
+
+  lifecycle::deprecate_warn(
+    when = "0.3.0",
+    what = I("govReactableOutput(heading_level = 'a \"h2\"-style string')"),
+    with = I("an integer between 1 and 6, e.g. heading_level = 2")
+  )
+
+  if (!grepl("^h[1-6]$", heading_level)) {
+    stop(
+      "heading_level must be an integer between 1 and 6 ",
+      "(or a deprecated \"h1\"-\"h6\" string).",
+      call. = FALSE
+    )
+  }
+  as.integer(sub("^h", "", heading_level))
+}
 
 #' Shiny bindings for govReactable
 #' Output and render functions for using govReactable within shiny apps
@@ -112,8 +190,10 @@ govReactable <- # nolint
 #' @param caption Adds a caption to the table as a header
 #' @param caption_size Adjust the size of caption
 #' Options are s, m, l, xl, with l as the default
-#' @param heading_level The HTML heading level for
-#' the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2"
+#' @param heading_level Heading level for the caption, an integer between 1
+#' and 6. Defaults to 2. A string such as `"h2"` is also accepted for
+#' backwards compatibility but is deprecated (emits a warning) and will be
+#' removed in a future version; use the integer form instead
 #' @param expr An expression that generates a `reactable` widget
 #' @param env The environment in which to evaluate `expr`
 #' @param quoted Is `expr` a quoted expression (with [quote()])?
@@ -147,28 +227,18 @@ govReactableOutput <- # nolint
     output_table_name,
     caption,
     caption_size = "l",
-    heading_level = "h2"
+    heading_level = 2
   ) {
-    # Validate heading_level input
-    allowed_levels <- c("h2", "h3", "h4", "h5")
-    if (!heading_level %in% allowed_levels) {
-      stop(
-        "heading_level must be one of: ",
-        paste(allowed_levels, collapse = ", ")
-      )
-    }
-
-    heading_tag <- do.call(
-      shiny::tags[[heading_level]],
-      list(
-        class = paste0("govuk-heading-", caption_size),
-        caption
-      )
-    )
+    heading_level <- coerce_heading_level(heading_level)
+    cap <- reactable_caption(caption, caption_size, heading_level)
 
     htmltools::div(
-      heading_tag,
-      reactable::reactableOutput(output_table_name)
+      cap$tag,
+      htmltools::tags$div(
+        role = "region",
+        `aria-labelledby` = cap$id,
+        reactable::reactableOutput(output_table_name)
+      )
     )
   }
 

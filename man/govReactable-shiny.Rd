@@ -11,7 +11,7 @@ govReactableOutput(
   output_table_name,
   caption,
   caption_size = "l",
-  heading_level = "h2"
+  heading_level = 2
 )
 
 renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
@@ -24,8 +24,10 @@ renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
 \item{caption_size}{Adjust the size of caption
 Options are s, m, l, xl, with l as the default}
 
-\item{heading_level}{The HTML heading level for
-the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2"}
+\item{heading_level}{Heading level for the caption, an integer between 1
+and 6. Defaults to 2. A string such as \code{"h2"} is also accepted for
+backwards compatibility but is deprecated (emits a warning) and will be
+removed in a future version; use the integer form instead}
 
 \item{expr}{An expression that generates a \code{reactable} widget}
 

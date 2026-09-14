@@ -11,6 +11,9 @@ govReactable(
   highlight = TRUE,
   borderless = TRUE,
   min_widths = list(),
+  caption = NULL,
+  caption_size = "l",
+  heading_level = 2,
   ...
 )
 }
@@ -30,10 +33,21 @@ left-aligned}
 \item{min_widths}{Customise minimum column width using a list of columns and
 minimum width in pixels}
 
+\item{caption}{Adds a caption to the table as a heading, linked to the
+table via \code{aria-labelledby}. \code{NULL} (default) renders the table with no
+caption.}
+
+\item{caption_size}{Adjust the size of caption.
+Options are s, m, l, xl, with l as the default}
+
+\item{heading_level}{Heading level for the caption, an integer between 1
+and 6. Defaults to 2}
+
 \item{...}{Additional arguments passed to \code{reactable::reactable}}
 }
 \value{
-A \code{reactable} HTML widget styled with GOV.UK classes
+A \code{reactable} HTML widget styled with GOV.UK classes, or (if
+\code{caption} is supplied) that widget together with a linked caption heading
 }
 \description{
 This function is opinionated and sets table defaults that are in
@@ -46,9 +60,9 @@ arguments from \code{reactable::reactable} can be passed to customise the table.
 This function inserts a government-styled table using \code{reactable}.
 You can use this in R markdown or Quarto documents, or use
 renderGovReactable({}) and govReactableOutput() for tables in R Shiny.
-govReactableOutput() gives the ability to add a caption, for static
-tables made using just govReactable(), use heading_text() to add
-captions to tables.
+Pass \code{caption} to add a heading that is programmatically linked to the
+table (via \code{aria-labelledby}), so screen reader users know what the table
+is about.
 }
 \examples{
 # Example static table using govReactable
@@ -72,6 +86,15 @@ if (interactive()) {
       Sepal.Width = 75,
       Petal.Length = 75,
       Petal.Width = 75
+    )
+  )
+
+  # Add a caption linked to the table for screen reader users
+  govReactable(
+    iris,
+    caption = "Iris measurements",
+    right_col = c(
+      "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
     )
   )
 }

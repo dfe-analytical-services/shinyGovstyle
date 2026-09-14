@@ -158,6 +158,14 @@ test_that("govTable warns for large tables", {
   expect_no_warning(govTable("under", under_df, "Test"))
 })
 
+test_that("govTable errors on an invalid caption_size", {
+  df <- data.frame(a = "AAA", b = 1)
+  expect_error(
+    govTable("tab1", df, "Test", caption_size = "xxl"),
+    "caption_size must be one of"
+  )
+})
+
 test_that("rows render in dataframe order", {
   order_df <- data.frame(
     a = c("AAA", "BBB", "CCC"),

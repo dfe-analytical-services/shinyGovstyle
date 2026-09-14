@@ -131,6 +131,35 @@ test_that("NULL logo renders no img or svg", {
 })
 
 
+test_that("no mirror logo is rendered when service_name is omitted", {
+  h <- header(org_name = "Test")
+  expect_no_tag(h, "govuk-header__logo--mirror")
+})
+
+
+test_that("mirror logo is rendered aria-hidden when service_name is set", {
+  h <- header(org_name = "Test", service_name = "My Service")
+  mirror <- expect_has_tag(h, "govuk-header__logo--mirror")
+  expect_identical(htmltools::tagGetAttribute(mirror, "aria-hidden"), "true")
+})
+
+
+test_that("mirror logo repeats the same org_name and logo as the real one", {
+  h <- header(
+    org_name = "Test",
+    service_name = "My Service",
+    logo = "path/to/logo.png",
+    logo_alt_text = "My Logo"
+  )
+  logos <- find_tags(h, "govuk-header__logo")
+  expect_length(logos, 2L)
+  expect_identical(
+    as.character(logos[[1L]]$children),
+    as.character(logos[[2L]]$children)
+  )
+})
+
+
 test_that("heading_text returns correct heading level", {
   # Test default level (should be h1)
   h1 <- heading_text("Test", size = "xl")

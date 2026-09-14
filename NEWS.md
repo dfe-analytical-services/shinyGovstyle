@@ -25,7 +25,8 @@
 ## New features
 
 * New `gov_page()` function, a GOV.UK-flavoured wrapper around
-  `bslib::page_fluid()`. It sets `<html lang="en">` by default. Screen readers use this to choose the right pronunciation and voice), adds
+  `bslib::page_fluid()`. It sets `<html lang="en">` by default (screen
+  readers use this to choose the right pronunciation and voice), adds
   a `description` argument for the page's `<meta name="description">` tag,
   and a `width` argument that sets a default width for every shinyGovstyle
   component used inside it, so you don't have to repeat `width = ` on each

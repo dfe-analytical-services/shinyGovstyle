@@ -67,6 +67,18 @@
     padding-left: 0;
 }
 
+/* GOV.UK Frontend gives .govuk-button-group a negative margin-right at
+   tablet+ (to cancel its last button/link's own trailing margin under a
+   margin-based gutter). "full" switches the container to a padding-based
+   gutter instead, so that negative margin now eats into the padding,
+   leaving the button row's edge 15px short of every other full-width
+   element's gutter. Cancel it here, matching "standard"'s behaviour, where
+   the same trick already nets out correctly against a margin-based gutter. */
+.govuk-width-container--full .govuk-button-group,
+[data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) .govuk-button-group {
+    margin-right: 0;
+}
+
 /* shiny::fluidPage()/bslib::page_fluid() wrap the page in Bootstrap's
    .container-fluid, which adds its own side padding on top of
    .govuk-width-container's margin. Zero it, but only where a

@@ -10,6 +10,35 @@ is_css_length <- function(x) {
   grepl("^[0-9]+(\\.[0-9]+)?(px|rem|em|vw|%)$", x)
 }
 
+#' Validate `width` and classify it into a tier
+#'
+#' Shared by `gov_width_container()` and `gov_page()` so both validate and
+#' report on an invalid `width` identically.
+#'
+#' @param width A width value as passed to `width_arg`/`gov_page()`'s `width`.
+#' @return One of `"standard"`, `"three-quarters"`, `"full"`, or `"custom"`
+#' (when `width` is a valid CSS length).
+#' @noRd
+validate_width_tier <- function(width) {
+  tiers <- c("standard", "three-quarters", "full")
+
+  if (width %in% tiers) {
+    return(width)
+  }
+
+  if (!is_css_length(width)) {
+    stop(
+      "`width` must be \"standard\", \"three-quarters\", \"full\", or a ",
+      "CSS length (e.g. \"1400px\", \"90vw\"), not \"",
+      width,
+      "\"",
+      call. = FALSE
+    )
+  }
+
+  "custom"
+}
+
 #' Resolve the class and inline style for a `.govuk-width-container`
 #'
 #' Shared by every component that renders a `govuk-width-container` (header,
@@ -28,30 +57,21 @@ is_css_length <- function(x) {
 #' is a custom CSS length).
 #' @noRd
 gov_width_container <- function(width, is_default = FALSE) {
-  tiers <- c("standard", "three-quarters", "full")
+  tier <- validate_width_tier(width)
 
-  if (width %in% tiers) {
-    if (width == "standard" && is_default) {
-      return(list(class = "govuk-width-container", style = NULL))
-    }
+  if (tier == "custom") {
     return(list(
-      class = paste0("govuk-width-container govuk-width-container--", width),
-      style = NULL
+      class = "govuk-width-container govuk-width-container--custom",
+      style = paste0("max-width: ", width, ";")
     ))
   }
 
-  if (!is_css_length(width)) {
-    stop(
-      "`width` must be \"standard\", \"three-quarters\", \"full\", or a ",
-      "CSS length (e.g. \"1400px\", \"90vw\"), not \"",
-      width,
-      "\"",
-      call. = FALSE
-    )
+  if (tier == "standard" && is_default) {
+    return(list(class = "govuk-width-container", style = NULL))
   }
 
   list(
-    class = "govuk-width-container govuk-width-container--custom",
-    style = paste0("max-width: ", width, ";")
+    class = paste0("govuk-width-container govuk-width-container--", tier),
+    style = NULL
   )
 }

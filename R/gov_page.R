@@ -67,22 +67,11 @@ gov_page <- function(
   width = "full",
   theme = bslib::bs_theme()
 ) {
-  tiers <- c("standard", "three-quarters", "full")
-  page_width <- width
-  page_style <- NULL
-
-  if (!width %in% tiers) {
-    if (!is_css_length(width)) {
-      stop(
-        "`width` must be \"standard\", \"three-quarters\", \"full\", or a ",
-        "CSS length (e.g. \"1400px\", \"90vw\"), not \"",
-        width,
-        "\"",
-        call. = FALSE
-      )
-    }
-    page_width <- "custom"
-    page_style <- paste0("--govuk-page-max-width: ", width, ";")
+  page_width <- validate_width_tier(width)
+  page_style <- if (page_width == "custom") {
+    paste0("--govuk-page-max-width: ", width, ";")
+  } else {
+    NULL
   }
 
   page <- bslib::page_fluid(

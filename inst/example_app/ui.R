@@ -49,16 +49,7 @@ shinyGovstyle::gov_page(
             ),
             link_text = "main GitHub branch"
           ),
-          ". The page is built with ",
-          shinyGovstyle::external_link(
-            href = "https://rstudio.github.io/bslib/",
-            link_text = "bslib package"
-          ),
-          "'s ",
-          shiny::tags$code("page_fluid()"),
-          ", via ",
-          shiny::tags$code("shinyGovstyle::gov_page()"),
-          "; try the different width options with the switcher above."
+          ". The switcher allows you to preview the main page width options."
         )
       )
     ),

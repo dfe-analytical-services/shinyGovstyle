@@ -47,6 +47,12 @@ text_area_Input <- # nolint
       described_by <- c(described_by, paste0(inputId, "-hint"))
     }
 
+    word_limit_text <- if (!is.null(word_limit)) {
+      paste("You can enter up to", word_limit, "words")
+    } else {
+      NULL
+    }
+
     gov_textarea <- shiny::tags$div(
       class = if (!is.null(word_limit)) {
         "govuk-form-group govuk-character-count"
@@ -65,11 +71,13 @@ text_area_Input <- # nolint
       ),
       if (!is.null(word_limit)) {
         shiny::tags$div(
-          class = "govuk-hint govuk-character-count__message
-          govuk-visually-hidden",
+          class = paste0(
+            "govuk-hint govuk-character-count__message ",
+            "govuk-visually-hidden"
+          ),
           shiny::tags$span(
             id = paste0(inputId, "-wl"),
-            paste("You can enter up to ", word_limit, "words")
+            word_limit_text
           )
         )
       },
@@ -104,10 +112,31 @@ text_area_Input <- # nolint
         }
       ),
       if (!is.null(word_limit)) {
-        shiny::tags$div(
-          class = "govuk-hint govuk-character-count__message",
-          id = paste0(inputId, "-info"),
-          paste("You can enter up to", word_limit, "words")
+        shiny::tagList(
+          shiny::tags$div(
+            class = paste0(
+              "govuk-hint govuk-character-count__message ",
+              "govuk-visually-hidden"
+            ),
+            id = paste0(inputId, "-info"),
+            word_limit_text
+          ),
+          shiny::tags$div(
+            class = paste0(
+              "govuk-hint govuk-character-count__message ",
+              "govuk-character-count__status"
+            ),
+            id = paste0(inputId, "-status"),
+            `aria-hidden` = "true",
+            word_limit_text
+          ),
+          shiny::tags$div(
+            class = "govuk-character-count__sr-status govuk-visually-hidden",
+            id = paste0(inputId, "-sr-status"),
+            `aria-live` = "polite",
+            `aria-atomic` = "true",
+            word_limit_text
+          )
         )
       }
     )

@@ -78,8 +78,22 @@ mod_text_types_ui <- function(id) {
 mod_text_types_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observeEvent(input$btn_error, {
+      word_count <- if (input$text_area2 == "") {
+        0
+      } else {
+        length(gregexpr("\\S+", input$text_area2)[[1]])
+      }
+
       if (input$text_area2 == "") {
-        shinyGovstyle::error_on("text_area2")
+        shinyGovstyle::error_on(
+          "text_area2",
+          error_message = "Please do not leave blank"
+        )
+      } else if (word_count > 300) {
+        shinyGovstyle::error_on(
+          "text_area2",
+          error_message = "Your answer must be 300 words or less"
+        )
       } else {
         shinyGovstyle::error_off("text_area2")
       }

@@ -54,8 +54,10 @@ word_count <- function(
   lifecycle::deprecate_warn(
     "1.0.0",
     "word_count",
-    details = "This helper function is no longer required.
-    Use text_area_Input() instead."
+    details = paste0(
+      "This helper function is no longer required. ",
+      "Use text_area_Input() instead."
+    )
   )
   if (input == "") {
     word_no <- 0

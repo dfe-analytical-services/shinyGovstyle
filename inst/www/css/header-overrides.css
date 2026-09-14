@@ -65,22 +65,12 @@
 /* =============================================================================
    Wide desktop (min-width: 79em / 1264px)
 
-   Org name, service name and an invisible aria-hidden mirror of the org
-   name/logo (see header.R's build_logo()) share a 3-column grid where the
-   two outer columns are forced to equal width. Because the mirror is a
-   byte-for-byte copy of the real org name/logo, that equal-width pairing
-   makes the service name in the middle column genuinely centred on the
-   page - adapting to the org name's actual rendered width, not a guess
-   based on a breakpoint or character count.
-
-   If the org name and service name are too wide to both fit, the service
-   name wraps onto a second line within its own column - it never overlaps
-   the org name, because the org name and its mirror always keep their own
-   dedicated columns.
-
-   Applies at every width tier: even "standard" (a fixed 960px) benefits,
-   since this degrades gracefully by wrapping rather than requiring a
-   separate stacked-only treatment.
+   The org name, the service name/title, and an invisible mirror of the
+   org name/logo (see header.R's build_logo()) share a 3-column grid, so
+   the title stays genuinely centred on the page. If there isn't room for
+   everything, the org name wraps first - the title is the page's own
+   heading and takes priority over the org name, which is comparatively
+   secondary and shared across many services.
    ============================================================================= */
 
 @media (min-width:79em) {

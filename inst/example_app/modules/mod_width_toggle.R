@@ -87,9 +87,9 @@ mod_width_toggle_ui <- function(id) {
 mod_width_toggle_server <- function(id, initial = "full") {
   shiny::moduleServer(id, function(input, output, session) {
     tiers <- c(
-      standard = "Standard",
+      full = "Full",
       "three-quarters" = "Three quarters",
-      full = "Full"
+      standard = "Standard"
     )
     current <- shiny::reactiveVal(initial)
 

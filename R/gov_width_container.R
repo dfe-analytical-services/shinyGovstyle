@@ -22,16 +22,16 @@ is_css_length <- function(x) {
 validate_width_tier <- function(width) {
   tiers <- c("standard", "three-quarters", "full")
 
-  if (width %in% tiers) {
+  is_scalar_string <- is.character(width) && length(width) == 1
+  if (is_scalar_string && width %in% tiers) {
     return(width)
   }
 
-  if (!is_css_length(width)) {
+  if (!is_scalar_string || !is_css_length(width)) {
     stop(
       "`width` must be \"standard\", \"three-quarters\", \"full\", or a ",
-      "CSS length (e.g. \"1400px\", \"90vw\"), not \"",
-      width,
-      "\"",
+      "CSS length (e.g. \"1400px\", \"90vw\"), not ",
+      if (is_scalar_string) paste0("\"", width, "\"") else "the given value",
       call. = FALSE
     )
   }

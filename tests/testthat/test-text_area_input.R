@@ -39,21 +39,47 @@ test_that("text area error works", {
 test_that("text area word works", {
   text_area_check <- text_area_Input("input1", "Test area", word_limit = 300)
 
-  hint <- find_tag(text_area_check, "govuk-character-count__message")
-
+  textarea <- find_tag(text_area_check, "govuk-textarea")
   expect_identical(
-    htmltools::tagGetAttribute(hint, "class"),
-    "govuk-hint govuk-character-count__message"
+    htmltools::tagGetAttribute(textarea, "aria-describedby"),
+    "input1-info"
   )
 
-  hint_html <- as.character(hint)
-  expect_match(hint_html, "You have used", fixed = TRUE)
-  expect_match(hint_html, "of the 300 allowed", fixed = TRUE)
+  info <- find_by_id_suffix(text_area_check, "input1-info")
+  expect_identical(
+    htmltools::tagGetAttribute(info, "class"),
+    "govuk-hint govuk-character-count__message govuk-visually-hidden"
+  )
+  expect_identical(
+    tag_text_by_id_suffix(text_area_check, "input1-info"),
+    "You can enter up to 300 words"
+  )
 
-  wc <- find_by_id_suffix(hint, "wc")
-  wl <- find_by_id_suffix(hint, "wl")
-  expect_match(as.character(wc), ">0<", fixed = TRUE)
-  expect_match(as.character(wl), "of the 300 allowed", fixed = TRUE)
+  # "input1-status" (not just "-status"): "-sr-status" also ends in "-status".
+  status <- find_by_id_suffix(text_area_check, "input1-status")
+  expect_identical(htmltools::tagGetAttribute(status, "aria-hidden"), "true")
+  expect_identical(
+    htmltools::tagGetAttribute(status, "class"),
+    "govuk-hint govuk-character-count__message govuk-character-count__status"
+  )
+  expect_identical(
+    tag_text_by_id_suffix(text_area_check, "input1-status"),
+    "You can enter up to 300 words"
+  )
+
+  sr_status <- find_by_id_suffix(text_area_check, "input1-sr-status")
+  expect_identical(
+    htmltools::tagGetAttribute(sr_status, "aria-live"),
+    "polite"
+  )
+  expect_identical(
+    htmltools::tagGetAttribute(sr_status, "aria-atomic"),
+    "true"
+  )
+  expect_match(
+    htmltools::tagGetAttribute(sr_status, "class"),
+    "govuk-visually-hidden"
+  )
 })
 
 test_that("form group children appear in GOV.UK order", {
@@ -73,10 +99,11 @@ test_that("form group children appear in GOV.UK order", {
     child_classes(text_area_check),
     c(
       "govuk-label",
-      "govuk-hint",
+      "govuk-hint govuk-character-count__message govuk-visually-hidden",
       "govuk-error-message shinyjs-hide",
-      "govuk-textarea",
-      "govuk-hint govuk-character-count__message"
+      "govuk-textarea govuk-js-character-count",
+      # the word-limit info/status/sr-status divs, wrapped in a tagList
+      "<list>"
     )
   )
 })

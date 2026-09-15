@@ -50,7 +50,7 @@ Other Govstyle navigation:
 ## Examples
 
 ``` r
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   gov_row(
     # Nav columns
     shiny::column(

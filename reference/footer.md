@@ -5,7 +5,7 @@ This function create a gov style footer for your page
 ## Usage
 
 ``` r
-footer(full = FALSE, links = NULL)
+footer(full = FALSE, links = NULL, width = "standard")
 ```
 
 ## Arguments
@@ -13,7 +13,8 @@ footer(full = FALSE, links = NULL)
 - full:
 
   Whenever you want to have blank footer or official gov version.
-  Defaults to `FALSE`
+  Defaults to `FALSE`. Not to be confused with the `width` argument
+  below, which controls the footer's own width rather than its content.
 
 - links:
 
@@ -21,6 +22,14 @@ footer(full = FALSE, links = NULL)
   auto-generated and are the snake case version of the link text, e.g.
   "Accessibility Statement" will have an inputID of
   accessibility_statement
+
+- width:
+
+  Width of the component. One of `"standard"` (the default, GOV.UK's
+  usual 960px content width), `"three-quarters"` (three-quarters of the
+  viewport, never narrower than standard), `"full"` (no max-width, so
+  the container fills the viewport, with grid gutters also removed), or
+  a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
 
 ## Value
 
@@ -45,6 +54,7 @@ Other Govstyle page structure:
 [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
 [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
 [`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
+[`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md),
 [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
 [`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
 [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
@@ -52,7 +62,7 @@ Other Govstyle page structure:
 ## Examples
 
 ``` r
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -62,8 +72,7 @@ ui <- shiny::fluidPage(
   shinyGovstyle::banner(
     inputId = "banner", type = "beta", "This is a new service"
   ),
-  shiny::tags$br(),
-  shiny::tags$br(),
+  shinyGovstyle::gov_text("Placeholder text"),
   shinyGovstyle::footer(full = TRUE)
 )
 
@@ -74,7 +83,7 @@ if (interactive()) shinyApp(ui = ui, server = server)
 # Add links
 footer(links = c("Accessibility statement", "Cookies"))
 #> <footer class="govuk-footer " role="contentinfo">
-#>   <div class="govuk-width-container ">
+#>   <div class="govuk-width-container">
 #>     <div class="govuk-footer__meta">
 #>       <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
 #>         <div>
@@ -103,7 +112,7 @@ footer(
   )
 )
 #> <footer class="govuk-footer " role="contentinfo">
-#>   <div class="govuk-width-container ">
+#>   <div class="govuk-width-container">
 #>     <div class="govuk-footer__meta">
 #>       <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
 #>         <div>
@@ -124,7 +133,7 @@ footer(
 #> </footer>
 
 # Full app with link controlling a hidden tab and a link to an external page
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",

@@ -45,7 +45,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">footer</span><span class="op">(</span>full <span class="op">=</span> <span class="cn">FALSE</span>, links <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">footer</span><span class="op">(</span>full <span class="op">=</span> <span class="cn">FALSE</span>, links <span class="op">=</span> <span class="cn">NULL</span>, width <span class="op">=</span> <span class="st">"standard"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -54,13 +54,23 @@
 
 <dl><dt id="arg-full">full<a class="anchor" aria-label="anchor" href="#arg-full"></a></dt>
 <dd><p>Whenever you want to have blank footer or official gov version.
-Defaults to <code>FALSE</code></p></dd>
+Defaults to <code>FALSE</code>. Not to be confused with the <code>width</code> argument below,
+which controls the footer's own width rather than its content.</p></dd>
 
 
 <dt id="arg-links">links<a class="anchor" aria-label="anchor" href="#arg-links"></a></dt>
 <dd><p>A vector of actionLinks to be added to the footer, inputIDs
 are auto-generated and are the snake case version of the link text, e.g.
 "Accessibility Statement" will have an inputID of accessibility_statement</p></dd>
+
+
+<dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
+<dd><p>Width of the component. One of <code>"standard"</code> (the default,
+GOV.UK's usual 960px content width), <code>"three-quarters"</code>
+(three-quarters of the viewport, never narrower than standard),
+<code>"full"</code> (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. <code>"1400px"</code>,
+<code>"90vw"</code>) for a custom max-width.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -84,6 +94,7 @@ hidden tabset so to the end user it looks like it is a new page.</p>
 <code><a href="banner.html">banner()</a></code>,
 <code><a href="cookieBanner.html">cookieBanner()</a></code>,
 <code><a href="gov_layout.html">gov_layout()</a></code>,
+<code><a href="gov_page.html">gov_page()</a></code>,
 <code><a href="header.html">header()</a></code>,
 <code><a href="layouts.html">layouts</a></code>,
 <code><a href="skip_to_main.html">skip_to_main()</a></code></p></div>
@@ -91,7 +102,7 @@ hidden tabset so to the end user it looks like it is a new page.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="gov_page.html">gov_page</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="header.html">header</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    org_name <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
 <span class="r-in"><span>    service_name <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
@@ -101,8 +112,7 @@ hidden tabset so to the end user it looks like it is a new page.</p>
 <span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="banner.html">banner</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    inputId <span class="op">=</span> <span class="st">"banner"</span>, type <span class="op">=</span> <span class="st">"beta"</span>, <span class="st">"This is a new service"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">br</span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">br</span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"Placeholder text"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">footer</span><span class="op">(</span>full <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -113,7 +123,7 @@ hidden tabset so to the end user it looks like it is a new page.</p>
 <span class="r-in"><span><span class="co"># Add links</span></span></span>
 <span class="r-in"><span><span class="fu">footer</span><span class="op">(</span>links <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Accessibility statement"</span>, <span class="st">"Cookies"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;footer class="govuk-footer " role="contentinfo"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="govuk-width-container "&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="govuk-width-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="govuk-footer__meta"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="govuk-footer__meta-item govuk-footer__meta-item--grow"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div&gt;</span>
@@ -142,7 +152,7 @@ hidden tabset so to the end user it looks like it is a new page.</p>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;footer class="govuk-footer " role="contentinfo"&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="govuk-width-container "&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   &lt;div class="govuk-width-container"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;div class="govuk-footer__meta"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;div class="govuk-footer__meta-item govuk-footer__meta-item--grow"&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;div&gt;</span>
@@ -163,7 +173,7 @@ hidden tabset so to the end user it looks like it is a new page.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;/footer&gt;</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Full app with link controlling a hidden tab and a link to an external page</span></span></span>
-<span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="gov_page.html">gov_page</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="header.html">header</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    org_name <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
 <span class="r-in"><span>    service_name <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>

@@ -111,7 +111,7 @@ Other Govstyle select inputs:
 ## Examples
 
 ``` r
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyjs::useShinyjs(),
   shinyGovstyle::radio_button_Input(
     inputId = "cookies",

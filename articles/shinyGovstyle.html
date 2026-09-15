@@ -150,7 +150,7 @@ inputs</li>
 <code><a href="../reference/cookieBanner.html">cookieBanner()</a></code> — GOV.UK cookie consent banner</li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/bslib/reference/page.html" class="external-link">page_fluid</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gov_page.html">gov_page</a></span><span class="op">(</span></span>
 <span>  <span class="fu">shinyjs</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shinyjs/man/useShinyjs.html" class="external-link">useShinyjs</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="co"># rest of your UI</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -159,15 +159,31 @@ inputs</li>
 <div class="section level2">
 <h2 id="a-minimal-working-app">A minimal working app<a class="anchor" aria-label="anchor" href="#a-minimal-working-app"></a>
 </h2>
+<p>Every shinyGovstyle app starts with <code><a href="../reference/gov_page.html">gov_page()</a></code>. It’s a
+small wrapper around <a href="https://rstudio.github.io/bslib/" class="external-link">bslib</a>’s
+<code>page_fluid()</code> (bslib is <a href="https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/" class="external-link">generally
+recommended for building responsive apps with R Shiny</a>) that also
+takes care of two things every GOV.UK-style page should get right from
+the start:</p>
+<ul>
+<li>
+<strong><code>lang</code></strong> sets the page’s language
+(<code>"en"</code> by default). Screen readers use this to pick the
+right pronunciation, so it matters even if you never touch it.</li>
+<li>
+<strong><code>width</code></strong> sets a default width for every
+shinyGovstyle component inside it: see the <a href="layout-options.html#page-width">Layout options</a> vignette if you
+want a wider, dashboard-style layout.</li>
+</ul>
 <p>The skeleton below shows the components that appear on every page of
-a shinyGovstyle app. It uses <a href="https://rstudio.github.io/bslib/" class="external-link"><code>bslib</code></a>, which is
-generally <a href="https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/" class="external-link">recommended
-for building responsive apps with R Shiny</a>.</p>
+a shinyGovstyle app:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.posit.co/" class="external-link">shiny</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dfe-analytical-services/shinyGovstyle" class="external-link">shinyGovstyle</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/bslib/reference/page.html" class="external-link">page_fluid</a></span><span class="op">(</span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gov_page.html">gov_page</a></span><span class="op">(</span></span>
+<span>  title <span class="op">=</span> <span class="st">"My dashboard"</span>,</span>
+<span>  description <span class="op">=</span> <span class="st">"A dashboard showing my department's latest statistics"</span>,</span>
 <span>  <span class="fu"><a href="../reference/skip_to_main.html">skip_to_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../reference/header.html">header</a></span><span class="op">(</span></span>
 <span>    org_name <span class="op">=</span> <span class="st">"My department"</span>,</span>
@@ -204,10 +220,10 @@ end of the Layout options vignette.</p>
 <div class="section level3">
 <h3 id="page-structure-and-layout">Page structure and layout<a class="anchor" aria-label="anchor" href="#page-structure-and-layout"></a>
 </h3>
-<p>All page-level components (<code><a href="../reference/header.html">header()</a></code>,
-<code><a href="../reference/footer.html">footer()</a></code>, <code><a href="../reference/banner.html">banner()</a></code>,
+<p><code><a href="../reference/gov_page.html">gov_page()</a></code>, the page-level components
+(<code><a href="../reference/header.html">header()</a></code>, <code><a href="../reference/footer.html">footer()</a></code>, <code><a href="../reference/banner.html">banner()</a></code>,
 <code><a href="../reference/skip_to_main.html">skip_to_main()</a></code>, <code><a href="../reference/service_navigation.html">service_navigation()</a></code>,
-<code><a href="../reference/cookieBanner.html">cookieBanner()</a></code>) and the content grid system
+<code><a href="../reference/cookieBanner.html">cookieBanner()</a></code>), and the content grid system
 (<code><a href="../reference/layouts.html">gov_main_layout()</a></code>, <code><a href="../reference/layouts.html">gov_row()</a></code>,
 <code><a href="../reference/layouts.html">gov_box()</a></code>) are covered in the <a href="layout-options.html">Layout options</a> vignette.</p>
 </div>

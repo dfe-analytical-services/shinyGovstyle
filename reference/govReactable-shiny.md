@@ -69,7 +69,7 @@ Other Govstyle tables tabs and accordions:
 ## Examples
 
 ``` r
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   govReactableOutput(
     "table",
     caption = "Example table"

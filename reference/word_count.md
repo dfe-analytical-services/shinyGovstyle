@@ -43,7 +43,7 @@ Other Govstyle text types:
 ## Examples
 
 ``` r
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
     "Justice", "", logo = "shinyGovstyle/images/moj_logo.png"

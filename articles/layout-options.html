@@ -79,28 +79,169 @@
 HTML structure GOV.UK Frontend CSS expects. This vignette covers all of
 the layout functions available and explains how they fit together to
 build a complete app.</p>
-<p>The layout functions fall into two groups:</p>
+<p>Every app starts with <strong><code><a href="../reference/gov_page.html">gov_page()</a></code></strong>, the
+outer wrapper for the whole page. Inside it go:</p>
 <ul>
 <li>
-<strong>Page-level components</strong> — <code><a href="../reference/header.html">header()</a></code>,
+<strong>Page-level components</strong> (<code><a href="../reference/header.html">header()</a></code>,
 <code><a href="../reference/footer.html">footer()</a></code>, <code><a href="../reference/banner.html">banner()</a></code>,
 <code><a href="../reference/cookieBanner.html">cookieBanner()</a></code>, <code><a href="../reference/skip_to_main.html">skip_to_main()</a></code>, and
-<code><a href="../reference/service_navigation.html">service_navigation()</a></code> — form the frame of the page that sits
+<code><a href="../reference/service_navigation.html">service_navigation()</a></code>) form the frame of the page that sits
 outside the main content area.</li>
 <li>
-<strong>Content layout functions</strong> —
-<code><a href="../reference/layouts.html">gov_main_layout()</a></code>, <code><a href="../reference/layouts.html">gov_row()</a></code>,
-<code><a href="../reference/layouts.html">gov_box()</a></code>, and <code><a href="../reference/gov_layout.html">gov_layout()</a></code> — structure
-content within the main content area.</li>
+<strong>Content layout functions</strong>
+(<code><a href="../reference/layouts.html">gov_main_layout()</a></code>, <code><a href="../reference/layouts.html">gov_row()</a></code>,
+<code><a href="../reference/layouts.html">gov_box()</a></code>, and <code><a href="../reference/gov_layout.html">gov_layout()</a></code>) structure content
+within the main content area.</li>
 </ul>
 <hr>
 </div>
 <div class="section level2">
+<h2 id="gov_page">
+<code>gov_page()</code><a class="anchor" aria-label="anchor" href="#gov_page"></a>
+</h2>
+<p><code><a href="../reference/gov_page.html">gov_page()</a></code> is a small wrapper around <a href="https://rstudio.github.io/bslib/" class="external-link">bslib</a>’s
+<code>page_fluid()</code>. <code>bslib</code> is now generally the
+recommended way to build R Shiny UIs, in place of
+<code><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">shiny::fluidPage()</a></code>, and other <code>bslib</code> components
+can be mixed freely into a shinyGovstyle app. Use
+<code><a href="../reference/gov_page.html">gov_page()</a></code> as the very first thing your UI creates:
+everything else in this vignette goes inside it.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gov_page.html">gov_page</a></span><span class="op">(</span></span>
+<span>  title <span class="op">=</span> <span class="st">"My dashboard"</span>,</span>
+<span>  <span class="co"># header(), footer(), and the rest of your page go here</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Three arguments are worth knowing about:</p>
+<ul>
+<li>
+<strong><code>lang</code></strong>: the page’s language,
+<code>"en"</code> by default. Screen readers rely on this to pick the
+right pronunciation and voice, so it matters for accessibility even on a
+page you never plan to translate. Set it to <code>"cy"</code> for a
+Welsh-language service, for example.</li>
+<li>
+<strong><code>description</code></strong>: a short summary of the
+page, added as a <code>&lt;meta name="description"&gt;</code> tag for
+search engines and some assistive technology. Optional; there’s no tag
+at all if you leave it out. Keep it to one concise sentence: search
+engines typically truncate meta descriptions at around 150-160
+characters.</li>
+<li>
+<strong><code>width</code></strong> (see <a href="#page-width">Page
+width</a> below): sets a default width for every shinyGovstyle component
+used inside it, so you don’t have to repeat <code>width =</code> on each
+one individually.</li>
+</ul>
+<div class="section level3">
+<h3 id="page-width">Page width<a class="anchor" aria-label="anchor" href="#page-width"></a>
+</h3>
+<p>By default, <code><a href="../reference/gov_page.html">gov_page()</a></code> lets shinyGovstyle components
+fill the browser window (<code>width = "full"</code>), which suits most
+dashboard-style apps. For an ordinary content page, where GOV.UK’s usual
+narrower reading width is more appropriate, pass <code>width</code> to
+<code><a href="../reference/gov_page.html">gov_page()</a></code>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gov_page.html">gov_page</a></span><span class="op">(</span></span>
+<span>  width <span class="op">=</span> <span class="st">"standard"</span>, <span class="co"># or "three-quarters", or a CSS length like "1400px"</span></span>
+<span>  <span class="co"># ...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<ul>
+<li>
+<strong><code>"full"</code></strong> (the default): no maximum
+width, so the page fills the browser window, and also removes the gaps
+between grid columns, so content can run edge to edge.</li>
+<li>
+<strong><code>"standard"</code></strong>: GOV.UK’s usual 960px
+content width, the better choice for an ordinary content-style
+page.</li>
+<li>
+<strong><code>"three-quarters"</code></strong>: three-quarters of
+the browser window’s width (never narrower than standard), keeping
+GOV.UK’s own left/right margins.</li>
+<li>
+<strong>A CSS length</strong>, e.g. <code>"1400px"</code> or
+<code>"90vw"</code>, for a specific maximum width instead of one of the
+presets above.</li>
+</ul>
+<p>Every shinyGovstyle component that renders part of the page frame
+(<code><a href="../reference/header.html">header()</a></code>, <code><a href="../reference/footer.html">footer()</a></code>, <code><a href="../reference/banner.html">banner()</a></code>,
+<code><a href="../reference/cookieBanner.html">cookieBanner()</a></code>, <code><a href="../reference/service_navigation.html">service_navigation()</a></code>,
+<code><a href="../reference/layouts.html">gov_main_layout()</a></code>, <code><a href="../reference/gov_layout.html">gov_layout()</a></code>) also accepts
+its own <code>width</code> argument. Setting it on
+<code><a href="../reference/gov_page.html">gov_page()</a></code> sets the default for all of them at once.
+Setting it on an individual component overrides that default just for
+that one component, which is useful if, say, everything on your page
+should be wider except the footer:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gov_page.html">gov_page</a></span><span class="op">(</span></span>
+<span>  width <span class="op">=</span> <span class="st">"three-quarters"</span>,</span>
+<span>  <span class="fu"><a href="../reference/header.html">header</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/layouts.html">gov_main_layout</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/footer.html">footer</a></span><span class="op">(</span><span class="va">...</span>, width <span class="op">=</span> <span class="st">"standard"</span><span class="op">)</span> <span class="co"># this one stays at the standard width</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="content-width">Content width vs page width<a class="anchor" aria-label="anchor" href="#content-width"></a>
+</h3>
+<p><code>gov_page(width = ...)</code> only sets the <em>outer</em>
+ceiling: how wide the page frame is allowed to get. It’s a separate
+thing from how wide any one piece of <em>content</em> looks, which is
+controlled by <code><a href="../reference/layouts.html">gov_row()</a></code>/<code>gov_box(size = ...)</code>
+(see <a href="#the-primary-layout-system">The primary layout system</a>
+below).</p>
+<p><strong>Recommended setup:</strong> for a dashboard-style app, set
+<code>gov_page(width = "full")</code> so wide tables, charts and value
+boxes get the room they need. Then, for any text-heavy page or section
+within that same app (a cookies page, a user guide, an accessibility
+statement), wrap its content in
+<code>gov_box(size = "two-thirds")</code>, GOV.UK’s standard
+reading-width column, rather than letting it stretch the full width of
+the page.</p>
+<blockquote>
+<p><strong>Avoid full-width body text.</strong> GOV.UK’s own <a href="https://design-system.service.gov.uk/styles/layout/" class="external-link">Design System
+guidance</a> recommends keeping body text to a two-thirds-width column
+even on a wide page, so lines don’t get so long they’re hard to read
+(aim for no more than about 75 characters per line). Rendering
+paragraphs in a <code>gov_box(size = "full")</code> on a
+<code>"full"</code>-width page produces lines that stretch the entire
+screen: technically valid, but noticeably harder to read. Reserve full
+width for content that actually benefits from the extra room, like a
+wide table.</p>
+</blockquote>
+<p>In practice this means: pick a page <code>width</code> for the
+<em>space you need</em> (e.g. <code>"full"</code> for a dashboard with
+wide tables), then use <code>gov_box(size = ...)</code> around each
+section of content to control how wide <em>that section</em> looks,
+independently of the page:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gov_page.html">gov_page</a></span><span class="op">(</span></span>
+<span>  width <span class="op">=</span> <span class="st">"full"</span>,</span>
+<span>  <span class="fu"><a href="../reference/layouts.html">gov_main_layout</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="../reference/layouts.html">gov_row</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="../reference/layouts.html">gov_box</a></span><span class="op">(</span></span>
+<span>        size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span>
+<span>        <span class="fu"><a href="../reference/layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"Readable body text stays narrow, even on a wide page."</span><span class="op">)</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="../reference/layouts.html">gov_row</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="../reference/layouts.html">gov_box</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"full"</span>, <span class="fu"><a href="../reference/govTable.html">govTable</a></span><span class="op">(</span><span class="va">my_wide_data</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The example showcase app does exactly this: its Cookies tab sits
+inside a <code>gov_box(size = "two-thirds")</code>, so it reads as a
+normal, narrow text page even though the app itself uses
+<code>gov_page(width = "full")</code>.</p>
+<hr>
+</div>
+</div>
+<div class="section level2">
 <h2 id="page-level-components">Page-level components<a class="anchor" aria-label="anchor" href="#page-level-components"></a>
 </h2>
-<p>These components form the outer frame of every page. They sit outside
-the main content area and are consistent across all pages of your
-app.</p>
+<p>These components form the outer frame of every page, inside
+<code><a href="../reference/gov_page.html">gov_page()</a></code>. They sit outside the main content area and are
+consistent across all pages of your app.</p>
 <pre><code>+-------------------------------------------------------+
 |  skip_to_main()   [visually hidden, keyboard only]    |
 +-------------------------------------------------------+
@@ -129,7 +270,7 @@ app.</p>
 visible when focused by a keyboard user. This is an accessibility
 requirement and should always be the first element in your UI, before
 the header.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/skip_to_main.html">skip_to_main</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>By default it links to <code>#main</code>, which matches the
 <code>id</code> applied by <code><a href="../reference/layouts.html">gov_main_layout()</a></code>. If you change
@@ -147,7 +288,7 @@ Skip link component</a>.</p>
 IDs within the banner are preset — see <code><a href="../reference/cookieBanner.html">?cookieBanner</a></code> for
 the server-side <code>observeEvent</code> pattern needed to handle
 accept and reject interactions.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">shinyjs</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shinyjs/man/useShinyjs.html" class="external-link">useShinyjs</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/cookieBanner.html">cookieBanner</a></span><span class="op">(</span><span class="st">"My service name"</span><span class="op">)</span></span></code></pre></div>
 <p>For more information, including when this should be used, read the
@@ -163,7 +304,7 @@ department logo, name and service name. This is not the official <a href="https:
 header</a>, as that should only be used on GOV.UK domains. If you
 believe you have an R Shiny app on a GOV.UK domain, please <a href="https://github.com/dfe-analytical-services/shinyGovstyle/issues/new/choose" class="external-link">raise
 an issue</a> to request this as an addition to the package.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/header.html">header</a></span><span class="op">(</span></span>
 <span>  org_name <span class="op">=</span> <span class="st">"Department for Education"</span>,</span>
 <span>  service_name <span class="op">=</span> <span class="st">"My dashboard"</span></span>
@@ -177,10 +318,10 @@ an issue</a> to request this as an addition to the package.</p>
 indicate the maturity of your service and give a clear route for users
 to provide feedback.</p>
 <p>The <code>feedback_url</code> argument is the recommended shortcut
-for the standard GOV.UK feedback wording 014 pass a URL (or a
+for the standard GOV.UK feedback wording: pass a URL (or a
 <code>mailto:</code> link for contact-style text) and the text is
 generated for you:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  inputId <span class="op">=</span> <span class="st">"phase-banner"</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"Beta"</span>,</span>
@@ -188,7 +329,7 @@ generated for you:</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>For custom wording, use <code>label</code> instead (exactly one of
 <code>label</code> or <code>feedback_url</code> should be supplied):</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/banner.html">banner</a></span><span class="op">(</span></span>
 <span>  inputId <span class="op">=</span> <span class="st">"phase-banner"</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"Beta"</span>,</span>
@@ -215,7 +356,7 @@ an offical version as that should only be used on a GOV.UK domain. Use
 <code>full = TRUE</code> to include the OGL licence logo and Crown
 copyright statement. You can add support links that point either to
 internal hidden tab panels or to external URLs.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Minimal footer</span></span>
 <span><span class="fu"><a href="../reference/footer.html">footer</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -243,7 +384,7 @@ active tab panel.</p>
 <code>&lt;main&gt;</code> element carries the responsive vertical
 padding. Everything between the page-level components and the footer
 lives inside it.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layouts.html">gov_main_layout</a></span><span class="op">(</span></span>
 <span>  <span class="co"># your content here</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -272,7 +413,7 @@ three-function grid system: <code><a href="../reference/layouts.html">gov_row()<
 </h3>
 <p>Creates a GOV.UK grid row. You can have multiple rows inside
 <code><a href="../reference/layouts.html">gov_main_layout()</a></code>, each stacked vertically.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layouts.html">gov_main_layout</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/layouts.html">gov_row</a></span><span class="op">(</span></span>
 <span>    <span class="co"># columns go here</span></span>
@@ -323,7 +464,7 @@ controls the column width using GOV.UK Frontend’s grid classes:</p>
 <p>Sizes within a row should add up to a full width. For example,
 <code>"two-thirds"</code> and <code>"one-third"</code> sit side by
 side:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layouts.html">gov_main_layout</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/layouts.html">gov_row</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="../reference/layouts.html">gov_box</a></span><span class="op">(</span></span>
@@ -340,7 +481,7 @@ side:</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>For a simple single-column layout, use
 <code>size = "full"</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/layouts.html">gov_main_layout</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/layouts.html">gov_row</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="../reference/layouts.html">gov_box</a></span><span class="op">(</span></span>
@@ -373,7 +514,7 @@ Use <code><a href="../reference/layouts.html">gov_main_layout()</a></code> with 
 </blockquote>
 <p><code><a href="../reference/gov_layout.html">gov_layout()</a></code> is a single-function alternative that
 combines a width container and a column in one call:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gov_layout.html">gov_layout</a></span><span class="op">(</span></span>
 <span>  size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span>
 <span>  <span class="fu"><a href="../reference/heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"Page title"</span>, size <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span>,</span>
@@ -404,7 +545,7 @@ switch the visible panel.</p>
 <p>Pass a named character vector to <code><a href="../reference/service_navigation.html">service_navigation()</a></code>.
 The names are displayed as link text; the values become the
 inputIDs:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/service_navigation.html">service_navigation</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>    <span class="st">"Summary"</span> <span class="op">=</span> <span class="st">"nav_summary"</span>,</span>
@@ -424,7 +565,7 @@ underscores (e.g. <code>"Detailed data"</code> becomes
 <code><a href="../reference/service_navigation_server.html">service_navigation_server()</a></code> then wires every nav link to
 its panel in a single call — no per-link <code>observeEvent</code>
 boilerplate:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># ui.R — shiny tabsetPanel</span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabsetPanel.html" class="external-link">tabsetPanel</a></span><span class="op">(</span></span>
 <span>  type <span class="op">=</span> <span class="st">"hidden"</span>,</span>
@@ -453,7 +594,7 @@ tab panel is shiny or bslib.</p>
 <p>For navigation that can’t be wired declaratively — next / back
 buttons, modal links, footer shortcuts — use <code><a href="../reference/navigate_to.html">navigate_to()</a></code>
 to combine the panel switch and the nav-active update in one call:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># server.R — programmatic navigation in one call</span></span>
 <span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">next_btn</span>, <span class="op">{</span></span>
 <span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="../reference/navigate_to.html">navigate_to</a></span><span class="op">(</span></span>
@@ -500,7 +641,7 @@ again.</p>
 link for the JavaScript binding to read. Call
 <code><a href="../reference/update_page_title.html">update_page_title()</a></code> so the browser tab title reflects the
 new page:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># ui.R — footer link, no entry in service_navigation()</span></span>
 <span><span class="fu"><a href="../reference/footer.html">footer</a></span><span class="op">(</span></span>
 <span>  full <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -548,11 +689,11 @@ pages without touching the overall app structure.</p>
 </h2>
 <p>The following is a minimal but complete multi-page app that uses all
 of the layout components covered in this vignette:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.posit.co/" class="external-link">shiny</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dfe-analytical-services/shinyGovstyle" class="external-link">shinyGovstyle</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">bslib</span><span class="fu">::</span><span class="fu"><a href="https://rstudio.github.io/bslib/reference/page.html" class="external-link">page_fluid</a></span><span class="op">(</span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gov_page.html">gov_page</a></span><span class="op">(</span></span>
 <span>  title <span class="op">=</span> <span class="st">"Summary | My dashboard"</span>,</span>
 <span>  <span class="fu"><a href="../reference/skip_to_main.html">skip_to_main</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../reference/header.html">header</a></span><span class="op">(</span></span>
@@ -597,7 +738,10 @@ of the layout components covered in this vignette:</p>
 <span>        <span class="st">"About"</span>, value <span class="op">=</span> <span class="st">"nav_about"</span>,</span>
 <span>        <span class="fu"><a href="../reference/layouts.html">gov_row</a></span><span class="op">(</span></span>
 <span>          <span class="fu"><a href="../reference/layouts.html">gov_box</a></span><span class="op">(</span></span>
-<span>            size <span class="op">=</span> <span class="st">"full"</span>,</span>
+<span>            <span class="co"># Text-only page: two-thirds keeps it readable even though the</span></span>
+<span>            <span class="co"># app itself uses gov_page(width = "full"). See "Content width</span></span>
+<span>            <span class="co"># vs page width" above.</span></span>
+<span>            size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span>
 <span>            <span class="fu"><a href="../reference/heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"About this dashboard"</span>, size <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span>,</span>
 <span>            <span class="fu"><a href="../reference/layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"This page describes the dashboard."</span><span class="op">)</span></span>
 <span>          <span class="op">)</span></span>
@@ -608,7 +752,7 @@ of the layout components covered in this vignette:</p>
 <span>        <span class="st">"Accessibility statement"</span>, value <span class="op">=</span> <span class="st">"accessibility_panel"</span>,</span>
 <span>        <span class="fu"><a href="../reference/layouts.html">gov_row</a></span><span class="op">(</span></span>
 <span>          <span class="fu"><a href="../reference/layouts.html">gov_box</a></span><span class="op">(</span></span>
-<span>            size <span class="op">=</span> <span class="st">"full"</span>,</span>
+<span>            size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span>
 <span>            <span class="fu"><a href="../reference/heading_text.html">heading_text</a></span><span class="op">(</span><span class="st">"Accessibility statement"</span>, size <span class="op">=</span> <span class="st">"l"</span><span class="op">)</span>,</span>
 <span>            <span class="fu"><a href="../reference/layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"This page describes the accessibility of the dashboard."</span><span class="op">)</span></span>
 <span>          <span class="op">)</span></span>

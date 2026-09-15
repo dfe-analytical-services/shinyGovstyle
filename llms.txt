@@ -48,8 +48,8 @@ Ideas, bug reports, and requests for new components should be [raised as
 GitHub
 issue](https://github.com/dfe-analytical-services/shinyGovstyle/issues/new).
 It’s often worth checking the existing [issues
-log](https://github.com/dfe-analytical-services/shinyGovstyle/issues)
-incase there is already an existing discussion you can conrtibute to.
+log](https://github.com/dfe-analytical-services/shinyGovstyle/issues) in
+case there is already an existing discussion you can contribute to.
 
 More details on contributing can be found in the
 `.github/CONTRIBUTING.md` file.
@@ -88,6 +88,8 @@ shinyGovstyle::run_example()
   : Footer Function
 - [`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md)
   : Page Layout Function
+- [`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md)
+  : GOV.UK styled page wrapper
 - [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md)
   : Header Function
 - [`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
@@ -119,8 +121,6 @@ shinyGovstyle::run_example()
 
 - [`font()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/font.md)
   : Font Function
-- [`full_width_overrides()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/full_width_overrides.md)
-  **\[experimental\]** : Styling overrides for to give full width
 
 ## Inputs
 

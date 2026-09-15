@@ -16,7 +16,8 @@ service_navigation(
   links,
   service_name = NULL,
   auto_page_title = TRUE,
-  page_title_suffix = NULL
+  page_title_suffix = NULL,
+  width = "standard"
 )
 ```
 
@@ -55,6 +56,14 @@ service_navigation(
   [`update_page_title()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_page_title.md)
   from your server code.
 
+- width:
+
+  Width of the component. One of `"standard"` (the default, GOV.UK's
+  usual 960px content width), `"three-quarters"` (three-quarters of the
+  viewport, never narrower than standard), `"full"` (no max-width, so
+  the container fills the viewport, with grid gutters also removed), or
+  a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
+
 ## Value
 
 Shiny tag object
@@ -72,7 +81,7 @@ Other Govstyle navigation:
 ## Examples
 
 ``` r
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header("Title", "Secondary heading"),
   shinyGovstyle::service_navigation(
      c("Summary data", "Detailed stats 1", "User guide")

@@ -7,7 +7,7 @@ as a simpler version where grids are not needed.
 ## Usage
 
 ``` r
-gov_layout(..., inputID = "main", size = "full")
+gov_layout(..., inputID = "main", size = "full", width = "standard")
 ```
 
 ## Arguments
@@ -25,6 +25,14 @@ gov_layout(..., inputID = "main", size = "full")
   Layout of the page. Optional are full, one-half, two-thirds, one-third
   and one-quarter. Defaults to "full"
 
+- width:
+
+  Width of the component. One of `"standard"` (the default, GOV.UK's
+  usual 960px content width), `"three-quarters"` (three-quarters of the
+  viewport, never narrower than standard), `"full"` (no max-width, so
+  the container fills the viewport, with grid gutters also removed), or
+  a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
+
 ## Value
 
 a HTML shiny layout div
@@ -35,6 +43,7 @@ Other Govstyle page structure:
 [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
 [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
 [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
+[`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md),
 [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
 [`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
 [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
@@ -42,7 +51,7 @@ Other Govstyle page structure:
 ## Examples
 
 ``` r
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",

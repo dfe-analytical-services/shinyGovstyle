@@ -70,7 +70,7 @@ Other Govstyle tables tabs and accordions:
 ## Examples
 
 ``` r
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::gov_layout(
     size = "two-thirds",
     shinyGovstyle::govTable(

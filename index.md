@@ -48,8 +48,8 @@ Ideas, bug reports, and requests for new components should be [raised as
 GitHub
 issue](https://github.com/dfe-analytical-services/shinyGovstyle/issues/new).
 It’s often worth checking the existing [issues
-log](https://github.com/dfe-analytical-services/shinyGovstyle/issues)
-incase there is already an existing discussion you can conrtibute to.
+log](https://github.com/dfe-analytical-services/shinyGovstyle/issues) in
+case there is already an existing discussion you can contribute to.
 
 More details on contributing can be found in the
 `.github/CONTRIBUTING.md` file.

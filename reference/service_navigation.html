@@ -67,7 +67,8 @@ may not work correctly.</p>
 <span>  <span class="va">links</span>,</span>
 <span>  service_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  auto_page_title <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  page_title_suffix <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  page_title_suffix <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  width <span class="op">=</span> <span class="st">"standard"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -110,6 +111,15 @@ control (e.g. when a page heading differs from its nav
 link label), call <code><a href="update_page_title.html">update_page_title()</a></code> from your server
 code.</p></dd>
 
+
+<dt id="arg-width">width<a class="anchor" aria-label="anchor" href="#arg-width"></a></dt>
+<dd><p>Width of the component. One of <code>"standard"</code> (the default,
+GOV.UK's usual 960px content width), <code>"three-quarters"</code>
+(three-quarters of the viewport, never narrower than standard),
+<code>"full"</code> (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. <code>"1400px"</code>,
+<code>"90vw"</code>) for a custom max-width.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -128,7 +138,7 @@ code.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="gov_page.html">gov_page</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="header.html">header</a></span><span class="op">(</span><span class="st">"Title"</span>, <span class="st">"Secondary heading"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu">service_navigation</span><span class="op">(</span></span></span>
 <span class="r-in"><span>     <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Summary data"</span>, <span class="st">"Detailed stats 1"</span>, <span class="st">"User guide"</span><span class="op">)</span></span></span>

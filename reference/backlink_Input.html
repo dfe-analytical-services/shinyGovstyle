@@ -79,7 +79,7 @@ input components this is also the name used to access the value via
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shinyGovstyle</span><span class="fu">::</span><span class="fu"><a href="gov_page.html">gov_page</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="header.html">header</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    org_name <span class="op">=</span> <span class="st">"Example"</span>,</span></span>
 <span class="r-in"><span>    service_name <span class="op">=</span> <span class="st">"User Examples"</span>,</span></span>
@@ -97,8 +97,7 @@ input components this is also the name used to access the value via
 <span class="r-in"><span>      <span class="fu"><a href="gov_layout.html">gov_layout</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>        size <span class="op">=</span> <span class="st">"two-thirds"</span>,</span></span>
 <span class="r-in"><span>        <span class="fu">backlink_Input</span><span class="op">(</span><span class="st">"link1"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">br</span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>        <span class="fu">shiny</span><span class="fu">::</span><span class="va"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">tags</a></span><span class="op">$</span><span class="fu">br</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="layouts.html">gov_text</a></span><span class="op">(</span><span class="st">"Placeholder text"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>      <span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span>,</span></span>
 <span class="r-in"><span>    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html" class="external-link">tabPanel</a></span><span class="op">(</span></span></span>

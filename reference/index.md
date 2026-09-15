@@ -12,6 +12,8 @@
   : Footer Function
 - [`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md)
   : Page Layout Function
+- [`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md)
+  : GOV.UK styled page wrapper
 - [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md)
   : Header Function
 - [`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
@@ -43,8 +45,6 @@
 
 - [`font()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/font.md)
   : Font Function
-- [`full_width_overrides()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/full_width_overrides.md)
-  **\[experimental\]** : Styling overrides for to give full width
 
 ## Inputs
 

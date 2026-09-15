@@ -84,7 +84,7 @@ anywhere in your UI when using:
 
 ``` r
 
-ui <- bslib::page_fluid(
+ui <- gov_page(
   shinyjs::useShinyjs(),
   # rest of your UI
 )
@@ -94,17 +94,34 @@ ui <- bslib::page_fluid(
 
 ## A minimal working app
 
+Every shinyGovstyle app starts with
+[`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md).
+It’s a small wrapper around [bslib](https://rstudio.github.io/bslib/)’s
+`page_fluid()` (bslib is [generally recommended for building responsive
+apps with R
+Shiny](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/)) that
+also takes care of two things every GOV.UK-style page should get right
+from the start:
+
+- **`lang`** sets the page’s language (`"en"` by default). Screen
+  readers use this to pick the right pronunciation, so it matters even
+  if you never touch it.
+- **`width`** sets a default width for every shinyGovstyle component
+  inside it: see the [Layout
+  options](https://dfe-analytical-services.github.io/shinyGovstyle/articles/layout-options.html#page-width)
+  vignette if you want a wider, dashboard-style layout.
+
 The skeleton below shows the components that appear on every page of a
-shinyGovstyle app. It uses [`bslib`](https://rstudio.github.io/bslib/),
-which is generally [recommended for building responsive apps with R
-Shiny](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/).
+shinyGovstyle app:
 
 ``` r
 
 library(shiny)
 library(shinyGovstyle)
 
-ui <- bslib::page_fluid(
+ui <- gov_page(
+  title = "My dashboard",
+  description = "A dashboard showing my department's latest statistics",
   skip_to_main(),
   header(
     org_name = "My department",
@@ -143,13 +160,14 @@ at the end of the Layout options vignette.
 
 ### Page structure and layout
 
-All page-level components
+[`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md),
+the page-level components
 ([`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
 [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
 [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
 [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md),
 [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
-[`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md))
+[`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md)),
 and the content grid system
 ([`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
 [`gov_row()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),

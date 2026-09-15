@@ -51,7 +51,7 @@ Other Govstyle navigation:
 
 ``` r
 # Works the same with shiny::tabsetPanel() + shiny::updateTabsetPanel().
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::service_navigation(c("Page one", "Page two")),
   bslib::navset_hidden(
     id = "tabs",

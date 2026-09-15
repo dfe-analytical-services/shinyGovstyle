@@ -8,7 +8,7 @@ structure.
 ## Usage
 
 ``` r
-cookieBanner(service_name)
+cookieBanner(service_name, width = "standard")
 ```
 
 ## Arguments
@@ -16,6 +16,14 @@ cookieBanner(service_name)
 - service_name:
 
   Name for this service to add to banner
+
+- width:
+
+  Width of the component. One of `"standard"` (the default, GOV.UK's
+  usual 960px content width), `"three-quarters"` (three-quarters of the
+  viewport, never narrower than standard), `"full"` (no max-width, so
+  the container fills the viewport, with grid gutters also removed), or
+  a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
 
 ## Value
 
@@ -27,6 +35,7 @@ Other Govstyle page structure:
 [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
 [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
 [`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
+[`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md),
 [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
 [`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
 [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
@@ -34,7 +43,7 @@ Other Govstyle page structure:
 ## Examples
 
 ``` r
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",

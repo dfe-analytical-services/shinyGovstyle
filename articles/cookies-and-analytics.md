@@ -37,7 +37,7 @@ handlers.
 library(shiny)
 library(shinyGovstyle)
 
-ui <- fluidPage(
+ui <- gov_page(
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
     org_name = "Example",
@@ -82,6 +82,16 @@ confirmation message. The example app that ships with this package
 builds exactly this as a Shiny module (see
 `inst/example_app/modules/mod_cookies.R`), and the rest of this section
 walks through that pattern.
+
+A [Shiny module](https://shiny.posit.co/r/articles/improve/modules/) is
+just a pair of functions (one for the UI, one for the server) that are
+namespaced together so their input/output ids can’t clash with the rest
+of your app. It’s the standard way to package up a reusable,
+self-contained piece of UI like a settings page. If you haven’t used
+modules before, the [Mastering Shiny chapter on
+modules](https://mastering-shiny.org/scaling-modules.html) is a good
+place to start; the walkthrough below assumes you’re comfortable with
+the basics.
 
 ### Banner ids are global, the settings page is a module
 

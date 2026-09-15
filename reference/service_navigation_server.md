@@ -55,7 +55,7 @@ Other Govstyle navigation:
 ## Examples
 
 ``` r
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::service_navigation(
     c(Summary = "sn_summary", Detail = "sn_detail")
   ),

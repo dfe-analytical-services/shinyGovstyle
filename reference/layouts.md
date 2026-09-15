@@ -9,7 +9,7 @@ container for text bodies.
 ## Usage
 
 ``` r
-gov_main_layout(..., inputID = "main")
+gov_main_layout(..., inputID = "main", width = "standard")
 
 gov_row(...)
 
@@ -29,6 +29,14 @@ gov_text(...)
 
   ID of the main div. Defaults to "main"
 
+- width:
+
+  Width of the component. One of `"standard"` (the default, GOV.UK's
+  usual 960px content width), `"three-quarters"` (three-quarters of the
+  viewport, never narrower than standard), `"full"` (no max-width, so
+  the container fills the viewport, with grid gutters also removed), or
+  a CSS length (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
+
 - size:
 
   size of the box in the row. Optional are full, one-half, two-thirds,
@@ -45,13 +53,14 @@ Other Govstyle page structure:
 [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
 [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
 [`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
+[`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md),
 [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
 [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
 
 ## Examples
 
 ``` r
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",

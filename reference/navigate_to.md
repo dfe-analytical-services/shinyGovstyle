@@ -69,7 +69,7 @@ Other Govstyle navigation:
 ``` r
 # Next / back buttons that cross page boundaries — inputId and panel
 # value match, so a single id is enough.
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::service_navigation(c("Page one", "Page two")),
   bslib::navset_hidden(
     id = "tabs",
@@ -89,7 +89,7 @@ if (interactive()) shiny::shinyApp(ui = ui, server = server)
 # Mismatched inputId and panel value — name the panel explicitly.
 # The nav links use an `sn_` prefix on their inputIds so they don't clash
 # with any other inputs in the app. The panel values are unrelated names.
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::service_navigation(
     # names = link text shown to the user, values = nav inputIds
     c(Home = "sn_home", Cookies = "sn_cookies")

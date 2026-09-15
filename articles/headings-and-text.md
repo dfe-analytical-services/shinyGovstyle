@@ -12,7 +12,8 @@ vignette.
 
 ## Rich content in body components
 
-The body-content arguments of
+Sometimes a plain sentence isn’t enough: you need a bold word, a link in
+the middle of a sentence, or a line break. The body-content arguments of
 [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
 (`content`),
 [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
@@ -20,13 +21,13 @@ The body-content arguments of
 [`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md)
 (`body_txt`), along with the list items of
 [`gov_list()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_list.md)
-(`list`), accept more than plain character strings. You can pass a
-`shiny` tag, a
+(`list`), accept `shiny` tags instead of a plain string for exactly
+this. Pass a `shiny` tag, a
 [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html),
 or
 [`shiny::HTML()`](https://rstudio.github.io/htmltools/reference/HTML.html)
 output to embed inline emphasis, links, or line breaks without writing
-raw HTML.
+raw HTML yourself.
 
 ``` r
 
@@ -83,16 +84,17 @@ heading_text("Summary", size = "l", level = 2)
 
 ### Visual size and semantic level are independent
 
-`size` controls the CSS class applied (`govuk-heading-xl`,
-`govuk-heading-l`, etc.), which determines how the heading looks.
-`level` controls the HTML element used (`<h1>`, `<h2>`, etc.), which
-determines its position in the document outline read by screen readers
-and assistive technologies.
+`size` and `level` control two different things. `size` controls how big
+the heading *looks* (the CSS class applied: `govuk-heading-xl`,
+`govuk-heading-l`, and so on). `level` controls what the heading *is* in
+the underlying HTML (`<h1>`, `<h2>`, etc.), which determines its place
+in the page’s document outline (the structure a screen reader user
+navigates by).
 
-These are independent because it is occasionally necessary to use a
-smaller visual heading at a higher semantic level, or vice versa. For
-example, a page where the first visible heading needs to be modest in
-size but is still structurally the `<h1>`:
+Usually a bigger visual size goes with a higher-up level, but not
+always. Sometimes you need a smaller-looking heading that’s still
+structurally important, for example a page where the first visible
+heading needs to be modest in size but is still structurally the `<h1>`:
 
 ``` r
 
@@ -124,11 +126,11 @@ statements):
 
 ### Accessibility
 
-**Do not skip heading levels.** Moving from an `<h1>` straight to an
-`<h3>` breaks the document outline and makes it harder for screen reader
-users to navigate, as they commonly jump between headings to scan a
-page. This is a requirement under [WCAG 2.2 success criterion 1.3.1:
-Info and
+**Do not skip heading levels.** Screen reader users often jump from
+heading to heading to scan a page, the same way a sighted user skims a
+page visually. Going straight from an `<h1>` to an `<h3>` breaks that
+outline and makes the page harder to navigate for them. This is also a
+formal requirement, under [WCAG 2.2 success criterion 1.3.1: Info and
 Relationships](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships).
 
 **Write headings in sentence case.** Only capitalise the first word and
@@ -178,21 +180,22 @@ runtime via `document.title`.
   recommends a consistent format of `"<page name> | <service name>"`,
   and that the title is kept in sync with the visible page.
 
-For a Shiny app with multiple panels, an initial title set in `ui.R` is
-not enough on its own, the title also needs to update as the user
-navigates.
+If your app has multiple pages (tabs or panels the user switches
+between), setting a title once in `ui.R` isn’t enough. The title also
+needs to update as the user moves between pages, otherwise the browser
+tab title stops matching what’s on screen.
 
 ### Three options
 
 **1. Static title only**
 
-Fine for single-page apps. Pass `title` to
-[`bslib::page_fluid()`](https://rstudio.github.io/bslib/reference/page.html)
-or [`shiny::fluidPage()`](https://rdrr.io/pkg/shiny/man/fluidPage.html):
+Fine for single-page apps, where the title never needs to change. Pass
+`title` to
+[`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md):
 
 ``` r
 
-bslib::page_fluid(
+gov_page(
   title = "Annual school workforce statistics",
   # ...
 )
@@ -361,11 +364,12 @@ warning_text(
 )
 ```
 
-The “!” icon carries `aria-hidden = "true"` and the word “Warning” is
-prepended as visually hidden text, so screen readers announce “Warning:
-\[your text\]” without reading out the icon character. Given this, you
-should avoid starting the text with ‘Warning’, else you’ll submit users
-to ‘Warning Warning’.
+The “!” icon is hidden from screen readers, and the word “Warning” is
+added as text you can’t see but a screen reader can, so what gets
+announced is “Warning: \[your text\]” rather than the icon character
+itself. Because “Warning” is already added for you, don’t start your own
+text with the word “Warning” too, otherwise screen reader users hear
+“Warning, warning: …”.
 
 Use
 [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
@@ -455,15 +459,18 @@ external_link("https://www.example.gov.uk/guidance", "Guidance for applicants")
 
 ### Descriptive link text
 
-The function validates `link_text` and will error if you supply a raw
-URL as the link text, vague text such as “click here” or “here”, or text
-ending with a full stop. It will also warn if the text is fewer than 7
-characters.
+Screen reader users often pull up a list of all the links on a page in
+isolation, without the surrounding sentence, so link text needs to make
+sense on its own.
+[`external_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/external_link.md)
+checks this for you and will error if you supply a raw URL as the link
+text, vague text such as “click here” or “here”, or text ending with a
+full stop. It will also warn if the text is fewer than 7 characters,
+since very short link text is usually not descriptive enough.
 
-This enforces [WCAG 2.2 success criterion 2.4.4: Link Purpose (In
-Context)](https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context),
-which requires link text to describe the destination without needing the
-surrounding context to make sense of it.
+This is also a formal requirement, under [WCAG 2.2 success criterion
+2.4.4: Link Purpose (In
+Context)](https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context).
 
 ``` r
 

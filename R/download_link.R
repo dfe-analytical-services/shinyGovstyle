@@ -27,7 +27,7 @@
 #' @export
 #'
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   gov_text("Choose a data set to download."),
 #'   select_Input(
 #'     "dataset",

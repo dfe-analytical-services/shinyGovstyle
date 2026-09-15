@@ -9,7 +9,7 @@
 #' @family Govstyle select inputs
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -29,7 +29,7 @@
 #'       ),
 #'       select_value = c("published", "updated", "view", "comments")
 #'     ),
-#'     shiny::tags$br()
+#'     shinyGovstyle::gov_text("Placeholder text")
 #'   ),
 #'   shinyGovstyle::footer(full = TRUE)
 #' )

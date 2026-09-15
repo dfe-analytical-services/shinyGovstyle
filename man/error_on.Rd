@@ -24,7 +24,7 @@ This function turns on the error for the component. Can be used to
 validate inputs.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   # Required for error handling function
   shinyjs::useShinyjs(),
   shinyGovstyle::header(

@@ -6,13 +6,14 @@
 #' @param inputID ID of the main div. Defaults to "main"
 #' @param size Layout of the page. Optional are full, one-half, two-thirds,
 #' one-third and one-quarter. Defaults to "full"
+#' @inheritParams width_arg
 #' @param ... include the components of the UI that you want within the
 #' main page.
 #' @return a HTML shiny layout div
 #' @family Govstyle page structure
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -37,11 +38,15 @@
 gov_layout <- function(
   ...,
   inputID = "main", # nolint
-  size = "full"
+  size = "full",
+  width = "standard"
 ) {
+  wc <- gov_width_container(width, is_default = missing(width))
+
   gov_layout <- shiny::tags$div(
     id = inputID,
-    class = "govuk-width-container  govuk-main-wrapper",
+    class = paste0(wc$class, " govuk-main-wrapper"),
+    style = wc$style,
     shiny::tags$div(
       id = paste0(inputID, "_sub"),
       class = paste0("govuk-grid-column-", size),

@@ -7,6 +7,7 @@
 #' @param label Text to display. Accepts a plain character string, or `shiny`
 #' tag objects such as `shiny::tags$b("Bold")` or a `shiny::tagList()`. Not
 #' required if `feedback_url` is supplied instead.
+#' @inheritParams width_arg
 #' @param feedback_url Optional URL used to auto-generate the standard GOV.UK
 #' phase banner feedback text, e.g. "This is a new service - your feedback
 #' (opens in new tab) will help us to improve it.", with `feedback` linking to
@@ -18,7 +19,7 @@
 #' @family Govstyle page structure
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -50,8 +51,11 @@ banner <- function(
   inputId, # nolint
   type,
   label = NULL,
-  feedback_url = NULL
+  feedback_url = NULL,
+  width = "standard"
 ) {
+  wc <- gov_width_container(width, is_default = missing(width))
+
   if (is.null(label) && is.null(feedback_url)) {
     stop("Either `label` or `feedback_url` must be provided")
   }
@@ -68,7 +72,8 @@ banner <- function(
     class = "govuk-phase-banner",
     id = inputId,
     shiny::tags$div(
-      class = "govuk-width-container",
+      class = wc$class,
+      style = wc$style,
       shiny::tags$p(
         class = "govuk-phase-banner__content",
         shiny::tags$strong(

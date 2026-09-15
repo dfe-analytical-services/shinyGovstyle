@@ -46,7 +46,7 @@ Shiny bindings for govReactable
 Output and render functions for using govReactable within shiny apps
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   govReactableOutput(
     "table",
     caption = "Example table"

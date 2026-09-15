@@ -25,7 +25,7 @@ This function loads the insert text component to display additional
 information in a special format.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",

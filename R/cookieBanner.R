@@ -4,11 +4,12 @@
 #' `shinyjs::useShinyjs()` enabled for this to work. All the Ids are preset.
 #' See example for how to structure.
 #' @param service_name Name for this service to add to banner
+#' @inheritParams width_arg
 #' @return a cookie banner HTML shiny tag object
 #' @family Govstyle page structure
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -48,7 +49,9 @@
 #' }
 #' if (interactive()) shinyApp(ui = ui, server = server)
 cookieBanner <- # nolint
-  function(service_name) {
+  function(service_name, width = "standard") {
+    wc <- gov_width_container(width, is_default = missing(width))
+
     gov_cookie_link <- shiny::actionLink(
       inputId = "cookieLink",
       label = "View cookies",
@@ -63,7 +66,8 @@ cookieBanner <- # nolint
         `aria-label` = paste("Cookies on", service_name),
         shiny::tags$div(
           id = "cookieMain",
-          class = "govuk-cookie-banner__message govuk-width-container",
+          class = paste0("govuk-cookie-banner__message ", wc$class),
+          style = wc$style,
           shiny::tags$div(
             class = "govuk-grid-row",
             shiny::tags$div(
@@ -94,7 +98,8 @@ cookieBanner <- # nolint
         shinyjs::hidden(
           shiny::tags$div(
             id = "cookieAcceptDiv",
-            class = "govuk-cookie-banner__message govuk-width-container",
+            class = paste0("govuk-cookie-banner__message ", wc$class),
+            style = wc$style,
             shiny::tags$div(
               class = "govuk-grid-row",
               shiny::tags$div(
@@ -119,7 +124,8 @@ cookieBanner <- # nolint
         shinyjs::hidden(
           shiny::tags$div(
             id = "cookieRejectDiv",
-            class = "govuk-cookie-banner__message govuk-width-container",
+            class = paste0("govuk-cookie-banner__message ", wc$class),
+            style = wc$style,
             shiny::tags$div(
               class = "govuk-grid-row",
               shiny::tags$div(

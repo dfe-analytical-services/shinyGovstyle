@@ -29,7 +29,7 @@ relies on this, and uses js instead.
 The text_area_Input function can still be used as before
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
     "Justice", "", logo = "shinyGovstyle/images/moj_logo.png"

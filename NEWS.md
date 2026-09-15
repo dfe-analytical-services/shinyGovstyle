@@ -21,9 +21,33 @@ editor_options:
 * `word_count()` has been deprecated as it is no longer required for
   `text_area_Input()`, which now tracks and announces the word count
   entirely client-side.
+* Removed the experimental `full_width_overrides()` function. Use the new
+  `width` argument on `header()`, `footer()`, `banner()`, `cookieBanner()`,
+  `service_navigation()`, `gov_main_layout()` and `gov_layout()` instead
+  (see below).
+* `bslib` has moved from `Suggests` to `Imports`, since the new
+  `gov_page()` function depends on it directly. If you install
+  shinyGovstyle without its `Suggests` dependencies, you'll now get
+  `bslib` automatically; if you pin dependencies some other way, add
+  `bslib` to that list.
 
 ## New features
 
+* New `gov_page()` function, a GOV.UK-flavoured wrapper around
+  `bslib::page_fluid()`. It sets `<html lang="en">` by default (screen
+  readers use this to choose the right pronunciation and voice), adds
+  a `description` argument for the page's `<meta name="description">` tag,
+  and a `width` argument that sets a default width for every shinyGovstyle
+  component used inside it, so you don't have to repeat `width = ` on each
+  one — a component that sets its own `width` always overrides the page
+  default.
+* `header()`, `footer()`, `banner()`, `cookieBanner()`,
+  `service_navigation()`, `gov_main_layout()` and `gov_layout()` gain a
+  `width` argument for building wider, dashboard-style layouts:
+  `"standard"` (the default, GOV.UK's usual 960px content width),
+  `"three-quarters"` (three-quarters of the viewport, never narrower than
+  standard), `"full"` (edge-to-edge, with grid gutters also removed), or a
+  CSS length (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
 * `external_link()`'s `add_warning` argument now also accepts `"icon"`, in
   addition to `TRUE`/`FALSE`. Setting `add_warning = "icon"` adds a small
   decorative arrow icon after the link text, giving sighted users a visual

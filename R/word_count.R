@@ -17,7 +17,7 @@
 #' @family Govstyle text types
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
 #'     "Justice", "", logo = "shinyGovstyle/images/moj_logo.png"

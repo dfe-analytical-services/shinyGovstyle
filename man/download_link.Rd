@@ -41,7 +41,7 @@ not easily determined, then it may be acceptable to provide an estimate or an
 upper limit.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   gov_text("Choose a data set to download."),
   select_Input(
     "dataset",

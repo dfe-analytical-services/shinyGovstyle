@@ -25,7 +25,7 @@ a label hint HTML shiny tag object
 This function inserts a label and optional hint.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",

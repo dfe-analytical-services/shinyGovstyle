@@ -24,7 +24,7 @@ This function create tracks the word count and should be used with the
 text area function.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
     "Justice", "", logo = "shinyGovstyle/images/moj_logo.png"

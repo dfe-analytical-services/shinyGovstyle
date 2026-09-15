@@ -57,7 +57,7 @@ a checkbox HTML shiny tag object
 This function inserts a checkbox group
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   # Required for error handling function
   shinyjs::useShinyjs(),
   shinyGovstyle::header(

@@ -20,7 +20,8 @@ BugReports:
     https://github.com/dfe-analytical-services/shinyGovstyle/issues
 Depends: 
     R (>= 4.1.0)
-Imports: 
+Imports:
+    bslib,
     htmltools,
     jsonlite,
     lifecycle,

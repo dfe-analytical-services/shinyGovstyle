@@ -22,7 +22,7 @@ This function changes the text that displays in the error summary box.
 Requires \code{shinyjs::useShinyjs()} to work.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
     org_name = "Example",

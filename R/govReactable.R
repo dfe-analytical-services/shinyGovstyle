@@ -127,7 +127,7 @@ govReactable <- # nolint
 #' @name govReactable-shiny
 #' @family Govstyle tables tabs and accordions
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   govReactableOutput(
 #'     "table",
 #'     caption = "Example table"

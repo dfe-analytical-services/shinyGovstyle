@@ -34,13 +34,14 @@
 #' control (e.g. when a page heading differs from its nav
 #' link label), call [update_page_title()] from your server
 #' code.
+#' @inheritParams width_arg
 #'
 #' @returns Shiny tag object
 #' @family Govstyle navigation
 #' @export
 #'
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header("Title", "Secondary heading"),
 #'   shinyGovstyle::service_navigation(
 #'      c("Summary data", "Detailed stats 1", "User guide")
@@ -83,8 +84,11 @@ service_navigation <- function(
   links,
   service_name = NULL,
   auto_page_title = TRUE,
-  page_title_suffix = NULL
+  page_title_suffix = NULL,
+  width = "standard"
 ) {
+  wc <- gov_width_container(width, is_default = missing(width))
+
   if (is.null(links) || length(links) == 0) {
     stop("links must be a non-empty character vector")
   }
@@ -107,7 +111,8 @@ service_navigation <- function(
       page_title_suffix
     },
     shiny::tags$div(
-      class = "govuk-width-container",
+      class = wc$class,
+      style = wc$style,
       shiny::tags$div(
         class = "govuk-service-navigation__container",
         if (!is.null(service_name)) {
@@ -179,7 +184,7 @@ service_navigation <- function(
 #'
 #' @examples
 #' # Works the same with shiny::tabsetPanel() + shiny::updateTabsetPanel().
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::service_navigation(c("Page one", "Page two")),
 #'   bslib::navset_hidden(
 #'     id = "tabs",
@@ -240,7 +245,7 @@ update_service_navigation <- function(
 #' @export
 #'
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::service_navigation(
 #'     c(Summary = "sn_summary", Detail = "sn_detail")
 #'   ),

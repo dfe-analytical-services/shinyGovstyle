@@ -64,7 +64,7 @@ subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
 #' @export
 #' @family Govstyle navigation
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   gov_row(
 #'     # Nav columns
 #'     shiny::column(

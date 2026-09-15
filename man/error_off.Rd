@@ -7,7 +7,9 @@
 error_off(inputId)
 }
 \arguments{
-\item{inputId}{The input Id to turn error handling on for}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 }
 \value{
 no return value. This toggles off error CSS
@@ -17,7 +19,7 @@ This function turns off the the error o the component, once issues have
 been sorted.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   # Required for error handling function
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
@@ -59,9 +61,9 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle errors: 
-\code{\link{error_on}()},
-\code{\link{error_summary}()},
-\code{\link{error_summary_update}()}
+Other Govstyle errors:
+\code{\link[=error_on]{error_on()}},
+\code{\link[=error_summary]{error_summary()}},
+\code{\link[=error_summary_update]{error_summary_update()}}
 }
 \concept{Govstyle errors}

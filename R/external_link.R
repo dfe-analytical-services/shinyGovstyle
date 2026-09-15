@@ -28,6 +28,21 @@
 #' and add a line of text above all of the links saying something like 'The
 #' following links open in a new tab'.
 #'
+#' Setting add_warning = FALSE removes the visible text warning entirely, so
+#' sighted users lose the visual cue that the link behaves differently. Set
+#' add_warning = "icon" instead to add a small decorative arrow icon after the
+#' link text, giving sighted users a visual warning without repeating the full
+#' "(opens in new tab)" text. The icon is purely decorative (hidden from
+#' screen readers, which still get the same hidden warning as add_warning =
+#' FALSE), so it should be paired with an explanatory sentence above a group
+#' of links, not relied on as the only warning.
+#'
+#' If `href` starts with `mailto:` (case-insensitive), the new-tab behaviour
+#' is skipped entirely: no `target="_blank"`/`rel="noopener noreferrer"`, no
+#' "(opens in new tab)" text or hidden span, and `add_warning = "icon"` has no
+#' effect, since a mailto link hands off to the mail client rather than
+#' opening a new browser tab. `link_text` validation still applies as normal.
+#'
 #' Related links and guidance:
 #'
 #' * [Government digital services guidelines on the use of links](
@@ -49,9 +64,15 @@
 #' trailing white space will be automatically trimmed. If the string is shorter
 #' than 7 characters a console warning will be thrown. There is no way to hush
 #' this other than providing more detail
-#' @param add_warning Boolean for adding "(opens in new tab)" at the end of the
-#' link text to warn users of the behaviour. Be careful and consider
-#' accessibility before removing the visual warning
+#' @param add_warning One of TRUE (default), FALSE, or "icon", controlling how
+#' users are warned that the link opens in a new tab. TRUE appends "(opens in
+#' new tab)" to the visible link text. FALSE removes the visible text (a
+#' visually hidden span still warns screen reader users) with no replacement
+#' visual cue, for use with an explanatory sentence above a group of links.
+#' "icon" behaves like FALSE but also adds a small decorative arrow icon
+#' after the link text, giving sighted users a visual cue without repeating
+#' the full text. Be careful and consider accessibility before moving away
+#' from the default. Has no effect when `href` is a `mailto:` link.
 #' @param footer Apply standard GDS footer CSS styling. Logical,
 #' default = FALSE
 #' @return shiny tag object
@@ -67,8 +88,18 @@
 #'   add_warning = FALSE
 #' )
 #'
+#' # Give sighted users a visual warning without repeating the text
+#' external_link(
+#'   "https://shiny.posit.co/",
+#'   "R Shiny",
+#'   add_warning = "icon"
+#' )
+#'
 #' # This will trim and show as 'R Shiny'
 #' external_link("https://shiny.posit.co/", "  R Shiny")
+#'
+#' # mailto: links skip the new-tab attributes, text, and icon
+#' external_link("mailto:feedback@example.com", "feedback@example.com")
 #'
 #' # Example of within text
 #' shiny::tags$p(
@@ -78,28 +109,25 @@
 #' # Example of multiple links together
 #' shiny::tags$h2("Related resources")
 #' shiny::tags$p("The following links open in a new tab.")
-#' shiny::tags$ul(
-#'   shiny::tags$li(
+#' gov_list(
+#'   list = list(
 #'     external_link(
 #'       "https://shiny.posit.co/",
 #'       "R Shiny documentation",
 #'       add_warning = FALSE
-#'     )
-#'   ),
-#'   shiny::tags$li(
+#'     ),
 #'     external_link(
 #'       "https://www.python.org/",
 #'       "Python documentation",
 #'       add_warning = FALSE
-#'     )
-#'   ),
-#'   shiny::tags$li(
+#'     ),
 #'     external_link(
 #'       "https://nextjs.org/",
 #'       "Next.js documentation",
 #'       add_warning = FALSE
 #'     )
-#'   )
+#'   ),
+#'   style = "bullet"
 #' )
 external_link <- function(
   href,
@@ -107,9 +135,16 @@ external_link <- function(
   add_warning = TRUE,
   footer = FALSE
 ) {
-  if (!is.logical(add_warning)) {
-    stop("add_warning must be a TRUE or FALSE value")
+  valid_add_warning <- isTRUE(add_warning) ||
+    isFALSE(add_warning) ||
+    identical(add_warning, "icon")
+  if (!valid_add_warning) {
+    stop('add_warning must be TRUE, FALSE, or "icon"')
   }
+
+  # mailto: links hand off to the mail client rather than opening a new
+  # browser tab, so none of the new-tab attributes, text, or icon apply
+  is_mailto <- grepl("^mailto:", href, ignore.case = TRUE)
 
   # Trim white space as I don't trust humans not to accidentally include
   link_text <- stringr::str_trim(link_text)
@@ -159,12 +194,55 @@ external_link <- function(
   }
 
   # Assuming all else has passed, make the link text a nice accessible link
-  if (add_warning) {
+  if (is_mailto) {
+    # No new-tab behaviour to warn about
+    hidden_span <- NULL
+  } else if (isTRUE(add_warning)) {
     link_text <- paste(link_text, "(opens in new tab)")
     hidden_span <- NULL # don't have extra hidden text if clear in main text
   } else {
+    # FALSE and "icon" both rely on the hidden span to warn screen readers
     hidden_span <-
       htmltools::span(class = "sr-only", " (opens in new tab)")
+  }
+
+  # Purely decorative arrow icon, hidden from screen readers, giving sighted
+  # users a visual cue in place of the (opens in new tab) text
+  if (identical(add_warning, "icon") && !is_mailto) {
+    icon_svg <- shiny::tag(
+      "svg",
+      list(
+        xmlns = "http://www.w3.org/2000/svg",
+        width = "12",
+        height = "12",
+        viewBox = "0 0 12 12",
+        `aria-hidden` = "true",
+        focusable = "false",
+        style = "margin-left: 4px; vertical-align: middle;",
+        shiny::tag(
+          "path",
+          list(
+            d = "M5 1H1v10h10V7",
+            stroke = "currentColor",
+            `stroke-width` = "1.2",
+            fill = "none"
+          )
+        ),
+        shiny::tag(
+          "path",
+          list(
+            d = "M6 1h5v5M11 1L5 7",
+            stroke = "currentColor",
+            `stroke-width` = "1.2",
+            fill = "none",
+            `stroke-linecap` = "round",
+            `stroke-linejoin` = "round"
+          )
+        )
+      )
+    )
+  } else {
+    icon_svg <- NULL
   }
 
   if (!is.logical(footer)) {
@@ -182,13 +260,19 @@ external_link <- function(
     link_gds_class <- "govuk-link"
   }
 
+  # mailto: links don't open a new tab, so omit target/rel entirely; NULL
+  # attributes are dropped by htmltools
+  target <- if (is_mailto) NULL else "_blank"
+  rel <- if (is_mailto) NULL else "noopener noreferrer"
+
   # Create the link object
   link <- htmltools::tags$a(
     href = href,
     class = link_gds_class,
-    htmltools::HTML(paste0(link_text, hidden_span)), # white space hack
-    target = "_blank",
-    rel = "noopener noreferrer",
+    # white space hack
+    htmltools::HTML(paste0(link_text, hidden_span, icon_svg)),
+    target = target,
+    rel = rel,
     .noWS = c("outside")
   )
 
@@ -199,6 +283,11 @@ external_link <- function(
     src = c(href = "shinyGovstyle/css"),
     stylesheet = "sr-only.css"
   )
+
+  # Also attach the base shinyGovstyle dependencies (stylesheet and the
+  # update_page_title handler) so update_page_title() works in apps that use
+  # external_link() without any other shinyGovstyle component.
+  link <- attachDependency(link)
 
   # Return the link with the CSS attached
   htmltools::attachDependencies(link, dependency, append = TRUE)

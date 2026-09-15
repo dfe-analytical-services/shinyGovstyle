@@ -7,11 +7,21 @@
 accordion(inputId, titles, descriptions)
 }
 \arguments{
-\item{inputId}{Input Id for the accordion}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{titles}{Add the titles for the accordion}
 
-\item{descriptions}{Add the main text for the accordion}
+\item{descriptions}{Add the main content for each accordion section. Each
+item accepts a plain character string (rendered as a \code{govuk-body}
+paragraph), or \code{shiny} tag objects and \code{shiny::tagList()} values for richer
+block content such as multiple paragraphs, lists, or links. Tag content is
+inserted as-is and is \emph{not} wrapped in a \code{govuk-body} paragraph, so build
+rich content from the styled helpers, \code{shinyGovstyle::gov_text()} for
+paragraphs and \code{shinyGovstyle::gov_list()} for lists, to keep GOV.UK
+styling. A bare tag or string passed without those helpers will render
+without \code{govuk-body} styling.}
 }
 \value{
 an accordion HTML shiny tag object
@@ -20,7 +30,7 @@ an accordion HTML shiny tag object
 This function inserts a accordion
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -40,11 +50,23 @@ ui <- shiny::fluidPage(
         "Know your audience",
         "How people read"
       ),
-      c(
+      list(
         "This is the content for Writing well for the web.",
         "This is the content for Writing well for specialists.",
         "This is the content for Know your audience.",
-        "This is the content for How people read."
+        # Rich content: a paragraph followed by a bulleted list with a link
+        shiny::tagList(
+          shinyGovstyle::gov_text(
+            "People read in different ways, including:"
+          ),
+          shinyGovstyle::gov_list(
+            list(
+              "scanning for key words",
+              shiny::tags$a(href = "https://www.gov.uk", "following links")
+            ),
+            style = "bullet"
+          )
+        )
       )
     )
   ),
@@ -56,10 +78,10 @@ server <- function(input, output, session) {}
 if (interactive()) shiny::shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle tables tabs and accordions: 
-\code{\link{govReactable}()},
+Other Govstyle tables tabs and accordions:
+\code{\link[=govReactable]{govReactable()}},
 \code{\link{govReactable-shiny}},
-\code{\link{govTable}()},
-\code{\link{govTabs}()}
+\code{\link[=govTable]{govTable()}},
+\code{\link[=govTabs]{govTabs()}}
 }
 \concept{Govstyle tables tabs and accordions}

@@ -7,9 +7,13 @@
 warning_text(inputId, text)
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
-\item{text}{Text that goes in the main}
+\item{text}{Text that goes in the main. Accepts a plain character string,
+or \code{shiny} tag objects such as \code{shiny::tags$b("Bold")} or a
+\code{shiny::tagList()}.}
 }
 \value{
 a warning box HTML shiny tag object
@@ -24,14 +28,14 @@ shinyGovstyle::warning_text(
 )
 }
 \seealso{
-Other Govstyle feedback types: 
-\code{\link{details}()},
-\code{\link{gov_summary}()},
-\code{\link{insert_text}()},
-\code{\link{label_hint}()},
-\code{\link{noti_banner}()},
-\code{\link{panel_output}()},
-\code{\link{tag_Input}()},
-\code{\link{value_box}()}
+Other Govstyle feedback types:
+\code{\link[=details]{details()}},
+\code{\link[=gov_summary]{gov_summary()}},
+\code{\link[=insert_text]{insert_text()}},
+\code{\link[=label_hint]{label_hint()}},
+\code{\link[=noti_banner]{noti_banner()}},
+\code{\link[=panel_output]{panel_output()}},
+\code{\link[=tag_Input]{tag_Input()}},
+\code{\link[=value_box]{value_box()}}
 }
 \concept{Govstyle feedback types}

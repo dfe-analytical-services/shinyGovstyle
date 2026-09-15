@@ -3,7 +3,7 @@
 #' This function create a file upload component. It uses the basis of the
 #' shiny fileInput function, but restyles the label and adds error onto it.
 #'
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param label Display label for the control, or `NULL` for no label
 #' @param multiple Whether the user should be allowed to select and upload
 #' multiple files at once. Does not work on older browsers, including Internet
@@ -14,13 +14,12 @@
 #' @param buttonLabel The label used on the button. Can be text or an HTML tag
 #' object
 #' @param placeholder	The text to show before a file has been uploaded
-#' @param error Whenever to icnlud error handling. Defaults to FALSE
-#' @param error_message Message to display on error. Defaults to NULL
+#' @inheritParams hint_error_args
 #' @return a file input HTML shiny tag object
 #' @family Govstyle select inputs
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   # Required for error handling function
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
@@ -113,16 +112,7 @@ file_Input <- # nolint
         paste0("width: ", shiny::validateCssUnit(width), ";")
       },
       shiny::tags$label(label, class = "govuk-label", tabindex = "-1"),
-      if (error == TRUE) {
-        shinyjs::hidden(
-          shiny::tags$p(
-            error_message,
-            class = "govuk-error-message",
-            id = paste0(inputId, "error"),
-            shiny::tags$span("Error:", class = "govuk-visually-hidden")
-          )
-        )
-      },
+      if (error == TRUE) govuk_error_message(inputId, error_message),
       shiny::div(
         id = paste0(inputId, "file_div"),
         class = "input-group govuk-file-upload",

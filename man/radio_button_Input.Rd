@@ -16,13 +16,19 @@ radio_button_Input(
   hint_label = NULL,
   error = FALSE,
   error_message = NULL,
-  custom_class = ""
+  custom_class = "",
+  label_size = c("m", "s", "l", "xl"),
+  heading_level = NULL
 )
 }
 \arguments{
-\item{inputId}{The \code{input} slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
-\item{label}{Input label}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
 \item{choices}{List of values to select from (if elements of the list are
 named then that name rather than the value is displayed to the user)}
@@ -43,15 +49,25 @@ must not be provided. The advantage of using both of these over a named list
 for choices is that choiceNames allows any type of UI object to be passed
 through (tag objects, icons, HTML code, ...), instead of just simple text}
 
-\item{hint_label}{Additional hint text you may want to display below the
-label. Defaults to NULL}
+\item{hint_label}{Display hint label for the control, or \code{NULL} for no hint
+label. Accepts the same rich content as \code{label}, so it can include a link.}
 
-\item{error}{Whenever you want to include error handle on the component}
+\item{error}{If \code{TRUE}, render the component in its error state and
+reserve a slot for the error message. Defaults to \code{FALSE}.}
 
-\item{error_message}{If you want a default error message}
+\item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
 
 \item{custom_class}{If you want to add additional classes to the radio
 buttons}
+
+\item{label_size}{Size modifier for the legend. One of \code{"m"}, \code{"s"}, \code{"l"},
+or \code{"xl"}, matching the GDS \verb{govuk-fieldset__legend--*} classes. Defaults
+to \code{"m"}.}
+
+\item{heading_level}{Optional heading level for the legend. If supplied
+(an integer 1-6), the legend text is wrapped in a \verb{<hN>} with the GDS
+\code{govuk-fieldset__heading} class, following the GDS pattern for using a
+question as the page heading. Defaults to \code{NULL} (no heading wrap).}
 }
 \value{
 radio buttons HTML shiny tag object
@@ -60,7 +76,7 @@ radio buttons HTML shiny tag object
 This function create radio buttons
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   # Required for error handling function
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
@@ -89,6 +105,16 @@ ui <- shiny::fluidPage(
       error = TRUE,
       error_message = "Select one"
     ),
+    # Rich content: a link in the hint
+    shinyGovstyle::radio_button_Input(
+      inputId = "radio3",
+      choices = c("Yes", "No", "Maybe"),
+      label = "Choice option",
+      hint_label = shiny::tagList(
+        "See the ",
+        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+      )
+    ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
   ),
@@ -110,10 +136,11 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle select inputs: 
-\code{\link{button_Input}()},
-\code{\link{checkbox_Input}()},
-\code{\link{file_Input}()},
-\code{\link{select_Input}()}
+Other Govstyle select inputs:
+\code{\link[=button_Input]{button_Input()}},
+\code{\link[=checkbox_Input]{checkbox_Input()}},
+\code{\link[=file_Input]{file_Input()}},
+\code{\link[=select_Input]{select_Input()}},
+\code{\link[=update_radio_button_Input]{update_radio_button_Input()}}
 }
 \concept{Govstyle select inputs}

@@ -7,12 +7,16 @@
 label_hint(inputId, label, hint_input = NULL)
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
-\item{label}{Display label for the control, or \code{NULL} for no label}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
-\item{hint_input}{Display hint label for the control, or \code{NULL} for
-no hint label}
+\item{hint_input}{Display hint label for the control, or \code{NULL} for no hint
+label. Accepts the same rich content as \code{label}, so it can include a link.}
 }
 \value{
 a label hint HTML shiny tag object
@@ -21,7 +25,7 @@ a label hint HTML shiny tag object
 This function inserts a label and optional hint.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -33,6 +37,15 @@ ui <- shiny::fluidPage(
       inputId = "label1",
       label = "This is a label",
       hint_input = "This is a hint"
+    ),
+    # Rich content: a link in the hint
+    label_hint(
+      inputId = "label2",
+      label = "Bold label",
+      hint_input = shiny::tagList(
+        "See the ",
+        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+      )
     )
   ),
   shinyGovstyle::footer(full = TRUE)
@@ -42,14 +55,14 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle feedback types: 
-\code{\link{details}()},
-\code{\link{gov_summary}()},
-\code{\link{insert_text}()},
-\code{\link{noti_banner}()},
-\code{\link{panel_output}()},
-\code{\link{tag_Input}()},
-\code{\link{value_box}()},
-\code{\link{warning_text}()}
+Other Govstyle feedback types:
+\code{\link[=details]{details()}},
+\code{\link[=gov_summary]{gov_summary()}},
+\code{\link[=insert_text]{insert_text()}},
+\code{\link[=noti_banner]{noti_banner()}},
+\code{\link[=panel_output]{panel_output()}},
+\code{\link[=tag_Input]{tag_Input()}},
+\code{\link[=value_box]{value_box()}},
+\code{\link[=warning_text]{warning_text()}}
 }
 \concept{Govstyle feedback types}

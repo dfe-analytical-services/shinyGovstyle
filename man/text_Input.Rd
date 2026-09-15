@@ -17,21 +17,26 @@ text_Input(
 )
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
-\item{label}{Display label for the control, or \code{NULL} for no label}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
-\item{hint_label}{Display hint label for the control, or \code{NULL} for
-no hint label}
+\item{hint_label}{Display hint label for the control, or \code{NULL} for no hint
+label. Accepts the same rich content as \code{label}, so it can include a link.}
 
 \item{type}{Type of text input to accept. Defaults to text}
 
 \item{width}{control the size of the box based on number of characters
 required.  Options are 30, 20, 10, 5, 4, 3, 2.  NULL will not limit the size}
 
-\item{error}{Whenever to include error handling. Defaults to FALSE}
+\item{error}{If \code{TRUE}, render the component in its error state and
+reserve a slot for the error message. Defaults to \code{FALSE}.}
 
-\item{error_message}{Message to display on error. Defaults to NULL}
+\item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
 
 \item{prefix}{Add a prefix to the box. Defaults to NULL}
 
@@ -44,7 +49,7 @@ a text input HTML shiny tag object
 This function create a text input.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   # Required for error handling function
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
@@ -65,6 +70,18 @@ ui <- shiny::fluidPage(
       label = "Event Name",
       hint_label = "This can be found on the letter",
       error = TRUE
+    ),
+    # Rich content: a link in the hint
+    shinyGovstyle::text_Input(
+      inputId = "eventId3",
+      label = "Event Name",
+      hint_label = shiny::tagList(
+        "As shown on your ",
+        shinyGovstyle::external_link(
+          "https://www.gov.uk",
+          "confirmation letter"
+        )
+      )
     ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
@@ -89,12 +106,12 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle text types: 
-\code{\link{date_Input}()},
-\code{\link{gov_list}()},
-\code{\link{heading_text}()},
-\code{\link{input_field}()},
-\code{\link{text_area_Input}()},
-\code{\link{word_count}()}
+Other Govstyle text types:
+\code{\link[=date_Input]{date_Input()}},
+\code{\link[=gov_list]{gov_list()}},
+\code{\link[=heading_text]{heading_text()}},
+\code{\link[=input_field]{input_field()}},
+\code{\link[=text_area_Input]{text_area_Input()}},
+\code{\link[=word_count]{word_count()}}
 }
 \concept{Govstyle text types}

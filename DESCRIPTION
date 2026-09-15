@@ -1,6 +1,6 @@
 Package: shinyGovstyle
 Title: Custom Gov Style Inputs for Shiny
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R: c(
     person("Ross", "Wyatt", , "ross.wyatt@justice.gov.uk", role = "aut"),
     person("Cam", "Race", , "camrace8@gmail.com", role = c("aut", "cre")),
@@ -19,7 +19,8 @@ BugReports:
     https://github.com/dfe-analytical-services/shinyGovstyle/issues
 Depends: 
     R (>= 4.1.0)
-Imports: 
+Imports:
+    bslib,
     htmltools,
     jsonlite,
     lifecycle,
@@ -32,7 +33,6 @@ Imports:
     stringr,
     writexl
 Suggests:
-    bslib,
     knitr,
     rlang,
     rmarkdown,
@@ -44,4 +44,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.1.0

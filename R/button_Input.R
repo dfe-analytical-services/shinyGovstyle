@@ -1,7 +1,7 @@
 #' Button Function
 #'
 #' This function create a gov style button
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param label Display label for the control, or `NULL` for no label
 #' @param type The type of button. Options are default, start, secondary and
 #' warning. Defaults to "default"
@@ -9,7 +9,7 @@
 #' @export
 #' @family Govstyle select inputs
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",

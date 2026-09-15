@@ -2,9 +2,12 @@
 #'
 #' This function creates a tabs based table. It requires a single dataframe
 #' with a grouping variable.
-#' @param inputId The Id to access the summary list
+#' @inheritParams id_arg
 #' @param headers input for the row headers value
-#' @param info summary information values for the table
+#' @param info Summary information values for the table. Each value accepts a
+#' plain character string, or `shiny` tag objects such as
+#' `shiny::tags$b("Bold")` or a `shiny::tagList()`. Pass a list rather than a
+#' character vector to mix tag and string values.
 #' @param action whenever a change link is needed. Sets input to the value of
 #' the headers using lowercase and with underscore to replace gaps. Default
 #' set to `FALSE`
@@ -28,7 +31,7 @@
 #'   "07700 900457 <br> sarah.phillips@example.com"
 #' )
 #'
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -69,7 +72,7 @@ gov_summary <- function(
           ),
           shiny::tags$dd(
             class = "govuk-summary-list__value",
-            shiny::HTML(y)
+            as_govuk_html(y)
           ),
           if (action) {
             shiny::tags$dd(

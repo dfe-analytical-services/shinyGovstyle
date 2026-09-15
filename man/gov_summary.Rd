@@ -7,11 +7,16 @@
 gov_summary(inputId, headers, info, action = FALSE, border = TRUE)
 }
 \arguments{
-\item{inputId}{The Id to access the summary list}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{headers}{input for the row headers value}
 
-\item{info}{summary information values for the table}
+\item{info}{Summary information values for the table. Each value accepts a
+plain character string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}. Pass a list rather than a
+character vector to mix tag and string values.}
 
 \item{action}{whenever a change link is needed. Sets input to the value of
 the headers using lowercase and with underscore to replace gaps. Default
@@ -42,7 +47,7 @@ info <- c(
   "07700 900457 <br> sarah.phillips@example.com"
 )
 
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -59,14 +64,14 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle feedback types: 
-\code{\link{details}()},
-\code{\link{insert_text}()},
-\code{\link{label_hint}()},
-\code{\link{noti_banner}()},
-\code{\link{panel_output}()},
-\code{\link{tag_Input}()},
-\code{\link{value_box}()},
-\code{\link{warning_text}()}
+Other Govstyle feedback types:
+\code{\link[=details]{details()}},
+\code{\link[=insert_text]{insert_text()}},
+\code{\link[=label_hint]{label_hint()}},
+\code{\link[=noti_banner]{noti_banner()}},
+\code{\link[=panel_output]{panel_output()}},
+\code{\link[=tag_Input]{tag_Input()}},
+\code{\link[=value_box]{value_box()}},
+\code{\link[=warning_text]{warning_text()}}
 }
 \concept{Govstyle feedback types}

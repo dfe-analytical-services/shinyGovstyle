@@ -2,14 +2,14 @@
 #'
 #' This function changes the text that displays in the error summary box.
 #' Requires `shinyjs::useShinyjs()` to work.
-#' @param inputId The input Id of the error summary you want to update
+#' @inheritParams id_arg
 #' @param error_list An updated list of text values to be displayed in the
 #' error body
 #' @return an update error summary box
 #' @family Govstyle errors
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
 #'     org_name = "Example",

@@ -14,7 +14,9 @@ govTable(
 )
 }
 \arguments{
-\item{inputId}{Input Id for the table}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{df}{expects a dataframe to create a table}
 
@@ -37,8 +39,14 @@ a table HTML shiny tag object
 This function inserts a gov styled table. Format is with header looking
 rows and columns
 }
+\details{
+For very large or interactive tables, consider
+\code{\link[=govReactable]{govReactable()}} instead. \code{govTable()} renders a static HTML table, which
+becomes slow to render and harder to navigate as the number of rows grows.
+A warning is emitted when \code{df} has more than 50 rows.
+}
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::gov_layout(
     size = "two-thirds",
     shinyGovstyle::govTable(
@@ -57,10 +65,10 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle tables tabs and accordions: 
-\code{\link{accordion}()},
-\code{\link{govReactable}()},
+Other Govstyle tables tabs and accordions:
+\code{\link[=accordion]{accordion()}},
+\code{\link[=govReactable]{govReactable()}},
 \code{\link{govReactable-shiny}},
-\code{\link{govTabs}()}
+\code{\link[=govTabs]{govTabs()}}
 }
 \concept{Govstyle tables tabs and accordions}

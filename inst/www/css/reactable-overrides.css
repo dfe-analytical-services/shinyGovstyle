@@ -1,0 +1,99 @@
+/*
+ * Reactable overrides.
+ *
+ * These custom rules previously lived appended to the end of the vendored
+ * govuk-frontend-6.1.0.min.css. They've been moved here so they survive
+ * future GOV.UK Frontend upgrades untouched, alongside the other per-component
+ * override files (header-overrides.css, sr-only.css, font.css).
+ *
+ * The forced-colors block at the bottom restores visible highlights for
+ * Windows High Contrast Mode users (issue #197); the original
+ * background-colour highlights are discarded by the browser under
+ * forced-colors: active.
+ */
+
+
+/* custom sort indicators -------------------------------------------------- */
+.bar-sort-header:hover,
+.bar-sort-header:focus {
+  background: #fd0;
+}
+
+/* Add a top bar on ascending sort */
+.bar-sort-header[aria-sort="ascending"] {
+  box-shadow: inset 0 0.188rem 0 0 #1d70b8;
+}
+
+/* Add a bottom bar on descending sort */
+.bar-sort-header[aria-sort="descending"] {
+  box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
+}
+
+/* Add an animation when toggling between ascending and descending sort */
+.bar-sort-header {
+  transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+
+/* Table row and highlighting --------------------------------------------- */
+
+.gov-table .rt-tr-highlight {
+    border-bottom: 1px solid #b1b4b6;
+}
+.gov-table .rt-tr-highlight:hover {
+    background-color: #fd0 !important;
+}
+
+
+/* Highlight on the page button indicators -------------------------------- */
+.rt-page-button:hover,
+.rt-page-button:focus,
+.rt-page-button:active {
+    background: #fd0 !important;
+    box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
+}
+
+
+/* Windows High Contrast / forced-colours mode (issue #197) ---------------
+ * forced-colors: active discards author background-color and box-shadow,
+ * but respects outline, border, and the system colour keywords. Re-convey
+ * each highlight using properties that survive HCM. The highlight will
+ * resolve to the user's system colour, not GOV.UK yellow; that's correct
+ * and intended. */
+@media screen and (forced-colors: active) {
+  /* Body cells: don't draw a box around values in HCM. reactable's
+     .rt-td sets a partial left border (color + width, no style) plus a
+     1px solid top border that .rt-borderless normally cancels; under
+     forced-colors some Chromium builds render both, producing an
+     unintended box around each numeric value. Reset to plain text. */
+  .gov-table .rt-td,
+  .gov-table .rt-td-inner,
+  .gov-table .rt-text-content {
+    border: none !important;
+    background-color: inherit;
+    color: inherit;
+  }
+  .gov-table .rt-tr-highlight:hover {
+    background-color: Highlight !important;
+    color: HighlightText !important;
+  }
+  /* box-shadow is stripped under forced-colors, so re-draw the ascending /
+     descending sort indicator using a border-color (which HCM preserves). */
+  .gov-table .bar-sort-header[aria-sort="ascending"] {
+    border-top: 0.188rem solid CanvasText;
+  }
+  .gov-table .bar-sort-header[aria-sort="descending"] {
+    border-bottom: 0.188rem solid CanvasText;
+  }
+  .bar-sort-header:hover,
+  .bar-sort-header:focus {
+    outline: 3px solid Highlight !important;
+    outline-offset: -3px;
+  }
+  .rt-page-button:hover,
+  .rt-page-button:focus,
+  .rt-page-button:active {
+    outline: 3px solid Highlight !important;
+    outline-offset: -3px;
+  }
+}

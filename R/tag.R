@@ -1,7 +1,7 @@
 #' Tag Function
 #'
 #' This function creates a tag.
-#' @param inputId The Id to access the tag
+#' @inheritParams id_arg
 #' @param text The text in the tag
 #' @param colour The colour of the tag. Default is navy. Other options are
 #' grey, green, teal, blue, purple, magenta, red, orange and yellow
@@ -9,7 +9,7 @@
 #' @family Govstyle feedback types
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",

@@ -4,10 +4,17 @@
 \alias{cookieBanner}
 \title{Cookie Banner Function}
 \usage{
-cookieBanner(service_name)
+cookieBanner(service_name, width = "standard")
 }
 \arguments{
 \item{service_name}{Name for this service to add to banner}
+
+\item{width}{Width of the component. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard),
+\code{"full"} (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
 }
 \value{
 a cookie banner HTML shiny tag object
@@ -18,7 +25,7 @@ This function creates a cookie banner. You need to have
 See example for how to structure.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -59,12 +66,13 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle page structure: 
-\code{\link{banner}()},
-\code{\link{footer}()},
-\code{\link{gov_layout}()},
-\code{\link{header}()},
+Other Govstyle page structure:
+\code{\link[=banner]{banner()}},
+\code{\link[=footer]{footer()}},
+\code{\link[=gov_layout]{gov_layout()}},
+\code{\link[=gov_page]{gov_page()}},
+\code{\link[=header]{header()}},
 \code{\link{layouts}},
-\code{\link{skip_to_main}()}
+\code{\link[=skip_to_main]{skip_to_main()}}
 }
 \concept{Govstyle page structure}

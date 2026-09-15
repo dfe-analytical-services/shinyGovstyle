@@ -1,15 +1,15 @@
 #' Select Function
 #'
 #' This function inserts a select box
-#' @param inputId Input Id for the component
-#' @param label Insert the text for the label
+#' @inheritParams id_arg
+#' @inheritParams control_label_params
 #' @param select_text Add the text that will apply in the drop down as a list
 #' @param select_value Add the value that will be used for each selection
 #' @return a select input HTML shiny tag object
 #' @family Govstyle select inputs
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -29,7 +29,7 @@
 #'       ),
 #'       select_value = c("published", "updated", "view", "comments")
 #'     ),
-#'     shiny::tags$br()
+#'     shinyGovstyle::gov_text("Placeholder text")
 #'   ),
 #'   shinyGovstyle::footer(full = TRUE)
 #' )
@@ -46,7 +46,7 @@ select_Input <- # nolint
     gov_select <- shiny::tags$div(
       class = "govuk-form-group",
       shiny::tags$label(
-        shiny::HTML(label),
+        as_govuk_html(label),
         class = "govuk-label",
         `for` = inputId
       ),

@@ -2,14 +2,16 @@
 #'
 #' This function create a detail component that you can click for further
 #' details.
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param label Main label text
-#' @param help_text Additional help information in the component
+#' @param help_text Additional help information in the component. Accepts a
+#' plain character string, or `shiny` tag objects such as
+#' `shiny::tags$b("Bold")` or a `shiny::tagList()`.
 #' @return a details box HTML shiny tag object
 #' @family Govstyle feedback types
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -44,7 +46,7 @@ details <- function(
         shiny::HTML(label)
       )
     ),
-    shiny::tags$div(class = "govuk-details__text", help_text)
+    shiny::tags$div(class = "govuk-details__text", as_govuk_html(help_text))
   )
   attachDependency(gov_details)
 }

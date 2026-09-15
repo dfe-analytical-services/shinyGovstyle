@@ -1,8 +1,8 @@
 #' Radio Button Function
 #'
 #' This function create radio buttons
-#' @param inputId The `input` slot that will be used to access the value
-#' @param label Input label
+#' @inheritParams id_arg
+#' @inheritParams control_label_params
 #' @param choices List of values to select from (if elements of the list are
 #' named then that name rather than the value is displayed to the user)
 #' @param selected The initially selected value.
@@ -17,17 +17,15 @@
 #' must not be provided. The advantage of using both of these over a named list
 #' for choices is that choiceNames allows any type of UI object to be passed
 #' through (tag objects, icons, HTML code, ...), instead of just simple text
-#' @param hint_label Additional hint text you may want to display below the
-#' label. Defaults to NULL
-#' @param error Whenever you want to include error handle on the component
-#' @param error_message If you want a default error message
+#' @inheritParams error_args
 #' @param custom_class If you want to add additional classes to the radio
 #' buttons
+#' @inheritParams fieldset_args
 #' @return radio buttons HTML shiny tag object
 #' @family Govstyle select inputs
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   # Required for error handling function
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
@@ -55,6 +53,16 @@
 #'       inline = TRUE,
 #'       error = TRUE,
 #'       error_message = "Select one"
+#'     ),
+#'     # Rich content: a link in the hint
+#'     shinyGovstyle::radio_button_Input(
+#'       inputId = "radio3",
+#'       choices = c("Yes", "No", "Maybe"),
+#'       label = "Choice option",
+#'       hint_label = shiny::tagList(
+#'         "See the ",
+#'         shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+#'       )
 #'     ),
 #'     # Button to trigger error
 #'     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
@@ -88,7 +96,9 @@ radio_button_Input <- # nolint
     hint_label = NULL,
     error = FALSE,
     error_message = NULL,
-    custom_class = ""
+    custom_class = "",
+    label_size = c("m", "s", "l", "xl"),
+    heading_level = NULL
   ) {
     args <- normalizeChoicesArgs2(choices, choiceNames, choiceValues)
     selected <- shiny::restoreInput(id = inputId, default = selected)
@@ -112,42 +122,141 @@ radio_button_Input <- # nolint
       shiny::tags$div(
         class = "govuk-form-group",
         id = paste0(inputId, "div"),
-        controlLabel2(inputId, label),
-        shiny::tags$div(
-          hint_label,
-          class = "govuk-hint"
-        ),
-        if (error == TRUE) {
-          shinyjs::hidden(
-            shiny::tags$p(
-              error_message,
-              class = "govuk-error-message",
-              id = paste0(inputId, "error"),
-              shiny::tags$span(
-                "Error:",
-                class = "govuk-visually-hidden"
-              )
-            )
-          )
-        },
-        options
+        govFieldset(
+          inputId = inputId,
+          label = label,
+          content = options,
+          hint_label = hint_label,
+          error = error,
+          error_message = error_message,
+          label_size = label_size,
+          heading_level = heading_level
+        )
       )
     )
 
     attachDependency(gov_radio, "radio")
   }
 
-controlLabel2 <- # nolint
+#' Update a Govstyle radio button input on the client
+#'
+#' Server-side companion to [radio_button_Input()], mirroring
+#' [shiny::updateRadioButtons()]. Use it to change the selected option, the
+#' available choices, or the label of an existing radio button group from
+#' within an observer, for example to keep a cookies settings radio in sync
+#' with a choice the user made elsewhere.
+#'
+#' Only the arguments you supply are sent to the client; everything left at its
+#' default of `NULL` is left untouched. Because it relies on
+#' `session$sendInputMessage()`, the `inputId` is namespaced automatically when
+#' called inside a Shiny module, so pass the unnamespaced id just as you would
+#' to [shiny::updateRadioButtons()].
+#'
+#' This function is deliberately agnostic about why you are updating the radio,
+#' which makes it a useful building block for packages that layer extra
+#' behaviour (such as analytics cookie consent) on top of shinyGovstyle. See
+#' the cookies and analytics vignette for an example of extending it.
+#'
+#' @param session The `session` object passed to the Shiny server function.
+#' Defaults to the current reactive domain.
+#' @param inputId The id of the [radio_button_Input()] to update
+#' @param label New label for the input, or `NULL` to leave unchanged. Sent to
+#' the client as plain text: if the group was created with `heading_level`
+#' set, the `<hN>` heading wrapper around the legend is preserved, but rich
+#' HTML/tag content is not — the legend always ends up as plain text after an
+#' update, the same limitation this function has always had.
+#' @param choices New vector of choices, or `NULL` to leave unchanged (if
+#' elements of the vector are named then that name rather than the value is
+#' displayed to the user)
+#' @param selected The value to select, or `NULL` to leave unchanged
+#' @param inline Whether the radios are inline. Only applies when `choices`
+#' (or `choiceNames`/`choiceValues`) are also supplied, since regenerating the
+#' options replaces the whole option container; if you do not re-pass it the
+#' layout falls back to default. Defaults to FALSE
+#' @param small Whether to use the smaller radios. Only applies when `choices`
+#' (or `choiceNames`/`choiceValues`) are also supplied, since regenerating the
+#' options replaces the whole option container; if you do not re-pass it the
+#' layout falls back to default. Defaults to FALSE
+#' @param choiceNames,choiceValues As in [radio_button_Input()], an alternative
+#' to `choices` allowing richer labels. Both must be supplied together
+#' @return Called for its side effect of sending a message to the client; no
+#' return value
+#' @seealso [radio_button_Input()]
+#' @family Govstyle select inputs
+#' @export
+#' @examples
+#' ui <- shinyGovstyle::gov_page(
+#'   shinyjs::useShinyjs(),
+#'   shinyGovstyle::radio_button_Input(
+#'     inputId = "cookies",
+#'     label = "Do you want to accept analytics cookies?",
+#'     choices = c("Yes" = "yes", "No" = "no"),
+#'     selected = "no",
+#'     inline = TRUE
+#'   ),
+#'   shinyGovstyle::button_Input(inputId = "accept", label = "Accept cookies")
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   # Keep the radio in sync with a choice made elsewhere
+#'   shiny::observeEvent(input$accept, {
+#'     shinyGovstyle::update_radio_button_Input(
+#'       session,
+#'       inputId = "cookies",
+#'       selected = "yes"
+#'     )
+#'   })
+#' }
+#' if (interactive()) shinyApp(ui = ui, server = server)
+update_radio_button_Input <- # nolint
   function(
-    controlName, # nolint
-    label
+    session = shiny::getDefaultReactiveDomain(),
+    inputId, # nolint
+    label = NULL,
+    choices = NULL,
+    selected = NULL,
+    inline = FALSE,
+    small = FALSE,
+    choiceNames = NULL, # nolint
+    choiceValues = NULL # nolint
   ) {
-    label %AND%
-      htmltools::tags$label(
-        class = "govuk-label",
-        `for` = controlName,
-        label
+    args <- normalizeChoicesArgs2(
+      choices,
+      choiceNames,
+      choiceValues,
+      mustExist = FALSE
+    )
+
+    if (!is.null(selected)) {
+      selected <- as.character(selected)
+      if (length(selected) > 1) {
+        stop("The 'selected' argument must be of length 1")
+      }
+    }
+
+    # When new choices are supplied, render fresh option items on the server so
+    # the client can swap them in. The option inputs use the namespaced id as
+    # their `name`, matching the markup produced by radio_button_Input().
+    options <- if (!is.null(args$choiceNames)) {
+      as.character(
+        generateOptions2(
+          session$ns(inputId),
+          selected,
+          inline,
+          small,
+          "radio",
+          args$choiceNames,
+          args$choiceValues
+        )
       )
+    }
+
+    message <- Filter(
+      Negate(is.null),
+      list(label = label, options = options, selected = selected)
+    )
+
+    session$sendInputMessage(inputId, message)
   }
 
 generateOptions2 <- # nolint
@@ -175,7 +284,7 @@ generateOptions2 <- # nolint
             value = value,
             class = "govuk-radios__input"
           )
-        if (is.null(selected) == FALSE & value %in% selected) {
+        if (!is.null(selected) && value %in% selected) {
           inputTag$attribs$checked <- "checked" # nolint
         }
         pd <- processDeps2(name, session)
@@ -205,13 +314,6 @@ generateOptions2 <- # nolint
     }
 
     shiny::div(class = class_build, options)
-  }
-
-`%AND%` <- # nolint
-  function(x, y) {
-    if (!is.null(x) && !anyNA(x) && !is.null(y) && !anyNA(y)) {
-      y
-    }
   }
 
 processDeps2 <- # nolint

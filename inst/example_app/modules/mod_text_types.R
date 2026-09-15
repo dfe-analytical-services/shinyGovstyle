@@ -17,7 +17,14 @@ mod_text_types_ui <- function(id) {
     shinyGovstyle::heading_text("text_Input", size = "s", level = 2),
     shinyGovstyle::text_Input(
       inputId = shiny::NS(id, "txt1"),
-      label = "Event name"
+      label = "Event name",
+      hint_label = shiny::tagList(
+        "As shown on your ",
+        shinyGovstyle::external_link(
+          "https://www.gov.uk",
+          "confirmation letter"
+        )
+      )
     ),
     shinyGovstyle::heading_text("text_area_Input", size = "s", level = 2),
     shinyGovstyle::text_area_Input(
@@ -54,6 +61,17 @@ mod_text_types_ui <- function(id) {
     shinyGovstyle::gov_list(list = c("a", "b", "c"), style = "bullet"),
     shinyGovstyle::gov_text("Numbered list:"),
     shinyGovstyle::gov_list(list = c("one", "two", "three"), style = "number"),
+    shinyGovstyle::gov_text("List with a link:"),
+    shinyGovstyle::gov_list(
+      list = list(
+        "An ordinary item",
+        shiny::tagList(
+          "An item with a ",
+          shinyGovstyle::external_link("https://www.gov.uk", "link to GOV.UK")
+        )
+      ),
+      style = "bullet"
+    )
   )
 }
 

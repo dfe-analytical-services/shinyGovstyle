@@ -14,15 +14,17 @@
 #' hidden tabset so to the end user it looks like it is a new page.
 #'
 #' @param full Whenever you want to have blank footer or official gov version.
-#' Defaults to `FALSE`
+#' Defaults to `FALSE`. Not to be confused with the `width` argument below,
+#' which controls the footer's own width rather than its content.
 #' @param links A vector of actionLinks to be added to the footer, inputIDs
 #' are auto-generated and are the snake case version of the link text, e.g.
 #' "Accessibility Statement" will have an inputID of accessibility_statement
+#' @inheritParams width_arg
 #' @return a footer HTML shiny tag object
 #' @family Govstyle page structure
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -32,8 +34,7 @@
 #'   shinyGovstyle::banner(
 #'     inputId = "banner", type = "beta", "This is a new service"
 #'   ),
-#'   shiny::tags$br(),
-#'   shiny::tags$br(),
+#'   shinyGovstyle::gov_text("Placeholder text"),
 #'   shinyGovstyle::footer(full = TRUE)
 #' )
 #'
@@ -55,7 +56,7 @@
 #' )
 #'
 #' # Full app with link controlling a hidden tab and a link to an external page
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -116,7 +117,9 @@
 #' }
 #'
 #' if (interactive()) shinyApp(ui = ui, server = server)
-footer <- function(full = FALSE, links = NULL) {
+footer <- function(full = FALSE, links = NULL, width = "standard") {
+  wc <- gov_width_container(width, is_default = missing(width))
+
   if (is.null(names(links))) {
     link_names <- links
   } else {
@@ -129,7 +132,8 @@ footer <- function(full = FALSE, links = NULL) {
     class = "govuk-footer ",
     role = "contentinfo",
     shiny::div(
-      class = "govuk-width-container ",
+      class = wc$class,
+      style = wc$style,
       shiny::div(
         class = "govuk-footer__meta",
         if (full == FALSE) {
@@ -243,8 +247,7 @@ footer <- function(full = FALSE, links = NULL) {
 
 #' Create a footer link for use in `footer()` function
 #'
-#' @param link Character string containing either link text or url
-#' @param link_name Name of a link where a URL has been provided in link_text
+#' @inheritParams link_args
 #'
 #' @returns HTML tag list item
 #'

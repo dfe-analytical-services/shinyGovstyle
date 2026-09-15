@@ -7,9 +7,13 @@
 select_Input(inputId, label, select_text, select_value)
 }
 \arguments{
-\item{inputId}{Input Id for the component}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
-\item{label}{Insert the text for the label}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
 \item{select_text}{Add the text that will apply in the drop down as a list}
 
@@ -22,7 +26,7 @@ a select input HTML shiny tag object
 This function inserts a select box
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -42,7 +46,7 @@ ui <- shiny::fluidPage(
       ),
       select_value = c("published", "updated", "view", "comments")
     ),
-    shiny::tags$br()
+    shinyGovstyle::gov_text("Placeholder text")
   ),
   shinyGovstyle::footer(full = TRUE)
 )
@@ -51,10 +55,11 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle select inputs: 
-\code{\link{button_Input}()},
-\code{\link{checkbox_Input}()},
-\code{\link{file_Input}()},
-\code{\link{radio_button_Input}()}
+Other Govstyle select inputs:
+\code{\link[=button_Input]{button_Input()}},
+\code{\link[=checkbox_Input]{checkbox_Input()}},
+\code{\link[=file_Input]{file_Input()}},
+\code{\link[=radio_button_Input]{radio_button_Input()}},
+\code{\link[=update_radio_button_Input]{update_radio_button_Input()}}
 }
 \concept{Govstyle select inputs}

@@ -12,26 +12,42 @@ date_Input(
   error_message = NULL,
   day = NULL,
   month = NULL,
-  year = NULL
+  year = NULL,
+  label_size = c("m", "s", "l", "xl"),
+  heading_level = NULL
 )
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
-\item{label}{Display label for the control, or \code{NULL} for no label}
+\item{label}{Display label for the control, or \code{NULL} for no label. Accepts
+a plain character string, an HTML string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}.}
 
-\item{hint_label}{Display hint label for the control, or \code{NULL} for no
-hint label}
+\item{hint_label}{Display hint label for the control, or \code{NULL} for no hint
+label. Accepts the same rich content as \code{label}, so it can include a link.}
 
-\item{error}{Whenever to include error components.Defaults to \code{FALSE}}
+\item{error}{If \code{TRUE}, render the component in its error state and
+reserve a slot for the error message. Defaults to \code{FALSE}.}
 
-\item{error_message}{Error handling message? Defaults to \code{NULL}}
+\item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
 
 \item{day}{Select a default day on start up. Defaults to \code{NULL}}
 
 \item{month}{Select a default month on start up. Defaults to \code{NULL}}
 
 \item{year}{Select a default year on start up. Defaults to \code{NULL}}
+
+\item{label_size}{Size modifier for the legend. One of \code{"m"}, \code{"s"}, \code{"l"},
+or \code{"xl"}, matching the GDS \verb{govuk-fieldset__legend--*} classes. Defaults
+to \code{"m"}.}
+
+\item{heading_level}{Optional heading level for the legend. If supplied
+(an integer 1-6), the legend text is wrapped in a \verb{<hN>} with the GDS
+\code{govuk-fieldset__heading} class, following the GDS pattern for using a
+question as the page heading. Defaults to \code{NULL} (no heading wrap).}
 }
 \value{
 a data input HTML shiny tag object
@@ -40,7 +56,7 @@ a data input HTML shiny tag object
 This function create a date input that follows GDS component
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   # Required for error handling function.
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
@@ -65,6 +81,15 @@ ui <- shiny::fluidPage(
       hint_label = "For example, 12 11 2007",
       error = TRUE
     ),
+    # Rich content: a link in the hint
+    shinyGovstyle::date_Input(
+      inputId = "dob_input3",
+      label = "Please enter your birthday",
+      hint_label = shiny::tagList(
+        "Check the format in the ",
+        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+      )
+    ),
     # Button to trigger error
     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
   ),
@@ -85,12 +110,12 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle text types: 
-\code{\link{gov_list}()},
-\code{\link{heading_text}()},
-\code{\link{input_field}()},
-\code{\link{text_Input}()},
-\code{\link{text_area_Input}()},
-\code{\link{word_count}()}
+Other Govstyle text types:
+\code{\link[=gov_list]{gov_list()}},
+\code{\link[=heading_text]{heading_text()}},
+\code{\link[=input_field]{input_field()}},
+\code{\link[=text_Input]{text_Input()}},
+\code{\link[=text_area_Input]{text_area_Input()}},
+\code{\link[=word_count]{word_count()}}
 }
 \concept{Govstyle text types}

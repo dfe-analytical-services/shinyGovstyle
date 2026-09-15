@@ -101,7 +101,8 @@ govReactable <- # nolint
       class = "gov-table govuk-table",
       ...
     )
-    attachDependency(table)
+
+    attachDependency(table, widget = "reactable")
   }
 
 #' Shiny bindings for govReactable
@@ -126,7 +127,7 @@ govReactable <- # nolint
 #' @name govReactable-shiny
 #' @family Govstyle tables tabs and accordions
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   govReactableOutput(
 #'     "table",
 #'     caption = "Example table"

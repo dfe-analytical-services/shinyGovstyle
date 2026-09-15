@@ -39,7 +39,7 @@ $.extend(radioGroupButtonsBinding2, {
       }
 
       return {
-        label: $(el).parent().find('label[for="' + $escape4but(el.id) + '"]').text(),
+        label: $(el).find('.govuk-fieldset__legend').first().text(),
         value: this.getValue(el),
         options: options
     };
@@ -47,17 +47,39 @@ $.extend(radioGroupButtonsBinding2, {
   receiveMessage: function receiveMessage(el, data) {
       var $el = $(el);
 
-      // This will replace all the options
+      // This will replace all the options. The bound element is the outer
+      // .govuk-radios form group; the option items live in an inner
+      // .govuk-radios container, which we swap out wholesale for the
+      // server-rendered markup. Any --inline / --small modifier classes on the
+      // replacement therefore come from that new markup (driven by the
+      // inline / small arguments to update_radio_button_Input()), not from the
+      // container being replaced.
       if (data.hasOwnProperty('options')) {
-        $el.find('govuk-radios govuk-radios--inline').empty();
-        $el.find('govuk-radios govuk-radios--inline').append(data.options);
+        var $inner = $el.find('.govuk-radios').filter(function () {
+          return $(this).children('.govuk-radios__item').length > 0;
+        });
+        if ($inner.length) {
+          $inner.first().replaceWith(data.options);
+        } else {
+          $el.find('.govuk-radios').last().append(data.options);
+        }
       }
 
       if (data.hasOwnProperty('selected'))
         this.setValue(el, data.selected);
 
-      if (data.hasOwnProperty('label'))
-        $(el).parent().find('label[for="' + $escape4but(el.id) + '"]').text(data.label);
+      if (data.hasOwnProperty('label')) {
+        // The legend may wrap its text in an <hN class="govuk-fieldset__heading">
+        // when heading_level is set; retarget onto that element so an update
+        // doesn't strip the heading wrapper out of the DOM.
+        var $legend = $(el).find('.govuk-fieldset__legend').first();
+        var $heading = $legend.find('.govuk-fieldset__heading');
+        if ($heading.length) {
+          $heading.text(data.label);
+        } else {
+          $legend.text(data.label);
+        }
+      }
 
       $(el).trigger('change');
   }

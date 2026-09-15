@@ -16,7 +16,8 @@ header(
   main_alt_text = lifecycle::deprecated(),
   secondary_alt_text = lifecycle::deprecated(),
   logo_width = 66,
-  logo_height = 34
+  logo_height = 34,
+  width = "standard"
 )
 }
 \arguments{
@@ -50,6 +51,13 @@ be used when a secondary link is used \ifelse{html}{\href{https://lifecycle.r-li
 \item{logo_width}{Change the logo size width CSS to improve fit}
 
 \item{logo_height}{Change the logo size height CSS to improve fit}
+
+\item{width}{Width of the component. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard),
+\code{"full"} (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
 }
 \value{
 a header HTML shiny tag object
@@ -58,7 +66,7 @@ a header HTML shiny tag object
 This function create a header banner. For use at top of the screen
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -72,12 +80,13 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle page structure: 
-\code{\link{banner}()},
-\code{\link{cookieBanner}()},
-\code{\link{footer}()},
-\code{\link{gov_layout}()},
+Other Govstyle page structure:
+\code{\link[=banner]{banner()}},
+\code{\link[=cookieBanner]{cookieBanner()}},
+\code{\link[=footer]{footer()}},
+\code{\link[=gov_layout]{gov_layout()}},
+\code{\link[=gov_page]{gov_page()}},
 \code{\link{layouts}},
-\code{\link{skip_to_main}()}
+\code{\link[=skip_to_main]{skip_to_main()}}
 }
 \concept{Govstyle page structure}

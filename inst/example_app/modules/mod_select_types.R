@@ -16,8 +16,10 @@ mod_select_types_ui <- function(id) {
       label = "Have you changed your name?",
       choices = c("Yes", "No"),
       inline = TRUE,
-      hint_label = "This includes changing your last name or spelling
-                    your name differently."
+      hint_label = shiny::tagList(
+        "This includes a new last name or spelling. See the ",
+        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+      )
     ),
     shinyGovstyle::heading_text(
       "radio_button_Input (stacked)",

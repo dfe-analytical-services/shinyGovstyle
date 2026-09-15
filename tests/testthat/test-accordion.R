@@ -1,5 +1,3 @@
-library(htmltools)
-
 test_that("accordion works", {
   accordion_check <- accordion(
     "acc1",
@@ -17,9 +15,7 @@ test_that("accordion works", {
     )
   )
 
-  tq <- tagQuery(accordion_check)
-  t <- tq$find(".govuk-accordion__section")$selectedTags()
-  expect_equal(length(t), 4)
+  expect_length(find_tags(accordion_check, "govuk-accordion__section"), 4L)
 })
 
 test_that("accordion section buttons start with aria-expanded false", {
@@ -39,54 +35,58 @@ test_that("accordion section buttons start with aria-expanded false", {
     )
   )
 
-  tq <- tagQuery(accordion_check)
-  button <- tq$find(".govuk-accordion__section-button")$selectedTags()[[1]]
-  expect_equal(button$attribs$`aria-expanded`, "false")
+  button <- find_tag(accordion_check, "govuk-accordion__section-button")
+  expect_equal(htmltools::tagGetAttribute(button, "aria-expanded"), "false")
 })
 
 
 test_that("accordion numbering works past 9", {
   accordion_numbering_check <- accordion(
     "acc1",
-    c(
-      "Writing well for the web",
-      "Writing well for specialists",
-      "Know your audience",
-      "How people read",
-      "Accordian title 5",
-      "Accordion title 6",
-      "Accordion title 7",
-      "Accordion title 8",
-      "Accordion title 9",
-      "Accordion title 10",
-      "Accordion title 11",
-      "Accordion title 12"
-    ),
-    c(
-      "This is the content for Writing well for the web.",
-      "This is the content for Writing well for specialists.",
-      "This is the content for Know your audience.",
-      "This is the content for How people read.",
-      "Accordian content 5",
-      "Accordion content 6",
-      "Accordion content 7",
-      "Accordion content 8",
-      "Accordion content 9",
-      "Accordion content 10",
-      "Accordion content 11",
-      "Accordion content 12"
+    paste0("Accordion title ", 1:12),
+    paste0("Accordion content ", 1:12)
+  )
+
+  buttons <- find_tags(
+    accordion_numbering_check,
+    "govuk-accordion__section-button"
+  )
+  expect_length(buttons, 12L)
+
+  name1 <- htmltools::tagGetAttribute(buttons[[1]], "name")
+  name11 <- htmltools::tagGetAttribute(buttons[[11]], "name")
+
+  expect_equal(stringr::str_sub(name1, -2), "01")
+  expect_equal(stringr::str_sub(name11, -2), "11")
+})
+
+test_that("string descriptions render as a govuk-body paragraph", {
+  html <- as.character(accordion("acc1", "Title", "Just text"))
+
+  expect_match(
+    html,
+    '<p class="govuk-body">Just text</p>',
+    fixed = TRUE
+  )
+})
+
+test_that("descriptions accept rich block content (tagList)", {
+  html <- as.character(
+    accordion(
+      "acc1",
+      "Title",
+      list(
+        shiny::tagList(
+          shinyGovstyle::gov_text("A paragraph"),
+          shinyGovstyle::gov_list(
+            list(shiny::tags$a(href = "https://www.gov.uk", "Link")),
+            style = "bullet"
+          )
+        )
+      )
     )
   )
 
-  tq <- tagQuery(accordion_numbering_check)
-
-  heading1 <- tq$find("#accordion-default-heading-01")$selectedTags()[[
-    1
-  ]]$attribs$name
-  heading11 <- tq$find("#accordion-default-heading-11")$selectedTags()[[
-    1
-  ]]$attribs$name
-
-  expect_equal(stringr::str_sub(heading1, -2), "01")
-  expect_equal(stringr::str_sub(heading11, -2), "11")
+  expect_match(html, "govuk-list--bullet", fixed = TRUE)
+  expect_match(html, '<a href="https://www.gov.uk">Link</a>', fixed = TRUE)
 })

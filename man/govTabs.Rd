@@ -7,7 +7,9 @@
 govTabs(inputId, df, group_col)
 }
 \arguments{
-\item{inputId}{The Id to access the tag}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{df}{A single dataframe with all data. See example for structure}
 
@@ -21,7 +23,7 @@ This function creates a tabs based table. It requires a single dataframe
 with a grouping variable.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -39,10 +41,10 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle tables tabs and accordions: 
-\code{\link{accordion}()},
-\code{\link{govReactable}()},
+Other Govstyle tables tabs and accordions:
+\code{\link[=accordion]{accordion()}},
+\code{\link[=govReactable]{govReactable()}},
 \code{\link{govReactable-shiny}},
-\code{\link{govTable}()}
+\code{\link[=govTable]{govTable()}}
 }
 \concept{Govstyle tables tabs and accordions}

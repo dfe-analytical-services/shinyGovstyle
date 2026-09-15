@@ -4,7 +4,13 @@
 \alias{service_navigation}
 \title{Service navigation}
 \usage{
-service_navigation(links, service_name = NULL)
+service_navigation(
+  links,
+  service_name = NULL,
+  auto_page_title = TRUE,
+  page_title_suffix = NULL,
+  width = "standard"
+)
 }
 \arguments{
 \item{links}{A vector of actionLinks to be added to the
@@ -18,6 +24,29 @@ are the page titles and values are the inputIDs.}
 \item{service_name}{An optional character string
 containing the service name to be displayed in the
 navigation bar}
+
+\item{auto_page_title}{Logical. When \code{TRUE} (the default),
+the browser tab title is updated to match the active nav
+link whenever the user navigates — both by clicking a
+link and via \code{update_service_navigation()}. Set to \code{FALSE}
+to opt out and manage the page title yourself. Keeping
+the title in sync with the visible page is a GOV.UK
+Design System recommendation for accessibility.}
+
+\item{page_title_suffix}{Optional character string
+appended to the page title in the format
+\code{"<link text> | <suffix>"} — typically the service name.
+Only used when \code{auto_page_title = TRUE}. For finer
+control (e.g. when a page heading differs from its nav
+link label), call \code{\link[=update_page_title]{update_page_title()}} from your server
+code.}
+
+\item{width}{Width of the component. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard),
+\code{"full"} (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
 }
 \value{
 Shiny tag object
@@ -33,7 +62,7 @@ page will cause ID conflicts and the mobile menu toggle
 may not work correctly.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header("Title", "Secondary heading"),
   shinyGovstyle::service_navigation(
      c("Summary data", "Detailed stats 1", "User guide")
@@ -74,9 +103,12 @@ server <- function(input, output, session) {
 if (interactive()) shiny::shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle navigation: 
-\code{\link{backlink_Input}()},
-\code{\link{contents_link}()},
-\code{\link{update_service_navigation}()}
+Other Govstyle navigation:
+\code{\link[=backlink_Input]{backlink_Input()}},
+\code{\link[=contents_link]{contents_link()}},
+\code{\link[=navigate_to]{navigate_to()}},
+\code{\link[=service_navigation_server]{service_navigation_server()}},
+\code{\link[=update_page_title]{update_page_title()}},
+\code{\link[=update_service_navigation]{update_service_navigation()}}
 }
 \concept{Govstyle navigation}

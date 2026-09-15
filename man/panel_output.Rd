@@ -7,11 +7,15 @@
 panel_output(inputId, main_text, sub_text)
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value.}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{main_text}{Add the header for the panel}
 
-\item{sub_text}{Add the main body of text for the panel}
+\item{sub_text}{Add the main body of text for the panel. Accepts a plain
+character string, or \code{shiny} tag objects such as \code{shiny::tags$b("Bold")}
+or a \code{shiny::tagList()}.}
 }
 \value{
 a panel HTML shiny tag object
@@ -20,7 +24,7 @@ a panel HTML shiny tag object
 This function inserts a panel.  Normally used for confirmation screens
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -43,14 +47,14 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle feedback types: 
-\code{\link{details}()},
-\code{\link{gov_summary}()},
-\code{\link{insert_text}()},
-\code{\link{label_hint}()},
-\code{\link{noti_banner}()},
-\code{\link{tag_Input}()},
-\code{\link{value_box}()},
-\code{\link{warning_text}()}
+Other Govstyle feedback types:
+\code{\link[=details]{details()}},
+\code{\link[=gov_summary]{gov_summary()}},
+\code{\link[=insert_text]{insert_text()}},
+\code{\link[=label_hint]{label_hint()}},
+\code{\link[=noti_banner]{noti_banner()}},
+\code{\link[=tag_Input]{tag_Input()}},
+\code{\link[=value_box]{value_box()}},
+\code{\link[=warning_text]{warning_text()}}
 }
 \concept{Govstyle feedback types}

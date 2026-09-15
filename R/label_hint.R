@@ -1,15 +1,13 @@
 #' Label with Hint Function
 #'
 #' This function inserts a label and optional hint.
-#' @param inputId The input slot that will be used to access the value
-#' @param label Display label for the control, or `NULL` for no label
-#' @param hint_input Display hint label for the control, or `NULL` for
-#' no hint label
+#' @inheritParams id_arg
+#' @inheritParams control_label_params
 #' @return a label hint HTML shiny tag object
 #' @family Govstyle feedback types
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -21,6 +19,15 @@
 #'       inputId = "label1",
 #'       label = "This is a label",
 #'       hint_input = "This is a hint"
+#'     ),
+#'     # Rich content: a link in the hint
+#'     label_hint(
+#'       inputId = "label2",
+#'       label = "Bold label",
+#'       hint_input = shiny::tagList(
+#'         "See the ",
+#'         shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+#'       )
 #'     )
 #'   ),
 #'   shinyGovstyle::footer(full = TRUE)
@@ -36,8 +43,8 @@ label_hint <- function(
   gov_label <- shiny::tags$div(
     class = "govuk-form-group",
     id = inputId,
-    shiny::tags$label(shiny::HTML(label), class = "govuk-label"),
-    shiny::tags$div(hint_input, class = "govuk-hint")
+    shiny::tags$label(as_govuk_html(label), class = "govuk-label"),
+    shiny::tags$div(as_govuk_html(hint_input), class = "govuk-hint")
   )
   attachDependency(gov_label)
 }

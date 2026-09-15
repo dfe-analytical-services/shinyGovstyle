@@ -1,14 +1,16 @@
 #' Panel output
 #'
 #' This function inserts a panel.  Normally used for confirmation screens
-#' @param inputId The input slot that will be used to access the value.
+#' @inheritParams id_arg
 #' @param main_text Add the header for the panel
-#' @param sub_text Add the main body of text for the panel
+#' @param sub_text Add the main body of text for the panel. Accepts a plain
+#' character string, or `shiny` tag objects such as `shiny::tags$b("Bold")`
+#' or a `shiny::tagList()`.
 #' @return a panel HTML shiny tag object
 #' @family Govstyle feedback types
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -38,7 +40,7 @@ panel_output <- function(
     class = "govuk-panel govuk-panel--confirmation",
     id = inputId,
     shiny::tags$h1(main_text, class = "govuk-panel__title"),
-    shiny::tags$div(shiny::HTML(sub_text), class = "govuk-panel__body")
+    shiny::tags$div(as_govuk_html(sub_text), class = "govuk-panel__body")
   )
   attachDependency(gov_panel)
 }

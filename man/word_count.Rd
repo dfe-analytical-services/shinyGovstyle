@@ -7,7 +7,9 @@
 word_count(inputId, input, word_limit = NULL)
 }
 \arguments{
-\item{inputId}{The input slot of the text area that you want to affect}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{input}{The text input that is associated with the box}
 
@@ -22,7 +24,7 @@ This function create tracks the word count and should be used with the
 text area function.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
     "Justice", "", logo = "shinyGovstyle/images/moj_logo.png"
@@ -53,12 +55,12 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle text types: 
-\code{\link{date_Input}()},
-\code{\link{gov_list}()},
-\code{\link{heading_text}()},
-\code{\link{input_field}()},
-\code{\link{text_Input}()},
-\code{\link{text_area_Input}()}
+Other Govstyle text types:
+\code{\link[=date_Input]{date_Input()}},
+\code{\link[=gov_list]{gov_list()}},
+\code{\link[=heading_text]{heading_text()}},
+\code{\link[=input_field]{input_field()}},
+\code{\link[=text_Input]{text_Input()}},
+\code{\link[=text_area_Input]{text_area_Input()}}
 }
 \concept{Govstyle text types}

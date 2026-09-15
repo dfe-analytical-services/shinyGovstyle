@@ -6,7 +6,7 @@ test_that("Default", {
     cb_labels = choices,
     checkboxIds = choices
   )
-  choicestag <- cbtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- find_tags(cbtag, "govuk-checkboxes__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -28,7 +28,7 @@ test_that("Error", {
     error = TRUE,
     error_message = "Error Test"
   )
-  choicestag <- cbtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- find_tags(cbtag, "govuk-checkboxes__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -38,14 +38,7 @@ test_that("Error", {
   checked <- unlist(checked)
   expect_true(all(!checked))
 
-  err_msg <- cbtag$children[[1]]$children[[1]]$children[[3]]$children[[1]]
-  expect_identical(err_msg, "Error Test")
-
-  err_class <- paste(
-    cbtag$children[[1]]$children[[1]]$children[[3]]$attribs[1]$class,
-    cbtag$children[[1]]$children[[1]]$children[[3]]$attribs[3]$class
-  )
-  expect_identical(err_class, "govuk-error-message shinyjs-hide")
+  expect_hidden_error(cbtag, "Error Test")
 })
 
 
@@ -58,7 +51,7 @@ test_that("Small", {
     checkboxIds = choices,
     small = TRUE
   )
-  choicestag <- cbtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
+  choicestag <- find_tags(cbtag, "govuk-checkboxes__item")
   expect_length(choicestag, length(choices))
 
   checked <- lapply(
@@ -68,8 +61,10 @@ test_that("Small", {
   checked <- unlist(checked)
   expect_true(all(!checked))
 
-  small_check <- cbtag$children[[1]]$children[[1]]$children[[4]]$attribs$class
-  expect_identical(small_check, "govuk-checkboxes govuk-checkboxes--small")
+  expect_identical(
+    htmltools::tagGetAttribute(find_tag(cbtag, "govuk-checkboxes"), "class"),
+    "govuk-checkboxes govuk-checkboxes--small"
+  )
 })
 
 test_that("Labels are programmatically associated with inputs", {
@@ -81,13 +76,207 @@ test_that("Labels are programmatically associated with inputs", {
     cb_labels = cb_labels,
     checkboxIds = cb_ids
   )
-  option_items <- cbtag$children[[1]]$children[[1]]$children[[4]]$children[[1]]
+  option_items <- find_tags(cbtag, "govuk-checkboxes__item")
 
   for (i in seq_along(cb_ids)) {
     item <- option_items[[i]]
-    input_tag <- item$children[[1]]
-    label_tag <- item$children[[2]]
-    expect_identical(input_tag$attribs$id, cb_ids[i])
-    expect_identical(label_tag$attribs$`for`, cb_ids[i])
+    input_tag <- find_tag(item, "govuk-checkboxes__input")
+    label_tag <- find_tag(item, "govuk-label")
+    expect_identical(htmltools::tagGetAttribute(input_tag, "id"), cb_ids[i])
+    expect_identical(htmltools::tagGetAttribute(label_tag, "for"), cb_ids[i])
   }
+})
+
+test_that("fieldset children appear in GOV.UK order", {
+  cbtag <- checkbox_Input(
+    inputId = "Id029",
+    label = "Label",
+    cb_labels = c("A", "B"),
+    checkboxIds = c("A", "B"),
+    error = TRUE,
+    error_message = "Error Test"
+  )
+
+  fieldset <- find_tag(cbtag, "govuk-fieldset")
+  expect_identical(
+    child_classes(fieldset),
+    c(
+      "govuk-fieldset__legend govuk-fieldset__legend--m",
+      "govuk-error-message shinyjs-hide",
+      "govuk-checkboxes"
+    )
+  )
+})
+
+test_that("Fieldset and legend wrap checkbox group with default --m size", {
+  cbtag <- checkbox_Input(
+    inputId = "cb_fieldset",
+    label = "Pick one",
+    cb_labels = c("Yes", "No"),
+    checkboxIds = c("y", "n")
+  )
+  fieldset <- find_tag(cbtag, "govuk-fieldset")
+  expect_identical(
+    htmltools::tagGetAttribute(fieldset, "class"),
+    "govuk-fieldset"
+  )
+
+  legend <- find_tag(fieldset, "govuk-fieldset__legend")
+  expect_identical(
+    htmltools::tagGetAttribute(legend, "class"),
+    "govuk-fieldset__legend govuk-fieldset__legend--m"
+  )
+  expect_identical(
+    tag_text(fieldset, "govuk-fieldset__legend"),
+    shiny::HTML("Pick one")
+  )
+})
+
+test_that("label with markup renders as HTML, not escaped text", {
+  cbtag <- checkbox_Input(
+    inputId = "cb",
+    label = "<b>Bold</b>",
+    cb_labels = c("a", "b"),
+    checkboxIds = c("a", "b")
+  )
+  expect_match(as.character(cbtag), "<b>Bold</b>", fixed = TRUE)
+})
+
+test_that("label_size sets the legend size modifier", {
+  for (size in c("s", "m", "l", "xl")) {
+    cbtag <- checkbox_Input(
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
+      label_size = size
+    )
+    legend <- find_tag(cbtag, "govuk-fieldset__legend")
+    expect_identical(
+      htmltools::tagGetAttribute(legend, "class"),
+      paste0("govuk-fieldset__legend govuk-fieldset__legend--", size)
+    )
+  }
+})
+
+test_that("label_size rejects unknown values", {
+  expect_error(
+    checkbox_Input(
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
+      label_size = "huge"
+    )
+  )
+})
+
+test_that("heading_level wraps the legend text in an <hN>", {
+  cbtag <- checkbox_Input(
+    inputId = "cb",
+    label = "Q",
+    cb_labels = c("a", "b"),
+    checkboxIds = c("a", "b"),
+    label_size = "l",
+    heading_level = 1
+  )
+  heading <- find_tag(cbtag, "govuk-fieldset__heading")
+  expect_identical(heading$name, "h1")
+  expect_identical(heading$attribs$class, "govuk-fieldset__heading")
+  expect_identical(
+    tag_text(cbtag, "govuk-fieldset__heading"),
+    shiny::HTML("Q")
+  )
+})
+
+test_that("heading_level rejects invalid values", {
+  expect_error(
+    checkbox_Input(
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
+      heading_level = 0
+    )
+  )
+  expect_error(
+    checkbox_Input(
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
+      heading_level = 7
+    )
+  )
+  expect_error(
+    checkbox_Input(
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
+      heading_level = c(1, 2)
+    )
+  )
+  expect_error(
+    checkbox_Input(
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
+      heading_level = TRUE
+    )
+  )
+  expect_error(
+    checkbox_Input(
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
+      heading_level = 2.5
+    )
+  )
+})
+
+test_that("Fieldset aria-describedby references hint and error ids", {
+  cbtag <- checkbox_Input(
+    inputId = "cb_aria",
+    label = "Pick one",
+    cb_labels = c("Yes", "No"),
+    checkboxIds = c("y", "n"),
+    hint_label = "Choose wisely",
+    error = TRUE,
+    error_message = "Required"
+  )
+  fieldset <- find_tag(cbtag, "govuk-fieldset")
+  expect_identical(
+    htmltools::tagGetAttribute(fieldset, "aria-describedby"),
+    "cb_aria-hint cb_aria-error"
+  )
+
+  hint <- find_tag(cbtag, "govuk-hint")
+  expect_identical(htmltools::tagGetAttribute(hint, "id"), "cb_aria-hint")
+
+  err <- find_tag(cbtag, "govuk-error-message")
+  expect_identical(htmltools::tagGetAttribute(err, "id"), "cb_aria-error")
+})
+
+test_that("Fieldset has no aria-describedby when no hint or error", {
+  cbtag <- checkbox_Input(
+    inputId = "cb_plain",
+    label = "Pick one",
+    cb_labels = c("Yes", "No"),
+    checkboxIds = c("y", "n")
+  )
+  fieldset <- find_tag(cbtag, "govuk-fieldset")
+  expect_null(htmltools::tagGetAttribute(fieldset, "aria-describedby"))
+})
+
+test_that("Hint <div> is omitted when hint_label is NULL", {
+  cbtag <- checkbox_Input(
+    inputId = "cb_nohint",
+    label = "Pick one",
+    cb_labels = c("Yes", "No"),
+    checkboxIds = c("y", "n")
+  )
+  expect_no_tag(cbtag, "govuk-hint")
 })

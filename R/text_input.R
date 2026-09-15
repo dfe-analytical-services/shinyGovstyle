@@ -1,22 +1,19 @@
 #' Text Input Function
 #'
 #' This function create a text input.
-#' @param inputId The input slot that will be used to access the value
-#' @param label Display label for the control, or `NULL` for no label
-#' @param hint_label Display hint label for the control, or `NULL` for
-#' no hint label
+#' @inheritParams id_arg
+#' @inheritParams control_label_params
+#' @inheritParams error_args
 #' @param type Type of text input to accept. Defaults to text
 #' @param width control the size of the box based on number of characters
 #' required.  Options are 30, 20, 10, 5, 4, 3, 2.  NULL will not limit the size
-#' @param error Whenever to include error handling. Defaults to FALSE
-#' @param error_message Message to display on error. Defaults to NULL
 #' @param prefix Add a prefix to the box. Defaults to NULL
 #' @param suffix Add a suffix to the box. Defaults to NULL
 #' @return a text input HTML shiny tag object
 #' @family Govstyle text types
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   # Required for error handling function
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
@@ -37,6 +34,18 @@
 #'       label = "Event Name",
 #'       hint_label = "This can be found on the letter",
 #'       error = TRUE
+#'     ),
+#'     # Rich content: a link in the hint
+#'     shinyGovstyle::text_Input(
+#'       inputId = "eventId3",
+#'       label = "Event Name",
+#'       hint_label = shiny::tagList(
+#'         "As shown on your ",
+#'         shinyGovstyle::external_link(
+#'           "https://www.gov.uk",
+#'           "confirmation letter"
+#'         )
+#'       )
 #'     ),
 #'     # Button to trigger error
 #'     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
@@ -79,18 +88,9 @@ text_Input <- # nolint
     gov_text <- shiny::tags$div(
       class = "govuk-form-group",
       id = paste0(inputId, "div"),
-      shiny::tags$label(shiny::HTML(label), class = "govuk-label"),
-      shiny::tags$div(hint_label, class = "govuk-hint"),
-      if (error == TRUE) {
-        shinyjs::hidden(
-          shiny::tags$p(
-            error_message,
-            class = "govuk-error-message",
-            id = paste0(inputId, "error"),
-            shiny::tags$span("Error:", class = "govuk-visually-hidden")
-          )
-        )
-      },
+      shiny::tags$label(as_govuk_html(label), class = "govuk-label"),
+      shiny::tags$div(as_govuk_html(hint_label), class = "govuk-hint"),
+      if (error == TRUE) govuk_error_message(inputId, error_message),
       if (is.null(prefix) & is.null(suffix)) {
         shiny::tags$input(id = inputId, class = width_class, type = type)
       } else if (is.null(suffix)) {

@@ -77,10 +77,8 @@ text_area_Input <- # nolint
             "govuk-hint govuk-character-count__message ",
             "govuk-visually-hidden"
           ),
-          shiny::tags$span(
-            id = paste0(inputId, "-wl"),
-            word_limit_text
-          )
+          id = paste0(inputId, "-info"),
+          word_limit_text
         )
       },
       if (!is.null(hint_label)) {
@@ -105,14 +103,6 @@ text_area_Input <- # nolint
       ),
       if (!is.null(word_limit)) {
         shiny::tagList(
-          shiny::tags$div(
-            class = paste0(
-              "govuk-hint govuk-character-count__message ",
-              "govuk-visually-hidden"
-            ),
-            id = paste0(inputId, "-info"),
-            word_limit_text
-          ),
           shiny::tags$div(
             class = paste0(
               "govuk-hint govuk-character-count__message ",

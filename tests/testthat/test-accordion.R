@@ -36,7 +36,28 @@ test_that("accordion section buttons start with aria-expanded false", {
   )
 
   button <- find_tag(accordion_check, "govuk-accordion__section-button")
-  expect_equal(htmltools::tagGetAttribute(button, "aria-expanded"), "false")
+  expect_identical(htmltools::tagGetAttribute(button, "aria-expanded"), "false")
+})
+
+test_that("section button and content ids are namespaced by inputId", {
+  acc1 <- accordion("acc1", "Section one", "Content one")
+  acc2 <- accordion("acc2", "Section one", "Content one")
+
+  button1 <- find_tag(acc1, "govuk-accordion__section-button")
+  button2 <- find_tag(acc2, "govuk-accordion__section-button")
+
+  id1 <- htmltools::tagGetAttribute(button1, "id")
+  id2 <- htmltools::tagGetAttribute(button2, "id")
+
+  expect_true(startsWith(id1, "acc1-"))
+  expect_true(startsWith(id2, "acc2-"))
+  expect_false(identical(id1, id2))
+
+  content1 <- find_tag(acc1, "govuk-accordion__section-content")
+  expect_identical(
+    htmltools::tagGetAttribute(content1, "aria-labelledby"),
+    id1
+  )
 })
 
 

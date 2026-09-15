@@ -4,15 +4,23 @@
 \alias{footer}
 \title{Footer Function}
 \usage{
-footer(full = FALSE, links = NULL)
+footer(full = FALSE, links = NULL, width = "standard")
 }
 \arguments{
 \item{full}{Whenever you want to have blank footer or official gov version.
-Defaults to \code{FALSE}}
+Defaults to \code{FALSE}. Not to be confused with the \code{width} argument below,
+which controls the footer's own width rather than its content.}
 
 \item{links}{A vector of actionLinks to be added to the footer, inputIDs
 are auto-generated and are the snake case version of the link text, e.g.
 "Accessibility Statement" will have an inputID of accessibility_statement}
+
+\item{width}{Width of the component. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard),
+\code{"full"} (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
 }
 \value{
 a footer HTML shiny tag object
@@ -33,7 +41,7 @@ If adding a link to an internal page, generally you will be controlling a
 hidden tabset so to the end user it looks like it is a new page.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -43,8 +51,7 @@ ui <- shiny::fluidPage(
   shinyGovstyle::banner(
     inputId = "banner", type = "beta", "This is a new service"
   ),
-  shiny::tags$br(),
-  shiny::tags$br(),
+  shinyGovstyle::gov_text("Placeholder text"),
   shinyGovstyle::footer(full = TRUE)
 )
 
@@ -66,7 +73,7 @@ footer(
 )
 
 # Full app with link controlling a hidden tab and a link to an external page
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -133,6 +140,7 @@ Other Govstyle page structure:
 \code{\link[=banner]{banner()}},
 \code{\link[=cookieBanner]{cookieBanner()}},
 \code{\link[=gov_layout]{gov_layout()}},
+\code{\link[=gov_page]{gov_page()}},
 \code{\link[=header]{header()}},
 \code{\link{layouts}},
 \code{\link[=skip_to_main]{skip_to_main()}}

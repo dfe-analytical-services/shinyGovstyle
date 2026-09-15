@@ -42,6 +42,36 @@ test_that("label accepts a tagList with an external link", {
   expect_match(html, ">feedback</a>", fixed = TRUE)
 })
 
+test_that("width defaults to standard, no three-quarters/full class", {
+  out <- banner("bannerId", "alpha", "Banner test")
+  container <- find_tag_required(out, "govuk-width-container")
+  expect_null(htmltools::tagGetAttribute(container, "style"))
+  expect_no_tag(out, "govuk-width-container--standard")
+  expect_no_tag(out, "govuk-width-container--three-quarters")
+  expect_no_tag(out, "govuk-width-container--full")
+})
+
+test_that("width = 'standard' explicitly still renders the standard class", {
+  out <- banner("bannerId", "alpha", "Banner test", width = "standard")
+  expect_has_tag(out, "govuk-width-container--standard")
+})
+
+
+test_that("width = 'three-quarters' adds the three-quarters modifier class", {
+  out <- banner("bannerId", "alpha", "Banner test", width = "three-quarters")
+  expect_has_tag(out, "govuk-width-container--three-quarters")
+})
+
+
+test_that("a custom width sets an inline max-width style", {
+  out <- banner("bannerId", "alpha", "Banner test", width = "1400px")
+  container <- find_tag_required(out, "govuk-width-container")
+  expect_identical(
+    htmltools::tagGetAttribute(container, "style"),
+    "max-width: 1400px;"
+  )
+})
+
 test_that("feedback_url auto-generates the standard feedback text", {
   out <- banner(
     "bannerId",

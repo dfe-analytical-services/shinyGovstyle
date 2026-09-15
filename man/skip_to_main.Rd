@@ -20,7 +20,7 @@ typically used by keyboard users to bypass content and
 navigate directly to the main content of a page.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   skip_to_main(),
   header(
     org_name = "Example",
@@ -42,6 +42,7 @@ Other Govstyle page structure:
 \code{\link[=cookieBanner]{cookieBanner()}},
 \code{\link[=footer]{footer()}},
 \code{\link[=gov_layout]{gov_layout()}},
+\code{\link[=gov_page]{gov_page()}},
 \code{\link[=header]{header()}},
 \code{\link{layouts}}
 }

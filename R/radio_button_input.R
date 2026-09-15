@@ -25,7 +25,7 @@
 #' @family Govstyle select inputs
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   # Required for error handling function
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
@@ -185,7 +185,7 @@ radio_button_Input <- # nolint
 #' @family Govstyle select inputs
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::radio_button_Input(
 #'     inputId = "cookies",

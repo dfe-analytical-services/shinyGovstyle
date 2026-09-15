@@ -32,7 +32,7 @@ added to the UI. The active nav highlight and (when
 client-side, so no additional wiring is needed.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::service_navigation(
     c(Summary = "sn_summary", Detail = "sn_detail")
   ),

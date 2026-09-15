@@ -8,7 +8,8 @@ service_navigation(
   links,
   service_name = NULL,
   auto_page_title = TRUE,
-  page_title_suffix = NULL
+  page_title_suffix = NULL,
+  width = "standard"
 )
 }
 \arguments{
@@ -39,6 +40,13 @@ Only used when \code{auto_page_title = TRUE}. For finer
 control (e.g. when a page heading differs from its nav
 link label), call \code{\link[=update_page_title]{update_page_title()}} from your server
 code.}
+
+\item{width}{Width of the component. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard),
+\code{"full"} (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
 }
 \value{
 Shiny tag object
@@ -54,7 +62,7 @@ page will cause ID conflicts and the mobile menu toggle
 may not work correctly.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header("Title", "Secondary heading"),
   shinyGovstyle::service_navigation(
      c("Summary data", "Detailed stats 1", "User guide")

@@ -17,7 +17,7 @@ to a bullet) or a \code{shiny::tagList()}.}
 Gov List function
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples"

@@ -20,7 +20,7 @@
 #' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::gov_layout(
 #'     size = "two-thirds",
 #'     shinyGovstyle::govTable(

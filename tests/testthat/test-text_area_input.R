@@ -50,7 +50,10 @@ test_that("text area word works", {
     htmltools::tagGetAttribute(info, "class"),
     "govuk-hint govuk-character-count__message govuk-visually-hidden"
   )
-  expect_identical(info$children[[1]], "You can enter up to 300 words")
+  expect_identical(
+    tag_text_by_id_suffix(text_area_check, "input1-info"),
+    "You can enter up to 300 words"
+  )
 
   # "input1-status" (not just "-status"): "-sr-status" also ends in "-status".
   status <- find_by_id_suffix(text_area_check, "input1-status")
@@ -59,7 +62,10 @@ test_that("text area word works", {
     htmltools::tagGetAttribute(status, "class"),
     "govuk-hint govuk-character-count__message govuk-character-count__status"
   )
-  expect_identical(status$children[[1]], "You can enter up to 300 words")
+  expect_identical(
+    tag_text_by_id_suffix(text_area_check, "input1-status"),
+    "You can enter up to 300 words"
+  )
 
   sr_status <- find_by_id_suffix(text_area_check, "input1-sr-status")
   expect_identical(

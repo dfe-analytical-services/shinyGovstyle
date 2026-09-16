@@ -21,7 +21,7 @@ BugReports:
 Depends: 
     R (>= 4.1.0)
 Imports:
-    bslib,
+    bslib (>= 0.9.0),
     htmltools,
     jsonlite,
     lifecycle,
@@ -35,8 +35,8 @@ Imports:
     writexl
 Suggests:
     brand.yml,
-    bslib (>= 0.9.0),
     knitr,
+    nanonext (>= 1.8.0),
     pkgdown (>= 2.1.1),
     rlang,
     rmarkdown,

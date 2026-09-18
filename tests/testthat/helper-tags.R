@@ -183,6 +183,25 @@ find_by_id_suffix <- function(x, suffix) {
   hits[[1L]]
 }
 
+# tag_text_by_id_suffix() is the id-suffix analogue of tag_text(), for
+# elements disambiguated by id rather than by a unique class (e.g. the
+# character count's `-info` / `-status` divs, which share a class). Same
+# single-child contract as tag_text().
+tag_text_by_id_suffix <- function(x, suffix) {
+  node_children <- rendered_children(find_by_id_suffix(x, suffix))
+  if (length(node_children) != 1L) {
+    stop(
+      sprintf(
+        "Expected tag with id ending in %s to have exactly one child, found %d",
+        shQuote(suffix),
+        length(node_children)
+      ),
+      call. = FALSE
+    )
+  }
+  node_children[[1L]]
+}
+
 # expect_hidden_error() asserts the standard "renders hidden by default"
 # contract: exactly one govuk-error-message tag, class
 # "govuk-error-message shinyjs-hide", role "alert", a leading visually hidden

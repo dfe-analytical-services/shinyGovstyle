@@ -12,6 +12,9 @@
 * `insert_text()` argument `text` has been renamed to `content` to reflect
   that it now accepts more than plain text. The old name is deprecated and
   will be removed in a future version.
+* `word_count()` has been deprecated as it is no longer required for
+  `text_area_Input()`, which now tracks and announces the word count
+  entirely client-side.
 * Removed the experimental `full_width_overrides()` function. Use the new
   `width` argument on `header()`, `footer()`, `banner()`, `cookieBanner()`,
   `service_navigation()`, `gov_main_layout()` and `gov_layout()` instead
@@ -137,6 +140,11 @@
   renders inside a `<legend>` via the shared fieldset helper.
 * `govTable()` now renders rows in dataframe order (row order was previously
   silently reversed).
+* `text_area_Input()`'s word-limit message is now a live region
+  (`aria-live="polite"`), announced to screen readers a short pause after the
+  user stops typing, matching the GOV.UK Design System character count
+  component. Previously it updated visually on every keystroke but was never
+  announced.
 
 ## Minor improvements and bug fixes
 

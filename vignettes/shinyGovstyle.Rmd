@@ -62,7 +62,6 @@ pak::pak("dfe-analytical-services/shinyGovstyle")
 Some components require [`shinyjs`](https://deanattali.com/shinyjs/) to be loaded in your UI. Add `shinyjs::useShinyjs()` anywhere in your UI when using:
 
 - `error_on()` / `error_off()` — inline field-level error toggling
-- `word_count()` — live character and word counting on text inputs
 - `cookieBanner()` — GOV.UK cookie consent banner
 
 ```{r, eval = FALSE}

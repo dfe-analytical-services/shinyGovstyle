@@ -64,6 +64,13 @@ attachDependency <- # nolint
           src = c(href = "shinyGovstyle/js"),
           script = "date_input_binding.js"
         )
+      } else if (widget == "textarea") {
+        htmltools::htmlDependency(
+          name = "text_area_input",
+          version = version,
+          src = c(href = "shinyGovstyle/js"),
+          script = "text_area_input.js"
+        )
       } else if (widget == "accordion") {
         htmltools::htmlDependency(
           name = "accordion",

@@ -77,8 +77,6 @@ anywhere in your UI when using:
   /
   [`error_off()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_off.md)
   — inline field-level error toggling
-- [`word_count()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.md)
-  — live character and word counting on text inputs
 - [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md)
   — GOV.UK cookie consent banner
 

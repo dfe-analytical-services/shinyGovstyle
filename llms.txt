@@ -153,8 +153,6 @@ shinyGovstyle::run_example()
   : Text Input Function
 - [`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md)
   : Text Area Input Function
-- [`word_count()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.md)
-  : Word Count Function
 
 ## Action Types
 

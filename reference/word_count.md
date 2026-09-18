@@ -1,7 +1,11 @@
 # Word Count Function
 
-This function create tracks the word count and should be used with the
-text area function.
+**\[deprecated\]**
+
+This helper function create tracks the word count and should be used
+with the text area function. This helper function was deprecated as
+text_area_Input no longer relies on this, and uses js instead. The
+text_area_Input function can still be used as before
 
 ## Usage
 

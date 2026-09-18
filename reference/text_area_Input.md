@@ -78,10 +78,10 @@ text_area_Input(
     "National Insurance number or credit card details."
   )
 )
-#> <div class="govuk-form-group govuk-character-count" id="taIddiv">
-#>   <label class="govuk-label">Can you provide more detail?</label>
-#>   <div class="govuk-hint">Do not include personal or financial information, like your National Insurance number or credit card details.</div>
-#>   <textarea id="taId" class="govuk-textarea" rows="5"></textarea>
+#> <div class="govuk-form-group" id="taIddiv">
+#>   <label class="govuk-label" for="taId">Can you provide more detail?</label>
+#>   <div class="govuk-hint" id="taId-hint">Do not include personal or financial information, like your National Insurance number or credit card details.</div>
+#>   <textarea id="taId" class="govuk-textarea" rows="5" aria-describedby="taId-hint"></textarea>
 #> </div>
 
 # Rich content: a link in the hint
@@ -93,10 +93,10 @@ text_area_Input(
     shinyGovstyle::external_link("https://www.gov.uk", "guidance on detail")
   )
 )
-#> <div class="govuk-form-group govuk-character-count" id="taId2div">
-#>   <label class="govuk-label">Can you provide more detail?</label>
-#>   <div class="govuk-hint">
+#> <div class="govuk-form-group" id="taId2div">
+#>   <label class="govuk-label" for="taId2">Can you provide more detail?</label>
+#>   <div class="govuk-hint" id="taId2-hint">
 #>     Read the <a href="https://www.gov.uk" class="govuk-link" target="_blank" rel="noopener noreferrer">guidance on detail (opens in new tab)</a></div>
-#>   <textarea id="taId2" class="govuk-textarea" rows="5"></textarea>
+#>   <textarea id="taId2" class="govuk-textarea" rows="5" aria-describedby="taId2-hint"></textarea>
 #> </div>
 ```

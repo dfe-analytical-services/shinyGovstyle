@@ -49,7 +49,7 @@ a text input HTML shiny tag object
 This function create a text input.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   # Required for error handling function
   shinyjs::useShinyjs(),
   shinyGovstyle::header(

@@ -12,7 +12,7 @@
 #' @export
 #' @family Govstyle styling
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   font(),
 #'   shinyGovstyle::header(
 #'     org_name = "Example",

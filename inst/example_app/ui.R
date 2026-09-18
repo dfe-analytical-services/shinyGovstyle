@@ -1,12 +1,12 @@
-bslib::page_fluid(
-  theme = bs_theme(version = 5),
+shinyGovstyle::gov_page(
+  theme = bslib::bs_theme(version = 5),
   title = "Select Types | shinyGovstyle",
+  description = "A showcase of the components available in shinyGovstyle",
+  width = demo_width,
+
   shinyGovstyle::cookieBanner("shinyGovstyle component showcase"),
   shinyjs::useShinyjs(),
 
-  shiny::tags$head(shiny::HTML("<html lang='en'>")),
-
-  shinyGovstyle::full_width_overrides(), # TODO: remove when built in
   shinyGovstyle::skip_to_main(),
   shinyGovstyle::header(
     org_name = "Department for Education",
@@ -27,34 +27,30 @@ bslib::page_fluid(
   shinyGovstyle::banner(
     "banner",
     "Beta",
-    paste0(
-      'This is a new service \u002D your <a class="govuk-link" href=',
-      '"https://github.com/dfe-analytical-services/shinyGovstyle/issues/new',
-      '/choose">feedback</a> will help us to improve it.'
+    feedback_url = paste0(
+      "https://github.com/dfe-analytical-services/shinyGovstyle/issues/new",
+      "/choose"
     )
   ),
 
   shinyGovstyle::gov_main_layout(
     shinyGovstyle::gov_row(
-      size = "two-thirds",
-      shinyGovstyle::gov_text(
-        "This example app showcases the components available in the",
-        "latest development version of the shinyGovstyle package.",
-        "The source code for the app can be found on the ",
-        shinyGovstyle::external_link(
-          href = paste0(
-            "https://github.com/dfe-analytical-services/shinyGovstyle/",
-            "blob/main/inst/example_app"
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        mod_width_toggle_ui("width_toggle"),
+        shinyGovstyle::gov_text(
+          "This example app showcases the components available in the",
+          "latest development version of the shinyGovstyle package.",
+          "The source code is on the ",
+          shinyGovstyle::external_link(
+            href = paste0(
+              "https://github.com/dfe-analytical-services/shinyGovstyle/",
+              "blob/main/inst/example_app"
+            ),
+            link_text = "main GitHub branch"
           ),
-          link_text = "main GitHub branch"
-        ),
-        ". The page layout has some custom CSS overrides, and is still being",
-        " developed to work with the ",
-        shinyGovstyle::external_link(
-          href = "https://rstudio.github.io/bslib/",
-          link_text = "bslib package"
-        ),
-        ", it may change in future releases."
+          ". The switcher allows you to preview the main page width options."
+        )
       )
     ),
 
@@ -114,4 +110,4 @@ bslib::page_fluid(
       )
     )
   )
-) # end of page_fluid
+) # end of gov_page

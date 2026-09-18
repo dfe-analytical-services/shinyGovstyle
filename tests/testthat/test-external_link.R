@@ -43,14 +43,45 @@ test_that("Rejects dodgy link text", {
   expect_error(external_link("https://shiny.posit.co/", "www.google.com"))
 })
 
-test_that("Rejects non-boolean for add_warning", {
+test_that("Rejects invalid values for add_warning", {
   expect_error(
     external_link(
       "https://shiny.posit.co/",
       "R Shiny",
       add_warning = "Funky non-boolean"
     ),
-    "add_warning must be a TRUE or FALSE value"
+    'add_warning must be TRUE, FALSE, or "icon"',
+    fixed = TRUE
+  )
+})
+
+test_that("add_warning = TRUE/FALSE (default and opposite) add no svg", {
+  expect_false(grepl("<svg", link_text(test_link), fixed = TRUE))
+
+  hidden_link <-
+    external_link("https://shiny.posit.co/", "R Shiny", add_warning = FALSE)
+  expect_false(grepl("<svg", link_text(hidden_link), fixed = TRUE))
+})
+
+test_that("add_warning = 'icon' adds a decorative svg after the link text", {
+  icon_link <- external_link(
+    "https://shiny.posit.co/",
+    "R Shiny",
+    add_warning = "icon"
+  )
+  rendered <- link_text(icon_link)
+
+  expect_true(grepl("<svg", rendered, fixed = TRUE))
+  expect_true(grepl('aria-hidden="true"', rendered, fixed = TRUE))
+  expect_true(grepl('focusable="false"', rendered, fixed = TRUE))
+  # The sr-only warning text (same as add_warning = FALSE) still comes
+  # before the decorative icon, so screen readers still get the warning
+  expect_true(
+    grepl(
+      "R Shiny<span class=\"sr-only\"> (opens in new tab)</span><svg",
+      rendered,
+      fixed = TRUE
+    )
   )
 })
 
@@ -159,4 +190,71 @@ test_that("external_link() also attaches the base shinyGovstyle dependencies", {
   expect_true("stylecss" %in% dep_names)
   expect_true("update_page_title" %in% dep_names)
   expect_true("sr-only" %in% dep_names)
+})
+
+test_that("mailto: links omit target/rel and the opens-in-new-tab text", {
+  mailto_link <- external_link(
+    "mailto:feedback@example.com",
+    "feedback@example.com"
+  )
+
+  expect_null(htmltools::tagGetAttribute(mailto_link, "target"))
+  expect_null(htmltools::tagGetAttribute(mailto_link, "rel"))
+  expect_identical(
+    htmltools::tagGetAttribute(mailto_link, "href"),
+    "mailto:feedback@example.com"
+  )
+  expect_identical(
+    htmltools::tagGetAttribute(mailto_link, "class"),
+    "govuk-link"
+  )
+  expect_identical(link_text(mailto_link), "feedback@example.com")
+})
+
+test_that("mailto: link detection is case-insensitive", {
+  mailto_link <- external_link(
+    "MAILTO:feedback@example.com",
+    "feedback@example.com"
+  )
+
+  expect_null(htmltools::tagGetAttribute(mailto_link, "target"))
+  expect_null(htmltools::tagGetAttribute(mailto_link, "rel"))
+  expect_identical(link_text(mailto_link), "feedback@example.com")
+})
+
+test_that("add_warning has no effect on mailto: links", {
+  hidden_attempt <- external_link(
+    "mailto:feedback@example.com",
+    "feedback@example.com",
+    add_warning = FALSE
+  )
+  icon_attempt <- external_link(
+    "mailto:feedback@example.com",
+    "feedback@example.com",
+    add_warning = "icon"
+  )
+
+  expect_identical(link_text(hidden_attempt), "feedback@example.com")
+  expect_identical(link_text(icon_attempt), "feedback@example.com")
+  expect_false(grepl("<svg", link_text(icon_attempt), fixed = TRUE))
+})
+
+test_that("mailto: links still validate link_text", {
+  expect_error(external_link("mailto:feedback@example.com", "here"))
+  expect_error(external_link("mailto:feedback@example.com", "Full stop."))
+  expect_warning(external_link("mailto:feedback@example.com", "Hi"))
+})
+
+test_that("Footer flag still works for mailto: links", {
+  expect_identical(
+    htmltools::tagGetAttribute(
+      external_link(
+        "mailto:feedback@example.com",
+        "feedback@example.com",
+        footer = TRUE
+      ),
+      "class"
+    ),
+    "govuk-link govuk-footer__link"
+  )
 })

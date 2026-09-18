@@ -24,7 +24,7 @@ This replicates the gov style error boxes linked below:
 https://design-system.service.gov.uk/components/error-summary/
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
     org_name = "Example",

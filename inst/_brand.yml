@@ -8,8 +8,8 @@ meta:
 
 logo:
   images:
-    crest: logo/govuk-crest.svg
-    favicon: logo/favicon.ico
+    crest: www/images/govuk-crest.svg
+    favicon: www/images/favicon.ico
   small: favicon
   medium: crest
   large: crest
@@ -113,6 +113,17 @@ defaults:
         text-decoration-skip-ink: none;
       }
 
+      // GOV.UK content links show visited and active states by default.
+      // Bootstrap navigation and button links keep their component-specific
+      // colours, where a visited state would be distracting or misleading.
+      a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item):not(.page-link):visited {
+        color: $brand-link-visited-colour;
+      }
+
+      a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item):not(.page-link):active {
+        color: $brand-link-active-colour;
+      }
+
       // GOV.UK's focus style: solid yellow background, black shadow
       // beneath, never just an outline. Text is forced black so
       // light-coloured components (e.g. white navbar links) stay
@@ -155,6 +166,13 @@ defaults:
         outline: 3px solid $brand-focus-colour !important;
         outline-offset: 0 !important;
         box-shadow: inset 0 0 0 2px $body-color !important;
+      }
+
+      // The input rule above otherwise replaces the primary fill on checked
+      // checkboxes and radios, leaving their white selected mark invisible.
+      input[type="checkbox"]:checked:focus:focus:focus:focus:focus,
+      input[type="radio"]:checked:focus:focus:focus:focus:focus {
+        background-color: $primary !important;
       }
 
       // GOV.UK buttons: darker bottom shadow and darker hover per variant.

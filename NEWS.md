@@ -24,6 +24,11 @@
   shinyGovstyle without its `Suggests` dependencies, you'll now get
   `bslib` automatically; if you pin dependencies some other way, add
   `bslib` to that list.
+* Heading and caption size arguments (e.g. `size` on `heading_text()`,
+  `caption_size` on `govTable()` and `govReactableOutput()`, and `label_size`
+  on form inputs like `checkbox_Input()`) now throw an error if given
+  anything other than `"s"`, `"m"`, `"l"`, or `"xl"`. Previously an invalid
+  value was accepted silently and could produce broken styling.
 
 ## New features
 

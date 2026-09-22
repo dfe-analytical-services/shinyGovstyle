@@ -169,3 +169,14 @@ test_that("rows render in dataframe order", {
   expect_true(regexpr(">AAA<", rendered) < regexpr(">BBB<", rendered))
   expect_true(regexpr(">BBB<", rendered) < regexpr(">CCC<", rendered))
 })
+
+test_that("caption_size must be one of xl, l, m, s", {
+  expect_error(
+    govTable(
+      "bad_size",
+      shinyGovstyle::transport_data_small,
+      "Test",
+      caption_size = "not a size"
+    )
+  )
+})

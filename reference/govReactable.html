@@ -64,6 +64,7 @@ arguments from <code><a href="https://glin.github.io/reactable/reference/reactab
 <span>  highlight <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  borderless <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  min_widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -97,6 +98,17 @@ left-aligned</p></dd>
 <dt id="arg-min-widths">min_widths<a class="anchor" aria-label="anchor" href="#arg-min-widths"></a></dt>
 <dd><p>Customise minimum column width using a list of columns and
 minimum width in pixels</p></dd>
+
+
+<dt id="arg-columns">columns<a class="anchor" aria-label="anchor" href="#arg-columns"></a></dt>
+<dd><p>Customise individual columns, for example to fix the
+number of decimal places shown. Give a named list, where each name
+matches a column in <code>df</code> and each value is built with
+<code><a href="https://glin.github.io/reactable/reference/colDef.html" class="external-link">reactable::colDef()</a></code> (see examples). Any column left out of this list
+is unaffected, and keeps govReactable's usual GOV.UK look. For a column
+you do include, anything you don't set on it, such as sorting or
+alignment, also keeps that same default. Names that don't match a
+column in <code>df</code> are ignored.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -148,6 +160,40 @@ captions to tables.</p>
 <span class="r-in"><span>      Sepal.Width <span class="op">=</span> <span class="fl">75</span>,</span></span>
 <span class="r-in"><span>      Petal.Length <span class="op">=</span> <span class="fl">75</span>,</span></span>
 <span class="r-in"><span>      Petal.Width <span class="op">=</span> <span class="fl">75</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Show one column to a fixed number of decimal places, leaving every</span></span></span>
+<span class="r-in"><span>  <span class="co"># other column and style (sorting, alignment, etc.) untouched</span></span></span>
+<span class="r-in"><span>  <span class="va">sales_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    shop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Shop A"</span>, <span class="st">"Shop B"</span>, <span class="st">"Shop C"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    growth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4.7</span>, <span class="fl">12.34</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">govReactable</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">sales_data</span>,</span></span>
+<span class="r-in"><span>    columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      growth <span class="op">=</span> <span class="fu">reactable</span><span class="fu">::</span><span class="fu"><a href="https://glin.github.io/reactable/reference/colDef.html" class="external-link">colDef</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        format <span class="op">=</span> <span class="fu">reactable</span><span class="fu">::</span><span class="fu"><a href="https://glin.github.io/reactable/reference/colFormat.html" class="external-link">colFormat</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># A more involved example: only `percent` is customised, so `region`</span></span></span>
+<span class="r-in"><span>  <span class="co"># and `count` keep the normal GOV.UK defaults untouched</span></span></span>
+<span class="r-in"><span>  <span class="co"># (counts shown as whole numbers alongside a percentage column fixed</span></span></span>
+<span class="r-in"><span>  <span class="co"># to 1 decimal place)</span></span></span>
+<span class="r-in"><span>  <span class="va">count_pct_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"North"</span>, <span class="st">"South"</span>, <span class="st">"East"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1234</span>, <span class="fl">56</span>, <span class="fl">789</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    percent <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4.7</span>, <span class="fl">12.34</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">govReactable</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">count_pct_data</span>,</span></span>
+<span class="r-in"><span>    right_col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"count"</span>, <span class="st">"percent"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    columns <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      percent <span class="op">=</span> <span class="fu">reactable</span><span class="fu">::</span><span class="fu"><a href="https://glin.github.io/reactable/reference/colDef.html" class="external-link">colDef</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        format <span class="op">=</span> <span class="fu">reactable</span><span class="fu">::</span><span class="fu"><a href="https://glin.github.io/reactable/reference/colFormat.html" class="external-link">colFormat</a></span><span class="op">(</span>digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
 <span class="r-in"><span>    <span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>

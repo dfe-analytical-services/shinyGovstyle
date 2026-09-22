@@ -27,6 +27,13 @@
 
 ## New features
 
+* `govReactable()` gains a `columns` argument for column-specific
+  overrides, such as fixing a column's decimal places with
+  `reactable::colFormat()`. Only the fields you set are applied; any field
+  you leave unset keeps govReactable's GOV.UK default for that column.
+  Previously, passing a `columns` argument through `...` errored with
+  `formal argument "columns" matched by multiple actual arguments`
+  (#243).
 * New `gov_page()` function, a GOV.UK-flavoured wrapper around
   `bslib::page_fluid()`. It sets `<html lang="en">` by default (screen
   readers use this to choose the right pronunciation and voice), adds

@@ -34,8 +34,8 @@ govTable(
 
 - caption_size:
 
-  adjust the size of caption. Options are s, m, l, xl, with l as the
-  default
+  adjust the size of caption. One of `"s"`, `"m"`, `"l"`, `"xl"`, with
+  `"l"` as the default. Any other value throws an error.
 
 - num_col:
 

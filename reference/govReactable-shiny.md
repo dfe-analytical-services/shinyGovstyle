@@ -28,8 +28,8 @@ renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
 
 - caption_size:
 
-  Adjust the size of caption Options are s, m, l, xl, with l as the
-  default
+  Adjust the size of caption. One of `"s"`, `"m"`, `"l"`, `"xl"`, with
+  `"l"` as the default. Any other value throws an error.
 
 - heading_level:
 

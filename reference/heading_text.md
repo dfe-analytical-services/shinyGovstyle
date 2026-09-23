@@ -16,7 +16,8 @@ heading_text(text_input, size = "xl", id, level = 1)
 
 - size:
 
-  Text size using xl, l, m, s. Defaults to xl
+  Text size, one of `"xl"`, `"l"`, `"m"`, `"s"`. Defaults to `"xl"`. Any
+  other value throws an error.
 
 - id:
 

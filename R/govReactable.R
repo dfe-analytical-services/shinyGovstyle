@@ -171,8 +171,8 @@ govReactable <- # nolint
 #'
 #' @param output_table_name Output variable to read from
 #' @param caption Adds a caption to the table as a header
-#' @param caption_size Adjust the size of caption
-#' Options are s, m, l, xl, with l as the default
+#' @param caption_size Adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
+#' `"xl"`, with `"l"` as the default. Any other value throws an error.
 #' @param heading_level The HTML heading level for
 #' the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2"
 #' @param expr An expression that generates a `reactable` widget
@@ -210,6 +210,8 @@ govReactableOutput <- # nolint
     caption_size = "l",
     heading_level = "h2"
   ) {
+    validate_gds_text_size(caption_size, "caption_size")
+
     # Validate heading_level input
     allowed_levels <- c("h2", "h3", "h4", "h5")
     if (!heading_level %in% allowed_levels) {

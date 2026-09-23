@@ -22,8 +22,8 @@ input components this is also the name used to access the value via
 
 \item{caption}{adds a caption to the table as a header}
 
-\item{caption_size}{adjust the size of caption. Options are s, m, l, xl,
-with l as the default}
+\item{caption_size}{adjust the size of caption. One of \code{"s"}, \code{"m"}, \code{"l"},
+\code{"xl"}, with \code{"l"} as the default. Any other value throws an error.}
 
 \item{num_col}{adds numeric class format to these columns}
 

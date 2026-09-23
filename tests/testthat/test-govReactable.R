@@ -157,3 +157,25 @@ test_that("govReactable handles large tables", {
   # The entire dataset is embedded in the payload, not truncated to a page.
   expect_match(html, paste0("row", n), fixed = TRUE)
 })
+
+test_that("govReactableOutput errors on invalid caption_size", {
+  expect_error(
+    govReactableOutput("table", caption = "Test", caption_size = "not a size")
+  )
+})
+
+test_that("caption renders as heading text, defaulting to size l", {
+  output <- govReactableOutput("table", caption = "Table caption")
+  expect_identical(tag_text(output, "govuk-heading-l"), "Table caption")
+})
+
+test_that("caption_size sets the heading size class", {
+  output <- govReactableOutput("table", caption = "Test", caption_size = "m")
+  expect_has_tag(output, "govuk-heading-m")
+})
+
+test_that("heading_level sets the caption's tag name", {
+  output <- govReactableOutput("table", caption = "Test", heading_level = "h3")
+  heading <- find_tag_required(output, "govuk-heading-l")
+  expect_identical(heading$name, "h3")
+})

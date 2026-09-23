@@ -169,3 +169,37 @@ test_that("rows render in dataframe order", {
   expect_true(regexpr(">AAA<", rendered) < regexpr(">BBB<", rendered))
   expect_true(regexpr(">BBB<", rendered) < regexpr(">CCC<", rendered))
 })
+
+test_that("caption_size must be one of xl, l, m, s", {
+  expect_error(
+    govTable(
+      "bad_size",
+      shinyGovstyle::transport_data_small,
+      "Test",
+      caption_size = "not a size"
+    )
+  )
+})
+
+test_that("caption renders as table caption text, defaulting to size l", {
+  table_check <- govTable(
+    "tab1",
+    shinyGovstyle::transport_data_small,
+    "Table caption"
+  )
+  expect_identical(
+    tag_text(table_check, "govuk-table__caption"),
+    "Table caption"
+  )
+  expect_has_tag(table_check, "govuk-table__caption--l")
+})
+
+test_that("caption_size sets the caption modifier class", {
+  table_check <- govTable(
+    "tab1",
+    shinyGovstyle::transport_data_small,
+    "Table caption",
+    caption_size = "m"
+  )
+  expect_has_tag(table_check, "govuk-table__caption--m")
+})

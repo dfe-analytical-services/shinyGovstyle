@@ -1,5 +1,5 @@
 // On click of individual sections
-$(document).on('click', '.govuk-accordion__section', function (e) {
+$(document).on('click', '.govuk-accordion__section-button', function (e) {
 
   // ignore clicks that aren't on the section's header button (e.g. clicks
   // inside the section content, which also bubble up to this handler)

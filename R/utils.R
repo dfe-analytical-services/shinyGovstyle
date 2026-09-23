@@ -39,9 +39,10 @@ govFieldset <- # nolint
     label_size = c("m", "s", "l", "xl"),
     heading_level = NULL
   ) {
-    # If label_size wasn't set, default to "m".
-    if (length(label_size) > 1) {
-      label_size <- label_size[1]
+    # If label_size wasn't set, default to "m"
+    default_label_sizes <- c("m", "s", "l", "xl")
+    if (identical(label_size, default_label_sizes)) {
+      label_size <- default_label_sizes[1]
     }
     validate_gds_text_size(label_size, "label_size")
     if (!is.null(heading_level)) {

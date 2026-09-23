@@ -17,8 +17,27 @@ test_that("validate_gds_text_size uses arg_name in the error message", {
   expect_error(validate_gds_text_size("bad", "label_size"), "label_size")
 })
 
+test_that("govFieldset defaults label_size to m", {
+  fieldset <- govFieldset("id1", "Label", shiny::tags$div())
+  legend <- find_tag_required(fieldset, "govuk-fieldset__legend")
+  expect_identical(
+    htmltools::tagGetAttribute(legend, "class"),
+    "govuk-fieldset__legend govuk-fieldset__legend--m"
+  )
+})
+
 test_that("govFieldset rejects invalid label_size", {
   expect_error(
-    govFieldset("id1", "Label", shiny::tags$div(), label_size = "bad")
+    govFieldset("id1", "Label", shiny::tags$div(), label_size = "bad"),
+    "label_size"
+  )
+  expect_error(
+    govFieldset(
+      "id1",
+      "Label",
+      shiny::tags$div(),
+      label_size = c("m", "bad")
+    ),
+    "label_size"
   )
 })

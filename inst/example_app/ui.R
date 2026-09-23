@@ -1,5 +1,5 @@
 shinyGovstyle::gov_page(
-  theme = bslib::bs_theme(version = 5),
+  theme = bslib::bs_theme(version = 5, brand = FALSE),
   title = "Select Types | shinyGovstyle",
   description = "A showcase of the components available in shinyGovstyle",
   width = demo_width,

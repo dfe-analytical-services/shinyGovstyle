@@ -13,7 +13,13 @@ color: #0b0c0c;
 
 * Replace all instances of colour #1a65a6 with #175892
 
-* Change url links
+* Change image URLs in the upstream CSS
+
+  For example, replace `url(/assets/images/govuk-crest.svg)` with
+  `url(../images/govuk-crest.svg)`. Shiny serves this CSS from
+  `shinyGovstyle/css/`, so the relative URL reaches the copied asset in
+  `shinyGovstyle/images/`. Check other upstream image URLs against the assets
+  copied into `inst/www/`; leave URLs that already resolve correctly alone.
 
 * For accordion need to fix the css by:
 

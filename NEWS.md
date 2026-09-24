@@ -111,6 +111,10 @@
 
 ## Bug fixes
 
+* Updated the bundled GOV.UK Frontend styles, script and icons from 6.1.0 to
+  6.5.1. The package's existing styles and optional font loading are retained.
+* `button_Input(type = "start")` now wraps a rich HTML label in a span so it
+  wraps correctly on narrow screens, following GOV.UK Frontend 6.4.0.
 * `service_navigation()` now syncs the browser tab title with the active
   page by default. Screen readers announce the title on navigation,
   so a static title is an accessibility issue for multi-page dashboards.

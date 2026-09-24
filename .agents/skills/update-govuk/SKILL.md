@@ -69,13 +69,13 @@ running notes of anything a user of a shinyGovstyle app could see, hear or
 interact with (new components, new options or variants, visual or behaviour
 changes, accessibility changes, deprecations and breaking changes) and which
 package functions each one touches. These notes tell you what to expect during
-testing and feed the "changes to be aware of" part of the final report.
+testing and feed the "changes to be aware of" part of the final chat response.
 
-Start a tracked report at `.github/govuk-updates/<version>.md`. Record the base SHA,
-old and target versions, date, release links and downloaded release URL. Preserve
-any existing report when resuming. Keep raw logs, screenshots and downloaded
-archives in a task-specific temporary directory outside the repository and link
-to them in the chat; keep the tracked report readable without those local files.
+Keep running notes in a task-specific temporary directory outside the repository.
+Record the base SHA, old and target versions, date, release links, downloaded
+release URL, decisions and verification there. Keep raw logs, screenshots and
+downloaded archives in the same directory, and link to useful evidence in the
+final chat response. Do not create a tracked upgrade report.
 
 Before editing assets, run the existing unit and showcase tests and inspect the
 unchanged local showcase and deployed baseline using the browser checklist.
@@ -98,7 +98,9 @@ of any differences uncertain.
    checking their ownership and references. Keep applicable licence notices.
 3. Update the stylesheet reference in `R/attachDependency.R`, the pinned version
    in `package.json`, and any other verified versioned asset references. Search
-   for obsolete references, including source maps and font/image URLs.
+   for obsolete references, including source maps and font/image URLs. If source
+   maps are not copied into `inst/www/`, remove the dangling `sourceMappingURL`
+   comments from the CSS and JS files.
 4. Manually reapply each applicable item in `css_changes.md`. For vague instructions
    such as URL changes or font extraction, inspect the existing implementation and
    compare it with the matching pristine old upstream release if needed. Preserve
@@ -109,14 +111,15 @@ of any differences uncertain.
    component bindings; copying an upstream bundle does not mean it is initialised.
    Do not add upstream `initAll()` as a routine upgrade step or double-initialise
    components. Check markup and custom bindings against changed upstream CSS.
-6. Log every substantive edit with its reason and verification in the report.
+6. Note every substantive edit with its reason and verification for the final
+   chat response.
    Keep `css_changes.md` accurate for all edits to the upstream stylesheet. Retain
    the current file organisation and exported R interfaces.
 7. Note anywhere the process didn't go as it has before: a `css_changes.md` entry
    whose target selector or rule no longer exists or has changed shape, an asset
    that moved, was renamed or was removed upstream, a new asset type with no
    obvious home in `inst/www/`, or a step that needed judgement rather than a
-   straight copy. Record what you did and why; these feed the final report.
+   straight copy. Record what you did and why; these feed the final chat response.
 
 ## 4. Test and repair
 
@@ -156,7 +159,7 @@ explicitly recorded rather than claiming a successful upgrade.
 
 ## 5. Stage and report
 
-Finish the tracked report with:
+Give a self-contained report in the final chat response with:
 
 - Versions, branch, base SHA, release/source links and baseline availability.
 - A change log: file/component, change, reason, upstream expectation, verification.
@@ -175,16 +178,16 @@ Finish the tracked report with:
   repairs from section 4, with what was done and anything still unresolved.
   Say explicitly if the update went through the usual process with no surprises.
 
-Review `git diff` and stage only explicit task-owned paths, including the report
-and relevant tests/docs. Never use blanket `git add .` or `git add -A`. Check
+Review `git diff` and stage only explicit task-owned paths, including relevant
+tests/docs. Never use blanket `git add .` or `git add -A`. Check
 `git diff --cached --check`, inspect `git diff --cached` and `git status --short`,
 and verify HEAD still equals the recorded base commit. If concurrent edits make
 ownership unclear, ask rather than staging them.
 
 Leave the changes staged even if some checks remain failed or unavailable, but
-label the result as needing attention rather than ready. Summarise the branch,
-versions, test results, remaining issues and report/evidence locations in the
-triggering chat, then give the "Changes to be aware of" and "Didn't copy across
-smoothly" lists in full so the user doesn't need to open the report. State that
+label the result as needing attention rather than ready. Include the branch,
+versions, test results, remaining issues and evidence locations in the final
+chat response, then give the "Changes to be aware of" and "Didn't copy across
+smoothly" lists in full. State that
 nothing was committed or pushed. Stop only task-owned app/test processes and clean
 up temporary browser state; retain useful evidence through the handoff.

@@ -17,7 +17,7 @@ base_dependencies <- function() {
       name = "stylecss",
       version = version,
       src = c(href = "shinyGovstyle/css"),
-      stylesheet = "govuk-frontend-6.1.0.min.css"
+      stylesheet = "govuk-frontend-6.5.1.min.css"
     ),
     htmltools::htmlDependency(
       name = "width-overrides",

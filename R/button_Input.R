@@ -47,8 +47,17 @@ button_Input <- # nolint
     value <- shiny::restoreInput(id = inputId, default = NULL)
 
     if (type == "start") {
+      label_content <- if (
+        inherits(label, "shiny.tag") ||
+          inherits(label, "shiny.tag.list") ||
+          inherits(label, "html")
+      ) {
+        shiny::tags$span(label)
+      } else {
+        label
+      }
       gov_button <- shiny::tags$button(
-        label,
+        label_content,
         id = inputId,
         class = paste0(class_input, " action-button"),
         `data-val` = value,

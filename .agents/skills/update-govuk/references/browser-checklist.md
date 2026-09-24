@@ -76,6 +76,6 @@ and retest result. Classify it as expected upstream change, upgrade regression,
 pre-existing issue, environment/deployment difference or uncertain attribution.
 An expected upstream change still needs assessment against accessibility guardrails.
 
-Include browser coverage gaps and baseline availability in the tracked report and
-chat summary. Never treat an unreachable deployment or an unperformed browser
+Include browser coverage gaps and baseline availability in the final chat response.
+Never treat an unreachable deployment or an unperformed browser
 scenario as a successful comparison.

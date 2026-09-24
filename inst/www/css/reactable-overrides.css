@@ -2,7 +2,7 @@
  * Reactable overrides.
  *
  * These custom rules previously lived appended to the end of the vendored
- * govuk-frontend-6.1.0.min.css. They've been moved here so they survive
+ * GOV.UK Frontend stylesheet. They've been moved here so they survive
  * future GOV.UK Frontend upgrades untouched, alongside the other per-component
  * override files (header-overrides.css, sr-only.css, font.css).
  *

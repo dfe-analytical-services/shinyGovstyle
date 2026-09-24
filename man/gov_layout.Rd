@@ -46,9 +46,12 @@ gov_main_layout(
 \code{inputID} moves to \code{gov_main_layout(inputID = )}, \code{size} to
 \code{gov_box(size = )} and \code{width} to \code{gov_main_layout(width = )}. The inner
 \verb{<inputID>_sub} element is not recreated, so wrap the content in
-\code{shiny::tags$div(id = ...)} if your own CSS or JavaScript targets it. Use
-one \code{gov_main_layout()} per page; where \code{gov_layout()} was repeated inside
-tab panels, use \code{gov_row(gov_box(...))} inside each panel instead.
+\code{shiny::tags$div(id = ...)} if your own CSS or JavaScript targets it. With
+the default \code{size = "full"} you don't need \code{gov_row()} or \code{gov_box()} at
+all: put the content straight into \code{gov_main_layout(...)}. Use one
+\code{gov_main_layout()} per page; where \code{gov_layout()} was repeated inside tab
+panels, put the content directly inside each panel instead (wrapped in
+\code{gov_row(gov_box(..., size = ))} only if you set a narrower \code{size}).
 }
 \examples{
 ui <- shinyGovstyle::gov_page(
@@ -58,11 +61,7 @@ ui <- shinyGovstyle::gov_page(
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        shinyGovstyle::heading_text("Page heading", size = "l")
-      )
-    )
+    shinyGovstyle::heading_text("Page heading", size = "l")
   ),
   shinyGovstyle::footer(full = TRUE)
 )

@@ -22,7 +22,7 @@ shinyGovstyle provides a set of layout functions that produce the HTML structure
 Every app starts with **`gov_page()`**, the outer wrapper for the whole page. Inside it go:
 
 - **Page-level components** (`header()`, `footer()`, `phase_banner()`, `cookieBanner()`, `skip_to_main()`, and `service_navigation()`) form the frame of the page that sits outside the main content area.
-- **Content layout functions** (`gov_main_layout()`, `gov_row()`, and `gov_box()`) structure content within the main content area.
+- **Content layout functions**: `gov_main_layout()` holds the main content area, and `gov_row()` and `gov_box()` add grid columns inside it when you need them.
 
 ---
 
@@ -72,32 +72,28 @@ gov_page(
 
 ### Content width vs page width {#content-width}
 
-`gov_page(width = ...)` only sets the *outer* ceiling: how wide the page frame is allowed to get. It's a separate thing from how wide any one piece of *content* looks, which is controlled by `gov_row()`/`gov_box(size = ...)` (see [The primary layout system](#the-primary-layout-system) below).
+`gov_page(width = ...)` only sets the *outer* ceiling: how wide the page frame is allowed to get. It's a separate thing from how wide any one piece of *content* looks, which you control on the content itself.
 
-**Recommended setup:** for a dashboard-style app, set `gov_page(width = "full")` so wide tables, charts and value boxes get the room they need. Then, for any text-heavy page or section within that same app (a cookies page, a user guide, an accessibility statement), wrap its content in `gov_box(size = "two-thirds")`, GOV.UK's standard reading-width column, rather than letting it stretch the full width of the page.
+**Recommended setup:** for a dashboard-style app, set `gov_page(width = "full")` so wide tables, charts and value boxes get the room they need. Then, for any text-heavy page or section within that same app (a cookies page, a user guide, an accessibility statement), wrap its content in a `div` with GOV.UK's `govuk-!-width-two-thirds` class, rather than letting it stretch the full width of the page. The class works on its own, without the grid, and goes back to full width on small screens.
 
-> **Avoid full-width body text.** GOV.UK's own [Design System guidance](https://design-system.service.gov.uk/styles/layout/) recommends keeping body text to a two-thirds-width column even on a wide page, so lines don't get so long they're hard to read (aim for no more than about 75 characters per line). Rendering paragraphs in a `gov_box(size = "full")` on a `"full"`-width page produces lines that stretch the entire screen: technically valid, but noticeably harder to read. Reserve full width for content that actually benefits from the extra room, like a wide table.
+> **Avoid full-width body text.** GOV.UK's own [Design System guidance](https://design-system.service.gov.uk/styles/layout/) recommends keeping body text to a two-thirds width even on a wide page, so lines don't get so long they're hard to read (aim for no more than about 75 characters per line). Paragraphs on a `"full"`-width page with no width set produce lines that stretch the entire screen: technically valid, but noticeably harder to read. Reserve full width for content that actually benefits from the extra room, like a wide table.
 
-In practice this means: pick a page `width` for the *space you need* (e.g. `"full"` for a dashboard with wide tables), then use `gov_box(size = ...)` around each section of content to control how wide *that section* looks, independently of the page:
+In practice this means: pick a page `width` for the *space you need* (e.g. `"full"` for a dashboard with wide tables), then narrow the sections that need it, independently of the page:
 
 ```{r, eval = FALSE}
 gov_page(
   width = "full",
   gov_main_layout(
-    gov_row(
-      gov_box(
-        size = "two-thirds",
-        gov_text("Readable body text stays narrow, even on a wide page.")
-      )
+    shiny::tags$div(
+      class = "govuk-!-width-two-thirds",
+      gov_text("Readable body text stays narrow, even on a wide page.")
     ),
-    gov_row(
-      gov_box(size = "full", govTable(my_wide_data))
-    )
+    govTable(my_wide_data)
   )
 )
 ```
 
-The example showcase app does exactly this: its Cookies tab sits inside a `gov_box(size = "two-thirds")`, so it reads as a normal, narrow text page even though the app itself uses `gov_page(width = "full")`.
+The example showcase app applies the same idea: its Cookies tab sits in a two-thirds column, so it reads as a normal, narrow text page even though the app itself uses `gov_page(width = "full")`.
 
 ---
 
@@ -231,9 +227,38 @@ The `id` (default `"main"`) is applied directly to the `<main>` element, which i
 
 ---
 
-## The primary layout system
+## Laying out content
 
-Inside `gov_main_layout()`, content is structured using a three-function grid system: `gov_row()`, `gov_box()`, and optionally `gov_text()`.
+Content goes straight into `gov_main_layout()`. Items stack one below the other, so a page that is just a heading, some text and a table needs no extra layout functions:
+
+```{r, eval = FALSE}
+gov_main_layout(
+  heading_text("Page title", size = "l"),
+  gov_text("Some introductory text."),
+  govTable(my_data)
+)
+```
+
+### A simple text page
+
+For a page that is mostly text, use the standard page width and keep the text to two-thirds of it, as the [GOV.UK layout guidance](https://design-system.service.gov.uk/styles/layout/) recommends for readable line lengths. GOV.UK's `govuk-!-width-two-thirds` class does this without the grid, and goes back to full width on small screens:
+
+```{r, eval = FALSE}
+gov_page(
+  width = "standard",
+  gov_main_layout(
+    shiny::tags$div(
+      class = "govuk-!-width-two-thirds",
+      heading_text("Cookies", size = "l"),
+      gov_text("This page explains how we use cookies.")
+    )
+  )
+)
+```
+
+### Columns with `gov_row()` and `gov_box()`
+
+Reach for the grid only when you need **side-by-side columns**, or a section that should sit in a grid column of a set width. It's a two-function system: `gov_row()` holds the columns, and `gov_box()` is each column.
 
 ```
 gov_main_layout()
@@ -244,7 +269,7 @@ gov_main_layout()
         └── [your content]
 ```
 
-### `gov_row()`
+#### `gov_row()`
 
 Creates a GOV.UK grid row. You can have multiple rows inside `gov_main_layout()`, each stacked vertically.
 
@@ -259,7 +284,7 @@ gov_main_layout(
 )
 ```
 
-### `gov_box()`
+#### `gov_box()`
 
 Creates a column within a row. The `size` argument controls the column width using GOV.UK Frontend's grid classes:
 
@@ -291,18 +316,7 @@ gov_main_layout(
 )
 ```
 
-For a simple single-column layout, use `size = "full"`:
-
-```{r, eval = FALSE}
-gov_main_layout(
-  gov_row(
-    gov_box(
-      size = "full",
-      heading_text("Page title", size = "l")
-    )
-  )
-)
-```
+A single full-width box adds nothing over putting the content directly in `gov_main_layout()`, so leave the grid out in that case.
 
 ### `gov_text()`
 
@@ -477,26 +491,22 @@ ui <- gov_page(
 
       shiny::tabPanel(
         "About", value = "nav_about",
-        gov_row(
-          gov_box(
-            # Text-only page: two-thirds keeps it readable even though the
-            # app itself uses gov_page(width = "full"). See "Content width
-            # vs page width" above.
-            size = "two-thirds",
-            heading_text("About this dashboard", size = "l"),
-            gov_text("This page describes the dashboard.")
-          )
+        # Text-only page: two-thirds keeps it readable even though the
+        # app itself uses gov_page(width = "full"). See "Content width
+        # vs page width" above.
+        shiny::tags$div(
+          class = "govuk-!-width-two-thirds",
+          heading_text("About this dashboard", size = "l"),
+          gov_text("This page describes the dashboard.")
         )
       ),
 
       shiny::tabPanel(
         "Accessibility statement", value = "accessibility_panel",
-        gov_row(
-          gov_box(
-            size = "two-thirds",
-            heading_text("Accessibility statement", size = "l"),
-            gov_text("This page describes the accessibility of the dashboard.")
-          )
+        shiny::tags$div(
+          class = "govuk-!-width-two-thirds",
+          heading_text("Accessibility statement", size = "l"),
+          gov_text("This page describes the accessibility of the dashboard.")
         )
       )
     )

@@ -23,17 +23,13 @@
 #'     inputId = "banner", type = "beta", 'This is a new service'
 #'   ),
 #'   shinyGovstyle::gov_main_layout(
-#'     shinyGovstyle::gov_row(
-#'       shinyGovstyle::gov_box(
-#'         # Error text box
-#'         shinyGovstyle::text_Input(
-#'           inputId = "eventId",
-#'           label = "Event Name",
-#'           error = TRUE),
-#'         # Button to trigger error
-#'         shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
-#'       )
-#'     )
+#'     # Error text box
+#'     shinyGovstyle::text_Input(
+#'       inputId = "eventId",
+#'       label = "Event Name",
+#'       error = TRUE),
+#'     # Button to trigger error
+#'     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
 #'   ),
 #'   shinyGovstyle::footer(full = TRUE)
 #' )

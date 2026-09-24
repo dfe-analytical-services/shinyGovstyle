@@ -32,12 +32,8 @@ ui <- shinyGovstyle::gov_page(
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        shinyGovstyle::gov_tag("tag1", "Complete"),
-        shinyGovstyle::gov_tag("tag2", "Incomplete", "red")
-      )
-    )
+    shinyGovstyle::gov_tag("tag1", "Complete"),
+    shinyGovstyle::gov_tag("tag2", "Incomplete", "red")
   ),
   shinyGovstyle::footer(full = TRUE)
 )

@@ -100,13 +100,8 @@ ui <- gov_page(
     label = "This is a new service."
   ),
   gov_main_layout(
-    gov_row(
-      gov_box(
-        size = "two-thirds",
-        heading_text("Welcome", size = "l", level = 1),
-        gov_text("Select a report from the navigation above.")
-      )
-    )
+    heading_text("Welcome", size = "l", level = 1),
+    gov_text("Select a report from the navigation above.")
   ),
   footer()
 )

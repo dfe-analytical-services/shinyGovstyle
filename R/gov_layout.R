@@ -22,9 +22,12 @@
 #' `inputID` moves to `gov_main_layout(inputID = )`, `size` to
 #' `gov_box(size = )` and `width` to `gov_main_layout(width = )`. The inner
 #' `<inputID>_sub` element is not recreated, so wrap the content in
-#' `shiny::tags$div(id = ...)` if your own CSS or JavaScript targets it. Use
-#' one `gov_main_layout()` per page; where `gov_layout()` was repeated inside
-#' tab panels, use `gov_row(gov_box(...))` inside each panel instead.
+#' `shiny::tags$div(id = ...)` if your own CSS or JavaScript targets it. With
+#' the default `size = "full"` you don't need `gov_row()` or `gov_box()` at
+#' all: put the content straight into `gov_main_layout(...)`. Use one
+#' `gov_main_layout()` per page; where `gov_layout()` was repeated inside tab
+#' panels, put the content directly inside each panel instead (wrapped in
+#' `gov_row(gov_box(..., size = ))` only if you set a narrower `size`).
 #'
 #' @param inputID ID of the main div. Defaults to "main"
 #' @param size Layout of the page. Optional are full, one-half, two-thirds,
@@ -43,11 +46,7 @@
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::gov_main_layout(
-#'     shinyGovstyle::gov_row(
-#'       shinyGovstyle::gov_box(
-#'         shinyGovstyle::heading_text("Page heading", size = "l")
-#'       )
-#'     )
+#'     shinyGovstyle::heading_text("Page heading", size = "l")
 #'   ),
 #'   shinyGovstyle::footer(full = TRUE)
 #' )
@@ -70,12 +69,13 @@ gov_layout <- function(
     details = c(
       i = paste(
         "Pass `size` to `gov_box()`, and `inputID` and `width` to",
-        "`gov_main_layout()`. The inner `<inputID>_sub` element is not",
-        "recreated."
+        "`gov_main_layout()`. With `size = \"full\"` (the default) you can",
+        "drop `gov_row()` and `gov_box()` and pass the content directly.",
+        "The inner `<inputID>_sub` element is not recreated."
       ),
       i = paste(
-        "Use one `gov_main_layout()` per page; inside tab panels use",
-        "`gov_row(gov_box(...))`."
+        "Use one `gov_main_layout()` per page; inside tab panels put the",
+        "content directly in each panel."
       ),
       i = "`gov_layout()` will be removed in shinyGovstyle 1.0.0."
     )

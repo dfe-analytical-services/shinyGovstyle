@@ -50,19 +50,15 @@ ui <- shinyGovstyle::gov_page(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        shinyGovstyle::input_field(
-          legend ="List of three text boxes in a field",
-          labels = c("Field 1", "Field 2", "Field 3"),
-          inputIds = c("field1", "field2", "field3"),
-          widths = c(30,20,10),
-          error = TRUE
-        ),
+    shinyGovstyle::input_field(
+      legend ="List of three text boxes in a field",
+      labels = c("Field 1", "Field 2", "Field 3"),
+      inputIds = c("field1", "field2", "field3"),
+      widths = c(30,20,10),
+      error = TRUE
+    ),
        # Button to trigger error
        shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
-      )
-    )
   ),
   shinyGovstyle::footer(full = TRUE)
 )

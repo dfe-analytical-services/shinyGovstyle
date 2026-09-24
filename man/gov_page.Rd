@@ -68,11 +68,7 @@ ui <- shinyGovstyle::gov_page(
     service_name = "My dashboard"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        shinyGovstyle::heading_text("Welcome", size = "l", level = 1)
-      )
-    )
+    shinyGovstyle::heading_text("Welcome", size = "l", level = 1)
   ),
   shinyGovstyle::footer()
 )

@@ -18,14 +18,10 @@
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::gov_main_layout(
-#'     shinyGovstyle::gov_row(
-#'       shinyGovstyle::gov_box(
-#'         error_summary(
-#'           inputId = "errorId",
-#'           error_title = "Error title",
-#'           error_list = c("error item1", "error item2")
-#'         )
-#'       )
+#'     error_summary(
+#'       inputId = "errorId",
+#'       error_title = "Error title",
+#'       error_list = c("error item1", "error item2")
 #'     )
 #'   ),
 #'   shinyGovstyle::button_Input("btn1", "Change error summary"),

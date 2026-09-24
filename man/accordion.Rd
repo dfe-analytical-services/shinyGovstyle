@@ -41,37 +41,33 @@ ui <- shinyGovstyle::gov_page(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        accordion(
-          "acc1",
-          c(
-            "Writing well for the web",
-            "Writing well for specialists",
-            "Know your audience",
-            "How people read"
+    accordion(
+      "acc1",
+      c(
+        "Writing well for the web",
+        "Writing well for specialists",
+        "Know your audience",
+        "How people read"
+      ),
+      list(
+        "This is the content for Writing well for the web.",
+        "This is the content for Writing well for specialists.",
+        "This is the content for Know your audience.",
+        # Rich content: a paragraph followed by a bulleted list
+        # with a link
+        shiny::tagList(
+          shinyGovstyle::gov_text(
+            "People read in different ways, including:"
           ),
-          list(
-            "This is the content for Writing well for the web.",
-            "This is the content for Writing well for specialists.",
-            "This is the content for Know your audience.",
-            # Rich content: a paragraph followed by a bulleted list
-            # with a link
-            shiny::tagList(
-              shinyGovstyle::gov_text(
-                "People read in different ways, including:"
-              ),
-              shinyGovstyle::gov_list(
-                list(
-                  "scanning for key words",
-                  shiny::tags$a(
-                    href = "https://www.gov.uk",
-                    "following links"
-                  )
-                ),
-                style = "bullet"
+          shinyGovstyle::gov_list(
+            list(
+              "scanning for key words",
+              shiny::tags$a(
+                href = "https://www.gov.uk",
+                "following links"
               )
-            )
+            ),
+            style = "bullet"
           )
         )
       )

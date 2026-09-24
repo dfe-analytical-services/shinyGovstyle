@@ -34,23 +34,18 @@ ui <- shinyGovstyle::gov_page(
     logo_alt_text = "Ministry of Justice logo"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        size = "full",
-        select_Input(
-          inputId = "sorter",
-          label = "Sort by",
-          select_text = c(
-            "Recently published",
-            "Recently updated",
-            "Most views",
-            "Most comments"
-          ),
-          select_value = c("published", "updated", "view", "comments")
-        ),
-        shinyGovstyle::gov_text("Placeholder text")
-      )
-    )
+    select_Input(
+      inputId = "sorter",
+      label = "Sort by",
+      select_text = c(
+        "Recently published",
+        "Recently updated",
+        "Most views",
+        "Most comments"
+      ),
+      select_value = c("published", "updated", "view", "comments")
+    ),
+    shinyGovstyle::gov_text("Placeholder text")
   ),
   shinyGovstyle::footer(full = TRUE)
 )

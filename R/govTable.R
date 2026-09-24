@@ -22,17 +22,13 @@
 #' @examples
 #' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::gov_main_layout(
-#'     shinyGovstyle::gov_row(
-#'       shinyGovstyle::gov_box(
-#'         shinyGovstyle::govTable(
-#'           "tab1",
-#'           shinyGovstyle::transport_data_small,
-#'           "Test",
-#'           "l",
-#'           num_col = c(2,3),
-#'           width_overwrite = c("one-half", "one-quarter", "one-quarter")
-#'         )
-#'       )
+#'     shinyGovstyle::govTable(
+#'       "tab1",
+#'       shinyGovstyle::transport_data_small,
+#'       "Test",
+#'       "l",
+#'       num_col = c(2,3),
+#'       width_overwrite = c("one-half", "one-quarter", "one-quarter")
 #'     )
 #'   )
 #' )

@@ -54,11 +54,7 @@ ui <- shinyGovstyle::gov_page(
     logo="shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        shinyGovstyle::gov_summary("sumID", headers, info, action = FALSE)
-      )
-    )
+    shinyGovstyle::gov_summary("sumID", headers, info, action = FALSE)
   ),
   shinyGovstyle::footer(full = TRUE)
 )

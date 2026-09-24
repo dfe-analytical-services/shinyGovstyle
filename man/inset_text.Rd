@@ -33,22 +33,18 @@ ui <- shinyGovstyle::gov_page(
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        shinyGovstyle::inset_text(
-          inputId = "note",
-          content = paste(
-            "It can take up to 8 weeks to register a lasting power of",
-            "attorney if there are no mistakes in the application."
-          )
-        ),
-        shinyGovstyle::inset_text(
-          inputId = "note-rich",
-          content = shiny::tagList(
-            shiny::tags$b("Important: "),
-            "you can also pass tag objects."
-          )
-        )
+    shinyGovstyle::inset_text(
+      inputId = "note",
+      content = paste(
+        "It can take up to 8 weeks to register a lasting power of",
+        "attorney if there are no mistakes in the application."
+      )
+    ),
+    shinyGovstyle::inset_text(
+      inputId = "note-rich",
+      content = shiny::tagList(
+        shiny::tags$b("Important: "),
+        "you can also pass tag objects."
       )
     )
   ),

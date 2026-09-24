@@ -185,10 +185,7 @@ When `service_name` is supplied the title is composed as `"<page_title> | <servi
 A wrapper that produces a `<p class="govuk-body">` paragraph element. Use it when you want to add body text with correct GOV.UK styling without writing raw tag calls.
 
 ```{r, eval = FALSE}
-gov_box(
-  size = "two-thirds",
-  gov_text("This is a paragraph of body text.")
-)
+gov_text("This is a paragraph of body text.")
 ```
 
 ---

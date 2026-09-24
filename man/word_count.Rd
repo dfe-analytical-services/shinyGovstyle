@@ -36,18 +36,14 @@ ui <- shinyGovstyle::gov_page(
     "Justice", "", logo = "shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        shinyGovstyle::text_area_Input(
-          inputId = "text_area",
-          label = "Can you provide more detail?",
-          hint_label = paste(
-            "Do not include personal or financial information,",
-            "like your National Insurance number or credit card details."
-          ),
-          word_limit = 300
-        )
-      )
+    shinyGovstyle::text_area_Input(
+      inputId = "text_area",
+      label = "Can you provide more detail?",
+      hint_label = paste(
+        "Do not include personal or financial information,",
+        "like your National Insurance number or credit card details."
+      ),
+      word_limit = 300
     )
   ),
   shinyGovstyle::footer(TRUE)

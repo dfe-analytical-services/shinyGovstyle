@@ -63,8 +63,10 @@ mod_width_toggle_ui <- function(id, initial = "full") {
         background: transparent;
         color: var(--govuk-link-active-colour, #0b0c0c);
       }
-      .shinygovstyle-width-toggle .shinygovstyle-width-toggle__button[aria-pressed=\"true\"],
-      .shinygovstyle-width-toggle .shinygovstyle-width-toggle__button[aria-pressed=\"true\"]:hover {
+      .shinygovstyle-width-toggle
+        .shinygovstyle-width-toggle__button[aria-pressed=\"true\"],
+      .shinygovstyle-width-toggle
+        .shinygovstyle-width-toggle__button[aria-pressed=\"true\"]:hover {
         color: var(--govuk-text-colour, #0b0c0c);
         text-decoration: none;
       }

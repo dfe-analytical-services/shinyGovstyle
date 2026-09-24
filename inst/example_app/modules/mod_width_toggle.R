@@ -1,44 +1,37 @@
-# A demo-only control that previews shinyGovstyle::gov_page()'s `width`
-# option live. This is NOT a shinyGovstyle package feature: gov_page(width =
-# ...) is a static, render-time argument, not something end users switch in a
-# real app. This module fakes a live switch purely for the showcase, by
-# flipping the same data-govuk-page-width attribute the package's own CSS
-# already keys off (see inst/www/css/width-overrides.css).
+# A demo-only control that previews shinyGovstyle::gov_page()'s width
+# option live. This is not a package feature: gov_page(width = ...) is a
+# render-time argument. The showcase changes the data-govuk-page-width
+# attribute used by the package's width CSS.
 #
-# The toggle's look is adapted from GOV.UK's "Language navigation" component
-# (https://design-system.service.gov.uk/components/language-navigation/),
-# which is still a Trial component and isn't in shinyGovstyle's vendored
-# GOV.UK Frontend CSS. The markup/CSS below were copied from the live
-# rendered component and renamed from govuk-language-navigation* to
-# shinygovstyle-width-toggle*, since this isn't the real component and this
-# CSS is app-only, not shipped as part of the package.
+# These are toggle buttons rather than navigation links because they change
+# the appearance of the current page. The styling is local to the showcase.
 
-mod_width_toggle_ui <- function(id) {
+width_tiers <- c(
+  full = "Full",
+  "three-quarters" = "Three quarters",
+  standard = "Standard"
+)
+
+mod_width_toggle_ui <- function(id, initial = "full") {
   shiny::tagList(
     shiny::tags$style(shiny::HTML(
       "
       .shinygovstyle-width-toggle {
-        font-family: \"GDS Transport\", arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        font-weight: 400;
-        font-size: 1.1875rem;
-        line-height: 1.31579;
-        margin-bottom: 20px;
-        color: var(--govuk-text-colour, #0b0c0c);
-      }
-      .shinygovstyle-width-toggle__list {
         display: inline-flex;
         flex-wrap: wrap;
         row-gap: 10px;
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
+        font-family: \"GDS Transport\", arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        font-size: 1.1875rem;
+        line-height: 1.31579;
+        margin-bottom: 10px;
+        color: var(--govuk-text-colour, #0b0c0c);
       }
-      .shinygovstyle-width-toggle__list-item {
+      .shinygovstyle-width-toggle__item {
         display: flex;
         align-items: center;
       }
-      .shinygovstyle-width-toggle__list-item:not(:last-child)::after {
+      .shinygovstyle-width-toggle__item:not(:last-child)::after {
         content: \"\";
         display: block;
         height: 1em;
@@ -46,93 +39,92 @@ mod_width_toggle_ui <- function(id) {
         margin-left: 10px;
         border-right: 1px solid var(--govuk-border-colour, #cecece);
       }
-      .shinygovstyle-width-toggle__link {
-        font-family: \"GDS Transport\", arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
+      .shinygovstyle-width-toggle .shinygovstyle-width-toggle__button {
+        appearance: none;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        color: var(--govuk-link-colour, #1a65a6);
+        cursor: pointer;
+        font: inherit;
         text-decoration: underline max(1px, 0.0625rem);
         text-underline-offset: 0.1578em;
       }
-      .shinygovstyle-width-toggle__link:hover {
+      .shinygovstyle-width-toggle .shinygovstyle-width-toggle__button:hover {
+        background: transparent;
+        color: var(--govuk-link-hover-colour, #0f385c);
         text-decoration-thickness: max(3px, 0.1875rem, 0.12em);
         text-decoration-skip-ink: none;
       }
-      .shinygovstyle-width-toggle__link:focus {
-        outline: 3px solid transparent;
-        background-color: var(--govuk-focus-colour, #fd0);
-        box-shadow: 0 -2px var(--govuk-focus-colour, #fd0),
-          0 4px var(--govuk-focus-text-colour, #0b0c0c);
-        text-decoration: none;
-      }
-      .shinygovstyle-width-toggle__link:link {
-        color: var(--govuk-link-colour, #1a65a6);
-      }
-      .shinygovstyle-width-toggle__link:visited {
-        color: var(--govuk-link-visited-colour, #54319f);
-      }
-      .shinygovstyle-width-toggle__link:hover {
-        color: var(--govuk-link-hover-colour, #0f385c);
-      }
-      .shinygovstyle-width-toggle__link:active {
+      .shinygovstyle-width-toggle .shinygovstyle-width-toggle__button:active {
+        background: transparent;
         color: var(--govuk-link-active-colour, #0b0c0c);
       }
-      .shinygovstyle-width-toggle__link:focus {
+      .shinygovstyle-width-toggle
+        .shinygovstyle-width-toggle__button[aria-pressed=\"true\"],
+      .shinygovstyle-width-toggle
+        .shinygovstyle-width-toggle__button[aria-pressed=\"true\"]:hover {
+        color: var(--govuk-text-colour, #0b0c0c);
+        text-decoration: none;
+      }
+      .shinygovstyle-width-toggle .shinygovstyle-width-toggle__button:focus {
+        outline: 3px solid transparent;
+        background: var(--govuk-focus-colour, #fd0);
+        box-shadow: 0 -2px var(--govuk-focus-colour, #fd0),
+          0 4px var(--govuk-focus-text-colour, #0b0c0c);
         color: var(--govuk-focus-text-colour, #0b0c0c);
+        text-decoration: none;
+      }
+      @media (forced-colors: active) {
+        .shinygovstyle-width-toggle .shinygovstyle-width-toggle__button:focus {
+          outline-color: Highlight;
+        }
       }
       "
     )),
-    shiny::uiOutput(shiny::NS(id, "toggle"))
+    shiny::tags$div(
+      id = shiny::NS(id, "control"),
+      class = "shinygovstyle-width-toggle",
+      role = "group",
+      `aria-label` = "Preview page width",
+      lapply(names(width_tiers), function(tier) {
+        shiny::tags$span(
+          class = "shinygovstyle-width-toggle__item",
+          shiny::actionButton(
+            inputId = shiny::NS(id, paste0("set_", tier)),
+            label = width_tiers[[tier]],
+            class = "shinygovstyle-width-toggle__button",
+            `aria-pressed` = if (identical(tier, initial)) "true" else "false"
+          )
+        )
+      })
+    )
   )
 }
 
-mod_width_toggle_server <- function(id, initial = "full") {
+mod_width_toggle_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
-    tiers <- c(
-      full = "Full",
-      "three-quarters" = "Three quarters",
-      standard = "Standard"
-    )
-    current <- shiny::reactiveVal(initial)
-
-    output$toggle <- shiny::renderUI({
-      active <- current()
-
-      items <- lapply(names(tiers), function(tier) {
-        label <- tiers[[tier]]
-        content <- if (identical(tier, active)) {
-          shiny::tags$span(
-            class = "shinygovstyle-width-toggle__text",
-            `aria-current` = "true",
-            label
-          )
-        } else {
-          shiny::actionLink(
-            inputId = session$ns(paste0("set_", tier)),
-            label = label,
-            class = "shinygovstyle-width-toggle__link"
-          )
-        }
-        shiny::tags$li(class = "shinygovstyle-width-toggle__list-item", content)
-      })
-
-      shiny::tags$nav(
-        class = "shinygovstyle-width-toggle",
-        `aria-label` = "Page width",
-        shiny::tags$ul(class = "shinygovstyle-width-toggle__list", items)
-      )
-    })
-
-    # One observer per tier (lapply, not a for loop, so each closure keeps
-    # its own copy of `tier` rather than all three sharing the loop's final
-    # value).
-    lapply(names(tiers), function(tier) {
+    # Keep the buttons in place so the clicked button retains keyboard focus.
+    lapply(names(width_tiers), function(tier) {
       shiny::observeEvent(input[[paste0("set_", tier)]], {
-        current(tier)
         shinyjs::runjs(sprintf(
           paste0(
-            "document.querySelector('[data-govuk-page-width]')",
-            ".setAttribute('data-govuk-page-width', '%s');"
+            "(function () {",
+            "var page = document.querySelector('[data-govuk-page-width]');",
+            "var group = document.getElementById('%s');",
+            "if (!page || !group) return;",
+            "page.setAttribute('data-govuk-page-width', '%s');",
+            "group.querySelectorAll('button').forEach(function (button) {",
+            "button.setAttribute('aria-pressed', String(button.id === '%s'));",
+            "});",
+            "})();"
           ),
-          tier
+          session$ns("control"),
+          tier,
+          session$ns(paste0("set_", tier))
         ))
       })
     })

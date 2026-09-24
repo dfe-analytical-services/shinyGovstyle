@@ -1,13 +1,14 @@
 ---
 name: update-govuk
-description: Update shinyGovstyle's precompiled GOV.UK Frontend assets using the existing manual process, review release notes, repair upgrade regressions, test the showcase, and leave changes staged on a local branch without committing. Use when asked to perform a GOV.UK Frontend upgrade, not for an assessment alone.
+description: Update shinyGovstyle's precompiled GOV.UK Frontend assets using the existing manual process, repair upgrade regressions, test the showcase, and leave changes staged on a local branch without committing, then report upstream changes worth knowing about and anything that couldn't be copied across as smoothly as usual. Use when asked to perform a GOV.UK Frontend upgrade.
 ---
 
 # Update GOV.UK Frontend
 
 Follow the existing asset-copying and manual CSS-editing process. Do not introduce
 a Sass build, asset transformation pipeline, or styling refactor as part of this
-skill. Do not commit, push, deploy, create a PR, or send messages outside this chat.
+skill. Do not commit, push, deploy, create a PR, open issues, or send messages
+outside this chat.
 
 ## Invocation and sources of truth
 
@@ -34,16 +35,25 @@ skill. Do not commit, push, deploy, create a PR, or send messages outside this c
    explain the conflict and ask the user how to proceed before modifying files.
 2. Locate Git, R/Rscript, Air, the contributing guide's R tools, Pandoc and a
    Chromium browser with available automation tools. Discover executable locations
-   rather than hard-coding a maintainer's paths. Report missing tools; never count
-   an unavailable check as passed. Continue independent checks where possible.
+   rather than hard-coding a maintainer's paths. Record the R version, locale and
+   relevant environment variables alongside the tool versions. Report missing
+   tools; never count an unavailable check as passed. Continue independent checks
+   where possible.
 3. Fetch `origin/main`; if it cannot be refreshed, report the blocker instead of
    silently using an old ref. Record its full commit SHA. Inspect version metadata
    and asset references at that commit, including `package.json`,
    `R/attachDependency.R` and `inst/www/`. Investigate any version disagreement.
 4. Use the user's exact target version, or resolve the latest stable upstream
-   release live. Exclude prereleases unless explicitly requested. If the installed
-   version already matches, report that no upgrade is needed without creating a
-   branch. Ask before treating an older target as a downgrade.
+   release from GitHub's live REST endpoint
+   `https://api.github.com/repos/alphagov/govuk-frontend/releases/latest`. Verify
+   that `draft` and `prerelease` are both false, and record the tag, publication
+   timestamp, release URL and asset URL returned by the API. A search result,
+   cached releases page or package-manager index is supporting evidence only and
+   must not be the version authority. If the live endpoint is unavailable, report
+   the blocker or uncertainty rather than silently choosing a cached version.
+   Exclude prereleases unless explicitly requested. If the installed version
+   already matches, report that no upgrade is needed without creating a branch.
+   Ask before treating an older target as a downgrade.
 5. Create `update/govuk-<version>` from the refreshed `origin/main` in the current
    checkout, with `<version>` being the release number without a leading `v`.
    Use `git switch --no-track -c <branch> origin/main`. Never use `-C` or overwrite
@@ -52,10 +62,14 @@ skill. Do not commit, push, deploy, create a PR, or send messages outside this c
 
 ## 2. Review upstream and record the baseline
 
-Read every intervening release note, including breaking changes, migrations,
-accessibility changes and new components. Link each relevant change to affected
-package components. Review new components for potential Shiny use, but recommend
-them rather than adding new exports automatically.
+Read every release note after the installed version up to and including the
+target, using the GitHub releases API (`/repos/alphagov/govuk-frontend/releases`,
+paginated). Include patch releases; they often carry accessibility fixes. Keep
+running notes of anything a user of a shinyGovstyle app could see, hear or
+interact with (new components, new options or variants, visual or behaviour
+changes, accessibility changes, deprecations and breaking changes) and which
+package functions each one touches. These notes tell you what to expect during
+testing and feed the "changes to be aware of" part of the final report.
 
 Start a tracked report at `.github/govuk-updates/<version>.md`. Record the base SHA,
 old and target versions, date, release links and downloaded release URL. Preserve
@@ -98,6 +112,11 @@ of any differences uncertain.
 6. Log every substantive edit with its reason and verification in the report.
    Keep `css_changes.md` accurate for all edits to the upstream stylesheet. Retain
    the current file organisation and exported R interfaces.
+7. Note anywhere the process didn't go as it has before: a `css_changes.md` entry
+   whose target selector or rule no longer exists or has changed shape, an asset
+   that moved, was renamed or was removed upstream, a new asset type with no
+   obvious home in `inst/www/`, or a step that needed judgement rather than a
+   straight copy. Record what you did and why; these feed the final report.
 
 ## 4. Test and repair
 
@@ -106,16 +125,24 @@ Follow the contributing checklist: Air formatting, `devtools::load_all()` before
 `devtools::check()`. Review documentation changes and all generated diffs. Keep
 unrelated formatting or documentation churn out of the staged update without
 discarding user work. Record errors, warnings, skips and environment failures.
+When a snapshot diff displays identical Unicode text on both sides, inspect the
+raw bytes or code points and the recorded locale before classifying it. Do not
+accept or update snapshots merely to clear an encoding-ambiguous failure; retain
+it as a baseline or environment failure unless a real expected content change is
+demonstrated.
 
 Run `shinytest2::test_app("inst/example_app")` explicitly: the package-level suite
 must not be assumed to run the nested showcase tests. Ensure child R processes
 load the updated checkout, not an older installed package. If needed, install this
 checkout into a temporary R library and pass that library to child processes;
-do not overwrite the user's normal installed package. Verify the served asset
-version and path after each restart.
+do not overwrite the user's normal installed package. Run the explicit showcase
+suite in a development environment with `NOT_CRAN=true` so `skip_on_cran()` does
+not skip the test file, and verify from the result counts that tests actually ran.
+Do not report a skipped-only run as coverage. Verify the served asset version and
+path after each restart.
 
 Complete the browser checklist at desktop and mobile widths, then investigate
-differences against the local baseline, deployment and relevant release notes.
+differences against the local baseline, deployment and your release-note notes.
 Repair bounded upgrade-related compatibility problems and add focused regression
 tests where useful, following the repository's stable tag-helper conventions.
 Retest affected behaviour and rerun applicable package checks after repairs.
@@ -137,8 +164,16 @@ Finish the tracked report with:
 - Browser scenarios and comparison results, separating expected upstream changes,
   repaired regressions, pre-existing problems and uncertain differences.
 - Unresolved failures, severity, reproduction steps and outstanding manual checks.
-- New upstream components/features worth adopting, their usefulness to this package
-  and likely integration effort; explicitly say when none were identified.
+- **Changes to be aware of**: upstream changes from the release notes that users
+  of shinyGovstyle apps will notice, or that open up something worth adding or
+  changing in the package (a new component, option or accessibility improvement
+  to wrap, or a package-only extension such as `govReactable()` or `value_box()`
+  that should follow an upstream change to stay consistent). For each, give the
+  release, a one-line description, the package functions affected, and a short
+  suggestion. Suggestions are follow-ups; don't implement them in the upgrade.
+- **Didn't copy across smoothly**: everything from step 7 of section 3, plus any
+  repairs from section 4, with what was done and anything still unresolved.
+  Say explicitly if the update went through the usual process with no surprises.
 
 Review `git diff` and stage only explicit task-owned paths, including the report
 and relevant tests/docs. Never use blanket `git add .` or `git add -A`. Check
@@ -148,7 +183,8 @@ ownership unclear, ask rather than staging them.
 
 Leave the changes staged even if some checks remain failed or unavailable, but
 label the result as needing attention rather than ready. Summarise the branch,
-versions, changes and reasons, test results, behaviour changes, adoption suggestions,
-remaining issues and report/evidence locations in the triggering chat. State that
+versions, test results, remaining issues and report/evidence locations in the
+triggering chat, then give the "Changes to be aware of" and "Didn't copy across
+smoothly" lists in full so the user doesn't need to open the report. State that
 nothing was committed or pushed. Stop only task-owned app/test processes and clean
 up temporary browser state; retain useful evidence through the handoff.

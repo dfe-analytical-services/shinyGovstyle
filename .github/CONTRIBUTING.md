@@ -131,6 +131,18 @@ Currently we take [static precompiled exports of the GOV.UK Frontend files](http
 
 If unsure on the styling and expected appearance, use the [GOV.UK Design System site](https://design-system.service.gov.uk/) to explore the components in more detail and official guidance for their use.
 
+If you use an AI coding agent, the [`update-govuk` skill](#agent-skills) walks it through these steps, then reports upstream changes worth knowing about and anything that didn't copy across as smoothly as usual.
+
+## Agent skills
+
+We keep repo-specific skills for AI coding agents in `.agents/skills/`, one folder per skill, each with a `SKILL.md` describing when to use it and the steps to follow. They're written to work with any agent: Codex picks them up automatically, and for other agents (such as Claude Code) ask it to read and follow the skill's `SKILL.md`.
+
+| Skill | What it's for |
+| --- | --- |
+| [`update-govuk`](../.agents/skills/update-govuk/SKILL.md) | Upgrades the precompiled GOV.UK Frontend assets using the manual process above and leaves the changes staged on a local branch without committing. Afterwards it reports upstream changes to be aware of (with suggestions for shinyGovstyle) and anything that couldn't be copied across as smoothly as usual. |
+
+When adding a new skill, put it in its own folder under `.agents/skills/`, keep it agent-agnostic, and add a row to this table.
+
 ## Code of Conduct
 
 Please note that the shinyGovstyle project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project you agree to abide by its terms.

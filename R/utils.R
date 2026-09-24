@@ -12,7 +12,8 @@ govuk_error_id <- function(inputId) paste0(inputId, "-error") # nolint
 validate_heading_level <- function(level, arg_name = "heading_level") {
   if (length(level) != 1) {
     stop(
-      arg_name, " must be a single value, not length ",
+      arg_name,
+      " must be a single value, not length ",
       length(level),
       "."
     )
@@ -124,8 +125,9 @@ govFieldset <- # nolint
 # scale ("m", "s", "l", "xl"), shared by heading_text(), govTable(),
 # govReactable(), govReactableOutput(), and govFieldset() (and, through it,
 # checkbox_Input(), radio_button_Input(), date_Input()) so the accepted
-# values and error wording only exist in one place. `arg_name` is used in the error message so callers see the actual
-# parameter name (e.g. "size" vs "caption_size" vs "label_size").
+# values and error wording only exist in one place. `arg_name` is used in the
+# error message so callers see the actual parameter name (e.g. "size" vs
+# "caption_size" vs "label_size").
 validate_gds_text_size <- function(size, arg_name = "size") {
   valid_sizes <- c("xl", "l", "m", "s")
   if (!is.character(size) || length(size) != 1 || !(size %in% valid_sizes)) {

@@ -19,7 +19,9 @@ renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
 \arguments{
 \item{output_table_name}{Output variable to read from}
 
-\item{caption}{Adds a caption to the table as a header}
+\item{caption}{Adds a caption to the table as a heading, linked to the
+table via \code{aria-labelledby}. Accepts plain text, \code{shiny::HTML()}, or tags.
+The heading's id is \code{output_table_name} followed by \code{-caption}}
 
 \item{caption_size}{Adjust the size of caption. One of \code{"s"}, \code{"m"}, \code{"l"},
 \code{"xl"}, with \code{"l"} as the default. Any other value throws an error.}

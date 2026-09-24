@@ -116,10 +116,10 @@
   with `mailto:`, the "opens in new tab" attributes, text, and icon are all
   skipped, since a mailto link hands off to the mail client rather than
   opening a new tab. Existing link-text validations still apply.
-* `govReactable()` gains `caption`, `caption_size`, and `heading_level`
-  arguments, mirroring `govReactableOutput()`, so a heading can be added to a
-  static table (e.g. in R Markdown/Quarto) without a separate `heading_text()`
-  call.
+* `govReactable()` gains `caption`, `caption_size`, `heading_level`, and
+  `caption_id` arguments, mirroring `govReactableOutput()`, so a heading can
+  be added to a static table (e.g. in R Markdown/Quarto) without a separate
+  `heading_text()` call (#158).
 
 ## Bug fixes
 
@@ -149,10 +149,11 @@
 * `govReactable()`'s and `govReactableOutput()`'s `caption` is now
   programmatically linked to the table via `aria-labelledby`, so screen
   reader users are told what the table is about. Previously the caption
-  heading and the table had no relationship beyond visual proximity.
-* `govTable()`, `govReactable()`, and `govReactableOutput()` now error if
-  `caption_size` isn't one of the documented `"s"`, `"m"`, `"l"`, `"xl"`
-  options, instead of silently emitting an invalid CSS class.
+  heading and the table had no relationship beyond visual proximity. Each
+  caption gets a unique id: `govReactableOutput()` uses
+  `"<output_table_name>-caption"`, and `govReactable()` generates one (or
+  takes your own via the new `caption_id` argument). `caption` also now
+  accepts tags and `shiny::HTML()`, like other content arguments.
 * `details()` now applies the same HTML handling to `help_text` as it does to
   `label`, so HTML strings render consistently across both arguments.
 * `warning_text()` now renders HTML strings in `text` consistently with other

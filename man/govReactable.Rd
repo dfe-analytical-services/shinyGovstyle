@@ -15,6 +15,7 @@ govReactable(
   caption = NULL,
   caption_size = "l",
   heading_level = 2,
+  caption_id = NULL,
   ...
 )
 }
@@ -44,14 +45,20 @@ alignment, also keeps that same default. Names that don't match a
 column in \code{df} are ignored.}
 
 \item{caption}{Adds a caption to the table as a heading, linked to the
-table via \code{aria-labelledby}. \code{NULL} (default) renders the table with no
-caption.}
+table via \code{aria-labelledby}. Accepts plain text, \code{shiny::HTML()}, or tags.
+\code{NULL} (default) renders the table with no caption. In a Shiny app, set the
+caption on \code{\link[=govReactableOutput]{govReactableOutput()}} instead}
 
 \item{caption_size}{Adjust the size of caption. One of \code{"s"}, \code{"m"}, \code{"l"},
 \code{"xl"}, with \code{"l"} as the default. Any other value throws an error.}
 
 \item{heading_level}{Heading level for the caption, an integer between 1
 and 6. Defaults to 2}
+
+\item{caption_id}{The id given to the caption heading, which the table
+references via \code{aria-labelledby}. Must be unique on the page and contain no
+spaces. \code{NULL} (default) generates a unique id for you, so you only need
+this if you want to link to or style the caption yourself}
 
 \item{...}{Additional arguments passed to \code{reactable::reactable}}
 }

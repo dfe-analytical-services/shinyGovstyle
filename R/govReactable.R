@@ -32,12 +32,17 @@
 #' alignment, also keeps that same default. Names that don't match a
 #' column in `df` are ignored.
 #' @param caption Adds a caption to the table as a heading, linked to the
-#' table via `aria-labelledby`. `NULL` (default) renders the table with no
-#' caption.
+#' table via `aria-labelledby`. Accepts plain text, `shiny::HTML()`, or tags.
+#' `NULL` (default) renders the table with no caption. In a Shiny app, set the
+#' caption on [govReactableOutput()] instead
 #' @param caption_size Adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
 #' `"xl"`, with `"l"` as the default. Any other value throws an error.
 #' @param heading_level Heading level for the caption, an integer between 1
 #' and 6. Defaults to 2
+#' @param caption_id The id given to the caption heading, which the table
+#' references via `aria-labelledby`. Must be unique on the page and contain no
+#' spaces. `NULL` (default) generates a unique id for you, so you only need
+#' this if you want to link to or style the caption yourself
 #' @param ... Additional arguments passed to `reactable::reactable`
 #' @return A `reactable` HTML widget styled with GOV.UK classes, or (if
 #' `caption` is supplied) that widget together with a linked caption heading
@@ -123,6 +128,7 @@ govReactable <- # nolint
     caption = NULL,
     caption_size = "l",
     heading_level = 2,
+    caption_id = NULL,
     ...
   ) {
     # Generate column definitions
@@ -189,34 +195,68 @@ govReactable <- # nolint
       return(table)
     }
 
-    cap <- reactable_caption(caption, caption_size, heading_level)
-    htmltools::tagList(
-      cap$tag,
-      htmltools::tags$div(
-        role = "region",
-        `aria-labelledby` = cap$id,
-        table
-      )
-    )
+    if (is.null(caption_id)) {
+      caption_id <- next_caption_id()
+    } else {
+      validate_caption_id(caption_id)
+    }
+
+    captioned_table(table, caption, caption_size, heading_level, caption_id)
   }
 
-# Internal helper: builds the caption heading shared by govReactable() and
-# govReactableOutput(), reusing clean_heading_text() (the same slugifier
-# heading_text() uses) to generate an id, so the caller can link the table to
-# the heading via aria-labelledby.
-reactable_caption <- function(caption, caption_size, heading_level) {
+# Internal helper: returns the caption heading followed by a region wrapping
+# `content`, linked to the heading via aria-labelledby. Shared by
+# govReactable() and govReactableOutput(). The id is always chosen by the
+# caller rather than derived from the caption text: slugifying the text gave
+# duplicate or empty ids (digits and non-ASCII letters were stripped, so
+# "Table 1" and "Table 2" both became "table_"), which silently pointed a
+# table at the wrong caption, or at none.
+captioned_table <- function(content, caption, caption_size, heading_level, id) {
   validate_heading_level(heading_level)
   validate_gds_text_size(caption_size, "caption_size")
 
-  id <- clean_heading_text(caption)
-  tag <- build_heading_tag(
-    heading_level,
-    caption,
-    paste0("govuk-heading-", caption_size),
-    id
+  htmltools::tagList(
+    build_heading_tag(
+      heading_level,
+      as_govuk_html(caption),
+      paste0("govuk-heading-", caption_size),
+      id
+    ),
+    htmltools::tags$div(
+      role = "region",
+      `aria-labelledby` = id,
+      content
+    )
   )
+}
 
-  list(tag = tag, id = id)
+# Internal state: a per-process counter behind next_caption_id(). A counter,
+# rather than a random suffix, keeps generated ids unique without touching the
+# user's random number stream, so set.seed() reproducibility is unaffected.
+caption_id_state <- new.env(parent = emptyenv())
+caption_id_state$count <- 0L
+
+next_caption_id <- function() {
+  caption_id_state$count <- caption_id_state$count + 1L
+  paste0("govreactable-caption-", caption_id_state$count)
+}
+
+# Internal helper: aria-labelledby takes a space-separated list of ids, so an
+# id containing whitespace would be read as several (missing) ids and leave the
+# table unnamed. Reject it up front rather than ship a silently broken link.
+validate_caption_id <- function(caption_id) {
+  if (
+    !is.character(caption_id) ||
+      length(caption_id) != 1 ||
+      is.na(caption_id) ||
+      !grepl("^\\S+$", caption_id)
+  ) {
+    stop(
+      "`caption_id` must be a single, non-empty string with no spaces.",
+      call. = FALSE
+    )
+  }
+  invisible(caption_id)
 }
 
 # Internal helper: govReactableOutput() shipped in CRAN release 0.2.0 with a
@@ -248,7 +288,9 @@ coerce_heading_level <- function(heading_level) {
 #' Output and render functions for using govReactable within shiny apps
 #'
 #' @param output_table_name Output variable to read from
-#' @param caption Adds a caption to the table as a header
+#' @param caption Adds a caption to the table as a heading, linked to the
+#' table via `aria-labelledby`. Accepts plain text, `shiny::HTML()`, or tags.
+#' The heading's id is `output_table_name` followed by `-caption`
 #' @param caption_size Adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
 #' `"xl"`, with `"l"` as the default. Any other value throws an error.
 #' @param heading_level Heading level for the caption, an integer between 1
@@ -291,14 +333,17 @@ govReactableOutput <- # nolint
     heading_level = 2
   ) {
     heading_level <- coerce_heading_level(heading_level)
-    cap <- reactable_caption(caption, caption_size, heading_level)
 
+    # Shiny already requires output ids to be unique on the page (and module
+    # namespacing is applied to them), so deriving the caption id from the
+    # output id guarantees the aria-labelledby link can't collide.
     htmltools::div(
-      cap$tag,
-      htmltools::tags$div(
-        role = "region",
-        `aria-labelledby` = cap$id,
-        reactable::reactableOutput(output_table_name)
+      captioned_table(
+        reactable::reactableOutput(output_table_name),
+        caption,
+        caption_size,
+        heading_level,
+        paste0(output_table_name, "-caption")
       )
     )
   }

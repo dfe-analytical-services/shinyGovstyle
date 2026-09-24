@@ -37,18 +37,16 @@ test_that("govReactable links a supplied caption to the table", {
     caption = "Transport data"
   )
 
-  html <- htmltools::renderTags(table)$html
+  expect_identical(
+    tag_text(table, "govuk-heading-l"),
+    shiny::HTML("Transport data")
+  )
+  expect_identical(find_tag_required(table, "govuk-heading-l")$name, "h2")
 
-  expect_match(
-    html,
-    '<h2 class="govuk-heading-l" id="transport_data">Transport data</h2>',
-    fixed = TRUE
-  )
-  expect_match(
-    html,
-    '<div role="region" aria-labelledby="transport_data">',
-    fixed = TRUE
-  )
+  links <- caption_links(table)
+  expect_length(links$labelledby, 1L)
+  expect_true(nzchar(links$heading_ids))
+  expect_identical(links$labelledby, links$heading_ids)
 })
 
 test_that("govReactable caption respects caption_size and heading_level", {
@@ -59,12 +57,73 @@ test_that("govReactable caption respects caption_size and heading_level", {
     heading_level = 3
   )
 
-  html <- htmltools::renderTags(table)$html
+  heading <- find_tag_required(table, "govuk-heading-xl")
+  expect_identical(heading$name, "h3")
+  expect_identical(
+    tag_text(table, "govuk-heading-xl"),
+    shiny::HTML("Transport data")
+  )
+})
 
-  expect_match(
-    html,
-    '<h3 class="govuk-heading-xl" id="transport_data">Transport data</h3>',
-    fixed = TRUE
+test_that("each captioned govReactable is linked to its own caption", {
+  # Captions that differ only by digits, or have no letters at all, used to
+  # collapse to the same (or an empty) slug id, pointing the tables at the
+  # wrong caption, or at none.
+  page <- htmltools::tagList(
+    govReactable(shinyGovstyle::transport_data, caption = "Table 1"),
+    govReactable(shinyGovstyle::transport_data, caption = "Table 2"),
+    govReactable(shinyGovstyle::transport_data, caption = "2025"),
+    govReactable(shinyGovstyle::transport_data, caption = "Table 1")
+  )
+
+  links <- caption_links(page)
+  expect_length(links$heading_ids, 4L)
+  expect_false(anyDuplicated(links$heading_ids) > 0)
+  expect_true(all(nzchar(links$heading_ids)))
+  expect_identical(links$labelledby, links$heading_ids)
+})
+
+test_that("govReactable uses a supplied caption_id", {
+  table <- govReactable(
+    shinyGovstyle::transport_data,
+    caption = "Transport data",
+    caption_id = "transport-caption"
+  )
+
+  links <- caption_links(table)
+  expect_identical(links$heading_ids, "transport-caption")
+  expect_identical(links$labelledby, "transport-caption")
+})
+
+test_that("govReactable errors on an invalid caption_id", {
+  for (bad_id in list("", "two words", NA_character_, c("a", "b"), 1)) {
+    expect_error(
+      govReactable(
+        shinyGovstyle::transport_data,
+        caption = "Transport data",
+        caption_id = bad_id
+      ),
+      "`caption_id` must be a single, non-empty string with no spaces.",
+      fixed = TRUE
+    )
+  }
+})
+
+test_that("govReactable accepts tags and HTML as the caption", {
+  tag_table <- govReactable(
+    shinyGovstyle::transport_data,
+    caption = shiny::tags$span("Transport ", shiny::tags$abbr("data"))
+  )
+  expect_has_tag(tag_table, "govuk-heading-l")
+  expect_identical(unname(tag_text_by_name(tag_table, "abbr")), "data")
+
+  html_table <- govReactable(
+    shinyGovstyle::transport_data,
+    caption = shiny::HTML("Transport <em>data</em>")
+  )
+  expect_identical(
+    tag_text(html_table, "govuk-heading-l"),
+    shiny::HTML("Transport <em>data</em>")
   )
 })
 
@@ -240,7 +299,10 @@ test_that("govReactableOutput errors on invalid caption_size", {
 
 test_that("caption renders as heading text, defaulting to size l", {
   output <- govReactableOutput("table", caption = "Table caption")
-  expect_identical(tag_text(output, "govuk-heading-l"), "Table caption")
+  expect_identical(
+    tag_text(output, "govuk-heading-l"),
+    shiny::HTML("Table caption")
+  )
 })
 
 test_that("caption_size sets the heading size class", {

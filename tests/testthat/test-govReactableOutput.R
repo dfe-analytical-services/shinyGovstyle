@@ -5,14 +5,32 @@ test_that("govReactableOutput links the caption to the table region", {
 
   expect_match(
     html,
-    '<h2 class="govuk-heading-l" id="example_table">Example table</h2>',
+    '<h2 class="govuk-heading-l" id="table-caption">Example table</h2>',
     fixed = TRUE
   )
   expect_match(
     html,
-    '<div role="region" aria-labelledby="example_table">',
+    '<div role="region" aria-labelledby="table-caption">',
     fixed = TRUE
   )
+})
+
+test_that("govReactableOutput caption ids follow the (namespaced) output id", {
+  # Output ids are already unique on a Shiny page, so captions that share
+  # text, or have no letters at all, still get distinct ids.
+  ns <- shiny::NS("mod")
+  page <- htmltools::tagList(
+    govReactableOutput("table_a", caption = "2025"),
+    govReactableOutput("table_b", caption = "2025"),
+    govReactableOutput(ns("table_a"), caption = "2025")
+  )
+
+  links <- caption_links(page)
+  expect_identical(
+    links$heading_ids,
+    c("table_a-caption", "table_b-caption", "mod-table_a-caption")
+  )
+  expect_identical(links$labelledby, links$heading_ids)
 })
 
 test_that("govReactableOutput caption respects caption_size/heading_level", {
@@ -27,7 +45,7 @@ test_that("govReactableOutput caption respects caption_size/heading_level", {
 
   expect_match(
     html,
-    '<h4 class="govuk-heading-s" id="example_table">Example table</h4>',
+    '<h4 class="govuk-heading-s" id="table-caption">Example table</h4>',
     fixed = TRUE
   )
 })
@@ -77,7 +95,7 @@ test_that("deprecated string heading_level still works with a warning", {
   html <- htmltools::renderTags(output_tag)$html
   expect_match(
     html,
-    '<h3 class="govuk-heading-l" id="example_table">Example table</h3>',
+    '<h3 class="govuk-heading-l" id="table-caption">Example table</h3>',
     fixed = TRUE
   )
 })

@@ -34,7 +34,6 @@ ui <- shinyGovstyle::gov_page(
   shinyGovstyle::gov_main_layout(
     shinyGovstyle::gov_row(
       shinyGovstyle::gov_box(
-        size = "two-thirds",
         label_hint(
           inputId = "label1",
           label = "This is a label",

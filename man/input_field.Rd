@@ -52,7 +52,6 @@ ui <- shinyGovstyle::gov_page(
   shinyGovstyle::gov_main_layout(
     shinyGovstyle::gov_row(
       shinyGovstyle::gov_box(
-        size = "two-thirds",
         shinyGovstyle::input_field(
           legend ="List of three text boxes in a field",
           labels = c("Field 1", "Field 2", "Field 3"),

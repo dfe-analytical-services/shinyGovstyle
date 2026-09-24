@@ -18,7 +18,6 @@
 #'   shinyGovstyle::gov_main_layout(
 #'     shinyGovstyle::gov_row(
 #'       shinyGovstyle::gov_box(
-#'         size = "two-thirds",
 #'         shinyGovstyle::heading_text("gov_list", size = "s"),
 #'         shinyGovstyle::gov_text("List:"),
 #'         gov_list(list = c("a", "b", "c")),

@@ -38,7 +38,6 @@ ui <- shinyGovstyle::gov_page(
   shinyGovstyle::gov_main_layout(
     shinyGovstyle::gov_row(
       shinyGovstyle::gov_box(
-        size = "two-thirds",
         shinyGovstyle::text_area_Input(
           inputId = "text_area",
           label = "Can you provide more detail?",

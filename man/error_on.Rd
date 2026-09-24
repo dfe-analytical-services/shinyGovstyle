@@ -38,7 +38,6 @@ ui <- shinyGovstyle::gov_page(
   shinyGovstyle::gov_main_layout(
     shinyGovstyle::gov_row(
       shinyGovstyle::gov_box(
-        size = "two-thirds",
         # Error text box
         shinyGovstyle::text_Input(
           inputId = "eventId",

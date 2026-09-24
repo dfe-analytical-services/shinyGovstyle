@@ -20,7 +20,6 @@
 #'   shinyGovstyle::gov_main_layout(
 #'     shinyGovstyle::gov_row(
 #'       shinyGovstyle::gov_box(
-#'         size = "two-thirds",
 #'         error_summary(
 #'           inputId = "errorId",
 #'           error_title = "Error title",

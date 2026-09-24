@@ -20,7 +20,6 @@
 #'   shinyGovstyle::gov_main_layout(
 #'     shinyGovstyle::gov_row(
 #'       shinyGovstyle::gov_box(
-#'         size = "two-thirds",
 #'         shinyGovstyle::gov_tag("tag1", "Complete"),
 #'         shinyGovstyle::gov_tag("tag2", "Incomplete", "red")
 #'       )

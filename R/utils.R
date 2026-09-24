@@ -4,19 +4,6 @@
 govuk_hint_id <- function(inputId) paste0(inputId, "-hint") # nolint
 govuk_error_id <- function(inputId) paste0(inputId, "-error") # nolint
 
-# Internal helper: the caption_size options ("s", "m", "l", "xl") documented
-# by govTable(), govReactable(), and govReactableOutput(), so the allowed
-# values and the validation only exist in one place.
-validate_caption_size <- function(caption_size) {
-  allowed_sizes <- c("s", "m", "l", "xl")
-  if (!caption_size %in% allowed_sizes) {
-    stop(
-      "caption_size must be one of: ",
-      paste(allowed_sizes, collapse = ", ")
-    )
-  }
-}
-
 # Internal helper: the 1-6 heading level convention shared by heading_text(),
 # govFieldset() (and so checkbox_Input(), radio_button_Input(), and
 # date_Input()), govReactable(), and govReactableOutput(). `arg_name` lets
@@ -80,7 +67,12 @@ govFieldset <- # nolint
     label_size = c("m", "s", "l", "xl"),
     heading_level = NULL
   ) {
-    label_size <- match.arg(label_size)
+    # If label_size wasn't set, default to "m"
+    default_label_sizes <- c("m", "s", "l", "xl")
+    if (identical(label_size, default_label_sizes)) {
+      label_size <- default_label_sizes[1]
+    }
+    validate_gds_text_size(label_size, "label_size")
     if (!is.null(heading_level)) {
       validate_heading_level(heading_level)
     }
@@ -127,6 +119,33 @@ govFieldset <- # nolint
       content
     )
   }
+
+# Internal helper: the GOV.UK Design System heading/legend/caption text-size
+# scale ("m", "s", "l", "xl"), shared by heading_text(), govTable(),
+# govReactable(), govReactableOutput(), and govFieldset() (and, through it,
+# checkbox_Input(), radio_button_Input(), date_Input()) so the accepted
+# values and error wording only exist in one place. `arg_name` is used in the error message so callers see the actual
+# parameter name (e.g. "size" vs "caption_size" vs "label_size").
+validate_gds_text_size <- function(size, arg_name = "size") {
+  valid_sizes <- c("xl", "l", "m", "s")
+  if (!is.character(size) || length(size) != 1 || !(size %in% valid_sizes)) {
+    stop(
+      "`",
+      arg_name,
+      "` must be one of ",
+      paste(paste0('"', valid_sizes, '"'), collapse = ", "),
+      ", not ",
+      if (is.character(size) && length(size) == 1) {
+        paste0('"', size, '"')
+      } else {
+        paste0("a value of class ", class(size)[1])
+      },
+      ".",
+      call. = FALSE
+    )
+  }
+  invisible(size)
+}
 
 # Internal helper: TRUE for values htmltools already treats as markup, i.e.
 # shiny.tag, shiny.tag.list, and HTML() output. Anything else is plain content

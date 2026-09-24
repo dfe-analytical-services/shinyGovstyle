@@ -167,7 +167,18 @@ test_that("label_size rejects unknown values", {
       cb_labels = c("a", "b"),
       checkboxIds = c("a", "b"),
       label_size = "huge"
-    )
+    ),
+    "label_size"
+  )
+  expect_error(
+    checkbox_Input(
+      inputId = "cb",
+      label = "Q",
+      cb_labels = c("a", "b"),
+      checkboxIds = c("a", "b"),
+      label_size = c("m", "bad")
+    ),
+    "label_size"
   )
 })
 

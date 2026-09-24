@@ -4,7 +4,7 @@
 \alias{gov_layout}
 \title{Page Layout Function}
 \usage{
-gov_layout(..., inputID = "main", size = "full")
+gov_layout(..., inputID = "main", size = "full", width = "standard")
 }
 \arguments{
 \item{...}{include the components of the UI that you want within the
@@ -14,6 +14,13 @@ main page.}
 
 \item{size}{Layout of the page. Optional are full, one-half, two-thirds,
 one-third and one-quarter. Defaults to "full"}
+
+\item{width}{Width of the component. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard),
+\code{"full"} (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
 }
 \value{
 a HTML shiny layout div
@@ -24,7 +31,7 @@ the \code{gov_main_layout} and associated functions. This is being kept for now
 as a simpler version where grids are not needed.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -52,6 +59,7 @@ Other Govstyle page structure:
 \code{\link[=banner]{banner()}},
 \code{\link[=cookieBanner]{cookieBanner()}},
 \code{\link[=footer]{footer()}},
+\code{\link[=gov_page]{gov_page()}},
 \code{\link[=header]{header()}},
 \code{\link{layouts}},
 \code{\link[=skip_to_main]{skip_to_main()}}

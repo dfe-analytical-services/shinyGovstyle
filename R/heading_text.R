@@ -2,7 +2,8 @@
 #'
 #' This function createS heading text
 #' @param text_input Text to display
-#' @param size Text size using xl, l, m, s. Defaults to xl
+#' @param size Text size, one of `"xl"`, `"l"`, `"m"`, `"s"`. Defaults to
+#' `"xl"`. Any other value throws an error.
 #' @param id Custom header id
 #' @param level Heading level, integer between 1 and 6. Defaults to 1
 #' @return a heading text HTML shiny tag object
@@ -17,6 +18,8 @@ heading_text <- function(text_input, size = "xl", id, level = 1) {
   }
 
   validate_heading_level(level, arg_name = "level")
+
+  validate_gds_text_size(size)
 
   gov_heading <- build_heading_tag(
     level,

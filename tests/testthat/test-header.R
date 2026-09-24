@@ -60,6 +60,40 @@ test_that("header() with only current args produces no lifecycle warnings", {
 })
 
 
+test_that("width defaults to standard, no three-quarters/full class", {
+  h <- header(org_name = "Test")
+  container <- find_tag_required(h, "govuk-width-container")
+  expect_null(htmltools::tagGetAttribute(container, "style"))
+  expect_no_tag(h, "govuk-width-container--standard")
+  expect_no_tag(h, "govuk-width-container--three-quarters")
+  expect_no_tag(h, "govuk-width-container--full")
+})
+
+test_that("width = 'standard' explicitly still renders the standard class", {
+  # Distinguishing "left at default" from "explicitly standard" is what
+  # lets an app inside gov_page(width = "three-quarters") opt one
+  # component back down to standard width; see test-gov_page.R.
+  h <- header(org_name = "Test", width = "standard")
+  expect_has_tag(h, "govuk-width-container--standard")
+})
+
+
+test_that("width = 'three-quarters' adds the three-quarters modifier class", {
+  h <- header(org_name = "Test", width = "three-quarters")
+  expect_has_tag(h, "govuk-width-container--three-quarters")
+})
+
+
+test_that("a custom width sets an inline max-width style", {
+  h <- header(org_name = "Test", width = "1400px")
+  container <- find_tag_required(h, "govuk-width-container")
+  expect_identical(
+    htmltools::tagGetAttribute(container, "style"),
+    "max-width: 1400px;"
+  )
+})
+
+
 test_that("warning when logo used without logo_alt_text", {
   expect_warning(
     header(org_name = "Test", logo = "test.png", logo_alt_text = NULL),
@@ -94,6 +128,35 @@ test_that("NULL logo renders no img or svg", {
   html <- as.character(h)
   expect_false(grepl("<img", html))
   expect_false(grepl("<svg", html))
+})
+
+
+test_that("no mirror logo is rendered when service_name is omitted", {
+  h <- header(org_name = "Test")
+  expect_no_tag(h, "govuk-header__logo--mirror")
+})
+
+
+test_that("mirror logo is rendered aria-hidden when service_name is set", {
+  h <- header(org_name = "Test", service_name = "My Service")
+  mirror <- expect_has_tag(h, "govuk-header__logo--mirror")
+  expect_identical(htmltools::tagGetAttribute(mirror, "aria-hidden"), "true")
+})
+
+
+test_that("mirror logo repeats the same org_name and logo as the real one", {
+  h <- header(
+    org_name = "Test",
+    service_name = "My Service",
+    logo = "path/to/logo.png",
+    logo_alt_text = "My Logo"
+  )
+  logos <- find_tags(h, "govuk-header__logo")
+  expect_length(logos, 2L)
+  expect_identical(
+    as.character(logos[[1L]]$children),
+    as.character(logos[[2L]]$children)
+  )
 })
 
 

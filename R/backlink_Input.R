@@ -7,7 +7,7 @@
 #' @family Govstyle navigation
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
@@ -25,8 +25,7 @@
 #'       gov_layout(
 #'         size = "two-thirds",
 #'         backlink_Input("link1"),
-#'         shiny::tags$br(),
-#'         shiny::tags$br()
+#'         gov_text("Placeholder text")
 #'       )
 #'     ),
 #'     shiny::tabPanel(

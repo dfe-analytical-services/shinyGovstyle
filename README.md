@@ -4,7 +4,7 @@
 
 [![CRAN status](https://www.r-pkg.org/badges/version/shinyGovstyle)](https://cran.r-project.org/package=shinyGovstyle)
 [![R-CMD-check](https://github.com/dfe-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dfe-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml)
-[![](https://cranlogs.r-pkg.org/badges/shinyGovstyle)](https://cran.r-project.org/package=shinyGovstyle)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/shinyGovstyle)](https://cran.r-project.org/package=shinyGovstyle)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
 <!-- badges: end -->
@@ -40,7 +40,7 @@ shinyjs::useShinyjs()
 
 ### Contributing
 
-Ideas, bug reports, and requests for new components should be [raised as GitHub issue](https://github.com/dfe-analytical-services/shinyGovstyle/issues/new). It's often worth checking the existing [issues log](https://github.com/dfe-analytical-services/shinyGovstyle/issues) incase there is already an existing discussion you can conrtibute to.
+Ideas, bug reports, and requests for new components should be [raised as GitHub issue](https://github.com/dfe-analytical-services/shinyGovstyle/issues/new). It's often worth checking the existing [issues log](https://github.com/dfe-analytical-services/shinyGovstyle/issues) in case there is already an existing discussion you can contribute to.
 
 More details on contributing can be found in the `.github/CONTRIBUTING.md` file.
 

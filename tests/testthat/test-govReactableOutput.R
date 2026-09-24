@@ -58,7 +58,8 @@ test_that("govReactableOutput errors on an invalid caption_size", {
       caption = "Example table",
       caption_size = "xxl"
     ),
-    "caption_size must be one of"
+    "`caption_size` must be one of",
+    fixed = TRUE
   )
 })
 

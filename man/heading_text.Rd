@@ -9,7 +9,8 @@ heading_text(text_input, size = "xl", id, level = 1)
 \arguments{
 \item{text_input}{Text to display}
 
-\item{size}{Text size using xl, l, m, s. Defaults to xl}
+\item{size}{Text size, one of \code{"xl"}, \code{"l"}, \code{"m"}, \code{"s"}. Defaults to
+\code{"xl"}. Any other value throws an error.}
 
 \item{id}{Custom header id}
 

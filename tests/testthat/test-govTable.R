@@ -158,14 +158,6 @@ test_that("govTable warns for large tables", {
   expect_no_warning(govTable("under", under_df, "Test"))
 })
 
-test_that("govTable errors on an invalid caption_size", {
-  df <- data.frame(a = "AAA", b = 1)
-  expect_error(
-    govTable("tab1", df, "Test", caption_size = "xxl"),
-    "caption_size must be one of"
-  )
-})
-
 test_that("rows render in dataframe order", {
   order_df <- data.frame(
     a = c("AAA", "BBB", "CCC"),
@@ -176,4 +168,38 @@ test_that("rows render in dataframe order", {
 
   expect_true(regexpr(">AAA<", rendered) < regexpr(">BBB<", rendered))
   expect_true(regexpr(">BBB<", rendered) < regexpr(">CCC<", rendered))
+})
+
+test_that("caption_size must be one of xl, l, m, s", {
+  expect_error(
+    govTable(
+      "bad_size",
+      shinyGovstyle::transport_data_small,
+      "Test",
+      caption_size = "not a size"
+    )
+  )
+})
+
+test_that("caption renders as table caption text, defaulting to size l", {
+  table_check <- govTable(
+    "tab1",
+    shinyGovstyle::transport_data_small,
+    "Table caption"
+  )
+  expect_identical(
+    tag_text(table_check, "govuk-table__caption"),
+    "Table caption"
+  )
+  expect_has_tag(table_check, "govuk-table__caption--l")
+})
+
+test_that("caption_size sets the caption modifier class", {
+  table_check <- govTable(
+    "tab1",
+    shinyGovstyle::transport_data_small,
+    "Table caption",
+    caption_size = "m"
+  )
+  expect_has_tag(table_check, "govuk-table__caption--m")
 })

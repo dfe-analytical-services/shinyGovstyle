@@ -11,6 +11,7 @@ govReactable(
   highlight = TRUE,
   borderless = TRUE,
   min_widths = list(),
+  columns = list(),
   caption = NULL,
   caption_size = "l",
   heading_level = 2,
@@ -33,12 +34,21 @@ left-aligned}
 \item{min_widths}{Customise minimum column width using a list of columns and
 minimum width in pixels}
 
+\item{columns}{Customise individual columns, for example to fix the
+number of decimal places shown. Give a named list, where each name
+matches a column in \code{df} and each value is built with
+\code{reactable::colDef()} (see examples). Any column left out of this list
+is unaffected, and keeps govReactable's usual GOV.UK look. For a column
+you do include, anything you don't set on it, such as sorting or
+alignment, also keeps that same default. Names that don't match a
+column in \code{df} are ignored.}
+
 \item{caption}{Adds a caption to the table as a heading, linked to the
 table via \code{aria-labelledby}. \code{NULL} (default) renders the table with no
 caption.}
 
-\item{caption_size}{Adjust the size of caption.
-Options are s, m, l, xl, with l as the default}
+\item{caption_size}{Adjust the size of caption. One of \code{"s"}, \code{"m"}, \code{"l"},
+\code{"xl"}, with \code{"l"} as the default. Any other value throws an error.}
 
 \item{heading_level}{Heading level for the caption, an integer between 1
 and 6. Defaults to 2}
@@ -95,6 +105,40 @@ if (interactive()) {
     caption = "Iris measurements",
     right_col = c(
       "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
+    )
+  )
+
+  # Show one column to a fixed number of decimal places, leaving every
+  # other column and style (sorting, alignment, etc.) untouched
+  sales_data <- data.frame(
+    shop = c("Shop A", "Shop B", "Shop C"),
+    growth = c(4, 4.7, 12.34)
+  )
+  govReactable(
+    sales_data,
+    columns = list(
+      growth = reactable::colDef(
+        format = reactable::colFormat(digits = 1)
+      )
+    )
+  )
+
+  # A more involved example: only `percent` is customised, so `region`
+  # and `count` keep the normal GOV.UK defaults untouched
+  # (counts shown as whole numbers alongside a percentage column fixed
+  # to 1 decimal place)
+  count_pct_data <- data.frame(
+    region = c("North", "South", "East"),
+    count = c(1234, 56, 789),
+    percent = c(4, 4.7, 12.34)
+  )
+  govReactable(
+    count_pct_data,
+    right_col = c("count", "percent"),
+    columns = list(
+      percent = reactable::colDef(
+        format = reactable::colFormat(digits = 1)
+      )
     )
   )
 }

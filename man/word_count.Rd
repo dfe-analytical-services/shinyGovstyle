@@ -20,11 +20,16 @@ what was used in text area component}
 no value returned. Updates the word count in a shiny app
 }
 \description{
-This function create tracks the word count and should be used with the
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This helper function create tracks the word count and should be used with the
 text area function.
+This helper function was deprecated as text_area_Input no longer
+relies on this, and uses js instead.
+The text_area_Input function can still be used as before
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
     "Justice", "", logo = "shinyGovstyle/images/moj_logo.png"
@@ -64,3 +69,4 @@ Other Govstyle text types:
 \code{\link[=text_area_Input]{text_area_Input()}}
 }
 \concept{Govstyle text types}
+\keyword{internal}

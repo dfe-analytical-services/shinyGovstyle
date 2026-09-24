@@ -9,8 +9,8 @@
 #' A warning is emitted when `df` has more than 50 rows.
 #' @param df expects a dataframe to create a table
 #' @param caption adds a caption to the table as a header
-#' @param caption_size adjust the size of caption. Options are s, m, l, xl,
-#' with l as the default
+#' @param caption_size adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
+#' `"xl"`, with `"l"` as the default. Any other value throws an error.
 #' @param num_col adds numeric class format to these columns
 #' @param width_overwrite change width. Need to include width for every column.
 #' Columns must add up to 1.
@@ -20,7 +20,7 @@
 #' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::gov_layout(
 #'     size = "two-thirds",
 #'     shinyGovstyle::govTable(
@@ -46,7 +46,7 @@ govTable <- # nolint
     num_col = NULL,
     width_overwrite = NULL
   ) {
-    validate_caption_size(caption_size)
+    validate_gds_text_size(caption_size, "caption_size")
 
     # Static HTML tables become slow to render and hard to navigate (no
     # pagination, sorting, or filtering) as they grow. Steer users towards

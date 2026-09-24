@@ -9,7 +9,7 @@
 #' @family Govstyle errors
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
 #'     org_name = "Example",

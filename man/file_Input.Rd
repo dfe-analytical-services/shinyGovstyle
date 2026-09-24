@@ -50,7 +50,7 @@ This function create a file upload component. It uses the basis of the
 shiny fileInput function, but restyles the label and adds error onto it.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   # Required for error handling function
   shinyjs::useShinyjs(),
   shinyGovstyle::header(

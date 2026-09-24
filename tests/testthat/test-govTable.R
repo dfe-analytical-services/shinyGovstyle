@@ -203,3 +203,84 @@ test_that("caption_size sets the caption modifier class", {
   )
   expect_has_tag(table_check, "govuk-table__caption--m")
 })
+
+test_that("subtitle sits inside the native caption, under the headline", {
+  table_check <- govTable(
+    "tab1",
+    shinyGovstyle::transport_data_small,
+    "Bike and car costs were highest in March",
+    subtitle = "Cost of bikes and cars (£), January to March"
+  )
+
+  caption <- find_tag_required(table_check, "govuk-table__caption")
+  caption_children <- rendered_children(caption)
+  expect_length(caption_children, 2L)
+  expect_identical(
+    caption_children[[1]],
+    "Bike and car costs were highest in March"
+  )
+
+  # Inside <caption>, so it is part of the table's accessible name
+  subtitle <- find_tag_required(caption, "govuk-caption-m")
+  expect_identical(subtitle$name, "span")
+  expect_identical(
+    tag_text(caption, "govuk-caption-m"),
+    "Cost of bikes and cars (£), January to March"
+  )
+})
+
+test_that("govTable subtitle size follows caption_size", {
+  xl_table <- govTable(
+    "tab1",
+    shinyGovstyle::transport_data_small,
+    "Headline",
+    caption_size = "xl",
+    subtitle = "Subtitle"
+  )
+  expect_has_tag(xl_table, "govuk-caption-l")
+
+  m_table <- govTable(
+    "tab1",
+    shinyGovstyle::transport_data_small,
+    "Headline",
+    caption_size = "m",
+    subtitle = "Subtitle"
+  )
+  expect_has_tag(m_table, "govuk-caption-m")
+})
+
+test_that("govTable renders the same without a subtitle", {
+  args <- list("tab1", shinyGovstyle::transport_data_small, "Headline")
+  expect_identical(
+    as.character(do.call(govTable, args)),
+    as.character(do.call(govTable, c(args, list(subtitle = NULL))))
+  )
+  expect_no_tag(do.call(govTable, args), "govuk-caption-m")
+})
+
+test_that("govTable escapes a plain-text subtitle", {
+  html <- as.character(
+    govTable(
+      "tab1",
+      shinyGovstyle::transport_data_small,
+      "Headline",
+      subtitle = "Bikes < cars"
+    )
+  )
+  expect_match(html, "Bikes &lt; cars</span>", fixed = TRUE)
+})
+
+test_that("govTable errors on an invalid subtitle", {
+  for (bad in list("", NA_character_, c("a", "b"), 1)) {
+    expect_error(
+      govTable(
+        "tab1",
+        shinyGovstyle::transport_data_small,
+        "Headline",
+        subtitle = bad
+      ),
+      "`subtitle` must be a single, non-empty string",
+      fixed = TRUE
+    )
+  }
+})

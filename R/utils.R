@@ -149,6 +149,51 @@ validate_gds_text_size <- function(size, arg_name = "size") {
   invisible(size)
 }
 
+# Internal helper: checks a single piece of display content (a table caption,
+# subtitle, and so on) is either markup (tags or HTML()) or one non-empty,
+# non-NA string. Empty or NA text would render as an empty heading or an empty
+# part of a table's accessible name, which screen readers announce as nothing.
+validate_single_content <- function(x, arg_name, allow_null = TRUE) {
+  if (is.null(x) && allow_null) {
+    return(invisible(x))
+  }
+  valid_text <- is.character(x) && length(x) == 1 && !is.na(x) && nzchar(x)
+  if (!is_govuk_markup(x) && !valid_text) {
+    stop(
+      "`",
+      arg_name,
+      "` must be a single, non-empty string, `shiny::HTML()`, or tags.",
+      call. = FALSE
+    )
+  }
+  invisible(x)
+}
+
+# Internal helper: the class for a table subtitle (the Analysis Function's
+# "statistical subtitle": what the data is, where and when). Reuses GOV.UK's
+# secondary-text caption styles (regular weight, secondary text colour,
+# display: block) so the subtitle always reads as subordinate to the headline,
+# without users having to pick a second size. Only the "xl" headline is large
+# enough to need the bigger caption.
+subtitle_class <- function(caption_size) {
+  if (identical(caption_size, "xl")) "govuk-caption-l" else "govuk-caption-m"
+}
+
+# Internal helper: a table has to have a title (GOV.UK and the Analysis
+# Function both say so), and a subtitle on its own would render as secondary
+# text with no heading. Point users at `caption` for a single-line title.
+validate_subtitle_has_caption <- function(caption, subtitle) {
+  if (!is.null(subtitle) && is.null(caption)) {
+    stop(
+      "`subtitle` needs a `caption`. `caption` is the table's title; if you ",
+      "don't have a headline, put the what, where and when in `caption` ",
+      "instead. `subtitle` adds a line under the title.",
+      call. = FALSE
+    )
+  }
+  invisible(subtitle)
+}
+
 # Internal helper: TRUE for values htmltools already treats as markup, i.e.
 # shiny.tag, shiny.tag.list, and HTML() output. Anything else is plain content
 # that has to be coerced or escaped before it reaches the browser.
@@ -194,15 +239,30 @@ govuk_error_message <- function(input_id, error_message) {
   )
 }
 
-# Internal helper: the paragraph's inner HTML, serialised for shinyjs::html(),
-# which assigns it as innerHTML. Escaping plain strings here keeps error_on()
-# in step with govuk_error_message(): the same error_message renders the same
-# way whether it is baked into the component or pushed from the server.
-govuk_error_html <- function(error_message) {
-  message_html <- if (is_govuk_markup(error_message)) {
-    as.character(error_message)
+# Internal helper: serialises content that the server pushes into an existing
+# element, for error_on() (via shinyjs::html()) and update_reactable_caption()
+# (via its own JS handler). Both assign the result to innerHTML in the browser,
+# so an unescaped plain string here is a direct script-injection path: a value
+# built from user input such as `<img src=x onerror=...>` would run as code.
+# Only values the caller has explicitly marked as markup (tags or HTML()) skip
+# escaping, which also keeps these in step with the tag-building path, where
+# htmltools escapes plain strings in the same way.
+govuk_markup_html <- function(x) {
+  if (is_govuk_markup(x)) {
+    as.character(x)
   } else {
-    htmltools::htmlEscape(as.character(error_message))
+    htmltools::htmlEscape(as.character(x))
   }
-  paste0(as.character(govuk_error_prefix()), " ", message_html)
+}
+
+# Internal helper: the paragraph's inner HTML, serialised for shinyjs::html().
+# Escaping plain strings keeps error_on() in step with govuk_error_message():
+# the same error_message renders the same way whether it is baked into the
+# component or pushed from the server.
+govuk_error_html <- function(error_message) {
+  paste0(
+    as.character(govuk_error_prefix()),
+    " ",
+    govuk_markup_html(error_message)
+  )
 }

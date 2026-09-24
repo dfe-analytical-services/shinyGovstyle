@@ -37,6 +37,12 @@
   on form inputs like `checkbox_Input()`) now throw an error if given
   anything other than `"s"`, `"m"`, `"l"`, or `"xl"`. Previously an invalid
   value was accepted silently and could produce broken styling.
+* `govReactable()` now right-aligns numeric columns automatically, as its
+  documentation always said it did and as GOV.UK recommends for comparing
+  numbers. Previously every column not named in `right_col` was
+  left-aligned. `right_col` still right-aligns extra columns, such as numbers
+  stored as text like `"£85"`. To keep a numeric column left-aligned, pass
+  `columns = list(<column> = reactable::colDef(align = "left"))`.
 
 ## New features
 
@@ -116,10 +122,20 @@
   with `mailto:`, the "opens in new tab" attributes, text, and icon are all
   skipped, since a mailto link hands off to the mail client rather than
   opening a new tab. Existing link-text validations still apply.
-* `govReactable()` gains `caption`, `caption_size`, `heading_level`, and
-  `caption_id` arguments, mirroring `govReactableOutput()`, so a heading can
-  be added to a static table (e.g. in R Markdown/Quarto) without a separate
-  `heading_text()` call (#158).
+* `govReactable()` gains `caption`, `subtitle`, `caption_size`,
+  `heading_level`, and `caption_id` arguments, mirroring
+  `govReactableOutput()`, so a title can be added to a static table (e.g. in
+  R Markdown/Quarto) without a separate `heading_text()` call (#158).
+* `govTable()`, `govReactable()`, and `govReactableOutput()` gain a
+  `subtitle` argument, following the Analysis Function guidance on table
+  titles: a short headline in `caption` stating the message, with what the
+  data is, where and when in `subtitle` underneath. Both form the table's
+  accessible name. See the new "Table titles" section in each function's
+  help page.
+* New `update_reactable_caption()` changes a `govReactableOutput()` caption,
+  subtitle, or both from the server, so the title (and the table's accessible
+  name) can keep describing the data after a filter changes it. Works inside
+  Shiny modules.
 
 ## Bug fixes
 
@@ -153,7 +169,8 @@
   caption gets a unique id: `govReactableOutput()` uses
   `"<output_table_name>-caption"`, and `govReactable()` generates one (or
   takes your own via the new `caption_id` argument). `caption` also now
-  accepts tags and `shiny::HTML()`, like other content arguments.
+  accepts tags and `shiny::HTML()` for deliberate markup; plain text is still
+  escaped, so a caption built from user input can't inject HTML.
 * `details()` now applies the same HTML handling to `help_text` as it does to
   `label`, so HTML strings render consistently across both arguments.
 * `warning_text()` now renders HTML strings in `text` consistently with other

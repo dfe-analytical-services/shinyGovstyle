@@ -39,7 +39,7 @@ test_that("govReactable links a supplied caption to the table", {
 
   expect_identical(
     tag_text(table, "govuk-heading-l"),
-    shiny::HTML("Transport data")
+    "Transport data"
   )
   expect_identical(find_tag_required(table, "govuk-heading-l")$name, "h2")
 
@@ -61,7 +61,7 @@ test_that("govReactable caption respects caption_size and heading_level", {
   expect_identical(heading$name, "h3")
   expect_identical(
     tag_text(table, "govuk-heading-xl"),
-    shiny::HTML("Transport data")
+    "Transport data"
   )
 })
 
@@ -95,6 +95,132 @@ test_that("govReactable uses a supplied caption_id", {
   expect_identical(links$labelledby, "transport-caption")
 })
 
+test_that("govReactable subtitle is part of the table's accessible name", {
+  table <- govReactable(
+    shinyGovstyle::transport_data,
+    caption = "Costs peaked in March",
+    subtitle = "Cost of bikes, vans and buses (£), January to May",
+    caption_id = "costs"
+  )
+
+  heading <- find_tag_required(table, "govuk-heading-l")
+  expect_identical(htmltools::tagGetAttribute(heading, "id"), "costs")
+  expect_match(
+    htmltools::tagGetAttribute(heading, "class"),
+    "govuk-!-margin-bottom-1",
+    fixed = TRUE
+  )
+
+  subtitle <- find_tag_required(table, "govuk-caption-m")
+  expect_identical(subtitle$name, "p")
+  expect_identical(htmltools::tagGetAttribute(subtitle, "id"), "costs-subtitle")
+  expect_identical(
+    tag_text(table, "govuk-caption-m"),
+    "Cost of bikes, vans and buses (£), January to May"
+  )
+
+  expect_identical(caption_links(table)$labelledby, "costs costs-subtitle")
+})
+
+test_that("generated caption ids give each subtitle its own id", {
+  page <- htmltools::tagList(
+    govReactable(
+      shinyGovstyle::transport_data,
+      caption = "Table 1",
+      subtitle = "Same subtitle"
+    ),
+    govReactable(
+      shinyGovstyle::transport_data,
+      caption = "Table 2",
+      subtitle = "Same subtitle"
+    )
+  )
+
+  subtitle_ids <- vapply(
+    find_tags(page, "govuk-caption-m"),
+    htmltools::tagGetAttribute,
+    character(1),
+    attr = "id",
+    USE.NAMES = FALSE
+  )
+  expect_false(anyDuplicated(subtitle_ids) > 0)
+
+  links <- caption_links(page)
+  expect_identical(
+    links$labelledby,
+    paste(links$heading_ids, subtitle_ids)
+  )
+})
+
+test_that("govReactable subtitle size follows caption_size", {
+  xl_table <- govReactable(
+    shinyGovstyle::transport_data,
+    caption = "Headline",
+    subtitle = "Subtitle",
+    caption_size = "xl"
+  )
+  expect_has_tag(xl_table, "govuk-caption-l")
+
+  for (size in c("l", "m", "s")) {
+    table <- govReactable(
+      shinyGovstyle::transport_data,
+      caption = "Headline",
+      subtitle = "Subtitle",
+      caption_size = size
+    )
+    expect_has_tag(table, "govuk-caption-m")
+  }
+})
+
+test_that("govReactable markup is unchanged without a subtitle", {
+  table <- govReactable(
+    shinyGovstyle::transport_data,
+    caption = "Headline",
+    caption_id = "headline"
+  )
+  expect_no_tag(table, "govuk-caption-m")
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_tag_required(table, "govuk-heading-l"),
+      "class"
+    ),
+    "govuk-heading-l"
+  )
+  expect_identical(caption_links(table)$labelledby, "headline")
+})
+
+test_that("govReactable escapes a plain-text subtitle", {
+  table <- govReactable(
+    shinyGovstyle::transport_data,
+    caption = "Headline",
+    subtitle = "Bikes < buses"
+  )
+  html <- htmltools::renderTags(table)$html
+  expect_match(html, ">Bikes &lt; buses</p>", fixed = TRUE)
+})
+
+test_that("govReactable subtitle needs a caption", {
+  expect_error(
+    govReactable(shinyGovstyle::transport_data, subtitle = "Subtitle"),
+    "`subtitle` needs a `caption`",
+    fixed = TRUE
+  )
+})
+
+test_that("govReactable errors on an invalid subtitle", {
+  for (bad in list("", NA_character_, c("a", "b"), 1)) {
+    expect_error(
+      govReactable(
+        shinyGovstyle::transport_data,
+        caption = "Headline",
+        subtitle = bad
+      ),
+      "`subtitle` must be a single, non-empty string",
+      fixed = TRUE
+    )
+  }
+})
+
 test_that("govReactable errors on an invalid caption_id", {
   for (bad_id in list("", "two words", NA_character_, c("a", "b"), 1)) {
     expect_error(
@@ -107,6 +233,16 @@ test_that("govReactable errors on an invalid caption_id", {
       fixed = TRUE
     )
   }
+})
+
+test_that("govReactable escapes a plain-text caption", {
+  table <- govReactable(
+    shinyGovstyle::transport_data,
+    caption = "Bikes < buses & vans"
+  )
+
+  html <- htmltools::renderTags(table)$html
+  expect_match(html, ">Bikes &lt; buses &amp; vans</h2>", fixed = TRUE)
 })
 
 test_that("govReactable accepts tags and HTML as the caption", {
@@ -155,6 +291,52 @@ test_that("govReactable errors on an invalid caption_size", {
     ),
     "`caption_size` must be one of",
     fixed = TRUE
+  )
+})
+
+# Column alignment by id, from the column definitions reactable will render
+column_aligns <- function(table) {
+  cols <- table$x$tag$attribs$columns
+  stats::setNames(
+    vapply(cols, function(col) col$align, character(1)),
+    vapply(cols, function(col) col$id, character(1))
+  )
+}
+
+test_that("govReactable right-aligns numeric columns by default", {
+  df <- data.frame(
+    region = c("North", "South"),
+    count = c(1234L, 56L),
+    percent = c(4.7, 12.34),
+    cost = c("£85", "£75")
+  )
+
+  expect_identical(
+    column_aligns(govReactable(df)),
+    c(region = "left", count = "right", percent = "right", cost = "left")
+  )
+})
+
+test_that("right_col right-aligns numbers stored as text", {
+  df <- data.frame(region = c("North", "South"), cost = c("£85", "£75"))
+
+  expect_identical(
+    column_aligns(govReactable(df, right_col = "cost")),
+    c(region = "left", cost = "right")
+  )
+})
+
+test_that("columns can left-align a numeric column", {
+  df <- data.frame(year = c(2024L, 2025L), count = c(1234L, 56L))
+
+  table <- govReactable(
+    df,
+    columns = list(year = reactable::colDef(align = "left"))
+  )
+
+  expect_identical(
+    column_aligns(table),
+    c(year = "left", count = "right")
   )
 })
 
@@ -301,7 +483,7 @@ test_that("caption renders as heading text, defaulting to size l", {
   output <- govReactableOutput("table", caption = "Table caption")
   expect_identical(
     tag_text(output, "govuk-heading-l"),
-    shiny::HTML("Table caption")
+    "Table caption"
   )
 })
 

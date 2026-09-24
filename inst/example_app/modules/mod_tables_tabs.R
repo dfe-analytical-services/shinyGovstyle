@@ -10,9 +10,10 @@ mod_tables_tabs_ui <- function(id) {
     shinyGovstyle::govTable(
       shiny::NS(id, "tab1"),
       shinyGovstyle::transport_data_small,
-      "Static example",
+      "Bike and car costs were highest in March",
       "l",
-      num_col = c(2, 3)
+      num_col = c(2, 3),
+      subtitle = "Cost of bikes and cars (£), January to March, example data"
     ),
 
     shinyGovstyle::heading_text(
@@ -22,14 +23,17 @@ mod_tables_tabs_ui <- function(id) {
     ),
     shinyGovstyle::govReactable(
       shinyGovstyle::transport_data,
-      caption = "Caption added directly",
+      caption = "Costs peaked in March for every vehicle type",
+      subtitle = paste(
+        "Cost of bikes, vans and buses by vehicle colour (£),",
+        "January to May, example data"
+      ),
       caption_size = "l",
-      right_col = c("bikes", "vans", "buses"),
       page_size = 5
     ),
 
     shinyGovstyle::heading_text(
-      "govReactable with reactive data",
+      "govReactable with reactive data and dynamic title",
       size = "s",
       level = 2
     ),
@@ -45,7 +49,12 @@ mod_tables_tabs_ui <- function(id) {
     ),
     shinyGovstyle::govReactableOutput(
       shiny::NS(id, "interactive_table_test"),
-      caption = "Caption in output function"
+      # Start with the caption for the dropdown's default (first) colour, so
+      # it's right before the server's update_reactable_caption() runs
+      caption = paste(
+        sort(unique(shinyGovstyle::transport_data$colours))[1],
+        "vehicles by month"
+      )
     ),
 
     shinyGovstyle::heading_text("govTabs", size = "s", level = 2),
@@ -97,8 +106,17 @@ mod_tables_tabs_server <- function(id) {
     output$interactive_table_test <- shinyGovstyle::renderGovReactable({
       shinyGovstyle::govReactable(
         df = filtered_data(),
-        right_col = c("bikes", "vans", "buses"),
-        page_size = 3,
+        page_size = 3
+      )
+    })
+
+    # Keep the caption describing the filtered data. Runs inside
+    # moduleServer(), so the id is namespaced automatically.
+    shiny::observe({
+      shinyGovstyle::update_reactable_caption(
+        session,
+        "interactive_table_test",
+        paste(input$colourFilter, "vehicles by month")
       )
     })
   })

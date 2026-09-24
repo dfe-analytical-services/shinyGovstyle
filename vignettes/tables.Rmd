@@ -1,0 +1,169 @@
+---
+title: "Tables"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(shinyGovstyle)
+```
+
+## Before you add a table
+
+Use a table when users need to compare values across rows and columns. Do not use one to lay out a page. Use `gov_layout()` or `gov_row()` for that instead.
+
+If your data is a handful of numbers, a sentence or a `value_box()` is often clearer than a table. The [GOV.UK guidance on tables](https://guidance.publishing.service.gov.uk/formatting-content/text-formatting/tables/) has more on when a table helps and how to keep one simple.
+
+## Choosing a table function
+
+shinyGovstyle has three ways to show a table:
+
+- `govTable()` for small tables that do not change
+- `govReactable()` for bigger tables, or when users need to sort or page through the data
+- `govReactableOutput()` with `renderGovReactable()` for tables in a Shiny app that change as users pick options
+
+`govTable()` builds a plain HTML table in the GOV.UK style. It is the simplest option and works well up to a few dozen rows. It warns you if you give it more than 50 rows, because a long static table is slow to load and hard to read.
+
+`govReactable()` uses the [reactable](https://glin.github.io/reactable/) package, so users can sort columns and move between pages. It also works in R Markdown and Quarto documents.
+
+## Giving a table a title
+
+Every table needs a title, and users of screen readers hear it when they reach the table. All three functions take a `caption` for the title and an optional `subtitle` for the line underneath.
+
+The [Analysis Function guidance on tables](https://analysisfunction.civilservice.gov.uk/policy-store/data-visualisation-tables/) suggests a title in two parts. The first is a short headline that says what the data shows. The second says what the data is, where it covers and when. Put the headline in `caption` and the rest in `subtitle`:
+
+```{r, eval = FALSE}
+govTable(
+  "costs_table",
+  transport_data_small,
+  caption = "Bike and car costs were highest in March",
+  subtitle = "Cost of bikes and cars (£), England, January to March 2025"
+)
+```
+
+If every value in the table uses the same unit, put the unit in the subtitle, as with "(£)" above. If units differ, put them in the column headings.
+
+A headline is optional. If you do not want one, put the what, where and when in `caption` and leave out `subtitle`.
+
+Put the source of the data under the table, for example with `gov_text()`, rather than in the title.
+
+## Small tables with govTable()
+
+`govTable()` needs an id, a data frame and a caption.
+
+```{r, eval = FALSE}
+govTable(
+  "costs_table",
+  transport_data_small,
+  caption = "Bike and car costs were highest in March",
+  subtitle = "Cost of bikes and cars (£), England, January to March 2025",
+  num_col = c(2, 3)
+)
+```
+
+`num_col` right-aligns the numeric columns, given by position. GOV.UK tables right-align numbers so they are easier to compare down a column.
+
+To set column widths, give `width_overwrite` one width for each column, such as `c("one-half", "one-quarter", "one-quarter")`.
+
+## Larger tables with govReactable()
+
+```{r, eval = FALSE}
+govReactable(
+  transport_data,
+  caption = "Costs peaked in March for every vehicle type",
+  subtitle = "Cost of bikes, vans and buses (£), England, January to May 2025",
+  page_size = 5
+)
+```
+
+Numeric columns are right-aligned for you, so numbers line up for comparison. If a column holds numbers as text, such as "£85", name it in `right_col` to right-align it too. `page_size` sets how many rows show on each page.
+
+To change how a single column looks, for example to round numbers, pass `columns` a list of `reactable::colDef()` settings. Columns you do not mention keep the GOV.UK styling.
+
+```{r, eval = FALSE}
+govReactable(
+  transport_data,
+  caption = "Costs peaked in March for every vehicle type",
+  columns = list(
+    bikes = reactable::colDef(format = reactable::colFormat(prefix = "£"))
+  )
+)
+```
+
+govReactable does not show reactable's sort icons, because they are not accessible. Users can still sort by selecting a column heading.
+
+## Tables in a Shiny app
+
+In a Shiny app, put `govReactableOutput()` in the UI and build the table in the server with `renderGovReactable()`. The title goes on `govReactableOutput()`, because it stays on the page while the table data changes.
+
+```{r, eval = FALSE}
+ui <- gov_page(
+  govReactableOutput(
+    "costs_table",
+    caption = "Costs peaked in March for every vehicle type",
+    subtitle = "Cost of bikes, vans and buses (£), England, January to May 2025"
+  )
+)
+
+server <- function(input, output, session) {
+  output$costs_table <- renderGovReactable({
+    govReactable(transport_data)
+  })
+}
+```
+
+### Changing the title when the data changes
+
+If users can filter the table, the title should describe what they are looking at. Use `update_reactable_caption()` in the server to change the caption, the subtitle, or both.
+
+```{r, eval = FALSE}
+colours <- sort(unique(transport_data$colours))
+
+ui <- gov_page(
+  select_Input(
+    inputId = "colour",
+    label = "Colour",
+    select_text = colours,
+    select_value = colours
+  ),
+  govReactableOutput(
+    "costs_table",
+    caption = paste(colours[1], "vehicle costs peaked in March"),
+    subtitle = paste(colours[1], "vehicle costs (£), January to May")
+  )
+)
+
+server <- function(input, output, session) {
+  output$costs_table <- renderGovReactable({
+    govReactable(subset(transport_data, colours == input$colour))
+  })
+
+  shiny::observe({
+    update_reactable_caption(
+      session,
+      "costs_table",
+      caption = paste(input$colour, "vehicle costs peaked in March"),
+      subtitle = paste(input$colour, "vehicle costs (£), January to May")
+    )
+  })
+}
+```
+
+Start the caption in the UI with the text for the default choice, so the title is right before the server runs.
+
+A subtitle can only be updated if `govReactableOutput()` was given one to start with.
+
+The new title is not read out when it changes. Users hear it when they next reach the table. This avoids an announcement every time they change a filter.
+
+## Further guidance
+
+- [GOV.UK Design System table component](https://design-system.service.gov.uk/components/table/)
+- [GOV.UK guidance on using tables](https://guidance.publishing.service.gov.uk/formatting-content/text-formatting/tables/)
+- [Analysis Function guidance on tables](https://analysisfunction.civilservice.gov.uk/policy-store/data-visualisation-tables/)

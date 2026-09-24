@@ -10,7 +10,8 @@ govTable(
   caption,
   caption_size = "l",
   num_col = NULL,
-  width_overwrite = NULL
+  width_overwrite = NULL,
+  subtitle = NULL
 )
 }
 \arguments{
@@ -31,6 +32,14 @@ input components this is also the name used to access the value via
 Columns must add up to 1.
 Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
 Default is \code{NULL}}
+
+\item{subtitle}{Optional line shown under the caption, in smaller, lighter
+text: what the data is, where and when it covers, and the units if every
+value shares them (e.g. \code{"Cost of bikes (£), England, 2025"}). It becomes
+part of the table's accessible name, together with the caption. Needs a
+\code{caption}. Plain text is shown exactly as written (it is escaped); pass
+\code{shiny::HTML()} or tags for deliberate markup. \code{NULL} (default) shows no
+subtitle}
 }
 \value{
 a table HTML shiny tag object
@@ -45,6 +54,31 @@ For very large or interactive tables, consider
 becomes slow to render and harder to navigate as the number of rows grows.
 A warning is emitted when \code{df} has more than 50 rows.
 }
+\section{Table titles}{
+
+Every table needs a title. The
+\href{https://analysisfunction.civilservice.gov.uk/policy-store/data-visualisation-tables/}{Analysis Function guidance on tables}
+recommends giving it two parts, which map onto two arguments:
+\itemize{
+\item \code{caption}: a short headline stating the message, e.g.
+\code{"Costs peaked in March"}.
+\item \code{subtitle}: what the data is, where and when, e.g.
+\code{"Cost of bikes, vans and buses (£), England, January to May 2025"}.
+Include the units here if every value in the table shares them.
+}
+
+A headline is recommended but optional. Without one, put the what, where
+and when in \code{caption} and leave out \code{subtitle}.
+
+Put the source of the data underneath the table (for example with
+\code{\link[=gov_text]{gov_text()}}), rather than in the title.
+
+The caption and subtitle together form the table's accessible name, so
+screen reader users hear both when they reach the table. Keep them short and
+avoid repeating the same information in both. See also the
+\href{https://design-system.service.gov.uk/components/table/}{GOV.UK Design System table component}.
+}
+
 \examples{
 ui <- shinyGovstyle::gov_page(
   shinyGovstyle::gov_layout(
@@ -52,10 +86,11 @@ ui <- shinyGovstyle::gov_page(
     shinyGovstyle::govTable(
       "tab1",
       shinyGovstyle::transport_data_small,
-      "Test",
+      "Bike and car costs were highest in March",
       "l",
       num_col = c(2,3),
-      width_overwrite = c("one-half", "one-quarter", "one-quarter")
+      width_overwrite = c("one-half", "one-quarter", "one-quarter"),
+      subtitle = "Cost of bikes and cars, January to March"
     )
   )
 )
@@ -69,6 +104,7 @@ Other Govstyle tables tabs and accordions:
 \code{\link[=accordion]{accordion()}},
 \code{\link[=govReactable]{govReactable()}},
 \code{\link{govReactable-shiny}},
-\code{\link[=govTabs]{govTabs()}}
+\code{\link[=govTabs]{govTabs()}},
+\code{\link[=update_reactable_caption]{update_reactable_caption()}}
 }
 \concept{Govstyle tables tabs and accordions}

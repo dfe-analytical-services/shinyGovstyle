@@ -15,9 +15,12 @@
 #' arguments from `reactable::reactable` can be passed to customise the table.
 #'
 #' @param df A dataframe used to generate the table
-#' @param right_col A vector of column names that should be right-aligned.
-#' By default, numeric data is right-aligned, and character data is
-#' left-aligned
+#' @param right_col A vector of extra column names to right-align. Numeric
+#' columns are right-aligned automatically, following GOV.UK guidance that
+#' numbers should be right-aligned so they are easier to compare, and other
+#' columns are left-aligned. Use this for columns that hold numbers as text,
+#' such as `"£85"`. To left-align a numeric column, set
+#' `reactable::colDef(align = "left")` for it in `columns`
 #' @param page_size The default number of rows displayed per page (default: 10)
 #' @param highlight Highlight table rows on hover
 #' @param borderless Remove inner borders from table
@@ -32,9 +35,12 @@
 #' alignment, also keeps that same default. Names that don't match a
 #' column in `df` are ignored.
 #' @param caption Adds a caption to the table as a heading, linked to the
-#' table via `aria-labelledby`. Accepts plain text, `shiny::HTML()`, or tags.
-#' `NULL` (default) renders the table with no caption. In a Shiny app, set the
-#' caption on [govReactableOutput()] instead
+#' table via `aria-labelledby`. Plain text is shown exactly as written (it is
+#' escaped, so `<` or `&` can't be read as HTML); pass `shiny::HTML()` or tags
+#' for deliberate markup. `NULL` (default) renders the table with no caption.
+#' In a Shiny app, set the caption on [govReactableOutput()] instead
+#' @inheritParams table_title_params
+#' @inheritSection table_title_params Table titles
 #' @param caption_size Adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
 #' `"xl"`, with `"l"` as the default. Any other value throws an error.
 #' @param heading_level Heading level for the caption, an integer between 1
@@ -51,18 +57,17 @@
 #' @examples
 #' # Example static table using govReactable
 #' if (interactive()) {
+#'   # Numeric columns are right-aligned automatically
+#'   govReactable(iris)
+#'
+#'   # Use right_col for numbers stored as text, such as "£85"
 #'   govReactable(
-#'     iris,
-#'     right_col = c(
-#'       "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
-#'     )
+#'     shinyGovstyle::transport_data_small,
+#'     right_col = c("bikes", "cars")
 #'   )
 #'
 #'   govReactable(
 #'     iris,
-#'     right_col = c(
-#'       "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
-#'     ),
 #'     highlight = FALSE,
 #'     page_size = 5,
 #'     min_widths = list(
@@ -73,13 +78,12 @@
 #'     )
 #'   )
 #'
-#'   # Add a caption linked to the table for screen reader users
+#'   # Add a title linked to the table for screen reader users: a short
+#'   # headline, with what the data is, where and when underneath
 #'   govReactable(
-#'     iris,
-#'     caption = "Iris measurements",
-#'     right_col = c(
-#'       "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
-#'     )
+#'     shinyGovstyle::transport_data,
+#'     caption = "Costs peaked in March for every vehicle type",
+#'     subtitle = "Cost of bikes, vans and buses (£), January to May"
 #'   )
 #'
 #'   # Show one column to a fixed number of decimal places, leaving every
@@ -108,7 +112,6 @@
 #'   )
 #'   govReactable(
 #'     count_pct_data,
-#'     right_col = c("count", "percent"),
 #'     columns = list(
 #'       percent = reactable::colDef(
 #'         format = reactable::colFormat(digits = 1)
@@ -126,11 +129,16 @@ govReactable <- # nolint
     min_widths = list(),
     columns = list(),
     caption = NULL,
+    subtitle = NULL,
     caption_size = "l",
     heading_level = 2,
     caption_id = NULL,
     ...
   ) {
+    validate_single_content(caption, "caption")
+    validate_single_content(subtitle, "subtitle")
+    validate_subtitle_has_caption(caption, subtitle)
+
     # Generate column definitions
     col_defs <- stats::setNames(
       lapply(seq_along(names(df)), function(index) {
@@ -142,7 +150,10 @@ govReactable <- # nolint
           headerClass = "bar-sort-header",
           html = TRUE,
           na = "NA",
-          align = if (!is.null(right_col) && col %in% right_col) {
+          # GOV.UK right-aligns numbers so they line up for comparison, so
+          # numeric columns do this without being asked. right_col adds
+          # columns that hold numbers as text, such as "£85".
+          align = if (is.numeric(df[[col]]) || col %in% right_col) {
             "right"
           } else {
             "left"
@@ -201,30 +212,77 @@ govReactable <- # nolint
       validate_caption_id(caption_id)
     }
 
-    captioned_table(table, caption, caption_size, heading_level, caption_id)
+    captioned_table(
+      table,
+      caption,
+      caption_size,
+      heading_level,
+      caption_id,
+      subtitle,
+      paste0(caption_id, "-subtitle")
+    )
   }
 
-# Internal helper: returns the caption heading followed by a region wrapping
-# `content`, linked to the heading via aria-labelledby. Shared by
-# govReactable() and govReactableOutput(). The id is always chosen by the
-# caller rather than derived from the caption text: slugifying the text gave
-# duplicate or empty ids (digits and non-ASCII letters were stripped, so
-# "Table 1" and "Table 2" both became "table_"), which silently pointed a
-# table at the wrong caption, or at none.
-captioned_table <- function(content, caption, caption_size, heading_level, id) {
+# Internal helper: returns the caption heading, an optional subtitle, and a
+# region wrapping `content`, labelled by the heading (and subtitle) via
+# aria-labelledby. Shared by govReactable() and govReactableOutput(). The id is
+# always chosen by the caller rather than derived from the caption text:
+# slugifying the text gave duplicate or empty ids (digits and non-ASCII letters
+# were stripped, so "Table 1" and "Table 2" both became "table_"), which
+# silently pointed a table at the wrong caption, or at none. Callers derive
+# the subtitle id from the same unique source, so it can't collide either.
+captioned_table <- function(
+  content,
+  caption,
+  caption_size,
+  heading_level,
+  id,
+  subtitle = NULL,
+  subtitle_id = NULL
+) {
   validate_heading_level(heading_level)
   validate_gds_text_size(caption_size, "caption_size")
+
+  has_subtitle <- !is.null(subtitle)
+
+  heading_class <- paste0("govuk-heading-", caption_size)
+  if (has_subtitle) {
+    # Pull the subtitle up under the headline so the two read as one title
+    heading_class <- paste(heading_class, "govuk-!-margin-bottom-1")
+  }
 
   htmltools::tagList(
     build_heading_tag(
       heading_level,
-      as_govuk_html(caption),
-      paste0("govuk-heading-", caption_size),
+      # Passed unwrapped on purpose so htmltools escapes plain strings. Captions
+      # are often built from data or user input (e.g. paste(input$region,
+      # "results"), a column value, a file name). Sent as raw HTML, a value
+      # containing `<script>` or `<img onerror=...>` would run as code in the
+      # user's browser (cross-site scripting), and even an innocent stray `<`
+      # would break the markup and change the table's accessible name, since
+      # this heading is its aria-labelledby target. Tags and shiny::HTML()
+      # still pass through, so markup is an explicit opt-in. The subtitle
+      # below is passed unwrapped for the same reason.
+      caption,
+      heading_class,
       id
     ),
+    if (has_subtitle) {
+      shiny::tags$p(
+        id = subtitle_id,
+        class = paste(
+          subtitle_class(caption_size),
+          "govuk-!-margin-bottom-4"
+        ),
+        subtitle
+      )
+    },
     htmltools::tags$div(
       role = "region",
-      `aria-labelledby` = id,
+      # Both parts label the table, matching govTable(), where the subtitle
+      # sits inside the native <caption>. aria-labelledby is far better
+      # supported than aria-describedby (W3C WAI tables tutorial).
+      `aria-labelledby` = if (has_subtitle) paste(id, subtitle_id) else id,
       content
     )
   )
@@ -289,8 +347,13 @@ coerce_heading_level <- function(heading_level) {
 #'
 #' @param output_table_name Output variable to read from
 #' @param caption Adds a caption to the table as a heading, linked to the
-#' table via `aria-labelledby`. Accepts plain text, `shiny::HTML()`, or tags.
-#' The heading's id is `output_table_name` followed by `-caption`
+#' table via `aria-labelledby`. Plain text is shown exactly as written (it is
+#' escaped); pass `shiny::HTML()` or tags for deliberate markup. The heading's
+#' id is `output_table_name` followed by `-caption` (and the subtitle's id,
+#' `-subtitle`). To change either from the server, use
+#' [update_reactable_caption()]
+#' @inheritParams table_title_params
+#' @inheritSection table_title_params Table titles
 #' @param caption_size Adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
 #' `"xl"`, with `"l"` as the default. Any other value throws an error.
 #' @param heading_level Heading level for the caption, an integer between 1
@@ -313,7 +376,8 @@ coerce_heading_level <- function(heading_level) {
 #' ui <- shinyGovstyle::gov_page(
 #'   govReactableOutput(
 #'     "table",
-#'     caption = "Example table"
+#'     caption = "Virginica flowers have the longest petals",
+#'     subtitle = "Petal and sepal measurements (cm) for three iris species"
 #'   )
 #' )
 #'
@@ -324,27 +388,72 @@ coerce_heading_level <- function(heading_level) {
 #' }
 #'
 #' if (interactive()) shinyApp(ui, server)
+#'
+#' # A caption that follows a filter, updated from the server. The starting
+#' # caption matches the dropdown's default so it's right before the server
+#' # runs.
+#' species <- levels(iris$Species)
+#'
+#' ui <- shinyGovstyle::gov_page(
+#'   shinyGovstyle::select_Input(
+#'     inputId = "species",
+#'     label = "Species",
+#'     select_text = species,
+#'     select_value = species
+#'   ),
+#'   govReactableOutput(
+#'     "table",
+#'     caption = paste(species[1], "measurements")
+#'   )
+#' )
+#'
+#' server <- function(input, output, session) {
+#'   output$table <- renderGovReactable({
+#'     govReactable(iris[iris$Species == input$species, ])
+#'   })
+#'
+#'   shiny::observe({
+#'     update_reactable_caption(
+#'       session,
+#'       "table",
+#'       paste(input$species, "measurements")
+#'     )
+#'   })
+#' }
+#'
+#' if (interactive()) shinyApp(ui, server)
 #' @export
 govReactableOutput <- # nolint
   function(
     output_table_name,
     caption,
     caption_size = "l",
-    heading_level = 2
+    heading_level = 2,
+    subtitle = NULL
   ) {
     heading_level <- coerce_heading_level(heading_level)
+    validate_single_content(caption, "caption", allow_null = FALSE)
+    validate_single_content(subtitle, "subtitle")
 
     # Shiny already requires output ids to be unique on the page (and module
-    # namespacing is applied to them), so deriving the caption id from the
-    # output id guarantees the aria-labelledby link can't collide.
-    htmltools::div(
-      captioned_table(
-        reactable::reactableOutput(output_table_name),
-        caption,
-        caption_size,
-        heading_level,
-        paste0(output_table_name, "-caption")
-      )
+    # namespacing is applied to them), so deriving the caption and subtitle ids
+    # from the output id guarantees the aria-labelledby link can't collide.
+    # The "reactable_output" dependency ships the handler
+    # update_reactable_caption() sends to, so either can be changed from the
+    # server.
+    attachDependency(
+      htmltools::div(
+        captioned_table(
+          reactable::reactableOutput(output_table_name),
+          caption,
+          caption_size,
+          heading_level,
+          paste0(output_table_name, "-caption"),
+          subtitle,
+          paste0(output_table_name, "-subtitle")
+        )
+      ),
+      widget = "reactable_output"
     )
   }
 

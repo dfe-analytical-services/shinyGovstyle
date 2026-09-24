@@ -50,6 +50,77 @@ test_that("Next button switches the panel and updates the title", {
   )
 })
 
+test_that("Colour filter updates the reactive table's caption", {
+  app$click("sn_tables_tabs")
+  app$wait_for_idle()
+
+  caption_id <- "tables_tabs-interactive_table_test-caption"
+  caption_js <- sprintf(
+    "document.getElementById('%s').textContent",
+    caption_id
+  )
+  expect_equal(app$get_js(caption_js), "Blue vehicles by month")
+
+  app$set_inputs("tables_tabs-colourFilter" = "Red")
+  app$wait_for_idle()
+  expect_equal(app$get_js(caption_js), "Red vehicles by month")
+
+  # The table region must still be labelled by the (updated) caption
+  expect_equal(
+    app$get_js(
+      sprintf(
+        "document.querySelector('[aria-labelledby=\"%s\"]') !== null",
+        caption_id
+      )
+    ),
+    TRUE
+  )
+})
+
+test_that("Table titles include their subtitles in the accessible name", {
+  app$click("sn_tables_tabs")
+  app$wait_for_idle()
+
+  # govTable: the subtitle sits inside the native <caption>. Whitespace is
+  # collapsed as it is when browsers compute the accessible name.
+  expect_equal(
+    app$get_js(
+      paste0(
+        "document.querySelector('#tables_tabs-tab1 caption')",
+        ".textContent.replace(/\\s+/g, ' ').trim()"
+      )
+    ),
+    paste(
+      "Bike and car costs were highest in March",
+      "Cost of bikes and cars (£), January to March, example data"
+    )
+  )
+
+  # Static govReactable: the region is labelled by the headline and subtitle
+  expect_equal(
+    app$get_js(
+      paste0(
+        "(() => {",
+        "  const heading = [...document.querySelectorAll('h2')].find(",
+        "    h => h.textContent === ",
+        "      'Costs peaked in March for every vehicle type'",
+        "  );",
+        "  const region = document.querySelector(",
+        "    '[aria-labelledby^=\"' + heading.id + ' \"]'",
+        "  );",
+        "  return region.getAttribute('aria-labelledby').split(' ')",
+        "    .map(id => document.getElementById(id).textContent).join(' | ');",
+        "})()"
+      )
+    ),
+    paste(
+      "Costs peaked in March for every vehicle type |",
+      "Cost of bikes, vans and buses by vehicle colour (£),",
+      "January to May, example data"
+    )
+  )
+})
+
 test_that("Cookie banner link switches to the cookies panel", {
   app$click("cookieLink")
   app$wait_for_idle()

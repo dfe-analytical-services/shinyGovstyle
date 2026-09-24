@@ -33,6 +33,44 @@ test_that("govReactableOutput caption ids follow the (namespaced) output id", {
   expect_identical(links$labelledby, links$heading_ids)
 })
 
+test_that("govReactableOutput subtitle id follows the (namespaced) output id", {
+  ns <- shiny::NS("mod")
+  output_tag <- govReactableOutput(
+    ns("table"),
+    caption = "Costs peaked in March",
+    subtitle = "Cost of vehicles (£), January to May"
+  )
+
+  subtitle <- find_tag_required(output_tag, "govuk-caption-m")
+  expect_identical(
+    htmltools::tagGetAttribute(subtitle, "id"),
+    "mod-table-subtitle"
+  )
+  expect_identical(
+    caption_links(output_tag)$labelledby,
+    "mod-table-caption mod-table-subtitle"
+  )
+})
+
+test_that("govReactableOutput markup is unchanged without a subtitle", {
+  output_tag <- govReactableOutput("table", caption = "Example table")
+  expect_no_tag(output_tag, "govuk-caption-m")
+  expect_identical(caption_links(output_tag)$labelledby, "table-caption")
+})
+
+test_that("govReactableOutput errors on an invalid caption or subtitle", {
+  expect_error(
+    govReactableOutput("table", caption = ""),
+    "`caption` must be a single, non-empty string",
+    fixed = TRUE
+  )
+  expect_error(
+    govReactableOutput("table", caption = "Headline", subtitle = NA_character_),
+    "`subtitle` must be a single, non-empty string",
+    fixed = TRUE
+  )
+})
+
 test_that("govReactableOutput caption respects caption_size/heading_level", {
   output_tag <- govReactableOutput(
     "table",

@@ -9,6 +9,8 @@
 #' A warning is emitted when `df` has more than 50 rows.
 #' @param df expects a dataframe to create a table
 #' @param caption adds a caption to the table as a header
+#' @inheritParams table_title_params
+#' @inheritSection table_title_params Table titles
 #' @param caption_size adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
 #' `"xl"`, with `"l"` as the default. Any other value throws an error.
 #' @param num_col adds numeric class format to these columns
@@ -26,10 +28,11 @@
 #'     shinyGovstyle::govTable(
 #'       "tab1",
 #'       shinyGovstyle::transport_data_small,
-#'       "Test",
+#'       "Bike and car costs were highest in March",
 #'       "l",
 #'       num_col = c(2,3),
-#'       width_overwrite = c("one-half", "one-quarter", "one-quarter")
+#'       width_overwrite = c("one-half", "one-quarter", "one-quarter"),
+#'       subtitle = "Cost of bikes and cars, January to March"
 #'     )
 #'   )
 #' )
@@ -44,9 +47,11 @@ govTable <- # nolint
     caption,
     caption_size = "l",
     num_col = NULL,
-    width_overwrite = NULL
+    width_overwrite = NULL,
+    subtitle = NULL
   ) {
     validate_gds_text_size(caption_size, "caption_size")
+    validate_single_content(subtitle, "subtitle")
 
     # Static HTML tables become slow to render and hard to navigate (no
     # pagination, sorting, or filtering) as they grow. Steer users towards
@@ -81,7 +86,20 @@ govTable <- # nolint
           caption_size
         ),
         style = "caption-side: top;",
-        caption
+        caption,
+        # The subtitle sits inside the native <caption> (the W3C WAI tables
+        # tutorial's recommended way to give a table a visible summary), so it
+        # is part of the table's accessible name in every screen reader
+        # without any ARIA. Plain text is escaped, as for the caption.
+        if (!is.null(subtitle)) {
+          shiny::tags$span(
+            class = paste(
+              subtitle_class(caption_size),
+              "govuk-!-margin-top-1"
+            ),
+            subtitle
+          )
+        }
       ),
       shiny::tags$thead(
         class = "govuk-table__head",

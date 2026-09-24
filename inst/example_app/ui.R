@@ -37,7 +37,7 @@ shinyGovstyle::gov_page(
     shinyGovstyle::gov_row(
       shinyGovstyle::gov_box(
         size = "two-thirds",
-        mod_width_toggle_ui("width_toggle"),
+        mod_width_toggle_ui("width_toggle", initial = demo_width),
         shinyGovstyle::gov_text(
           "This example app showcases the components available in the",
           "latest development version of the shinyGovstyle package.",

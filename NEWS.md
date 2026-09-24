@@ -10,7 +10,10 @@ deprecated keeps working in this release.
 * Four functions have been renamed to match the GOV.UK Design System
   component names. The old names still work, with a deprecation warning, and
   produce identical output:
-  * `insert_text()` is now `inset_text()`.
+  * `insert_text()` is now `inset_text()`. Its `text` argument is now
+    `content`, reflecting that it accepts more than plain text;
+    `insert_text(text = )` gives a single warning pointing to
+    `inset_text(content = )`.
   * `banner()` is now `phase_banner()`, with the same arguments.
   * `tag_Input()` is now `gov_tag()`, with the same arguments.
   * `panel_output(inputId, main_text, sub_text)` is now
@@ -26,7 +29,7 @@ deprecated keeps working in this release.
 * `word_count()` is deprecated as it is no longer required:
   `text_area_Input(word_limit = )` now tracks and announces the word count
   entirely client-side, so the server-side `word_count()` observer can be
-  deleted. (Its warning previously gave the wrong version.)
+  deleted.
 * `header()` arguments `main_text`, `secondary_text`, `main_link`,
   `secondary_link`, `main_alt_text`, and `secondary_alt_text` will be
   removed in v1.0.0. The warnings for the four link and alt text arguments
@@ -41,11 +44,11 @@ deprecated keeps working in this release.
   `links` vector exactly as given. Previously they were lowercased and had
   non-alphanumeric characters replaced with underscores, so
   `c("Page two" = "m-Second")` created the input `m_second` rather than
-  `m-Second`, which broke navigation inside Shiny modules. If you
-  relied on that conversion, update the ids in your server code to match the
-  ones you supply. Link text passed without a name still gets a generated id,
-  as before. Duplicate inputIDs now give an error rather than silently
-  creating clashing links.
+  `m-Second`, which broke navigation inside Shiny modules. If you relied on
+  that conversion, update the ids in your server code to match the ones you
+  supply. Link text passed without a name still gets a generated id, as
+  before. Duplicate inputIDs now give an error rather than silently creating
+  clashing links.
 * Error message element ids changed from `<inputId>error` to `<inputId>-error`
   (matching the hint id format `<inputId>-hint`). This affects
   `radio_button_Input()`, `checkbox_Input()`, `date_Input()`, `text_Input()`,
@@ -53,10 +56,6 @@ deprecated keeps working in this release.
   `error_off()` have been updated to match and continue to work transparently;
   only custom CSS or JS that targets `#fooerror` selectors needs updating to
   `#foo-error`.
-* `insert_text()` argument `text` has been renamed to `content` to reflect
-  that it now accepts more than plain text, and the function itself is now
-  `inset_text()` (see above). `insert_text(text = )` gives one warning
-  pointing to `inset_text(content = )`.
 * Removed the experimental `full_width_overrides()` function. Use the new
   `width` argument on `header()`, `footer()`, `phase_banner()`,
   `cookieBanner()`, `service_navigation()` and `gov_main_layout()` instead
@@ -87,12 +86,12 @@ deprecated keeps working in this release.
   a `description` argument for the page's `<meta name="description">` tag,
   and a `width` argument that sets a default width for every shinyGovstyle
   component used inside it, so you don't have to repeat `width = ` on each
-  one — a component that sets its own `width` always overrides the page
+  one. A component that sets its own `width` always overrides the page
   default.
 * `header()`, `footer()`, `phase_banner()`, `cookieBanner()`,
   `service_navigation()`, `gov_main_layout()` and the deprecated
-  `gov_layout()` gain a
-  `width` argument for building wider, dashboard-style layouts:
+  `gov_layout()` gain a `width` argument for building wider, dashboard-style
+  layouts:
   `"standard"` (the default, GOV.UK's usual 960px content width),
   `"three-quarters"` (three-quarters of the viewport, never narrower than
   standard), `"full"` (edge-to-edge, with grid gutters also removed), or a
@@ -101,8 +100,8 @@ deprecated keeps working in this release.
   addition to `TRUE`/`FALSE`. Setting `add_warning = "icon"` adds a small
   decorative arrow icon after the link text, giving sighted users a visual
   warning that the link opens in a new tab without repeating the "(opens in
-  new tab)" text — useful for grouped links (see the "Grouped links" section
-  of the "Headings and text" vignette). The icon is hidden from screen
+  new tab)" text, which is useful for grouped links (see the "Grouped links"
+  section of the "Headings and text" vignette). The icon is hidden from screen
   readers, which get the same hidden warning as `add_warning = FALSE`.
 * New `update_page_title()` function to update the browser tab title from
   server code, mirroring `update_service_navigation()`. Compose a title
@@ -127,10 +126,9 @@ deprecated keeps working in this release.
   banner choice. See the new "Cookies and analytics" vignette.
 * `inset_text()` (`content`), `confirmation_panel()` (`content`),
   `noti_banner()` (`body_txt`), `details()` (`help_text`), `phase_banner()`
-  (`label`),
-  `warning_text()` (`text`), and `gov_summary()` (`info`) now accept `shiny`
-  tag objects (e.g. `shiny::tags$b("Bold")`) and `shiny::tagList()` values in
-  addition to plain character strings.
+  (`label`), `warning_text()` (`text`), and `gov_summary()` (`info`) now
+  accept `shiny` tag objects (e.g. `shiny::tags$b("Bold")`) and
+  `shiny::tagList()` values in addition to plain character strings.
 * `gov_list()` (`list`) and `accordion()` (`descriptions`) now accept `shiny`
   tag objects and `shiny::tagList()` values, so list items and accordion
   sections can contain links and other rich content. `accordion()` section
@@ -143,8 +141,8 @@ deprecated keeps working in this release.
   strings, HTML strings, `shiny` tag objects, and `shiny::tagList()` values.
   Previously labels accepted HTML strings but not tags, while hints accepted
   tags but not HTML strings.
-* `phase_banner()` gains a `feedback_url` argument that auto-generates the standard
-  GOV.UK phase banner feedback text (e.g. "This is a new service - your
+* `phase_banner()` gains a `feedback_url` argument that auto-generates the
+  standard GOV.UK phase banner feedback text (e.g. "This is a new service - your
   feedback (opens in new tab) will help us to improve it."), or contact-style
   text if `feedback_url` is a `mailto:` link. `label` is now optional, but
   exactly one of `label` or `feedback_url` must be supplied.
@@ -165,11 +163,10 @@ deprecated keeps working in this release.
 * The active `service_navigation()` link now has `aria-current="page"`, as
   in the GOV.UK Design System, so screen readers announce which page is
   current. Previously only the visual highlight changed.
-
 * `service_navigation()` now syncs the browser tab title with the active
   page by default. Screen readers announce the title on navigation,
   so a static title is an accessibility issue for multi-page dashboards.
-  This is a behaviour change — set `auto_page_title = FALSE` on
+  This is a behaviour change; set `auto_page_title = FALSE` on
   `service_navigation()` to restore the previous behaviour.
 * `header()` no longer emits spurious deprecation warnings for `main_link`,
   `secondary_link`, `main_alt_text`, and `secondary_alt_text` when those
@@ -202,7 +199,7 @@ deprecated keeps working in this release.
   rendered markup, so option replacement silently did nothing).
 * `radio_button_Input()`'s client binding now correctly reads and updates the
   group label (`update_radio_button_Input(label = ...)`, and Shiny's
-  built-in bookmarking) — the previous selector targeted the old
+  built-in bookmarking). The previous selector targeted the old
   `<label for=...>` markup, which no longer exists now that the label
   renders inside a `<legend>` via the shared fieldset helper.
 * `govTable()` now renders rows in dataframe order (row order was previously
@@ -212,9 +209,6 @@ deprecated keeps working in this release.
   user stops typing, matching the GOV.UK Design System character count
   component. Previously it updated visually on every keystroke but was never
   announced.
-
-## Minor improvements and bug fixes
-
 * `radio_button_Input()`, `checkbox_Input()`, and `date_Input()` now wrap their
   contents in a `<fieldset>` with a `<legend>` (previously they used a
   `<label>` inside the fieldset, which is invalid and meant screen readers did

@@ -1,6 +1,15 @@
 url: https://dfe-analytical-services.github.io/shinyGovstyle
 template:
   bootstrap: 5
+  bslib:
+    brand: inst/govuk-brand.yml
+
+footer:
+  structure:
+    left: developed_by
+    right: [styled_by, built_with]
+  components:
+    styled_by: "Styled with [govuk-brand-yml](https://github.com/cjrace/govuk-brand-yml)."
 
 reference:
 - title: Core layout

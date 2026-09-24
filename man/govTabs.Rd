@@ -23,7 +23,7 @@ This function creates a tabs based table. It requires a single dataframe
 with a grouping variable.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",

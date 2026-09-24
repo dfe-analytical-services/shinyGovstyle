@@ -21,7 +21,7 @@ See the
 typeface guidance} for full details on when GDS Transport is permitted.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   font(),
   shinyGovstyle::header(
     org_name = "Example",
@@ -32,9 +32,5 @@ ui <- shiny::fluidPage(
 server <- function(input, output, session) {}
 
 if (interactive()) shinyApp(ui = ui, server = server)
-}
-\seealso{
-Other Govstyle styling:
-\code{\link[=full_width_overrides]{full_width_overrides()}}
 }
 \concept{Govstyle styling}

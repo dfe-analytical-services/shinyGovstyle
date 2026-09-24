@@ -31,7 +31,7 @@
 #'   "07700 900457 <br> sarah.phillips@example.com"
 #' )
 #'
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",

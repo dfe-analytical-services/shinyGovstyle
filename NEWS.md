@@ -12,6 +12,23 @@
 * `insert_text()` argument `text` has been renamed to `content` to reflect
   that it now accepts more than plain text. The old name is deprecated and
   will be removed in a future version.
+* `word_count()` has been deprecated as it is no longer required for
+  `text_area_Input()`, which now tracks and announces the word count
+  entirely client-side.
+* Removed the experimental `full_width_overrides()` function. Use the new
+  `width` argument on `header()`, `footer()`, `banner()`, `cookieBanner()`,
+  `service_navigation()`, `gov_main_layout()` and `gov_layout()` instead
+  (see below).
+* `bslib` has moved from `Suggests` to `Imports`, since the new
+  `gov_page()` function depends on it directly. If you install
+  shinyGovstyle without its `Suggests` dependencies, you'll now get
+  `bslib` automatically; if you pin dependencies some other way, add
+  `bslib` to that list.
+* Heading and caption size arguments (e.g. `size` on `heading_text()`,
+  `caption_size` on `govTable()` and `govReactableOutput()`, and `label_size`
+  on form inputs like `checkbox_Input()`) now throw an error if given
+  anything other than `"s"`, `"m"`, `"l"`, or `"xl"`. Previously an invalid
+  value was accepted silently and could produce broken styling.
 
 ## New features
 
@@ -23,6 +40,28 @@
   hint above the table explaining that headings can be selected to sort; the
   new exported `gov_table_sort_hint()` adds the same hint to static tables
   built directly with `govReactable()`.
+* `govReactable()` gains a `columns` argument for column-specific
+  overrides, such as fixing a column's decimal places with
+  `reactable::colFormat()`. Only the fields you set are applied; any field
+  you leave unset keeps govReactable's GOV.UK default for that column.
+  Previously, passing a `columns` argument through `...` errored with
+  `formal argument "columns" matched by multiple actual arguments`
+  (#243).
+* New `gov_page()` function, a GOV.UK-flavoured wrapper around
+  `bslib::page_fluid()`. It sets `<html lang="en">` by default (screen
+  readers use this to choose the right pronunciation and voice), adds
+  a `description` argument for the page's `<meta name="description">` tag,
+  and a `width` argument that sets a default width for every shinyGovstyle
+  component used inside it, so you don't have to repeat `width = ` on each
+  one — a component that sets its own `width` always overrides the page
+  default.
+* `header()`, `footer()`, `banner()`, `cookieBanner()`,
+  `service_navigation()`, `gov_main_layout()` and `gov_layout()` gain a
+  `width` argument for building wider, dashboard-style layouts:
+  `"standard"` (the default, GOV.UK's usual 960px content width),
+  `"three-quarters"` (three-quarters of the viewport, never narrower than
+  standard), `"full"` (edge-to-edge, with grid gutters also removed), or a
+  CSS length (e.g. `"1400px"`, `"90vw"`) for a custom max-width.
 * `external_link()`'s `add_warning` argument now also accepts `"icon"`, in
   addition to `TRUE`/`FALSE`. Setting `add_warning = "icon"` adds a small
   decorative arrow icon after the link text, giving sighted users a visual
@@ -121,6 +160,11 @@
   renders inside a `<legend>` via the shared fieldset helper.
 * `govTable()` now renders rows in dataframe order (row order was previously
   silently reversed).
+* `text_area_Input()`'s word-limit message is now a live region
+  (`aria-live="polite"`), announced to screen readers a short pause after the
+  user stops typing, matching the GOV.UK Design System character count
+  component. Previously it updated visually on every keystroke but was never
+  announced.
 
 ## Minor improvements and bug fixes
 

@@ -27,7 +27,7 @@ This function creates an action link to nav between tabs and optionally
 link to subcontents headers.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   gov_row(
     # Nav columns
     shiny::column(

@@ -8,7 +8,7 @@
 \alias{gov_text}
 \title{Page Layout Functions}
 \usage{
-gov_main_layout(..., inputID = "main")
+gov_main_layout(..., inputID = "main", width = "standard")
 
 gov_row(...)
 
@@ -23,6 +23,13 @@ example}
 
 \item{inputID}{ID of the main div. Defaults to "main"}
 
+\item{width}{Width of the component. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard),
+\code{"full"} (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
+
 \item{size}{size of the box in the row. Optional are full, one-half,
 two-thirds, one-third and one-quarter. Defaults to "full"}
 }
@@ -36,7 +43,7 @@ overarching layout. The gov_row creates a each row and gov_box creates
 a box within the row. The gov_text is a container for text bodies.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -92,6 +99,7 @@ Other Govstyle page structure:
 \code{\link[=cookieBanner]{cookieBanner()}},
 \code{\link[=footer]{footer()}},
 \code{\link[=gov_layout]{gov_layout()}},
+\code{\link[=gov_page]{gov_page()}},
 \code{\link[=header]{header()}},
 \code{\link[=skip_to_main]{skip_to_main()}}
 }

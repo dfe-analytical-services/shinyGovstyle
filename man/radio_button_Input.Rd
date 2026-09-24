@@ -76,7 +76,7 @@ radio buttons HTML shiny tag object
 This function create radio buttons
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   # Required for error handling function
   shinyjs::useShinyjs(),
   shinyGovstyle::header(

@@ -38,7 +38,7 @@ a input field of HTML as a shiny tag object
 This function inserts number of text inputs. Useful for addresses.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   # Required for error handling function
   shinyjs::useShinyjs(),
   shinyGovstyle::header(

@@ -20,6 +20,12 @@ base_dependencies <- function() {
       stylesheet = "govuk-frontend-6.1.0.min.css"
     ),
     htmltools::htmlDependency(
+      name = "width-overrides",
+      version = version,
+      src = c(href = "shinyGovstyle/css"),
+      stylesheet = "width-overrides.css"
+    ),
+    htmltools::htmlDependency(
       name = "update_page_title",
       version = version,
       src = c(href = "shinyGovstyle/js"),
@@ -57,6 +63,13 @@ attachDependency <- # nolint
           version = version,
           src = c(href = "shinyGovstyle/js"),
           script = "date_input_binding.js"
+        )
+      } else if (widget == "textarea") {
+        htmltools::htmlDependency(
+          name = "text_area_input",
+          version = version,
+          src = c(href = "shinyGovstyle/js"),
+          script = "text_area_input.js"
         )
       } else if (widget == "accordion") {
         htmltools::htmlDependency(

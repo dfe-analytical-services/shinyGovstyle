@@ -22,8 +22,8 @@ renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
 
 \item{caption}{Adds a caption to the table as a header}
 
-\item{caption_size}{Adjust the size of caption
-Options are s, m, l, xl, with l as the default}
+\item{caption_size}{Adjust the size of caption. One of \code{"s"}, \code{"m"}, \code{"l"},
+\code{"xl"}, with \code{"l"} as the default. Any other value throws an error.}
 
 \item{heading_level}{The HTML heading level for
 the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2"}
@@ -52,7 +52,7 @@ Shiny bindings for govReactable
 Output and render functions for using govReactable within shiny apps
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   govReactableOutput(
     "table",
     caption = "Example table"

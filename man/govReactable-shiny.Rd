@@ -11,8 +11,7 @@ govReactableOutput(
   output_table_name,
   caption,
   caption_size = "l",
-  heading_level = "h2",
-  show_sort_hint = TRUE
+  heading_level = "h2"
 )
 
 renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
@@ -27,11 +26,6 @@ renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
 
 \item{heading_level}{The HTML heading level for
 the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2"}
-
-\item{show_sort_hint}{Show a hint above the table explaining that
-column headings can be selected to sort the table (see issue #190).
-Default is \code{TRUE}. For static tables built with \code{govReactable()} directly,
-add this hint manually with \code{gov_table_sort_hint()}.}
 
 \item{expr}{An expression that generates a \code{reactable} widget}
 
@@ -72,7 +66,6 @@ Other Govstyle tables tabs and accordions:
 \code{\link[=accordion]{accordion()}},
 \code{\link[=govReactable]{govReactable()}},
 \code{\link[=govTable]{govTable()}},
-\code{\link[=govTabs]{govTabs()}},
-\code{\link[=gov_table_sort_hint]{gov_table_sort_hint()}}
+\code{\link[=govTabs]{govTabs()}}
 }
 \concept{Govstyle tables tabs and accordions}

@@ -103,8 +103,9 @@ attachDependency <- # nolint
         htmltools::htmlDependency(
           name = "reactable-overrides",
           version = version,
-          src = c(href = "shinyGovstyle/css"),
-          stylesheet = "reactable-overrides.css"
+          src = c(href = "shinyGovstyle"),
+          stylesheet = "css/reactable-overrides.css",
+          script = "js/govreactable.js"
         )
       }
 

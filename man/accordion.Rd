@@ -82,7 +82,6 @@ Other Govstyle tables tabs and accordions:
 \code{\link[=govReactable]{govReactable()}},
 \code{\link{govReactable-shiny}},
 \code{\link[=govTable]{govTable()}},
-\code{\link[=govTabs]{govTabs()}},
-\code{\link[=gov_table_sort_hint]{gov_table_sort_hint()}}
+\code{\link[=govTabs]{govTabs()}}
 }
 \concept{Govstyle tables tabs and accordions}

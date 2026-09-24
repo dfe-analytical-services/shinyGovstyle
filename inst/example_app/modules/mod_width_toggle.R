@@ -124,7 +124,7 @@ mod_width_toggle_server <- function(id) {
           tier,
           session$ns(paste0("set_", tier))
         ))
-      }, ignoreInit = TRUE)
+      })
     })
   })
 }

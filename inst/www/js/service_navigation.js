@@ -61,18 +61,9 @@ function setActiveServiceNavLink(link) {
   applyAutoPageTitle(link);
 }
 
-// Allow programmatic update of active nav item from R server code.
-// The message carries the session-namespaced id plus the raw id as a
-// fallback (see update_service_navigation() in R/service_navigation.R).
-// Ids are used verbatim, so module namespaces and mixed case are preserved.
-Shiny.addCustomMessageHandler("update_service_navigation", function (message) {
-  var link;
-  if (typeof message === "string") {
-    link = findServiceNavLink(message);
-  } else {
-    link = findServiceNavLink(message.id) ||
-      findServiceNavLink(message.fallback);
-  }
+// Allow programmatic update of active nav item from R server code
+Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
+  var link = findServiceNavLink(inputId);
 
   // An id with no matching nav link clears the highlight, e.g. for pages
   // that are not in the navigation

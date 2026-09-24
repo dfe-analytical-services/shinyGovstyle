@@ -40,15 +40,6 @@ deprecated keeps working in this release.
 
 ## Breaking changes
 
-* `service_navigation()` now uses inputIDs supplied as the values of a named
-  `links` vector exactly as given. Previously they were lowercased and had
-  non-alphanumeric characters replaced with underscores, so
-  `c("Page two" = "m-Second")` created the input `m_second` rather than
-  `m-Second`, which broke navigation inside Shiny modules. If you relied on
-  that conversion, update the ids in your server code to match the ones you
-  supply. Link text passed without a name still gets a generated id, as
-  before. Duplicate inputIDs now give an error rather than silently creating
-  clashing links.
 * Error message element ids changed from `<inputId>error` to `<inputId>-error`
   (matching the hint id format `<inputId>-hint`). This affects
   `radio_button_Input()`, `checkbox_Input()`, `date_Input()`, `text_Input()`,
@@ -153,13 +144,11 @@ deprecated keeps working in this release.
 
 ## Bug fixes
 
-* `service_navigation()` now works inside Shiny modules and with mixed-case
-  ids: build the links with `ns()` in the module UI, and use the bare ids in
-  the module server with `service_navigation_server()`, `navigate_to()`, or
-  `update_service_navigation()`. `update_service_navigation()` now
-  namespaces its `inputId` with `session$ns()`, like other Shiny update
-  functions, and still finds a nav link given its full id or one that sits
-  outside the module.
+* `service_navigation()` now gives an error when two links end up with the
+  same inputID (for example `"Page 1"` and `"Page-1"`, which both become
+  `page_1`), rather than silently creating clashing links. The `links`
+  documentation now correctly says that inputIDs supplied in a named vector
+  are cleaned up in the same way as generated ones.
 * The active `service_navigation()` link now has `aria-current="page"`, as
   in the GOV.UK Design System, so screen readers announce which page is
   current. Previously only the visual highlight changed.

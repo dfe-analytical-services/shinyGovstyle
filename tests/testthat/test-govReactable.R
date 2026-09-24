@@ -186,13 +186,72 @@ test_that("columns argument merges user class/headerClass over defaults", {
     )
   ]]
 
-  # User-supplied renamed fields are applied under their *output* names
+  # User-supplied renamed fields are applied under their *output* names. The
+  # header class is added alongside the fixed sort header class (#190).
   expect_identical(percent_col$className, "custom-percent-cell")
-  expect_identical(percent_col$headerClassName, "custom-percent-header")
+  expect_identical(
+    percent_col$headerClassName,
+    "bar-sort-header custom-percent-header"
+  )
 
   # GOV.UK defaults survive for fields the user didn't touch
   expect_true(percent_col$sortable)
   expect_identical(percent_col$na, "NA")
+})
+
+test_that("columns headerClass can't remove the sort indicator class", {
+  # The permanent sort chevron and click target hang off bar-sort-header, so
+  # a user's headerClass must not replace it (#190). Repeating the class
+  # shouldn't duplicate it either.
+  df <- data.frame(count = c(1234, 56, 789), percent = c(4, 4.7, 12.34))
+
+  table <- govReactable(
+    df,
+    columns = list(
+      count = reactable::colDef(headerClass = "bar-sort-header extra")
+    )
+  )
+
+  count_col <- table$x$tag$attribs$columns[[
+    which(
+      vapply(
+        table$x$tag$attribs$columns,
+        function(col) identical(col$id, "count"),
+        logical(1)
+      )
+    )
+  ]]
+
+  expect_identical(count_col$headerClassName, "bar-sort-header extra")
+})
+
+test_that("columns sortable = FALSE drops the sort indicator class", {
+  # An unsortable column shouldn't show a sort chevron it can't act on.
+  df <- data.frame(count = c(1234, 56, 789), percent = c(4, 4.7, 12.34))
+
+  table <- govReactable(
+    df,
+    columns = list(
+      count = reactable::colDef(sortable = FALSE),
+      percent = reactable::colDef(sortable = FALSE, headerClass = "extra")
+    )
+  )
+
+  find_col <- function(id) {
+    table$x$tag$attribs$columns[[
+      which(
+        vapply(
+          table$x$tag$attribs$columns,
+          function(col) identical(col$id, id),
+          logical(1)
+        )
+      )
+    ]]
+  }
+
+  expect_false(find_col("count")$sortable)
+  expect_null(find_col("count")$headerClassName)
+  expect_identical(find_col("percent")$headerClassName, "extra")
 })
 
 test_that("govReactable handles large tables", {

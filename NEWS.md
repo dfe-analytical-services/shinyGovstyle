@@ -39,7 +39,10 @@
   `govReactableOutput()` gains a `show_sort_hint = TRUE` argument that shows a
   hint above the table explaining that headings can be selected to sort; the
   new exported `gov_table_sort_hint()` adds the same hint to static tables
-  built directly with `govReactable()`.
+  built directly with `govReactable()`. A `headerClass` set through the
+  `columns` argument is now added alongside the sort styling rather than
+  replacing it, and a column set to `sortable = FALSE` no longer shows the
+  sort chevron.
 * `govReactable()` gains a `columns` argument for column-specific
   overrides, such as fixing a column's decimal places with
   `reactable::colFormat()`. Only the fields you set are applied; any field

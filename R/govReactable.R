@@ -33,7 +33,10 @@
 #' is unaffected, and keeps govReactable's usual GOV.UK look. For a column
 #' you do include, anything you don't set on it, such as sorting or
 #' alignment, also keeps that same default. Names that don't match a
-#' column in `df` are ignored.
+#' column in `df` are ignored. A `headerClass` you set is added alongside
+#' the GOV.UK sort header styling rather than replacing it, so sortable
+#' columns always keep their visible sort indicator. Columns set to
+#' `sortable = FALSE` don't show a sort indicator.
 #' @param ... Additional arguments passed to `reactable::reactable`
 #' @return A `reactable` HTML widget styled with GOV.UK classes
 #' @family Govstyle tables tabs and accordions
@@ -144,6 +147,7 @@ govReactable <- # nolint
         if (!is.null(columns[[col]])) {
           user_fields <- Filter(Negate(is.null), unclass(columns[[col]]))
           merged_col <- utils::modifyList(unclass(default_col), user_fields)
+          merged_col$headerClassName <- sort_header_class(merged_col)
           structure(merged_col, class = "colDef")
         } else {
           default_col
@@ -169,6 +173,31 @@ govReactable <- # nolint
 
     attachDependency(table, widget = "reactable")
   }
+
+# The permanent sort chevron, larger click target and active-sort bar in
+# reactable-overrides.css all hang off the `bar-sort-header` class, so it is
+# fixed rather than overridable: a user's `headerClass` from `columns` is added
+# alongside it instead of replacing it (#190). A column the user makes
+# unsortable drops the class, so its header doesn't advertise a sort it can't
+# perform.
+sort_header_class <- function(col_def) {
+  classes <- if (is.null(col_def$headerClassName)) {
+    character(0)
+  } else {
+    unlist(strsplit(col_def$headerClassName, "\\s+"))
+  }
+  classes <- setdiff(classes[nzchar(classes)], "bar-sort-header")
+
+  if (isTRUE(col_def$sortable)) {
+    classes <- c("bar-sort-header", classes)
+  }
+
+  if (length(classes) == 0) {
+    NULL
+  } else {
+    paste(classes, collapse = " ")
+  }
+}
 
 #' Shiny bindings for govReactable
 #' Output and render functions for using govReactable within shiny apps

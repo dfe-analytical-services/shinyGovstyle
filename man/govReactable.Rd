@@ -38,7 +38,10 @@ matches a column in \code{df} and each value is built with
 is unaffected, and keeps govReactable's usual GOV.UK look. For a column
 you do include, anything you don't set on it, such as sorting or
 alignment, also keeps that same default. Names that don't match a
-column in \code{df} are ignored.}
+column in \code{df} are ignored. A \code{headerClass} you set is added alongside
+the GOV.UK sort header styling rather than replacing it, so sortable
+columns always keep their visible sort indicator. Columns set to
+\code{sortable = FALSE} don't show a sort indicator.}
 
 \item{...}{Additional arguments passed to \code{reactable::reactable}}
 }

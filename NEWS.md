@@ -126,8 +126,6 @@
   announce their state via `aria-expanded`, and toggling an individual
   section keeps the "Show all sections" control's text, chevron, and
   `aria-expanded` state in sync.
-* `accordion()` JS and tests now use class/id selectors instead of
-  position-based traversal, making the behaviour more robust.
 * Error messages on input components now use `role="alert"` so they are
   announced by screen readers when toggled via `error_on()`.
 * The visually hidden "Error:" prefix on input component error messages now

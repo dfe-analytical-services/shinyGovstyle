@@ -17,12 +17,16 @@
 #'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
-#'     shinyGovstyle::details(
-#'       inputId = "help_div",
-#'       label = "Help with form",
-#'       help_text = "To complete the form you need to fill it in..."
+#'   shinyGovstyle::gov_main_layout(
+#'     shinyGovstyle::gov_row(
+#'       shinyGovstyle::gov_box(
+#'         size = "two-thirds",
+#'         shinyGovstyle::details(
+#'           inputId = "help_div",
+#'           label = "Help with form",
+#'           help_text = "To complete the form you need to fill it in..."
+#'         )
+#'       )
 #'     )
 #'   ),
 #'   shinyGovstyle::footer(full = TRUE)

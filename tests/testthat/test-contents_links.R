@@ -27,3 +27,16 @@ test_that("custom subcontents in contents_link", {
 
   expect_snapshot(contents_check)
 })
+
+test_that("contents_link() warns once, recommending service_navigation()", {
+  expect_one_deprecation(
+    contents_link("Test content link", "test_content_link"),
+    mentions = c(
+      "contents_link()",
+      "service_navigation()",
+      "not a drop-in replacement",
+      "heading_text(id",
+      "1.0.0"
+    )
+  )
+})

@@ -95,12 +95,11 @@ if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle page structure:
-\code{\link[=banner]{banner()}},
 \code{\link[=cookieBanner]{cookieBanner()}},
 \code{\link[=footer]{footer()}},
-\code{\link[=gov_layout]{gov_layout()}},
 \code{\link[=gov_page]{gov_page()}},
 \code{\link[=header]{header()}},
+\code{\link[=phase_banner]{phase_banner()}},
 \code{\link[=skip_to_main]{skip_to_main()}}
 }
 \concept{Govstyle page structure}

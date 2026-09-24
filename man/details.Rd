@@ -31,12 +31,16 @@ ui <- shinyGovstyle::gov_page(
     service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
-    shinyGovstyle::details(
-      inputId = "help_div",
-      label = "Help with form",
-      help_text = "To complete the form you need to fill it in..."
+  shinyGovstyle::gov_main_layout(
+    shinyGovstyle::gov_row(
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        shinyGovstyle::details(
+          inputId = "help_div",
+          label = "Help with form",
+          help_text = "To complete the form you need to fill it in..."
+        )
+      )
     )
   ),
   shinyGovstyle::footer(full = TRUE)
@@ -48,12 +52,12 @@ if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle feedback types:
+\code{\link[=confirmation_panel]{confirmation_panel()}},
 \code{\link[=gov_summary]{gov_summary()}},
-\code{\link[=insert_text]{insert_text()}},
+\code{\link[=gov_tag]{gov_tag()}},
+\code{\link[=inset_text]{inset_text()}},
 \code{\link[=label_hint]{label_hint()}},
 \code{\link[=noti_banner]{noti_banner()}},
-\code{\link[=panel_output]{panel_output()}},
-\code{\link[=tag_Input]{tag_Input()}},
 \code{\link[=value_box]{value_box()}},
 \code{\link[=warning_text]{warning_text()}}
 }

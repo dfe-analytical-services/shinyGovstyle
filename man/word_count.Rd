@@ -22,51 +22,39 @@ no value returned. Updates the word count in a shiny app
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-This helper function create tracks the word count and should be used with the
-text area function.
-This helper function was deprecated as text_area_Input no longer
-relies on this, and uses js instead.
-The text_area_Input function can still be used as before
+\code{word_count()} was deprecated in shinyGovstyle 0.3.0 and will be removed in
+shinyGovstyle 1.0.0. \code{\link[=text_area_Input]{text_area_Input()}} now counts words in the browser and
+announces the count to screen readers, so no server code is needed. Set the
+limit with \code{text_area_Input(word_limit = )} and delete the \code{observeEvent()}
+that called \code{word_count()}.
 }
 \examples{
+# The word count is handled by text_area_Input() alone; no server-side
+# word_count() observer is needed.
 ui <- shinyGovstyle::gov_page(
-  shinyjs::useShinyjs(),
   shinyGovstyle::header(
     "Justice", "", logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  gov_layout(
-    size = "full",
-    text_area_Input(
-      inputId = "text_area",
-      label = "Can you provide more detail?",
-      hint_label = paste(
-        "Do not include personal or financial information,",
-        "like your National Insurance number or credit card details."
-      ),
-      word_limit = 300
+  shinyGovstyle::gov_main_layout(
+    shinyGovstyle::gov_row(
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        shinyGovstyle::text_area_Input(
+          inputId = "text_area",
+          label = "Can you provide more detail?",
+          hint_label = paste(
+            "Do not include personal or financial information,",
+            "like your National Insurance number or credit card details."
+          ),
+          word_limit = 300
+        )
+      )
     )
   ),
-  footer(TRUE)
+  shinyGovstyle::footer(TRUE)
 )
 
-server <- function(input, output, session) {
-  shiny::observeEvent(input$text_area,
-    word_count(
-      inputId = "text_area",
-      input = input$text_area
-    )
-  )
-}
+server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
-\seealso{
-Other Govstyle text types:
-\code{\link[=date_Input]{date_Input()}},
-\code{\link[=gov_list]{gov_list()}},
-\code{\link[=heading_text]{heading_text()}},
-\code{\link[=input_field]{input_field()}},
-\code{\link[=text_Input]{text_Input()}},
-\code{\link[=text_area_Input]{text_area_Input()}}
-}
-\concept{Govstyle text types}
 \keyword{internal}

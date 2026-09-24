@@ -2,7 +2,7 @@
 % Please edit documentation in R/gov_layout.R
 \name{gov_layout}
 \alias{gov_layout}
-\title{Page Layout Function}
+\title{Page layout (deprecated)}
 \usage{
 gov_layout(..., inputID = "main", size = "full", width = "standard")
 }
@@ -26,42 +26,49 @@ grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
 a HTML shiny layout div
 }
 \description{
-This function loads the page layout, This doesn't work as well as
-the \code{gov_main_layout} and associated functions. This is being kept for now
-as a simpler version where grids are not needed.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{gov_layout()} was deprecated in shinyGovstyle 0.3.0 and will be removed in
+shinyGovstyle 1.0.0. Use \code{\link[=gov_main_layout]{gov_main_layout()}} with \code{\link[=gov_row]{gov_row()}} and
+\code{\link[=gov_box]{gov_box()}} instead, which also gives the page its \verb{<main>} landmark:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Before
+gov_layout(..., inputID = "main", size = "two-thirds", width = "standard")
+
+# After
+gov_main_layout(
+  gov_row(gov_box(..., size = "two-thirds")),
+  inputID = "main",
+  width = "standard"
+)
+}\if{html}{\out{</div>}}
+
+\code{inputID} moves to \code{gov_main_layout(inputID = )}, \code{size} to
+\code{gov_box(size = )} and \code{width} to \code{gov_main_layout(width = )}. The inner
+\verb{<inputID>_sub} element is not recreated, so wrap the content in
+\code{shiny::tags$div(id = ...)} if your own CSS or JavaScript targets it. Use
+one \code{gov_main_layout()} per page; where \code{gov_layout()} was repeated inside
+tab panels, use \code{gov_row(gov_box(...))} inside each panel instead.
 }
 \examples{
 ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
-    logo="shinyGovstyle/images/moj_logo.png"
+    logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::gov_layout(
-    size = "full",
-    shinyGovstyle::panel_output(
-      inputId = "panel1",
-      main_text = "Application Complete",
-      sub_text = paste(
-        "Thank you for submitting your application.",
-        "Your reference is xvsiq"
+  shinyGovstyle::gov_main_layout(
+    shinyGovstyle::gov_row(
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        shinyGovstyle::heading_text("Page heading", size = "l")
       )
-    ),
-    shinyGovstyle::footer(full = TRUE)
-  )
+    )
+  ),
+  shinyGovstyle::footer(full = TRUE)
 )
 
 server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
-\seealso{
-Other Govstyle page structure:
-\code{\link[=banner]{banner()}},
-\code{\link[=cookieBanner]{cookieBanner()}},
-\code{\link[=footer]{footer()}},
-\code{\link[=gov_page]{gov_page()}},
-\code{\link[=header]{header()}},
-\code{\link{layouts}},
-\code{\link[=skip_to_main]{skip_to_main()}}
-}
-\concept{Govstyle page structure}
+\keyword{internal}

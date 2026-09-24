@@ -9,9 +9,10 @@ update_service_navigation(session, inputId)
 \arguments{
 \item{session}{The Shiny session object}
 
-\item{inputId}{The id assigned to the component's root element. For Shiny
-input components this is also the name used to access the value via
-\verb{input$<inputId>}.}
+\item{inputId}{The inputID of the nav link to mark as active. Like other
+Shiny update functions, it is namespaced with \code{session$ns()}, so inside a
+module server pass the id without the namespace (e.g. \code{"summary"} for a
+link created with \code{ns("summary")}).}
 }
 \value{
 NULL, called for side effects
@@ -62,7 +63,6 @@ if (interactive()) shiny::shinyApp(ui = ui, server = server)
 \seealso{
 Other Govstyle navigation:
 \code{\link[=backlink_Input]{backlink_Input()}},
-\code{\link[=contents_link]{contents_link()}},
 \code{\link[=navigate_to]{navigate_to()}},
 \code{\link[=service_navigation]{service_navigation()}},
 \code{\link[=service_navigation_server]{service_navigation_server()}},

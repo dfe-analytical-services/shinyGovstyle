@@ -20,39 +20,47 @@
 #'     org_name = "Example",
 #'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'),
-#'   shinyGovstyle::gov_layout(size = "two-thirds",
-#'     # Simple checkbox
-#'     shinyGovstyle::checkbox_Input(
-#'       inputId = "check1",
-#'       cb_labels = c("Option 1", "Option 2", "Option 3"),
-#'       checkboxIds = c("op1", "op2", "op3"),
-#'       label = "Choice option"
-#'     ),
-#'     # Error checkbox
-#'     shinyGovstyle::checkbox_Input(
-#'       inputId = "check2",
-#'       cb_labels = c("Option 1", "Option 2", "Option 3"),
-#'       checkboxIds = c("op1", "op2", "op3"),
-#'       label = "Choice option",
-#'       hint_label = "Select the best fit",
-#'       error = TRUE,
-#'       error_message = "Select one"
-#'     ),
-#'     # Rich content: a link in the hint
-#'     shinyGovstyle::checkbox_Input(
-#'       inputId = "check3",
-#'       cb_labels = c("Option 1", "Option 2", "Option 3"),
-#'       checkboxIds = c("op1", "op2", "op3"),
-#'       label = "Choice option",
-#'       hint_label = shiny::tagList(
-#'         "See the ",
-#'         shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+#'   shinyGovstyle::gov_main_layout(
+#'     shinyGovstyle::gov_row(
+#'       shinyGovstyle::gov_box(
+#'         size = "two-thirds",
+#'         # Simple checkbox
+#'         shinyGovstyle::checkbox_Input(
+#'           inputId = "check1",
+#'           cb_labels = c("Option 1", "Option 2", "Option 3"),
+#'           checkboxIds = c("op1", "op2", "op3"),
+#'           label = "Choice option"
+#'         ),
+#'         # Error checkbox
+#'         shinyGovstyle::checkbox_Input(
+#'           inputId = "check2",
+#'           cb_labels = c("Option 1", "Option 2", "Option 3"),
+#'           checkboxIds = c("op1", "op2", "op3"),
+#'           label = "Choice option",
+#'           hint_label = "Select the best fit",
+#'           error = TRUE,
+#'           error_message = "Select one"
+#'         ),
+#'         # Rich content: a link in the hint
+#'         shinyGovstyle::checkbox_Input(
+#'           inputId = "check3",
+#'           cb_labels = c("Option 1", "Option 2", "Option 3"),
+#'           checkboxIds = c("op1", "op2", "op3"),
+#'           label = "Choice option",
+#'           hint_label = shiny::tagList(
+#'             "See the ",
+#'             shinyGovstyle::external_link(
+#'               "https://www.gov.uk",
+#'               "GOV.UK guidance"
+#'             )
+#'           )
+#'         ),
+#'         # Button to trigger error
+#'         shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
 #'       )
-#'     ),
-#'     # Button to trigger error
-#'     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+#'     )
 #'   ),
 #'   shinyGovstyle::footer(full = TRUE)
 #' )

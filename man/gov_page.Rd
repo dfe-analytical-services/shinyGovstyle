@@ -14,7 +14,7 @@ gov_page(
 )
 }
 \arguments{
-\item{...}{The rest of your page: \code{header()}, \code{banner()},
+\item{...}{The rest of your page: \code{header()}, \code{phase_banner()},
 \code{service_navigation()}, \code{gov_main_layout()}, \code{footer()}, and so on.}
 
 \item{title}{Browser tab title, passed straight to
@@ -83,12 +83,11 @@ if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle page structure:
-\code{\link[=banner]{banner()}},
 \code{\link[=cookieBanner]{cookieBanner()}},
 \code{\link[=footer]{footer()}},
-\code{\link[=gov_layout]{gov_layout()}},
 \code{\link[=header]{header()}},
 \code{\link{layouts}},
+\code{\link[=phase_banner]{phase_banner()}},
 \code{\link[=skip_to_main]{skip_to_main()}}
 }
 \concept{Govstyle page structure}

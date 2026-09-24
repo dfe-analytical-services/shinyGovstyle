@@ -57,34 +57,38 @@ ui <- shinyGovstyle::gov_page(
     service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
-    # Simple text box
-    shinyGovstyle::text_Input(inputId = "eventId", label = "Event Name"),
-    # Error text box
-    shinyGovstyle::text_Input(
-      inputId = "eventId2",
-      label = "Event Name",
-      hint_label = "This can be found on the letter",
-      error = TRUE
-    ),
-    # Rich content: a link in the hint
-    shinyGovstyle::text_Input(
-      inputId = "eventId3",
-      label = "Event Name",
-      hint_label = shiny::tagList(
-        "As shown on your ",
-        shinyGovstyle::external_link(
-          "https://www.gov.uk",
-          "confirmation letter"
-        )
+  shinyGovstyle::gov_main_layout(
+    shinyGovstyle::gov_row(
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        # Simple text box
+        shinyGovstyle::text_Input(inputId = "eventId", label = "Event Name"),
+        # Error text box
+        shinyGovstyle::text_Input(
+          inputId = "eventId2",
+          label = "Event Name",
+          hint_label = "This can be found on the letter",
+          error = TRUE
+        ),
+        # Rich content: a link in the hint
+        shinyGovstyle::text_Input(
+          inputId = "eventId3",
+          label = "Event Name",
+          hint_label = shiny::tagList(
+            "As shown on your ",
+            shinyGovstyle::external_link(
+              "https://www.gov.uk",
+              "confirmation letter"
+            )
+          )
+        ),
+        # Button to trigger error
+        shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
       )
-    ),
-    # Button to trigger error
-    shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+    )
   ),
   shinyGovstyle::footer(full = TRUE)
 )
@@ -111,7 +115,6 @@ Other Govstyle text types:
 \code{\link[=gov_list]{gov_list()}},
 \code{\link[=heading_text]{heading_text()}},
 \code{\link[=input_field]{input_field()}},
-\code{\link[=text_area_Input]{text_area_Input()}},
-\code{\link[=word_count]{word_count()}}
+\code{\link[=text_area_Input]{text_area_Input()}}
 }
 \concept{Govstyle text types}

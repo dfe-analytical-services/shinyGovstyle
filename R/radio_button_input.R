@@ -33,39 +33,46 @@
 #'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", "This is a new service"
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
-#'     # Simple radio
-#'     shinyGovstyle::radio_button_Input(
-#'       inputId = "radio1",
-#'       choices = c("Yes", "No", "Maybe"),
-#'       label = "Choice option"
-#'     ),
-#'     # Error radio
-#'     shinyGovstyle::radio_button_Input(
-#'       inputId = "radio2",
-#'       choices = c("Yes", "No", "Maybe"),
-#'       label = "Choice option",
-#'       hint_label = "Select the best fit",
-#'       inline = TRUE,
-#'       error = TRUE,
-#'       error_message = "Select one"
-#'     ),
-#'     # Rich content: a link in the hint
-#'     shinyGovstyle::radio_button_Input(
-#'       inputId = "radio3",
-#'       choices = c("Yes", "No", "Maybe"),
-#'       label = "Choice option",
-#'       hint_label = shiny::tagList(
-#'         "See the ",
-#'         shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+#'   shinyGovstyle::gov_main_layout(
+#'     shinyGovstyle::gov_row(
+#'       shinyGovstyle::gov_box(
+#'         size = "two-thirds",
+#'         # Simple radio
+#'         shinyGovstyle::radio_button_Input(
+#'           inputId = "radio1",
+#'           choices = c("Yes", "No", "Maybe"),
+#'           label = "Choice option"
+#'         ),
+#'         # Error radio
+#'         shinyGovstyle::radio_button_Input(
+#'           inputId = "radio2",
+#'           choices = c("Yes", "No", "Maybe"),
+#'           label = "Choice option",
+#'           hint_label = "Select the best fit",
+#'           inline = TRUE,
+#'           error = TRUE,
+#'           error_message = "Select one"
+#'         ),
+#'         # Rich content: a link in the hint
+#'         shinyGovstyle::radio_button_Input(
+#'           inputId = "radio3",
+#'           choices = c("Yes", "No", "Maybe"),
+#'           label = "Choice option",
+#'           hint_label = shiny::tagList(
+#'             "See the ",
+#'             shinyGovstyle::external_link(
+#'               "https://www.gov.uk",
+#'               "GOV.UK guidance"
+#'             )
+#'           )
+#'         ),
+#'         # Button to trigger error
+#'         shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
 #'       )
-#'     ),
-#'     # Button to trigger error
-#'     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+#'     )
 #'   ),
 #'   shinyGovstyle::footer(full = TRUE)
 #' )

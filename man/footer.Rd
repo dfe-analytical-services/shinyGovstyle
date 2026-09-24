@@ -48,7 +48,7 @@ ui <- shinyGovstyle::gov_page(
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice logo"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", "This is a new service"
   ),
   shinyGovstyle::gov_text("Placeholder text"),
@@ -80,7 +80,7 @@ ui <- shinyGovstyle::gov_page(
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice logo"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", "This is a new service"
   ),
   shiny::tabsetPanel(
@@ -137,12 +137,11 @@ if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle page structure:
-\code{\link[=banner]{banner()}},
 \code{\link[=cookieBanner]{cookieBanner()}},
-\code{\link[=gov_layout]{gov_layout()}},
 \code{\link[=gov_page]{gov_page()}},
 \code{\link[=header]{header()}},
 \code{\link{layouts}},
+\code{\link[=phase_banner]{phase_banner()}},
 \code{\link[=skip_to_main]{skip_to_main()}}
 }
 \concept{Govstyle page structure}

@@ -198,3 +198,148 @@ test_that("service_navigation_server accepts unnamed link_to_panel (1:1)", {
     }
   )
 })
+
+# Link inputIDs ---------------------------------------------------------------
+
+nav_link_ids <- function(nav) {
+  links <- find_tags(nav, "govuk-service-navigation__link")
+  ids <- vapply(
+    links,
+    function(link) {
+      id <- htmltools::tagGetAttribute(link, "id")
+      if (is.null(id)) NA_character_ else id
+    },
+    character(1)
+  )
+  # The service name link has no id, only the nav list links do
+  ids[!is.na(ids)]
+}
+
+test_that("supplied inputIDs are kept verbatim, including namespace and case", {
+  ns <- shiny::NS("mod")
+  nav <- service_navigation(
+    c(
+      "First page" = ns("first"),
+      "Second page" = "m-second",
+      "Third page" = "Third_Page",
+      "Fourth page" = "sn.fourth"
+    )
+  )
+  expect_identical(
+    nav_link_ids(nav),
+    c("mod-first", "m-second", "Third_Page", "sn.fourth")
+  )
+})
+
+test_that("unnamed links get generated, normalised inputIDs", {
+  nav <- service_navigation(c("Summary data", "Detailed-Stats 1"))
+  expect_identical(nav_link_ids(nav), c("summary_data", "detailed_stats_1"))
+})
+
+test_that("in a partly named vector only unnamed links get generated ids", {
+  nav <- service_navigation(c("Summary" = "Sum-Mary", "User guide"))
+  expect_identical(nav_link_ids(nav), c("Sum-Mary", "user_guide"))
+  expect_identical(
+    vapply(
+      find_tags(nav, "action-label"),
+      function(x) tag_text(x, "action-label"),
+      character(1)
+    ),
+    c("Summary", "User guide")
+  )
+})
+
+test_that("duplicate inputIDs error with the repeated id", {
+  expect_error(
+    service_navigation(c("Page 1", "Page-1")),
+    "unique inputID.*\"page_1\""
+  )
+  expect_error(
+    service_navigation(c("A" = "same", "B" = "same")),
+    "\"same\""
+  )
+})
+
+test_that("links must be non-empty strings", {
+  expect_error(service_navigation(1:2), "character vector")
+  expect_error(service_navigation(c("Page 1", NA)), "non-empty strings")
+  expect_error(service_navigation(c("Page 1" = "")), "non-empty strings")
+})
+
+# Programmatic updates -----------------------------------------------------
+
+mock_nav_session <- function(ns = shiny::NS(NULL)) {
+  state <- new.env(parent = emptyenv())
+  state$messages <- list()
+  list(
+    ns = ns,
+    sendCustomMessage = function(type, message) {
+      state$messages <- c(
+        state$messages,
+        list(list(type = type, message = message))
+      )
+      invisible(NULL)
+    },
+    messages = function() state$messages
+  )
+}
+
+test_that("update_service_navigation sends the id unchanged at top level", {
+  session <- mock_nav_session()
+  update_service_navigation(session, "Mixed-Case_id")
+  msgs <- session$messages()
+  expect_length(msgs, 1)
+  expect_identical(msgs[[1]]$type, "update_service_navigation")
+  expect_identical(msgs[[1]]$message$id, "Mixed-Case_id")
+})
+
+test_that("update_service_navigation namespaces the id in a module session", {
+  session <- mock_nav_session(shiny::NS("mod"))
+  update_service_navigation(session, "Second")
+  msg <- session$messages()[[1]]$message
+  expect_identical(msg$id, "mod-Second")
+  # The raw id is sent too, for a nav bar that sits outside the module
+  expect_identical(msg$fallback, "Second")
+})
+
+test_that("module link clicks route through the namespaced link id", {
+  sent <- new.env(parent = emptyenv())
+  sent$ids <- character()
+  sent$panels <- character()
+  local_mocked_bindings(
+    updateTabsetPanel = function(
+      session,
+      inputId, # nolint: object_name_linter.
+      selected
+    ) {
+      sent$panels <- c(sent$panels, session$ns(inputId), selected)
+      invisible(NULL)
+    },
+    .package = "shiny"
+  )
+
+  nav_module_server <- function(id) {
+    shiny::moduleServer(id, function(input, output, session) {
+      service_navigation_server(
+        session,
+        tabset_id = "tabs",
+        link_to_panel = c("Second" = "panel_2")
+      )
+    })
+  }
+
+  # The UI a module would render: the id the browser sends back on click
+  ui_ids <- nav_link_ids(
+    service_navigation(c("Second page" = shiny::NS("mod", "Second")))
+  )
+  expect_identical(ui_ids, "mod-Second")
+
+  shiny::testServer(nav_module_server, args = list(id = "mod"), {
+    # Run the observers' initial (ignored) flush, as a browser session does
+    # before any click, then click: it arrives as the module input "Second"
+    session$flushReact()
+    session$setInputs(Second = 1)
+    expect_identical(sent$panels, c("mod-tabs", "panel_2"))
+    expect_identical(session$ns("Second"), ui_ids)
+  })
+})

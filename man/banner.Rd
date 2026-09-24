@@ -2,7 +2,7 @@
 % Please edit documentation in R/banner.R
 \name{banner}
 \alias{banner}
-\title{Banner Function}
+\title{Banner (deprecated)}
 \usage{
 banner(inputId, type, label = NULL, feedback_url = NULL, width = "standard")
 }
@@ -33,50 +33,20 @@ grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
 \code{"90vw"}) for a custom max-width.}
 }
 \value{
-a banner HTML shiny tag object
+a phase banner HTML shiny tag object
 }
 \description{
-This function create a detail component that you can click for further
-details.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{banner()} was renamed to \code{\link[=phase_banner]{phase_banner()}} in shinyGovstyle 0.3.0 to match
+the name of the GOV.UK Design System component. The arguments and output
+are unchanged. \code{banner()} will be removed in shinyGovstyle 1.0.0.
 }
 \examples{
-ui <- shinyGovstyle::gov_page(
-  shinyGovstyle::header(
-    org_name = "Example",
-    service_name = "User Examples",
-    logo = "shinyGovstyle/images/moj_logo.png"
-  ),
-  shinyGovstyle::banner(
-    inputId = "banner", type = "Beta", 'This is a new service'
-  )
-)
+# Before
+# banner("banner", "Beta", "This is a new service")
 
-server <- function(input, output, session) {}
-
-if (interactive()) shinyApp(ui = ui, server = server)
-
-# Auto-generate the standard feedback text from a URL
-shinyGovstyle::banner(
-  inputId = "banner",
-  type = "Beta",
-  feedback_url = "https://example.com/feedback"
-)
-
-# Auto-generate contact text from a mailto: link
-shinyGovstyle::banner(
-  inputId = "banner",
-  type = "Beta",
-  feedback_url = "mailto:feedback@example.com"
-)
+# After
+phase_banner("banner", "Beta", "This is a new service")
 }
-\seealso{
-Other Govstyle page structure:
-\code{\link[=cookieBanner]{cookieBanner()}},
-\code{\link[=footer]{footer()}},
-\code{\link[=gov_layout]{gov_layout()}},
-\code{\link[=gov_page]{gov_page()}},
-\code{\link[=header]{header()}},
-\code{\link{layouts}},
-\code{\link[=skip_to_main]{skip_to_main()}}
-}
-\concept{Govstyle page structure}
+\keyword{internal}

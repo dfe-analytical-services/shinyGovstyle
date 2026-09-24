@@ -58,20 +58,28 @@ ui <- shinyGovstyle::gov_page(
     service_name = "User Examples",
     logo="shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
-  shinyGovstyle::gov_layout(size = "two-thirds",
-    # Simple file input
-    shinyGovstyle::file_Input(inputId = "file1", label = "Upload a file"),
-    # Error file
-    shinyGovstyle::file_Input(
-      inputId = "file2",
-      label = "Upload a file",
-      error = TRUE
-    ),
-    # Button to trigger error
-    shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+  shinyGovstyle::gov_main_layout(
+    shinyGovstyle::gov_row(
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        # Simple file input
+        shinyGovstyle::file_Input(
+          inputId = "file1",
+          label = "Upload a file"
+        ),
+        # Error file
+        shinyGovstyle::file_Input(
+          inputId = "file2",
+          label = "Upload a file",
+          error = TRUE
+        ),
+        # Button to trigger error
+        shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+      )
+    )
   ),
   shinyGovstyle::footer(full = TRUE)
 )

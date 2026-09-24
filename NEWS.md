@@ -1,7 +1,51 @@
 # shinyGovstyle (development version)
 
+This release is the transition to a stable v1.0.0. Functions and arguments
+that will be removed in v1.0.0 now give a deprecation warning that names what
+to use instead, so you can update your code before upgrading. Everything
+deprecated keeps working in this release.
+
+## Deprecations
+
+* Four functions have been renamed to match the GOV.UK Design System
+  component names. The old names still work, with a deprecation warning, and
+  produce identical output:
+  * `insert_text()` is now `inset_text()`.
+  * `banner()` is now `phase_banner()`, with the same arguments.
+  * `tag_Input()` is now `gov_tag()`, with the same arguments.
+  * `panel_output(inputId, main_text, sub_text)` is now
+    `confirmation_panel(inputId, title, content)`.
+* `gov_layout()` is deprecated. Use
+  `gov_main_layout(gov_row(gov_box(..., size = size)), inputID = inputID,
+  width = width)` instead; the warning explains how each argument maps
+  across. There is no single-function replacement.
+* `contents_link()` (deprecated in 0.2.0) will be removed in v1.0.0. Its
+  warning now explains that `service_navigation()` is the recommended
+  approach for multi-page layouts, and that in-page anchor links should be
+  ordinary links to heading ids.
+* `word_count()` is deprecated as it is no longer required:
+  `text_area_Input(word_limit = )` now tracks and announces the word count
+  entirely client-side, so the server-side `word_count()` observer can be
+  deleted. (Its warning previously gave the wrong version.)
+* `header()` arguments `main_text`, `secondary_text`, `main_link`,
+  `secondary_link`, `main_alt_text`, and `secondary_alt_text` will be
+  removed in v1.0.0. The warnings for the four link and alt text arguments
+  now say that they have no effect.
+* `govReactableOutput()`'s `heading_level` now takes an integer from `2L` to
+  `5L` (default `2L`). The `"h2"` to `"h5"` strings still work for now, with
+  a warning showing the integer to use.
+
 ## Breaking changes
 
+* `service_navigation()` now uses inputIDs supplied as the values of a named
+  `links` vector exactly as given. Previously they were lowercased and had
+  non-alphanumeric characters replaced with underscores, so
+  `c("Page two" = "m-Second")` created the input `m_second` rather than
+  `m-Second`, which broke navigation inside Shiny modules. If you
+  relied on that conversion, update the ids in your server code to match the
+  ones you supply. Link text passed without a name still gets a generated id,
+  as before. Duplicate inputIDs now give an error rather than silently
+  creating clashing links.
 * Error message element ids changed from `<inputId>error` to `<inputId>-error`
   (matching the hint id format `<inputId>-hint`). This affects
   `radio_button_Input()`, `checkbox_Input()`, `date_Input()`, `text_Input()`,
@@ -10,14 +54,12 @@
   only custom CSS or JS that targets `#fooerror` selectors needs updating to
   `#foo-error`.
 * `insert_text()` argument `text` has been renamed to `content` to reflect
-  that it now accepts more than plain text. The old name is deprecated and
-  will be removed in a future version.
-* `word_count()` has been deprecated as it is no longer required for
-  `text_area_Input()`, which now tracks and announces the word count
-  entirely client-side.
+  that it now accepts more than plain text, and the function itself is now
+  `inset_text()` (see above). `insert_text(text = )` gives one warning
+  pointing to `inset_text(content = )`.
 * Removed the experimental `full_width_overrides()` function. Use the new
-  `width` argument on `header()`, `footer()`, `banner()`, `cookieBanner()`,
-  `service_navigation()`, `gov_main_layout()` and `gov_layout()` instead
+  `width` argument on `header()`, `footer()`, `phase_banner()`,
+  `cookieBanner()`, `service_navigation()` and `gov_main_layout()` instead
   (see below).
 * `bslib` has moved from `Suggests` to `Imports`, since the new
   `gov_page()` function depends on it directly. If you install
@@ -47,8 +89,9 @@
   component used inside it, so you don't have to repeat `width = ` on each
   one — a component that sets its own `width` always overrides the page
   default.
-* `header()`, `footer()`, `banner()`, `cookieBanner()`,
-  `service_navigation()`, `gov_main_layout()` and `gov_layout()` gain a
+* `header()`, `footer()`, `phase_banner()`, `cookieBanner()`,
+  `service_navigation()`, `gov_main_layout()` and the deprecated
+  `gov_layout()` gain a
   `width` argument for building wider, dashboard-style layouts:
   `"standard"` (the default, GOV.UK's usual 960px content width),
   `"three-quarters"` (three-quarters of the viewport, never narrower than
@@ -82,8 +125,9 @@
   change the selected option, choices, or label of a radio group from the
   server, for example to keep a cookies settings radio in sync with a cookie
   banner choice. See the new "Cookies and analytics" vignette.
-* `insert_text()` (`content`), `panel_output()` (`sub_text`), `noti_banner()`
-  (`body_txt`), `details()` (`help_text`), `banner()` (`label`),
+* `inset_text()` (`content`), `confirmation_panel()` (`content`),
+  `noti_banner()` (`body_txt`), `details()` (`help_text`), `phase_banner()`
+  (`label`),
   `warning_text()` (`text`), and `gov_summary()` (`info`) now accept `shiny`
   tag objects (e.g. `shiny::tags$b("Bold")`) and `shiny::tagList()` values in
   addition to plain character strings.
@@ -99,7 +143,7 @@
   strings, HTML strings, `shiny` tag objects, and `shiny::tagList()` values.
   Previously labels accepted HTML strings but not tags, while hints accepted
   tags but not HTML strings.
-* `banner()` gains a `feedback_url` argument that auto-generates the standard
+* `phase_banner()` gains a `feedback_url` argument that auto-generates the standard
   GOV.UK phase banner feedback text (e.g. "This is a new service - your
   feedback (opens in new tab) will help us to improve it."), or contact-style
   text if `feedback_url` is a `mailto:` link. `label` is now optional, but
@@ -110,6 +154,17 @@
   opening a new tab. Existing link-text validations still apply.
 
 ## Bug fixes
+
+* `service_navigation()` now works inside Shiny modules and with mixed-case
+  ids: build the links with `ns()` in the module UI, and use the bare ids in
+  the module server with `service_navigation_server()`, `navigate_to()`, or
+  `update_service_navigation()`. `update_service_navigation()` now
+  namespaces its `inputId` with `session$ns()`, like other Shiny update
+  functions, and still finds a nav link given its full id or one that sits
+  outside the module.
+* The active `service_navigation()` link now has `aria-current="page"`, as
+  in the GOV.UK Design System, so screen readers announce which page is
+  current. Previously only the visual highlight changed.
 
 * `service_navigation()` now syncs the browser tab title with the active
   page by default. Screen readers announce the title on navigation,

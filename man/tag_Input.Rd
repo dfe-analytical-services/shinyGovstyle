@@ -2,7 +2,7 @@
 % Please edit documentation in R/tag.R
 \name{tag_Input}
 \alias{tag_Input}
-\title{Tag Function}
+\title{Tag input (deprecated)}
 \usage{
 tag_Input(inputId, text, colour = "navy")
 }
@@ -20,35 +20,18 @@ grey, green, teal, blue, purple, magenta, red, orange and yellow}
 a tag HTML shiny tag object
 }
 \description{
-This function creates a tag.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{tag_Input()} was renamed to \code{\link[=gov_tag]{gov_tag()}} in shinyGovstyle 0.3.0. The tag is
+a display component rather than a Shiny input, so the \verb{_Input} suffix was
+misleading. The arguments and output are unchanged. \code{tag_Input()} will be
+removed in shinyGovstyle 1.0.0.
 }
 \examples{
-ui <- shinyGovstyle::gov_page(
-  shinyGovstyle::header(
-    org_name = "Example",
-    service_name = "User Examples",
-    logo="shinyGovstyle/images/moj_logo.png"
-  ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
-    shinyGovstyle::tag_Input("tag1", "Complete"),
-    shinyGovstyle::tag_Input("tag2", "Incomplete", "red")
-  ),
-  shinyGovstyle::footer(full = TRUE)
-)
+# Before
+# tag_Input("tag1", "Complete")
 
-server <- function(input, output, session) {}
-if (interactive()) shinyApp(ui = ui, server = server)
+# After
+gov_tag("tag1", "Complete")
 }
-\seealso{
-Other Govstyle feedback types:
-\code{\link[=details]{details()}},
-\code{\link[=gov_summary]{gov_summary()}},
-\code{\link[=insert_text]{insert_text()}},
-\code{\link[=label_hint]{label_hint()}},
-\code{\link[=noti_banner]{noti_banner()}},
-\code{\link[=panel_output]{panel_output()}},
-\code{\link[=value_box]{value_box()}},
-\code{\link[=warning_text]{warning_text()}}
-}
-\concept{Govstyle feedback types}
+\keyword{internal}

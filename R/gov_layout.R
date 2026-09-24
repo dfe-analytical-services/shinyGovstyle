@@ -1,8 +1,31 @@
-#' Page Layout Function
+#' Page layout (deprecated)
 #'
-#' This function loads the page layout, This doesn't work as well as
-#' the `gov_main_layout` and associated functions. This is being kept for now
-#' as a simpler version where grids are not needed.
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `gov_layout()` was deprecated in shinyGovstyle 0.3.0 and will be removed in
+#' shinyGovstyle 1.0.0. Use [gov_main_layout()] with [gov_row()] and
+#' [gov_box()] instead, which also gives the page its `<main>` landmark:
+#'
+#' ```r
+#' # Before
+#' gov_layout(..., inputID = "main", size = "two-thirds", width = "standard")
+#'
+#' # After
+#' gov_main_layout(
+#'   gov_row(gov_box(..., size = "two-thirds")),
+#'   inputID = "main",
+#'   width = "standard"
+#' )
+#' ```
+#'
+#' `inputID` moves to `gov_main_layout(inputID = )`, `size` to
+#' `gov_box(size = )` and `width` to `gov_main_layout(width = )`. The inner
+#' `<inputID>_sub` element is not recreated, so wrap the content in
+#' `shiny::tags$div(id = ...)` if your own CSS or JavaScript targets it. Use
+#' one `gov_main_layout()` per page; where `gov_layout()` was repeated inside
+#' tab panels, use `gov_row(gov_box(...))` inside each panel instead.
+#'
 #' @param inputID ID of the main div. Defaults to "main"
 #' @param size Layout of the page. Optional are full, one-half, two-thirds,
 #' one-third and one-quarter. Defaults to "full"
@@ -10,27 +33,24 @@
 #' @param ... include the components of the UI that you want within the
 #' main page.
 #' @return a HTML shiny layout div
-#' @family Govstyle page structure
+#' @keywords internal
 #' @export
 #' @examples
 #' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
-#'     logo="shinyGovstyle/images/moj_logo.png"
+#'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "full",
-#'     shinyGovstyle::panel_output(
-#'       inputId = "panel1",
-#'       main_text = "Application Complete",
-#'       sub_text = paste(
-#'         "Thank you for submitting your application.",
-#'         "Your reference is xvsiq"
+#'   shinyGovstyle::gov_main_layout(
+#'     shinyGovstyle::gov_row(
+#'       shinyGovstyle::gov_box(
+#'         size = "two-thirds",
+#'         shinyGovstyle::heading_text("Page heading", size = "l")
 #'       )
-#'     ),
-#'     shinyGovstyle::footer(full = TRUE)
-#'   )
+#'     )
+#'   ),
+#'   shinyGovstyle::footer(full = TRUE)
 #' )
 #'
 #' server <- function(input, output, session) {}
@@ -41,6 +61,27 @@ gov_layout <- function(
   size = "full",
   width = "standard"
 ) {
+  lifecycle::deprecate_warn(
+    when = "0.3.0",
+    what = "gov_layout()",
+    with = I(paste(
+      "`gov_main_layout(gov_row(gov_box(..., size = size)),",
+      "inputID = inputID, width = width)`"
+    )),
+    details = c(
+      i = paste(
+        "Pass `size` to `gov_box()`, and `inputID` and `width` to",
+        "`gov_main_layout()`. The inner `<inputID>_sub` element is not",
+        "recreated."
+      ),
+      i = paste(
+        "Use one `gov_main_layout()` per page; inside tab panels use",
+        "`gov_row(gov_box(...))`."
+      ),
+      i = "`gov_layout()` will be removed in shinyGovstyle 1.0.0."
+    )
+  )
+
   wc <- gov_width_container(width, is_default = missing(width))
 
   gov_layout <- shiny::tags$div(

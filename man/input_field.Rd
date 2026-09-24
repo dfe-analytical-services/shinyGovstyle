@@ -46,20 +46,24 @@ ui <- shinyGovstyle::gov_page(
     service_name = "User Examples",
     logo="shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
-    shinyGovstyle::input_field(
-      legend ="List of three text boxes in a field",
-      labels = c("Field 1", "Field 2", "Field 3"),
-      inputIds = c("field1", "field2", "field3"),
-      widths = c(30,20,10),
-      error = TRUE
-    ),
-   # Button to trigger error
-   shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+  shinyGovstyle::gov_main_layout(
+    shinyGovstyle::gov_row(
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        shinyGovstyle::input_field(
+          legend ="List of three text boxes in a field",
+          labels = c("Field 1", "Field 2", "Field 3"),
+          inputIds = c("field1", "field2", "field3"),
+          widths = c(30,20,10),
+          error = TRUE
+        ),
+       # Button to trigger error
+       shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+      )
+    )
   ),
   shinyGovstyle::footer(full = TRUE)
 )
@@ -87,7 +91,6 @@ Other Govstyle text types:
 \code{\link[=gov_list]{gov_list()}},
 \code{\link[=heading_text]{heading_text()}},
 \code{\link[=text_Input]{text_Input()}},
-\code{\link[=text_area_Input]{text_area_Input()}},
-\code{\link[=word_count]{word_count()}}
+\code{\link[=text_area_Input]{text_area_Input()}}
 }
 \concept{Govstyle text types}

@@ -67,7 +67,6 @@ if (interactive()) shiny::shinyApp(ui = ui, server = server)
 \seealso{
 Other Govstyle navigation:
 \code{\link[=backlink_Input]{backlink_Input()}},
-\code{\link[=contents_link]{contents_link()}},
 \code{\link[=navigate_to]{navigate_to()}},
 \code{\link[=service_navigation]{service_navigation()}},
 \code{\link[=update_page_title]{update_page_title()}},

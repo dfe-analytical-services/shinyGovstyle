@@ -59,3 +59,25 @@ test_that("Cookie banner link switches to the cookies panel", {
     "Cookies | shinyGovstyle"
   )
 })
+
+test_that("Active nav link is exposed to screen readers via aria-current", {
+  current_links <- function() {
+    app$get_js(
+      paste0(
+        "Array.from(document.querySelectorAll(",
+        "'.govuk-service-navigation__link[aria-current=\"page\"]'",
+        ")).map(function (a) { return a.id; })"
+      )
+    )
+  }
+
+  # Direct click
+  app$click("sn_action_types")
+  app$wait_for_idle()
+  expect_equal(unlist(current_links()), "sn_action_types")
+
+  # Programmatic navigation (navigate_to() -> update_service_navigation())
+  app$click("cookies_footer_link")
+  app$wait_for_idle()
+  expect_equal(unlist(current_links()), "sn_cookies")
+})

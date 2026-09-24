@@ -94,7 +94,7 @@ ui <- gov_page(
     org_name = "My department",
     service_name = "My dashboard"
   ),
-  banner(
+  phase_banner(
     inputId = "phase",
     type = "Beta",
     label = "This is a new service."
@@ -124,7 +124,7 @@ For a more complete example - including multi-page navigation, footer links, and
 
 ### Page structure and layout
 
-`gov_page()`, the page-level components (`header()`, `footer()`, `banner()`, `skip_to_main()`, `service_navigation()`, `cookieBanner()`), and the content grid system (`gov_main_layout()`, `gov_row()`, `gov_box()`) are covered in the [Layout options](layout-options.html) vignette.
+`gov_page()`, the page-level components (`header()`, `footer()`, `phase_banner()`, `skip_to_main()`, `service_navigation()`, `cookieBanner()`), and the content grid system (`gov_main_layout()`, `gov_row()`, `gov_box()`) are covered in the [Layout options](layout-options.html) vignette.
 
 ### Headings and text
 

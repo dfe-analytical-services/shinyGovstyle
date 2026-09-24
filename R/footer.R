@@ -31,7 +31,7 @@
 #'     logo = "shinyGovstyle/images/moj_logo.png",
 #'     logo_alt_text = "Ministry of Justice logo"
 #'   ),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", "This is a new service"
 #'   ),
 #'   shinyGovstyle::gov_text("Placeholder text"),
@@ -63,7 +63,7 @@
 #'     logo = "shinyGovstyle/images/moj_logo.png",
 #'     logo_alt_text = "Ministry of Justice logo"
 #'   ),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", "This is a new service"
 #'   ),
 #'   shiny::tabsetPanel(

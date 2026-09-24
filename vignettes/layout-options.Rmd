@@ -21,8 +21,8 @@ shinyGovstyle provides a set of layout functions that produce the HTML structure
 
 Every app starts with **`gov_page()`**, the outer wrapper for the whole page. Inside it go:
 
-- **Page-level components** (`header()`, `footer()`, `banner()`, `cookieBanner()`, `skip_to_main()`, and `service_navigation()`) form the frame of the page that sits outside the main content area.
-- **Content layout functions** (`gov_main_layout()`, `gov_row()`, `gov_box()`, and `gov_layout()`) structure content within the main content area.
+- **Page-level components** (`header()`, `footer()`, `phase_banner()`, `cookieBanner()`, `skip_to_main()`, and `service_navigation()`) form the frame of the page that sits outside the main content area.
+- **Content layout functions** (`gov_main_layout()`, `gov_row()`, and `gov_box()`) structure content within the main content area.
 
 ---
 
@@ -59,7 +59,7 @@ gov_page(
 - **`"three-quarters"`**: three-quarters of the browser window's width (never narrower than standard), keeping GOV.UK's own left/right margins.
 - **A CSS length**, e.g. `"1400px"` or `"90vw"`, for a specific maximum width instead of one of the presets above.
 
-Every shinyGovstyle component that renders part of the page frame (`header()`, `footer()`, `banner()`, `cookieBanner()`, `service_navigation()`, `gov_main_layout()`, `gov_layout()`) also accepts its own `width` argument. Setting it on `gov_page()` sets the default for all of them at once. Setting it on an individual component overrides that default just for that one component, which is useful if, say, everything on your page should be wider except the footer:
+Every shinyGovstyle component that renders part of the page frame (`header()`, `footer()`, `phase_banner()`, `cookieBanner()`, `service_navigation()`, `gov_main_layout()`) also accepts its own `width` argument. Setting it on `gov_page()` sets the default for all of them at once. Setting it on an individual component overrides that default just for that one component, which is useful if, say, everything on your page should be wider except the footer:
 
 ```{r, eval = FALSE}
 gov_page(
@@ -115,7 +115,7 @@ These components form the outer frame of every page, inside `gov_page()`. They s
 +-------------------------------------------------------+
 |  service_navigation()   [optional, multi-page apps]   |
 +-------------------------------------------------------+
-|  banner()   [optional, e.g. Beta or Alpha]            |
+|  phase_banner()   [optional, e.g. Beta or Alpha]      |
 +-------------------------------------------------------+
 |                                                       |
 |  gov_main_layout()   ← id = "main"                    |
@@ -163,14 +163,14 @@ header(
 )
 ```
 
-### `banner()`
+### `phase_banner()`
 
 Displays a phase banner immediately below the header, used to indicate the maturity of your service and give a clear route for users to provide feedback.
 
 The `feedback_url` argument is the recommended shortcut for the standard GOV.UK feedback wording: pass a URL (or a `mailto:` link for contact-style text) and the text is generated for you:
 
 ```{r, eval = FALSE}
-banner(
+phase_banner(
   inputId = "phase-banner",
   type = "Beta",
   feedback_url = "https://example.com/feedback"
@@ -180,7 +180,7 @@ banner(
 For custom wording, use `label` instead (exactly one of `label` or `feedback_url` should be supplied):
 
 ```{r, eval = FALSE}
-banner(
+phase_banner(
   inputId = "phase-banner",
   type = "Beta",
   label = shiny::tagList(
@@ -310,23 +310,9 @@ A wrapper that produces a `<p class="govuk-body">` paragraph element. For full g
 
 ---
 
-## `gov_layout()` — legacy alternative
+## `gov_layout()` — deprecated
 
-> **Warning:** `gov_layout()` is not recommended for new development and may be removed in a future release. Use `gov_main_layout()` with `gov_row()` and `gov_box()` instead.
-
-`gov_layout()` is a single-function alternative that combines a width container and a column in one call:
-
-```{r, eval = FALSE}
-gov_layout(
-  size = "two-thirds",
-  heading_text("Page title", size = "l"),
-  # content
-)
-```
-
-It is well suited to simple, single-column apps where you want a width constraint without setting up the full `gov_main_layout()` / `gov_row()` / `gov_box()` hierarchy.
-
-**As soon as your app needs more than one column, multiple rows, or a combination of widths, switch to the full system.** Nesting `gov_layout()` inside `gov_main_layout()` will produce doubled-up width container HTML and cause the content to appear visually inset from the page-level components.
+`gov_layout()` is deprecated as of shinyGovstyle 0.3.0 and will be removed in shinyGovstyle 1.0.0. Use `gov_main_layout()` with `gov_row()` and `gov_box()` instead; the deprecation warning shows how each argument maps across.
 
 ---
 
@@ -336,7 +322,7 @@ For apps with multiple sections, use `service_navigation()` in combination with 
 
 ### Setting up navigation links
 
-Pass a named character vector to `service_navigation()`. The names are displayed as link text; the values become the inputIDs:
+Pass a named character vector to `service_navigation()`. The names are displayed as link text; the values become the inputIDs and are used exactly as given, including case. Inside a Shiny module, wrap each value in `ns()` in the module UI, then use the bare ids (e.g. `"nav_summary"`) in the module server with `service_navigation_server()`, `navigate_to()`, or `update_service_navigation()`:
 
 ```{r, eval = FALSE}
 service_navigation(
@@ -462,7 +448,7 @@ ui <- gov_page(
     ),
     page_title_suffix = "My dashboard"
   ),
-  banner(
+  phase_banner(
     inputId = "phase",
     type = "Beta",
     label = "This is a new service."

@@ -22,10 +22,14 @@
 #'     shiny::tabPanel(
 #'       "Select Types",
 #'       value = "panel1",
-#'       gov_layout(
-#'         size = "two-thirds",
-#'         backlink_Input("link1"),
-#'         gov_text("Placeholder text")
+#'       gov_main_layout(
+#'         gov_row(
+#'           gov_box(
+#'             size = "two-thirds",
+#'             backlink_Input("link1"),
+#'             gov_text("Placeholder text")
+#'           )
+#'         )
 #'       )
 #'     ),
 #'     shiny::tabPanel(

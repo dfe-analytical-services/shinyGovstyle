@@ -18,8 +18,21 @@ function applyAutoPageTitle(link) {
   }
 }
 
-// Allow programmatic update of active nav item from R server code
-Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
+// Find a service navigation link by id, ignoring any other element that
+// happens to share the id.
+function findServiceNavLink(id) {
+  if (!id) return null;
+  var link = document.getElementById(id);
+  if (link && link.closest(".govuk-service-navigation__item")) {
+    return link;
+  }
+  return null;
+}
+
+// The active item gets both the GOV.UK modifier class (visual highlight) and
+// aria-current="page" on its link, so screen readers announce the current
+// page as the GOV.UK service navigation component does.
+function clearActiveServiceNavLinks() {
   var items = document.getElementsByClassName(
     "govuk-service-navigation__item"
   );
@@ -28,15 +41,45 @@ Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
     items[i].classList.remove(
       "govuk-service-navigation__item--active"
     );
+    var itemLink = items[i].querySelector(".govuk-service-navigation__link");
+    if (itemLink) {
+      itemLink.removeAttribute("aria-current");
+    }
+  }
+}
+
+function setActiveServiceNavLink(link) {
+  clearActiveServiceNavLinks();
+
+  link.closest(
+    ".govuk-service-navigation__item"
+  ).classList.add(
+    "govuk-service-navigation__item--active"
+  );
+  link.setAttribute("aria-current", "page");
+
+  applyAutoPageTitle(link);
+}
+
+// Allow programmatic update of active nav item from R server code.
+// The message carries the session-namespaced id plus the raw id as a
+// fallback (see update_service_navigation() in R/service_navigation.R).
+// Ids are used verbatim, so module namespaces and mixed case are preserved.
+Shiny.addCustomMessageHandler("update_service_navigation", function (message) {
+  var link;
+  if (typeof message === "string") {
+    link = findServiceNavLink(message);
+  } else {
+    link = findServiceNavLink(message.id) ||
+      findServiceNavLink(message.fallback);
   }
 
-  var link = document.getElementById(inputId);
+  // An id with no matching nav link clears the highlight, e.g. for pages
+  // that are not in the navigation
   if (link) {
-    var item = link.closest(".govuk-service-navigation__item");
-    if (item) {
-      item.classList.add("govuk-service-navigation__item--active");
-    }
-    applyAutoPageTitle(link);
+    setActiveServiceNavLink(link);
+  } else {
+    clearActiveServiceNavLinks();
   }
 });
 
@@ -46,23 +89,7 @@ $(document).on(
   "click",
   ".govuk-service-navigation__list .govuk-service-navigation__link",
   function () {
-    var items = document.getElementsByClassName(
-      "govuk-service-navigation__item"
-    );
-
-    for (var i = 0; i < items.length; i++) {
-      items[i].classList.remove(
-        "govuk-service-navigation__item--active"
-      );
-    }
-
-    this.closest(
-      ".govuk-service-navigation__item"
-    ).classList.add(
-      "govuk-service-navigation__item--active"
-    );
-
-    applyAutoPageTitle(this);
+    setActiveServiceNavLink(this);
   }
 );
 

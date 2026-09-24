@@ -24,7 +24,7 @@ shinyGovstyle::gov_page(
     page_title_suffix = "shinyGovstyle"
   ),
 
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     "banner",
     "Beta",
     feedback_url = paste0(

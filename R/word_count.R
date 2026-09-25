@@ -46,7 +46,7 @@ word_count <- function(
   lifecycle::deprecate_warn(
     when = "0.3.0",
     what = "word_count()",
-    with = I("`text_area_Input(word_limit = )`"),
+    with = "text_area_Input(word_limit)",
     details = c(
       i = paste(
         "`text_area_Input()` counts words in the browser, so delete the",

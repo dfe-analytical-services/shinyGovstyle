@@ -213,10 +213,30 @@ govReactableOutput <- # nolint
     heading_level = 2L
   ) {
     validate_gds_text_size(caption_size, "caption_size")
-    heading_level <- govreactable_heading_level(
-      heading_level,
-      user_env = parent.frame()
-    )
+
+    # Warned here rather than in the helper so lifecycle attributes the
+    # deprecated usage to the user's code rather than to this package.
+    legacy_level <- heading_level
+    heading_level <- govreactable_heading_level(heading_level)
+    if (is.character(legacy_level)) {
+      lifecycle::deprecate_warn(
+        when = "0.3.0",
+        what = "govReactableOutput(heading_level = 'must be an integer')",
+        details = c(
+          i = paste0(
+            "Use `heading_level = ",
+            heading_level,
+            "L` instead of `heading_level = \"",
+            legacy_level,
+            "\"`."
+          ),
+          i = "Heading level strings will stop working in shinyGovstyle 1.0.0."
+        ),
+        # One id per legacy string, so each gets its own once-per-session
+        # warning showing the right integer.
+        id = paste0("shinyGovstyle_heading_level_", legacy_level)
+      )
+    }
 
     heading_tag <- shiny::tag(
       paste0("h", heading_level),
@@ -247,10 +267,8 @@ renderGovReactable <- # nolint
 
 # Internal helper: validates govReactableOutput()'s heading_level and returns
 # it as an integer. The "h2"-"h5" strings are still accepted during the
-# 0.3.0 transition, with a warning that shows the integer to use instead.
-# `user_env` is the caller of govReactableOutput(), so lifecycle attributes
-# the deprecated usage to the user's code rather than to this package.
-govreactable_heading_level <- function(heading_level, user_env) {
+# 0.3.0 transition; govReactableOutput() gives the deprecation warning.
+govreactable_heading_level <- function(heading_level) {
   allowed_levels <- 2:5
   legacy_levels <- paste0("h", allowed_levels)
 
@@ -259,21 +277,7 @@ govreactable_heading_level <- function(heading_level, user_env) {
       length(heading_level) == 1 &&
       heading_level %in% legacy_levels
   ) {
-    level <- allowed_levels[match(heading_level, legacy_levels)]
-    lifecycle::deprecate_warn(
-      when = "0.3.0",
-      what = I(paste0(
-        "Passing `heading_level = \"",
-        heading_level,
-        "\"` to `govReactableOutput()`"
-      )),
-      with = I(paste0("`heading_level = ", level, "L`")),
-      details = paste(
-        "Heading level strings will stop working in shinyGovstyle 1.0.0."
-      ),
-      user_env = user_env
-    )
-    return(level)
+    return(allowed_levels[match(heading_level, legacy_levels)])
   }
 
   if (

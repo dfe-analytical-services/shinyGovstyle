@@ -201,6 +201,7 @@ test_that("string heading_level still works, with a warning to use integers", {
     output <- expect_one_deprecation(
       govReactableOutput("table", caption = "Test", heading_level = legacy),
       mentions = c(
+        "must be an integer",
         paste0("`heading_level = \"", legacy, "\"`"),
         paste0("`heading_level = ", level, "L`"),
         "1.0.0"

@@ -62,11 +62,13 @@ gov_layout <- function(
   lifecycle::deprecate_warn(
     when = "0.3.0",
     what = "gov_layout()",
-    with = I(paste(
-      "`gov_main_layout(gov_row(gov_box(..., size = size)),",
-      "inputID = inputID, width = width)`"
-    )),
+    with = "gov_main_layout()",
     details = c(
+      i = paste(
+        "Replace `gov_layout(...)` with",
+        "`gov_main_layout(gov_row(gov_box(..., size = size)),",
+        "inputID = inputID, width = width)`."
+      ),
       i = paste(
         "Pass `size` to `gov_box()`, and `inputID` and `width` to",
         "`gov_main_layout()`. With `size = \"full\"` (the default) you can",

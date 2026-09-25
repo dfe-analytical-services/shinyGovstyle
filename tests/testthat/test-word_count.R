@@ -7,7 +7,7 @@ test_that("word_count() warns once, pointing to text_area_Input(word_limit)", {
     mentions = c(
       "word_count()",
       "0.3.0",
-      "text_area_Input(word_limit = )",
+      "`word_limit` argument of `text_area_Input()`",
       "observeEvent()",
       "1.0.0"
     )

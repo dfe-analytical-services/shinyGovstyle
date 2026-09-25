@@ -4,6 +4,35 @@
 govuk_hint_id <- function(inputId) paste0(inputId, "-hint") # nolint
 govuk_error_id <- function(inputId) paste0(inputId, "-error") # nolint
 
+# Internal helper: the 1-6 heading level convention shared by heading_text(),
+# govFieldset() (and so checkbox_Input(), radio_button_Input(), and
+# date_Input()), govReactable(), and govReactableOutput(). `arg_name` lets
+# callers whose public argument isn't literally called `heading_level` (e.g.
+# heading_text()'s `level`) keep an accurate error message.
+validate_heading_level <- function(level, arg_name = "heading_level") {
+  if (length(level) != 1) {
+    stop(
+      arg_name,
+      " must be a single value, not length ",
+      length(level),
+      "."
+    )
+  }
+  if (!is.numeric(level) || level %% 1 != 0 || !(level %in% 1:6)) {
+    stop(arg_name, " must be an integer between 1 and 6.")
+  }
+}
+
+# Internal helper: builds an `<hN>` heading tag shared by heading_text(),
+# govFieldset(), govReactable(), and govReactableOutput(), so the
+# `shiny::tags[[paste0("h", level)]]` pattern only exists in one place.
+build_heading_tag <- function(level, content, class, id = NULL) {
+  do.call(
+    shiny::tags[[paste0("h", level)]],
+    list(content, class = class, id = id)
+  )
+}
+
 #' Build a govuk-fieldset block (internal)
 #'
 #' Returns a `<fieldset class="govuk-fieldset">` with a legend, optional hint,
@@ -46,20 +75,7 @@ govFieldset <- # nolint
     }
     validate_gds_text_size(label_size, "label_size")
     if (!is.null(heading_level)) {
-      if (length(heading_level) != 1) {
-        stop(
-          "`heading_level` must be a single value, not length ",
-          length(heading_level),
-          "."
-        )
-      }
-      if (
-        !is.numeric(heading_level) ||
-          heading_level %% 1 != 0 ||
-          !(heading_level %in% 1:6)
-      ) {
-        stop("`heading_level` must be an integer between 1 and 6.")
-      }
+      validate_heading_level(heading_level)
     }
 
     hint_id <- if (!is.null(hint_label)) govuk_hint_id(inputId)
@@ -74,9 +90,10 @@ govFieldset <- # nolint
       label_size
     )
     legend_content <- if (!is.null(heading_level)) {
-      shiny::tag(
-        paste0("h", heading_level),
-        list(class = "govuk-fieldset__heading", as_govuk_html(label))
+      build_heading_tag(
+        heading_level,
+        as_govuk_html(label),
+        "govuk-fieldset__heading"
       )
     } else {
       as_govuk_html(label)
@@ -105,11 +122,12 @@ govFieldset <- # nolint
   }
 
 # Internal helper: the GOV.UK Design System heading/legend/caption text-size
-# scale ("m", "s", "l", "xl"), shared by heading_text(), govTable(), and
-# govFieldset() (and, through it, checkbox_Input(), radio_button_Input(),
-# date_Input()) so the accepted values and error wording only exist in one
-# place. `arg_name` is used in the error message so callers see the actual
-# parameter name (e.g. "size" vs "caption_size" vs "label_size").
+# scale ("m", "s", "l", "xl"), shared by heading_text(), govTable(),
+# govReactable(), govReactableOutput(), and govFieldset() (and, through it,
+# checkbox_Input(), radio_button_Input(), date_Input()) so the accepted
+# values and error wording only exist in one place. `arg_name` is used in the
+# error message so callers see the actual parameter name (e.g. "size" vs
+# "caption_size" vs "label_size").
 validate_gds_text_size <- function(size, arg_name = "size") {
   valid_sizes <- c("xl", "l", "m", "s")
   if (!is.character(size) || length(size) != 1 || !(size %in% valid_sizes)) {
@@ -129,6 +147,51 @@ validate_gds_text_size <- function(size, arg_name = "size") {
     )
   }
   invisible(size)
+}
+
+# Internal helper: checks a single piece of display content (a table caption,
+# subtitle, and so on) is either markup (tags or HTML()) or one non-empty,
+# non-NA string. Empty or NA text would render as an empty heading or an empty
+# part of a table's accessible name, which screen readers announce as nothing.
+validate_single_content <- function(x, arg_name, allow_null = TRUE) {
+  if (is.null(x) && allow_null) {
+    return(invisible(x))
+  }
+  valid_text <- is.character(x) && length(x) == 1 && !is.na(x) && nzchar(x)
+  if (!is_govuk_markup(x) && !valid_text) {
+    stop(
+      "`",
+      arg_name,
+      "` must be a single, non-empty string, `shiny::HTML()`, or tags.",
+      call. = FALSE
+    )
+  }
+  invisible(x)
+}
+
+# Internal helper: the class for a table subtitle (the Analysis Function's
+# "statistical subtitle": what the data is, where and when). Reuses GOV.UK's
+# secondary-text caption styles (regular weight, secondary text colour,
+# display: block) so the subtitle always reads as subordinate to the headline,
+# without users having to pick a second size. Only the "xl" headline is large
+# enough to need the bigger caption.
+subtitle_class <- function(caption_size) {
+  if (identical(caption_size, "xl")) "govuk-caption-l" else "govuk-caption-m"
+}
+
+# Internal helper: a table has to have a title (GOV.UK and the Analysis
+# Function both say so), and a subtitle on its own would render as secondary
+# text with no heading. Point users at `caption` for a single-line title.
+validate_subtitle_has_caption <- function(caption, subtitle) {
+  if (!is.null(subtitle) && is.null(caption)) {
+    stop(
+      "`subtitle` needs a `caption`. `caption` is the table's title; if you ",
+      "don't have a headline, put the what, where and when in `caption` ",
+      "instead. `subtitle` adds a line under the title.",
+      call. = FALSE
+    )
+  }
+  invisible(subtitle)
 }
 
 # Internal helper: TRUE for values htmltools already treats as markup, i.e.
@@ -176,15 +239,30 @@ govuk_error_message <- function(input_id, error_message) {
   )
 }
 
-# Internal helper: the paragraph's inner HTML, serialised for shinyjs::html(),
-# which assigns it as innerHTML. Escaping plain strings here keeps error_on()
-# in step with govuk_error_message(): the same error_message renders the same
-# way whether it is baked into the component or pushed from the server.
-govuk_error_html <- function(error_message) {
-  message_html <- if (is_govuk_markup(error_message)) {
-    as.character(error_message)
+# Internal helper: serialises content that the server pushes into an existing
+# element, for error_on() (via shinyjs::html()) and update_reactable_caption()
+# (via its own JS handler). Both assign the result to innerHTML in the browser,
+# so an unescaped plain string here is a direct script-injection path: a value
+# built from user input such as `<img src=x onerror=...>` would run as code.
+# Only values the caller has explicitly marked as markup (tags or HTML()) skip
+# escaping, which also keeps these in step with the tag-building path, where
+# htmltools escapes plain strings in the same way.
+govuk_markup_html <- function(x) {
+  if (is_govuk_markup(x)) {
+    as.character(x)
   } else {
-    htmltools::htmlEscape(as.character(error_message))
+    htmltools::htmlEscape(as.character(x))
   }
-  paste0(as.character(govuk_error_prefix()), " ", message_html)
+}
+
+# Internal helper: the paragraph's inner HTML, serialised for shinyjs::html().
+# Escaping plain strings keeps error_on() in step with govuk_error_message():
+# the same error_message renders the same way whether it is baked into the
+# component or pushed from the server.
+govuk_error_html <- function(error_message) {
+  paste0(
+    as.character(govuk_error_prefix()),
+    " ",
+    govuk_markup_html(error_message)
+  )
 }

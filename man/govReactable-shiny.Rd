@@ -11,7 +11,8 @@ govReactableOutput(
   output_table_name,
   caption,
   caption_size = "l",
-  heading_level = "h2"
+  heading_level = 2,
+  subtitle = NULL
 )
 
 renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
@@ -19,13 +20,28 @@ renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
 \arguments{
 \item{output_table_name}{Output variable to read from}
 
-\item{caption}{Adds a caption to the table as a header}
+\item{caption}{Adds a caption to the table as a heading, linked to the
+table via \code{aria-labelledby}. Plain text is shown exactly as written (it is
+escaped); pass \code{shiny::HTML()} or tags for deliberate markup. The heading's
+id is \code{output_table_name} followed by \code{-caption} (and the subtitle's id,
+\code{-subtitle}). To change either from the server, use
+\code{\link[=update_reactable_caption]{update_reactable_caption()}}}
 
 \item{caption_size}{Adjust the size of caption. One of \code{"s"}, \code{"m"}, \code{"l"},
 \code{"xl"}, with \code{"l"} as the default. Any other value throws an error.}
 
-\item{heading_level}{The HTML heading level for
-the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2"}
+\item{heading_level}{Heading level for the caption, an integer between 1
+and 6. Defaults to 2. A string such as \code{"h2"} is also accepted for
+backwards compatibility but is deprecated (emits a warning) and will be
+removed in a future version; use the integer form instead}
+
+\item{subtitle}{Optional line shown under the caption, in smaller, lighter
+text: what the data is, where and when it covers, and the units if every
+value shares them (e.g. \code{"Cost of bikes (£), England, 2025"}). It becomes
+part of the table's accessible name, together with the caption. Needs a
+\code{caption}. Plain text is shown exactly as written (it is escaped); pass
+\code{shiny::HTML()} or tags for deliberate markup. \code{NULL} (default) shows no
+subtitle}
 
 \item{expr}{An expression that generates a \code{reactable} widget}
 
@@ -45,11 +61,37 @@ can be assigned to a Shiny output slot
 Shiny bindings for govReactable
 Output and render functions for using govReactable within shiny apps
 }
+\section{Table titles}{
+
+Every table needs a title. The
+\href{https://analysisfunction.civilservice.gov.uk/policy-store/data-visualisation-tables/}{Analysis Function guidance on tables}
+recommends giving it two parts, which map onto two arguments:
+\itemize{
+\item \code{caption}: a short headline stating the message, e.g.
+\code{"Costs peaked in March"}.
+\item \code{subtitle}: what the data is, where and when, e.g.
+\code{"Cost of bikes, vans and buses (£), England, January to May 2025"}.
+Include the units here if every value in the table shares them.
+}
+
+A headline is recommended but optional. Without one, put the what, where
+and when in \code{caption} and leave out \code{subtitle}.
+
+Put the source of the data underneath the table (for example with
+\code{\link[=gov_text]{gov_text()}}), rather than in the title.
+
+The caption and subtitle together form the table's accessible name, so
+screen reader users hear both when they reach the table. Keep them short and
+avoid repeating the same information in both. See also the
+\href{https://design-system.service.gov.uk/components/table/}{GOV.UK Design System table component}.
+}
+
 \examples{
 ui <- shinyGovstyle::gov_page(
   govReactableOutput(
     "table",
-    caption = "Example table"
+    caption = "Virginica flowers have the longest petals",
+    subtitle = "Petal and sepal measurements (cm) for three iris species"
   )
 )
 
@@ -60,12 +102,47 @@ server <- function(input, output, session) {
 }
 
 if (interactive()) shinyApp(ui, server)
+
+# A caption that follows a filter, updated from the server. The starting
+# caption matches the dropdown's default so it's right before the server
+# runs.
+species <- levels(iris$Species)
+
+ui <- shinyGovstyle::gov_page(
+  shinyGovstyle::select_Input(
+    inputId = "species",
+    label = "Species",
+    select_text = species,
+    select_value = species
+  ),
+  govReactableOutput(
+    "table",
+    caption = paste(species[1], "measurements")
+  )
+)
+
+server <- function(input, output, session) {
+  output$table <- renderGovReactable({
+    govReactable(iris[iris$Species == input$species, ])
+  })
+
+  shiny::observe({
+    update_reactable_caption(
+      session,
+      "table",
+      paste(input$species, "measurements")
+    )
+  })
+}
+
+if (interactive()) shinyApp(ui, server)
 }
 \seealso{
 Other Govstyle tables tabs and accordions:
 \code{\link[=accordion]{accordion()}},
 \code{\link[=govReactable]{govReactable()}},
 \code{\link[=govTable]{govTable()}},
-\code{\link[=govTabs]{govTabs()}}
+\code{\link[=govTabs]{govTabs()}},
+\code{\link[=update_reactable_caption]{update_reactable_caption()}}
 }
 \concept{Govstyle tables tabs and accordions}

@@ -106,6 +106,13 @@ attachDependency <- # nolint
           src = c(href = "shinyGovstyle/css"),
           stylesheet = "reactable-overrides.css"
         )
+      } else if (widget == "reactable_output") {
+        htmltools::htmlDependency(
+          name = "update_reactable_caption",
+          version = version,
+          src = c(href = "shinyGovstyle/js"),
+          script = "update_reactable_caption.js"
+        )
       }
 
       if (!is.null(widget_dep)) {

@@ -144,4 +144,4 @@ Styled headings, body text, lists, callouts, external links, notification banner
 
 ### Data display
 
-`govTable()` and `govReactable()` render data tables with GOV.UK styling; `value_box()` displays a headline figure with a label, suited to summary statistics at the top of a dashboard.
+`govTable()` and `govReactable()` render data tables with GOV.UK styling; `value_box()` displays a headline figure with a label, suited to summary statistics at the top of a dashboard. The [Tables](tables.html) vignette covers which table function to use and how to title a table.

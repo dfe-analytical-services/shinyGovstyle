@@ -253,3 +253,30 @@ expect_has_tag <- function(x, class) {
 expect_no_tag <- function(x, class) {
   testthat::expect_null(find_tag(x, class))
 }
+
+# caption_links() pairs up the caption heading ids and the aria-labelledby
+# values of the role="region" wrappers from a captioned govReactable() or
+# govReactableOutput(), in document order, so tests can check each table
+# points at its own caption without hard-coding generated ids.
+caption_links <- function(x, heading_class = "govuk-heading-l") {
+  regions <- Filter(
+    function(div) identical(htmltools::tagGetAttribute(div, "role"), "region"),
+    find_tags_by_name(x, "div")
+  )
+  list(
+    heading_ids = vapply(
+      find_tags(x, heading_class),
+      htmltools::tagGetAttribute,
+      character(1),
+      attr = "id",
+      USE.NAMES = FALSE
+    ),
+    labelledby = vapply(
+      regions,
+      htmltools::tagGetAttribute,
+      character(1),
+      attr = "aria-labelledby",
+      USE.NAMES = FALSE
+    )
+  )
+}

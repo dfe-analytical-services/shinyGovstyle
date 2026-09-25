@@ -12,15 +12,23 @@ govReactable(
   borderless = TRUE,
   min_widths = list(),
   columns = list(),
+  caption = NULL,
+  subtitle = NULL,
+  caption_size = "l",
+  heading_level = 2,
+  caption_id = NULL,
   ...
 )
 }
 \arguments{
 \item{df}{A dataframe used to generate the table}
 
-\item{right_col}{A vector of column names that should be right-aligned.
-By default, numeric data is right-aligned, and character data is
-left-aligned}
+\item{right_col}{A vector of extra column names to right-align. Numeric
+columns are right-aligned automatically, following GOV.UK guidance that
+numbers should be right-aligned so they are easier to compare, and other
+columns are left-aligned. Use this for columns that hold numbers as text,
+such as \code{"£85"}. To left-align a numeric column, set
+\code{reactable::colDef(align = "left")} for it in \code{columns}}
 
 \item{page_size}{The default number of rows displayed per page (default: 10)}
 
@@ -40,10 +48,36 @@ you do include, anything you don't set on it, such as sorting or
 alignment, also keeps that same default. Names that don't match a
 column in \code{df} are ignored.}
 
+\item{caption}{Adds a caption to the table as a heading, linked to the
+table via \code{aria-labelledby}. Plain text is shown exactly as written (it is
+escaped, so \code{<} or \code{&} can't be read as HTML); pass \code{shiny::HTML()} or tags
+for deliberate markup. \code{NULL} (default) renders the table with no caption.
+In a Shiny app, set the caption on \code{\link[=govReactableOutput]{govReactableOutput()}} instead}
+
+\item{subtitle}{Optional line shown under the caption, in smaller, lighter
+text: what the data is, where and when it covers, and the units if every
+value shares them (e.g. \code{"Cost of bikes (£), England, 2025"}). It becomes
+part of the table's accessible name, together with the caption. Needs a
+\code{caption}. Plain text is shown exactly as written (it is escaped); pass
+\code{shiny::HTML()} or tags for deliberate markup. \code{NULL} (default) shows no
+subtitle}
+
+\item{caption_size}{Adjust the size of caption. One of \code{"s"}, \code{"m"}, \code{"l"},
+\code{"xl"}, with \code{"l"} as the default. Any other value throws an error.}
+
+\item{heading_level}{Heading level for the caption, an integer between 1
+and 6. Defaults to 2}
+
+\item{caption_id}{The id given to the caption heading, which the table
+references via \code{aria-labelledby}. Must be unique on the page and contain no
+spaces. \code{NULL} (default) generates a unique id for you, so you only need
+this if you want to link to or style the caption yourself}
+
 \item{...}{Additional arguments passed to \code{reactable::reactable}}
 }
 \value{
-A \code{reactable} HTML widget styled with GOV.UK classes
+A \code{reactable} HTML widget styled with GOV.UK classes, or (if
+\code{caption} is supplied) that widget together with a linked caption heading
 }
 \description{
 This function is opinionated and sets table defaults that are in
@@ -56,25 +90,49 @@ arguments from \code{reactable::reactable} can be passed to customise the table.
 This function inserts a government-styled table using \code{reactable}.
 You can use this in R markdown or Quarto documents, or use
 renderGovReactable({}) and govReactableOutput() for tables in R Shiny.
-govReactableOutput() gives the ability to add a caption, for static
-tables made using just govReactable(), use heading_text() to add
-captions to tables.
+Pass \code{caption} to add a heading that is programmatically linked to the
+table (via \code{aria-labelledby}), so screen reader users know what the table
+is about.
 }
+\section{Table titles}{
+
+Every table needs a title. The
+\href{https://analysisfunction.civilservice.gov.uk/policy-store/data-visualisation-tables/}{Analysis Function guidance on tables}
+recommends giving it two parts, which map onto two arguments:
+\itemize{
+\item \code{caption}: a short headline stating the message, e.g.
+\code{"Costs peaked in March"}.
+\item \code{subtitle}: what the data is, where and when, e.g.
+\code{"Cost of bikes, vans and buses (£), England, January to May 2025"}.
+Include the units here if every value in the table shares them.
+}
+
+A headline is recommended but optional. Without one, put the what, where
+and when in \code{caption} and leave out \code{subtitle}.
+
+Put the source of the data underneath the table (for example with
+\code{\link[=gov_text]{gov_text()}}), rather than in the title.
+
+The caption and subtitle together form the table's accessible name, so
+screen reader users hear both when they reach the table. Keep them short and
+avoid repeating the same information in both. See also the
+\href{https://design-system.service.gov.uk/components/table/}{GOV.UK Design System table component}.
+}
+
 \examples{
 # Example static table using govReactable
 if (interactive()) {
+  # Numeric columns are right-aligned automatically
+  govReactable(iris)
+
+  # Use right_col for numbers stored as text, such as "£85"
   govReactable(
-    iris,
-    right_col = c(
-      "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
-    )
+    shinyGovstyle::transport_data_small,
+    right_col = c("bikes", "cars")
   )
 
   govReactable(
     iris,
-    right_col = c(
-      "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
-    ),
     highlight = FALSE,
     page_size = 5,
     min_widths = list(
@@ -83,6 +141,14 @@ if (interactive()) {
       Petal.Length = 75,
       Petal.Width = 75
     )
+  )
+
+  # Add a title linked to the table for screen reader users: a short
+  # headline, with what the data is, where and when underneath
+  govReactable(
+    shinyGovstyle::transport_data,
+    caption = "Costs peaked in March for every vehicle type",
+    subtitle = "Cost of bikes, vans and buses (£), January to May"
   )
 
   # Show one column to a fixed number of decimal places, leaving every
@@ -111,7 +177,6 @@ if (interactive()) {
   )
   govReactable(
     count_pct_data,
-    right_col = c("count", "percent"),
     columns = list(
       percent = reactable::colDef(
         format = reactable::colFormat(digits = 1)
@@ -125,6 +190,7 @@ Other Govstyle tables tabs and accordions:
 \code{\link[=accordion]{accordion()}},
 \code{\link{govReactable-shiny}},
 \code{\link[=govTable]{govTable()}},
-\code{\link[=govTabs]{govTabs()}}
+\code{\link[=govTabs]{govTabs()}},
+\code{\link[=update_reactable_caption]{update_reactable_caption()}}
 }
 \concept{Govstyle tables tabs and accordions}

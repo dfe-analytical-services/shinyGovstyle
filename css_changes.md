@@ -1,5 +1,8 @@
 These are the local changes to reapply when updating the GOV.UK Frontend CSS.
 
+Before making them, pretty-print the upstream minified CSS (keep the
+`.min.css` filename) so the in-place edits and future diffs are readable.
+
 There are two kinds of change:
 
 * **In-place edits** to the upstream CSS: moving the fonts, the root

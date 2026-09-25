@@ -121,7 +121,7 @@ Currently we take [static precompiled exports of the GOV.UK Frontend files](http
 
 3. Update the CSS file name in `attachDependency.R` script
 
-4. Apply any changes from `css_changes.md` manually, to preserve previous edits
+4. Pretty-print the upstream CSS (keeping the `.min.css` filename) so edits are readable, then apply any changes from `css_changes.md` manually, to preserve previous edits
 
 5. Test all the code functions as expected using `devtools::check()`
 

@@ -101,7 +101,13 @@ of any differences uncertain.
    for obsolete references, including source maps and font/image URLs. If source
    maps are not copied into `inst/www/`, remove the dangling `sourceMappingURL`
    comments from the CSS and JS files.
-4. Manually reapply each applicable item in `css_changes.md`. For vague instructions
+4. Before editing the upstream stylesheet, pretty-print it (one declaration per
+   line, as in previous versions) while keeping the `.min.css` filename, so
+   in-place edits and future diffs are reviewable. Any CSS formatter will do,
+   for example `npx prettier --parser css`. Confirm the formatting changed only
+   whitespace (and optional trailing semicolons) by comparing tokens before and
+   after, not by eye. Then manually reapply each applicable item in
+   `css_changes.md`. For vague instructions
    such as URL changes or font extraction, inspect the existing implementation and
    compare it with the matching pristine old upstream release if needed. Preserve
    optional font loading. Assess whether upstream already fixes a workaround;

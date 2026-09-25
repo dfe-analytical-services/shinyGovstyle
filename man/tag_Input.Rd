@@ -14,7 +14,8 @@ input components this is also the name used to access the value via
 \item{text}{The text in the tag}
 
 \item{colour}{The colour of the tag. Default is navy. Other options are
-grey, green, teal, blue, purple, magenta, red, orange and yellow}
+grey, green, teal, blue, purple, magenta, red, orange and yellow. Any other
+value gives a warning listing these options}
 }
 \value{
 a tag HTML shiny tag object

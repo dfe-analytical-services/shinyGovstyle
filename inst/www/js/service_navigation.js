@@ -29,9 +29,38 @@ function findServiceNavLink(id) {
   return null;
 }
 
-// The active item gets both the GOV.UK modifier class (visual highlight) and
+// GOV.UK wraps the active link's text in a <strong> so the current page stays
+// distinguishable when CSS fails to load. The wrapper has to follow the active
+// item, so it is added and removed alongside the modifier class.
+var ACTIVE_FALLBACK_CLASS = "govuk-service-navigation__active-fallback";
+
+function unwrapActiveFallback(link) {
+  var fallbacks = link.querySelectorAll("." + ACTIVE_FALLBACK_CLASS);
+  for (var i = 0; i < fallbacks.length; i++) {
+    var fallback = fallbacks[i];
+    while (fallback.firstChild) {
+      fallback.parentNode.insertBefore(fallback.firstChild, fallback);
+    }
+    fallback.parentNode.removeChild(fallback);
+  }
+}
+
+function wrapActiveFallback(link) {
+  if (link.querySelector("." + ACTIVE_FALLBACK_CLASS)) return;
+  // Shiny's actionLink() puts the label in a .action-label span
+  var target = link.querySelector(".action-label") || link;
+  var fallback = document.createElement("strong");
+  fallback.className = ACTIVE_FALLBACK_CLASS;
+  while (target.firstChild) {
+    fallback.appendChild(target.firstChild);
+  }
+  target.appendChild(fallback);
+}
+
+// The active item gets the GOV.UK modifier class (visual highlight),
 // aria-current="page" on its link, so screen readers announce the current
-// page as the GOV.UK service navigation component does.
+// page as the GOV.UK service navigation component does, and the fallback
+// <strong> above.
 function clearActiveServiceNavLinks() {
   var items = document.getElementsByClassName(
     "govuk-service-navigation__item"
@@ -44,6 +73,7 @@ function clearActiveServiceNavLinks() {
     var itemLink = items[i].querySelector(".govuk-service-navigation__link");
     if (itemLink) {
       itemLink.removeAttribute("aria-current");
+      unwrapActiveFallback(itemLink);
     }
   }
 }
@@ -57,6 +87,7 @@ function setActiveServiceNavLink(link) {
     "govuk-service-navigation__item--active"
   );
   link.setAttribute("aria-current", "page");
+  wrapActiveFallback(link);
 
   applyAutoPageTitle(link);
 }

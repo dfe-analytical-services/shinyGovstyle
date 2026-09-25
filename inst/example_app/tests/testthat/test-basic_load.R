@@ -1,10 +1,38 @@
 app <- AppDriver$new(name = "example_app")
 
+# ids of the nav links marked as the current page
+current_links <- function() {
+  unlist(app$get_js(
+    paste0(
+      "Array.from(document.querySelectorAll(",
+      "'.govuk-service-navigation__link[aria-current=\"page\"]'",
+      ")).map(function (a) { return a.id; })"
+    )
+  ))
+}
+
+# ids of the nav links holding the GOV.UK active-fallback <strong>
+fallback_links <- function() {
+  unlist(app$get_js(
+    paste0(
+      "Array.from(document.querySelectorAll(",
+      "'.govuk-service-navigation__active-fallback'",
+      ")).map(function (s) {",
+      " return s.closest('.govuk-service-navigation__link').id; })"
+    )
+  ))
+}
+
 test_that("App loads and title of app appears as expected", {
   expect_equal(
     app$get_text("title"),
     "Select Types | shinyGovstyle"
   )
+})
+
+test_that("The first nav link is the current page on load", {
+  expect_equal(current_links(), "sn_select_types")
+  expect_equal(fallback_links(), "sn_select_types")
 })
 
 test_that("Browser tab title updates when a nav link is clicked", {
@@ -61,23 +89,15 @@ test_that("Cookie banner link switches to the cookies panel", {
 })
 
 test_that("Active nav link is exposed to screen readers via aria-current", {
-  current_links <- function() {
-    app$get_js(
-      paste0(
-        "Array.from(document.querySelectorAll(",
-        "'.govuk-service-navigation__link[aria-current=\"page\"]'",
-        ")).map(function (a) { return a.id; })"
-      )
-    )
-  }
-
   # Direct click
   app$click("sn_action_types")
   app$wait_for_idle()
-  expect_equal(unlist(current_links()), "sn_action_types")
+  expect_equal(current_links(), "sn_action_types")
+  expect_equal(fallback_links(), "sn_action_types")
 
   # Programmatic navigation (navigate_to() -> update_service_navigation())
   app$click("cookies_footer_link")
   app$wait_for_idle()
-  expect_equal(unlist(current_links()), "sn_cookies")
+  expect_equal(current_links(), "sn_cookies")
+  expect_equal(fallback_links(), "sn_cookies")
 })

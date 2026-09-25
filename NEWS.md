@@ -151,7 +151,12 @@ deprecated keeps working in this release.
   are cleaned up in the same way as generated ones.
 * The active `service_navigation()` link now has `aria-current="page"`, as
   in the GOV.UK Design System, so screen readers announce which page is
-  current. Previously only the visual highlight changed.
+  current. Previously only the visual highlight changed. The first link is
+  now marked as the current page when the app loads.
+* `gov_tag()` and `value_box()` now warn when `colour` is not one of their
+  supported colours (for example a typo such as `"gren"`), listing the
+  options, rather than silently falling back to the default styling. A
+  `colour` that is not a single string now gives a clear error.
 * `service_navigation()` now syncs the browser tab title with the active
   page by default. Screen readers announce the title on navigation,
   so a static title is an accessibility issue for multi-page dashboards.

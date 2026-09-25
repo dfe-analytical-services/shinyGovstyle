@@ -61,6 +61,10 @@ for the navigation list and mobile menu toggle. Using
 multiple \code{service_navigation()} instances on the same
 page will cause ID conflicts and the mobile menu toggle
 may not work correctly.
+
+The first link is marked as the current page when the app loads, matching
+the first tab panel Shiny shows by default. If your app starts on a
+different page, call \code{\link[=update_service_navigation]{update_service_navigation()}} when the session starts.
 }
 \examples{
 ui <- shinyGovstyle::gov_page(

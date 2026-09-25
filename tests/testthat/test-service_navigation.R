@@ -241,7 +241,15 @@ test_that("in a partly named vector names set the link text", {
   expect_identical(
     vapply(
       find_tags(nav, "action-label"),
-      function(x) tag_text(x, "action-label"),
+      function(x) {
+        label <- tag_text(x, "action-label")
+        # The active (first) link's text sits inside the fallback <strong>
+        if (inherits(label, "shiny.tag")) {
+          tag_text(label, "govuk-service-navigation__active-fallback")
+        } else {
+          label
+        }
+      },
       character(1)
     ),
     c("Summary", "User guide")
@@ -268,6 +276,41 @@ test_that("links must be non-empty strings", {
   expect_error(service_navigation(1:2), "character vector")
   expect_error(service_navigation(c("Page 1", NA)), "non-empty strings")
   expect_error(service_navigation(c("Page 1" = "")), "non-empty strings")
+})
+
+# Initial active link --------------------------------------------------------
+
+test_that("the first link is the current page when the app loads", {
+  nav <- service_navigation(c("Summary data", "User guide"))
+
+  active_items <- find_tags(nav, "govuk-service-navigation__item--active")
+  expect_length(active_items, 1)
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_tag_required(active_items[[1]], "govuk-service-navigation__link"),
+      "id"
+    ),
+    "summary_data"
+  )
+
+  current_ids <- unlist(lapply(
+    find_tags(nav, "govuk-service-navigation__link"),
+    function(link) {
+      if (identical(htmltools::tagGetAttribute(link, "aria-current"), "page")) {
+        htmltools::tagGetAttribute(link, "id")
+      }
+    }
+  ))
+  expect_identical(current_ids, "summary_data")
+
+  expect_length(
+    find_tags(nav, "govuk-service-navigation__active-fallback"),
+    1
+  )
+  expect_identical(
+    tag_text(nav, "govuk-service-navigation__active-fallback"),
+    "Summary data"
+  )
 })
 
 # Programmatic updates -----------------------------------------------------

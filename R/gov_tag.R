@@ -6,7 +6,8 @@
 #' @inheritParams id_arg
 #' @param text The text in the tag
 #' @param colour The colour of the tag. Default is navy. Other options are
-#' grey, green, teal, blue, purple, magenta, red, orange and yellow
+#' grey, green, teal, blue, purple, magenta, red, orange and yellow. Any other
+#' value gives a warning listing these options
 #' @return a tag HTML shiny tag object
 #' @family Govstyle feedback types
 #' @export
@@ -31,31 +32,21 @@ gov_tag <- function(
   text,
   colour = "navy"
 ) {
-  #check for deprecated colours
-  if (colour == "light-blue") {
-    warning(
-      "'light-blue' is no longer a supported colour.
-        Please select an alternative from:
-       'navy', 'grey', 'purple', 'teal', 'blue', 'yellow',
-        'orange', 'red', 'magenta', or 'green'."
+  validate_colour(
+    colour,
+    supported = c(
+      "navy",
+      "grey",
+      "purple",
+      "teal",
+      "blue",
+      "yellow",
+      "orange",
+      "red",
+      "magenta",
+      "green"
     )
-  }
-  if (colour == "turquoise") {
-    warning(
-      "'turquoise' is no longer a supported colour.
-      Please select an alternative from:
-      'grey', 'purple', 'teal', 'blue', 'yellow',
-      'orange', 'red', 'magenta', or 'green'."
-    )
-  }
-  if (colour == "pink") {
-    warning(
-      "'pink' is no longer a supported colour.
-      Please select an alternative from:
-      'grey', 'purple', 'teal', 'blue', 'yellow',
-      'orange', 'red', 'magenta', or 'green'."
-    )
-  }
+  )
 
   class_colour <- "govuk-tag"
   if (colour != "navy") {

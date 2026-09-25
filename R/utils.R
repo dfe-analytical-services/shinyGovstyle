@@ -131,6 +131,40 @@ validate_gds_text_size <- function(size, arg_name = "size") {
   invisible(size)
 }
 
+# Internal helper: checks a `colour` argument against the colours the calling
+# component (gov_tag(), value_box()) supports, so the wording lives in one
+# place. A non-string is an error. A colour govuk-frontend has removed, or one
+# it never had, is a warning rather than an error: an unmatched
+# govuk-tag--<colour> class only falls back to the default styling, and
+# deprecated wrappers such as tag_Input() must keep working in 0.3.0.
+validate_colour <- function(colour, supported) {
+  if (!is.character(colour) || length(colour) != 1 || is.na(colour)) {
+    stop("`colour` must be a single character string.", call. = FALSE)
+  }
+  if (colour %in% supported) {
+    return(invisible(colour))
+  }
+
+  problem <- if (colour %in% c("light-blue", "turquoise", "pink")) {
+    "is no longer a supported colour"
+  } else {
+    "is not a supported colour"
+  }
+  warning(
+    "'",
+    colour,
+    "' ",
+    problem,
+    ". ",
+    "Please select an alternative from: ",
+    paste0("'", utils::head(supported, -1), "'", collapse = ", "),
+    ", or '",
+    utils::tail(supported, 1),
+    "'."
+  )
+  invisible(colour)
+}
+
 # Internal helper: TRUE for values htmltools already treats as markup, i.e.
 # shiny.tag, shiny.tag.list, and HTML() output. Anything else is plain content
 # that has to be coerced or escaped before it reaches the browser.

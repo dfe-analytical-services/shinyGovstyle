@@ -13,7 +13,7 @@ outside this chat.
 ## Invocation and sources of truth
 
 - Codex: `$update-govuk`, or select the skill in the skill picker. An optional
-  version can follow the invocation, for example `$update-govuk 6.1.0`.
+  version can follow the invocation, for example `$update-govuk <version>`.
 - Claude Code: ask it to read and follow `.agents/skills/update-govuk/SKILL.md`,
   optionally supplying a target version. Without `.claude/skills`, Claude Code does
   not auto-register `/update-govuk`.

@@ -19,15 +19,18 @@
   display: inline-block;
 }
 
-.govuk-frontend-supported .govuk-tabs__list-item--selected {
-  position: relative;
-  margin-top: -5px;
-  margin-bottom: -2px;
-  padding: 14px 19px 16px;
-  border: 1px solid #b1b4b6;
-  border-bottom: 0;
-  border-color: var(--govuk-border-colour, #cecece);
-  background-color: var(--govuk-body-background-colour, #fff);
+/* Tabs only display as tabs from tablet width; below that they're a list. */
+@media (min-width: 40.0625em) {
+  .govuk-frontend-supported .govuk-tabs__list-item--selected {
+    position: relative;
+    margin-top: -5px;
+    margin-bottom: -2px;
+    padding: 14px 19px 16px;
+    border: 1px solid #b1b4b6;
+    border-bottom: 0;
+    border-color: var(--govuk-border-colour, #cecece);
+    background-color: var(--govuk-body-background-colour, #fff);
+  }
 }
 
 .govuk-table__caption {

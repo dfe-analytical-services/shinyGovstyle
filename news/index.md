@@ -206,6 +206,15 @@
   no longer emits spurious deprecation warnings for `main_link`,
   `secondary_link`, `main_alt_text`, and `secondary_alt_text` when those
   arguments are not used.
+- [`accordion()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/accordion.md)
+  sections now operate independently of one another, so expanding or
+  collapsing sections in one accordion no longer affects a different
+  accordion on the same page.
+- [`accordion()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/accordion.md)
+  sections and the “Show all sections” control now correctly announce
+  their state via `aria-expanded`, and toggling an individual section
+  keeps the “Show all sections” control’s text, chevron, and
+  `aria-expanded` state in sync.
 - Error messages on input components now use `role="alert"` so they are
   announced by screen readers when toggled via
   [`error_on()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_on.md).

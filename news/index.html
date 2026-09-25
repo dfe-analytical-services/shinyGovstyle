@@ -83,6 +83,10 @@
 <code><a href="../reference/service_navigation.html">service_navigation()</a></code> now syncs the browser tab title with the active page by default. Screen readers announce the title on navigation, so a static title is an accessibility issue for multi-page dashboards. This is a behaviour change — set <code>auto_page_title = FALSE</code> on <code><a href="../reference/service_navigation.html">service_navigation()</a></code> to restore the previous behaviour.</li>
 <li>
 <code><a href="../reference/header.html">header()</a></code> no longer emits spurious deprecation warnings for <code>main_link</code>, <code>secondary_link</code>, <code>main_alt_text</code>, and <code>secondary_alt_text</code> when those arguments are not used.</li>
+<li>
+<code><a href="../reference/accordion.html">accordion()</a></code> sections now operate independently of one another, so expanding or collapsing sections in one accordion no longer affects a different accordion on the same page.</li>
+<li>
+<code><a href="../reference/accordion.html">accordion()</a></code> sections and the “Show all sections” control now correctly announce their state via <code>aria-expanded</code>, and toggling an individual section keeps the “Show all sections” control’s text, chevron, and <code>aria-expanded</code> state in sync.</li>
 <li>Error messages on input components now use <code>role="alert"</code> so they are announced by screen readers when toggled via <code><a href="../reference/error_on.html">error_on()</a></code>.</li>
 <li>The visually hidden “Error:” prefix on input component error messages now comes before the message text, so screen readers announce “Error: Enter your name” rather than “Enter your name Error:”. The prefix also survives <code>error_on(error_message = ...)</code>, which previously replaced it.</li>
 <li>

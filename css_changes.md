@@ -1,4 +1,20 @@
-These the things needed when updating the gov.uk css to make it work.
+These are the local changes to reapply when updating the GOV.UK Frontend CSS.
+
+Before making them, pretty-print the upstream minified CSS (keep the
+`.min.css` filename) so the in-place edits and future diffs are readable.
+
+There are two kinds of change:
+
+* **In-place edits** to the upstream CSS: moving the fonts, the root
+  `font-size`, the `#1a65a6` colour swap, the image URLs and the accordion
+  selector find and replace.
+* **Override rules**: every other rule below goes in a single block appended
+  after the upstream CSS, starting with the comment
+  `/* shinyGovstyle customisations; keep in sync with css_changes.md. */`.
+  Appending keeps the overrides together and lets them win in the cascade
+  without editing upstream rules. If the upstream rule you're overriding sits
+  inside a media query, wrap the override in the same media query, or it will
+  apply at every screen width.
 
 * add to `.govuk-back-link` for backlink
 ```
@@ -13,7 +29,13 @@ color: #0b0c0c;
 
 * Replace all instances of colour #1a65a6 with #175892
 
-* Change url links
+* Change image URLs in the upstream CSS
+
+  For example, replace `url(/assets/images/govuk-crest.svg)` with
+  `url(../images/govuk-crest.svg)`. Shiny serves this CSS from
+  `shinyGovstyle/css/`, so the relative URL reaches the copied asset in
+  `shinyGovstyle/images/`. Check other upstream image URLs against the assets
+  copied into `inst/www/`; leave URLs that already resolve correctly alone.
 
 * For accordion need to fix the css by:
 
@@ -52,8 +74,12 @@ color: #0b0c0c;
 
 * Fix selected tab panel border gap
 
+  Keep this inside the tablet media query. Below that width GOV.UK shows tabs
+  as a plain list of links, and the border would box the selected link.
+
 ```
-.govuk-frontend-supported .govuk-tabs__list-item--selected {
+@media (min-width: 40.0625em) {
+    .govuk-frontend-supported .govuk-tabs__list-item--selected {
         position: relative;
         margin-top: -5px;
         margin-bottom: -2px;
@@ -63,6 +89,7 @@ color: #0b0c0c;
         border-color: var(--govuk-border-colour, #cecece);
         background-color: var(--govuk-body-background-colour, #fff)
     }
+}
 ```
 
 * govTable caption colour:

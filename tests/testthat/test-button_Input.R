@@ -26,6 +26,15 @@ test_that("start button has start modifier and start-icon svg", {
   expect_identical(rendered_children(btn)[[2L]], icon)
 })
 
+test_that("start button wraps rich label before the icon", {
+  btn <- button_Input("btnId", shiny::tags$strong("Start now"), type = "start")
+
+  label <- rendered_children(btn)[[1L]]
+  expect_identical(label$name, "span")
+  expect_identical(rendered_children(label)[[1L]]$name, "strong")
+  expect_identical(rendered_children(btn)[[2L]]$name, "svg")
+})
+
 test_that("secondary button has secondary modifier and no start-icon", {
   btn <- button_Input("btnId", "Cancel", type = "secondary")
 

@@ -32,6 +32,23 @@
 
 ## New features
 
+* Sortable `govReactable()` column headings are now buttons, so screen
+  readers announce them as something you can select, and voice control
+  software can select them by their visible text, for example "click Months"
+  (see issue #190). Each heading also shows a permanent up and down arrow,
+  which changes to a single up or down arrow once the table is sorted by
+  that column, and the whole heading can be clicked. A `headerClass` set
+  through the `columns` argument is now added alongside the sort styling
+  rather than replacing it, and a column set to `sortable = FALSE` doesn't
+  show the arrows. A custom `header` set through `columns` is shown inside
+  the sort button, so it shouldn't contain links or other interactive
+  content, and a header written with `JS()` on a sortable column gives an
+  error because the button can't be added to it.
+* `govReactable()` gains a `language` argument, so you can still translate
+  reactable's text (such as the pagination buttons) with
+  `reactable::reactableLang()`. `sortLabel` is always set so each heading's
+  accessible name matches its visible text; setting it yourself gives a
+  warning.
 * `govReactable()` gains a `columns` argument for column-specific
   overrides, such as fixing a column's decimal places with
   `reactable::colFormat()`. Only the fields you set are applied; any field

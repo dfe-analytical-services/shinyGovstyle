@@ -12,6 +12,7 @@ govReactable(
   borderless = TRUE,
   min_widths = list(),
   columns = list(),
+  language = getOption("reactable.language"),
   ...
 )
 }
@@ -38,7 +39,20 @@ matches a column in \code{df} and each value is built with
 is unaffected, and keeps govReactable's usual GOV.UK look. For a column
 you do include, anything you don't set on it, such as sorting or
 alignment, also keeps that same default. Names that don't match a
-column in \code{df} are ignored.}
+column in \code{df} are ignored. A \code{headerClass} you set is added alongside
+the GOV.UK sort header styling rather than replacing it, so sortable
+columns always keep their visible sort indicator. Columns set to
+\code{sortable = FALSE} don't show a sort indicator. A custom \code{header} on a
+sortable column is placed inside the column's sort button, so it must
+not contain links or other interactive content. It must be a string, a
+tag or an R function; a \code{JS()} header on a sortable column is an error,
+because the sort button can't be added to it.}
+
+\item{language}{Language options made with \code{reactable::reactableLang()},
+for example to translate the pagination text. Defaults to the
+\code{reactable.language} option, as in \code{reactable::reactable()}. \code{sortLabel}
+is always set to \code{"{name}"}, so each heading's accessible name matches its
+visible text, and setting it gives a warning.}
 
 \item{...}{Additional arguments passed to \code{reactable::reactable}}
 }
@@ -49,8 +63,11 @@ A \code{reactable} HTML widget styled with GOV.UK classes
 This function is opinionated and sets table defaults that are in
 keeping with the wider GOV.UK design system. Some defaults are overrideable,
 such as \code{highlight=TRUE} and \code{borderless=TRUE}, however some are fixed, such
-as \code{showSortIcon=FALSE} as the default sort icon is inaccessible. Additional
-arguments from \code{reactable::reactable} can be passed to customise the table.
+as \code{showSortIcon=FALSE} as the default sort icon is inaccessible. Each
+sortable column heading is a button, so screen readers announce it as
+something you can select and voice control software can select it by its
+visible text (see issue #190). Additional arguments from
+\code{reactable::reactable} can be passed to customise the table.
 }
 \details{
 This function inserts a government-styled table using \code{reactable}.

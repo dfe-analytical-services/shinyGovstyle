@@ -1,71 +1,35 @@
-#' Tag Function
+#' Tag input (deprecated)
 #'
-#' This function creates a tag.
-#' @inheritParams id_arg
-#' @param text The text in the tag
-#' @param colour The colour of the tag. Default is navy. Other options are
-#' grey, green, teal, blue, purple, magenta, red, orange and yellow
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `tag_Input()` was renamed to [gov_tag()] in shinyGovstyle 0.3.0. The tag is
+#' a display component rather than a Shiny input, so the `_Input` suffix was
+#' misleading. The arguments and output are unchanged. `tag_Input()` will be
+#' removed in shinyGovstyle 1.0.0.
+#'
+#' @inheritParams gov_tag
 #' @return a tag HTML shiny tag object
-#' @family Govstyle feedback types
+#' @keywords internal
 #' @export
 #' @examples
-#' ui <- shinyGovstyle::gov_page(
-#'   shinyGovstyle::header(
-#'     org_name = "Example",
-#'     service_name = "User Examples",
-#'     logo="shinyGovstyle/images/moj_logo.png"
-#'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
-#'     shinyGovstyle::tag_Input("tag1", "Complete"),
-#'     shinyGovstyle::tag_Input("tag2", "Incomplete", "red")
-#'   ),
-#'   shinyGovstyle::footer(full = TRUE)
-#' )
+#' # Before
+#' # tag_Input("tag1", "Complete")
 #'
-#' server <- function(input, output, session) {}
-#' if (interactive()) shinyApp(ui = ui, server = server)
+#' # After
+#' gov_tag("tag1", "Complete")
 tag_Input <- # nolint
   function(
     inputId, # nolint
     text,
     colour = "navy"
   ) {
-    #check for deprecated colours
-    if (colour == "light-blue") {
-      warning(
-        "'light-blue' is no longer a supported colour.
-        Please select an alternative from:
-       'navy', 'grey', 'purple', 'teal', 'blue', 'yellow',
-        'orange', 'red', 'magenta', or 'green'."
-      )
-    }
-    if (colour == "turquoise") {
-      warning(
-        "'turquoise' is no longer a supported colour.
-      Please select an alternative from:
-      'grey', 'purple', 'teal', 'blue', 'yellow',
-      'orange', 'red', 'magenta', or 'green'."
-      )
-    }
-    if (colour == "pink") {
-      warning(
-        "'pink' is no longer a supported colour.
-      Please select an alternative from:
-      'grey', 'purple', 'teal', 'blue', 'yellow',
-      'orange', 'red', 'magenta', or 'green'."
-      )
-    }
-
-    class_colour <- "govuk-tag"
-    if (colour != "navy") {
-      class_colour <- paste0("govuk-tag govuk-tag--", colour)
-    }
-
-    gov_tag <- shiny::tags$strong(
-      id = inputId,
-      class = class_colour,
-      text
+    lifecycle::deprecate_warn(
+      when = "0.3.0",
+      what = "tag_Input()",
+      with = "gov_tag()",
+      details = "`tag_Input()` will be removed in shinyGovstyle 1.0.0."
     )
-    attachDependency(gov_tag)
+
+    gov_tag(inputId = inputId, text = text, colour = colour)
   }

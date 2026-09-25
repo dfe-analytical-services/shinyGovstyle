@@ -27,12 +27,15 @@
 #'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"
 #'   ),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'
 #'   ),
-#'   shinyGovstyle::gov_layout(size = "two-thirds",
+#'   shinyGovstyle::gov_main_layout(
 #'     # Simple file input
-#'     shinyGovstyle::file_Input(inputId = "file1", label = "Upload a file"),
+#'     shinyGovstyle::file_Input(
+#'       inputId = "file1",
+#'       label = "Upload a file"
+#'     ),
 #'     # Error file
 #'     shinyGovstyle::file_Input(
 #'       inputId = "file2",

@@ -1,46 +1,47 @@
-#' Panel output
+#' Panel output (deprecated)
 #'
-#' This function inserts a panel.  Normally used for confirmation screens
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `panel_output()` was renamed to [confirmation_panel()] in shinyGovstyle
+#' 0.3.0, with `main_text` becoming `title` and `sub_text` becoming `content`.
+#' The output is unchanged. `panel_output()` will be removed in shinyGovstyle
+#' 1.0.0.
+#'
 #' @inheritParams id_arg
-#' @param main_text Add the header for the panel
-#' @param sub_text Add the main body of text for the panel. Accepts a plain
-#' character string, or `shiny` tag objects such as `shiny::tags$b("Bold")`
-#' or a `shiny::tagList()`.
+#' @param main_text Use `confirmation_panel(title)` instead.
+#' @param sub_text Use `confirmation_panel(content)` instead.
 #' @return a panel HTML shiny tag object
-#' @family Govstyle feedback types
+#' @keywords internal
 #' @export
 #' @examples
-#' ui <- shinyGovstyle::gov_page(
-#'   shinyGovstyle::header(
-#'     org_name = "Example",
-#'     service_name = "User Examples",
-#'     logo="shinyGovstyle/images/moj_logo.png"
-#'   ),
-#'   shinyGovstyle::gov_layout(size = "full",
-#'     shinyGovstyle::panel_output(
-#'       inputId = "panel1",
-#'       main_text = "Application Complete",
-#'       sub_text = paste(
-#'         "Thank you for submitting your application.",
-#'         "Your reference is xvsiq"
-#'       )
-#'     ),
-#'     shinyGovstyle::footer(full = TRUE)
-#'   )
-#' )
+#' # Before
+#' # panel_output("panel1", main_text = "Application complete",
+#' #   sub_text = "Your reference is xvsiq")
 #'
-#' server <- function(input, output, session) {}
-#' if (interactive()) shinyApp(ui = ui, server = server)
+#' # After
+#' confirmation_panel(
+#'   "panel1",
+#'   title = "Application complete",
+#'   content = "Your reference is xvsiq"
+#' )
 panel_output <- function(
   inputId, # nolint
   main_text,
   sub_text
 ) {
-  gov_panel <- shiny::tags$div(
-    class = "govuk-panel govuk-panel--confirmation",
-    id = inputId,
-    shiny::tags$h1(main_text, class = "govuk-panel__title"),
-    shiny::tags$div(as_govuk_html(sub_text), class = "govuk-panel__body")
+  lifecycle::deprecate_warn(
+    when = "0.3.0",
+    what = "panel_output()",
+    with = "confirmation_panel()",
+    details = c(
+      i = paste(
+        "Rename `main_text` to `title` and `sub_text` to `content`;",
+        "positional calls work unchanged."
+      ),
+      i = "`panel_output()` will be removed in shinyGovstyle 1.0.0."
+    )
   )
-  attachDependency(gov_panel)
+
+  confirmation_panel(inputId = inputId, title = main_text, content = sub_text)
 }

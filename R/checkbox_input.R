@@ -20,9 +20,9 @@
 #'     org_name = "Example",
 #'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'),
-#'   shinyGovstyle::gov_layout(size = "two-thirds",
+#'   shinyGovstyle::gov_main_layout(
 #'     # Simple checkbox
 #'     shinyGovstyle::checkbox_Input(
 #'       inputId = "check1",
@@ -48,7 +48,10 @@
 #'       label = "Choice option",
 #'       hint_label = shiny::tagList(
 #'         "See the ",
-#'         shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+#'         shinyGovstyle::external_link(
+#'           "https://www.gov.uk",
+#'           "GOV.UK guidance"
+#'         )
 #'       )
 #'     ),
 #'     # Button to trigger error

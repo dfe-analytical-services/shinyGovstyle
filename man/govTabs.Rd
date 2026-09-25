@@ -31,7 +31,6 @@ ui <- shinyGovstyle::gov_page(
     logo_alt_text = "Ministry of Justice logo"
   ),
   shinyGovstyle::gov_main_layout(
-    size = "two-thirds",
     shinyGovstyle::govTabs("tabs", shinyGovstyle::case_data, "tabs")
   ),
   shinyGovstyle::footer(full = TRUE)

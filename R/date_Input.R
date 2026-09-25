@@ -20,11 +20,10 @@
 #'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
+#'   shinyGovstyle::gov_main_layout(
 #'     # Simple date input
 #'     shinyGovstyle::date_Input(
 #'       inputId = "dob_input",
@@ -43,7 +42,10 @@
 #'       label = "Please enter your birthday",
 #'       hint_label = shiny::tagList(
 #'         "Check the format in the ",
-#'         shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+#'         shinyGovstyle::external_link(
+#'           "https://www.gov.uk",
+#'           "GOV.UK guidance"
+#'         )
 #'       )
 #'     ),
 #'     # Button to trigger error

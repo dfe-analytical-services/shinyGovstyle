@@ -57,11 +57,10 @@ ui <- shinyGovstyle::gov_page(
     service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+  shinyGovstyle::gov_main_layout(
     # Simple text box
     shinyGovstyle::text_Input(inputId = "eventId", label = "Event Name"),
     # Error text box
@@ -111,7 +110,6 @@ Other Govstyle text types:
 \code{\link[=gov_list]{gov_list()}},
 \code{\link[=heading_text]{heading_text()}},
 \code{\link[=input_field]{input_field()}},
-\code{\link[=text_area_Input]{text_area_Input()}},
-\code{\link[=word_count]{word_count()}}
+\code{\link[=text_area_Input]{text_area_Input()}}
 }
 \concept{Govstyle text types}

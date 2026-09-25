@@ -22,8 +22,7 @@
 #'     shiny::tabPanel(
 #'       "Select Types",
 #'       value = "panel1",
-#'       gov_layout(
-#'         size = "two-thirds",
+#'       gov_main_layout(
 #'         backlink_Input("link1"),
 #'         gov_text("Placeholder text")
 #'       )

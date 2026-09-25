@@ -64,11 +64,10 @@ ui <- shinyGovstyle::gov_page(
     service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+  shinyGovstyle::gov_main_layout(
     # Simple date input
     shinyGovstyle::date_Input(
       inputId = "dob_input",
@@ -87,7 +86,10 @@ ui <- shinyGovstyle::gov_page(
       label = "Please enter your birthday",
       hint_label = shiny::tagList(
         "Check the format in the ",
-        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+        shinyGovstyle::external_link(
+          "https://www.gov.uk",
+          "GOV.UK guidance"
+        )
       )
     ),
     # Button to trigger error
@@ -115,7 +117,6 @@ Other Govstyle text types:
 \code{\link[=heading_text]{heading_text()}},
 \code{\link[=input_field]{input_field()}},
 \code{\link[=text_Input]{text_Input()}},
-\code{\link[=text_area_Input]{text_area_Input()}},
-\code{\link[=word_count]{word_count()}}
+\code{\link[=text_area_Input]{text_area_Input()}}
 }
 \concept{Govstyle text types}

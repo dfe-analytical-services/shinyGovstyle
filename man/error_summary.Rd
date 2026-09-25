@@ -31,8 +31,7 @@ ui <- shinyGovstyle::gov_page(
     service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+  shinyGovstyle::gov_main_layout(
     error_summary(
       inputId = "errorId",
       error_title = "Error title",

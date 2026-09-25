@@ -12,11 +12,10 @@
 #'     org_name = "Example",
 #'     service_name = "User Examples"
 #'   ),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
+#'   shinyGovstyle::gov_main_layout(
 #'     shinyGovstyle::heading_text("gov_list", size = "s"),
 #'     shinyGovstyle::gov_text("List:"),
 #'     gov_list(list = c("a", "b", "c")),

@@ -14,7 +14,7 @@ gov_page(
 )
 }
 \arguments{
-\item{...}{The rest of your page: \code{header()}, \code{banner()},
+\item{...}{The rest of your page: \code{header()}, \code{phase_banner()},
 \code{service_navigation()}, \code{gov_main_layout()}, \code{footer()}, and so on.}
 
 \item{title}{Browser tab title, passed straight to
@@ -68,11 +68,7 @@ ui <- shinyGovstyle::gov_page(
     service_name = "My dashboard"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        shinyGovstyle::heading_text("Welcome", size = "l", level = 1)
-      )
-    )
+    shinyGovstyle::heading_text("Welcome", size = "l", level = 1)
   ),
   shinyGovstyle::footer()
 )
@@ -83,12 +79,11 @@ if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle page structure:
-\code{\link[=banner]{banner()}},
 \code{\link[=cookieBanner]{cookieBanner()}},
 \code{\link[=footer]{footer()}},
-\code{\link[=gov_layout]{gov_layout()}},
 \code{\link[=header]{header()}},
 \code{\link{layouts}},
+\code{\link[=phase_banner]{phase_banner()}},
 \code{\link[=skip_to_main]{skip_to_main()}}
 }
 \concept{Govstyle page structure}

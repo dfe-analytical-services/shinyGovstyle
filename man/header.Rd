@@ -33,20 +33,20 @@ use the crown SVG version on GOV UK}
 \item{secondary_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{service_name}
 instead}
 
-\item{main_link}{Add a link for clicking on main text
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+\item{main_link}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Has no effect and will
+be removed in shinyGovstyle 1.0.0}
 
-\item{secondary_link}{Add a link for clicking on secondary
-header \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+\item{secondary_link}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Has no effect and
+will be removed in shinyGovstyle 1.0.0}
 
 \item{logo_alt_text}{Add alternative text for the logo. Should be used when a
 logo is used}
 
-\item{main_alt_text}{Add alternative text for the main link. Should be used
-when a main link is used \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+\item{main_alt_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Has no effect and
+will be removed in shinyGovstyle 1.0.0}
 
-\item{secondary_alt_text}{Add alternative text for the secondary link. Should
-be used when a secondary link is used \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+\item{secondary_alt_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Has no effect
+and will be removed in shinyGovstyle 1.0.0}
 
 \item{logo_width}{Change the logo size width CSS to improve fit}
 
@@ -81,12 +81,11 @@ if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle page structure:
-\code{\link[=banner]{banner()}},
 \code{\link[=cookieBanner]{cookieBanner()}},
 \code{\link[=footer]{footer()}},
-\code{\link[=gov_layout]{gov_layout()}},
 \code{\link[=gov_page]{gov_page()}},
 \code{\link{layouts}},
+\code{\link[=phase_banner]{phase_banner()}},
 \code{\link[=skip_to_main]{skip_to_main()}}
 }
 \concept{Govstyle page structure}

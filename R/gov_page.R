@@ -10,7 +10,7 @@
 #' shinyGovstyle component in the page in one place, instead of repeating
 #' `width = ` on each of them.
 #'
-#' @param ... The rest of your page: `header()`, `banner()`,
+#' @param ... The rest of your page: `header()`, `phase_banner()`,
 #' `service_navigation()`, `gov_main_layout()`, `footer()`, and so on.
 #' @param title Browser tab title, passed straight to
 #' `bslib::page_fluid()`.
@@ -47,11 +47,7 @@
 #'     service_name = "My dashboard"
 #'   ),
 #'   shinyGovstyle::gov_main_layout(
-#'     shinyGovstyle::gov_row(
-#'       shinyGovstyle::gov_box(
-#'         shinyGovstyle::heading_text("Welcome", size = "l", level = 1)
-#'       )
-#'     )
+#'     shinyGovstyle::heading_text("Welcome", size = "l", level = 1)
 #'   ),
 #'   shinyGovstyle::footer()
 #' )

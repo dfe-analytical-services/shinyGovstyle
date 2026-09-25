@@ -2,7 +2,7 @@
 % Please edit documentation in R/insert_text.R
 \name{insert_text}
 \alias{insert_text}
-\title{Insert Text Function}
+\title{Insert text (deprecated)}
 \usage{
 insert_text(inputId, content, text = lifecycle::deprecated())
 }
@@ -11,58 +11,28 @@ insert_text(inputId, content, text = lifecycle::deprecated())
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{content}{Content to display on the insert. Accepts a plain character
+\item{content}{Content to display in the inset. Accepts a plain character
 string, or \code{shiny} tag objects such as \code{shiny::tags$b("Bold")} or a
 \code{shiny::tagList()}.}
 
-\item{text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{content} instead}
+\item{text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{inset_text(content)}
+instead.}
 }
 \value{
-a insert text HTML shiny tag object
+an inset text HTML shiny tag object
 }
 \description{
-This function loads the insert text component to display additional
-information in a special format.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{insert_text()} was renamed to \code{\link[=inset_text]{inset_text()}} in shinyGovstyle 0.3.0 to
+match the name of the GOV.UK Design System component. It will be removed in
+shinyGovstyle 1.0.0.
 }
 \examples{
-ui <- shinyGovstyle::gov_page(
-  shinyGovstyle::header(
-    org_name = "Example",
-    service_name = "User Examples",
-    logo="shinyGovstyle/images/moj_logo.png"
-  ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
-    shinyGovstyle::insert_text(
-      inputId = "note",
-      content = paste(
-        "It can take up to 8 weeks to register a lasting power of",
-        "attorney if there are no mistakes in the application."
-      )
-    ),
-    shinyGovstyle::insert_text(
-      inputId = "note-rich",
-      content = shiny::tagList(
-        shiny::tags$b("Important: "),
-        "you can also pass tag objects."
-      )
-    )
-  ),
-  shinyGovstyle::footer(full = TRUE)
-)
+# Before
+# insert_text(inputId = "note", content = "Some supporting text")
 
-server <- function(input, output, session) {}
-if (interactive()) shinyApp(ui = ui, server = server)
+# After
+inset_text(inputId = "note", content = "Some supporting text")
 }
-\seealso{
-Other Govstyle feedback types:
-\code{\link[=details]{details()}},
-\code{\link[=gov_summary]{gov_summary()}},
-\code{\link[=label_hint]{label_hint()}},
-\code{\link[=noti_banner]{noti_banner()}},
-\code{\link[=panel_output]{panel_output()}},
-\code{\link[=tag_Input]{tag_Input()}},
-\code{\link[=value_box]{value_box()}},
-\code{\link[=warning_text]{warning_text()}}
-}
-\concept{Govstyle feedback types}
+\keyword{internal}

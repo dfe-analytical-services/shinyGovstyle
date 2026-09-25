@@ -33,7 +33,7 @@ ui <- shinyGovstyle::gov_page(
   #Needs shinyjs to work
   shinyjs::useShinyjs(),
   shinyGovstyle::cookieBanner("The best thing"),
-  shinyGovstyle::gov_layout(size = "two-thirds"),
+  shinyGovstyle::gov_main_layout(),
   shinyGovstyle::footer(full = TRUE)
 )
 
@@ -67,12 +67,11 @@ if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle page structure:
-\code{\link[=banner]{banner()}},
 \code{\link[=footer]{footer()}},
-\code{\link[=gov_layout]{gov_layout()}},
 \code{\link[=gov_page]{gov_page()}},
 \code{\link[=header]{header()}},
 \code{\link{layouts}},
+\code{\link[=phase_banner]{phase_banner()}},
 \code{\link[=skip_to_main]{skip_to_main()}}
 }
 \concept{Govstyle page structure}

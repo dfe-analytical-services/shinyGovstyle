@@ -17,8 +17,7 @@
 #'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
+#'   shinyGovstyle::gov_main_layout(
 #'     shinyGovstyle::details(
 #'       inputId = "help_div",
 #'       label = "Help with form",

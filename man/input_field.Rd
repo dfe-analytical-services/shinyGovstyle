@@ -57,8 +57,8 @@ ui <- shinyGovstyle::gov_page(
       widths = c(30,20,10),
       error = TRUE
     ),
-       # Button to trigger error
-       shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+    # Button to trigger error
+    shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
   ),
   shinyGovstyle::footer(full = TRUE)
 )

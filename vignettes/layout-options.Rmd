@@ -324,7 +324,7 @@ A wrapper that produces a `<p class="govuk-body">` paragraph element. For full g
 
 ---
 
-## `gov_layout()` — deprecated
+## `gov_layout()` (deprecated)
 
 `gov_layout()` is deprecated as of shinyGovstyle 0.3.0 and will be removed in shinyGovstyle 1.0.0. Use `gov_main_layout()` with `gov_row()` and `gov_box()` instead; the deprecation warning shows how each argument maps across.
 

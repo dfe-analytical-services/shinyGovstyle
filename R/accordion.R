@@ -80,7 +80,6 @@ accordion <- function(
           class = "govuk-accordion__show-all",
           `aria-expanded` = "false",
           shiny::tags$span(
-            id = "show-all-chevron",
             class = paste(
               "govuk-accordion-nav__chevron",
               "govuk-accordion-nav__chevron--down"
@@ -108,8 +107,9 @@ accordion <- function(
                 class = "govuk-accordion__section-header",
                 shiny::tags$button(
                   class = "govuk-accordion__section-button",
-                  id = paste0("accordion-default-heading-", z_str),
-                  name = paste0("accordion-default-heading-", z_str),
+                  id = paste0(inputId, "-accordion-default-heading-", z_str),
+                  name = paste0(inputId, "-accordion-default-heading-", z_str),
+                  `aria-expanded` = "false",
                   shiny::tags$span(
                     class = "govuk-accordion__section-heading-text",
                     shiny::tags$span(
@@ -147,9 +147,13 @@ accordion <- function(
               )
             ),
             shiny::tags$div(
-              id = "accordion-default-content-1",
+              id = paste0(inputId, "-accordion-default-content-", z_str),
               class = "govuk-accordion__section-content",
-              `aria-labelledby` = paste0("accordion-default-heading-", z_str),
+              `aria-labelledby` = paste0(
+                inputId,
+                "-accordion-default-heading-",
+                z_str
+              ),
               if (is.character(y)) {
                 shiny::tags$p(class = "govuk-body", shiny::HTML(y))
               } else {

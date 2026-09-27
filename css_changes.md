@@ -16,6 +16,13 @@ There are two kinds of change:
   inside a media query, wrap the override in the same media query, or it will
   apply at every screen width.
 
+  Being last only settles ties. An upstream selector with higher specificity
+  (for example a `:focus` or `:link` state) still wins, and an appended rule
+  beats *every* upstream rule of equal specificity, not just the one it
+  targets. So only include the declarations that actually differ from
+  upstream; restating an upstream value can override a state rule that was
+  meant to win (see the `:hover` note under `govuk-link--no-visited-state`).
+
 * add to `.govuk-back-link` for backlink
 ```
 border: none;
@@ -41,7 +48,7 @@ color: #0b0c0c;
 
  Finding and replacing all `.govuk-frontend-supported .govuk-accordion` with `.js-enabled .govuk-accordion`
  
- and adding this chunk to the accordion section of css:
+ and adding this to the appended block:
  
 ```
 .js-enabled .govuk-accordion__section-toggle {
@@ -53,41 +60,26 @@ color: #0b0c0c;
 
 ```
 .govuk-radios__input {
-    z-index: 1;
-    width: 44px;
-    height: 44px;
-    margin: 0;
-    opacity: 0;
     vertical-align: middle;
-    cursor: pointer
 }
 
 .govuk-radios__label {
-    align-self: center;
-    max-width: calc(100% - 74px);
     display: inline-block;
-    padding: 7px 15px;
-    cursor: pointer;
-    touch-action: manipulation
 }
 ```
 
+  The label also has `.govuk-label` (`display: block`), which has equal
+  specificity, so the appended rule wins.
+
 * Fix selected tab panel border gap
 
-  Keep this inside the tablet media query. Below that width GOV.UK shows tabs
-  as a plain list of links, and the border would box the selected link.
+  Keep this inside the tablet media query, matching the upstream rule. Upstream
+  uses `margin-bottom: -1px`; the rest of its rule is left alone.
 
 ```
 @media (min-width: 40.0625em) {
     .govuk-frontend-supported .govuk-tabs__list-item--selected {
-        position: relative;
-        margin-top: -5px;
         margin-bottom: -2px;
-        padding: 14px 19px 16px;
-        border: 1px solid #b1b4b6;
-        border-bottom: 0;
-        border-color: var(--govuk-border-colour, #cecece);
-        background-color: var(--govuk-body-background-colour, #fff)
     }
 }
 ```
@@ -96,9 +88,6 @@ color: #0b0c0c;
 
 ```
 .govuk-table__caption {
-    font-weight: 700;
-    display: table-caption;
-    text-align: left;
     color: #000;
 }
 ```
@@ -187,10 +176,14 @@ color: #0b0c0c;
     -webkit-text-decoration-skip-ink: none;
     text-decoration-skip-ink: none;
     -webkit-text-decoration-skip: none;
-    text-decoration-skip: none;
-    color: #0f385c
+    text-decoration-skip: none
 }
 ```
+
+  Don't set `color` in the appended `:hover` rule. Upstream already sets the
+  hover colour, and because the appended rule comes after upstream's `:active`
+  and `:focus` colour rules, a `color` here would beat them when a link is both
+  hovered and focused or pressed.
 
 * skip link
 ```
@@ -265,7 +258,11 @@ color: #0b0c0c;
 }
 ```
 
-* Add back blue tag colour - removed as default
+* Blue tag modifier for `value_box()`
+
+  Upstream dropped `.govuk-tag--blue` because plain `.govuk-tag` is now blue.
+  `value_box()` applies `govuk-tag--<colour>` without `.govuk-tag`, so it
+  still needs this rule.
 ```
 .govuk-tag--blue {
     color: #0f385c;

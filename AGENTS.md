@@ -14,6 +14,8 @@ Two constraints sit above everything else and should drive judgement calls when 
 
 The authoritative pre-PR checklist lives in [`.github/CONTRIBUTING.md`](.github/CONTRIBUTING.md). Follow its "Before you raise a PR" section verbatim — Air formatting, `lintr::lint_package()`, `devtools::test()`, `devtools::document()`, `devtools::check()`, comparing UI changes against the [GOV.UK Design System](https://design-system.service.gov.uk/), and logging any CSS edits in `css_changes.md`. The same file documents the branching/PR flow (branch off `main`, squash on merge) and the GOV.UK Frontend upgrade procedure.
 
+Repo-specific agent skills live in `.agents/skills/` and are listed in CONTRIBUTING.md's "Agent skills" section; for a GOV.UK Frontend upgrade, follow `.agents/skills/update-govuk/SKILL.md`.
+
 ## Common commands
 
 In a terminal at the repo root:

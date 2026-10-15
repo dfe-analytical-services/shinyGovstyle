@@ -39,56 +39,59 @@
     </div>
 
 
-<p>These the things needed when updating the gov.uk css to make it work.</p>
-<ul><li>add to <code>.govuk-back-link</code> for backlink</li>
+<p>These are the local changes to reapply when updating the GOV.UK Frontend CSS.</p>
+<p>Before making them, pretty-print the upstream minified CSS (keep the <code>.min.css</code> filename) so the in-place edits and future diffs are readable.</p>
+<p>There are two kinds of change:</p>
+<ul><li><p><strong>In-place edits</strong> to the upstream CSS: moving the fonts, the root <code>font-size</code>, the <code>#1a65a6</code> colour swap, the image URLs and the accordion selector find and replace.</p></li>
+<li>
+<p><strong>Override rules</strong>: every other rule below goes in a single block appended after the upstream CSS, starting with the comment <code>/* shinyGovstyle customisations; keep in sync with css_changes.md. */</code>. Appending keeps the overrides together and lets them win in the cascade without editing upstream rules. If the upstream rule you’re overriding sits inside a media query, wrap the override in the same media query, or it will apply at every screen width.</p>
+<p>Being last only settles ties. An upstream selector with higher specificity (for example a <code>:focus</code> or <code>:link</code> state) still wins, and an appended rule beats <em>every</em> upstream rule of equal specificity, not just the one it targets. So only include the declarations that actually differ from upstream; restating an upstream value can override a state rule that was meant to win (see the <code>:hover</code> note under <code>govuk-link--no-visited-state</code>).</p>
+</li>
+<li><p>add to <code>.govuk-back-link</code> for backlink</p></li>
 </ul><pre><code>border: none;
 background: white;
 color: #0b0c0c;</code></pre>
 <ul><li><p>Move fonts css to the font css</p></li>
 <li><p>Add <code>font-size: 16px;</code> to root at top of file underneath <code>--govuk-frontend-version: VERSION NUMBER;</code></p></li>
 <li><p>Replace all instances of colour #1a65a6 with #175892</p></li>
-<li><p>Change url links</p></li>
+<li>
+<p>Change image URLs in the upstream CSS</p>
+<p>For example, replace <code>url(/assets/images/govuk-crest.svg)</code> with <code>url(../images/govuk-crest.svg)</code>. Shiny serves this CSS from <code>shinyGovstyle/css/</code>, so the relative URL reaches the copied asset in <code>shinyGovstyle/images/</code>. Check other upstream image URLs against the assets copied into <code>inst/www/</code>; leave URLs that already resolve correctly alone.</p>
+</li>
 <li><p>For accordion need to fix the css by:</p></li>
 </ul><p>Finding and replacing all <code>.govuk-frontend-supported .govuk-accordion</code> with <code>.js-enabled .govuk-accordion</code></p>
-<p>and adding this chunk to the accordion section of css:</p>
+<p>and adding this to the appended block:</p>
 <pre><code>.js-enabled .govuk-accordion__section-toggle {
   pointer-events: none;
 }</code></pre>
 <ul><li>Fix alignment on the radio button item labels</li>
 </ul><pre><code>.govuk-radios__input {
-    z-index: 1;
-    width: 44px;
-    height: 44px;
-    margin: 0;
-    opacity: 0;
     vertical-align: middle;
-    cursor: pointer
 }
 
 .govuk-radios__label {
-    align-self: center;
-    max-width: calc(100% - 74px);
     display: inline-block;
-    padding: 7px 15px;
-    cursor: pointer;
-    touch-action: manipulation
 }</code></pre>
-<ul><li>Fix selected tab panel border gap</li>
-</ul><pre><code>.govuk-frontend-supported .govuk-tabs__list-item--selected {
-        position: relative;
-        margin-top: -5px;
+<p>The label also has <code>.govuk-label</code> (<code>display: block</code>), which has equal specificity, so the appended rule wins.</p>
+<ul><li>
+<p>Keep radio and checkbox labels at GOV.UK’s sizing</p>
+<p>Bootstrap (loaded on every shinyGovstyle page) sets <code>box-sizing: border-box</code> on every element. GOV.UK leaves these labels at the default <code>content-box</code>, so under Bootstrap their horizontal padding counts against <code>max-width</code> and labels wrap earlier than on GOV.UK (for example, inline radios like “Once a week” break onto two lines on desktop). Upstream already sets <code>border-box</code> on the labels’ <code>:before</code> and <code>:after</code> pseudo-elements that draw the radio circle and checkbox; this rule doesn’t touch those.</p>
+</li>
+</ul><pre><code>.govuk-radios__label,
+.govuk-checkboxes__label {
+  box-sizing: content-box;
+}</code></pre>
+<ul><li>
+<p>Fix selected tab panel border gap</p>
+<p>Keep this inside the tablet media query, matching the upstream rule. Upstream uses <code>margin-bottom: -1px</code>; the rest of its rule is left alone.</p>
+</li>
+</ul><pre><code>@media (min-width: 40.0625em) {
+    .govuk-frontend-supported .govuk-tabs__list-item--selected {
         margin-bottom: -2px;
-        padding: 14px 19px 16px;
-        border: 1px solid #b1b4b6;
-        border-bottom: 0;
-        border-color: var(--govuk-border-colour, #cecece);
-        background-color: var(--govuk-body-background-colour, #fff)
-    }</code></pre>
+    }
+}</code></pre>
 <ul><li>govTable caption colour:</li>
 </ul><pre><code>.govuk-table__caption {
-    font-weight: 700;
-    display: table-caption;
-    text-align: left;
     color: #000;
 }</code></pre>
 <ul><li>contents box:</li>
@@ -169,9 +172,9 @@ color: #0b0c0c;</code></pre>
     -webkit-text-decoration-skip-ink: none;
     text-decoration-skip-ink: none;
     -webkit-text-decoration-skip: none;
-    text-decoration-skip: none;
-    color: #0f385c
+    text-decoration-skip: none
 }</code></pre>
+<p>Don’t set <code>color</code> in the appended <code>:hover</code> rule. Upstream already sets the hover colour, and because the appended rule comes after upstream’s <code>:active</code> and <code>:focus</code> colour rules, a <code>color</code> here would beat them when a link is both hovered and focused or pressed.</p>
 <ul><li>skip link</li>
 </ul><pre><code>/*Skip link*/
 .govuk-skip {
@@ -230,12 +233,11 @@ color: #0b0c0c;</code></pre>
     margin-top: 10px;
     font-weight: 400;
 }</code></pre>
-<ul><li>Add back blue tag colour - removed as default</li>
-</ul><pre><code>.govuk-tag--blue {
-    color: #0f385c;
-    background-color: #d2e2f1
-}
-</code></pre>
+<ul><li>
+<p>Blue tag modifier for <code><a href="reference/value_box.html">value_box()</a></code></p>
+<p>Upstream dropped <code>.govuk-tag--blue</code> because plain <code>.govuk-tag</code> is now blue. <code><a href="reference/value_box.html">value_box()</a></code> applies <code>govuk-tag--&lt;colour&gt;</code> without <code>.govuk-tag</code>, so it still needs this rule. ``` .govuk-tag–blue { color: #0f385c; background-color: #d2e2f1 }</p>
+</li>
+</ul><p>```</p>
 
 
   </main></div>

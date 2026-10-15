@@ -151,11 +151,22 @@ This isn’t a full audit, just a smoke test. If you’re touching <code>inst/ww
 <ol style="list-style-type: decimal"><li><p>Locate the latest (or desired) <a href="https://github.com/alphagov/govuk-frontend/releases" class="external-link">GOV.UK Frontend version on GitHub</a></p></li>
 <li><p>Download and unzip the ZIP folder, copying the assets (including fonts and images) into the <code>inst/www/</code> folder</p></li>
 <li><p>Update the CSS file name in <code>attachDependency.R</code> script</p></li>
-<li><p>Apply any changes from <code>css_changes.md</code> manually, to preserve previous edits</p></li>
+<li><p>Pretty-print the upstream CSS (keeping the <code>.min.css</code> filename) so edits are readable, then apply any changes from <code>css_changes.md</code> manually, to preserve previous edits</p></li>
 <li><p>Test all the code functions as expected using <code>devtools::check()</code></p></li>
 <li><p>Manually test the examples using <code><a href="reference/run_example.html">shinyGovstyle::run_example()</a></code>, ensuring the styling is as expected</p></li>
-<li><p>Update the version of GOV.UK frontend in the <code>package.json</code> file to match the version you’ve just added</p></li>
+<li><p>Update the version of GOV.UK frontend in the <code>package.json</code> file to match the version you’ve just added.</p></li>
+<li><p>Update the README badge so users will be able to see the right version number.</p></li>
 </ol><p>If unsure on the styling and expected appearance, use the <a href="https://design-system.service.gov.uk/" class="external-link">GOV.UK Design System site</a> to explore the components in more detail and official guidance for their use.</p>
+<p>If you use an AI coding agent, the <a href="#agent-skills"><code>update-govuk</code> skill</a> walks it through these steps, then reports upstream changes worth knowing about and anything that didn’t copy across as smoothly as usual.</p>
+</div>
+<div class="section level2">
+<h2 id="agent-skills">Agent skills<a class="anchor" aria-label="anchor" href="#agent-skills"></a></h2>
+<p>We keep repo-specific skills for AI coding agents in <code>.agents/skills/</code>, one folder per skill, each with a <code>SKILL.md</code> describing when to use it and the steps to follow. They’re written to work with any agent: Codex picks them up automatically, and for other agents (such as Claude Code) ask it to read and follow the skill’s <code>SKILL.md</code>.</p>
+<table class="table"><colgroup><col width="50%"><col width="50%"></colgroup><thead><tr><th>Skill</th>
+<th>What it’s for</th>
+</tr></thead><tbody><tr><td><a href="../.agents/skills/update-govuk/SKILL.html"><code>update-govuk</code></a></td>
+<td>Upgrades the precompiled GOV.UK Frontend assets using the manual process above and leaves the changes staged on a local branch without committing. Afterwards it reports upstream changes to be aware of (with suggestions for shinyGovstyle) and anything that couldn’t be copied across as smoothly as usual.</td>
+</tr></tbody></table><p>When adding a new skill, put it in its own folder under <code>.agents/skills/</code>, keep it agent-agnostic, and add a row to this table.</p>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a></h2>

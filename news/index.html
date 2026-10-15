@@ -79,7 +79,10 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li>
+<ul><li>Updated GOV.UK Frontend from v6.1.0 to v6.6.0.</li>
+<li>
+<code>button_Input(type = "start")</code> now wraps a rich HTML label in a span so it wraps correctly on narrow screens, following GOV.UK Frontend 6.4.0.</li>
+<li>
 <code><a href="../reference/service_navigation.html">service_navigation()</a></code> now syncs the browser tab title with the active page by default. Screen readers announce the title on navigation, so a static title is an accessibility issue for multi-page dashboards. This is a behaviour change — set <code>auto_page_title = FALSE</code> on <code><a href="../reference/service_navigation.html">service_navigation()</a></code> to restore the previous behaviour.</li>
 <li>
 <code><a href="../reference/header.html">header()</a></code> no longer emits spurious deprecation warnings for <code>main_link</code>, <code>secondary_link</code>, <code>main_alt_text</code>, and <code>secondary_alt_text</code> when those arguments are not used.</li>

@@ -1,6 +1,33 @@
 # NA
 
-These the things needed when updating the gov.uk css to make it work.
+These are the local changes to reapply when updating the GOV.UK Frontend
+CSS.
+
+Before making them, pretty-print the upstream minified CSS (keep the
+`.min.css` filename) so the in-place edits and future diffs are
+readable.
+
+There are two kinds of change:
+
+- **In-place edits** to the upstream CSS: moving the fonts, the root
+  `font-size`, the `#1a65a6` colour swap, the image URLs and the
+  accordion selector find and replace.
+
+- **Override rules**: every other rule below goes in a single block
+  appended after the upstream CSS, starting with the comment
+  `/* shinyGovstyle customisations; keep in sync with css_changes.md. */`.
+  Appending keeps the overrides together and lets them win in the
+  cascade without editing upstream rules. If the upstream rule you’re
+  overriding sits inside a media query, wrap the override in the same
+  media query, or it will apply at every screen width.
+
+  Being last only settles ties. An upstream selector with higher
+  specificity (for example a `:focus` or `:link` state) still wins, and
+  an appended rule beats *every* upstream rule of equal specificity, not
+  just the one it targets. So only include the declarations that
+  actually differ from upstream; restating an upstream value can
+  override a state rule that was meant to win (see the `:hover` note
+  under `govuk-link--no-visited-state`).
 
 - add to `.govuk-back-link` for backlink
 
@@ -17,14 +44,21 @@ These the things needed when updating the gov.uk css to make it work.
 
 - Replace all instances of colour \#1a65a6 with \#175892
 
-- Change url links
+- Change image URLs in the upstream CSS
+
+  For example, replace `url(/assets/images/govuk-crest.svg)` with
+  `url(../images/govuk-crest.svg)`. Shiny serves this CSS from
+  `shinyGovstyle/css/`, so the relative URL reaches the copied asset in
+  `shinyGovstyle/images/`. Check other upstream image URLs against the
+  assets copied into `inst/www/`; leave URLs that already resolve
+  correctly alone.
 
 - For accordion need to fix the css by:
 
 Finding and replacing all `.govuk-frontend-supported .govuk-accordion`
 with `.js-enabled .govuk-accordion`
 
-and adding this chunk to the accordion section of css:
+and adding this to the appended block:
 
     .js-enabled .govuk-accordion__section-toggle {
       pointer-events: none;
@@ -35,47 +69,53 @@ and adding this chunk to the accordion section of css:
 &nbsp;
 
     .govuk-radios__input {
-        z-index: 1;
-        width: 44px;
-        height: 44px;
-        margin: 0;
-        opacity: 0;
         vertical-align: middle;
-        cursor: pointer
     }
 
     .govuk-radios__label {
-        align-self: center;
-        max-width: calc(100% - 74px);
         display: inline-block;
-        padding: 7px 15px;
-        cursor: pointer;
-        touch-action: manipulation
+    }
+
+The label also has `.govuk-label` (`display: block`), which has equal
+specificity, so the appended rule wins.
+
+- Keep radio and checkbox labels at GOV.UK’s sizing
+
+  Bootstrap (loaded on every shinyGovstyle page) sets
+  `box-sizing: border-box` on every element. GOV.UK leaves these labels
+  at the default `content-box`, so under Bootstrap their horizontal
+  padding counts against `max-width` and labels wrap earlier than on
+  GOV.UK (for example, inline radios like “Once a week” break onto two
+  lines on desktop). Upstream already sets `border-box` on the labels’
+  `:before` and `:after` pseudo-elements that draw the radio circle and
+  checkbox; this rule doesn’t touch those.
+
+&nbsp;
+
+    .govuk-radios__label,
+    .govuk-checkboxes__label {
+      box-sizing: content-box;
     }
 
 - Fix selected tab panel border gap
 
+  Keep this inside the tablet media query, matching the upstream rule.
+  Upstream uses `margin-bottom: -1px`; the rest of its rule is left
+  alone.
+
 &nbsp;
 
-    .govuk-frontend-supported .govuk-tabs__list-item--selected {
-            position: relative;
-            margin-top: -5px;
+    @media (min-width: 40.0625em) {
+        .govuk-frontend-supported .govuk-tabs__list-item--selected {
             margin-bottom: -2px;
-            padding: 14px 19px 16px;
-            border: 1px solid #b1b4b6;
-            border-bottom: 0;
-            border-color: var(--govuk-border-colour, #cecece);
-            background-color: var(--govuk-body-background-colour, #fff)
         }
+    }
 
 - govTable caption colour:
 
 &nbsp;
 
     .govuk-table__caption {
-        font-weight: 700;
-        display: table-caption;
-        text-align: left;
         color: #000;
     }
 
@@ -165,9 +205,13 @@ and adding this chunk to the accordion section of css:
         -webkit-text-decoration-skip-ink: none;
         text-decoration-skip-ink: none;
         -webkit-text-decoration-skip: none;
-        text-decoration-skip: none;
-        color: #0f385c
+        text-decoration-skip: none
     }
+
+Don’t set `color` in the appended `:hover` rule. Upstream already sets
+the hover colour, and because the appended rule comes after upstream’s
+`:active` and `:focus` colour rules, a `color` here would beat them when
+a link is both hovered and focused or pressed.
 
 - skip link
 
@@ -247,11 +291,14 @@ and adding this chunk to the accordion section of css:
         font-weight: 400;
     }
 
-- Add back blue tag colour - removed as default
+- Blue tag modifier for
+  [`value_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/value_box.md)
 
-&nbsp;
+  Upstream dropped `.govuk-tag--blue` because plain `.govuk-tag` is now
+  blue.
+  [`value_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/value_box.md)
+  applies `govuk-tag--<colour>` without `.govuk-tag`, so it still needs
+  this rule. \`\`\` .govuk-tag–blue { color: \#0f385c; background-color:
+  \#d2e2f1 }
 
-    .govuk-tag--blue {
-        color: #0f385c;
-        background-color: #d2e2f1
-    }
+\`\`\`

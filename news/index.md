@@ -195,6 +195,10 @@
 
 ### Bug fixes
 
+- Updated GOV.UK Frontend from v6.1.0 to v6.6.0.
+- `button_Input(type = "start")` now wraps a rich HTML label in a span
+  so it wraps correctly on narrow screens, following GOV.UK Frontend
+  6.4.0.
 - [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
   now syncs the browser tab title with the active page by default.
   Screen readers announce the title on navigation, so a static title is

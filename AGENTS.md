@@ -55,6 +55,10 @@ edits in `css_changes.md`. The same file documents the branching/PR flow
 (branch off `main`, squash on merge) and the GOV.UK Frontend upgrade
 procedure.
 
+Repo-specific agent skills live in `.agents/skills/` and are listed in
+CONTRIBUTING.md’s “Agent skills” section; for a GOV.UK Frontend upgrade,
+follow `.agents/skills/update-govuk/SKILL.md`.
+
 ## Common commands
 
 In a terminal at the repo root:

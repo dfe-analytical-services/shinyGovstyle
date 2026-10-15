@@ -3,7 +3,7 @@
 <!-- badges: start -->
 
 [![CRAN status](https://www.r-pkg.org/badges/version/shinyGovstyle)](https://cran.r-project.org/package=shinyGovstyle)
-[![GOV.UK Frontend 6.5.1](https://img.shields.io/badge/GOV.UK%20Frontend-6.5.1-blue)](https://frontend.design-system.service.gov.uk/)
+[![GOV.UK Frontend 6.6.0](https://img.shields.io/badge/GOV.UK%20Frontend-6.6.0-blue)](https://frontend.design-system.service.gov.uk/)
 [![R-CMD-check](https://github.com/dfe-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dfe-analytical-services/shinyGovstyle/actions/workflows/R-CMD-check.yaml)
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/shinyGovstyle)](https://cran.r-project.org/package=shinyGovstyle)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)

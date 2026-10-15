@@ -1,4 +1,4 @@
-# shinyGovstyle (development version)
+# shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments
 that will be removed in v1.0.0 now give a deprecation warning that names what

@@ -194,7 +194,7 @@ For more information on when and how to use this, read the documentation for the
 
 ### `footer()`
 
-Creates a GOV.UK styled footer, though like the header, this is not an offical version as that should only be used on a GOV.UK domain. Use `full = TRUE` to include the OGL licence logo and Crown copyright statement. You can add support links that point either to internal hidden tab panels or to external URLs.
+Creates a GOV.UK styled footer, though like the header, this is not an official version as that should only be used on a GOV.UK domain. Use `full = TRUE` to include the OGL licence logo and Crown copyright statement. You can add support links that point either to internal hidden tab panels or to external URLs.
 
 ```{r, eval = FALSE}
 # Minimal footer

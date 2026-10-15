@@ -9,7 +9,7 @@
 #'
 #' @description
 #' This function is opinionated and sets table defaults that are in
-#' keeping with the wider GOV.UK design system. Some defaults are overrideable,
+#' keeping with the wider GOV.UK design system. Some defaults can be overridden,
 #' such as `highlight=TRUE` and `borderless=TRUE`, however some are fixed, such
 #' as `showSortIcon=FALSE` as the default sort icon is inaccessible. Additional
 #' arguments from `reactable::reactable` can be passed to customise the table.

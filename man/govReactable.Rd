@@ -47,7 +47,7 @@ A \code{reactable} HTML widget styled with GOV.UK classes
 }
 \description{
 This function is opinionated and sets table defaults that are in
-keeping with the wider GOV.UK design system. Some defaults are overrideable,
+keeping with the wider GOV.UK design system. Some defaults can be overridden,
 such as \code{highlight=TRUE} and \code{borderless=TRUE}, however some are fixed, such
 as \code{showSortIcon=FALSE} as the default sort icon is inaccessible. Additional
 arguments from \code{reactable::reactable} can be passed to customise the table.

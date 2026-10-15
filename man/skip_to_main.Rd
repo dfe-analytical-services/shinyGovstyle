@@ -8,7 +8,7 @@ skip_to_main(id = "main")
 }
 \arguments{
 \item{id}{An optional parameter to specify the Id of the main content
-section, will be automatically preceeded by a hash '#'. Default is
+section, will be automatically preceded by a hash '#'. Default is
 "main" to match the "#main" Id within \code{gov_main()}.}
 }
 \value{

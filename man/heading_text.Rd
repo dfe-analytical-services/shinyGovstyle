@@ -20,7 +20,7 @@ heading_text(text_input, size = "xl", id, level = 1)
 a heading text HTML shiny tag object
 }
 \description{
-This function createS heading text
+This function creates heading text
 }
 \examples{
 shinyGovstyle::heading_text("This is great text")

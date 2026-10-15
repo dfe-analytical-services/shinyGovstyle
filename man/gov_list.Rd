@@ -13,6 +13,9 @@ to a bullet) or a \code{shiny::tagList()}.}
 
 \item{style}{options: "none", "bullet", "number". defaults to "none"}
 }
+\value{
+A Shiny tag representing an ordered or unordered HTML list.
+}
 \description{
 Gov List function
 }

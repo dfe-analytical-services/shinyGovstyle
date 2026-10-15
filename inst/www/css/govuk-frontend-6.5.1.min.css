@@ -8350,6 +8350,13 @@
   display: inline-block;
 }
 
+/* Bootstrap sets border-box on every element; GOV.UK sizes these labels with
+   content-box, so their padding would otherwise eat into max-width. */
+.govuk-radios__label,
+.govuk-checkboxes__label {
+  box-sizing: content-box;
+}
+
 /* Close the gap under the selected tab (upstream uses -1px). */
 @media (min-width: 40.0625em) {
   .govuk-frontend-supported .govuk-tabs__list-item--selected {

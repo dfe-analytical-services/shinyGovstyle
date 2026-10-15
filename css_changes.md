@@ -71,6 +71,23 @@ color: #0b0c0c;
   The label also has `.govuk-label` (`display: block`), which has equal
   specificity, so the appended rule wins.
 
+* Keep radio and checkbox labels at GOV.UK's sizing
+
+  Bootstrap (loaded on every shinyGovstyle page) sets
+  `box-sizing: border-box` on every element. GOV.UK leaves these labels at the
+  default `content-box`, so under Bootstrap their horizontal padding counts
+  against `max-width` and labels wrap earlier than on GOV.UK (for example,
+  inline radios like "Once a week" break onto two lines on desktop). Upstream
+  already sets `border-box` on the labels' `:before` and `:after` pseudo-elements
+  that draw the radio circle and checkbox; this rule doesn't touch those.
+
+```
+.govuk-radios__label,
+.govuk-checkboxes__label {
+  box-sizing: content-box;
+}
+```
+
 * Fix selected tab panel border gap
 
   Keep this inside the tablet media query, matching the upstream rule. Upstream

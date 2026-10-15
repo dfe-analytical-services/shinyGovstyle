@@ -112,3 +112,29 @@ test_that("navigate_to calls updateTabsetPanel before service nav update", {
 
   expect_equal(state$order, c("tabset", "nav"))
 })
+
+test_that("navigate_to cleans the nav inputId but not the panel value", {
+  calls <- new.env(parent = emptyenv())
+  local_mocked_bindings(
+    updateTabsetPanel = function(
+      session,
+      inputId, # nolint: object_name_linter.
+      selected
+    ) {
+      calls$selected <- selected
+      invisible(NULL)
+    },
+    .package = "shiny"
+  )
+  session <- list(
+    sendCustomMessage = function(type, message) {
+      calls$message <- message
+      invisible(NULL)
+    }
+  )
+
+  navigate_to(session, "tabs", "Page-Two")
+
+  expect_identical(calls$selected, "Page-Two")
+  expect_identical(calls$message, "page_two")
+})

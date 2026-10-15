@@ -13,7 +13,9 @@ navigate_to(session, tabset_id, inputId, panel = inputId)
 \code{bslib::navset_hidden()} to switch}
 
 \item{inputId}{The nav link inputId to set as the active item in the
-service navigation}
+service navigation. It is cleaned up the same way as in
+\code{\link[=service_navigation]{service_navigation()}}, so \code{"Page-Two"} and \code{"page_two"} both refer to
+the same link}
 
 \item{panel}{The \code{value} of the tab panel to switch to. Defaults to
 \code{inputId} for the common case where the two are the same. When your

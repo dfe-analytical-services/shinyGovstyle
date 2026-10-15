@@ -315,7 +315,7 @@ test_that("the first link is the current page when the app loads", {
 
 # Programmatic updates -----------------------------------------------------
 
-test_that("update_service_navigation sends the id unchanged", {
+test_that("update_service_navigation sends the cleaned inputID", {
   state <- new.env(parent = emptyenv())
   state$messages <- list()
   session <- list(
@@ -327,8 +327,51 @@ test_that("update_service_navigation sends the id unchanged", {
       invisible(NULL)
     }
   )
+  # Already-clean ids pass through unchanged
   update_service_navigation(session, "page_two")
-  expect_length(state$messages, 1)
+  # Supplied ids are cleaned the same way service_navigation() cleans them
+  update_service_navigation(session, "Page-Two")
+  expect_length(state$messages, 2)
   expect_identical(state$messages[[1]]$type, "update_service_navigation")
   expect_identical(state$messages[[1]]$message, "page_two")
+  expect_identical(state$messages[[2]]$message, "page_two")
+})
+
+# Server wiring with uncleaned inputIds ---------------------------------------
+
+test_that("service_navigation_server cleans inputIds, not panel values", {
+  calls <- new.env(parent = emptyenv())
+  calls$panels <- character()
+  local_mocked_bindings(
+    updateTabsetPanel = function(
+      session,
+      inputId, # nolint: object_name_linter.
+      selected
+    ) {
+      calls$panels <- c(calls$panels, selected)
+      invisible(NULL)
+    },
+    .package = "shiny"
+  )
+
+  shiny::testServer(
+    function(input, output, session) {
+      service_navigation_server(
+        session,
+        tabset_id = "tabs",
+        link_to_panel = c("Page-Two" = "Panel-2", "Page-Three")
+      )
+    },
+    expr = {
+      # Run the observers' initial (ignoreInit) pass before clicking
+      session$flushReact()
+      # The UI link for "Page-Two" has inputID page_two
+      session$setInputs(page_two = 1)
+      expect_identical(calls$panels, "Panel-2")
+
+      # Unnamed: the cleaned id is watched, the raw value is the panel
+      session$setInputs(page_three = 1)
+      expect_identical(calls$panels, c("Panel-2", "Page-Three"))
+    }
+  )
 })

@@ -16,7 +16,10 @@ service_navigation_server(session, tabset_id, link_to_panel)
 tab panel values. Pass a \strong{named} vector when inputIds differ from
 panel values (names = inputIds, values = panel values). Pass an
 \strong{unnamed} vector as shorthand for the 1:1 case — each element is
-used as both the nav inputId and the panel value.}
+used as both the nav inputId and the panel value. InputIds are cleaned
+up the same way as in \code{\link[=service_navigation]{service_navigation()}}, so \code{"Page-Two"} and
+\code{"page_two"} both refer to the same link. Panel values are used exactly
+as given.}
 }
 \value{
 NULL, called for side effects

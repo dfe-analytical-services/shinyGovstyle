@@ -149,6 +149,11 @@ deprecated keeps working in this release.
   `page_1`), rather than silently creating clashing links. The `links`
   documentation now correctly says that inputIDs supplied in a named vector
   are cleaned up in the same way as generated ones.
+  `update_service_navigation()`, `navigate_to()` and
+  `service_navigation_server()` now clean up the inputIDs you pass them in
+  the same way, so an id such as `"Page-Two"` works in all of them.
+  Previously they used the id as given, so it silently failed to match the
+  `page_two` link.
 * The active `service_navigation()` link now has `aria-current="page"`, as
   in the GOV.UK Design System, so screen readers announce which page is
   current. Previously only the visual highlight changed. The first link is

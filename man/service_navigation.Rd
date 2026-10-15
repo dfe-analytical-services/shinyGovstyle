@@ -65,6 +65,12 @@ may not work correctly.
 The first link is marked as the current page when the app loads, matching
 the first tab panel Shiny shows by default. If your app starts on a
 different page, call \code{\link[=update_service_navigation]{update_service_navigation()}} when the session starts.
+
+Put \code{service_navigation()} in your app's top-level UI and wire it up from
+the top-level server function. It is not designed to be used inside a
+Shiny module: an inputID wrapped in \code{ns()} is cleaned up like any other
+(so \code{NS("mod", "summary")} becomes \code{mod_summary}), and no longer matches
+the module's namespaced input.
 }
 \examples{
 ui <- shinyGovstyle::gov_page(

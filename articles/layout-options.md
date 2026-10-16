@@ -14,19 +14,19 @@ the outer wrapper for the whole page. Inside it go:
 - **Page-level components**
   ([`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
   [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
-  [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
+  [`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md),
   [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
   [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md),
   and
   [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md))
   form the frame of the page that sits outside the main content area.
-- **Content layout functions**
-  ([`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
-  [`gov_row()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
-  [`gov_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
+- **Content layout functions**:
+  [`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+  holds the main content area, and
+  [`gov_row()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
   and
-  [`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md))
-  structure content within the main content area.
+  [`gov_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+  add grid columns inside it when you need them.
 
 ------------------------------------------------------------------------
 
@@ -98,11 +98,10 @@ gov_page(
 Every shinyGovstyle component that renders part of the page frame
 ([`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
 [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
-[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
+[`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md),
 [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
 [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
-[`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
-[`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md))
+[`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md))
 also accepts its own `width` argument. Setting it on
 [`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md)
 sets the default for all of them at once. Setting it on an individual
@@ -124,54 +123,48 @@ gov_page(
 
 `gov_page(width = ...)` only sets the *outer* ceiling: how wide the page
 frame is allowed to get. It’s a separate thing from how wide any one
-piece of *content* looks, which is controlled by
-[`gov_row()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)/`gov_box(size = ...)`
-(see [The primary layout system](#the-primary-layout-system) below).
+piece of *content* looks, which you control on the content itself.
 
 **Recommended setup:** for a dashboard-style app, set
 `gov_page(width = "full")` so wide tables, charts and value boxes get
 the room they need. Then, for any text-heavy page or section within that
 same app (a cookies page, a user guide, an accessibility statement),
-wrap its content in `gov_box(size = "two-thirds")`, GOV.UK’s standard
-reading-width column, rather than letting it stretch the full width of
-the page.
+wrap its content in a `div` with GOV.UK’s `govuk-!-width-two-thirds`
+class, rather than letting it stretch the full width of the page. The
+class works on its own, without the grid, and goes back to full width on
+small screens.
 
 > **Avoid full-width body text.** GOV.UK’s own [Design System
 > guidance](https://design-system.service.gov.uk/styles/layout/)
-> recommends keeping body text to a two-thirds-width column even on a
-> wide page, so lines don’t get so long they’re hard to read (aim for no
-> more than about 75 characters per line). Rendering paragraphs in a
-> `gov_box(size = "full")` on a `"full"`-width page produces lines that
-> stretch the entire screen: technically valid, but noticeably harder to
-> read. Reserve full width for content that actually benefits from the
-> extra room, like a wide table.
+> recommends keeping body text to a two-thirds width even on a wide
+> page, so lines don’t get so long they’re hard to read (aim for no more
+> than about 75 characters per line). Paragraphs on a `"full"`-width
+> page with no width set produce lines that stretch the entire screen:
+> technically valid, but noticeably harder to read. Reserve full width
+> for content that actually benefits from the extra room, like a wide
+> table.
 
 In practice this means: pick a page `width` for the *space you need*
-(e.g. `"full"` for a dashboard with wide tables), then use
-`gov_box(size = ...)` around each section of content to control how wide
-*that section* looks, independently of the page:
+(e.g. `"full"` for a dashboard with wide tables), then narrow the
+sections that need it, independently of the page:
 
 ``` r
 
 gov_page(
   width = "full",
   gov_main_layout(
-    gov_row(
-      gov_box(
-        size = "two-thirds",
-        gov_text("Readable body text stays narrow, even on a wide page.")
-      )
+    shiny::tags$div(
+      class = "govuk-!-width-two-thirds",
+      gov_text("Readable body text stays narrow, even on a wide page.")
     ),
-    gov_row(
-      gov_box(size = "full", govTable(my_wide_data))
-    )
+    govTable(my_wide_data)
   )
 )
 ```
 
-The example showcase app does exactly this: its Cookies tab sits inside
-a `gov_box(size = "two-thirds")`, so it reads as a normal, narrow text
-page even though the app itself uses `gov_page(width = "full")`.
+The example showcase app applies the same idea: its Cookies tab sits in
+a two-thirds column, so it reads as a normal, narrow text page even
+though the app itself uses `gov_page(width = "full")`.
 
 ------------------------------------------------------------------------
 
@@ -191,7 +184,7 @@ pages of your app.
     +-------------------------------------------------------+
     |  service_navigation()   [optional, multi-page apps]   |
     +-------------------------------------------------------+
-    |  banner()   [optional, e.g. Beta or Alpha]            |
+    |  phase_banner()   [optional, e.g. Beta or Alpha]      |
     +-------------------------------------------------------+
     |                                                       |
     |  gov_main_layout()   ← id = "main"                    |
@@ -263,7 +256,7 @@ header(
 )
 ```
 
-### `banner()`
+### `phase_banner()`
 
 Displays a phase banner immediately below the header, used to indicate
 the maturity of your service and give a clear route for users to provide
@@ -275,7 +268,7 @@ contact-style text) and the text is generated for you:
 
 ``` r
 
-banner(
+phase_banner(
   inputId = "phase-banner",
   type = "Beta",
   feedback_url = "https://example.com/feedback"
@@ -287,7 +280,7 @@ For custom wording, use `label` instead (exactly one of `label` or
 
 ``` r
 
-banner(
+phase_banner(
   inputId = "phase-banner",
   type = "Beta",
   label = shiny::tagList(
@@ -310,7 +303,7 @@ component](https://design-system.service.gov.uk/components/phase-banner/).
 ### `footer()`
 
 Creates a GOV.UK styled footer, though like the header, this is not an
-offical version as that should only be used on a GOV.UK domain. Use
+official version as that should only be used on a GOV.UK domain. Use
 `full = TRUE` to include the OGL licence logo and Crown copyright
 statement. You can add support links that point either to internal
 hidden tab panels or to external URLs.
@@ -361,15 +354,54 @@ keyboard focus moves to it when the skip link is activated.
 
 ------------------------------------------------------------------------
 
-## The primary layout system
+## Laying out content
 
-Inside
-[`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
-content is structured using a three-function grid system:
-[`gov_row()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
-[`gov_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
-and optionally
-[`gov_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md).
+Content goes straight into
+[`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md).
+Items stack one below the other, so a page that is just a heading, some
+text and a table needs no extra layout functions:
+
+``` r
+
+gov_main_layout(
+  heading_text("Page title", size = "l"),
+  gov_text("Some introductory text."),
+  govTable(my_data)
+)
+```
+
+### A simple text page
+
+For a page that is mostly text, use the standard page width and keep the
+text to two-thirds of it, as the [GOV.UK layout
+guidance](https://design-system.service.gov.uk/styles/layout/)
+recommends for readable line lengths. GOV.UK’s
+`govuk-!-width-two-thirds` class does this without the grid, and goes
+back to full width on small screens:
+
+``` r
+
+gov_page(
+  width = "standard",
+  gov_main_layout(
+    shiny::tags$div(
+      class = "govuk-!-width-two-thirds",
+      heading_text("Cookies", size = "l"),
+      gov_text("This page explains how we use cookies.")
+    )
+  )
+)
+```
+
+### Columns with `gov_row()` and `gov_box()`
+
+Reach for the grid only when you need **side-by-side columns**, or a
+section that should sit in a grid column of a set width. It’s a
+two-function system:
+[`gov_row()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+holds the columns, and
+[`gov_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+is each column.
 
     gov_main_layout()
     └── gov_row()
@@ -378,7 +410,7 @@ and optionally
         └── gov_box(size = "one-third")
             └── [your content]
 
-### `gov_row()`
+#### `gov_row()`
 
 Creates a GOV.UK grid row. You can have multiple rows inside
 [`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
@@ -396,7 +428,7 @@ gov_main_layout(
 )
 ```
 
-### `gov_box()`
+#### `gov_box()`
 
 Creates a column within a row. The `size` argument controls the column
 width using GOV.UK Frontend’s grid classes:
@@ -431,19 +463,10 @@ gov_main_layout(
 )
 ```
 
-For a simple single-column layout, use `size = "full"`:
-
-``` r
-
-gov_main_layout(
-  gov_row(
-    gov_box(
-      size = "full",
-      heading_text("Page title", size = "l")
-    )
-  )
-)
-```
+A single full-width box adds nothing over putting the content directly
+in
+[`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
+so leave the grid out in that case.
 
 ### `gov_text()`
 
@@ -456,48 +479,17 @@ vignette.
 
 ------------------------------------------------------------------------
 
-## `gov_layout()` — legacy alternative
-
-> **Warning:**
-> [`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md)
-> is not recommended for new development and may be removed in a future
-> release. Use
-> [`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
-> with
-> [`gov_row()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
-> and
-> [`gov_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
-> instead.
+## `gov_layout()` (deprecated)
 
 [`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md)
-is a single-function alternative that combines a width container and a
-column in one call:
-
-``` r
-
-gov_layout(
-  size = "two-thirds",
-  heading_text("Page title", size = "l"),
-  # content
-)
-```
-
-It is well suited to simple, single-column apps where you want a width
-constraint without setting up the full
+is deprecated as of shinyGovstyle 0.3.0 and will be removed in
+shinyGovstyle 1.0.0. Use
 [`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
-/
+with
 [`gov_row()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
-/
+and
 [`gov_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
-hierarchy.
-
-**As soon as your app needs more than one column, multiple rows, or a
-combination of widths, switch to the full system.** Nesting
-[`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md)
-inside
-[`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
-will produce doubled-up width container HTML and cause the content to
-appear visually inset from the page-level components.
+instead; the deprecation warning shows how each argument maps across.
 
 ------------------------------------------------------------------------
 
@@ -513,7 +505,7 @@ you use in your server to switch the visible panel.
 
 Pass a named character vector to
 [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md).
-The names are displayed as link text; the values become the inputIDs:
+The names are displayed as link text and the values become the inputIDs:
 
 ``` r
 
@@ -526,9 +518,26 @@ service_navigation(
 )
 ```
 
-If you pass an unnamed vector, inputIDs are auto-generated by
-lowercasing the text and replacing non-alphanumeric characters with
-underscores (e.g. `"Detailed data"` becomes `detailed_data`).
+If you pass an unnamed vector, the link text is used to make the
+inputIDs instead.
+
+Either way, every inputID is cleaned up by lowercasing it and replacing
+non-alphanumeric characters with underscores, so `"Detailed data"`
+becomes `detailed_data` and `"Nav-Summary"` becomes `nav_summary`. Each
+link must end up with a unique inputID.
+[`service_navigation_server()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation_server.md),
+[`navigate_to()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md),
+and
+[`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md)
+clean up the ids you pass them in the same way, so you can use either
+form there.
+
+Put
+[`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
+in your app’s top-level UI and wire it up from the top-level server
+function, not inside a Shiny module. Because of the clean-up, an id
+wrapped in `ns()` (e.g. `NS("mod", "summary")`) becomes `mod_summary`,
+which no longer matches the module’s namespaced input.
 
 ### Wiring navigation to panels
 
@@ -697,7 +706,7 @@ ui <- gov_page(
     ),
     page_title_suffix = "My dashboard"
   ),
-  banner(
+  phase_banner(
     inputId = "phase",
     type = "Beta",
     label = "This is a new service."
@@ -726,26 +735,22 @@ ui <- gov_page(
 
       shiny::tabPanel(
         "About", value = "nav_about",
-        gov_row(
-          gov_box(
-            # Text-only page: two-thirds keeps it readable even though the
-            # app itself uses gov_page(width = "full"). See "Content width
-            # vs page width" above.
-            size = "two-thirds",
-            heading_text("About this dashboard", size = "l"),
-            gov_text("This page describes the dashboard.")
-          )
+        # Text-only page: two-thirds keeps it readable even though the
+        # app itself uses gov_page(width = "full"). See "Content width
+        # vs page width" above.
+        shiny::tags$div(
+          class = "govuk-!-width-two-thirds",
+          heading_text("About this dashboard", size = "l"),
+          gov_text("This page describes the dashboard.")
         )
       ),
 
       shiny::tabPanel(
         "Accessibility statement", value = "accessibility_panel",
-        gov_row(
-          gov_box(
-            size = "two-thirds",
-            heading_text("Accessibility statement", size = "l"),
-            gov_text("This page describes the accessibility of the dashboard.")
-          )
+        shiny::tags$div(
+          class = "govuk-!-width-two-thirds",
+          heading_text("Accessibility statement", size = "l"),
+          gov_text("This page describes the accessibility of the dashboard.")
         )
       )
     )

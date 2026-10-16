@@ -36,7 +36,11 @@ service_navigation_server(session, tabset_id, link_to_panel)
   a **named** vector when inputIds differ from panel values (names =
   inputIds, values = panel values). Pass an **unnamed** vector as
   shorthand for the 1:1 case — each element is used as both the nav
-  inputId and the panel value.
+  inputId and the panel value. InputIds are cleaned up the same way as
+  in
+  [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
+  so `"Page-Two"` and `"page_two"` both refer to the same link. Panel
+  values are used exactly as given.
 
 ## Value
 
@@ -46,7 +50,6 @@ NULL, called for side effects
 
 Other Govstyle navigation:
 [`backlink_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/backlink_Input.md),
-[`contents_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.md),
 [`navigate_to()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md),
 [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
 [`update_page_title()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_page_title.md),

@@ -2,10 +2,13 @@
 
 **\[deprecated\]**
 
-This helper function create tracks the word count and should be used
-with the text area function. This helper function was deprecated as
-text_area_Input no longer relies on this, and uses js instead. The
-text_area_Input function can still be used as before
+`word_count()` was deprecated in shinyGovstyle 0.3.0 and will be removed
+in shinyGovstyle 1.0.0.
+[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md)
+now counts words in the browser and announces the count to screen
+readers, so no server code is needed. Set the limit with
+`text_area_Input(word_limit = )` and delete the `observeEvent()` that
+called `word_count()`.
 
 ## Usage
 
@@ -34,27 +37,17 @@ word_count(inputId, input, word_limit = NULL)
 
 no value returned. Updates the word count in a shiny app
 
-## See also
-
-Other Govstyle text types:
-[`date_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/date_Input.md),
-[`gov_list()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_list.md),
-[`heading_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/heading_text.md),
-[`input_field()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/input_field.md),
-[`text_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.md),
-[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md)
-
 ## Examples
 
 ``` r
+# The word count is handled by text_area_Input() alone; no server-side
+# word_count() observer is needed.
 ui <- shinyGovstyle::gov_page(
-  shinyjs::useShinyjs(),
   shinyGovstyle::header(
     "Justice", "", logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  gov_layout(
-    size = "full",
-    text_area_Input(
+  shinyGovstyle::gov_main_layout(
+    shinyGovstyle::text_area_Input(
       inputId = "text_area",
       label = "Can you provide more detail?",
       hint_label = paste(
@@ -64,16 +57,9 @@ ui <- shinyGovstyle::gov_page(
       word_limit = 300
     )
   ),
-  footer(TRUE)
+  shinyGovstyle::footer(TRUE)
 )
 
-server <- function(input, output, session) {
-  shiny::observeEvent(input$text_area,
-    word_count(
-      inputId = "text_area",
-      input = input$text_area
-    )
-  )
-}
+server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 ```

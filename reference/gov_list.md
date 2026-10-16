@@ -21,6 +21,10 @@ gov_list(list, style = "none")
 
   options: "none", "bullet", "number". defaults to "none"
 
+## Value
+
+A Shiny tag representing an ordered or unordered HTML list.
+
 ## See also
 
 Other Govstyle text types:
@@ -28,8 +32,7 @@ Other Govstyle text types:
 [`heading_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/heading_text.md),
 [`input_field()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/input_field.md),
 [`text_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.md),
-[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md),
-[`word_count()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.md)
+[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md)
 
 ## Examples
 
@@ -39,11 +42,10 @@ ui <- shinyGovstyle::gov_page(
     org_name = "Example",
     service_name = "User Examples"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+  shinyGovstyle::gov_main_layout(
     shinyGovstyle::heading_text("gov_list", size = "s"),
     shinyGovstyle::gov_text("List:"),
     gov_list(list = c("a", "b", "c")),

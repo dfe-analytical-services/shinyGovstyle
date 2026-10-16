@@ -1,8 +1,39 @@
-# Page Layout Function
+# Page layout (deprecated)
 
-This function loads the page layout, This doesn't work as well as the
-`gov_main_layout` and associated functions. This is being kept for now
-as a simpler version where grids are not needed.
+**\[deprecated\]**
+
+`gov_layout()` was deprecated in shinyGovstyle 0.3.0 and will be removed
+in shinyGovstyle 1.0.0. Use
+[`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+with
+[`gov_row()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+and
+[`gov_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+instead, which also gives the page its `<main>` landmark:
+
+    # Before
+    gov_layout(..., inputID = "main", size = "two-thirds", width = "standard")
+
+    # After
+    gov_main_layout(
+      gov_row(gov_box(..., size = "two-thirds")),
+      inputID = "main",
+      width = "standard"
+    )
+
+`inputID` moves to `gov_main_layout(inputID = )`, `size` to
+`gov_box(size = )` and `width` to `gov_main_layout(width = )`. The inner
+`<inputID>_sub` element is not recreated, so wrap the content in
+`shiny::tags$div(id = ...)` if your own CSS or JavaScript targets it.
+With the default `size = "full"` you don't need
+[`gov_row()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+or
+[`gov_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+at all: put the content straight into `gov_main_layout(...)`. Use one
+[`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+per page; where `gov_layout()` was repeated inside tab panels, put the
+content directly inside each panel instead (wrapped in
+`gov_row(gov_box(..., size = ))` only if you set a narrower `size`).
 
 ## Usage
 
@@ -37,17 +68,6 @@ gov_layout(..., inputID = "main", size = "full", width = "standard")
 
 a HTML shiny layout div
 
-## See also
-
-Other Govstyle page structure:
-[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
-[`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
-[`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
-[`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md),
-[`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
-[`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
-[`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
-
 ## Examples
 
 ``` r
@@ -55,20 +75,12 @@ ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
-    logo="shinyGovstyle/images/moj_logo.png"
+    logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::gov_layout(
-    size = "full",
-    shinyGovstyle::panel_output(
-      inputId = "panel1",
-      main_text = "Application Complete",
-      sub_text = paste(
-        "Thank you for submitting your application.",
-        "Your reference is xvsiq"
-      )
-    ),
-    shinyGovstyle::footer(full = TRUE)
-  )
+  shinyGovstyle::gov_main_layout(
+    shinyGovstyle::heading_text("Page heading", size = "l")
+  ),
+  shinyGovstyle::footer(full = TRUE)
 )
 
 server <- function(input, output, session) {}

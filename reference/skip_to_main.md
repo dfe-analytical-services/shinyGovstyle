@@ -15,7 +15,7 @@ skip_to_main(id = "main")
 - id:
 
   An optional parameter to specify the Id of the main content section,
-  will be automatically preceeded by a hash '#'. Default is "main" to
+  will be automatically preceded by a hash '#'. Default is "main" to
   match the "#main" Id within `gov_main()`.
 
 ## Value
@@ -25,13 +25,12 @@ A Shiny tag representing the 'Skip to main content' link
 ## See also
 
 Other Govstyle page structure:
-[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
 [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
 [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
-[`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
 [`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md),
 [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
-[`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+[`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
+[`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md)
 
 ## Examples
 

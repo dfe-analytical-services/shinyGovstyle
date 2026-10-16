@@ -1,7 +1,12 @@
-# Banner Function
+# Banner (deprecated)
 
-This function create a detail component that you can click for further
-details.
+**\[deprecated\]**
+
+`banner()` was renamed to
+[`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md)
+in shinyGovstyle 0.3.0 to match the name of the GOV.UK Design System
+component. The arguments and output are unchanged. `banner()` will be
+removed in shinyGovstyle 1.0.0.
 
 ## Usage
 
@@ -48,67 +53,21 @@ banner(inputId, type, label = NULL, feedback_url = NULL, width = "standard")
 
 ## Value
 
-a banner HTML shiny tag object
-
-## See also
-
-Other Govstyle page structure:
-[`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
-[`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
-[`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
-[`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md),
-[`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
-[`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
-[`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
+a phase banner HTML shiny tag object
 
 ## Examples
 
 ``` r
-ui <- shinyGovstyle::gov_page(
-  shinyGovstyle::header(
-    org_name = "Example",
-    service_name = "User Examples",
-    logo = "shinyGovstyle/images/moj_logo.png"
-  ),
-  shinyGovstyle::banner(
-    inputId = "banner", type = "Beta", 'This is a new service'
-  )
-)
+# Before
+# banner("banner", "Beta", "This is a new service")
 
-server <- function(input, output, session) {}
-
-if (interactive()) shinyApp(ui = ui, server = server)
-
-# Auto-generate the standard feedback text from a URL
-shinyGovstyle::banner(
-  inputId = "banner",
-  type = "Beta",
-  feedback_url = "https://example.com/feedback"
-)
+# After
+phase_banner("banner", "Beta", "This is a new service")
 #> <div class="govuk-phase-banner" id="banner">
 #>   <div class="govuk-width-container">
 #>     <p class="govuk-phase-banner__content">
 #>       <strong class="govuk-tag govuk-phase-banner__content__tag">Beta</strong>
-#>       <span class="govuk-phase-banner__text">
-#>         This is a new service - your <a href="https://example.com/feedback" class="govuk-link" target="_blank" rel="noopener noreferrer">feedback (opens in new tab)</a> will help us to improve it.
-#>       </span>
-#>     </p>
-#>   </div>
-#> </div>
-
-# Auto-generate contact text from a mailto: link
-shinyGovstyle::banner(
-  inputId = "banner",
-  type = "Beta",
-  feedback_url = "mailto:feedback@example.com"
-)
-#> <div class="govuk-phase-banner" id="banner">
-#>   <div class="govuk-width-container">
-#>     <p class="govuk-phase-banner__content">
-#>       <strong class="govuk-tag govuk-phase-banner__content__tag">Beta</strong>
-#>       <span class="govuk-phase-banner__text">
-#>         This is a new service - please contact <a href="mailto:feedback@example.com" class="govuk-link">feedback@example.com</a> if you have any questions or feedback.
-#>       </span>
+#>       <span class="govuk-phase-banner__text">This is a new service</span>
 #>     </p>
 #>   </div>
 #> </div>

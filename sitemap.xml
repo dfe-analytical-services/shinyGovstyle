@@ -22,6 +22,7 @@
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/case_data.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/checkbox_Input.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/clean_heading_text.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/confirmation_panel.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/control_label_params.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.html</loc></url>
@@ -51,6 +52,7 @@
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_list.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_tag.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/heading_text.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/hint_error_args.html</loc></url>
@@ -58,12 +60,14 @@
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/index.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/input_field.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/label_hint.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/link_args.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/panel_output.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/run_example.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/shinyGovstyle/reference/select_Input.html</loc></url>

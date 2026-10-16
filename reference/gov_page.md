@@ -31,7 +31,7 @@ gov_page(
 
   The rest of your page:
   [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
-  [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
+  [`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md),
   [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
   [`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
   [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
@@ -83,12 +83,11 @@ a page HTML shiny tag object
 ## See also
 
 Other Govstyle page structure:
-[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
 [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
 [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
-[`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
 [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
 [`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
+[`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md),
 [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
 
 ## Examples
@@ -103,11 +102,7 @@ ui <- shinyGovstyle::gov_page(
     service_name = "My dashboard"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        shinyGovstyle::heading_text("Welcome", size = "l", level = 1)
-      )
-    )
+    shinyGovstyle::heading_text("Welcome", size = "l", level = 1)
   ),
   shinyGovstyle::footer()
 )

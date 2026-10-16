@@ -44,7 +44,7 @@ ui <- gov_page(
     service_name = "User Examples"
   ),
   shinyGovstyle::cookieBanner("User Examples"),
-  shinyGovstyle::gov_layout(size = "two-thirds"),
+  shinyGovstyle::gov_main_layout(),
   shinyGovstyle::footer(full = TRUE)
 )
 

@@ -14,7 +14,7 @@ vignette.
 
 Sometimes a plain sentence isn’t enough: you need a bold word, a link in
 the middle of a sentence, or a line break. The body-content arguments of
-[`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
+[`inset_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.md)
 (`content`),
 [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
 (`text`), and
@@ -31,7 +31,7 @@ raw HTML yourself.
 
 ``` r
 
-insert_text(
+inset_text(
   inputId = "processing-note",
   content = shiny::tagList(
     shiny::tags$b("Important: "),
@@ -46,10 +46,10 @@ insert_text(
 ```
 
 The same applies to
-[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md)
+[`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md)
 (`label`),
-[`panel_output()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/panel_output.md)
-(`sub_text`),
+[`confirmation_panel()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/confirmation_panel.md)
+(`content`),
 [`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md)
 (`help_text`),
 [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
@@ -267,10 +267,7 @@ without writing raw tag calls.
 
 ``` r
 
-gov_box(
-  size = "two-thirds",
-  gov_text("This is a paragraph of body text.")
-)
+gov_text("This is a paragraph of body text.")
 ```
 
 ------------------------------------------------------------------------
@@ -324,7 +321,7 @@ guidance](https://design-system.service.gov.uk/styles/lists/).
 
 ------------------------------------------------------------------------
 
-## `insert_text()`
+## `inset_text()`
 
 Displays a GOV.UK inset text box — a bordered callout for supplementary
 information that is related to, but not the main focus of, the
@@ -332,7 +329,7 @@ surrounding content.
 
 ``` r
 
-insert_text(
+inset_text(
   inputId = "processing-note",
   content = "It can take up to 8 weeks to process your application."
 )
@@ -375,7 +372,7 @@ Use
 [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
 when the consequence of missing the information is serious. For less
 critical supplementary information, use
-[`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
+[`inset_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.md)
 instead.
 
 For more information, read the [GOV.UK warning text
@@ -425,7 +422,7 @@ noti_banner(
 | Situation | Component |
 |----|----|
 | Information not related to the current page task | [`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md) |
-| Supplementary information related to the page | [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md) |
+| Supplementary information related to the page | [`inset_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.md) |
 | Serious consequences if the user misses information | [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md) |
 | Form validation errors | [`error_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/error_summary.md) / error messages |
 

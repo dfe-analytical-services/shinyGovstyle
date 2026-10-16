@@ -27,7 +27,6 @@ a backlink HTML shiny tag object
 ## See also
 
 Other Govstyle navigation:
-[`contents_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.md),
 [`navigate_to()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md),
 [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
 [`service_navigation_server()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation_server.md),
@@ -52,8 +51,7 @@ ui <- shinyGovstyle::gov_page(
     shiny::tabPanel(
       "Select Types",
       value = "panel1",
-      gov_layout(
-        size = "two-thirds",
+      gov_main_layout(
         backlink_Input("link1"),
         gov_text("Placeholder text")
       )

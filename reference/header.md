@@ -47,11 +47,13 @@ header(
 
 - main_link:
 
-  Add a link for clicking on main text **\[deprecated\]**
+  **\[deprecated\]** Has no effect and will be removed in shinyGovstyle
+  1.0.0
 
 - secondary_link:
 
-  Add a link for clicking on secondary header **\[deprecated\]**
+  **\[deprecated\]** Has no effect and will be removed in shinyGovstyle
+  1.0.0
 
 - logo_alt_text:
 
@@ -59,13 +61,13 @@ header(
 
 - main_alt_text:
 
-  Add alternative text for the main link. Should be used when a main
-  link is used **\[deprecated\]**
+  **\[deprecated\]** Has no effect and will be removed in shinyGovstyle
+  1.0.0
 
 - secondary_alt_text:
 
-  Add alternative text for the secondary link. Should be used when a
-  secondary link is used **\[deprecated\]**
+  **\[deprecated\]** Has no effect and will be removed in shinyGovstyle
+  1.0.0
 
 - logo_width:
 
@@ -90,12 +92,11 @@ a header HTML shiny tag object
 ## See also
 
 Other Govstyle page structure:
-[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
 [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
 [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
-[`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
 [`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md),
 [`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
+[`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md),
 [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
 
 ## Examples

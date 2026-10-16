@@ -75,8 +75,7 @@ Other Govstyle text types:
 [`gov_list()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_list.md),
 [`heading_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/heading_text.md),
 [`input_field()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/input_field.md),
-[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md),
-[`word_count()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.md)
+[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md)
 
 ## Examples
 
@@ -89,11 +88,10 @@ ui <- shinyGovstyle::gov_page(
     service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+  shinyGovstyle::gov_main_layout(
     # Simple text box
     shinyGovstyle::text_Input(inputId = "eventId", label = "Event Name"),
     # Error text box

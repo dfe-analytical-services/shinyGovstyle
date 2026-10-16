@@ -125,19 +125,14 @@ ui <- gov_page(
     org_name = "My department",
     service_name = "My dashboard"
   ),
-  banner(
+  phase_banner(
     inputId = "phase",
     type = "Beta",
     label = "This is a new service."
   ),
   gov_main_layout(
-    gov_row(
-      gov_box(
-        size = "two-thirds",
-        heading_text("Welcome", size = "l", level = 1),
-        gov_text("Select a report from the navigation above.")
-      )
-    )
+    heading_text("Welcome", size = "l", level = 1),
+    gov_text("Select a report from the navigation above.")
   ),
   footer()
 )
@@ -162,7 +157,7 @@ at the end of the Layout options vignette.
 the page-level components
 ([`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
 [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
-[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
+[`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md),
 [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md),
 [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
 [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md)),

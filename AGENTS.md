@@ -95,7 +95,7 @@ The pieces fit together as follows:
   path `shinyGovstyle/`** at package load. This is why all
   htmlDependency `src` values reference `shinyGovstyle/css` and
   `shinyGovstyle/js`.
-- **One component per file in `R/`** (e.g. `R/banner.R`,
+- **One component per file in `R/`** (e.g. `R/phase_banner.R`,
   `R/date_Input.R`, `R/govReactable.R`). Each exported function builds
   an `htmltools` tag and calls `attachDependency()` from
   `R/attachDependency.R` to attach the shared CSS plus, for interactive

@@ -1,6 +1,61 @@
 # Changelog
 
-## shinyGovstyle (development version)
+## shinyGovstyle 0.3.0
+
+CRAN release: 2026-10-15
+
+This release is the transition to a stable v1.0.0. Functions and
+arguments that will be removed in v1.0.0 now give a deprecation warning
+that names what to use instead, so you can update your code before
+upgrading. Everything deprecated keeps working in this release.
+
+### Deprecations
+
+- Four functions have been renamed to match the GOV.UK Design System
+  component names. The old names still work, with a deprecation warning,
+  and produce identical output:
+  - [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
+    is now
+    [`inset_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.md).
+    Its `text` argument is now `content`, reflecting that it accepts
+    more than plain text; `insert_text(text = )` gives a single warning
+    pointing to `inset_text(content = )`.
+  - [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md)
+    is now
+    [`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md),
+    with the same arguments.
+  - [`tag_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/tag_Input.md)
+    is now
+    [`gov_tag()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_tag.md),
+    with the same arguments.
+  - `panel_output(inputId, main_text, sub_text)` is now
+    `confirmation_panel(inputId, title, content)`.
+- [`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md)
+  is deprecated. Use
+  `gov_main_layout(gov_row(gov_box(..., size = size)), inputID = inputID, width = width)`
+  instead; the warning explains how each argument maps across. There is
+  no single-function replacement.
+- [`contents_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.md)
+  (deprecated in 0.2.0) will be removed in v1.0.0. Its warning now
+  explains that
+  [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
+  is the recommended approach for multi-page layouts, and that in-page
+  anchor links should be ordinary links to heading ids.
+- [`word_count()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.md)
+  is deprecated as it is no longer required:
+  `text_area_Input(word_limit = )` now tracks and announces the word
+  count entirely client-side, so the server-side
+  [`word_count()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.md)
+  observer can be deleted.
+- [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md)
+  arguments `main_text`, `secondary_text`, `main_link`,
+  `secondary_link`, `main_alt_text`, and `secondary_alt_text` will be
+  removed in v1.0.0. The warnings for the four link and alt text
+  arguments now say that they have no effect.
+- [`govReactableOutput()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable-shiny.md)’s
+  `heading_level` now takes an integer from `2L` to `5L` (default `2L`).
+  The `"h2"` to `"h5"` strings still work for now, with a warning
+  showing the integer to use.
 
 ### Breaking changes
 
@@ -21,24 +76,15 @@
   have been updated to match and continue to work transparently; only
   custom CSS or JS that targets `#fooerror` selectors needs updating to
   `#foo-error`.
-- [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
-  argument `text` has been renamed to `content` to reflect that it now
-  accepts more than plain text. The old name is deprecated and will be
-  removed in a future version.
-- [`word_count()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.md)
-  has been deprecated as it is no longer required for
-  [`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md),
-  which now tracks and announces the word count entirely client-side.
 - Removed the experimental `full_width_overrides()` function. Use the
   new `width` argument on
   [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
   [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
-  [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
+  [`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md),
   [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
-  [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
-  [`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
+  [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
   and
-  [`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md)
+  [`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
   instead (see below).
 - `bslib` has moved from `Suggests` to `Imports`, since the new
   [`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md)
@@ -76,15 +122,15 @@
   choose the right pronunciation and voice), adds a `description`
   argument for the page’s `<meta name="description">` tag, and a `width`
   argument that sets a default width for every shinyGovstyle component
-  used inside it, so you don’t have to repeat `width =` on each one — a
+  used inside it, so you don’t have to repeat `width =` on each one. A
   component that sets its own `width` always overrides the page default.
 - [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
   [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
-  [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
+  [`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md),
   [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
   [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
   [`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
-  and
+  and the deprecated
   [`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md)
   gain a `width` argument for building wider, dashboard-style layouts:
   `"standard"` (the default, GOV.UK’s usual 960px content width),
@@ -97,9 +143,10 @@
   `TRUE`/`FALSE`. Setting `add_warning = "icon"` adds a small decorative
   arrow icon after the link text, giving sighted users a visual warning
   that the link opens in a new tab without repeating the “(opens in new
-  tab)” text — useful for grouped links (see the “Grouped links” section
-  of the “Headings and text” vignette). The icon is hidden from screen
-  readers, which get the same hidden warning as `add_warning = FALSE`.
+  tab)” text, which is useful for grouped links (see the “Grouped links”
+  section of the “Headings and text” vignette). The icon is hidden from
+  screen readers, which get the same hidden warning as
+  `add_warning = FALSE`.
 - New
   [`update_page_title()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_page_title.md)
   function to update the browser tab title from server code, mirroring
@@ -138,15 +185,15 @@
   group from the server, for example to keep a cookies settings radio in
   sync with a cookie banner choice. See the new “Cookies and analytics”
   vignette.
-- [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
+- [`inset_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.md)
   (`content`),
-  [`panel_output()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/panel_output.md)
-  (`sub_text`),
+  [`confirmation_panel()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/confirmation_panel.md)
+  (`content`),
   [`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md)
   (`body_txt`),
   [`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md)
   (`help_text`),
-  [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md)
+  [`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md)
   (`label`),
   [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
   (`text`), and
@@ -180,7 +227,7 @@
   [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html)
   values. Previously labels accepted HTML strings but not tags, while
   hints accepted tags but not HTML strings.
-- [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md)
+- [`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md)
   gains a `feedback_url` argument that auto-generates the standard
   GOV.UK phase banner feedback text (e.g. “This is a new service - your
   feedback (opens in new tab) will help us to improve it.”), or
@@ -195,6 +242,32 @@
 
 ### Bug fixes
 
+- [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
+  now gives an error when two links end up with the same inputID (for
+  example `"Page 1"` and `"Page-1"`, which both become `page_1`), rather
+  than silently creating clashing links. The `links` documentation now
+  correctly says that inputIDs supplied in a named vector are cleaned up
+  in the same way as generated ones.
+  [`update_service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_service_navigation.md),
+  [`navigate_to()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md)
+  and
+  [`service_navigation_server()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation_server.md)
+  now clean up the inputIDs you pass them in the same way, so an id such
+  as `"Page-Two"` works in all of them. Previously they used the id as
+  given, so it silently failed to match the `page_two` link.
+- The active
+  [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
+  link now has `aria-current="page"`, as in the GOV.UK Design System, so
+  screen readers announce which page is current. Previously only the
+  visual highlight changed. The first link is now marked as the current
+  page when the app loads.
+- [`gov_tag()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_tag.md)
+  and
+  [`value_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/value_box.md)
+  now warn when `colour` is not one of their supported colours (for
+  example a typo such as `"gren"`), listing the options, rather than
+  silently falling back to the default styling. A `colour` that is not a
+  single string now gives a clear error.
 - Updated GOV.UK Frontend from v6.1.0 to v6.6.0.
 - `button_Input(type = "start")` now wraps a rich HTML label in a span
   so it wraps correctly on narrow screens, following GOV.UK Frontend
@@ -203,7 +276,7 @@
   now syncs the browser tab title with the active page by default.
   Screen readers announce the title on navigation, so a static title is
   an accessibility issue for multi-page dashboards. This is a behaviour
-  change — set `auto_page_title = FALSE` on
+  change; set `auto_page_title = FALSE` on
   [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
   to restore the previous behaviour.
 - [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md)
@@ -263,9 +336,9 @@
 - [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md)’s
   client binding now correctly reads and updates the group label
   (`update_radio_button_Input(label = ...)`, and Shiny’s built-in
-  bookmarking) — the previous selector targeted the old
-  `<label for=...>` markup, which no longer exists now that the label
-  renders inside a `<legend>` via the shared fieldset helper.
+  bookmarking). The previous selector targeted the old `<label for=...>`
+  markup, which no longer exists now that the label renders inside a
+  `<legend>` via the shared fieldset helper.
 - [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md)
   now renders rows in dataframe order (row order was previously silently
   reversed).
@@ -275,9 +348,6 @@
   matching the GOV.UK Design System character count component.
   Previously it updated visually on every keystroke but was never
   announced.
-
-### Minor improvements and bug fixes
-
 - [`radio_button_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/radio_button_Input.md),
   [`checkbox_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/checkbox_Input.md),
   and

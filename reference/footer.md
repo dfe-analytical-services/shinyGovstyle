@@ -51,12 +51,11 @@ a hidden tabset so to the end user it looks like it is a new page.
 ## See also
 
 Other Govstyle page structure:
-[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
 [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md),
-[`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
 [`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md),
 [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
 [`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
+[`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md),
 [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
 
 ## Examples
@@ -69,7 +68,7 @@ ui <- shinyGovstyle::gov_page(
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice logo"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", "This is a new service"
   ),
   shinyGovstyle::gov_text("Placeholder text"),
@@ -140,7 +139,7 @@ ui <- shinyGovstyle::gov_page(
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice logo"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", "This is a new service"
   ),
   shiny::tabsetPanel(

@@ -1,6 +1,12 @@
-# Panel output
+# Panel output (deprecated)
 
-This function inserts a panel. Normally used for confirmation screens
+**\[deprecated\]**
+
+`panel_output()` was renamed to
+[`confirmation_panel()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/confirmation_panel.md)
+in shinyGovstyle 0.3.0, with `main_text` becoming `title` and `sub_text`
+becoming `content`. The output is unchanged. `panel_output()` will be
+removed in shinyGovstyle 1.0.0.
 
 ## Usage
 
@@ -18,52 +24,31 @@ panel_output(inputId, main_text, sub_text)
 
 - main_text:
 
-  Add the header for the panel
+  Use `confirmation_panel(title)` instead.
 
 - sub_text:
 
-  Add the main body of text for the panel. Accepts a plain character
-  string, or `shiny` tag objects such as `shiny::tags$b("Bold")` or a
-  [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
+  Use `confirmation_panel(content)` instead.
 
 ## Value
 
 a panel HTML shiny tag object
 
-## See also
-
-Other Govstyle feedback types:
-[`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md),
-[`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md),
-[`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md),
-[`label_hint()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/label_hint.md),
-[`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md),
-[`tag_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/tag_Input.md),
-[`value_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/value_box.md),
-[`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
-
 ## Examples
 
 ``` r
-ui <- shinyGovstyle::gov_page(
-  shinyGovstyle::header(
-    org_name = "Example",
-    service_name = "User Examples",
-    logo="shinyGovstyle/images/moj_logo.png"
-  ),
-  shinyGovstyle::gov_layout(size = "full",
-    shinyGovstyle::panel_output(
-      inputId = "panel1",
-      main_text = "Application Complete",
-      sub_text = paste(
-        "Thank you for submitting your application.",
-        "Your reference is xvsiq"
-      )
-    ),
-    shinyGovstyle::footer(full = TRUE)
-  )
-)
+# Before
+# panel_output("panel1", main_text = "Application complete",
+#   sub_text = "Your reference is xvsiq")
 
-server <- function(input, output, session) {}
-if (interactive()) shinyApp(ui = ui, server = server)
+# After
+confirmation_panel(
+  "panel1",
+  title = "Application complete",
+  content = "Your reference is xvsiq"
+)
+#> <div class="govuk-panel govuk-panel--confirmation" id="panel1">
+#>   <h1 class="govuk-panel__title">Application complete</h1>
+#>   <div class="govuk-panel__body">Your reference is xvsiq</div>
+#> </div>
 ```

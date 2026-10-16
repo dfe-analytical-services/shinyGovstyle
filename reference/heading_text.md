@@ -1,6 +1,6 @@
 # Heading Text Function
 
-This function createS heading text
+This function creates heading text
 
 ## Usage
 
@@ -38,8 +38,7 @@ Other Govstyle text types:
 [`gov_list()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_list.md),
 [`input_field()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/input_field.md),
 [`text_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.md),
-[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md),
-[`word_count()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.md)
+[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md)
 
 ## Examples
 

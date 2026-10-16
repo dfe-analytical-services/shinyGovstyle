@@ -84,8 +84,7 @@ Other Govstyle text types:
 [`heading_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/heading_text.md),
 [`input_field()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/input_field.md),
 [`text_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.md),
-[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md),
-[`word_count()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.md)
+[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md)
 
 ## Examples
 
@@ -98,11 +97,10 @@ ui <- shinyGovstyle::gov_page(
     service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+  shinyGovstyle::gov_main_layout(
     # Simple date input
     shinyGovstyle::date_Input(
       inputId = "dob_input",
@@ -121,7 +119,10 @@ ui <- shinyGovstyle::gov_page(
       label = "Please enter your birthday",
       hint_label = shiny::tagList(
         "Check the format in the ",
-        shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+        shinyGovstyle::external_link(
+          "https://www.gov.uk",
+          "GOV.UK guidance"
+        )
       )
     ),
     # Button to trigger error

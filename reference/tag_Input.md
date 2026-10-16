@@ -1,6 +1,13 @@
-# Tag Function
+# Tag input (deprecated)
 
-This function creates a tag.
+**\[deprecated\]**
+
+`tag_Input()` was renamed to
+[`gov_tag()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_tag.md)
+in shinyGovstyle 0.3.0. The tag is a display component rather than a
+Shiny input, so the `_Input` suffix was misleading. The arguments and
+output are unchanged. `tag_Input()` will be removed in shinyGovstyle
+1.0.0.
 
 ## Usage
 
@@ -23,41 +30,20 @@ tag_Input(inputId, text, colour = "navy")
 - colour:
 
   The colour of the tag. Default is navy. Other options are grey, green,
-  teal, blue, purple, magenta, red, orange and yellow
+  teal, blue, purple, magenta, red, orange and yellow. Any other value
+  gives a warning listing these options
 
 ## Value
 
 a tag HTML shiny tag object
 
-## See also
-
-Other Govstyle feedback types:
-[`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md),
-[`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md),
-[`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md),
-[`label_hint()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/label_hint.md),
-[`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md),
-[`panel_output()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/panel_output.md),
-[`value_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/value_box.md),
-[`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
-
 ## Examples
 
 ``` r
-ui <- shinyGovstyle::gov_page(
-  shinyGovstyle::header(
-    org_name = "Example",
-    service_name = "User Examples",
-    logo="shinyGovstyle/images/moj_logo.png"
-  ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
-    shinyGovstyle::tag_Input("tag1", "Complete"),
-    shinyGovstyle::tag_Input("tag2", "Incomplete", "red")
-  ),
-  shinyGovstyle::footer(full = TRUE)
-)
+# Before
+# tag_Input("tag1", "Complete")
 
-server <- function(input, output, session) {}
-if (interactive()) shinyApp(ui = ui, server = server)
+# After
+gov_tag("tag1", "Complete")
+#> <strong id="tag1" class="govuk-tag">Complete</strong>
 ```

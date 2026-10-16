@@ -39,7 +39,9 @@ navigate_to(session, tabset_id, inputId, panel = inputId)
 - inputId:
 
   The nav link inputId to set as the active item in the service
-  navigation
+  navigation. It is cleaned up the same way as in
+  [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
+  so `"Page-Two"` and `"page_two"` both refer to the same link
 
 - panel:
 
@@ -58,7 +60,6 @@ NULL, called for side effects
 
 Other Govstyle navigation:
 [`backlink_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/backlink_Input.md),
-[`contents_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.md),
 [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
 [`service_navigation_server()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation_server.md),
 [`update_page_title()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_page_title.md),

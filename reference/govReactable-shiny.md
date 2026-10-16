@@ -10,7 +10,7 @@ govReactableOutput(
   output_table_name,
   caption,
   caption_size = "l",
-  heading_level = "h2"
+  heading_level = 2L
 )
 
 renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
@@ -33,8 +33,10 @@ renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
 
 - heading_level:
 
-  The HTML heading level for the caption (e.g., "h2", "h3", "h4", "h5").
-  Default is "h2"
+  The HTML heading level for the caption, an integer from `2L` to `5L`.
+  Defaults to `2L` (`<h2>`). Strings such as `"h3"` are
+  **\[deprecated\]** as of shinyGovstyle 0.3.0 and will stop working in
+  shinyGovstyle 1.0.0; use the integer form (e.g. `3L`) instead.
 
 - expr:
 

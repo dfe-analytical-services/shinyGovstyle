@@ -25,7 +25,8 @@ value_box(value = "your value goes here", text = NA, colour = "blue")
 
   Character. A colour to apply to the value box. Defaults to "blue".
   Choose from the following: "grey", "purple", "teal", "blue", "yellow",
-  "orange", "red", "magenta", or "green"
+  "orange", "red", "magenta", or "green". Any other value gives a
+  warning listing these options
 
 ## Value
 
@@ -40,13 +41,13 @@ information, such as statistics or key metrics.
 ## See also
 
 Other Govstyle feedback types:
+[`confirmation_panel()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/confirmation_panel.md),
 [`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md),
 [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md),
-[`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md),
+[`gov_tag()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_tag.md),
+[`inset_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.md),
 [`label_hint()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/label_hint.md),
 [`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md),
-[`panel_output()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/panel_output.md),
-[`tag_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/tag_Input.md),
 [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)
 
 ## Examples

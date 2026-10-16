@@ -32,12 +32,11 @@ a cookie banner HTML shiny tag object
 ## See also
 
 Other Govstyle page structure:
-[`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md),
 [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md),
-[`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md),
 [`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md),
 [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md),
 [`layouts`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
+[`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md),
 [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
 
 ## Examples
@@ -51,7 +50,7 @@ ui <- shinyGovstyle::gov_page(
   #Needs shinyjs to work
   shinyjs::useShinyjs(),
   shinyGovstyle::cookieBanner("The best thing"),
-  shinyGovstyle::gov_layout(size = "two-thirds"),
+  shinyGovstyle::gov_main_layout(),
   shinyGovstyle::footer(full = TRUE)
 )
 

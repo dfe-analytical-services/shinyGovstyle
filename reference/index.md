@@ -4,14 +4,10 @@
 
 ### Page structure
 
-- [`banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/banner.md)
-  : Banner Function
 - [`cookieBanner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/cookieBanner.md)
   : Cookie Banner Function
 - [`footer()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/footer.md)
   : Footer Function
-- [`gov_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_layout.md)
-  : Page Layout Function
 - [`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md)
   : GOV.UK styled page wrapper
 - [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md)
@@ -21,6 +17,8 @@
   [`gov_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
   [`gov_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
   : Page Layout Functions
+- [`phase_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/phase_banner.md)
+  : Phase banner
 - [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
   : Skip to main content link
 
@@ -28,8 +26,6 @@
 
 - [`backlink_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/backlink_Input.md)
   : Back Link Function
-- [`contents_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.md)
-  **\[deprecated\]** : Contents link function
 - [`navigate_to()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md)
   : Navigate to a page in one call
 - [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md)
@@ -108,20 +104,20 @@
 
 ## Feedback
 
+- [`confirmation_panel()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/confirmation_panel.md)
+  : Confirmation panel
 - [`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md)
   : Details Function
 - [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
   : Tabs Function
-- [`insert_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/insert_text.md)
-  : Insert Text Function
+- [`gov_tag()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_tag.md)
+  : Tag
+- [`inset_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.md)
+  : Inset text
 - [`label_hint()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/label_hint.md)
   : Label with Hint Function
 - [`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md)
   : Notification Banner Function
-- [`panel_output()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/panel_output.md)
-  : Panel output
-- [`tag_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/tag_Input.md)
-  : Tag Function
 - [`value_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/value_box.md)
   : Create a value text box with optional description and colour
 - [`warning_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/warning_text.md)

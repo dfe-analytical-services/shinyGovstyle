@@ -15,6 +15,11 @@ navigation link directly. The JavaScript binding updates the active
 state automatically, so you only need to switch the tab panel in your
 `observeEvent()`.
 
+`inputId` is cleaned up the same way as in
+[`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
+so you can pass either the inputID you supplied there (e.g.
+`"Page-Two"`) or its cleaned form (`"page_two"`).
+
 ## Usage
 
 ``` r
@@ -41,7 +46,6 @@ NULL, called for side effects
 
 Other Govstyle navigation:
 [`backlink_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/backlink_Input.md),
-[`contents_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/contents_link.md),
 [`navigate_to()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/navigate_to.md),
 [`service_navigation()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation.md),
 [`service_navigation_server()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/service_navigation_server.md),

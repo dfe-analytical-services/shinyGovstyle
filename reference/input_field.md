@@ -59,8 +59,7 @@ Other Govstyle text types:
 [`gov_list()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_list.md),
 [`heading_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/heading_text.md),
 [`text_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_Input.md),
-[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md),
-[`word_count()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/word_count.md)
+[`text_area_Input()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/text_area_Input.md)
 
 ## Examples
 
@@ -73,11 +72,10 @@ ui <- shinyGovstyle::gov_page(
     service_name = "User Examples",
     logo="shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+  shinyGovstyle::gov_main_layout(
     shinyGovstyle::input_field(
       legend ="List of three text boxes in a field",
       labels = c("Field 1", "Field 2", "Field 3"),
@@ -85,8 +83,8 @@ ui <- shinyGovstyle::gov_page(
       widths = c(30,20,10),
       error = TRUE
     ),
-   # Button to trigger error
-   shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+    # Button to trigger error
+    shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
   ),
   shinyGovstyle::footer(full = TRUE)
 )

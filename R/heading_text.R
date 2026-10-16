@@ -1,6 +1,6 @@
 #' Heading Text Function
 #'
-#' This function createS heading text
+#' This function creates heading text
 #' @param text_input Text to display
 #' @param size Text size, one of `"xl"`, `"l"`, `"m"`, `"s"`. Defaults to
 #' `"xl"`. Any other value throws an error.

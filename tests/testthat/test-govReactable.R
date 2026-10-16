@@ -174,8 +174,50 @@ test_that("caption_size sets the heading size class", {
   expect_has_tag(output, "govuk-heading-m")
 })
 
-test_that("heading_level sets the caption's tag name", {
-  output <- govReactableOutput("table", caption = "Test", heading_level = "h3")
+test_that("heading_level defaults to an h2 caption", {
+  output <- govReactableOutput("table", caption = "Test")
   heading <- find_tag_required(output, "govuk-heading-l")
-  expect_identical(heading$name, "h3")
+  expect_identical(heading$name, "h2")
+})
+
+test_that("integer heading_level sets the caption's tag name", {
+  for (level in 2:5) {
+    output <- govReactableOutput(
+      "table",
+      caption = "Test",
+      heading_level = level
+    )
+    heading <- find_tag_required(output, "govuk-heading-l")
+    expect_identical(heading$name, paste0("h", level))
+  }
+  # Whole-number doubles are accepted too, e.g. heading_level = 3
+  output <- govReactableOutput("table", caption = "Test", heading_level = 3)
+  expect_identical(find_tag_required(output, "govuk-heading-l")$name, "h3")
+})
+
+test_that("string heading_level still works, with a warning to use integers", {
+  for (level in 2:5) {
+    legacy <- paste0("h", level)
+    output <- expect_one_deprecation(
+      govReactableOutput("table", caption = "Test", heading_level = legacy),
+      mentions = c(
+        "must be an integer",
+        paste0("`heading_level = \"", legacy, "\"`"),
+        paste0("`heading_level = ", level, "L`"),
+        "1.0.0"
+      )
+    )
+    heading <- find_tag_required(output, "govuk-heading-l")
+    expect_identical(heading$name, legacy)
+  }
+})
+
+test_that("invalid heading_level values error", {
+  bad_levels <- list(1L, 6L, 2.5, "h1", "h6", "3", c(2L, 3L), NA_integer_, NULL)
+  for (level in bad_levels) {
+    expect_error(
+      govReactableOutput("table", caption = "Test", heading_level = level),
+      "`heading_level` must be a single integer from 2 to 5"
+    )
+  }
 })

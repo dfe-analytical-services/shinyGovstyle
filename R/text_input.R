@@ -21,11 +21,10 @@
 #'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
+#'   shinyGovstyle::gov_main_layout(
 #'     # Simple text box
 #'     shinyGovstyle::text_Input(inputId = "eventId", label = "Event Name"),
 #'     # Error text box

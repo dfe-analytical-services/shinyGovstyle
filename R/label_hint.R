@@ -13,8 +13,7 @@
 #'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
+#'   shinyGovstyle::gov_main_layout(
 #'     label_hint(
 #'       inputId = "label1",
 #'       label = "This is a label",
@@ -26,7 +25,10 @@
 #'       label = "Bold label",
 #'       hint_input = shiny::tagList(
 #'         "See the ",
-#'         shinyGovstyle::external_link("https://www.gov.uk", "GOV.UK guidance")
+#'         shinyGovstyle::external_link(
+#'           "https://www.gov.uk",
+#'           "GOV.UK guidance"
+#'         )
 #'       )
 #'     )
 #'   ),

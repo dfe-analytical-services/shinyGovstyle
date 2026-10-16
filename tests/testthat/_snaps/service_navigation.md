@@ -9,8 +9,8 @@
             <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
               <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden="TRUE">Menu</button>
               <ul class="govuk-service-navigation__list" id="navigation">
-                <li class="govuk-service-navigation__item">
-                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="page_1"><span class="action-label">Page 1</span></a>
+                <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
+                  <a aria-current="page" class="action-button action-link govuk-service-navigation__link" href="#" id="page_1"><span class="action-label"><strong class="govuk-service-navigation__active-fallback">Page 1</strong></span></a>
                 </li>
                 <li class="govuk-service-navigation__item">
                   <a class="action-button action-link govuk-service-navigation__link" href="#" id="page_2"><span class="action-label">Page 2</span></a>
@@ -39,8 +39,8 @@
             <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
               <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden="TRUE">Menu</button>
               <ul class="govuk-service-navigation__list" id="navigation">
-                <li class="govuk-service-navigation__item">
-                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="p1"><span class="action-label">Page 1</span></a>
+                <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
+                  <a aria-current="page" class="action-button action-link govuk-service-navigation__link" href="#" id="p1"><span class="action-label"><strong class="govuk-service-navigation__active-fallback">Page 1</strong></span></a>
                 </li>
                 <li class="govuk-service-navigation__item">
                   <a class="action-button action-link govuk-service-navigation__link" href="#" id="p2"><span class="action-label">Page 2</span></a>
@@ -65,8 +65,8 @@
             <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
               <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden="TRUE">Menu</button>
               <ul class="govuk-service-navigation__list" id="navigation">
-                <li class="govuk-service-navigation__item">
-                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="solo_page"><span class="action-label">Solo page</span></a>
+                <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
+                  <a aria-current="page" class="action-button action-link govuk-service-navigation__link" href="#" id="solo_page"><span class="action-label"><strong class="govuk-service-navigation__active-fallback">Solo page</strong></span></a>
                 </li>
               </ul>
             </nav>

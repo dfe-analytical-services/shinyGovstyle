@@ -23,10 +23,10 @@ This vignette covers all functions in shinyGovstyle that produce styled text con
 
 ## Rich content in body components
 
-Sometimes a plain sentence isn't enough: you need a bold word, a link in the middle of a sentence, or a line break. The body-content arguments of `insert_text()` (`content`), `warning_text()` (`text`), and `noti_banner()` (`body_txt`), along with the list items of `gov_list()` (`list`), accept `shiny` tags instead of a plain string for exactly this. Pass a `shiny` tag, a `shiny::tagList()`, or `shiny::HTML()` output to embed inline emphasis, links, or line breaks without writing raw HTML yourself.
+Sometimes a plain sentence isn't enough: you need a bold word, a link in the middle of a sentence, or a line break. The body-content arguments of `inset_text()` (`content`), `warning_text()` (`text`), and `noti_banner()` (`body_txt`), along with the list items of `gov_list()` (`list`), accept `shiny` tags instead of a plain string for exactly this. Pass a `shiny` tag, a `shiny::tagList()`, or `shiny::HTML()` output to embed inline emphasis, links, or line breaks without writing raw HTML yourself.
 
 ```{r, eval = FALSE}
-insert_text(
+inset_text(
   inputId = "processing-note",
   content = shiny::tagList(
     shiny::tags$b("Important: "),
@@ -40,7 +40,7 @@ insert_text(
 )
 ```
 
-The same applies to `banner()` (`label`), `panel_output()` (`sub_text`), `details()` (`help_text`), `gov_summary()` (`info`), and `accordion()` (`descriptions`), which are covered in [Layout options](layout-options.html) and the function reference.
+The same applies to `phase_banner()` (`label`), `confirmation_panel()` (`content`), `details()` (`help_text`), `gov_summary()` (`info`), and `accordion()` (`descriptions`), which are covered in [Layout options](layout-options.html) and the function reference.
 
 Plain character strings continue to work unchanged, so the simpler per-component examples below remain valid.
 
@@ -185,10 +185,7 @@ When `service_name` is supplied the title is composed as `"<page_title> | <servi
 A wrapper that produces a `<p class="govuk-body">` paragraph element. Use it when you want to add body text with correct GOV.UK styling without writing raw tag calls.
 
 ```{r, eval = FALSE}
-gov_box(
-  size = "two-thirds",
-  gov_text("This is a paragraph of body text.")
-)
+gov_text("This is a paragraph of body text.")
 ```
 
 ---
@@ -232,12 +229,12 @@ For more information, read the [GOV.UK lists guidance](https://design-system.ser
 
 ---
 
-## `insert_text()`
+## `inset_text()`
 
 Displays a GOV.UK inset text box — a bordered callout for supplementary information that is related to, but not the main focus of, the surrounding content.
 
 ```{r, eval = FALSE}
-insert_text(
+inset_text(
   inputId = "processing-note",
   content = "It can take up to 8 weeks to process your application."
 )
@@ -262,7 +259,7 @@ warning_text(
 
 The "!" icon is hidden from screen readers, and the word "Warning" is added as text you can't see but a screen reader can, so what gets announced is "Warning: [your text]" rather than the icon character itself. Because "Warning" is already added for you, don't start your own text with the word "Warning" too, otherwise screen reader users hear "Warning, warning: ...".
 
-Use `warning_text()` when the consequence of missing the information is serious. For less critical supplementary information, use `insert_text()` instead.
+Use `warning_text()` when the consequence of missing the information is serious. For less critical supplementary information, use `inset_text()` instead.
 
 For more information, read the [GOV.UK warning text guidance](https://design-system.service.gov.uk/components/warning-text/).
 
@@ -303,7 +300,7 @@ noti_banner(
 | Situation | Component |
 |---|---|
 | Information not related to the current page task | `noti_banner()` |
-| Supplementary information related to the page | `insert_text()` |
+| Supplementary information related to the page | `inset_text()` |
 | Serious consequences if the user misses information | `warning_text()` |
 | Form validation errors | `error_summary()` / error messages |
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/panel_output.R
 \name{panel_output}
 \alias{panel_output}
-\title{Panel output}
+\title{Panel output (deprecated)}
 \usage{
 panel_output(inputId, main_text, sub_text)
 }
@@ -11,50 +11,31 @@ panel_output(inputId, main_text, sub_text)
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{main_text}{Add the header for the panel}
+\item{main_text}{Use \code{confirmation_panel(title)} instead.}
 
-\item{sub_text}{Add the main body of text for the panel. Accepts a plain
-character string, or \code{shiny} tag objects such as \code{shiny::tags$b("Bold")}
-or a \code{shiny::tagList()}.}
+\item{sub_text}{Use \code{confirmation_panel(content)} instead.}
 }
 \value{
 a panel HTML shiny tag object
 }
 \description{
-This function inserts a panel.  Normally used for confirmation screens
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{panel_output()} was renamed to \code{\link[=confirmation_panel]{confirmation_panel()}} in shinyGovstyle
+0.3.0, with \code{main_text} becoming \code{title} and \code{sub_text} becoming \code{content}.
+The output is unchanged. \code{panel_output()} will be removed in shinyGovstyle
+1.0.0.
 }
 \examples{
-ui <- shinyGovstyle::gov_page(
-  shinyGovstyle::header(
-    org_name = "Example",
-    service_name = "User Examples",
-    logo="shinyGovstyle/images/moj_logo.png"
-  ),
-  shinyGovstyle::gov_layout(size = "full",
-    shinyGovstyle::panel_output(
-      inputId = "panel1",
-      main_text = "Application Complete",
-      sub_text = paste(
-        "Thank you for submitting your application.",
-        "Your reference is xvsiq"
-      )
-    ),
-    shinyGovstyle::footer(full = TRUE)
-  )
-)
+# Before
+# panel_output("panel1", main_text = "Application complete",
+#   sub_text = "Your reference is xvsiq")
 
-server <- function(input, output, session) {}
-if (interactive()) shinyApp(ui = ui, server = server)
+# After
+confirmation_panel(
+  "panel1",
+  title = "Application complete",
+  content = "Your reference is xvsiq"
+)
 }
-\seealso{
-Other Govstyle feedback types:
-\code{\link[=details]{details()}},
-\code{\link[=gov_summary]{gov_summary()}},
-\code{\link[=insert_text]{insert_text()}},
-\code{\link[=label_hint]{label_hint()}},
-\code{\link[=noti_banner]{noti_banner()}},
-\code{\link[=tag_Input]{tag_Input()}},
-\code{\link[=value_box]{value_box()}},
-\code{\link[=warning_text]{warning_text()}}
-}
-\concept{Govstyle feedback types}
+\keyword{internal}

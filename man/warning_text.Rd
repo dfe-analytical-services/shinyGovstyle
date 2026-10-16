@@ -29,13 +29,13 @@ shinyGovstyle::warning_text(
 }
 \seealso{
 Other Govstyle feedback types:
+\code{\link[=confirmation_panel]{confirmation_panel()}},
 \code{\link[=details]{details()}},
 \code{\link[=gov_summary]{gov_summary()}},
-\code{\link[=insert_text]{insert_text()}},
+\code{\link[=gov_tag]{gov_tag()}},
+\code{\link[=inset_text]{inset_text()}},
 \code{\link[=label_hint]{label_hint()}},
 \code{\link[=noti_banner]{noti_banner()}},
-\code{\link[=panel_output]{panel_output()}},
-\code{\link[=tag_Input]{tag_Input()}},
 \code{\link[=value_box]{value_box()}}
 }
 \concept{Govstyle feedback types}

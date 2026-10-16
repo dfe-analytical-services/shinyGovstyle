@@ -5,7 +5,7 @@
 #' navigate directly to the main content of a page.
 #'
 #' @param id An optional parameter to specify the Id of the main content
-#' section, will be automatically preceeded by a hash '#'. Default is
+#' section, will be automatically preceded by a hash '#'. Default is
 #' "main" to match the "#main" Id within `gov_main()`.
 #'
 #' @return A Shiny tag representing the 'Skip to main content' link

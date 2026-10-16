@@ -5,6 +5,7 @@
 #' to a bullet) or a `shiny::tagList()`.
 #' @param style options: "none", "bullet", "number". defaults to "none"
 #' @family Govstyle text types
+#' @returns A Shiny tag representing an ordered or unordered HTML list.
 #' @export
 #' @examples
 #' ui <- shinyGovstyle::gov_page(
@@ -12,11 +13,10 @@
 #'     org_name = "Example",
 #'     service_name = "User Examples"
 #'   ),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
+#'   shinyGovstyle::gov_main_layout(
 #'     shinyGovstyle::heading_text("gov_list", size = "s"),
 #'     shinyGovstyle::gov_text("List:"),
 #'     gov_list(list = c("a", "b", "c")),

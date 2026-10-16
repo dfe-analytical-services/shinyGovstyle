@@ -8,16 +8,16 @@
 #' @param main_text `r lifecycle::badge("deprecated")` Use `org_name` instead
 #' @param secondary_text `r lifecycle::badge("deprecated")` Use `service_name`
 #' instead
-#' @param main_link Add a link for clicking on main text
-#' `r lifecycle::badge("deprecated")`
-#' @param secondary_link Add a link for clicking on secondary
-#' header `r lifecycle::badge("deprecated")`
+#' @param main_link `r lifecycle::badge("deprecated")` Has no effect and will
+#' be removed in shinyGovstyle 1.0.0
+#' @param secondary_link `r lifecycle::badge("deprecated")` Has no effect and
+#' will be removed in shinyGovstyle 1.0.0
 #' @param logo_alt_text Add alternative text for the logo. Should be used when a
 #' logo is used
-#' @param main_alt_text Add alternative text for the main link. Should be used
-#' when a main link is used `r lifecycle::badge("deprecated")`
-#' @param secondary_alt_text Add alternative text for the secondary link. Should
-#' be used when a secondary link is used `r lifecycle::badge("deprecated")`
+#' @param main_alt_text `r lifecycle::badge("deprecated")` Has no effect and
+#' will be removed in shinyGovstyle 1.0.0
+#' @param secondary_alt_text `r lifecycle::badge("deprecated")` Has no effect
+#' and will be removed in shinyGovstyle 1.0.0
 #' @param logo_width Change the logo size width CSS to improve fit
 #' @param logo_height Change the logo size height CSS to improve fit
 #' @inheritParams width_arg
@@ -57,7 +57,8 @@ header <- function(
     lifecycle::deprecate_warn(
       when = "0.2.0",
       what = "header(main_text)",
-      with = "header(org_name)"
+      with = "header(org_name)",
+      details = "`main_text` will be removed in shinyGovstyle 1.0.0."
     )
     org_name <- main_text
   }
@@ -66,7 +67,8 @@ header <- function(
     lifecycle::deprecate_warn(
       when = "0.2.0",
       what = "header(secondary_text)",
-      with = "header(service_name)"
+      with = "header(service_name)",
+      details = "`secondary_text` will be removed in shinyGovstyle 1.0.0."
     )
     service_name <- secondary_text
   }
@@ -85,7 +87,10 @@ header <- function(
     lifecycle::deprecate_warn(
       when = "0.2.0",
       what = "header(main_link)",
-      details = "main_link will be dropped in v1.0.0"
+      details = c(
+        i = "It has no effect; remove it from your `header()` call.",
+        i = "It will be removed in shinyGovstyle 1.0.0."
+      )
     )
   }
 
@@ -93,7 +98,10 @@ header <- function(
     lifecycle::deprecate_warn(
       when = "0.2.0",
       what = "header(main_alt_text)",
-      details = "main_alt_text will be dropped in v1.0.0"
+      details = c(
+        i = "It has no effect; remove it from your `header()` call.",
+        i = "It will be removed in shinyGovstyle 1.0.0."
+      )
     )
   }
 
@@ -101,7 +109,10 @@ header <- function(
     lifecycle::deprecate_warn(
       when = "0.2.0",
       what = "header(secondary_alt_text)",
-      details = "secondary_alt_text will be dropped in v1.0.0"
+      details = c(
+        i = "It has no effect; remove it from your `header()` call.",
+        i = "It will be removed in shinyGovstyle 1.0.0."
+      )
     )
   }
 
@@ -109,7 +120,10 @@ header <- function(
     lifecycle::deprecate_warn(
       when = "0.2.0",
       what = "header(secondary_link)",
-      details = "secondary_link will be dropped in v1.0.0"
+      details = c(
+        i = "It has no effect; remove it from your `header()` call.",
+        i = "It will be removed in shinyGovstyle 1.0.0."
+      )
     )
   }
 

@@ -29,8 +29,7 @@ ui <- shinyGovstyle::gov_page(
     service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+  shinyGovstyle::gov_main_layout(
     shinyGovstyle::button_Input(
       inputId = "btn1",
       label = "Continue",

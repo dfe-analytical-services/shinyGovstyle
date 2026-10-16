@@ -50,10 +50,23 @@ subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
 
 #' Contents link function
 #'
-#' `r lifecycle::badge('deprecated')`
+#' @description
+#' `r lifecycle::badge("deprecated")`
 #'
 #' This function creates an action link to nav between tabs and optionally
 #' link to subcontents headers.
+#'
+#' `contents_link()` was deprecated in shinyGovstyle 0.2.0 and will be removed
+#' in shinyGovstyle 1.0.0. For multi-page layouts, [service_navigation()] is
+#' the recommended approach: it gives users the GOV.UK service navigation bar
+#' for moving between pages (tab panels), with [service_navigation_server()]
+#' and [navigate_to()] to switch panels from the server.
+#'
+#' `service_navigation()` is not a drop-in replacement. It has no equivalent
+#' of the subcontents links, and it does not create links to headings within a
+#' page. For those, use ordinary links to heading ids, e.g.
+#' `heading_text("Methodology", id = "methodology")` with
+#' `shiny::tags$a(href = "#methodology", class = "govuk-link", "Methodology")`.
 #'
 #' @param link_text vector of link text for contents
 #' @param input_id contents button Id
@@ -61,223 +74,50 @@ subcontents_links <- function(subcontents_text_list, subcontents_id_list) {
 #' @param subcontents_id_list vector of link Ids for subcontents. If missing
 #' automatically matches to Id in `heading_text()`
 #' @return an action button HTML shiny tag object
+#' @keywords internal
 #' @export
-#' @family Govstyle navigation
 #' @examples
+#' # Multi-page layout: service_navigation() moves between tab panels
 #' ui <- shinyGovstyle::gov_page(
-#'   gov_row(
-#'     # Nav columns
-#'     shiny::column(
-#'       width = 3,
-#'       id = "nav", # DO NOT REMOVE ID
-#'
-#'       # Contents box
-#'       shiny::tags$div(
-#'         id = "govuk-contents-box", # DO NOT REMOVE ID
-#'         class = "govuk-contents-box", # DO NOT REMOVE CLASS
-#'
-#'         shiny::tags$h2("Contents"),
-#'
-#'         # Text types tab
-#'         contents_link(
-#'           "Text Types",
-#'           "text_types_button",
-#'           subcontents_text_list = c(
-#'             "date_Input",
-#'             "text_Input",
-#'             "text_area_Input",
-#'             "button_Input"
-#'           ),
-#'           subcontents_id_list = c(NA, NA, NA, "button_input_text_types")
+#'   shinyGovstyle::header(org_name = "Example", service_name = "My service"),
+#'   shinyGovstyle::service_navigation(
+#'     c("Summary" = "summary", "Methodology" = "methodology")
+#'   ),
+#'   shinyGovstyle::gov_main_layout(
+#'     bslib::navset_hidden(
+#'       id = "pages",
+#'       bslib::nav_panel_hidden(
+#'         "summary",
+#'         shinyGovstyle::heading_text("Summary", size = "l"),
+#'         # In-page anchor links are ordinary links to heading ids
+#'         shiny::tags$a(
+#'           href = "#key-findings",
+#'           class = "govuk-link",
+#'           "Key findings"
 #'         ),
-#'
-#'         # Tables tabs and accordions tab
-#'         contents_link(
-#'           "Tables, tabs and accordions",
-#'           "tables_tabs_and_accordions_button",
-#'           subcontents_text_list = c(
-#'             "govTable",
-#'             "govTabs",
-#'             "accordions",
-#'             "button_Input"
-#'           ),
-#'           subcontents_id_list = c(
-#'             NA,
-#'             NA,
-#'             NA,
-#'             "button_input_tables_tabs_accordions"
-#'           )
-#'         ),
-#'
-#'         contents_link(
-#'           "Cookies",
-#'           "cookies_button"
-#'         ),
-#'       )
-#'     ),
-#'
-#'     shiny::column(
-#'       width = 9,
-#'       id = "main_col", # DO NOT REMOVE ID
-#'
-#'       # Set up a nav panel so everything not on single page
-#'       shiny::tabsetPanel(
-#'         type = "hidden",
-#'         id = "tab-container", # DO NOT REMOVE ID
-#'
-#'         shiny::tabPanel(
-#'           "Text Types",
-#'           value = "text_types",
-#'           gov_layout(
-#'             size = "two-thirds",
-#'             backlink_Input("back1"),
-#'             heading_text("Page 2", size = "l"),
-#'             label_hint(
-#'               "label2",
-#'               paste(
-#'                 "These are some examples of the",
-#'                 "types of user text inputs that you can use"
-#'               )
-#'             ),
-#'             heading_text("date_Input", size = "s"),
-#'             date_Input(
-#'               inputId = "date1",
-#'               label = "What is your date of birth?",
-#'               hint_label = "For example, 31 3 1980"
-#'             ),
-#'             heading_text("text_Input", size = "s"),
-#'             text_Input(
-#'               inputId = "txt1",
-#'               label = "Event name"
-#'             ),
-#'             heading_text("text_area_Input", size = "s"),
-#'             text_area_Input(
-#'               inputId = "text_area1",
-#'               label = "Can you provide more detail?",
-#'               hint_label = paste(
-#'                 "Do not include personal or financial",
-#'                 "information, like your National Insurance",
-#'                 "number or credit card details."
-#'               )
-#'             ),
-#'             text_area_Input(
-#'               inputId = "text_area2",
-#'               label = "How are you today?",
-#'               hint_label = "Leave blank to trigger error",
-#'               error = TRUE,
-#'               error_message = "Please do not leave blank",
-#'               word_limit = 300
-#'             ),
-#'             heading_text(
-#'               "button_Input",
-#'               size = "s",
-#'               id = "button_input_text_types"
-#'             ),
-#'             button_Input("btn2", "Go to next page"),
-#'             button_Input(
-#'               "btn3",
-#'               "Check for errors",
-#'               type = "warning"
-#'             )
-#'           )
-#'         ),
-#'
-#'         shiny::tabPanel(
-#'           "Tables, tabs and accordions",
-#'           value = "tables_tabs_and_accordions",
-#'           gov_layout(
-#'             size = "two-thirds",
-#'             backlink_Input("back2"),
-#'             heading_text("Page 3", size = "l"),
-#'             label_hint(
-#'               "label3",
-#'               paste(
-#'                 "These are some examples of using tabs",
-#'                 "type tables"
-#'               )
-#'             ),
-#'             heading_text("govTable", size = "s"),
-#'             heading_text("govTabs", size = "s"),
-#'             heading_text("accordions", size = "s"),
-#'             shinyGovstyle::accordion(
-#'               "acc1",
-#'               c(
-#'                 "Writing well for the web",
-#'                 "Writing well for specialists",
-#'                 "Know your audience",
-#'                 "How people read"
-#'               ),
-#'               c(
-#'                 paste(
-#'                   "This is the content for Writing well",
-#'                   "for the web."
-#'                 ),
-#'                 paste(
-#'                   "This is the content for Writing well",
-#'                   "for specialists."
-#'                 ),
-#'                 paste(
-#'                   "This is the content for",
-#'                   "Know your audience."
-#'                 ),
-#'                 "This is the content for How people read."
-#'               )
-#'             ),
-#'
-#'             heading_text(
-#'               "button_Input",
-#'               size = "s",
-#'               id = "button_input_tables_tabs_accordions"
-#'             ),
-#'             button_Input("btn4", "Go to next page"),
-#'           )
-#'         ),
-#'
-#'         #################### Create cookie panel #########
-#'         shiny::tabPanel(
-#'           "Cookies",
-#'           value = "panel-cookies",
-#'           gov_layout(
-#'             size = "two-thirds",
-#'             heading_text("Cookie page", size = "l"),
-#'             label_hint(
-#'               "label-cookies",
-#'               "This an example cookie page"
-#'             )
-#'           )
+#'         shinyGovstyle::heading_text(
+#'           "Key findings",
+#'           size = "m",
+#'           level = 2,
+#'           id = "key-findings"
 #'         )
+#'       ),
+#'       bslib::nav_panel_hidden(
+#'         "methodology",
+#'         shinyGovstyle::heading_text("Methodology", size = "l")
 #'       )
 #'     )
-#'   ), # end of main_col
-#'   footer(TRUE)
-#' ) # end of gov_row
+#'   ),
+#'   shinyGovstyle::footer(full = TRUE)
+#' )
 #'
 #' server <- function(input, output, session) {
-#'   # Tab nav
-#'   shiny::observeEvent(input$back2, {
-#'     shiny::updateTabsetPanel(
-#'       session,
-#'       "tab-container",
-#'       selected = "text_types"
-#'     )
-#'   })
-#'
-#'   shiny::observeEvent(input$tables_tabs_and_accordions_button, {
-#'     shiny::updateTabsetPanel(
-#'       session,
-#'       "tab-container",
-#'       selected = "tables_tabs_and_accordions"
-#'     )
-#'   })
-#'
-#'   shiny::observeEvent(input$cookies_button, {
-#'     shiny::updateTabsetPanel(
-#'       session,
-#'       "tab-container",
-#'       selected = "panel-cookies"
-#'     )
-#'   })
-#' } # end of server
+#'   shinyGovstyle::service_navigation_server(
+#'     session,
+#'     tabset_id = "pages",
+#'     link_to_panel = c("summary", "methodology")
+#'   )
+#' }
 #'
 #' if (interactive()) shiny::shinyApp(ui = ui, server = server)
 contents_link <- function(
@@ -286,7 +126,23 @@ contents_link <- function(
   subcontents_text_list,
   subcontents_id_list
 ) {
-  lifecycle::deprecate_warn("0.2.0", "contents_link()")
+  lifecycle::deprecate_warn(
+    when = "0.2.0",
+    what = "contents_link()",
+    details = c(
+      i = paste(
+        "For multi-page layouts, `service_navigation()` is the recommended",
+        "approach, with `service_navigation_server()` to switch tab panels."
+      ),
+      i = paste(
+        "It is not a drop-in replacement: for links to headings on the same",
+        "page, use ordinary links to heading ids, e.g.",
+        "`shiny::tags$a(href = \"#methods\", \"Methods\")` with",
+        "`heading_text(id = \"methods\")`."
+      ),
+      i = "`contents_link()` will be removed in shinyGovstyle 1.0.0."
+    )
+  )
 
   if (
     missing(subcontents_id_list) &&

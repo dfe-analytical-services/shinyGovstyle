@@ -33,8 +33,7 @@ ui <- shinyGovstyle::gov_page(
     logo = "shinyGovstyle/images/moj_logo.png",
     logo_alt_text = "Ministry of Justice logo"
   ),
-  shinyGovstyle::gov_layout(
-    size = "full",
+  shinyGovstyle::gov_main_layout(
     select_Input(
       inputId = "sorter",
       label = "Sort by",

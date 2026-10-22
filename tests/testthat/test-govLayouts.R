@@ -52,6 +52,46 @@ test_that("gov_row renders a govuk-grid-row div and passes children through", {
   expect_has_tag(row, "marker-child")
 })
 
+test_that("gov_row with no width has no width container", {
+  row <- gov_row(shiny::tags$div("row content"))
+
+  expect_no_tag(row, "govuk-width-container")
+  expect_null(htmltools::tagGetAttribute(row, "style"))
+})
+
+test_that("gov_row width = 'standard' wraps the row in a standard container", {
+  row <- gov_row(
+    shiny::tags$div(class = "marker-child", "row content"),
+    width = "standard"
+  )
+
+  # shinygovstyle-row-container is what width-overrides.css hooks the
+  # nested centring and gutter rules onto
+  expect_identical(
+    htmltools::tagGetAttribute(row, "class"),
+    paste(
+      "govuk-width-container govuk-width-container--standard",
+      "shinygovstyle-row-container"
+    )
+  )
+  grid_row <- expect_has_tag(row, "govuk-grid-row")
+  expect_has_tag(grid_row, "marker-child")
+})
+
+test_that("gov_row custom width sets an inline max-width style", {
+  row <- gov_row(shiny::tags$div("row content"), width = "1400px")
+
+  expect_identical(
+    htmltools::tagGetAttribute(row, "style"),
+    "max-width: 1400px;"
+  )
+  expect_has_tag(row, "govuk-width-container--custom")
+})
+
+test_that("gov_row errors on an invalid width", {
+  expect_error(gov_row(shiny::tags$div("x"), width = "huge"), "`width` must be")
+})
+
 test_that("gov_box renders a govuk-grid-column-{size} div and respects size", {
   default_box <- gov_box(shiny::tags$div(class = "marker-child", "x"))
   expect_identical(

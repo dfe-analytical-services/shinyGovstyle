@@ -1,19 +1,11 @@
 # shinyGovstyle (development version)
 
-* `service_navigation_server()` now keeps the service navigation in step
-  with its tabset. When one of its panels is selected from the server, for
-  example with `updateTabsetPanel()` behind a next button, that panel's link
-  becomes active, with `aria-current="page"` and the automatic page title.
-  Previously the last clicked link stayed marked as the current page unless
-  you also called `update_service_navigation()`. Existing calls to
-  `update_service_navigation()` and `navigate_to()` keep working, and a
-  title set with `update_page_title()` alongside the tab change is kept.
-* `service_navigation_server()` now clears the current page when a panel
-  with no nav link is selected, such as a footer-only accessibility
-  statement. Previously the last nav link kept its highlight and
-  `aria-current="page"`, so screen readers announced the wrong page as
-  current. Call `update_service_navigation()` alongside the tab change if
-  you want a link to stay active, for example on a sub-page.
+* `service_navigation_server()` now updates the active link and page title
+  when the tab is changed from the server, e.g. with `updateTabsetPanel()`.
+  You no longer need to call `update_service_navigation()` as well.
+* `service_navigation_server()` now clears the active link on pages that are
+  not in the navigation, such as footer pages, so screen readers no longer
+  announce the previous page as current.
 
 # shinyGovstyle 0.3.0
 

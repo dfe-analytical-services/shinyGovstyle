@@ -346,15 +346,13 @@ service_navigation_server <- function(
     )
   })
 
-  # Follow the tabset too, so a panel selected from the server (e.g. by
-  # updateTabsetPanel() behind a next button) moves the active link with it
+  # Keep the nav in step with tab changes made from the server
   shiny::observeEvent(
     input[[tabset_id]],
     {
       links <- names(link_to_panel)[link_to_panel == input[[tabset_id]]]
-      # Sent even when empty (a panel with no nav link, e.g. a footer-only
-      # page), so the browser can clear the current page. A list so that one
-      # link is still sent as a JSON array.
+      # Sent even when empty, so the browser clears the nav. as.list() keeps
+      # one link as a JSON array.
       session$sendCustomMessage("sync_service_navigation", as.list(links))
     },
     ignoreInit = TRUE

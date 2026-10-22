@@ -90,14 +90,12 @@ function setActiveServiceNavLink(link, keepTitle) {
   wrapActiveFallback(link);
 
   if (!keepTitle) applyAutoPageTitle(link);
-  // A title from update_page_title() only holds until the nav next moves
+  // Both flags only last until the nav next changes
   window.shinyGovstyleServerTitle = false;
   serverNavPending = false;
 }
 
-// Set when the app calls update_service_navigation(), so that the sync for
-// the tab change it goes with leaves the app's choice in place (e.g. a
-// sub-page that keeps its parent link active)
+// Set by update_service_navigation() so the next sync keeps the app's choice
 var serverNavPending = false;
 
 // Allow programmatic update of active nav item from R server code
@@ -114,14 +112,10 @@ Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
   serverNavPending = true;
 });
 
-// Keep the active link in step with the selected tab panel, sent by
-// service_navigation_server() whenever the tabset changes. inputIds lists
-// every link wired to the panel. If one of them is already active (the user
-// clicked it) nothing changes. Otherwise the first link becomes active,
-// keeping the title if the app set one with update_page_title() for this
-// change. An empty list means the panel has no nav link, such as a
-// footer-only page, so no link is left marked as the current page. Either
-// way, a call to update_service_navigation() for this change wins.
+// Sent by service_navigation_server() when the tab changes, with the links
+// for the new panel (empty if it has none). Does nothing if the app already
+// set the nav or a matching link is active. Otherwise activates the first
+// link, or clears the nav if there isn't one.
 Shiny.addCustomMessageHandler("sync_service_navigation", function (inputIds) {
   var keepTitle = window.shinyGovstyleServerTitle === true;
   window.shinyGovstyleServerTitle = false;

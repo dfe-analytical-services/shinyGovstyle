@@ -378,10 +378,9 @@ test_that("service_navigation_server cleans inputIds, not panel values", {
 
 # Following the tabset --------------------------------------------------------
 
-# Runs service_navigation_server() inside testServer() with a session that
-# records custom messages, which MockShinySession otherwise drops. The tabset
-# reports its first panel when the app starts, then each of `tab_changes` in
-# turn. Returns the recorded messages.
+# Runs service_navigation_server() with a session that records custom
+# messages (MockShinySession drops them). Starts on the first panel, then
+# moves to each of `tab_changes`.
 sync_messages <- function(link_to_panel, tab_changes = character()) {
   state <- new.env(parent = emptyenv())
   state$messages <- list()
@@ -431,7 +430,7 @@ test_that("a programmatic tab change moves the active link to that panel", {
 
   expect_length(messages, 1)
   expect_identical(messages[[1]]$type, "sync_service_navigation")
-  # Sent as a list so a single link still reaches the browser as an array
+  # A list, so one link is still a JSON array
   expect_identical(messages[[1]]$message, list("sn_two"))
 })
 
@@ -445,8 +444,7 @@ test_that("panels without a nav link send an empty sync to clear the nav", {
     c(sn_one = "one", sn_two = "two"),
     tab_changes = "accessibility_panel"
   )
-  # Empty, so the browser clears the current page rather than leaving the
-  # previous link marked with aria-current="page"
+  # Empty, so the browser clears the nav
   expect_length(messages, 1)
   expect_identical(messages[[1]]$type, "sync_service_navigation")
   expect_identical(messages[[1]]$message, list())

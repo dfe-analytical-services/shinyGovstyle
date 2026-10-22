@@ -5,7 +5,6 @@
 
 Shiny.addCustomMessageHandler("update_page_title", function (title) {
   document.title = title;
-  // Read by service_navigation.js, so that when this call goes with a tab
-  // change, the nav link that follows the change does not overwrite the title
+  // Stops the next nav sync overwriting this title
   window.shinyGovstyleServerTitle = true;
 });

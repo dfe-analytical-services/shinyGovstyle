@@ -107,9 +107,7 @@ test_that("A tab change outside the nav moves the active link and title", {
   app$wait_for_idle()
   expect_equal(current_links(), "sn_select_types")
 
-  # Select the panel through the tabset itself, the same input change that
-  # updateTabsetPanel() causes, with no nav link click and no
-  # update_service_navigation() call
+  # Change the tab directly, as updateTabsetPanel() would
   app$set_inputs(`tab-container` = "feedback_types")
   app$wait_for_idle()
   expect_equal(current_links(), "sn_feedback_types")

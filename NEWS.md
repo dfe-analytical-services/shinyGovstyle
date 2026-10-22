@@ -1,26 +1,3 @@
-# shinyGovstyle 0.3.0.9000 (development)
-
-## Breaking changes planned for v1.0.0
-
-* `header()` now uses GOV.UK Frontend's Generic header markup and appearance.
-  `org_name`, `service_name`, positional calls such as `header("Org", "Service")`
-  and width inheritance remain supported. The centred service title is a
-  shinyGovstyle extension and stacks below the organisation on smaller screens.
-* The organisation name and logo now form one homepage link. Set
-  `homepage_url` for your app; the default `/` points to the domain root, so an
-  app hosted under `/my-app/` should use `homepage_url = "/my-app/"`.
-* The default is now text only (`logo = NULL`). Supply your own logo explicitly.
-  `logo = "crown"` now errors: replace it with `NULL` or your own logo path and
-  suitable `logo_alt_text`. Use empty alternative text when the adjacent name
-  already identifies the logo; image-only identities need meaningful text.
-* Replace custom `govuk-header*` selectors with `govuk-generic-header*` and
-  `shinygovstyle-header*` selectors (see the Layout options vignette).
-  `classes` and `attributes` add custom hooks to the outer header. Image
-  dimensions now apply per image, and the hidden duplicate identity is removed.
-* The six deprecated header arguments retain their existing behaviour and
-  v1.0.0 removal schedule. Generic header does not remove branding from other
-  components, fonts, colours, favicons or footer imagery.
-
 # shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments

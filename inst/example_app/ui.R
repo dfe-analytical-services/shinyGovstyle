@@ -10,8 +10,7 @@ shinyGovstyle::gov_page(
   shinyGovstyle::skip_to_main(),
   shinyGovstyle::header(
     org_name = "Department for Education",
-    service_name = "shinyGovstyle showcase app",
-    homepage_url = "./"
+    service_name = "shinyGovstyle showcase app"
   ),
   shinyGovstyle::service_navigation(
     c(

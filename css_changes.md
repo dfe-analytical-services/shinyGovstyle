@@ -1,12 +1,5 @@
 These are the local changes to reapply when updating the GOV.UK Frontend CSS.
 
-The header extension lives separately in `inst/www/css/header-overrides.css`.
-Its `shinygovstyle-header*` classes preserve the centred service title, mobile
-stacking, image sizing constraints, system font, forced-colours focus outline
-and print layout. It uses the bundled Generic header styles unchanged. The
-previous `govuk-header*` layout overrides and global inline image styles have
-been removed; do not reapply them during an asset upgrade.
-
 Before making them, pretty-print the upstream minified CSS (keep the
 `.min.css` filename) so the in-place edits and future diffs are readable.
 

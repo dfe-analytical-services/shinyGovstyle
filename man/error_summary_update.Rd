@@ -4,22 +4,40 @@
 \alias{error_summary_update}
 \title{Error Summary Update Function}
 \usage{
-error_summary_update(inputId, error_list)
+error_summary_update(inputId, error_list, focus = TRUE)
 }
 \arguments{
 \item{inputId}{The id assigned to the component's root element. For Shiny
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{error_list}{An updated list of text values to be displayed in the
-error body}
+\item{error_list}{An updated character vector or list of messages to be
+displayed in the error body. Messages named with the id of an input link to
+that input, for example \code{c(name = "Enter your name")}. Plain strings are
+escaped; pass tags or \code{\link[shiny:HTML]{shiny::HTML()}} for markup.}
+
+\item{focus}{If \code{TRUE} (the default), move focus to the summary after
+updating it. Set to \code{FALSE} when the update is not the result of the user
+submitting a form, for example when clearing the list as they fix answers.}
 }
 \value{
-an update error summary box
+Called for its side effects; no return value
 }
 \description{
-This function changes the text that displays in the error summary box.
-Requires \code{shinyjs::useShinyjs()} to work.
+This function changes the messages that display in the error summary box
+and, by default, moves focus to the summary so screen reader and keyboard
+users are taken straight to the list of problems, as the GOV.UK Design
+System requires after a failed submission. Requires
+\code{shinyjs::useShinyjs()} to work.
+}
+\details{
+Name messages with the \code{inputId} of the control they are about to link
+them, as in \code{\link[=error_summary]{error_summary()}}. Inside a module, pass the bare ids (without
+\code{ns()}): both the summary's \code{inputId} and the link targets are namespaced
+for you, as with \code{\link[=error_on]{error_on()}}.
+
+The summary must be visible before it can take focus. If you show and hide
+it with \code{shinyjs}, call \code{shinyjs::show()} before \code{error_summary_update()}.
 }
 \examples{
 ui <- shinyGovstyle::gov_page(
@@ -32,8 +50,17 @@ ui <- shinyGovstyle::gov_page(
   shinyGovstyle::gov_main_layout(
     error_summary(
       inputId = "errorId",
-      error_title = "Error title",
-      error_list = c("error item1", "error item2")
+      error_title = "There is a problem",
+      error_list = c(
+        name = "Enter your full name",
+        contact = "Select how you would like to be contacted"
+      )
+    ),
+    shinyGovstyle::text_Input("name", "Full name"),
+    shinyGovstyle::radio_button_Input(
+      "contact",
+      "How would you like to be contacted?",
+      choices = c("Email", "Phone")
     )
   ),
   shinyGovstyle::button_Input("btn1", "Change error summary"),
@@ -44,7 +71,11 @@ server <- function(input, output, session) {
   shiny::observeEvent(input$btn1, {
     error_summary_update(
       "errorId",
-      c("error item1", "error item2", "error item3")
+      c(
+        name = "Enter your full name",
+        contact = "Select how you would like to be contacted",
+        "Check your answers before you continue"
+      )
     )
   },
   ignoreInit = TRUE

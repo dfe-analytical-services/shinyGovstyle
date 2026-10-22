@@ -1,5 +1,28 @@
 # shinyGovstyle (development version)
 
+## New features
+
+* `error_summary()` and `error_summary_update()` can now link each message to
+  the input it is about, as the GOV.UK Design System requires. Name the
+  messages with input ids, for example
+  `c(name = "Enter your name", dob = "Enter your date of birth")`. Selecting
+  a link moves focus to the input (the day field of a `date_Input()`, the
+  first option of a `radio_button_Input()` or `checkbox_Input()`) and scrolls
+  its label or legend into view. Unnamed messages are still shown as plain
+  text, so existing calls are unchanged. Inside a module,
+  `error_summary_update()` namespaces the link targets for you.
+* The error summary now wraps its title and messages in `role="alert"`,
+  matching the GOV.UK markup.
+
+## Behaviour changes
+
+* `error_summary_update()` now moves keyboard focus to the error summary
+  after updating it, so screen reader users hear the problems straight after
+  a failed submission. This is the GOV.UK behaviour, but it means focus
+  leaves the button the user pressed. Use `focus = FALSE` for updates that are
+  not the result of a submission, and make sure the summary is visible (for
+  example with `shinyjs::show()`) before updating it.
+
 ## Bug fixes
 
 * Form controls now connect their labels, hints and error messages for

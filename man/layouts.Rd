@@ -28,7 +28,10 @@ example}
 viewport, never narrower than standard), \code{"full"} (no max-width, so the
 container fills the viewport, with grid gutters also removed), or a CSS
 length (e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width.
-\code{gov_main_layout()} defaults to \code{"standard"}. \code{gov_row()} defaults to
+If you leave \code{width} unset, \code{gov_main_layout()} takes its width from
+\code{\link[=gov_page]{gov_page()}} (\code{"full"} unless you set \code{gov_page(width = ...)}), or is
+\code{"standard"} outside a \code{gov_page()}; set it to fix the main content's
+own width whatever the page's. \code{gov_row()} defaults to
 \code{NULL}, a plain grid row with no container of its own; give it a width
 to centre the row in its own container, for example \code{"standard"} so a
 text page such as a cookies page reads like a normal GOV.UK page inside

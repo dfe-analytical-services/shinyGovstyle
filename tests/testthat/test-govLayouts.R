@@ -65,9 +65,14 @@ test_that("gov_row width = 'standard' wraps the row in a standard container", {
     width = "standard"
   )
 
+  # shinygovstyle-row-container is what width-overrides.css hooks the
+  # nested centring and gutter rules onto
   expect_identical(
     htmltools::tagGetAttribute(row, "class"),
-    "govuk-width-container govuk-width-container--standard"
+    paste(
+      "govuk-width-container govuk-width-container--standard",
+      "shinygovstyle-row-container"
+    )
   )
   grid_row <- expect_has_tag(row, "govuk-grid-row")
   expect_has_tag(grid_row, "marker-child")

@@ -339,6 +339,22 @@ GOV.UK grid columns are floated on tablet and desktop screens, so the bottom mar
 
 Give `gov_row()` a `width` (for example `"standard"`) to also centre the row in its own container. This is useful for a text page inside a wider `gov_page()`; see [Content width vs page width](#content-width).
 
+A row with a width keeps GOV.UK's normal grid gutters, even on a `"full"` page where the other rows have theirs removed. Side-by-side columns in it get the usual 30px gap, as they would on a standard GOV.UK page:
+
+```{r, eval = FALSE}
+gov_page(
+  width = "full",
+  gov_main_layout(
+    gov_row(
+      width = "standard",
+      gov_box(size = "one-half", gov_text("Left column")),
+      gov_box(size = "one-half", gov_text("Right column"))
+    ),
+    govTable(my_wide_data)
+  )
+)
+```
+
 ### `gov_text()`
 
 A wrapper that produces a `<p class="govuk-body">` paragraph element. For full guidance on `gov_text()` and all other text functions, see the [Headings and text](headings-and-text.html) vignette.

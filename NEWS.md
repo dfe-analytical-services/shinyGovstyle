@@ -1,3 +1,12 @@
+# shinyGovstyle (development version)
+
+* `service_navigation_server()` now updates the active link and page title
+  when the tab is changed from the server, e.g. with `updateTabsetPanel()`.
+  You no longer need to call `update_service_navigation()` as well.
+* `service_navigation_server()` now clears the active link on pages that are
+  not in the navigation, such as footer pages, so screen readers no longer
+  announce the previous page as current.
+
 # shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments

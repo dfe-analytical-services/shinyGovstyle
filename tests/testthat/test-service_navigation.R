@@ -375,3 +375,93 @@ test_that("service_navigation_server cleans inputIds, not panel values", {
     }
   )
 })
+
+# Following the tabset --------------------------------------------------------
+
+# Runs service_navigation_server() with a session that records custom
+# messages (MockShinySession drops them). Starts on the first panel, then
+# moves to each of `tab_changes`.
+sync_messages <- function(link_to_panel, tab_changes = character()) {
+  state <- new.env(parent = emptyenv())
+  state$messages <- list()
+  local_mocked_bindings(
+    updateTabsetPanel = function(
+      session,
+      inputId, # nolint: object_name_linter.
+      selected
+    ) {
+      invisible(NULL)
+    },
+    .package = "shiny"
+  )
+
+  shiny::testServer(
+    function(input, output, session) {
+      recording_session <- list(
+        input = session$input,
+        sendCustomMessage = function(type, message) {
+          state$messages <- c(
+            state$messages,
+            list(list(type = type, message = message))
+          )
+          invisible(NULL)
+        }
+      )
+      service_navigation_server(
+        recording_session,
+        tabset_id = "tabs",
+        link_to_panel = link_to_panel
+      )
+    },
+    expr = {
+      for (panel in c(unname(link_to_panel[[1]]), tab_changes)) {
+        session$setInputs(tabs = panel) # nolint: object_usage_linter.
+      }
+    }
+  )
+  state$messages
+}
+
+test_that("a programmatic tab change moves the active link to that panel", {
+  messages <- sync_messages(
+    c(sn_one = "one", sn_two = "two"),
+    tab_changes = "two"
+  )
+
+  expect_length(messages, 1)
+  expect_identical(messages[[1]]$type, "sync_service_navigation")
+  # A list, so one link is still a JSON array
+  expect_identical(messages[[1]]$message, list("sn_two"))
+})
+
+test_that("the starting panel does not send a sync message", {
+  messages <- sync_messages(c(sn_one = "one", sn_two = "two"))
+  expect_length(messages, 0)
+})
+
+test_that("panels without a nav link send an empty sync to clear the nav", {
+  messages <- sync_messages(
+    c(sn_one = "one", sn_two = "two"),
+    tab_changes = "accessibility_panel"
+  )
+  # Empty, so the browser clears the nav
+  expect_length(messages, 1)
+  expect_identical(messages[[1]]$type, "sync_service_navigation")
+  expect_identical(messages[[1]]$message, list())
+})
+
+test_that("every link sharing a panel is sent, in link_to_panel order", {
+  messages <- sync_messages(
+    c(sn_one = "one", sn_two = "shared", sn_three = "shared"),
+    tab_changes = "shared"
+  )
+  expect_identical(messages[[1]]$message, list("sn_two", "sn_three"))
+})
+
+test_that("synced links use the cleaned inputIDs", {
+  messages <- sync_messages(
+    c("Page-One" = "one", "Page-Two" = "Panel-2"),
+    tab_changes = "Panel-2"
+  )
+  expect_identical(messages[[1]]$message, list("page_two"))
+})

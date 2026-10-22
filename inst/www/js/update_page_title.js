@@ -5,4 +5,6 @@
 
 Shiny.addCustomMessageHandler("update_page_title", function (title) {
   document.title = title;
+  // Stops the next nav sync overwriting this title
+  window.shinyGovstyleServerTitle = true;
 });

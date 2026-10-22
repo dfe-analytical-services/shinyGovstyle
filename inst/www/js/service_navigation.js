@@ -78,7 +78,7 @@ function clearActiveServiceNavLinks() {
   }
 }
 
-function setActiveServiceNavLink(link) {
+function setActiveServiceNavLink(link, keepTitle) {
   clearActiveServiceNavLinks();
 
   link.closest(
@@ -89,8 +89,14 @@ function setActiveServiceNavLink(link) {
   link.setAttribute("aria-current", "page");
   wrapActiveFallback(link);
 
-  applyAutoPageTitle(link);
+  if (!keepTitle) applyAutoPageTitle(link);
+  // Both flags only last until the nav next changes
+  window.shinyGovstyleServerTitle = false;
+  serverNavPending = false;
 }
+
+// Set by update_service_navigation() so the next sync keeps the app's choice
+var serverNavPending = false;
 
 // Allow programmatic update of active nav item from R server code
 Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
@@ -100,6 +106,37 @@ Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
   // that are not in the navigation
   if (link) {
     setActiveServiceNavLink(link);
+  } else {
+    clearActiveServiceNavLinks();
+  }
+  serverNavPending = true;
+});
+
+// Sent by service_navigation_server() when the tab changes, with the links
+// for the new panel (empty if it has none). Does nothing if the app already
+// set the nav or a matching link is active. Otherwise activates the first
+// link, or clears the nav if there isn't one.
+Shiny.addCustomMessageHandler("sync_service_navigation", function (inputIds) {
+  var keepTitle = window.shinyGovstyleServerTitle === true;
+  window.shinyGovstyleServerTitle = false;
+  var appChoseNav = serverNavPending;
+  serverNavPending = false;
+  if (appChoseNav) return;
+  var first = null;
+  for (var i = 0; i < inputIds.length; i++) {
+    var link = findServiceNavLink(inputIds[i]);
+    if (!link) continue;
+    if (
+      link.closest(".govuk-service-navigation__item").classList.contains(
+        "govuk-service-navigation__item--active"
+      )
+    ) {
+      return;
+    }
+    if (!first) first = link;
+  }
+  if (first) {
+    setActiveServiceNavLink(first, keepTitle);
   } else {
     clearActiveServiceNavLinks();
   }

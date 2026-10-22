@@ -5,7 +5,7 @@ shinyGovstyle::gov_page(
     "Interactive showcase of shinyGovstyle, an R package of GOV.UK Design",
     "System components for Shiny apps: inputs, tables, tabs, banners and more."
   ),
-  favicon = TRUE,
+  favicon = "govuk",
   width = demo_width,
 
   # Canonical and Open Graph tags: the dev app points at the CRAN app so the

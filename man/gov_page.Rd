@@ -11,7 +11,7 @@ gov_page(
   description = NULL,
   width = "full",
   theme = bslib::bs_theme(),
-  favicon = FALSE
+  favicon = c("default", "govuk", "none")
 )
 }
 \arguments{
@@ -45,12 +45,18 @@ that sets its own \code{width} always overrides this default.}
 \item{theme}{A \code{bslib::bs_theme()} object, passed straight to
 \code{bslib::page_fluid()}.}
 
-\item{favicon}{Logical. When \code{TRUE}, adds the GOV.UK favicon, Apple touch
-icon and theme colour, using the icon files shipped with the package, so
-the browser tab and bookmarks show the GOV.UK crown. Defaults to \code{FALSE}
-because GOV.UK asks that its crown branding is only used by services on
-GOV.UK; leave it off, or add your own icons with \code{shiny::tags$head()}, if
-that doesn't apply to your app.}
+\item{favicon}{Which browser tab icon (favicon) and theme colour to add.
+One of:
+\itemize{
+\item \code{"default"} (the default): a plain GOV.UK blue square with no crown, so
+every app gets a tidy icon instead of the browser's blank page, without
+using GOV.UK branding.
+\item \code{"govuk"}: the GOV.UK crown icon set from the GOV.UK page template. Only
+use this if your service is on GOV.UK: GOV.UK asks that its crown
+branding isn't used elsewhere.
+\item \code{"none"}: no icon tags, for when you add your own with
+\code{shiny::tags$head()}.
+}}
 }
 \value{
 a page HTML shiny tag object

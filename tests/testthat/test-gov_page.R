@@ -131,27 +131,33 @@ test_that("gov_page carries the package's base dependencies", {
   expect_true("update_page_title" %in% dep_names)
 })
 
-test_that("favicon links are omitted by default", {
-  page <- gov_page(shiny::tags$p("hi"))
-  head_html <- as.character(htmltools::renderTags(page)$head)
-  expect_false(grepl("favicon", head_html, fixed = TRUE))
-  expect_false(grepl("theme-color", head_html, fixed = TRUE))
+# href of each <link> in the page, named by its rel
+icon_hrefs <- function(page) {
+  links <- find_tags_by_name(page, "link")
+  stats::setNames(
+    vapply(links, htmltools::tagGetAttribute, character(1), "href"),
+    vapply(links, htmltools::tagGetAttribute, character(1), "rel")
+  )
+}
+
+test_that("favicon defaults to the crown-free icon set", {
+  hrefs <- icon_hrefs(gov_page(shiny::tags$p("hi")))
+  expect_identical(
+    unname(hrefs[names(hrefs) == "icon"]),
+    c(
+      "shinyGovstyle/images/favicon-default.ico",
+      "shinyGovstyle/images/favicon-default.svg"
+    )
+  )
+  expect_identical(
+    unname(hrefs["apple-touch-icon"]),
+    "shinyGovstyle/images/favicon-default-180.png"
+  )
+  expect_false(any(grepl("govuk-icon", hrefs, fixed = TRUE)))
 })
 
-test_that("favicon = TRUE adds the GOV.UK icon set from the package", {
-  page <- gov_page(favicon = TRUE, shiny::tags$p("hi"))
-  links <- find_tags_by_name(page, "link")
-  hrefs <- vapply(
-    links,
-    function(l) htmltools::tagGetAttribute(l, "href"),
-    character(1)
-  )
-  names(hrefs) <- vapply(
-    links,
-    function(l) htmltools::tagGetAttribute(l, "rel"),
-    character(1)
-  )
-
+test_that("favicon = 'govuk' adds the GOV.UK crown icon set", {
+  hrefs <- icon_hrefs(gov_page(favicon = "govuk", shiny::tags$p("hi")))
   expect_identical(
     unname(hrefs[names(hrefs) == "icon"]),
     c("shinyGovstyle/images/favicon.ico", "shinyGovstyle/images/favicon.svg")
@@ -164,30 +170,44 @@ test_that("favicon = TRUE adds the GOV.UK icon set from the package", {
     unname(hrefs["apple-touch-icon"]),
     "shinyGovstyle/images/govuk-icon-180.png"
   )
-  head_html <- as.character(htmltools::renderTags(page)$head)
-  expect_match(
-    head_html,
-    '<meta name="theme-color" content="#1d70b8"/>',
-    fixed = TRUE
-  )
 })
 
-test_that("favicon files exist in the package", {
-  for (f in c(
-    "favicon.ico",
-    "favicon.svg",
-    "govuk-icon-mask.svg",
-    "govuk-icon-180.png"
-  )) {
-    expect_true(
-      file.exists(system.file("www", "images", f, package = "shinyGovstyle")),
-      label = f
+test_that("both icon sets set the GOV.UK theme colour", {
+  for (favicon in c("default", "govuk")) {
+    head_html <- as.character(
+      htmltools::renderTags(gov_page(favicon = favicon))$head
+    )
+    expect_match(
+      head_html,
+      '<meta name="theme-color" content="#1d70b8"/>',
+      fixed = TRUE,
+      label = favicon
     )
   }
 })
 
-test_that("a non-logical favicon errors", {
-  expect_error(gov_page(favicon = "yes"))
-  expect_error(gov_page(favicon = NA))
-  expect_error(gov_page(favicon = c(TRUE, FALSE)))
+test_that("favicon = 'none' adds no icon or theme colour tags", {
+  page <- gov_page(favicon = "none", shiny::tags$p("hi"))
+  expect_length(find_tags_by_name(page, "link"), 0)
+  head_html <- as.character(htmltools::renderTags(page)$head)
+  expect_false(grepl("theme-color", head_html, fixed = TRUE))
+})
+
+test_that("every favicon file referenced exists in the package", {
+  hrefs <- c(
+    icon_hrefs(gov_page()),
+    icon_hrefs(gov_page(favicon = "govuk"))
+  )
+  for (href in hrefs) {
+    file <- sub("^shinyGovstyle/", "", href)
+    expect_true(
+      file.exists(system.file("www", file, package = "shinyGovstyle")),
+      label = href
+    )
+  }
+})
+
+test_that("an unknown favicon option errors", {
+  expect_error(gov_page(favicon = "crown"), "should be one of")
+  expect_error(gov_page(favicon = TRUE))
 })

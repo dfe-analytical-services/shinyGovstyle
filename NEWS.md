@@ -1,9 +1,9 @@
 # shinyGovstyle (development version)
 
-* `gov_page()` has a new `favicon` argument. Set `favicon = TRUE` to add the
-  GOV.UK favicon, Apple touch icon and theme colour from the icon files
-  already shipped with the package. It is off by default because GOV.UK asks
-  that its crown branding is only used by services on GOV.UK.
+* `gov_page()` now adds a browser tab icon (favicon) by default: a plain
+  GOV.UK blue square with no crown. Use the new `favicon` argument to switch
+  to the GOV.UK crown icon set (`favicon = "govuk"`, only for services on
+  GOV.UK) or to leave icons out and add your own (`favicon = "none"`).
 
 * The showcase app and package documentation now have separate CRAN release
   and development versions. The [showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/)

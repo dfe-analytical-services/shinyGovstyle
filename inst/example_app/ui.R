@@ -8,11 +8,14 @@ shinyGovstyle::gov_page(
   favicon = "govuk",
   width = demo_width,
 
-  # Canonical and Open Graph tags: the dev app points at the CRAN app so the
-  # two aren't treated as duplicates, and shared links get a preview card
+  # Canonical, Open Graph and Twitter card tags: the dev app points at the
+  # CRAN app so the two aren't treated as duplicates, and shared links get a
+  # large preview card
   shiny::tags$head(
     shiny::tags$link(rel = "canonical", href = app_url),
     shiny::tags$meta(property = "og:type", content = "website"),
+    shiny::tags$meta(property = "og:site_name", content = "shinyGovstyle"),
+    shiny::tags$meta(property = "og:locale", content = "en_GB"),
     shiny::tags$meta(property = "og:url", content = app_url),
     shiny::tags$meta(
       property = "og:title",
@@ -31,7 +34,14 @@ shinyGovstyle::gov_page(
         app_url,
         "shinyGovstyle/images/govuk-opengraph-image.png"
       )
-    )
+    ),
+    shiny::tags$meta(property = "og:image:width", content = "1200"),
+    shiny::tags$meta(property = "og:image:height", content = "630"),
+    shiny::tags$meta(
+      property = "og:image:alt",
+      content = "GOV.UK logo: a white crown and wordmark on a blue background"
+    ),
+    shiny::tags$meta(name = "twitter:card", content = "summary_large_image")
   ),
 
   shinyGovstyle::cookieBanner("shinyGovstyle component showcase"),

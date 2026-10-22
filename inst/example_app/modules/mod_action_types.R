@@ -1,6 +1,6 @@
 mod_action_types_ui <- function(id) {
   shiny::tagList(
-    shinyGovstyle::heading_text("Action types", size = "l"),
+    shinyGovstyle::heading_text("Action Types", size = "l"),
     shinyGovstyle::label_hint(
       "label3",
       "These are some examples of the types of user

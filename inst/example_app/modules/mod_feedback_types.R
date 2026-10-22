@@ -1,6 +1,6 @@
 mod_feedback_types_ui <- function(id) {
   shiny::tagList(
-    shinyGovstyle::heading_text("Feedback page", size = "l"),
+    shinyGovstyle::heading_text("Feedback types", size = "l"),
     shinyGovstyle::label_hint(
       shiny::NS(id, "label-feedback"),
       "These are some examples of the types of user

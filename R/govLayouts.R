@@ -21,7 +21,8 @@
 #'   `NULL`, a plain grid row with no container of its own; give it a width
 #'   to centre the row in its own container, for example `"standard"` so a
 #'   text page such as a cookies page reads like a normal GOV.UK page inside
-#'   a full-width `gov_page()`.
+#'   a full-width `gov_page()`. A `gov_row(width = "full")` inside a page
+#'   lines up with the rows around it, without adding a second side gutter.
 #' @param ... include the components of the UI that you want within the
 #' main page. These components are made to flow through each other. See
 #' example

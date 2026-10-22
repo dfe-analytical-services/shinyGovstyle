@@ -81,6 +81,10 @@ shinyGovstyle::gov_page(
       `Cookies` = "cookies_footer_link",
       `GitHub repository` = paste(
         "https://github.com/dfe-analytical-services/shinyGovstyle"
+      ),
+      `Example app source code` = paste0(
+        "https://github.com/dfe-analytical-services/shinyGovstyle/",
+        "tree/main/inst/example_app"
       )
     )
   )

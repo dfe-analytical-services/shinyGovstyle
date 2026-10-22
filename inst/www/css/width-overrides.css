@@ -109,6 +109,15 @@
     }
 }
 
+/* A gov_row(width = "full") nested inside a page container already sits
+   within that container's side gutter, so drop the "full" padding as well
+   as the margin. Otherwise it stacks a second 15px/30px gutter and the row
+   is indented further than the rows around it. */
+.govuk-width-container .shinygovstyle-row-container.govuk-width-container--full {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 /* shiny::fluidPage()/bslib::page_fluid() wrap the page in Bootstrap's
    .container-fluid, which adds its own side padding on top of
    .govuk-width-container's margin. Zero it, but only where a

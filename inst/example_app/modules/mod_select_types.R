@@ -62,6 +62,31 @@ mod_select_types_ui <- function(id) {
       ),
       select_value = c("published", "updated", "view", "comments")
     ),
+    shinyGovstyle::heading_text(
+      "select_Input (with hint and error)",
+      size = "s",
+      level = 2
+    ),
+    shinyGovstyle::select_Input(
+      inputId = shiny::NS(id, "location"),
+      label = "Where do you live?",
+      select_text = c(
+        "Choose location",
+        "England",
+        "Northern Ireland",
+        "Scotland",
+        "Wales"
+      ),
+      select_value = c("", "england", "northern-ireland", "scotland", "wales"),
+      hint_label = "Choose the country you live in. Submit without choosing
+                    to see the error.",
+      error = TRUE
+    ),
+    shinyGovstyle::button_Input(
+      shiny::NS(id, "location_submit"),
+      "Submit location",
+      type = "secondary"
+    ),
     shinyGovstyle::heading_text("file_Input", size = "s", level = 2),
     shinyGovstyle::file_Input(
       inputId = shiny::NS(id, "file1"),
@@ -77,6 +102,17 @@ mod_select_types_ui <- function(id) {
 
 mod_select_types_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
+    shiny::observeEvent(input$location_submit, {
+      if (input$location == "") {
+        shinyGovstyle::error_on(
+          "location",
+          error_message = "Select the country you live in"
+        )
+      } else {
+        shinyGovstyle::error_off("location")
+      }
+    })
+
     list(
       next_page = shiny::reactive(input$text_types_next)
     )

@@ -38,16 +38,11 @@ text_area_Input <- # nolint
     error_message = NULL,
     word_limit = NULL
   ) {
-    described_by <- c()
-    if (!is.null(word_limit)) {
-      described_by <- c(described_by, paste0(inputId, "-info"))
-    }
-    if (!is.null(hint_label)) {
-      described_by <- c(described_by, govuk_hint_id(inputId))
-    }
-    if (error == TRUE) {
-      described_by <- c(described_by, govuk_error_id(inputId))
-    }
+    described_by <- govuk_described_by(
+      inputId,
+      hint_label,
+      extra_ids = if (!is.null(word_limit)) paste0(inputId, "-info")
+    )
 
     word_limit_text <- if (!is.null(word_limit)) {
       paste("You can enter up to", word_limit, "words")
@@ -97,9 +92,7 @@ text_area_Input <- # nolint
           "govuk-textarea"
         },
         rows = row_no,
-        `aria-describedby` = if (length(described_by) > 0) {
-          paste(described_by, collapse = " ")
-        }
+        `aria-describedby` = described_by
       ),
       if (!is.null(word_limit)) {
         shiny::tagList(

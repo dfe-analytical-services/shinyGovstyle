@@ -1,3 +1,26 @@
+# shinyGovstyle (development version)
+
+## New features
+
+* `select_Input()` gains `hint_label`, `error` and `error_message` arguments,
+  matching `text_Input()`. The hint is announced with the select, and
+  `error_on()` / `error_off()` now style an invalid select with GOV.UK's
+  `govuk-select--error` class instead of `govuk-input--error`.
+
+## Bug fixes
+
+* `error_on()` and `error_off()` now style an invalid `text_area_Input()` with
+  GOV.UK's `govuk-textarea--error` class instead of `govuk-input--error`, and
+  apply their error classes to controls inside Shiny modules.
+
+* Form controls now connect their labels, hints and error messages for
+  assistive technology. `text_Input()` and `input_field()` labels are linked
+  to their inputs, `text_Input()` hints are announced with the input (and an
+  empty hint is no longer rendered), and `file_Input()` takes its `label` as
+  its accessible name instead of "Choose file". Hidden error messages are no
+  longer announced before an error is raised: `error_on()` and `error_off()`
+  now add and remove the error from the control's description.
+
 # shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments

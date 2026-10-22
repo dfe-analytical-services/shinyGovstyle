@@ -107,3 +107,62 @@ test_that("form group children appear in GOV.UK order", {
     )
   )
 })
+
+test_that("label is programmatically associated with the textarea", {
+  text_area_check <- text_area_Input("input1", "Test area")
+
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_tag(text_area_check, "govuk-label"),
+      "for"
+    ),
+    "input1"
+  )
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_tag(text_area_check, "govuk-textarea"),
+      "id"
+    ),
+    "input1"
+  )
+})
+
+test_that("hint is referenced by aria-describedby only when given", {
+  with_hint <- text_area_Input("input1", "Test area", hint_label = "Hint")
+  without_hint <- text_area_Input("input1", "Test area")
+
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_tag(with_hint, "govuk-textarea"),
+      "aria-describedby"
+    ),
+    "input1-hint"
+  )
+  expect_null(
+    htmltools::tagGetAttribute(
+      find_tag(without_hint, "govuk-textarea"),
+      "aria-describedby"
+    )
+  )
+})
+
+test_that("hidden error id is never in the rendered aria-describedby", {
+  # error_on() adds the error id at runtime; rendering it up front would make
+  # screen readers announce the hidden error before it is raised.
+  text_area_check <- text_area_Input(
+    "input1",
+    "Test area",
+    hint_label = "Hint",
+    error = TRUE,
+    error_message = "Test error",
+    word_limit = 300
+  )
+
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_tag(text_area_check, "govuk-textarea"),
+      "aria-describedby"
+    ),
+    "input1-info input1-hint"
+  )
+})

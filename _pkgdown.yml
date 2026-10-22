@@ -1,4 +1,19 @@
 url: https://dfe-analytical-services.github.io/shinyGovstyle
+
+development:
+  mode: auto
+
+navbar:
+  structure:
+    left: [intro, reference, articles, tutorials, showcase, news]
+  components:
+    showcase:
+      text: Showcase
+      menu:
+      - text: CRAN release
+        href: https://department-for-education.shinyapps.io/shinygovstyle-example-app/
+      - text: Development version
+        href: https://department-for-education.shinyapps.io/shinygovstyle-example-app-dev/
 template:
   bootstrap: 5
   bslib:

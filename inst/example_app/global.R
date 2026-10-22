@@ -1,5 +1,8 @@
 # Deployed at
+# CRAN release:
 # https://department-for-education.shinyapps.io/shinygovstyle-example-app/
+# Development version (main):
+# https://department-for-education.shinyapps.io/shinygovstyle-example-app-dev/
 
 library(bslib)
 library(shinyGovstyle) # needs to come after as there's name clashes / masking

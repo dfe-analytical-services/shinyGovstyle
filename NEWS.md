@@ -1,3 +1,13 @@
+# shinyGovstyle (development version)
+
+* The showcase app and package documentation now have separate CRAN release
+  and development versions. The [showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/)
+  and [documentation](https://dfe-analytical-services.github.io/shinyGovstyle/)
+  match the latest CRAN release, while the
+  [development showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app-dev/)
+  and [development documentation](https://dfe-analytical-services.github.io/shinyGovstyle/dev/)
+  follow the `main` branch.
+
 # shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments

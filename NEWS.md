@@ -235,6 +235,19 @@ deprecated keeps working in this release.
 * `govTabs` now includes full ARIA roles (`tablist`, `tab`, `tabpanel`) and
   attributes (`aria-selected`, `aria-controls`, `aria-labelledby`) so screen
   readers correctly identify and navigate tabs.
+* `govTabs()` now shows the first tab's panel when the page loads.
+  Previously every panel started hidden, even though the first tab was
+  marked as selected.
+* Several `govTabs()` on one page now work independently. Every tab and
+  panel id is now prefixed with `inputId` (for example
+  `<inputId>-tab-past-day` and `<inputId>-panel-past-day`), so two instances
+  with the same group values no longer produce duplicate ids, and clicking a
+  tab in one no longer changes the other. The wrapper now has
+  `id = inputId` and the GOV.UK `govuk-tabs` class. The old ids and `name`
+  attributes are gone, so update any custom CSS or JavaScript that used
+  them.
+* `govTabs()` now keeps table rows in the order they appear in `df`.
+  Previously each tab's rows were reversed.
 
 # shinyGovstyle 0.2.0
 

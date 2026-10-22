@@ -1,5 +1,10 @@
 # shinyGovstyle (development version)
 
+* `gov_page()` has a new `favicon` argument. Set `favicon = TRUE` to add the
+  GOV.UK favicon, Apple touch icon and theme colour from the icon files
+  already shipped with the package. It is off by default because GOV.UK asks
+  that its crown branding is only used by services on GOV.UK.
+
 * The showcase app and package documentation now have separate CRAN release
   and development versions. The [showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/)
   and [documentation](https://dfe-analytical-services.github.io/shinyGovstyle/)

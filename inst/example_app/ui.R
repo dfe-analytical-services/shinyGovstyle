@@ -1,8 +1,38 @@
 shinyGovstyle::gov_page(
   theme = bslib::bs_theme(version = 5, brand = FALSE),
-  title = "Select Types | shinyGovstyle",
-  description = "A showcase of the components available in shinyGovstyle",
+  title = "Select Types | shinyGovstyle: GOV.UK Design System for R Shiny",
+  description = paste(
+    "Interactive showcase of shinyGovstyle, an R package of GOV.UK Design",
+    "System components for Shiny apps: inputs, tables, tabs, banners and more."
+  ),
+  favicon = TRUE,
   width = demo_width,
+
+  # Canonical and Open Graph tags: the dev app points at the CRAN app so the
+  # two aren't treated as duplicates, and shared links get a preview card
+  shiny::tags$head(
+    shiny::tags$link(rel = "canonical", href = app_url),
+    shiny::tags$meta(property = "og:type", content = "website"),
+    shiny::tags$meta(property = "og:url", content = app_url),
+    shiny::tags$meta(
+      property = "og:title",
+      content = "shinyGovstyle: GOV.UK Design System for R Shiny"
+    ),
+    shiny::tags$meta(
+      property = "og:description",
+      content = paste(
+        "Interactive showcase of GOV.UK Design System components for R",
+        "Shiny apps."
+      )
+    ),
+    shiny::tags$meta(
+      property = "og:image",
+      content = paste0(
+        app_url,
+        "shinyGovstyle/images/govuk-opengraph-image.png"
+      )
+    )
+  ),
 
   shinyGovstyle::cookieBanner("shinyGovstyle component showcase"),
   shinyjs::useShinyjs(),
@@ -21,7 +51,7 @@ shinyGovstyle::gov_page(
       "Feedback types" = "sn_feedback_types",
       "Cookies" = "sn_cookies"
     ),
-    page_title_suffix = "shinyGovstyle"
+    page_title_suffix = "shinyGovstyle: GOV.UK Design System for R Shiny"
   ),
 
   shinyGovstyle::phase_banner(

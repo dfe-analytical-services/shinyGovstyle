@@ -34,6 +34,12 @@
 #' that sets its own `width` always overrides this default.
 #' @param theme A `bslib::bs_theme()` object, passed straight to
 #' `bslib::page_fluid()`.
+#' @param favicon Logical. When `TRUE`, adds the GOV.UK favicon, Apple touch
+#' icon and theme colour, using the icon files shipped with the package, so
+#' the browser tab and bookmarks show the GOV.UK crown. Defaults to `FALSE`
+#' because GOV.UK asks that its crown branding is only used by services on
+#' GOV.UK; leave it off, or add your own icons with `shiny::tags$head()`, if
+#' that doesn't apply to your app.
 #' @return a page HTML shiny tag object
 #' @family Govstyle page structure
 #' @export
@@ -61,8 +67,11 @@ gov_page <- function(
   lang = "en",
   description = NULL,
   width = "full",
-  theme = bslib::bs_theme()
+  theme = bslib::bs_theme(),
+  favicon = FALSE
 ) {
+  stopifnot(is.logical(favicon), length(favicon) == 1, !is.na(favicon))
+
   page_width <- validate_width_tier(width)
   page_style <- if (page_width == "custom") {
     paste0("--govuk-page-max-width: ", width, ";")
@@ -79,6 +88,7 @@ gov_page <- function(
         shiny::tags$meta(name = "description", content = description)
       )
     },
+    if (favicon) govuk_favicon_tags(),
     shiny::tags$div(
       `data-govuk-page-width` = page_width,
       style = page_style,
@@ -87,4 +97,32 @@ gov_page <- function(
   )
 
   attachDependency(page)
+}
+
+# The icon set from the GOV.UK Frontend page template, pointed at the copies
+# shipped in inst/www/images/ (served under the shinyGovstyle/ resource path)
+govuk_favicon_tags <- function() {
+  shiny::tags$head(
+    shiny::tags$link(
+      rel = "icon",
+      sizes = "48x48",
+      href = "shinyGovstyle/images/favicon.ico"
+    ),
+    shiny::tags$link(
+      rel = "icon",
+      sizes = "any",
+      href = "shinyGovstyle/images/favicon.svg",
+      type = "image/svg+xml"
+    ),
+    shiny::tags$link(
+      rel = "mask-icon",
+      href = "shinyGovstyle/images/govuk-icon-mask.svg",
+      color = "#1d70b8"
+    ),
+    shiny::tags$link(
+      rel = "apple-touch-icon",
+      href = "shinyGovstyle/images/govuk-icon-180.png"
+    ),
+    shiny::tags$meta(name = "theme-color", content = "#1d70b8")
+  )
 }

@@ -103,6 +103,21 @@ The `main` branch acts as the development version of the package for users, rele
 
 We make use of [GitHub's CODEOWNERS file](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) to set default reviewers for the repo and for specific parts of the code.
 
+## Releases and deployments
+
+The showcase app and the pkgdown site each have a CRAN release version and a development version:
+
+- The [CRAN showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/) installs shinyGovstyle from CRAN and is redeployed weekly, or whenever the "Example app deploy (CRAN)" workflow is run manually.
+- The [development showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app-dev/) installs shinyGovstyle from GitHub and is redeployed on every push to `main`.
+- The [root documentation site](https://dfe-analytical-services.github.io/shinyGovstyle/) is rebuilt when a GitHub release is published.
+- The [development documentation site](https://dfe-analytical-services.github.io/shinyGovstyle/dev/) is rebuilt on every push to `main`. pkgdown's development mode is set to `auto`, so a version such as `0.3.0.9000` builds to `/dev/` and a release version such as `0.3.0` builds to the root.
+
+After a new version is accepted on CRAN:
+
+1. Publish a GitHub release for it with `usethis::use_github_release()`, so pkgdown rebuilds the root documentation site.
+2. Run the "Example app deploy (CRAN)" workflow manually, or wait for the weekly run.
+3. Bump `main` back to a development version with `usethis::use_dev_version()`.
+
 ## CSS changes
 
 All changes made to the main `inst/www/css/govuk-frontend-x.x.x.min.css` file should be logged in the `css_changes.md` file, this way they can easily be reapplied whenever the CSS assests from GOV.UK are updated.

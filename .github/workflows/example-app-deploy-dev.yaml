@@ -3,7 +3,7 @@ on:
     branches:
       - main
 
-name: Example app deploy
+name: Example app deploy (dev)
 
 jobs:
   deployShiny:
@@ -30,4 +30,4 @@ jobs:
           renv::install("dfe-analytical-services/shinyGovstyle")
           renv::install("rsconnect")
           rsconnect::setAccountInfo(name = 'department-for-education', token = '${{secrets.SHINYAPPS_TOKEN}}', secret = '${{secrets.SHINYAPPS_SECRET}}')
-          rsconnect::deployApp(system.file(package = "shinyGovstyle", "example_app"), appName = "shinygovstyle-example-app", forceUpdate = TRUE)
+          rsconnect::deployApp(system.file(package = "shinyGovstyle", "example_app"), appName = "shinygovstyle-example-app-dev", forceUpdate = TRUE)

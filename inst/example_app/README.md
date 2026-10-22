@@ -1,7 +1,9 @@
 # shinyGovstyle example app
 
-A Shiny app that showcases the components available in the `shinyGovstyle` package. The main branch version of this app is deployed at:
-https://department-for-education.shinyapps.io/shinygovstyle-example-app/
+A Shiny app that showcases the components available in the `shinyGovstyle` package. It is deployed in two versions:
+
+- the latest CRAN release: https://department-for-education.shinyapps.io/shinygovstyle-example-app/
+- the development version from the `main` branch: https://department-for-education.shinyapps.io/shinygovstyle-example-app-dev/
 
 ## Code structure
 

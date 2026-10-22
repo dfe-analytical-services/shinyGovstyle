@@ -1,0 +1,28 @@
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+name: Example app deploy (CRAN)
+
+jobs:
+  deployShiny:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+          r-version: 4.4.2
+
+      - name: Load packages and push to shinyapps.io
+        shell: Rscript {0}
+        run: |
+          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+          if (!requireNamespace("progress", quietly = TRUE)) install.packages("progress")
+          renv::install("shinyjs")
+          renv::install("shinytest2")
+          renv::install("shinyGovstyle")
+          renv::install("rsconnect")
+          rsconnect::setAccountInfo(name = 'department-for-education', token = '${{secrets.SHINYAPPS_TOKEN}}', secret = '${{secrets.SHINYAPPS_SECRET}}')
+          rsconnect::deployApp(system.file(package = "shinyGovstyle", "example_app"), appName = "shinygovstyle-example-app", forceUpdate = TRUE)

@@ -1,15 +1,15 @@
 test_that("service_name renders with correct class", {
   h <- header(org_name = "Test", service_name = "My Service")
   html <- as.character(h)
-  expect_true(grepl("govuk-header__service-name", html))
+  expect_true(grepl("shinygovstyle-header__service-name", html))
   expect_true(grepl("My Service", html))
 })
 
 
-test_that("omitting service_name omits header__content div", {
+test_that("omitting service_name omits the service title", {
   h <- header(org_name = "Test")
   html <- as.character(h)
-  expect_false(grepl("govuk-header__content", html))
+  expect_false(grepl("shinygovstyle-header__service-name", html))
 })
 
 
@@ -102,13 +102,12 @@ test_that("warning when logo used without logo_alt_text", {
 })
 
 
-test_that("crown logo renders SVG and no img", {
-  h <- header(org_name = "Test", logo = "crown")
-  html <- as.character(h)
-  expect_true(grepl("<svg", html))
-  expect_false(grepl("<img", html))
+test_that("crown shortcut errors with migration guidance", {
+  expect_error(
+    header(org_name = "Test", logo = "crown"),
+    "Use `logo = NULL`.*own logo path"
+  )
 })
-
 
 test_that("custom logo renders img with correct src and alt", {
   h <- header(
@@ -128,35 +127,6 @@ test_that("NULL logo renders no img or svg", {
   html <- as.character(h)
   expect_false(grepl("<img", html))
   expect_false(grepl("<svg", html))
-})
-
-
-test_that("no mirror logo is rendered when service_name is omitted", {
-  h <- header(org_name = "Test")
-  expect_no_tag(h, "govuk-header__logo--mirror")
-})
-
-
-test_that("mirror logo is rendered aria-hidden when service_name is set", {
-  h <- header(org_name = "Test", service_name = "My Service")
-  mirror <- expect_has_tag(h, "govuk-header__logo--mirror")
-  expect_identical(htmltools::tagGetAttribute(mirror, "aria-hidden"), "true")
-})
-
-
-test_that("mirror logo repeats the same org_name and logo as the real one", {
-  h <- header(
-    org_name = "Test",
-    service_name = "My Service",
-    logo = "path/to/logo.png",
-    logo_alt_text = "My Logo"
-  )
-  logos <- find_tags(h, "govuk-header__logo")
-  expect_length(logos, 2L)
-  expect_identical(
-    as.character(logos[[1L]]$children),
-    as.character(logos[[2L]]$children)
-  )
 })
 
 
@@ -217,5 +187,140 @@ test_that("deprecated header() arguments still map to their replacement", {
   expect_identical(
     as.character(header(main_text = "Org", secondary_text = "Svc")),
     as.character(header(org_name = "Org", service_name = "Svc"))
+  )
+})
+
+test_that("Generic header has one landmark and one linked identity", {
+  h <- header("Organisation", "Service", attributes = list(id = "site-header"))
+  expect_identical(h$name, "header")
+  expect_identical(h$attribs$role, "banner")
+  expect_has_tag(h, "govuk-generic-header")
+  expect_has_tag(h, "govuk-generic-header__container")
+  expect_has_tag(h, "govuk-generic-header__logo")
+  expect_length(find_tags_by_name(h, "header"), 1L)
+  expect_length(find_tags_by_name(h, "a"), 1L)
+  expect_no_tag(h, "govuk-header")
+  link <- find_tag_required(h, "govuk-generic-header__homepage-link")
+  expect_identical(link$attribs$href, "/")
+  expect_identical(
+    tag_text(link, "shinygovstyle-header__organisation"),
+    "Organisation"
+  )
+  expect_no_tag(link, "shinygovstyle-header__service-name")
+  expect_identical(tag_text(h, "shinygovstyle-header__service-name"), "Service")
+  expect_length(find_tags_by_name(h, "img"), 0L)
+  expect_identical(h$attribs$id, "site-header")
+})
+
+test_that("the organisation identity is never duplicated", {
+  h <- header("Organisation", "Service", logo = "logo.png", logo_alt_text = "")
+  expect_length(find_tags(h, "shinygovstyle-header__organisation"), 1L)
+  expect_length(find_tags_by_name(h, "img"), 1L)
+  expect_false(grepl("mirror", as.character(h), fixed = TRUE))
+})
+
+test_that("homepage and custom attributes are configurable and escaped", {
+  h <- header(
+    '<Organisation> & "name"',
+    '<Service> & "name"',
+    homepage_url = '/my-app/?a=1&b="two"',
+    classes = "my-header brand-header",
+    attributes = list(id = "site-header", `data-brand` = '<brand> & "name"')
+  )
+  expect_has_tag(h, "my-header")
+  expect_has_tag(h, "brand-header")
+  expect_identical(h$attribs$`data-brand`, '<brand> & "name"')
+  html <- as.character(h)
+  expect_match(html, "&lt;Organisation&gt; &amp;", fixed = TRUE)
+  expect_match(html, "&lt;Service&gt; &amp;", fixed = TRUE)
+  expect_match(html, 'href="/my-app/?a=1&amp;b=&quot;two&quot;"', fixed = TRUE)
+  expect_match(
+    html,
+    'data-brand="&lt;brand&gt; &amp; &quot;name&quot;"',
+    fixed = TRUE
+  )
+})
+
+test_that("image-only and text-only identities name the link", {
+  image <- header(
+    NULL,
+    logo = "logo.png",
+    logo_alt_text = "Example organisation"
+  )
+  expect_no_tag(image, "shinygovstyle-header__organisation")
+  expect_identical(
+    find_tag_required(image, "shinygovstyle-header__image")$attribs$alt,
+    "Example organisation"
+  )
+  text <- header("Example organisation", logo = NULL)
+  expect_identical(
+    tag_text(text, "shinygovstyle-header__organisation"),
+    "Example organisation"
+  )
+  expect_error(header(NULL, logo = NULL), "name the homepage link")
+  expect_error(
+    header("", logo = "logo.png", logo_alt_text = ""),
+    "name the homepage link"
+  )
+  expect_error(
+    header(" ", logo = "logo.png", logo_alt_text = " "),
+    "name the homepage link"
+  )
+})
+
+test_that("image dimensions belong to each image, with no global inline CSS", {
+  h1 <- header("One", logo = "one.png", logo_width = 100, logo_height = 50)
+  h2 <- header(
+    "Two",
+    logo = "two.png",
+    logo_width = "5rem",
+    logo_height = "2rem"
+  )
+  expect_match(
+    find_tag_required(h1, "shinygovstyle-header__image")$attribs$style,
+    "width:100px;height:50px;",
+    fixed = TRUE
+  )
+  expect_match(
+    find_tag_required(h2, "shinygovstyle-header__image")$attribs$style,
+    "width:5rem;height:2rem;",
+    fixed = TRUE
+  )
+  expect_length(find_tags_by_name(h1, "style"), 0L)
+  expect_length(find_tags_by_name(h2, "style"), 0L)
+})
+
+test_that("header widths inherit from gov_page unless explicitly supplied", {
+  for (page_width in c("standard", "three-quarters", "full", "1400px")) {
+    page <- gov_page(header("Organisation", "Service"), width = page_width)
+    container <- find_tag_required(page, "govuk-generic-header__container")
+    expect_null(container$attribs$style)
+    expect_false(grepl(
+      "govuk-width-container--",
+      container$attribs$class,
+      fixed = TRUE
+    ))
+    explicit <- gov_page(
+      header("Organisation", width = "standard"),
+      width = page_width
+    )
+    expect_has_tag(explicit, "govuk-width-container--standard")
+  }
+  expect_has_tag(header(width = "full"), "govuk-width-container--full")
+  expect_error(header(width = "invalid"), "must be")
+})
+
+test_that("customisation hooks reject ambiguous attributes", {
+  for (url in list(NULL, "", " ", NA_character_, c("/", "/app/"), 42)) {
+    expect_error(header(homepage_url = url), "non-empty URL string")
+  }
+  expect_error(header(classes = c("one", "two")), "single string")
+  expect_error(header(attributes = "id"), "named list")
+  expect_error(header(attributes = list("id")), "named list")
+  expect_error(header(attributes = list(id = "one", id = "two")), "named list")
+  expect_error(header(attributes = list(class = "custom")), "Use `classes`")
+  expect_error(
+    header(attributes = list(role = "navigation")),
+    "banner role is fixed"
   )
 })

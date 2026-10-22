@@ -149,15 +149,58 @@ For more information, including when this should be used, read the documentation
 
 ### `header()`
 
-Creates a GOV.UK styled header bar, optionally containing your department logo, name and service name. This is not the official [GOV.UK header](https://design-system.service.gov.uk/components/header/), as that should only be used on GOV.UK domains. If you believe you have an R Shiny app on a GOV.UK domain, please [raise an issue](https://github.com/dfe-analytical-services/shinyGovstyle/issues/new/choose)
-to request this as an addition to the package.
+Creates a page-level header based on the [Generic header](https://design-system.service.gov.uk/components/generic-header/). The organisation name and optional logo link to your homepage. The separate, optional service title remains part of `header()`: it is a shinyGovstyle extension, centred on wide screens and stacked below the organisation on smaller screens. Long names wrap; the organisation wraps before the service title where possible. Use one `header()` per page.
 
 ```{r, eval = FALSE}
+# Text-only identity, without a service title
+header("Example organisation")
+
+# The existing positional call remains supported
+header("Example organisation", "My dashboard")
+
+# Custom logo alongside the organisation name
 header(
-  org_name = "Department for Education",
-  service_name = "My dashboard"
+  "Ministry of Justice", "My dashboard",
+  logo = "shinyGovstyle/images/moj_logo.png",
+  logo_alt_text = "",
+  logo_width = 66, logo_height = 34,
+  homepage_url = "/my-app/"
+)
+
+# Image-only identity: alternative text names the homepage link
+header(
+  org_name = NULL,
+  logo = "shinyGovstyle/images/moj_logo.png",
+  logo_alt_text = "Ministry of Justice",
+  homepage_url = "/my-app/"
 )
 ```
+
+The default `homepage_url = "/"` goes to the domain root. If your app is hosted at `https://example.org/my-app/`, set `homepage_url = "/my-app/"`. The showcase uses `"./"` to return to its current app directory. Choose the URL explicitly if your hosting arrangement uses deeper paths.
+
+Use `logo_alt_text = ""` when the adjacent organisation name already identifies the logo. For an image-only identity, supply meaningful alternative text. Image dimensions apply to each image, so one header cannot change another image's size.
+
+#### Migrating to the v1.0.0 header
+
+The header appearance and CSS selectors have changed. The default is now text only: pass `logo` explicitly if your app needs an image. The `"crown"` shortcut now raises an error because Generic header guidance excludes the GOV.UK crown. Replace `logo = "crown"` with `logo = NULL` or your own organisation's logo path and appropriate alternative text.
+
+`service_name` remains supported. The six deprecated arguments keep their existing behaviour until their scheduled v1.0.0 removal: replace `main_text` with `org_name` and `secondary_text` with `service_name`; remove `main_link`, `secondary_link`, `main_alt_text` and `secondary_alt_text`, which have no effect. Use `homepage_url` for the new organisation link.
+
+Update any custom selectors:
+
+| Previous selector | Replacement |
+| --- | --- |
+| `.govuk-header` | `.govuk-generic-header` or `.shinygovstyle-header` |
+| `.govuk-header__container` | `.govuk-generic-header__container` |
+| `.govuk-header__logo` | `.govuk-generic-header__logo` |
+| `.govuk-header__product-name` | `.shinygovstyle-header__organisation` |
+| `.govuk-header__content`, `.govuk-header__service-name` | `.shinygovstyle-header__service-name` |
+| `.govuk-header__logotype-crown-fallback-image` | `.shinygovstyle-header__image` |
+| `.govuk-header__logo--mirror` | Removed; no duplicated identity is needed |
+
+The homepage link uses `.govuk-generic-header__homepage-link`. Add your own outer-header hooks with `classes = "my-header"` and `attributes = list(id = "site-header")`. The header retains its banner landmark.
+
+The header uses a system sans-serif font. Replacing it does **not** remove GOV.UK branding elsewhere: review your fonts, colours, favicons and footer imagery against [Using Frontend without GOV.UK branding](https://frontend.design-system.service.gov.uk/using-govuk-frontend-without-govuk-branding/). Generic header is intended for government services outside the GOV.UK website; services covered by GOV.UK's branded-header requirements need the appropriate branded component.
 
 ### `phase_banner()`
 
@@ -194,7 +237,7 @@ For more information on when and how to use this, read the documentation for the
 
 ### `footer()`
 
-Creates a GOV.UK styled footer, though like the header, this is not an official version as that should only be used on a GOV.UK domain. Use `full = TRUE` to include the OGL licence logo and Crown copyright statement. You can add support links that point either to internal hidden tab panels or to external URLs.
+Creates a GOV.UK styled footer. Review its branding separately from the Generic header. Use `full = TRUE` to include the OGL licence logo and Crown copyright statement. You can add support links that point either to internal hidden tab panels or to external URLs.
 
 ```{r, eval = FALSE}
 # Minimal footer

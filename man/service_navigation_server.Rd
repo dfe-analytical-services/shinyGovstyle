@@ -34,23 +34,18 @@ added to the UI. The active nav highlight and (when
 \code{auto_page_title = TRUE}) the browser tab title are already handled
 client-side, so no additional wiring is needed.
 
-It also watches the tabset itself. When a panel in \code{link_to_panel} is
-selected some other way, such as \code{shiny::updateTabsetPanel()} behind a next
-button, its nav link becomes the active item, with \code{aria-current="page"}
-and the automatic page title, so you do not need to call
-\code{\link[=update_service_navigation]{update_service_navigation()}} as well. A title you set with
-\code{\link[=update_page_title]{update_page_title()}} alongside the tab change is kept. When several links
-share a panel, the first is used unless one of them is already active.
+It also follows the tabset. When a panel in \code{link_to_panel} is selected
+from the server, for example with \code{shiny::updateTabsetPanel()}, its link
+becomes active and the page title updates. A title set with
+\code{\link[=update_page_title]{update_page_title()}} at the same time is kept. If several links share a
+panel, the first is used unless one is already active.
 
-When a panel that is not in \code{link_to_panel} is selected, such as a
-footer-only accessibility statement, no nav link is left marked as the
-current page. The highlight and \code{aria-current="page"} are removed, so
-screen reader users are not told they are still on the previous page.
-Set the page title for these panels with \code{\link[=update_page_title]{update_page_title()}}.
+When a panel that is not in \code{link_to_panel} is selected, such as a footer
+page, the active link is cleared so screen readers don't announce the
+previous page as current. Set its title with \code{\link[=update_page_title]{update_page_title()}}.
 
-A call to \code{\link[=update_service_navigation]{update_service_navigation()}} alongside the tab change always
-wins, for example to keep a parent link active on a sub-page that is not
-in \code{link_to_panel}.
+Calling \code{\link[=update_service_navigation]{update_service_navigation()}} with the tab change overrides both,
+for example to keep a parent link active on a sub-page.
 }
 \examples{
 ui <- shinyGovstyle::gov_page(

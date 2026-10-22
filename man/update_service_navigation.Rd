@@ -17,35 +17,24 @@ input components this is also the name used to access the value via
 NULL, called for side effects
 }
 \description{
-Sends a message to the browser to update the highlighted active item in the
-service navigation bar.
+Sends a message to the browser to change the active link in the service
+navigation bar.
 
-\strong{When you need this function:} when navigation is triggered
-programmatically (for example, via a next / back button or a footer link
-that points to a main page) and the tabset is not wired up with
-\code{\link[=service_navigation_server]{service_navigation_server()}}. In those cases the nav link itself is not
-clicked, so the JavaScript binding does not fire and the active state does
-not update automatically. Call \code{update_service_navigation()} alongside
-your tab-switching call to keep them in sync. You also need it to
-highlight a link for a panel that is not in \code{link_to_panel}, for example a
-sub-page that belongs under one of the nav links.
+\strong{When you need this function:} when you change the tab from the server,
+for example from a next button, and the tabset is not wired up with
+\code{\link[=service_navigation_server]{service_navigation_server()}}. You also need it to keep a link active on a
+panel that is not in \code{link_to_panel}, such as a sub-page.
 
-An \code{inputId} that matches no nav link clears the current page, so no link
-keeps \code{aria-current="page"}. Without \code{\link[=service_navigation_server]{service_navigation_server()}}, use
-this when moving to a page that is not in the navigation, such as a
-footer-only accessibility statement, e.g.
-\code{update_service_navigation(session, "accessibility_statement")}.
+\strong{When you don't need this function:} when the user clicks a nav link, or
+when \code{\link[=service_navigation_server]{service_navigation_server()}} wires up the tabset. Both update the
+active link for you.
 
-\strong{When you don't need this function:} when the user clicks a service
-navigation link directly. The JavaScript binding updates the active state
-automatically, so you only need to switch the tab panel in your
-\code{observeEvent()}. You also don't need it when \code{\link[=service_navigation_server]{service_navigation_server()}}
-wires up the tabset, because that moves the active link whenever one of its
-panels is selected, however that happens.
+An \code{inputId} that matches no nav link clears the active link, e.g.
+\code{update_service_navigation(session, "accessibility_statement")} for a page
+that is not in the navigation.
 
-\code{inputId} is cleaned up the same way as in \code{\link[=service_navigation]{service_navigation()}}, so you
-can pass either the inputID you supplied there (e.g. \code{"Page-Two"}) or its
-cleaned form (\code{"page_two"}).
+\code{inputId} is cleaned up the same way as in \code{\link[=service_navigation]{service_navigation()}}, so
+\code{"Page-Two"} and \code{"page_two"} both work.
 }
 \examples{
 # Works the same with shiny::tabsetPanel() + shiny::updateTabsetPanel().

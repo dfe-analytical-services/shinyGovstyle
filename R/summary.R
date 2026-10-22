@@ -58,7 +58,7 @@ gov_summary <- function(
     border_class <- "govuk-summary-list govuk-summary-list--no-border"
   }
 
-  shiny::tags$dl(
+  summary_list <- shiny::tags$dl(
     class = border_class,
     id = inputId,
     Map(
@@ -91,4 +91,5 @@ gov_summary <- function(
       z = action
     )
   )
+  attachDependency(summary_list)
 }

@@ -67,7 +67,7 @@ govTable <- # nolint
     # and also reversed the row order.
     main_row_store <- lapply(
       seq_len(nrow(df)),
-      function(i) create_rows(df[i, ], num_col)
+      function(i) create_rows(df[i, , drop = FALSE], num_col)
     )
 
     # Create the actual table
@@ -131,7 +131,7 @@ create_rows <- function(df_row, num_col = NULL) {
       function(x) {
         shiny::tags$td(class = "govuk-table__cell", x)
       },
-      df_row[1, -1]
+      df_row[1, -1, drop = FALSE]
     )
   )
   #Not sure I can think of better way to add numeric class then do it post

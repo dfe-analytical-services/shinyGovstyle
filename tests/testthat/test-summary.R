@@ -60,3 +60,8 @@ test_that("info accepts a list containing a single shiny.tag value", {
   out <- gov_summary("sumID", headers, info, action = FALSE)
   expect_match(as.character(out), "<strong>ABC-123</strong>", fixed = TRUE)
 })
+
+test_that("gov_summary attaches the GOV.UK stylesheet", {
+  summary_check <- gov_summary("sumID", c("Name"), c("Sarah Philips"))
+  expect_true("stylecss" %in% dependency_names(summary_check))
+})

@@ -155,6 +155,7 @@ download_button <- function(
     stylesheet = "sr-only.css"
   )
 
-  # Return the link with the CSS attached
+  # Return the link with the GOV.UK and sr-only CSS attached
+  link <- attachDependency(link)
   htmltools::attachDependencies(link, dependency, append = TRUE)
 }

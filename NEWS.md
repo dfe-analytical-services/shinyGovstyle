@@ -1,3 +1,12 @@
+# shinyGovstyle (development version)
+
+* `govTable()` no longer fails with "incorrect number of dimensions" when
+  given a data frame with a single column.
+* `gov_summary()`, `gov_text()`, `download_button()`, `download_link()`,
+  `skip_to_main()` and `govReactableOutput()` now attach the GOV.UK
+  stylesheet themselves. Previously they were only styled when another
+  shinyGovstyle component on the page had loaded it.
+
 # shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments

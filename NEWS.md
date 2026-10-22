@@ -144,6 +144,13 @@ deprecated keeps working in this release.
 
 ## Bug fixes
 
+* `gov_summary(action = TRUE)` now gives each "Change" button its own input
+  ID, `paste0(inputId, "_", slug)`, where the slug is the lowercased header
+  with gaps replaced by `_` (for example `input$sumID_date_of_birth`).
+  Previously every button had the ID `"TRUE"`, so rows could not be told
+  apart. Headers that give the same slug now give an error, and each button
+  includes visually hidden text so screen readers hear "Change name" rather
+  than a bare "Change".
 * `service_navigation()` now gives an error when two links end up with the
   same inputID (for example `"Page 1"` and `"Page-1"`, which both become
   `page_1`), rather than silently creating clashing links. The `links`

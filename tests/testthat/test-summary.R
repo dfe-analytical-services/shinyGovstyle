@@ -60,3 +60,111 @@ test_that("info accepts a list containing a single shiny.tag value", {
   out <- gov_summary("sumID", headers, info, action = FALSE)
   expect_match(as.character(out), "<strong>ABC-123</strong>", fixed = TRUE)
 })
+
+test_that("action buttons get one input ID per header", {
+  headers <- c("Name", "Date of birth", "Contact details (email)")
+  info <- c("Sarah Philips", "5 January 1978", "sarah@example.com")
+
+  out <- gov_summary("sumID", headers, info, action = TRUE)
+  buttons <- htmltools::tagQuery(out)$find("button.action-button")
+
+  ids <- vapply(
+    buttons$selectedTags(),
+    function(tag) htmltools::tagGetAttribute(tag, "id"),
+    character(1),
+    USE.NAMES = FALSE
+  )
+  expect_identical(
+    ids,
+    c("sumID_name", "sumID_date_of_birth", "sumID_contact_details_email")
+  )
+  types <- vapply(
+    buttons$selectedTags(),
+    function(tag) htmltools::tagGetAttribute(tag, "type"),
+    character(1),
+    USE.NAMES = FALSE
+  )
+  expect_identical(types, rep("button", 3))
+  expect_true(all(grepl(
+    "govuk-link",
+    vapply(
+      buttons$selectedTags(),
+      function(tag) htmltools::tagGetAttribute(tag, "class"),
+      character(1)
+    ),
+    fixed = TRUE
+  )))
+})
+
+test_that("two summary lists with the same headers do not clash", {
+  headers <- c("Name", "Date of birth")
+  info <- c("Sarah Philips", "5 January 1978")
+
+  page <- shiny::tagList(
+    gov_summary("applicant", headers, info, action = TRUE),
+    gov_summary("partner", headers, info, action = TRUE)
+  )
+  query <- htmltools::tagQuery(page)
+
+  expect_length(query$find("#applicant_name")$selectedTags(), 1)
+  expect_length(query$find("#partner_name")$selectedTags(), 1)
+  expect_length(query$find("#applicant_date_of_birth")$selectedTags(), 1)
+  expect_length(query$find("#partner_date_of_birth")$selectedTags(), 1)
+})
+
+test_that("headers that give the same input ID error", {
+  expect_error(
+    gov_summary(
+      "sumID",
+      c("Date of birth", "Date-of-birth"),
+      c("a", "b"),
+      action = TRUE
+    ),
+    "unique input IDs"
+  )
+  expect_error(
+    gov_summary("sumID", c("Name", "?"), c("a", "b"), action = TRUE),
+    "letter or number"
+  )
+  # Duplicate headers are fine when there are no actions.
+  expect_no_error(
+    gov_summary("sumID", c("Name", "Name"), c("a", "b"), action = FALSE)
+  )
+})
+
+test_that("action buttons include visually hidden header text", {
+  out <- gov_summary(
+    "sumID",
+    c("Name", "Date of birth"),
+    c("Sarah Philips", "5 January 1978"),
+    action = TRUE
+  )
+  hidden <- htmltools::tagQuery(out)$find("#sumID_date_of_birth")$find(
+    ".govuk-visually-hidden"
+  )$selectedTags()
+
+  expect_length(hidden, 1)
+  expect_identical(
+    as.character(hidden[[1]]),
+    "<span class=\"govuk-visually-hidden\"> date of birth</span>"
+  )
+  name_button <- htmltools::tagQuery(out)$find("#sumID_name")$selectedTags()
+  expect_match(
+    gsub("\\s+", " ", as.character(name_button[[1]])),
+    "Change <span class=\"govuk-visually-hidden\"> name</span>",
+    fixed = TRUE
+  )
+})
+
+test_that("action = FALSE renders no actions column", {
+  out <- gov_summary(
+    "sumID",
+    c("Name", "Date of birth"),
+    c("Sarah Philips", "5 January 1978"),
+    action = FALSE
+  )
+  query <- htmltools::tagQuery(out)
+
+  expect_length(query$find(".govuk-summary-list__actions")$selectedTags(), 0)
+  expect_length(query$find("button")$selectedTags(), 0)
+})

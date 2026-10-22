@@ -177,6 +177,12 @@ service_navigation <- function(
 #' highlight a link for a panel that is not in `link_to_panel`, for example a
 #' sub-page that belongs under one of the nav links.
 #'
+#' An `inputId` that matches no nav link clears the current page, so no link
+#' keeps `aria-current="page"`. Without [service_navigation_server()], use
+#' this when moving to a page that is not in the navigation, such as a
+#' footer-only accessibility statement, e.g.
+#' `update_service_navigation(session, "accessibility_statement")`.
+#'
 #' **When you don't need this function:** when the user clicks a service
 #' navigation link directly. The JavaScript binding updates the active state
 #' automatically, so you only need to switch the tab panel in your
@@ -251,8 +257,16 @@ update_service_navigation <- function(
 #' [update_service_navigation()] as well. A title you set with
 #' [update_page_title()] alongside the tab change is kept. When several links
 #' share a panel, the first is used unless one of them is already active.
-#' Panels that are not in `link_to_panel`, such as footer-only pages, leave
-#' the navigation as it is.
+#'
+#' When a panel that is not in `link_to_panel` is selected, such as a
+#' footer-only accessibility statement, no nav link is left marked as the
+#' current page. The highlight and `aria-current="page"` are removed, so
+#' screen reader users are not told they are still on the previous page.
+#' Set the page title for these panels with [update_page_title()].
+#'
+#' A call to [update_service_navigation()] alongside the tab change always
+#' wins, for example to keep a parent link active on a sub-page that is not
+#' in `link_to_panel`.
 #'
 #' @param session The Shiny session object
 #' @param tabset_id The `id` of the `shiny::tabsetPanel()` or
@@ -339,8 +353,8 @@ service_navigation_server <- function(
     {
       links <- names(link_to_panel)[link_to_panel == input[[tabset_id]]]
       # Sent even when empty (a panel with no nav link, e.g. a footer-only
-      # page), so the browser knows the tab changed. A list so that one link
-      # is still sent as a JSON array.
+      # page), so the browser can clear the current page. A list so that one
+      # link is still sent as a JSON array.
       session$sendCustomMessage("sync_service_navigation", as.list(links))
     },
     ignoreInit = TRUE

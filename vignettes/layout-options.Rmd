@@ -408,7 +408,12 @@ shiny::observeEvent(input$next_btn, {
 
 Some pages — such as an accessibility statement, privacy notice, or cookies information page — should not appear in the service navigation but still need to be reachable. The standard pattern is to add a link in `footer()` and a corresponding hidden tab panel, but to omit the link from `service_navigation()`.
 
-Because the user navigates to these pages outside of the service navigation, there is no active nav item to highlight. You do not need to call `update_service_navigation()` for these transitions. When navigating *back* to a main page from a footer-linked page, the correct nav item needs to become active again. `service_navigation_server()` does this for any panel in `link_to_panel`; without it, call `update_service_navigation()` (or use `navigate_to()`).
+These pages are not in the service navigation, so no nav item should be marked as the current page while they are shown. If the previous page's link kept its highlight and `aria-current="page"`, screen reader users would be told they were still on that page. `service_navigation_server()` handles both directions for you:
+
+* selecting a panel that is not in `link_to_panel` clears the current page, so no nav link is highlighted
+* navigating *back* to a panel that is in `link_to_panel` makes its nav link active again
+
+Without `service_navigation_server()`, call `update_service_navigation()` yourself: with an id that matches no nav link (such as `"accessibility_statement"`) to clear the current page on the way to a footer page, and with the main page's link id (or use `navigate_to()`) on the way back.
 
 Footer-only pages also fall outside the `service_navigation()` auto page-title sync — there is no nav link for the JavaScript binding to read. Call `update_page_title()` so the browser tab title reflects the new page:
 
@@ -428,7 +433,8 @@ shiny::tabsetPanel(
                   "Content")
 )
 
-# server.R — navigate to the footer page (no update_service_navigation needed)
+# server.R — navigate to the footer page. service_navigation_server() clears
+# the current nav link, so there is no update_service_navigation() call.
 shiny::observeEvent(input$accessibility_footer_link, {
   shiny::updateTabsetPanel(session, "main_panels",
                            selected = "accessibility_panel")

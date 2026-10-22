@@ -8,6 +8,12 @@
   you also called `update_service_navigation()`. Existing calls to
   `update_service_navigation()` and `navigate_to()` keep working, and a
   title set with `update_page_title()` alongside the tab change is kept.
+* `service_navigation_server()` now clears the current page when a panel
+  with no nav link is selected, such as a footer-only accessibility
+  statement. Previously the last nav link kept its highlight and
+  `aria-current="page"`, so screen readers announced the wrong page as
+  current. Call `update_service_navigation()` alongside the tab change if
+  you want a link to stay active, for example on a sub-page.
 
 # shinyGovstyle 0.3.0
 

@@ -440,13 +440,13 @@ test_that("the starting panel does not send a sync message", {
   expect_length(messages, 0)
 })
 
-test_that("panels without a nav link send an empty sync", {
+test_that("panels without a nav link send an empty sync to clear the nav", {
   messages <- sync_messages(
     c(sn_one = "one", sn_two = "two"),
     tab_changes = "accessibility_panel"
   )
-  # Empty, so the browser leaves the highlight alone but still knows the tab
-  # changed
+  # Empty, so the browser clears the current page rather than leaving the
+  # previous link marked with aria-current="page"
   expect_length(messages, 1)
   expect_identical(messages[[1]]$type, "sync_service_navigation")
   expect_identical(messages[[1]]$message, list())

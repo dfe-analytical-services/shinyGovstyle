@@ -41,8 +41,16 @@ and the automatic page title, so you do not need to call
 \code{\link[=update_service_navigation]{update_service_navigation()}} as well. A title you set with
 \code{\link[=update_page_title]{update_page_title()}} alongside the tab change is kept. When several links
 share a panel, the first is used unless one of them is already active.
-Panels that are not in \code{link_to_panel}, such as footer-only pages, leave
-the navigation as it is.
+
+When a panel that is not in \code{link_to_panel} is selected, such as a
+footer-only accessibility statement, no nav link is left marked as the
+current page. The highlight and \code{aria-current="page"} are removed, so
+screen reader users are not told they are still on the previous page.
+Set the page title for these panels with \code{\link[=update_page_title]{update_page_title()}}.
+
+A call to \code{\link[=update_service_navigation]{update_service_navigation()}} alongside the tab change always
+wins, for example to keep a parent link active on a sub-page that is not
+in \code{link_to_panel}.
 }
 \examples{
 ui <- shinyGovstyle::gov_page(

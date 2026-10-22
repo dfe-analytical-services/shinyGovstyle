@@ -92,7 +92,13 @@ function setActiveServiceNavLink(link, keepTitle) {
   if (!keepTitle) applyAutoPageTitle(link);
   // A title from update_page_title() only holds until the nav next moves
   window.shinyGovstyleServerTitle = false;
+  serverNavPending = false;
 }
+
+// Set when the app calls update_service_navigation(), so that the sync for
+// the tab change it goes with leaves the app's choice in place (e.g. a
+// sub-page that keeps its parent link active)
+var serverNavPending = false;
 
 // Allow programmatic update of active nav item from R server code
 Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
@@ -105,18 +111,23 @@ Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
   } else {
     clearActiveServiceNavLinks();
   }
+  serverNavPending = true;
 });
 
 // Keep the active link in step with the selected tab panel, sent by
 // service_navigation_server() whenever the tabset changes. inputIds lists
-// every link wired to the panel, and is empty for a panel with no link. If
-// one of them is already active (the user clicked it, or the app called
-// update_service_navigation()) nothing changes. Otherwise the first link
-// becomes active, keeping the title if the app set one with
-// update_page_title() for this change.
+// every link wired to the panel. If one of them is already active (the user
+// clicked it) nothing changes. Otherwise the first link becomes active,
+// keeping the title if the app set one with update_page_title() for this
+// change. An empty list means the panel has no nav link, such as a
+// footer-only page, so no link is left marked as the current page. Either
+// way, a call to update_service_navigation() for this change wins.
 Shiny.addCustomMessageHandler("sync_service_navigation", function (inputIds) {
   var keepTitle = window.shinyGovstyleServerTitle === true;
   window.shinyGovstyleServerTitle = false;
+  var appChoseNav = serverNavPending;
+  serverNavPending = false;
+  if (appChoseNav) return;
   var first = null;
   for (var i = 0; i < inputIds.length; i++) {
     var link = findServiceNavLink(inputIds[i]);
@@ -130,7 +141,11 @@ Shiny.addCustomMessageHandler("sync_service_navigation", function (inputIds) {
     }
     if (!first) first = link;
   }
-  if (first) setActiveServiceNavLink(first, keepTitle);
+  if (first) {
+    setActiveServiceNavLink(first, keepTitle);
+  } else {
+    clearActiveServiceNavLinks();
+  }
 });
 
 // Set active state on navigation links when clicked

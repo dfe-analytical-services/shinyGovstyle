@@ -30,6 +30,12 @@ your tab-switching call to keep them in sync. You also need it to
 highlight a link for a panel that is not in \code{link_to_panel}, for example a
 sub-page that belongs under one of the nav links.
 
+An \code{inputId} that matches no nav link clears the current page, so no link
+keeps \code{aria-current="page"}. Without \code{\link[=service_navigation_server]{service_navigation_server()}}, use
+this when moving to a page that is not in the navigation, such as a
+footer-only accessibility statement, e.g.
+\code{update_service_navigation(session, "accessibility_statement")}.
+
 \strong{When you don't need this function:} when the user clicks a service
 navigation link directly. The JavaScript binding updates the active state
 automatically, so you only need to switch the tab panel in your

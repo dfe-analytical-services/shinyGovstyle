@@ -290,122 +290,16 @@ Cookie banner component</a>.</p>
 <h3 id="header">
 <code>header()</code><a class="anchor" aria-label="anchor" href="#header"></a>
 </h3>
-<p>Creates a page-level header based on the <a href="https://design-system.service.gov.uk/components/generic-header/" class="external-link">Generic
-header</a>. The organisation name and optional logo link to your
-homepage. The separate, optional service title remains part of
-<code><a href="../reference/header.html">header()</a></code>: it is a shinyGovstyle extension, centred on wide
-screens and stacked below the organisation on smaller screens. Long
-names wrap; the organisation wraps before the service title where
-possible. Use one <code><a href="../reference/header.html">header()</a></code> per page.</p>
+<p>Creates a GOV.UK styled header bar, optionally containing your
+department logo, name and service name. This is not the official <a href="https://design-system.service.gov.uk/components/header/" class="external-link">GOV.UK
+header</a>, as that should only be used on GOV.UK domains. If you
+believe you have an R Shiny app on a GOV.UK domain, please <a href="https://github.com/dfe-analytical-services/shinyGovstyle/issues/new/choose" class="external-link">raise
+an issue</a> to request this as an addition to the package.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Text-only identity, without a service title</span></span>
-<span><span class="fu"><a href="../reference/header.html">header</a></span><span class="op">(</span><span class="st">"Example organisation"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># The existing positional call remains supported</span></span>
-<span><span class="fu"><a href="../reference/header.html">header</a></span><span class="op">(</span><span class="st">"Example organisation"</span>, <span class="st">"My dashboard"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Custom logo alongside the organisation name</span></span>
-<span><span class="fu"><a href="../reference/header.html">header</a></span><span class="op">(</span></span>
-<span>  <span class="st">"Ministry of Justice"</span>, <span class="st">"My dashboard"</span>,</span>
-<span>  logo <span class="op">=</span> <span class="st">"shinyGovstyle/images/moj_logo.png"</span>,</span>
-<span>  logo_alt_text <span class="op">=</span> <span class="st">""</span>,</span>
-<span>  logo_width <span class="op">=</span> <span class="fl">66</span>, logo_height <span class="op">=</span> <span class="fl">34</span>,</span>
-<span>  homepage_url <span class="op">=</span> <span class="st">"/my-app/"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Image-only identity: alternative text names the homepage link</span></span>
-<span><span class="fu"><a href="../reference/header.html">header</a></span><span class="op">(</span></span>
-<span>  org_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  logo <span class="op">=</span> <span class="st">"shinyGovstyle/images/moj_logo.png"</span>,</span>
-<span>  logo_alt_text <span class="op">=</span> <span class="st">"Ministry of Justice"</span>,</span>
-<span>  homepage_url <span class="op">=</span> <span class="st">"/my-app/"</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/header.html">header</a></span><span class="op">(</span></span>
+<span>  org_name <span class="op">=</span> <span class="st">"Department for Education"</span>,</span>
+<span>  service_name <span class="op">=</span> <span class="st">"My dashboard"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>The default <code>homepage_url = "/"</code> goes to the domain root.
-If your app is hosted at <code>https://example.org/my-app/</code>, set
-<code>homepage_url = "/my-app/"</code>. The showcase uses
-<code>"./"</code> to return to its current app directory. Choose the URL
-explicitly if your hosting arrangement uses deeper paths.</p>
-<p>Use <code>logo_alt_text = ""</code> when the adjacent organisation
-name already identifies the logo. For an image-only identity, supply
-meaningful alternative text. Image dimensions apply to each image, so
-one header cannot change another image’s size.</p>
-<div class="section level4">
-<h4 id="migrating-to-the-v1-0-0-header">Migrating to the v1.0.0 header<a class="anchor" aria-label="anchor" href="#migrating-to-the-v1-0-0-header"></a>
-</h4>
-<p>The header appearance and CSS selectors have changed. The default is
-now text only: pass <code>logo</code> explicitly if your app needs an
-image. The <code>"crown"</code> shortcut now raises an error because
-Generic header guidance excludes the GOV.UK crown. Replace
-<code>logo = "crown"</code> with <code>logo = NULL</code> or your own
-organisation’s logo path and appropriate alternative text.</p>
-<p><code>service_name</code> remains supported. The six deprecated
-arguments keep their existing behaviour until their scheduled v1.0.0
-removal: replace <code>main_text</code> with <code>org_name</code> and
-<code>secondary_text</code> with <code>service_name</code>; remove
-<code>main_link</code>, <code>secondary_link</code>,
-<code>main_alt_text</code> and <code>secondary_alt_text</code>, which
-have no effect. Use <code>homepage_url</code> for the new organisation
-link.</p>
-<p>Update any custom selectors:</p>
-<table class="table">
-<colgroup>
-<col width="50%">
-<col width="50%">
-</colgroup>
-<thead><tr class="header">
-<th>Previous selector</th>
-<th>Replacement</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>.govuk-header</code></td>
-<td>
-<code>.govuk-generic-header</code> or
-<code>.shinygovstyle-header</code>
-</td>
-</tr>
-<tr class="even">
-<td><code>.govuk-header__container</code></td>
-<td><code>.govuk-generic-header__container</code></td>
-</tr>
-<tr class="odd">
-<td><code>.govuk-header__logo</code></td>
-<td><code>.govuk-generic-header__logo</code></td>
-</tr>
-<tr class="even">
-<td><code>.govuk-header__product-name</code></td>
-<td><code>.shinygovstyle-header__organisation</code></td>
-</tr>
-<tr class="odd">
-<td>
-<code>.govuk-header__content</code>,
-<code>.govuk-header__service-name</code>
-</td>
-<td><code>.shinygovstyle-header__service-name</code></td>
-</tr>
-<tr class="even">
-<td><code>.govuk-header__logotype-crown-fallback-image</code></td>
-<td><code>.shinygovstyle-header__image</code></td>
-</tr>
-<tr class="odd">
-<td><code>.govuk-header__logo--mirror</code></td>
-<td>Removed; no duplicated identity is needed</td>
-</tr>
-</tbody>
-</table>
-<p>The homepage link uses
-<code>.govuk-generic-header__homepage-link</code>. Add your own
-outer-header hooks with <code>classes = "my-header"</code> and
-<code>attributes = list(id = "site-header")</code>. The header retains
-its banner landmark.</p>
-<p>The header uses a system sans-serif font. Replacing it does
-<strong>not</strong> remove GOV.UK branding elsewhere: review your
-fonts, colours, favicons and footer imagery against <a href="https://frontend.design-system.service.gov.uk/using-govuk-frontend-without-govuk-branding/" class="external-link">Using
-Frontend without GOV.UK branding</a>. Generic header is intended for
-government services outside the GOV.UK website; services covered by
-GOV.UK’s branded-header requirements need the appropriate branded
-component.</p>
-</div>
 </div>
 <div class="section level3">
 <h3 id="phase_banner">
@@ -448,10 +342,11 @@ Phase banner component</a>.</p>
 <h3 id="footer">
 <code>footer()</code><a class="anchor" aria-label="anchor" href="#footer"></a>
 </h3>
-<p>Creates a GOV.UK styled footer. Review its branding separately from
-the Generic header. Use <code>full = TRUE</code> to include the OGL
-licence logo and Crown copyright statement. You can add support links
-that point either to internal hidden tab panels or to external URLs.</p>
+<p>Creates a GOV.UK styled footer, though like the header, this is not
+an official version as that should only be used on a GOV.UK domain. Use
+<code>full = TRUE</code> to include the OGL licence logo and Crown
+copyright statement. You can add support links that point either to
+internal hidden tab panels or to external URLs.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Minimal footer</span></span>
 <span><span class="fu"><a href="../reference/footer.html">footer</a></span><span class="op">(</span><span class="op">)</span></span>

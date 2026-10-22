@@ -94,10 +94,23 @@ test_that("a custom width sets an inline max-width style", {
 })
 
 
-test_that("warning when logo used without logo_alt_text", {
-  expect_warning(
-    header(org_name = "Test", logo = "test.png", logo_alt_text = NULL),
-    "Please use logo_alt_text"
+test_that("a logo beside the organisation name is decorative by default", {
+  h <- expect_no_warning(header(org_name = "Test", logo = "test.png"))
+  image <- find_tag_required(h, "shinygovstyle-header__image")
+  expect_identical(image$attribs$alt, "")
+
+  h <- expect_no_warning(
+    header(org_name = "Test", logo = "test.png", logo_alt_text = NULL)
+  )
+  image <- find_tag_required(h, "shinygovstyle-header__image")
+  expect_identical(image$attribs$alt, "")
+})
+
+
+test_that("an image-only identity needs alternative text by default", {
+  expect_error(
+    header(org_name = NULL, logo = "test.png"),
+    "name the homepage link"
   )
 })
 
@@ -308,6 +321,22 @@ test_that("header widths inherit from gov_page unless explicitly supplied", {
   }
   expect_has_tag(header(width = "full"), "govuk-width-container--full")
   expect_error(header(width = "invalid"), "must be")
+})
+
+test_that("header class attributes have no stray whitespace", {
+  tidy <- "^\\S+( \\S+)*$"
+  pages <- list(
+    header("Organisation"),
+    header("Organisation", "Service"),
+    header("Organisation", classes = "my-header", width = "full"),
+    gov_page(header("Organisation", "Service"), width = "full")
+  )
+  for (page in pages) {
+    outer <- find_tag_required(page, "govuk-generic-header")
+    expect_match(outer$attribs$class, tidy)
+    container <- find_tag_required(page, "govuk-generic-header__container")
+    expect_match(container$attribs$class, tidy)
+  }
 })
 
 test_that("customisation hooks reject ambiguous attributes", {

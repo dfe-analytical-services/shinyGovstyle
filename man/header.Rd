@@ -12,7 +12,7 @@ header(
   secondary_text = lifecycle::deprecated(),
   main_link = lifecycle::deprecated(),
   secondary_link = lifecycle::deprecated(),
-  logo_alt_text = "Departmental logo",
+  logo_alt_text = "",
   main_alt_text = lifecycle::deprecated(),
   secondary_alt_text = lifecycle::deprecated(),
   logo_width = 66,
@@ -42,9 +42,11 @@ instead. Will be removed in shinyGovstyle 1.0.0.}
 \item{main_link, secondary_link, main_alt_text, secondary_alt_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Have no effect and will be removed
 in shinyGovstyle 1.0.0. Use \code{homepage_url} for the organisation link.}
 
-\item{logo_alt_text}{Alternative text for a custom logo. Use \code{""} when the
-adjacent organisation name already identifies it. An image-only identity
-requires meaningful alternative text to name the homepage link.}
+\item{logo_alt_text}{Alternative text for a custom logo. Defaults to \code{""},
+which marks the logo as decorative: the adjacent organisation name already
+names the homepage link, so repeating it would be read out twice. An
+image-only identity (\code{org_name = NULL}) requires meaningful alternative
+text, such as the organisation's name, to name the homepage link.}
 
 \item{logo_width, logo_height}{Image dimensions, in pixels for numeric values
 or as CSS lengths. Applied to each image independently.}
@@ -84,7 +86,8 @@ to \code{homepage_url}; \code{service_name} remains supported and is not a link.
 Generic header does not remove branding elsewhere in your app. Review fonts,
 colours, favicons and footer imagery separately against the
 \href{https://frontend.design-system.service.gov.uk/using-govuk-frontend-without-govuk-branding/}{guidance on using Frontend without GOV.UK branding}.
-The header uses a system sans-serif font rather than GDS Transport.
+The header uses the same font as the rest of your page. Only call \code{font()}
+if your app is on a GOV.UK domain.
 }
 \examples{
 header("Example organisation")
@@ -92,7 +95,7 @@ header("Example organisation", "My service", homepage_url = "/my-app/")
 header(
   "Ministry of Justice", "My service",
   logo = "shinyGovstyle/images/moj_logo.png",
-  logo_alt_text = "", homepage_url = "/my-app/"
+  homepage_url = "/my-app/"
 )
 }
 \seealso{

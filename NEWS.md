@@ -11,8 +11,11 @@
   app hosted under `/my-app/` should use `homepage_url = "/my-app/"`.
 * The default is now text only (`logo = NULL`). Supply your own logo explicitly.
   `logo = "crown"` now errors: replace it with `NULL` or your own logo path and
-  suitable `logo_alt_text`. Use empty alternative text when the adjacent name
-  already identifies the logo; image-only identities need meaningful text.
+  suitable `logo_alt_text`.
+* `logo_alt_text` now defaults to `""`, so a logo beside the organisation name
+  is decorative and the homepage link is announced once. An image-only identity
+  (`org_name = NULL`) must supply meaningful `logo_alt_text` or `header()`
+  errors. The warning for `logo_alt_text = NULL` has been removed.
 * Replace custom `govuk-header*` selectors with `govuk-generic-header*` and
   `shinygovstyle-header*` selectors (see the Layout options vignette).
   `classes` and `attributes` add custom hooks to the outer header. Image

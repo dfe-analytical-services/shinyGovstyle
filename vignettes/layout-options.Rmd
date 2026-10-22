@@ -162,7 +162,6 @@ header("Example organisation", "My dashboard")
 header(
   "Ministry of Justice", "My dashboard",
   logo = "shinyGovstyle/images/moj_logo.png",
-  logo_alt_text = "",
   logo_width = 66, logo_height = 34,
   homepage_url = "/my-app/"
 )
@@ -178,7 +177,7 @@ header(
 
 The default `homepage_url = "/"` goes to the domain root. If your app is hosted at `https://example.org/my-app/`, set `homepage_url = "/my-app/"`. The showcase uses `"./"` to return to its current app directory. Choose the URL explicitly if your hosting arrangement uses deeper paths.
 
-Use `logo_alt_text = ""` when the adjacent organisation name already identifies the logo. For an image-only identity, supply meaningful alternative text. Image dimensions apply to each image, so one header cannot change another image's size.
+The logo and organisation name sit inside one link, so the link is named by what a screen reader reads out from both. By default `logo_alt_text = ""` marks the logo as decorative and the link is announced once, by the organisation name, rather than as "Ministry of Justice logo Ministry of Justice". For an image-only identity (`org_name = NULL`), supply alternative text that names the destination, usually the organisation's name; `header()` errors if the link would otherwise have no name. Image dimensions apply to each image, so one header cannot change another image's size.
 
 #### Migrating to the v1.0.0 header
 
@@ -200,7 +199,7 @@ Update any custom selectors:
 
 The homepage link uses `.govuk-generic-header__homepage-link`. Add your own outer-header hooks with `classes = "my-header"` and `attributes = list(id = "site-header")`. The header retains its banner landmark.
 
-The header uses a system sans-serif font. Replacing it does **not** remove GOV.UK branding elsewhere: review your fonts, colours, favicons and footer imagery against [Using Frontend without GOV.UK branding](https://frontend.design-system.service.gov.uk/using-govuk-frontend-without-govuk-branding/). Generic header is intended for government services outside the GOV.UK website; services covered by GOV.UK's branded-header requirements need the appropriate branded component.
+The header uses the same font as the rest of your page: Arial by default, or GDS Transport if you call `font()`, which you should only do on a GOV.UK domain. Switching to Generic header does **not** remove GOV.UK branding elsewhere: review your fonts, colours, favicons and footer imagery against [Using Frontend without GOV.UK branding](https://frontend.design-system.service.gov.uk/using-govuk-frontend-without-govuk-branding/). Generic header is intended for government services outside the GOV.UK website; services covered by GOV.UK's branded-header requirements need the appropriate branded component.
 
 ### `phase_banner()`
 

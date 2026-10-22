@@ -20,8 +20,7 @@
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
-#'     logo = "shinyGovstyle/images/moj_logo.png",
-#'     logo_alt_text = "Ministry of Justice logo"
+#'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'

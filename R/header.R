@@ -18,9 +18,11 @@
 #' @param main_link,secondary_link,main_alt_text,secondary_alt_text
 #'   `r lifecycle::badge("deprecated")` Have no effect and will be removed
 #'   in shinyGovstyle 1.0.0. Use `homepage_url` for the organisation link.
-#' @param logo_alt_text Alternative text for a custom logo. Use `""` when the
-#'   adjacent organisation name already identifies it. An image-only identity
-#'   requires meaningful alternative text to name the homepage link.
+#' @param logo_alt_text Alternative text for a custom logo. Defaults to `""`,
+#'   which marks the logo as decorative: the adjacent organisation name already
+#'   names the homepage link, so repeating it would be read out twice. An
+#'   image-only identity (`org_name = NULL`) requires meaningful alternative
+#'   text, such as the organisation's name, to name the homepage link.
 #' @param logo_width,logo_height Image dimensions, in pixels for numeric values
 #'   or as CSS lengths. Applied to each image independently.
 #' @param homepage_url Organisation homepage URL. Defaults to `/` (the domain
@@ -42,7 +44,8 @@
 # nolint start: line_length_linter.
 #' [guidance on using Frontend without GOV.UK branding](https://frontend.design-system.service.gov.uk/using-govuk-frontend-without-govuk-branding/).
 # nolint end: line_length_linter.
-#' The header uses a system sans-serif font rather than GDS Transport.
+#' The header uses the same font as the rest of your page. Only call `font()`
+#' if your app is on a GOV.UK domain.
 #' @return A header HTML Shiny tag object.
 #' @family Govstyle page structure
 #' @export
@@ -52,7 +55,7 @@
 #' header(
 #'   "Ministry of Justice", "My service",
 #'   logo = "shinyGovstyle/images/moj_logo.png",
-#'   logo_alt_text = "", homepage_url = "/my-app/"
+#'   homepage_url = "/my-app/"
 #' )
 header <- function(
   org_name = "Shiny example app",
@@ -62,7 +65,7 @@ header <- function(
   secondary_text = lifecycle::deprecated(),
   main_link = lifecycle::deprecated(),
   secondary_link = lifecycle::deprecated(),
-  logo_alt_text = "Departmental logo",
+  logo_alt_text = "",
   main_alt_text = lifecycle::deprecated(),
   secondary_alt_text = lifecycle::deprecated(),
   logo_width = 66,
@@ -91,16 +94,6 @@ header <- function(
       details = "`secondary_text` will be removed in shinyGovstyle 1.0.0."
     )
     service_name <- secondary_text
-  }
-
-  # checks for alt text
-  if (!is.null(logo) && is.null(logo_alt_text)) {
-    warning(
-      paste(
-        "Please use logo_alt_text to provide alternative",
-        "text for the logo you used."
-      )
-    )
   }
 
   if (lifecycle::is_present(main_link)) {
@@ -217,11 +210,14 @@ header <- function(
   )
   container <- shiny::tags$div(
     class = paste(
-      "govuk-generic-header__container shinygovstyle-header__container",
-      if (!is.null(service_name)) {
-        "shinygovstyle-header__container--with-service"
-      },
-      wc$class
+      c(
+        "govuk-generic-header__container shinygovstyle-header__container",
+        if (!is.null(service_name)) {
+          "shinygovstyle-header__container--with-service"
+        },
+        wc$class
+      ),
+      collapse = " "
     ),
     style = wc$style,
     shiny::tags$div(class = "govuk-generic-header__logo", identity),
@@ -236,7 +232,10 @@ header <- function(
     shiny::tags$header,
     c(
       list(
-        class = paste("govuk-generic-header shinygovstyle-header", classes),
+        class = paste(
+          c("govuk-generic-header shinygovstyle-header", classes),
+          collapse = " "
+        ),
         role = "banner",
         container
       ),

@@ -101,3 +101,64 @@ test_that("Active nav link is exposed to screen readers via aria-current", {
   expect_equal(current_links(), "sn_cookies")
   expect_equal(fallback_links(), "sn_cookies")
 })
+
+# ids of the visible panels in the govTabs with this id
+visible_tab_panels <- function(tabs_id) {
+  unlist(app$get_js(
+    paste0(
+      "Array.from(document.getElementById('",
+      tabs_id,
+      "')",
+      ".querySelectorAll('.govuk-tabs__panel'))",
+      ".filter(function (p) { return p.offsetParent !== null; })",
+      ".map(function (p) { return p.id; })"
+    )
+  ))
+}
+
+# ids of the tabs marked aria-selected in the govTabs with this id
+selected_tabs <- function(tabs_id) {
+  unlist(app$get_js(
+    paste0(
+      "Array.from(document.getElementById('",
+      tabs_id,
+      "')",
+      ".querySelectorAll('.govuk-tabs__tab[aria-selected=\"true\"]'))",
+      ".map(function (a) { return a.id; })"
+    )
+  ))
+}
+
+test_that("govTabs show the first panel and switch independently", {
+  app$click("sn_tables_tabs")
+  app$wait_for_idle()
+
+  first <- "tables_tabs-govTabs"
+  second <- "tables_tabs-govTabs2"
+
+  # The first panel of each instance is visible on load
+  expect_equal(visible_tab_panels(first), paste0(first, "-panel-past-day"))
+  expect_equal(visible_tab_panels(second), paste0(second, "-panel-past-day"))
+
+  # Switching tabs in the second instance leaves the first unchanged
+  app$click(selector = paste0("#", second, "-tab-past-week"))
+  app$wait_for_idle()
+  expect_equal(visible_tab_panels(second), paste0(second, "-panel-past-week"))
+  expect_equal(selected_tabs(second), paste0(second, "-tab-past-week"))
+  expect_equal(visible_tab_panels(first), paste0(first, "-panel-past-day"))
+  expect_equal(selected_tabs(first), paste0(first, "-tab-past-day"))
+
+  # Arrow keys move within the focused instance only
+  app$run_js(paste0(
+    "var t = document.getElementById('",
+    first,
+    "-tab-past-day');",
+    "t.focus();",
+    "t.dispatchEvent(new KeyboardEvent('keydown',",
+    " { key: 'ArrowLeft', bubbles: true }));"
+  ))
+  app$wait_for_idle()
+  expect_equal(visible_tab_panels(first), paste0(first, "-panel-past-year"))
+  expect_equal(selected_tabs(first), paste0(first, "-tab-past-year"))
+  expect_equal(visible_tab_panels(second), paste0(second, "-panel-past-week"))
+})

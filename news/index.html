@@ -35,9 +35,21 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/dfe-analytical-services/shinyGovstyle/blob/v0.3.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/dfe-analytical-services/shinyGovstyle/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.0.9000" id="shinygovstyle-0309000-development">shinyGovstyle 0.3.0.9000 (development)<a class="anchor" aria-label="anchor" href="#shinygovstyle-0309000-development"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-planned-for-v100-0-3-0-9000">Breaking changes planned for v1.0.0<a class="anchor" aria-label="anchor" href="#breaking-changes-planned-for-v100-0-3-0-9000"></a></h3>
+<ul><li>
+<code><a href="../reference/header.html">header()</a></code> now uses GOV.UK Frontend’s Generic header markup and appearance. <code>org_name</code>, <code>service_name</code>, positional calls such as <code>header("Org", "Service")</code> and width inheritance remain supported. The centred service title is a shinyGovstyle extension and stacks below the organisation on smaller screens.</li>
+<li>The organisation name and logo now form one homepage link. Set <code>homepage_url</code> for your app; the default <code>/</code> points to the domain root, so an app hosted under <code>/my-app/</code> should use <code>homepage_url = "/my-app/"</code>.</li>
+<li>The default is now text only (<code>logo = NULL</code>). Supply your own logo explicitly. <code>logo = "crown"</code> now errors: replace it with <code>NULL</code> or your own logo path and suitable <code>logo_alt_text</code>. Use empty alternative text when the adjacent name already identifies the logo; image-only identities need meaningful text.</li>
+<li>Replace custom <code>govuk-header*</code> selectors with <code>govuk-generic-header*</code> and <code>shinygovstyle-header*</code> selectors (see the Layout options vignette). <code>classes</code> and <code>attributes</code> add custom hooks to the outer header. Image dimensions now apply per image, and the hidden duplicate identity is removed.</li>
+<li>The six deprecated header arguments retain their existing behaviour and v1.0.0 removal schedule. Generic header does not remove branding from other components, fonts, colours, favicons or footer imagery.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="shinygovstyle-030">shinyGovstyle 0.3.0<a class="anchor" aria-label="anchor" href="#shinygovstyle-030"></a></h2><p class="text-muted">CRAN release: 2026-10-15</p>
 <p>This release is the transition to a stable v1.0.0. Functions and arguments that will be removed in v1.0.0 now give a deprecation warning that names what to use instead, so you can update your code before upgrading. Everything deprecated keeps working in this release.</p>

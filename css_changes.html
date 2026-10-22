@@ -35,11 +35,12 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="logo.png" class="logo" alt=""><h1>NA</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/shinyGovstyle/blob/v0.3.0/css_changes.md" class="external-link"><code>css_changes.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/shinyGovstyle/blob/main/css_changes.md" class="external-link"><code>css_changes.md</code></a></small>
     </div>
 
 
 <p>These are the local changes to reapply when updating the GOV.UK Frontend CSS.</p>
+<p>The header extension lives separately in <code>inst/www/css/header-overrides.css</code>. Its <code>shinygovstyle-header*</code> classes preserve the centred service title, mobile stacking, image sizing constraints, system font, forced-colours focus outline and print layout. It uses the bundled Generic header styles unchanged. The previous <code>govuk-header*</code> layout overrides and global inline image styles have been removed; do not reapply them during an asset upgrade.</p>
 <p>Before making them, pretty-print the upstream minified CSS (keep the <code>.min.css</code> filename) so the in-place edits and future diffs are readable.</p>
 <p>There are two kinds of change:</p>
 <ul><li><p><strong>In-place edits</strong> to the upstream CSS: moving the fonts, the root <code>font-size</code>, the <code>#1a65a6</code> colour swap, the image URLs and the accordion selector find and replace.</p></li>

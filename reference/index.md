@@ -11,7 +11,7 @@
 - [`gov_page()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_page.md)
   : GOV.UK styled page wrapper
 - [`header()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/header.md)
-  : Header Function
+  : Generic header with an optional centred service title
 - [`gov_main_layout()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
   [`gov_row()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)
   [`gov_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md)

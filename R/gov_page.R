@@ -36,9 +36,9 @@
 #' `bslib::page_fluid()`.
 #' @param favicon Which browser tab icon (favicon) and theme colour to add.
 #' One of:
-#' * `"default"` (the default): a plain GOV.UK blue square with no crown, so
-#'   every app gets a tidy icon instead of the browser's blank page, without
-#'   using GOV.UK branding.
+#' * `"default"` (the default): the teal dot from the GOV.UK logo on a GOV.UK
+#'   blue square, so every app gets an on-brand icon instead of the browser's
+#'   blank page, without using the crown.
 #' * `"govuk"`: the GOV.UK crown icon set from the GOV.UK page template. Only
 #'   use this if your service is on GOV.UK: GOV.UK asks that its crown
 #'   branding isn't used elsewhere.

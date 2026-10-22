@@ -78,7 +78,7 @@ function clearActiveServiceNavLinks() {
   }
 }
 
-function setActiveServiceNavLink(link) {
+function setActiveServiceNavLink(link, keepTitle) {
   clearActiveServiceNavLinks();
 
   link.closest(
@@ -89,7 +89,9 @@ function setActiveServiceNavLink(link) {
   link.setAttribute("aria-current", "page");
   wrapActiveFallback(link);
 
-  applyAutoPageTitle(link);
+  if (!keepTitle) applyAutoPageTitle(link);
+  // A title from update_page_title() only holds until the nav next moves
+  window.shinyGovstyleServerTitle = false;
 }
 
 // Allow programmatic update of active nav item from R server code
@@ -103,6 +105,32 @@ Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
   } else {
     clearActiveServiceNavLinks();
   }
+});
+
+// Keep the active link in step with the selected tab panel, sent by
+// service_navigation_server() whenever the tabset changes. inputIds lists
+// every link wired to the panel, and is empty for a panel with no link. If
+// one of them is already active (the user clicked it, or the app called
+// update_service_navigation()) nothing changes. Otherwise the first link
+// becomes active, keeping the title if the app set one with
+// update_page_title() for this change.
+Shiny.addCustomMessageHandler("sync_service_navigation", function (inputIds) {
+  var keepTitle = window.shinyGovstyleServerTitle === true;
+  window.shinyGovstyleServerTitle = false;
+  var first = null;
+  for (var i = 0; i < inputIds.length; i++) {
+    var link = findServiceNavLink(inputIds[i]);
+    if (!link) continue;
+    if (
+      link.closest(".govuk-service-navigation__item").classList.contains(
+        "govuk-service-navigation__item--active"
+      )
+    ) {
+      return;
+    }
+    if (!first) first = link;
+  }
+  if (first) setActiveServiceNavLink(first, keepTitle);
 });
 
 // Set active state on navigation links when clicked

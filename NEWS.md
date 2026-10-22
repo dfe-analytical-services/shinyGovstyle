@@ -1,3 +1,14 @@
+# shinyGovstyle (development version)
+
+* `service_navigation_server()` now keeps the service navigation in step
+  with its tabset. When one of its panels is selected from the server, for
+  example with `updateTabsetPanel()` behind a next button, that panel's link
+  becomes active, with `aria-current="page"` and the automatic page title.
+  Previously the last clicked link stayed marked as the current page unless
+  you also called `update_service_navigation()`. Existing calls to
+  `update_service_navigation()` and `navigate_to()` keep working, and a
+  title set with `update_page_title()` alongside the tab change is kept.
+
 # shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments

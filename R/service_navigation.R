@@ -168,16 +168,21 @@ service_navigation <- function(
 #' service navigation bar.
 #'
 #' **When you need this function:** when navigation is triggered
-#' programmatically — for example, via a next / back button or a footer link
-#' that points to a main page. In those cases the nav link itself is not
+#' programmatically (for example, via a next / back button or a footer link
+#' that points to a main page) and the tabset is not wired up with
+#' [service_navigation_server()]. In those cases the nav link itself is not
 #' clicked, so the JavaScript binding does not fire and the active state does
 #' not update automatically. Call `update_service_navigation()` alongside
-#' your tab-switching call to keep them in sync.
+#' your tab-switching call to keep them in sync. You also need it to
+#' highlight a link for a panel that is not in `link_to_panel`, for example a
+#' sub-page that belongs under one of the nav links.
 #'
 #' **When you don't need this function:** when the user clicks a service
 #' navigation link directly. The JavaScript binding updates the active state
 #' automatically, so you only need to switch the tab panel in your
-#' `observeEvent()`.
+#' `observeEvent()`. You also don't need it when [service_navigation_server()]
+#' wires up the tabset, because that moves the active link whenever one of its
+#' panels is selected, however that happens.
 #'
 #' `inputId` is cleaned up the same way as in [service_navigation()], so you
 #' can pass either the inputID you supplied there (e.g. `"Page-Two"`) or its
@@ -238,6 +243,16 @@ update_service_navigation <- function(
 #' added to the UI. The active nav highlight and (when
 #' `auto_page_title = TRUE`) the browser tab title are already handled
 #' client-side, so no additional wiring is needed.
+#'
+#' It also watches the tabset itself. When a panel in `link_to_panel` is
+#' selected some other way, such as `shiny::updateTabsetPanel()` behind a next
+#' button, its nav link becomes the active item, with `aria-current="page"`
+#' and the automatic page title, so you do not need to call
+#' [update_service_navigation()] as well. A title you set with
+#' [update_page_title()] alongside the tab change is kept. When several links
+#' share a panel, the first is used unless one of them is already active.
+#' Panels that are not in `link_to_panel`, such as footer-only pages, leave
+#' the navigation as it is.
 #'
 #' @param session The Shiny session object
 #' @param tabset_id The `id` of the `shiny::tabsetPanel()` or
@@ -316,6 +331,20 @@ service_navigation_server <- function(
       ignoreInit = TRUE
     )
   })
+
+  # Follow the tabset too, so a panel selected from the server (e.g. by
+  # updateTabsetPanel() behind a next button) moves the active link with it
+  shiny::observeEvent(
+    input[[tabset_id]],
+    {
+      links <- names(link_to_panel)[link_to_panel == input[[tabset_id]]]
+      # Sent even when empty (a panel with no nav link, e.g. a footer-only
+      # page), so the browser knows the tab changed. A list so that one link
+      # is still sent as a JSON array.
+      session$sendCustomMessage("sync_service_navigation", as.list(links))
+    },
+    ignoreInit = TRUE
+  )
   invisible(NULL)
 }
 

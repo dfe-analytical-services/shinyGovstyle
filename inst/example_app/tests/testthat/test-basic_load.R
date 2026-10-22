@@ -101,3 +101,21 @@ test_that("Active nav link is exposed to screen readers via aria-current", {
   expect_equal(current_links(), "sn_cookies")
   expect_equal(fallback_links(), "sn_cookies")
 })
+
+test_that("A tab change outside the nav moves the active link and title", {
+  app$click("sn_select_types")
+  app$wait_for_idle()
+  expect_equal(current_links(), "sn_select_types")
+
+  # Select the panel through the tabset itself, the same input change that
+  # updateTabsetPanel() causes, with no nav link click and no
+  # update_service_navigation() call
+  app$set_inputs(`tab-container` = "feedback_types")
+  app$wait_for_idle()
+  expect_equal(current_links(), "sn_feedback_types")
+  expect_equal(fallback_links(), "sn_feedback_types")
+  expect_equal(
+    app$get_js("document.title"),
+    "Feedback types | shinyGovstyle"
+  )
+})

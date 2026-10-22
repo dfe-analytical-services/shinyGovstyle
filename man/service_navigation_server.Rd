@@ -33,6 +33,16 @@ Call once in your server function, after \code{\link[=service_navigation]{servic
 added to the UI. The active nav highlight and (when
 \code{auto_page_title = TRUE}) the browser tab title are already handled
 client-side, so no additional wiring is needed.
+
+It also watches the tabset itself. When a panel in \code{link_to_panel} is
+selected some other way, such as \code{shiny::updateTabsetPanel()} behind a next
+button, its nav link becomes the active item, with \code{aria-current="page"}
+and the automatic page title, so you do not need to call
+\code{\link[=update_service_navigation]{update_service_navigation()}} as well. A title you set with
+\code{\link[=update_page_title]{update_page_title()}} alongside the tab change is kept. When several links
+share a panel, the first is used unless one of them is already active.
+Panels that are not in \code{link_to_panel}, such as footer-only pages, leave
+the navigation as it is.
 }
 \examples{
 ui <- shinyGovstyle::gov_page(

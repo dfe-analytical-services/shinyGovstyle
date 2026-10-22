@@ -384,7 +384,9 @@ shinyGovstyle::service_navigation_server(
 
 `bslib::navset_hidden()` also responds to `updateTabsetPanel()`, so the same call works whether your tab panel is shiny or bslib.
 
-For navigation that can't be wired declaratively — next / back buttons, modal links, footer shortcuts — use `navigate_to()` to combine the panel switch and the nav-active update in one call:
+`service_navigation_server()` also watches the tabset. Whenever one of the panels in `link_to_panel` is selected, whether by a nav link or by your own `updateTabsetPanel()` call, its nav link becomes the active item and the page title follows.
+
+For navigation that can't be wired declaratively — next / back buttons, modal links, footer shortcuts — use `navigate_to()` to combine the panel switch and the nav-active update in one call. It also works in apps that don't use `service_navigation_server()`:
 
 ```{r, eval = FALSE}
 # server.R — programmatic navigation in one call
@@ -400,13 +402,13 @@ shiny::observeEvent(input$next_btn, {
 
 ### Keeping the page title in sync
 
-`service_navigation()` syncs the browser tab title with the active nav link by default, both for link clicks and for programmatic navigation via `update_service_navigation()`. Pass `page_title_suffix` to get the recommended `"<page> | <service>"` format, or `auto_page_title = FALSE` to opt out. For pages where the heading differs from the nav label (or for pages not in the nav), call `update_page_title()` explicitly. See the [Page titles section of the Headings and text vignette](headings-and-text.html#page-titles) for the full rationale and examples.
+`service_navigation()` syncs the browser tab title with the active nav link by default, both for link clicks and for programmatic navigation, whether through `update_service_navigation()` or a panel change that `service_navigation_server()` follows. Pass `page_title_suffix` to get the recommended `"<page> | <service>"` format, or `auto_page_title = FALSE` to opt out. For pages where the heading differs from the nav label (or for pages not in the nav), call `update_page_title()` explicitly. See the [Page titles section of the Headings and text vignette](headings-and-text.html#page-titles) for the full rationale and examples.
 
 ### Footer-only pages
 
 Some pages — such as an accessibility statement, privacy notice, or cookies information page — should not appear in the service navigation but still need to be reachable. The standard pattern is to add a link in `footer()` and a corresponding hidden tab panel, but to omit the link from `service_navigation()`.
 
-Because the user navigates to these pages outside of the service navigation, there is no active nav item to highlight. You do not need to call `update_service_navigation()` for these transitions. However, you should call it when navigating *back* to a main page from a footer-linked page, so the correct nav item becomes active again.
+Because the user navigates to these pages outside of the service navigation, there is no active nav item to highlight. You do not need to call `update_service_navigation()` for these transitions. When navigating *back* to a main page from a footer-linked page, the correct nav item needs to become active again. `service_navigation_server()` does this for any panel in `link_to_panel`; without it, call `update_service_navigation()` (or use `navigate_to()`).
 
 Footer-only pages also fall outside the `service_navigation()` auto page-title sync — there is no nav link for the JavaScript binding to read. Call `update_page_title()` so the browser tab title reflects the new page:
 

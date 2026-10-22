@@ -1,5 +1,12 @@
 # shinyGovstyle (development version)
 
+## New features
+
+* `select_Input()` gains `hint_label`, `error` and `error_message` arguments,
+  matching `text_Input()`. The hint is announced with the select, and
+  `error_on()` / `error_off()` now style an invalid select with GOV.UK's
+  `govuk-select--error` class instead of `govuk-input--error`.
+
 ## Bug fixes
 
 * Form controls now connect their labels, hints and error messages for

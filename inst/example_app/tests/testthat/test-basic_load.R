@@ -147,3 +147,58 @@ test_that("Error ids join aria-describedby only while the error shows", {
     c("text_types-text_area2-info", "text_types-text_area2-hint")
   )
 })
+
+# classes and aria-describedby ids on the location select, as character vectors
+location_select_state <- function() {
+  state <- app$get_js(
+    paste0(
+      "(function() {",
+      "var el = document.getElementById('select_types-location');",
+      "return [el.className, el.getAttribute('aria-describedby') || ''];",
+      "})()"
+    )
+  )
+  list(
+    classes = strsplit(state[[1]], "\\s+")[[1]],
+    described_by = strsplit(state[[2]], "\\s+")[[1]]
+  )
+}
+
+test_that("error_on() and error_off() style and describe a select", {
+  app$click("sn_select_types")
+  app$wait_for_idle()
+
+  # Hidden on load: only the hint describes the select.
+  state <- location_select_state()
+  expect_equal(state$described_by, "select_types-location-hint")
+  expect_false("govuk-select--error" %in% state$classes)
+
+  # Submitting without a choice raises the error.
+  app$set_inputs(`select_types-location` = "", wait_ = FALSE)
+  app$click("select_types-location_submit")
+  app$wait_for_idle()
+  state <- location_select_state()
+  expect_true("govuk-select--error" %in% state$classes)
+  # GOV.UK uses the select modifier only, not the text input one.
+  expect_false("govuk-input--error" %in% state$classes)
+  expect_equal(
+    state$described_by,
+    c("select_types-location-hint", "select_types-location-error")
+  )
+  expect_true(
+    app$get_js(
+      paste0(
+        "document.getElementById('select_types-locationdiv')",
+        ".classList.contains('govuk-form-group--error')"
+      )
+    )
+  )
+
+  # Choosing a country clears the error and its reference.
+  app$set_inputs(`select_types-location` = "wales", wait_ = FALSE)
+  app$click("select_types-location_submit")
+  app$wait_for_idle()
+  state <- location_select_state()
+  expect_false("govuk-select--error" %in% state$classes)
+  expect_equal(state$described_by, "select_types-location-hint")
+})

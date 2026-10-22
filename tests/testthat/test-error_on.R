@@ -48,7 +48,7 @@ test_that("error_on flags the underlying input as in-error", {
       function(c) recorded_arg(c, "selector", 1L),
       character(1L)
     ),
-    c("#eventIddiv :input", "#eventIdfile_div")
+    c("#eventIddiv :input:not(select)", "#eventIdfile_div")
   )
 })
 
@@ -207,4 +207,65 @@ test_that("error_on embeds the input id as a JavaScript string literal", {
 
   js <- recorded_arg(calls_for(r, "runjs")[[1L]], "code", 1L)
   expect_match(js, "var id = \"mod-\\\"x\\\"\";", fixed = TRUE)
+})
+
+test_that("error_on toggles the GOV.UK select error class on selects only", {
+  r <- make_call_recorder()
+
+  testthat::with_mocked_bindings(
+    error_on("eventId"),
+    addClass = r$record("addClass"),
+    show = r$record("show"),
+    html = r$record("html"),
+    runjs = r$record("runjs"),
+    .package = "shinyjs"
+  )
+
+  calls <- calls_for(r, "addClass")
+  selectors_for <- function(class) {
+    matching <- Filter(
+      function(c) identical(recorded_arg(c, "class", 2L), class),
+      calls
+    )
+    vapply(matching, function(c) recorded_arg(c, "selector", 1L), character(1L))
+  }
+  # GOV.UK styles an invalid select with govuk-select--error; the :input
+  # selector excludes selects so they do not also get govuk-input--error.
+  expect_identical(selectors_for("govuk-select--error"), "#eventIddiv select")
+  expect_false(any(selectors_for("govuk-input--error") == "#eventIddiv :input"))
+})
+
+test_that("error_on namespaces class selectors inside modules", {
+  # shinyjs namespaces `id` arguments but not `selector` ones, so without this
+  # the error classes would miss controls built with shiny::NS().
+  r <- make_call_recorder()
+
+  shiny::withReactiveDomain(
+    list(ns = shiny::NS("mod")),
+    testthat::with_mocked_bindings(
+      error_on("eventId"),
+      addClass = r$record("addClass"),
+      show = r$record("show"),
+      html = r$record("html"),
+      runjs = r$record("runjs"),
+      .package = "shinyjs"
+    )
+  )
+
+  selectors <- vapply(
+    Filter(
+      function(c) "selector" %in% names(c$args),
+      calls_for(r, "addClass")
+    ),
+    function(c) recorded_arg(c, "selector", 1L),
+    character(1L)
+  )
+  expect_setequal(
+    selectors,
+    c(
+      "#mod-eventIddiv :input:not(select)",
+      "#mod-eventIddiv select",
+      "#mod-eventIdfile_div"
+    )
+  )
 })

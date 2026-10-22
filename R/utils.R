@@ -234,6 +234,34 @@ govuk_error_html <- function(error_message) {
   paste0(as.character(govuk_error_prefix()), " ", message_html)
 }
 
+# Internal helper: the controls error_on() and error_off() style, as a list of
+# `selector` / `class` pairs, so both functions add and remove exactly the same
+# classes. GOV.UK gives each control type its own error modifier, so selects get
+# `govuk-select--error` and are kept out of the `:input` selector rather than
+# also picking up `govuk-input--error`. shinyjs namespaces `id` arguments inside
+# modules but not `selector` arguments, so the session's namespace is applied
+# here to match the form group id built with shiny::NS().
+govuk_error_class_targets <- function(
+  inputId, # nolint
+  session = shiny::getDefaultReactiveDomain()
+) {
+  if (!is.null(session)) {
+    inputId <- session$ns(inputId) # nolint
+  }
+  group <- paste0("#", inputId, "div")
+  list(
+    list(
+      selector = paste0(group, " :input:not(select)"),
+      class = "govuk-input--error"
+    ),
+    list(selector = paste0(group, " select"), class = "govuk-select--error"),
+    list(
+      selector = paste0("#", inputId, "file_div"),
+      class = "govuk-input--error"
+    )
+  )
+}
+
 # Internal helper: JavaScript for error_on() / error_off() that adds or removes
 # the error id in the control's `aria-describedby`, so screen readers announce
 # the error only while it is shown. The control is the fieldset for grouped

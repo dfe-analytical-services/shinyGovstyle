@@ -83,6 +83,7 @@ date_Input <- # nolint
     date_content <- shiny::tags$div(
       class = "govuk-date-input",
       id = inputId,
+      `data-govuk-error-target` = govuk_error_target_id(inputId, "date"),
       shiny::tags$div(
         class = "govuk-date-input__item",
         shiny::tags$div(

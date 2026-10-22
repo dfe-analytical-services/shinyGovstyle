@@ -1,46 +1,63 @@
-#' Header Function
+#' Generic header with an optional centred service title
 #'
-#' This function create a header banner. For use at top of the screen
-#' @param org_name Organisation name that goes in the header
-#' @param service_name Service name to supplement the organisation name
-#' @param logo Add a link to a logo which will apply in the header. Use crown to
-#' use the crown SVG version on GOV UK
-#' @param main_text `r lifecycle::badge("deprecated")` Use `org_name` instead
+#' A page-level header based on GOV.UK Frontend's Generic header. The linked
+#' organisation identity uses the upstream structure. The separate service
+#' title is a shinyGovstyle extension: centred on wide screens and stacked
+#' below the organisation on smaller screens. Use one header per page.
+#'
+#' @param org_name Organisation name. Use `NULL` for an image-only identity,
+#'   with meaningful `logo_alt_text`.
+#' @param service_name Optional service title, outside the homepage link.
+#' @param logo URL or app-relative path to your own logo. Defaults to `NULL`
+#'   (text only). The `"crown"` shortcut is no longer supported; use your own
+#'   logo or `NULL` instead.
+#' @param main_text `r lifecycle::badge("deprecated")` Use `org_name` instead.
+#'   Will be removed in shinyGovstyle 1.0.0.
 #' @param secondary_text `r lifecycle::badge("deprecated")` Use `service_name`
-#' instead
-#' @param main_link `r lifecycle::badge("deprecated")` Has no effect and will
-#' be removed in shinyGovstyle 1.0.0
-#' @param secondary_link `r lifecycle::badge("deprecated")` Has no effect and
-#' will be removed in shinyGovstyle 1.0.0
-#' @param logo_alt_text Add alternative text for the logo. Should be used when a
-#' logo is used
-#' @param main_alt_text `r lifecycle::badge("deprecated")` Has no effect and
-#' will be removed in shinyGovstyle 1.0.0
-#' @param secondary_alt_text `r lifecycle::badge("deprecated")` Has no effect
-#' and will be removed in shinyGovstyle 1.0.0
-#' @param logo_width Change the logo size width CSS to improve fit
-#' @param logo_height Change the logo size height CSS to improve fit
+#'   instead. Will be removed in shinyGovstyle 1.0.0.
+#' @param main_link,secondary_link,main_alt_text,secondary_alt_text
+#'   `r lifecycle::badge("deprecated")` Have no effect and will be removed
+#'   in shinyGovstyle 1.0.0. Use `homepage_url` for the organisation link.
+#' @param logo_alt_text Alternative text for a custom logo. Use `""` when the
+#'   adjacent organisation name already identifies it. An image-only identity
+#'   requires meaningful alternative text to name the homepage link.
+#' @param logo_width,logo_height Image dimensions, in pixels for numeric values
+#'   or as CSS lengths. Applied to each image independently.
+#' @param homepage_url Organisation homepage URL. Defaults to `/` (the domain
+#'   root). For an app hosted at `https://example.org/my-app/`, use
+#'   `homepage_url = "/my-app/"` to return to that app instead.
+#' @param classes Additional CSS classes for the outer header.
+#' @param attributes Named list of HTML attributes for the outer header,
+#'   such as `list(id = "site-header")` or a named `data-brand` attribute.
+#'   Use `classes` for CSS classes; the banner role cannot be overridden.
 #' @inheritParams width_arg
-#' @return a header HTML shiny tag object
+#' @details
+#' This replaces the previous branded-header markup for v1.0.0. Update CSS
+#' selectors from `govuk-header*` to the Generic header classes or the
+#' package-owned `shinygovstyle-header*` classes. The organisation now links
+#' to `homepage_url`; `service_name` remains supported and is not a link.
+#'
+#' Generic header does not remove branding elsewhere in your app. Review fonts,
+#' colours, favicons and footer imagery separately against the
+# nolint start: line_length_linter.
+#' [guidance on using Frontend without GOV.UK branding](https://frontend.design-system.service.gov.uk/using-govuk-frontend-without-govuk-branding/).
+# nolint end: line_length_linter.
+#' The header uses a system sans-serif font rather than GDS Transport.
+#' @return A header HTML Shiny tag object.
 #' @family Govstyle page structure
 #' @export
 #' @examples
-#' ui <- shinyGovstyle::gov_page(
-#'   shinyGovstyle::header(
-#'     org_name = "Example",
-#'     service_name = "User Examples",
-#'     logo = "shinyGovstyle/images/moj_logo.png",
-#'     logo_alt_text = "Ministry of Justice Logo"
-#'   )
+#' header("Example organisation")
+#' header("Example organisation", "My service", homepage_url = "/my-app/")
+#' header(
+#'   "Ministry of Justice", "My service",
+#'   logo = "shinyGovstyle/images/moj_logo.png",
+#'   logo_alt_text = "", homepage_url = "/my-app/"
 #' )
-#'
-#' server <- function(input, output, session) {}
-#'
-#' if (interactive()) shinyApp(ui = ui, server = server)
 header <- function(
   org_name = "Shiny example app",
   service_name = NULL,
-  logo = "shinyGovstyle/images/Dept_logo.svg",
+  logo = NULL,
   main_text = lifecycle::deprecated(),
   secondary_text = lifecycle::deprecated(),
   main_link = lifecycle::deprecated(),
@@ -50,7 +67,10 @@ header <- function(
   secondary_alt_text = lifecycle::deprecated(),
   logo_width = 66,
   logo_height = 34,
-  width = "standard"
+  width = "standard",
+  homepage_url = "/",
+  classes = NULL,
+  attributes = list()
 ) {
   wc <- gov_width_container(width, is_default = missing(width))
   if (lifecycle::is_present(main_text)) {
@@ -127,114 +147,100 @@ header <- function(
     )
   }
 
-  # Shared by the real logo and its `mirror`: an invisible, aria-hidden copy
-  # rendered after the service name purely to reserve the same width on the
-  # right as the org name/logo takes on the left. With both sides forced to
-  # equal width by a grid layout (see header-overrides.css), the service
-  # name in between ends up genuinely centred on the page - adapting to the
-  # org name's actual rendered width - rather than guessing from a fixed
-  # breakpoint.
-  build_logo <- function(mirror = FALSE) {
-    shiny::tags$div(
-      class = if (mirror) {
-        "govuk-header__logo govuk-header__logo--mirror"
-      } else {
-        "govuk-header__logo"
-      },
-      `aria-hidden` = if (mirror) "true" else NULL,
-      shiny::tags$span(
-        shiny::tags$span(
-          class = "govuk-header__logotype",
-          if (!is.null(logo) && logo == "crown") {
-            shiny::tags$svg(
-              `aria-hidden` = "true",
-              focusable = "false",
-              class = "govuk-header__logotype-crown",
-              xmlns = "http://www.w3.org/2000/svg",
-              viewBox = "0 0 132 97",
-              height = "30",
-              width = "36",
-              shiny::tags$path(
-                fill = "currentColor",
-                `fill-rule` = "evenodd",
-                d = paste0(
-                  "M25 30.2c3.5 1.5 7.7-.2 9.1-3.7 1.5-3.6-.2-7.8-3.9-9.2-3",
-                  ".6-1.4-7.6.3-9.1 3.9-1.4 3.5.3 7.5 3.9 9zM9 39.5c3.6 1.5",
-                  " 7.8-.2 9.2-3.7 1.5-3.6-.2-7.8-3.9-9.1-3.6-1.5-7.6.2-9.1",
-                  " 3.8-1.4 3.5.3 7.5 3.8 9zM4.4 57.2c3.5 1.5 7.7-.2 9.1-3.",
-                  "8 1.5-3.6-.2-7.7-3.9-9.1-3.5-1.5-7.6.3-9.1 3.8-1.4 3.5.3",
-                  " 7.6 3.9 9.1zm38.3-21.4c3.5 1.5 7.7-.2 9.1-3.8 1.5-3.6-.",
-                  "2-7.7-3.9-9.1-3.6-1.5-7.6.3-9.1 3.8-1.3 3.6.4 7.7 3.9 9.",
-                  "1zm64.4-5.6c-3.6 1.5-7.8-.2-9.1-3.7-1.5-3.6.2-7.8 3.8-9.",
-                  "2 3.6-1.4 7.7.3 9.2 3.9 1.3 3.5-.4 7.5-3.9 9zm15.9 9.3c-",
-                  "3.6 1.5-7.7-.2-9.1-3.7-1.5-3.6.2-7.8 3.7-9.1 3.6-1.5 7.7",
-                  ".2 9.2 3.8 1.5 3.5-.3 7.5-3.8 9zm4.7 17.7c-3.6 1.5-7.8-.",
-                  "2-9.2-3.8-1.5-3.6.2-7.7 3.9-9.1 3.6-1.5 7.7.3 9.2 3.8 1.",
-                  "3 3.5-.4 7.6-3.9 9.1zM89.3 35.8c-3.6 1.5-7.8-.2-9.2-3.8-",
-                  "1.4-3.6.2-7.7 3.9-9.1 3.6-1.5 7.7.3 9.2 3.8 1.4 3.6-.3 7",
-                  ".7-3.9 9.1zM69.7 17.7l8.9 4.7V9.3l-8.9 2.8c-.2-.3-.5-.6-",
-                  ".9-.9L72.4 0H59.6l3.5 11.2c-.3.3-.6.5-.9.9l-8.8-2.8v13.1",
-                  "l8.8-4.7c.3.3.6.7.9.9l-5 15.4v.1c-.2.8-.4 1.6-.4 2.4 0 4",
-                  ".1 3.1 7.5 7 8.1h.2c.3 0 .7.1 1 .1.4 0 .7 0 1-.1h.2c4-.6",
-                  " 7.1-4.1 7.1-8.1 0-.8-.1-1.7-.4-2.4V34l-5.1-15.4c.4-.2.7",
-                  "-.6 1-.9zM66 92.8c16.9 0 32.8 1.1 47.1 3.2 4-16.9 8.9-26",
-                  ".7 14-33.5l-9.6-3.4c1 4.9 1.1 7.2 0 10.2-1.5-1.4-3-4.3-4",
-                  ".2-8.7L108.6 76c2.8-2 5-3.2 7.5-3.3-4.4 9.4-10 11.9-13.6",
-                  " 11.2-4.3-.8-6.3-4.6-5.6-7.9 1-4.7 5.7-5.9 8-.5 4.3-8.7-",
-                  "3-11.4-7.6-8.8 7.1-7.2 7.9-13.5 2.1-21.1-8 6.1-8.1 12.3-",
-                  "4.5 20.8-4.7-5.4-12.1-2.5-9.5 6.2 3.4-5.2 7.9-2 7.2 3.1-",
-                  ".6 4.3-6.4 7.8-13.5 7.2-10.3-.9-10.9-8-11.2-13.8 2.5-.5 ",
-                  "7.1 1.8 11 7.3L80.2 60c-4.1 4.4-8 5.3-12.3 5.4 1.4-4.4 8",
-                  "-11.6 8-11.6H55.5s6.4 7.2 7.9 11.6c-4.2-.1-8-1-12.3-5.4l",
-                  "1.4 16.4c3.9-5.5 8.5-7.7 10.9-7.3-.3 5.8-.9 12.8-11.1 13",
-                  ".8-7.2.6-12.9-2.9-13.5-7.2-.7-5 3.8-8.3 7.1-3.1 2.7-8.7-",
-                  "4.6-11.6-9.4-6.2 3.7-8.5 3.6-14.7-4.6-20.8-5.8 7.6-5 13.",
-                  "9 2.2 21.1-4.7-2.6-11.9.1-7.7 8.8 2.3-5.5 7.1-4.2 8.1.5.",
-                  "7 3.3-1.3 7.1-5.7 7.9-3.5.7-9-1.8-13.5-11.2 2.5.1 4.7 1.",
-                  "3 7.5 3.3l-4.7-15.4c-1.2 4.4-2.7 7.2-4.3 8.7-1.1-3-.9-5.",
-                  "3 0-10.2l-9.5 3.4c5 6.9 9.9 16.7 14 33.5 14.8-2.1 30.8-3",
-                  ".2 47.7-3.2z"
-                )
-              )
-            )
-          } else if (!is.null(logo)) {
-            shiny::tags$img(
-              src = logo,
-              class = "govuk-header__logotype-crown-fallback-image",
-              alt = logo_alt_text
-            )
-          },
-          shiny::tags$span(org_name, class = "govuk-header__product-name")
-        )
-      )
+  if (identical(logo, "crown")) {
+    stop(
+      '`logo = "crown"` is not supported by Generic header. ',
+      "Use `logo = NULL` for text only or supply your own logo path ",
+      "and `logo_alt_text`.",
+      call. = FALSE
+    )
+  }
+  if (
+    !is.character(homepage_url) ||
+      length(homepage_url) != 1L ||
+      is.na(homepage_url) ||
+      !nzchar(trimws(homepage_url))
+  ) {
+    stop("`homepage_url` must be a non-empty URL string.", call. = FALSE)
+  }
+  if (
+    !is.null(classes) &&
+      (!is.character(classes) || length(classes) != 1L || is.na(classes))
+  ) {
+    stop("`classes` must be a single string or NULL.", call. = FALSE)
+  }
+  attribute_names <- names(attributes)
+  invalid_names <- length(attributes) > 0L && is.null(attribute_names)
+  invalid_names <- invalid_names ||
+    anyNA(attribute_names) ||
+    any(!nzchar(attribute_names)) ||
+    anyDuplicated(attribute_names)
+  if (!is.list(attributes) || invalid_names) {
+    stop("`attributes` must be a uniquely named list.", call. = FALSE)
+  }
+  if (any(tolower(names(attributes)) %in% c("class", "role"))) {
+    stop(
+      "Use `classes` for CSS classes; the header's banner role is fixed.",
+      call. = FALSE
+    )
+  }
+  has_name <- !is.null(org_name) &&
+    any(nzchar(trimws(as.character(org_name))))
+  has_alt <- !is.null(logo_alt_text) &&
+    any(nzchar(trimws(logo_alt_text)))
+  if (!has_name && (is.null(logo) || !has_alt)) {
+    stop(
+      "Provide `org_name` or a logo with meaningful `logo_alt_text` ",
+      "to name the homepage link.",
+      call. = FALSE
     )
   }
 
-  gov_header <- shiny::tags$header(
-    class = "govuk-header",
-    role = "banner",
-    shinyjs::inlineCSS(paste0(
-      ".govuk-header__logotype-crown-fallback-image {width: ",
-      logo_width,
-      "px;
-      height: ",
-      logo_height,
-      "px;}",
-      ".govuk-header__link:focus .govuk-header__logotype-crown-fallback-image",
-      ", .govuk-header__link:active .govuk-header__logotype-crown-fallback-",
-      "image {filter: invert(1);}"
-    )),
-    shiny::tags$div(
-      class = paste0("govuk-header__container ", wc$class),
-      style = wc$style,
-      build_logo(),
-      if (!is.null(service_name)) {
-        shiny::tags$div(
-          class = "govuk-header__content",
-          shiny::tags$span(service_name, class = "govuk-header__service-name")
+  identity <- shiny::tags$a(
+    href = homepage_url,
+    class = "govuk-generic-header__homepage-link shinygovstyle-header__link",
+    if (!is.null(logo)) {
+      shiny::tags$img(
+        src = logo,
+        class = "shinygovstyle-header__image",
+        alt = if (is.null(logo_alt_text)) "" else logo_alt_text,
+        style = htmltools::css(
+          width = shiny::validateCssUnit(logo_width),
+          height = shiny::validateCssUnit(logo_height)
         )
+      )
+    },
+    if (!is.null(logo) && has_name) " ",
+    if (has_name) {
+      shiny::tags$span(org_name, class = "shinygovstyle-header__organisation")
+    }
+  )
+  container <- shiny::tags$div(
+    class = paste(
+      "govuk-generic-header__container shinygovstyle-header__container",
+      if (!is.null(service_name)) {
+        "shinygovstyle-header__container--with-service"
       },
-      if (!is.null(service_name)) build_logo(mirror = TRUE)
+      wc$class
+    ),
+    style = wc$style,
+    shiny::tags$div(class = "govuk-generic-header__logo", identity),
+    if (!is.null(service_name)) {
+      shiny::tags$div(
+        class = "shinygovstyle-header__service-name",
+        service_name
+      )
+    }
+  )
+  gov_header <- do.call(
+    shiny::tags$header,
+    c(
+      list(
+        class = paste("govuk-generic-header shinygovstyle-header", classes),
+        role = "banner",
+        container
+      ),
+      attributes
     )
   )
 

@@ -101,3 +101,37 @@ test_that("Active nav link is exposed to screen readers via aria-current", {
   expect_equal(current_links(), "sn_cookies")
   expect_equal(fallback_links(), "sn_cookies")
 })
+
+test_that("header centres on desktop and stacks without overflow on mobile", {
+  on.exit(app$set_window_size(width = 1024, height = 768))
+  for (viewport in c(1920, 1400, 1264, 1024, 640, 390, 320)) {
+    app$set_window_size(width = viewport, height = 900)
+    geometry <- app$get_js(
+      "(() => {
+      const container = document.querySelector(
+        '.shinygovstyle-header__container');
+      const header = container.closest('header');
+      const logo = container.querySelector('.govuk-generic-header__logo');
+      const title = container.querySelector(
+        '.shinygovstyle-header__service-name');
+      const c = container.getBoundingClientRect();
+      const l = logo.getBoundingClientRect();
+      const t = title.getBoundingClientRect();
+      return {centre: t.x + t.width / 2 - (c.x + c.width / 2),
+        stacked: t.top >= l.bottom,
+        overflow: header.scrollWidth > header.clientWidth ||
+          c.right > window.innerWidth,
+        landmarks: document.querySelectorAll('header[role=banner]').length,
+        links: container.querySelectorAll('a').length};
+    })()"
+    )
+    expect_false(geometry$overflow, info = paste("viewport", viewport))
+    expect_equal(geometry$landmarks, 1)
+    expect_equal(geometry$links, 1)
+    if (viewport >= 1264) {
+      expect_lt(abs(geometry$centre), 1)
+    } else {
+      expect_true(geometry$stacked)
+    }
+  }
+})

@@ -2,55 +2,54 @@
 % Please edit documentation in R/header.R
 \name{header}
 \alias{header}
-\title{Header Function}
+\title{Generic header with an optional centred service title}
 \usage{
 header(
   org_name = "Shiny example app",
   service_name = NULL,
-  logo = "shinyGovstyle/images/Dept_logo.svg",
+  logo = NULL,
   main_text = lifecycle::deprecated(),
   secondary_text = lifecycle::deprecated(),
   main_link = lifecycle::deprecated(),
   secondary_link = lifecycle::deprecated(),
-  logo_alt_text = "Departmental logo",
+  logo_alt_text = "",
   main_alt_text = lifecycle::deprecated(),
   secondary_alt_text = lifecycle::deprecated(),
   logo_width = 66,
   logo_height = 34,
-  width = "standard"
+  width = "standard",
+  homepage_url = "/",
+  classes = NULL,
+  attributes = list()
 )
 }
 \arguments{
-\item{org_name}{Organisation name that goes in the header}
+\item{org_name}{Organisation name. Use \code{NULL} for an image-only identity,
+with meaningful \code{logo_alt_text}.}
 
-\item{service_name}{Service name to supplement the organisation name}
+\item{service_name}{Optional service title, outside the homepage link.}
 
-\item{logo}{Add a link to a logo which will apply in the header. Use crown to
-use the crown SVG version on GOV UK}
+\item{logo}{URL or app-relative path to your own logo. Defaults to \code{NULL}
+(text only). The \code{"crown"} shortcut is no longer supported; use your own
+logo or \code{NULL} instead.}
 
-\item{main_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{org_name} instead}
+\item{main_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{org_name} instead.
+Will be removed in shinyGovstyle 1.0.0.}
 
 \item{secondary_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{service_name}
-instead}
+instead. Will be removed in shinyGovstyle 1.0.0.}
 
-\item{main_link}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Has no effect and will
-be removed in shinyGovstyle 1.0.0}
+\item{main_link, secondary_link, main_alt_text, secondary_alt_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Have no effect and will be removed
+in shinyGovstyle 1.0.0. Use \code{homepage_url} for the organisation link.}
 
-\item{secondary_link}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Has no effect and
-will be removed in shinyGovstyle 1.0.0}
+\item{logo_alt_text}{Alternative text for a custom logo. Defaults to \code{""},
+which marks the logo as decorative: the adjacent organisation name already
+names the homepage link, so repeating it would be read out twice. An
+image-only identity (\code{org_name = NULL}) requires meaningful alternative
+text, such as the organisation's name, to name the homepage link.}
 
-\item{logo_alt_text}{Add alternative text for the logo. Should be used when a
-logo is used}
-
-\item{main_alt_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Has no effect and
-will be removed in shinyGovstyle 1.0.0}
-
-\item{secondary_alt_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Has no effect
-and will be removed in shinyGovstyle 1.0.0}
-
-\item{logo_width}{Change the logo size width CSS to improve fit}
-
-\item{logo_height}{Change the logo size height CSS to improve fit}
+\item{logo_width, logo_height}{Image dimensions, in pixels for numeric values
+or as CSS lengths. Applied to each image independently.}
 
 \item{width}{Width of the component. One of \code{"standard"} (the default,
 GOV.UK's usual 960px content width), \code{"three-quarters"}
@@ -58,26 +57,46 @@ GOV.UK's usual 960px content width), \code{"three-quarters"}
 \code{"full"} (no max-width, so the container fills the viewport, with
 grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
 \code{"90vw"}) for a custom max-width.}
+
+\item{homepage_url}{Organisation homepage URL. Defaults to \code{/} (the domain
+root). For an app hosted at \verb{https://example.org/my-app/}, use
+\code{homepage_url = "/my-app/"} to return to that app instead.}
+
+\item{classes}{Additional CSS classes for the outer header.}
+
+\item{attributes}{Named list of HTML attributes for the outer header,
+such as \code{list(id = "site-header")} or a named \code{data-brand} attribute.
+Use \code{classes} for CSS classes; the banner role cannot be overridden.}
 }
 \value{
-a header HTML shiny tag object
+A header HTML Shiny tag object.
 }
 \description{
-This function create a header banner. For use at top of the screen
+A page-level header based on GOV.UK Frontend's Generic header. The linked
+organisation identity uses the upstream structure. The separate service
+title is a shinyGovstyle extension: centred on wide screens and stacked
+below the organisation on smaller screens. Use one header per page.
+}
+\details{
+This replaces the previous branded-header markup for v1.0.0. Update CSS
+selectors from \verb{govuk-header*} to the Generic header classes or the
+package-owned \verb{shinygovstyle-header*} classes. The organisation now links
+to \code{homepage_url}; \code{service_name} remains supported and is not a link.
+
+Generic header does not remove branding elsewhere in your app. Review fonts,
+colours, favicons and footer imagery separately against the
+\href{https://frontend.design-system.service.gov.uk/using-govuk-frontend-without-govuk-branding/}{guidance on using Frontend without GOV.UK branding}.
+The header uses the same font as the rest of your page. Only call \code{font()}
+if your app is on a GOV.UK domain.
 }
 \examples{
-ui <- shinyGovstyle::gov_page(
-  shinyGovstyle::header(
-    org_name = "Example",
-    service_name = "User Examples",
-    logo = "shinyGovstyle/images/moj_logo.png",
-    logo_alt_text = "Ministry of Justice Logo"
-  )
+header("Example organisation")
+header("Example organisation", "My service", homepage_url = "/my-app/")
+header(
+  "Ministry of Justice", "My service",
+  logo = "shinyGovstyle/images/moj_logo.png",
+  homepage_url = "/my-app/"
 )
-
-server <- function(input, output, session) {}
-
-if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle page structure:

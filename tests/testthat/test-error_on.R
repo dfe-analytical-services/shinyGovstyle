@@ -48,7 +48,7 @@ test_that("error_on flags the underlying input as in-error", {
       function(c) recorded_arg(c, "selector", 1L),
       character(1L)
     ),
-    c("#eventIddiv :input:not(select)", "#eventIdfile_div")
+    c("#eventIddiv :input:not(select, textarea)", "#eventIdfile_div")
   )
 })
 
@@ -209,7 +209,7 @@ test_that("error_on embeds the input id as a JavaScript string literal", {
   expect_match(js, "var id = \"mod-\\\"x\\\"\";", fixed = TRUE)
 })
 
-test_that("error_on toggles the GOV.UK select error class on selects only", {
+test_that("error_on toggles the GOV.UK select and textarea error classes", {
   r <- make_call_recorder()
 
   testthat::with_mocked_bindings(
@@ -229,9 +229,13 @@ test_that("error_on toggles the GOV.UK select error class on selects only", {
     )
     vapply(matching, function(c) recorded_arg(c, "selector", 1L), character(1L))
   }
-  # GOV.UK styles an invalid select with govuk-select--error; the :input
-  # selector excludes selects so they do not also get govuk-input--error.
+  # GOV.UK styles invalid selects and textareas with their own modifiers; the
+  # :input selector excludes both so they do not also get govuk-input--error.
   expect_identical(selectors_for("govuk-select--error"), "#eventIddiv select")
+  expect_identical(
+    selectors_for("govuk-textarea--error"),
+    "#eventIddiv textarea"
+  )
   expect_false(any(selectors_for("govuk-input--error") == "#eventIddiv :input"))
 })
 
@@ -263,8 +267,9 @@ test_that("error_on namespaces class selectors inside modules", {
   expect_setequal(
     selectors,
     c(
-      "#mod-eventIddiv :input:not(select)",
+      "#mod-eventIddiv :input:not(select, textarea)",
       "#mod-eventIddiv select",
+      "#mod-eventIddiv textarea",
       "#mod-eventIdfile_div"
     )
   )

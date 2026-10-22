@@ -9,6 +9,10 @@
 
 ## Bug fixes
 
+* `error_on()` and `error_off()` now style an invalid `text_area_Input()` with
+  GOV.UK's `govuk-textarea--error` class instead of `govuk-input--error`, and
+  apply their error classes to controls inside Shiny modules.
+
 * Form controls now connect their labels, hints and error messages for
   assistive technology. `text_Input()` and `input_field()` labels are linked
   to their inputs, `text_Input()` hints are announced with the input (and an

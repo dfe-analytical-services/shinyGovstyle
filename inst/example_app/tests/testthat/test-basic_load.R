@@ -113,6 +113,14 @@ text_area2_described_by <- function() {
   strsplit(ids, "\\s+")[[1]]
 }
 
+# classes on the textarea, as a character vector
+text_area2_classes <- function() {
+  classes <- app$get_js(
+    "document.getElementById('text_types-text_area2').className"
+  )
+  strsplit(classes, "\\s+")[[1]]
+}
+
 test_that("Error ids join aria-describedby only while the error shows", {
   app$click("sn_text_types")
   app$wait_for_idle()
@@ -137,6 +145,9 @@ test_that("Error ids join aria-describedby only while the error shows", {
       "text_types-text_area2-error"
     )
   )
+  # GOV.UK uses the textarea modifier only, not the text input one.
+  expect_true("govuk-textarea--error" %in% text_area2_classes())
+  expect_false("govuk-input--error" %in% text_area2_classes())
 
   # Fixing the answer clears the error and its reference, keeping the rest.
   app$set_inputs(`text_types-text_area2` = "Fine thanks")
@@ -146,6 +157,7 @@ test_that("Error ids join aria-describedby only while the error shows", {
     text_area2_described_by(),
     c("text_types-text_area2-info", "text_types-text_area2-hint")
   )
+  expect_false("govuk-textarea--error" %in% text_area2_classes())
 })
 
 # classes and aria-describedby ids on the location select, as character vectors

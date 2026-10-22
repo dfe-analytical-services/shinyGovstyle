@@ -12,6 +12,14 @@
     max-width: 960px;
 }
 
+/* A width container nested inside another (gov_row(width = ...) inside a
+   wider page) only needs centring: the outer container already provides
+   the side gutter, so drop GOV.UK's own margin. */
+.govuk-width-container .govuk-width-container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* Three-quarters of the viewport, floored at standard's 960px so it's never
    narrower on a modest window. Keeps the normal grid gutters, unlike "full". */
 .govuk-width-container--three-quarters,

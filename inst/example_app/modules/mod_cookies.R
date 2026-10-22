@@ -9,53 +9,57 @@ mod_cookies_ui <- function(id) {
     Expires = "2 years"
   )
 
-  shiny::tagList(
-    shinyGovstyle::heading_text("Cookies", size = "l", level = 1),
-    shinyGovstyle::inset_text(
-      inputId = shiny::NS(id, "cookies_mock_notice"),
-      content = paste(
-        "This is a mock cookies page for demonstration only. It shows how",
-        "update_radio_button_Input() can keep the settings radio in sync with",
-        "the cookie banner."
+  shinyGovstyle::gov_row(
+    width = "standard",
+    shinyGovstyle::gov_box(
+      size = "two-thirds",
+      shinyGovstyle::heading_text("Cookies", size = "l", level = 1),
+      shinyGovstyle::inset_text(
+        inputId = shiny::NS(id, "cookies_mock_notice"),
+        content = paste(
+          "This is a mock cookies page for demonstration only. It shows how",
+          "update_radio_button_Input() can keep the settings radio in sync",
+          "with the cookie banner."
+        )
+      ),
+      shinyGovstyle::gov_text(
+        "Cookies are small files saved on your phone, tablet or computer when",
+        "you visit a website."
+      ),
+      shinyGovstyle::gov_text(
+        paste(
+          "We use cookies to make this site work and collect information about",
+          "how you use our service."
+        )
+      ),
+      shinyGovstyle::heading_text("Analytics cookies", size = "m", level = 2),
+      shinyGovstyle::gov_text(
+        "Analytics cookies let us measure how the service is used so we can",
+        "continually improve it."
+      ),
+      shinyGovstyle::govTable(
+        shiny::NS(id, "analytics_cookies_table"),
+        analytics_cookies,
+        caption = "Analytics cookies used by this demo",
+        caption_size = "s"
+      ),
+      shiny::uiOutput(shiny::NS(id, "cookie_saved")),
+      shinyGovstyle::heading_text(
+        "Change your cookie settings",
+        size = "m",
+        level = 2
+      ),
+      shinyGovstyle::radio_button_Input(
+        inputId = shiny::NS(id, "cookies_analytics"),
+        label = "Do you want to accept analytics cookies?",
+        choices = c("Yes" = "yes", "No" = "no"),
+        selected = "no",
+        inline = TRUE
+      ),
+      shinyGovstyle::button_Input(
+        shiny::NS(id, "save_cookies"),
+        "Save cookie settings"
       )
-    ),
-    shinyGovstyle::gov_text(
-      "Cookies are small files saved on your phone, tablet or computer when",
-      "you visit a website."
-    ),
-    shinyGovstyle::gov_text(
-      paste(
-        "We use cookies to make this site work and collect information about",
-        "how you use our service."
-      )
-    ),
-    shinyGovstyle::heading_text("Analytics cookies", size = "m", level = 2),
-    shinyGovstyle::gov_text(
-      "Analytics cookies let us measure how the service is used so we can",
-      "continually improve it."
-    ),
-    shinyGovstyle::govTable(
-      shiny::NS(id, "analytics_cookies_table"),
-      analytics_cookies,
-      caption = "Analytics cookies used by this demo",
-      caption_size = "s"
-    ),
-    shiny::uiOutput(shiny::NS(id, "cookie_saved")),
-    shinyGovstyle::heading_text(
-      "Change your cookie settings",
-      size = "m",
-      level = 2
-    ),
-    shinyGovstyle::radio_button_Input(
-      inputId = shiny::NS(id, "cookies_analytics"),
-      label = "Do you want to accept analytics cookies?",
-      choices = c("Yes" = "yes", "No" = "no"),
-      selected = "no",
-      inline = TRUE
-    ),
-    shinyGovstyle::button_Input(
-      shiny::NS(id, "save_cookies"),
-      "Save cookie settings"
     )
   )
 }

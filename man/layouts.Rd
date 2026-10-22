@@ -10,7 +10,7 @@
 \usage{
 gov_main_layout(..., inputID = "main", width = "standard")
 
-gov_row(...)
+gov_row(..., width = NULL)
 
 gov_box(..., size = "full")
 
@@ -23,12 +23,16 @@ example}
 
 \item{inputID}{ID of the main div. Defaults to "main"}
 
-\item{width}{Width of the component. One of \code{"standard"} (the default,
-GOV.UK's usual 960px content width), \code{"three-quarters"}
-(three-quarters of the viewport, never narrower than standard),
-\code{"full"} (no max-width, so the container fills the viewport, with
-grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
-\code{"90vw"}) for a custom max-width.}
+\item{width}{Width of the container. One of \code{"standard"} (GOV.UK's usual
+960px content width), \code{"three-quarters"} (three-quarters of the
+viewport, never narrower than standard), \code{"full"} (no max-width, so the
+container fills the viewport, with grid gutters also removed), or a CSS
+length (e.g. \code{"1400px"}, \code{"90vw"}) for a custom max-width.
+\code{gov_main_layout()} defaults to \code{"standard"}. \code{gov_row()} defaults to
+\code{NULL}, a plain grid row with no container of its own; give it a width
+to centre the row in its own container, for example \code{"standard"} so a
+text page such as a cookies page reads like a normal GOV.UK page inside
+a full-width \code{gov_page()}.}
 
 \item{size}{size of the box in the row. Optional are full, one-half,
 two-thirds, one-third, three-quarters and one-quarter. Defaults to "full"}
@@ -82,6 +86,15 @@ ui <- shinyGovstyle::gov_page(
       shinyGovstyle::gov_box(
         size = "three-quarters",
         shinyGovstyle::gov_text("govuk-grid-column-three-quarters")
+      )
+    ),
+    # Give a row a width to centre it in its own container, e.g. a
+    # standard-width text section on a wider page
+    shinyGovstyle::gov_row(
+      width = "standard",
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        shinyGovstyle::gov_text("Centred, like a normal GOV.UK page")
       )
     )
   ),

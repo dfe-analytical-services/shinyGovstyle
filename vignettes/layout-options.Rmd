@@ -74,7 +74,7 @@ gov_page(
 
 `gov_page(width = ...)` only sets the *outer* ceiling: how wide the page frame is allowed to get. It's a separate thing from how wide any one piece of *content* looks, which you control on the content itself.
 
-**Recommended setup:** for a dashboard-style app, set `gov_page(width = "full")` so wide tables, charts and value boxes get the room they need. Then, for any text-heavy page or section within that same app (a cookies page, a user guide, an accessibility statement), wrap its content in a `div` with GOV.UK's `govuk-!-width-two-thirds` class, rather than letting it stretch the full width of the page. The class works on its own, without the grid, and goes back to full width on small screens.
+**Recommended setup:** for a dashboard-style app, set `gov_page(width = "full")` so wide tables, charts and value boxes get the room they need. Then put any text-heavy section or form within that same app in a two-thirds column with `gov_row(gov_box(..., size = "two-thirds"))`, rather than letting it stretch the full width of the page. The column goes back to full width on small screens.
 
 > **Avoid full-width body text.** GOV.UK's own [Design System guidance](https://design-system.service.gov.uk/styles/layout/) recommends keeping body text to a two-thirds width even on a wide page, so lines don't get so long they're hard to read (aim for no more than about 75 characters per line). Paragraphs on a `"full"`-width page with no width set produce lines that stretch the entire screen: technically valid, but noticeably harder to read. Reserve full width for content that actually benefits from the extra room, like a wide table.
 
@@ -84,16 +84,31 @@ In practice this means: pick a page `width` for the *space you need* (e.g. `"ful
 gov_page(
   width = "full",
   gov_main_layout(
-    shiny::tags$div(
-      class = "govuk-!-width-two-thirds",
-      gov_text("Readable body text stays narrow, even on a wide page.")
+    gov_row(
+      gov_box(
+        size = "two-thirds",
+        gov_text("Readable body text stays narrow, even on a wide page.")
+      )
     ),
     govTable(my_wide_data)
   )
 )
 ```
 
-The example showcase app applies the same idea: its Cookies tab sits in a two-thirds column, so it reads as a normal, narrow text page even though the app itself uses `gov_page(width = "full")`.
+Fractional widths are relative to the page, though. On an unrestricted `"full"` page, two-thirds of a very wide screen can still give lines well past 75 characters. For a standalone text page in a full-width app (a cookies page, an accessibility statement), give the row a width too. `gov_row(width = "standard")` centres the row in GOV.UK's usual 960px column, so the page reads like any other GOV.UK page while the rest of the app stays full width:
+
+```{r, eval = FALSE}
+gov_row(
+  width = "standard",
+  gov_box(
+    size = "two-thirds",
+    heading_text("Cookies", size = "l"),
+    gov_text("This page explains how we use cookies.")
+  )
+)
+```
+
+The example showcase app applies the same idea. It uses the default `gov_page(width = "full")`. Its form and component tabs sit in two-thirds rows, and its Cookies tab uses `gov_row(width = "standard")` so it reads as a normal, centred GOV.UK page. On its "Tables, tabs and accordions" tab, the headings, the filter and the accordion are in two-thirds rows, while the tables sit outside any row and use the full width of the page.
 
 ---
 
@@ -241,16 +256,18 @@ gov_main_layout(
 
 ### A simple text page
 
-For a page that is mostly text, use the standard page width and keep the text to two-thirds of it, as the [GOV.UK layout guidance](https://design-system.service.gov.uk/styles/layout/) recommends for readable line lengths. GOV.UK's `govuk-!-width-two-thirds` class does this without the grid, and goes back to full width on small screens:
+For a page that is mostly text, use the standard page width and keep the text to two-thirds of it, as the [GOV.UK layout guidance](https://design-system.service.gov.uk/styles/layout/) recommends for readable line lengths. A single two-thirds `gov_box()` does this, and goes back to full width on small screens:
 
 ```{r, eval = FALSE}
 gov_page(
   width = "standard",
   gov_main_layout(
-    shiny::tags$div(
-      class = "govuk-!-width-two-thirds",
-      heading_text("Cookies", size = "l"),
-      gov_text("This page explains how we use cookies.")
+    gov_row(
+      gov_box(
+        size = "two-thirds",
+        heading_text("Cookies", size = "l"),
+        gov_text("This page explains how we use cookies.")
+      )
     )
   )
 )
@@ -258,7 +275,7 @@ gov_page(
 
 ### Columns with `gov_row()` and `gov_box()`
 
-Reach for the grid only when you need **side-by-side columns**, or a section that should sit in a grid column of a set width. It's a two-function system: `gov_row()` holds the columns, and `gov_box()` is each column.
+Reach for the grid when you need **side-by-side columns**, or a single section narrower than the page, such as a two-thirds column of text or a form. It's a two-function system: `gov_row()` holds the columns, and `gov_box()` is each column.
 
 ```
 gov_main_layout()
@@ -316,7 +333,11 @@ gov_main_layout(
 )
 ```
 
-A single full-width box adds nothing over putting the content directly in `gov_main_layout()`, so leave the grid out in that case.
+A single narrower box on its own, such as `gov_box(size = "two-thirds")`, is fine for a section of text or a form. A single *full*-width box adds nothing over putting the content directly in `gov_main_layout()`, so leave the grid out in that case.
+
+GOV.UK grid columns are floated on tablet and desktop screens, so the bottom margin of the last element in a `gov_box()` stays inside the row rather than collapsing into whatever comes next. Expect up to about 30px more space below a row than below the same content outside the grid. This is GOV.UK Frontend's own grid behaviour; on mobile the columns stack and the spacing is the same either way.
+
+Give `gov_row()` a `width` (for example `"standard"`) to also centre the row in its own container. This is useful for a text page inside a wider `gov_page()`; see [Content width vs page width](#content-width).
 
 ### `gov_text()`
 
@@ -495,22 +516,28 @@ ui <- gov_page(
 
       shiny::tabPanel(
         "About", value = "nav_about",
-        # Text-only page: two-thirds keeps it readable even though the
-        # app itself uses gov_page(width = "full"). See "Content width
-        # vs page width" above.
-        shiny::tags$div(
-          class = "govuk-!-width-two-thirds",
-          heading_text("About this dashboard", size = "l"),
-          gov_text("This page describes the dashboard.")
+        # Text-only page: a centred standard-width row keeps it readable
+        # even though the app itself uses gov_page(width = "full"). See
+        # "Content width vs page width" above.
+        gov_row(
+          width = "standard",
+          gov_box(
+            size = "two-thirds",
+            heading_text("About this dashboard", size = "l"),
+            gov_text("This page describes the dashboard.")
+          )
         )
       ),
 
       shiny::tabPanel(
         "Accessibility statement", value = "accessibility_panel",
-        shiny::tags$div(
-          class = "govuk-!-width-two-thirds",
-          heading_text("Accessibility statement", size = "l"),
-          gov_text("This page describes the accessibility of the dashboard.")
+        gov_row(
+          width = "standard",
+          gov_box(
+            size = "two-thirds",
+            heading_text("Accessibility statement", size = "l"),
+            gov_text("This page describes the accessibility of the dashboard.")
+          )
         )
       )
     )

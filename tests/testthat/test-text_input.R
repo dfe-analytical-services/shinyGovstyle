@@ -75,7 +75,6 @@ test_that("form group children appear in GOV.UK order", {
     child_classes(text_check),
     c(
       "govuk-label",
-      "govuk-hint",
       "govuk-error-message shinyjs-hide",
       "govuk-input"
     )
@@ -100,8 +99,88 @@ test_that("hint accepts a raw HTML string and renders unescaped", {
   expect_match(html, '<a href="#">guidance</a>', fixed = TRUE)
 })
 
-test_that("NULL hint still renders an empty hint div", {
-  html <- as.character(text_Input("txtId", "Text test"))
+test_that("NULL hint renders no hint div", {
+  text_check <- text_Input("txtId", "Text test")
 
-  expect_match(html, '<div class="govuk-hint"></div>', fixed = TRUE)
+  expect_no_tag(text_check, "govuk-hint")
+})
+
+test_that("label is programmatically associated with the input", {
+  text_check <- text_Input("txtId", "Text test")
+
+  label <- find_tag_required(text_check, "govuk-label")
+  input <- find_tag_required(text_check, "govuk-input")
+  expect_identical(htmltools::tagGetAttribute(label, "for"), "txtId")
+  expect_identical(htmltools::tagGetAttribute(input, "id"), "txtId")
+})
+
+test_that("hint is referenced by aria-describedby only when given", {
+  with_hint <- text_Input("txtId", "Text test", hint_label = "Hint")
+  without_hint <- text_Input("txtId", "Text test")
+
+  hint <- find_tag_required(with_hint, "govuk-hint")
+  expect_identical(htmltools::tagGetAttribute(hint, "id"), "txtId-hint")
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_tag(with_hint, "govuk-input"),
+      "aria-describedby"
+    ),
+    "txtId-hint"
+  )
+  expect_null(
+    htmltools::tagGetAttribute(
+      find_tag(without_hint, "govuk-input"),
+      "aria-describedby"
+    )
+  )
+})
+
+test_that("hidden error id is never in the rendered aria-describedby", {
+  # The error paragraph renders hidden; referencing it would make screen
+  # readers announce an error before error_on() has raised one.
+  text_check <- text_Input(
+    "txtId",
+    "Text test",
+    hint_label = "Hint",
+    error = TRUE,
+    error_message = "Error test"
+  )
+
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_tag(text_check, "govuk-input"),
+      "aria-describedby"
+    ),
+    "txtId-hint"
+  )
+})
+
+test_that("prefix and suffix variants keep the label and hint wiring", {
+  variants <- list(
+    text_Input("txtId", "Text test", hint_label = "Hint", prefix = "£"),
+    text_Input("txtId", "Text test", hint_label = "Hint", suffix = ".00"),
+    text_Input(
+      "txtId",
+      "Text test",
+      hint_label = "Hint",
+      prefix = "£",
+      suffix = ".00"
+    )
+  )
+
+  for (text_check in variants) {
+    input <- find_tag_required(text_check, "govuk-input")
+    expect_identical(htmltools::tagGetAttribute(input, "id"), "txtId")
+    expect_identical(
+      htmltools::tagGetAttribute(input, "aria-describedby"),
+      "txtId-hint"
+    )
+    expect_identical(
+      htmltools::tagGetAttribute(
+        find_tag(text_check, "govuk-label"),
+        "for"
+      ),
+      "txtId"
+    )
+  }
 })

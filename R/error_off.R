@@ -51,6 +51,7 @@ error_off <- function(
 ) {
   shinyjs::removeClass(paste0(inputId, "div"), "govuk-form-group--error")
   shinyjs::hide(govuk_error_id(inputId))
+  shinyjs::runjs(govuk_error_describedby_js(inputId, show = FALSE))
   shinyjs::removeClass(
     selector = paste0("#", inputId, "div :input"),
     class = "govuk-input--error"

@@ -101,3 +101,49 @@ test_that("Active nav link is exposed to screen readers via aria-current", {
   expect_equal(current_links(), "sn_cookies")
   expect_equal(fallback_links(), "sn_cookies")
 })
+
+# ids referenced by the textarea's aria-describedby, as a character vector
+text_area2_described_by <- function() {
+  ids <- app$get_js(
+    paste0(
+      "(document.getElementById('text_types-text_area2')",
+      ".getAttribute('aria-describedby') || '')"
+    )
+  )
+  strsplit(ids, "\\s+")[[1]]
+}
+
+test_that("Error ids join aria-describedby only while the error shows", {
+  app$click("sn_text_types")
+  app$wait_for_idle()
+
+  # Hidden on load, so screen readers must not be pointed at it yet.
+  expect_equal(
+    text_area2_described_by(),
+    c("text_types-text_area2-info", "text_types-text_area2-hint")
+  )
+
+  # Blank submit raises the error; raising it twice must not duplicate it.
+  app$set_inputs(`text_types-text_area2` = "")
+  app$click("text_types-btn_error")
+  app$wait_for_idle()
+  app$click("text_types-btn_error")
+  app$wait_for_idle()
+  expect_equal(
+    text_area2_described_by(),
+    c(
+      "text_types-text_area2-info",
+      "text_types-text_area2-hint",
+      "text_types-text_area2-error"
+    )
+  )
+
+  # Fixing the answer clears the error and its reference, keeping the rest.
+  app$set_inputs(`text_types-text_area2` = "Fine thanks")
+  app$click("text_types-btn_error")
+  app$wait_for_idle()
+  expect_equal(
+    text_area2_described_by(),
+    c("text_types-text_area2-info", "text_types-text_area2-hint")
+  )
+})

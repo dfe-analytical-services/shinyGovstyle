@@ -1,3 +1,15 @@
+# shinyGovstyle (development version)
+
+## Bug fixes
+
+* Form controls now connect their labels, hints and error messages for
+  assistive technology. `text_Input()` and `input_field()` labels are linked
+  to their inputs, `text_Input()` hints are announced with the input (and an
+  empty hint is no longer rendered), and `file_Input()` takes its `label` as
+  its accessible name instead of "Choose file". Hidden error messages are no
+  longer announced before an error is raised: `error_on()` and `error_off()`
+  now add and remove the error from the control's description.
+
 # shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments

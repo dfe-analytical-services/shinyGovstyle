@@ -98,7 +98,11 @@ file_Input <- # nolint
           ""
         }
       ),
-      `data-restore` = restored_value
+      `data-restore` = restored_value,
+      # The input sits inside the "Choose file" button label, which would
+      # otherwise become its accessible name; point it at the question instead.
+      `aria-labelledby` = paste0(inputId, "-label"),
+      `aria-describedby` = govuk_described_by(inputId)
     )
 
     if (multiple) {
@@ -114,7 +118,12 @@ file_Input <- # nolint
       style = if (!is.null(width)) {
         paste0("width: ", shiny::validateCssUnit(width), ";")
       },
-      shiny::tags$label(label, class = "govuk-label", tabindex = "-1"),
+      shiny::tags$label(
+        label,
+        class = "govuk-label",
+        id = paste0(inputId, "-label"),
+        `for` = inputId
+      ),
       if (error == TRUE) govuk_error_message(inputId, error_message),
       shiny::div(
         id = paste0(inputId, "file_div"),

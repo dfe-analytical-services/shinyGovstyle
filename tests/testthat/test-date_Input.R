@@ -183,3 +183,35 @@ test_that("Day/Month/Year labels are associated with their inputs", {
     "dateid_year"
   )
 })
+
+test_that("hidden error id is never in the fieldset aria-describedby", {
+  # error_on() adds the error id at runtime; rendering it up front would make
+  # screen readers announce the hidden error before it is raised.
+  with_hint <- date_Input(
+    "dateid",
+    "Test Date",
+    hint_label = "DD MM YYYY",
+    error = TRUE,
+    error_message = "Error test"
+  )
+  without_hint <- date_Input(
+    "dateid",
+    "Test Date",
+    error = TRUE,
+    error_message = "Error test"
+  )
+
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_tag(with_hint, "govuk-fieldset"),
+      "aria-describedby"
+    ),
+    "dateid-hint"
+  )
+  expect_null(
+    htmltools::tagGetAttribute(
+      find_tag(without_hint, "govuk-fieldset"),
+      "aria-describedby"
+    )
+  )
+})

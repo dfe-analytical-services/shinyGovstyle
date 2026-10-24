@@ -9,7 +9,8 @@ heading_text(text_input, size = "xl", id, level = 1)
 \arguments{
 \item{text_input}{Text to display}
 
-\item{size}{Text size using xl, l, m, s. Defaults to xl}
+\item{size}{Text size, one of \code{"xl"}, \code{"l"}, \code{"m"}, \code{"s"}. Defaults to
+\code{"xl"}. Any other value throws an error.}
 
 \item{id}{Custom header id}
 
@@ -19,19 +20,18 @@ heading_text(text_input, size = "xl", id, level = 1)
 a heading text HTML shiny tag object
 }
 \description{
-This function createS heading text
+This function creates heading text
 }
 \examples{
 shinyGovstyle::heading_text("This is great text")
 shinyGovstyle::heading_text("This is great text", size = "l", level = 2)
 }
 \seealso{
-Other Govstyle text types: 
-\code{\link{date_Input}()},
-\code{\link{gov_list}()},
-\code{\link{input_field}()},
-\code{\link{text_Input}()},
-\code{\link{text_area_Input}()},
-\code{\link{word_count}()}
+Other Govstyle text types:
+\code{\link[=date_Input]{date_Input()}},
+\code{\link[=gov_list]{gov_list()}},
+\code{\link[=input_field]{input_field()}},
+\code{\link[=text_Input]{text_Input()}},
+\code{\link[=text_area_Input]{text_area_Input()}}
 }
 \concept{Govstyle text types}

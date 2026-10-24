@@ -2,114 +2,87 @@
 % Please edit documentation in R/summary.R
 \name{gov_summary}
 \alias{gov_summary}
-\title{Summary List Function}
+\title{Summary list}
 \usage{
-gov_summary(
-  inputId,
-  headers = NULL,
-  info = NULL,
-  rows = NULL,
-  action = FALSE,
-  border = TRUE
-)
+gov_summary(inputId, headers, info, action = FALSE, border = TRUE)
 }
 \arguments{
-\item{inputId}{The Id for the summary list \verb{<dl>} element.}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
-\item{headers}{Character vector of key/label strings. Used with the legacy
-vector API. Ignored when \code{rows} is supplied.}
+\item{headers}{character vector of row headers (the keys)}
 
-\item{info}{Character vector of value strings (may contain HTML). Used with
-the legacy vector API. Ignored when \code{rows} is supplied.}
+\item{info}{Summary information values for the table. Each value accepts a
+plain character string, or \code{shiny} tag objects such as
+\code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}. Pass a list rather than a
+character vector to mix tag and string values.}
 
-\item{rows}{A list of row spec lists for the richer API. Each element is a
-named list with the following fields:
-\describe{
-\item{\code{key}}{Required. A character string or htmltools/shiny tag for the
-key column.}
-\item{\code{value}}{Required. A character string (treated as HTML) or
-htmltools/shiny tag for the value column.}
-\item{\code{actions}}{Optional. A list of action spec lists. Each action spec
-has \code{id} (button ID), \code{text} (button label, e.g. "Change"), and
-\code{visually_hidden_text} (screen-reader context, e.g. "name"). An empty
-list or \code{NULL} means no actions for that row.}
-\item{\code{no_border}}{Optional logical. Set \code{TRUE} to add
-\code{govuk-summary-list__row--no-border} to this row.}
-}}
+\item{action}{whether to add a "Change" action to each row. Default set to
+\code{FALSE}. When \code{TRUE}, each row gets its own action button whose input ID is
+\code{paste0(inputId, "_", slug)}, where \code{slug} is the header in lowercase with
+each run of characters other than letters and numbers replaced by \verb{_} and
+any leading or trailing \verb{_} removed. For example, with \code{inputId = "sumID"}
+the "Date of birth" row sets \code{input$sumID_date_of_birth}, which counts its
+clicks like \code{\link[shiny:actionButton]{shiny::actionButton()}}. Headers must give unique slugs. Each
+button also has visually hidden text so screen readers announce, for
+example, "Change date of birth" rather than a bare "Change".}
 
-\item{action}{Legacy parameter. \code{FALSE} (default) produces rows without
-actions. \code{TRUE} produces a "Change" button per row with the button ID
-derived from the header text. A character vector of IDs (one per row)
-gives per-row control. Ignored when \code{rows} is supplied.}
-
-\item{border}{Logical. Whether to show borders between rows. Default \code{TRUE}.
-Set \code{FALSE} to add \code{govuk-summary-list--no-border}.}
+\item{border}{set if the table should have borders. Default set
+to \code{TRUE}}
 }
 \value{
-An HTML shiny tag object.
+a summary list table HTML shiny tag object
 }
 \description{
-Creates a GOV.UK summary list. Supports a simple vector API (for backwards
-compatibility) and a richer row-spec list API that unlocks all design system
-variants: multiple actions per row, per-row borders, HTML keys, summary
-cards, and mixed-action lists.
+This function creates a GOV.UK summary list: a set of key and value pairs,
+optionally with a "Change" action on each row.
 }
 \examples{
-# --- Legacy vector API ---
-headers <- c("Name", "Date of birth", "Contact information")
-info    <- c("Sarah Philips", "5 January 1978",
-             "72 Guild Street <br> London <br> SE23 6FH")
+# Create an example dataset
+headers <- c(
+  "Name",
+  "Date of birth",
+  "Contact information",
+  "Contact details"
+)
+info <- c(
+  "Sarah Philips",
+  "5 January 1978",
+  "72 Guild Street <br> London <br> SE23 6FH",
+  "07700 900457 <br> sarah.phillips@example.com"
+)
 
-ui <- shiny::fluidPage(
-  shinyGovstyle::header("Example", "User Examples",
-                        logo = "shinyGovstyle/images/moj_logo.png"),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
-    shinyGovstyle::gov_summary("sumID", headers, info, action = FALSE)
+ui <- shinyGovstyle::gov_page(
+  shinyGovstyle::header(
+    org_name = "Example",
+    service_name = "User Examples",
+    logo="shinyGovstyle/images/moj_logo.png"
+  ),
+  shinyGovstyle::gov_main_layout(
+    shinyGovstyle::gov_summary("sumID", headers, info, action = TRUE),
+    shiny::textOutput("changed")
   ),
   shinyGovstyle::footer(full = TRUE)
 )
-server <- function(input, output, session) {}
+
+server <- function(input, output, session) {
+  # Each row has its own input: sumID_name, sumID_date_of_birth, ...
+  shiny::observeEvent(input$sumID_name, {
+    output$changed <- shiny::renderText("Change name clicked")
+  })
+}
 if (interactive()) shinyApp(ui = ui, server = server)
-
-# --- Rich rows API with multiple actions ---
-rows <- list(
-  list(key = "Name", value = "Sarah Philips",
-       actions = list(
-         list(id = "change_name", text = "Change",
-              visually_hidden_text = "name")
-       )),
-  list(key = "Contact details", value = "Not provided",
-       actions = list(
-         list(id = "add_contact",    text = "Add",
-              visually_hidden_text = "contact details"),
-         list(id = "change_contact", text = "Change",
-              visually_hidden_text = "contact details")
-       )),
-  list(key = "Date of birth", value = "5 January 1978", actions = list())
-)
-
-ui2 <- shiny::fluidPage(
-  shinyGovstyle::header("Example", "User Examples",
-                        logo = "shinyGovstyle/images/moj_logo.png"),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
-    shinyGovstyle::gov_summary("sumID2", rows = rows)
-  ),
-  shinyGovstyle::footer(full = TRUE)
-)
-if (interactive()) shinyApp(ui = ui2, server = function(input, output, session) {})
 }
 \seealso{
-Other Govstyle feedback types: 
-\code{\link{details}()},
-\code{\link{gov_summary_card}()},
-\code{\link{insert_text}()},
-\code{\link{label_hint}()},
-\code{\link{noti_banner}()},
-\code{\link{panel_output}()},
-\code{\link{tag_Input}()},
-\code{\link{value_box}()},
-\code{\link{warning_text}()}
+Other Govstyle feedback types:
+\code{\link[=confirmation_panel]{confirmation_panel()}},
+\code{\link[=details]{details()}},
+\code{\link[=gov_tag]{gov_tag()}},
+\code{\link[=inset_text]{inset_text()}},
+\code{\link[=label_hint]{label_hint()}},
+\code{\link[=noti_banner]{noti_banner()}},
+\code{\link[=value_box]{value_box()}},
+\code{\link[=warning_text]{warning_text()}}
 }
 \concept{Govstyle feedback types}

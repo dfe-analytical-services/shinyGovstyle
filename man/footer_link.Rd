@@ -7,9 +7,9 @@
 footer_link(link, link_name = NULL)
 }
 \arguments{
-\item{link}{Character string containing either link text or url}
+\item{link}{Character string containing either link text or url.}
 
-\item{link_name}{Name of a link where a URL has been provided in link_text}
+\item{link_name}{Name of a link where a URL has been provided in \code{link}.}
 }
 \value{
 HTML tag list item

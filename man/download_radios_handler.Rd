@@ -23,7 +23,7 @@ Output for use with \code{download_radios()}
 Download with extension radios handler
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   download_radios("download_file",
     file_types = c("CSV", "ODS"),
     file_sizes = c("2 KB", "5 KB")
@@ -41,10 +41,10 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui, server)
 }
 \seealso{
-Other Govstyle actions: 
-\code{\link{download_button}()},
-\code{\link{download_link}()},
-\code{\link{download_radios}()},
-\code{\link{external_link}()}
+Other Govstyle actions:
+\code{\link[=download_button]{download_button()}},
+\code{\link[=download_link]{download_link()}},
+\code{\link[=download_radios]{download_radios()}},
+\code{\link[=external_link]{external_link()}}
 }
 \concept{Govstyle actions}

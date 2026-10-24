@@ -11,6 +11,7 @@ govReactable(
   highlight = TRUE,
   borderless = TRUE,
   min_widths = list(),
+  columns = list(),
   ...
 )
 }
@@ -30,6 +31,15 @@ left-aligned}
 \item{min_widths}{Customise minimum column width using a list of columns and
 minimum width in pixels}
 
+\item{columns}{Customise individual columns, for example to fix the
+number of decimal places shown. Give a named list, where each name
+matches a column in \code{df} and each value is built with
+\code{reactable::colDef()} (see examples). Any column left out of this list
+is unaffected, and keeps govReactable's usual GOV.UK look. For a column
+you do include, anything you don't set on it, such as sorting or
+alignment, also keeps that same default. Names that don't match a
+column in \code{df} are ignored.}
+
 \item{...}{Additional arguments passed to \code{reactable::reactable}}
 }
 \value{
@@ -37,7 +47,7 @@ A \code{reactable} HTML widget styled with GOV.UK classes
 }
 \description{
 This function is opinionated and sets table defaults that are in
-keeping with the wider GOV.UK design system. Some defaults are overrideable,
+keeping with the wider GOV.UK design system. Some defaults can be overridden,
 such as \code{highlight=TRUE} and \code{borderless=TRUE}, however some are fixed, such
 as \code{showSortIcon=FALSE} as the default sort icon is inaccessible. Additional
 arguments from \code{reactable::reactable} can be passed to customise the table.
@@ -74,13 +84,47 @@ if (interactive()) {
       Petal.Width = 75
     )
   )
+
+  # Show one column to a fixed number of decimal places, leaving every
+  # other column and style (sorting, alignment, etc.) untouched
+  sales_data <- data.frame(
+    shop = c("Shop A", "Shop B", "Shop C"),
+    growth = c(4, 4.7, 12.34)
+  )
+  govReactable(
+    sales_data,
+    columns = list(
+      growth = reactable::colDef(
+        format = reactable::colFormat(digits = 1)
+      )
+    )
+  )
+
+  # A more involved example: only `percent` is customised, so `region`
+  # and `count` keep the normal GOV.UK defaults untouched
+  # (counts shown as whole numbers alongside a percentage column fixed
+  # to 1 decimal place)
+  count_pct_data <- data.frame(
+    region = c("North", "South", "East"),
+    count = c(1234, 56, 789),
+    percent = c(4, 4.7, 12.34)
+  )
+  govReactable(
+    count_pct_data,
+    right_col = c("count", "percent"),
+    columns = list(
+      percent = reactable::colDef(
+        format = reactable::colFormat(digits = 1)
+      )
+    )
+  )
 }
 }
 \seealso{
-Other Govstyle tables tabs and accordions: 
-\code{\link{accordion}()},
+Other Govstyle tables tabs and accordions:
+\code{\link[=accordion]{accordion()}},
 \code{\link{govReactable-shiny}},
-\code{\link{govTable}()},
-\code{\link{govTabs}()}
+\code{\link[=govTable]{govTable()}},
+\code{\link[=govTabs]{govTabs()}}
 }
 \concept{Govstyle tables tabs and accordions}

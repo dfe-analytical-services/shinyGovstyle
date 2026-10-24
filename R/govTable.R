@@ -2,11 +2,15 @@
 #'
 #' This function inserts a gov styled table. Format is with header looking
 #' rows and columns
-#' @param inputId Input Id for the table
+#' @inheritParams id_arg
+#' @details For very large or interactive tables, consider
+#' [govReactable()] instead. `govTable()` renders a static HTML table, which
+#' becomes slow to render and harder to navigate as the number of rows grows.
+#' A warning is emitted when `df` has more than 50 rows.
 #' @param df expects a dataframe to create a table
 #' @param caption adds a caption to the table as a header
-#' @param caption_size adjust the size of caption. Options are s, m, l, xl,
-#' with l as the default
+#' @param caption_size adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
+#' `"xl"`, with `"l"` as the default. Any other value throws an error.
 #' @param num_col adds numeric class format to these columns
 #' @param width_overwrite change width. Need to include width for every column.
 #' Columns must add up to 1.
@@ -16,9 +20,8 @@
 #' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
+#' ui <- shinyGovstyle::gov_page(
+#'   shinyGovstyle::gov_main_layout(
 #'     shinyGovstyle::govTable(
 #'       "tab1",
 #'       shinyGovstyle::transport_data_small,
@@ -42,12 +45,30 @@ govTable <- # nolint
     num_col = NULL,
     width_overwrite = NULL
   ) {
-    # Create row by row the main bulk of table to insert later
-    main_row_store <- NULL
-    for (i in seq_len(nrow(df))) {
-      temp_row_store <- create_rows(df[i, ], num_col)
-      main_row_store <- shiny::tagList(temp_row_store, main_row_store)
+    validate_gds_text_size(caption_size, "caption_size")
+
+    # Static HTML tables become slow to render and hard to navigate (no
+    # pagination, sorting, or filtering) as they grow. Steer users towards
+    # govReactable() for very large tables. The threshold is arbitrary, chosen
+    # around the point where server-side rendering exceeds a few seconds.
+    if (nrow(df) > 50) {
+      warning(
+        inputId,
+        ": govTable has ",
+        nrow(df),
+        " rows. Large static tables are slow to render and hard to navigate. ",
+        "Consider govReactable() for an interactive, paginated table instead."
+      )
     }
+
+    # Build all body rows as a flat list. Accumulating with nested tagLists
+    # (tagList(new, accumulated)) previously created an N-deep structure that
+    # blew R's evaluation depth on large tables ("evaluation nested too deeply")
+    # and also reversed the row order.
+    main_row_store <- lapply(
+      seq_len(nrow(df)),
+      function(i) create_rows(df[i, , drop = FALSE], num_col)
+    )
 
     # Create the actual table
     gov_table <- shiny::tags$table(
@@ -110,7 +131,7 @@ create_rows <- function(df_row, num_col = NULL) {
       function(x) {
         shiny::tags$td(class = "govuk-table__cell", x)
       },
-      df_row[1, -1]
+      df_row[1, -1, drop = FALSE]
     )
   )
   #Not sure I can think of better way to add numeric class then do it post

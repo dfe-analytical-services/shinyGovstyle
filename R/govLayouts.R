@@ -1,31 +1,31 @@
 #' Page Layout Functions
 #'
-#' These function loads the page layout in a gov layout. There is a selection
-#' of components that can sit within each other. The gov_main_layout is the
-#' overarching layout. The gov_row creates a each row and gov_box creates
-#' a box within the row. The gov_text is a container for text bodies.
+#' Build the main content area of a GOV.UK page. `gov_main_layout()` creates
+#' the page's `<main>` landmark, and content can go straight inside it: items
+#' simply stack one below the other. Use `gov_row()` and `gov_box()` only when
+#' you need GOV.UK grid columns, such as two boxes side by side or a section
+#' with a set column width. `gov_text()` is a container for body text.
 #' @name layouts
 #' @param inputID ID of the main div. Defaults to "main"
 #' @param size size of the box in the row. Optional are full, one-half,
-#' two-thirds, one-third and one-quarter. Defaults to "full"
+#' two-thirds, one-third, three-quarters and one-quarter. Defaults to "full"
+#' @inheritParams width_arg
 #' @param ... include the components of the UI that you want within the
 #' main page. These components are made to flow through each other. See
 #' example
 #' @return a HTML shiny layout div
 #' @family Govstyle page structure
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"),
 #'   shinyGovstyle::gov_main_layout(
-#'     shinyGovstyle::gov_row(
-#'       shinyGovstyle::gov_box(
-#'         size = "full",
-#'         shinyGovstyle::gov_text("govuk-grid-column-full")
-#'       )
-#'     ),
+#'     # Content with no columns goes straight into gov_main_layout()
+#'     shinyGovstyle::heading_text("Page heading", size = "l"),
+#'     shinyGovstyle::gov_text("Items stack one below the other."),
+#'     # Use gov_row() and gov_box() for side-by-side columns
 #'     shinyGovstyle::gov_row(
 #'       shinyGovstyle::gov_box(
 #'         size = "one-half",
@@ -42,8 +42,8 @@
 #'         shinyGovstyle::gov_text("govuk-grid-column-one-third")
 #'       ),
 #'       shinyGovstyle::gov_box(
-#'         size = "two-third",
-#'         shinyGovstyle::gov_text("govuk-grid-column-two-third")
+#'         size = "two-thirds",
+#'         shinyGovstyle::gov_text("govuk-grid-column-two-thirds")
 #'       )
 #'     ),
 #'     shinyGovstyle::gov_row(
@@ -69,10 +69,14 @@ NULL
 #' @export
 gov_main_layout <- function(
   ...,
-  inputID = "main" # nolint
+  inputID = "main", # nolint
+  width = "standard"
 ) {
+  wc <- gov_width_container(width, is_default = missing(width))
+
   gov_main <- shiny::tags$div(
-    class = "govuk-width-container",
+    class = wc$class,
+    style = wc$style,
     shiny::tags$main(
       id = inputID,
       role = "main",
@@ -112,4 +116,5 @@ gov_text <- function(...) {
       class = "govuk-body",
       ...
     )
+  attachDependency(gov_text)
 }

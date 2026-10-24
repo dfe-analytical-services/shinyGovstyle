@@ -5,14 +5,14 @@
 #' navigate directly to the main content of a page.
 #'
 #' @param id An optional parameter to specify the Id of the main content
-#' section, will be automatically preceeded by a hash '#'. Default is
+#' section, will be automatically preceded by a hash '#'. Default is
 #' "main" to match the "#main" Id within `gov_main()`.
 #'
 #' @return A Shiny tag representing the 'Skip to main content' link
 #' @export
 #' @family Govstyle page structure
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   skip_to_main(),
 #'   header(
 #'     org_name = "Example",
@@ -28,9 +28,10 @@
 #'
 #' if (interactive()) shinyApp(ui = ui, server = server)
 skip_to_main <- function(id = "main") {
-  shiny::tags$a(
+  skip_link <- shiny::tags$a(
     href = paste0("#", id),
     class = "govuk-skip govuk-link",
     "Skip to main content"
   )
+  attachDependency(skip_link)
 }

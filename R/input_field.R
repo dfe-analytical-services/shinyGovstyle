@@ -7,13 +7,12 @@
 #' @param widths control the size of the box based on number of characters
 #' required.  Options are 30, 20, 10, 5, 4, 3, 2. NULL will not limit the size
 #' @param types text box types. Will default to text
-#' @param error Whenever to icnlud error handling. Defaults to FALSE
-#' @param error_message Message to display on error. Defaults to NULL
+#' @inheritParams hint_error_args
 #' @return a input field of HTML as a shiny tag object
 #' @family Govstyle text types
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   # Required for error handling function
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
@@ -21,11 +20,10 @@
 #'     service_name = "User Examples",
 #'     logo="shinyGovstyle/images/moj_logo.png"
 #'   ),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
+#'   shinyGovstyle::gov_main_layout(
 #'     shinyGovstyle::input_field(
 #'       legend ="List of three text boxes in a field",
 #'       labels = c("Field 1", "Field 2", "Field 3"),
@@ -33,8 +31,8 @@
 #'       widths = c(30,20,10),
 #'       error = TRUE
 #'     ),
-#'    # Button to trigger error
-#'    shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
+#'     # Button to trigger error
+#'     shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
 #'   ),
 #'   shinyGovstyle::footer(full = TRUE)
 #' )
@@ -84,16 +82,7 @@ input_field <- function(
           class = "govuk-form-group",
           id = paste0(y, "div"),
           shiny::tags$label(shiny::HTML(x), class = "govuk-label"),
-          if (error) {
-            shinyjs::hidden(
-              shiny::tags$p(
-                error_message,
-                class = "govuk-error-message",
-                id = paste0(y, "error"),
-                shiny::tags$span("Error:", class = "govuk-visually-hidden")
-              )
-            )
-          },
+          if (error == TRUE) govuk_error_message(y, error_message),
           shiny::tags$input(id = y, class = width_class, type = a)
         )
       },

@@ -7,7 +7,9 @@
 error_summary_update(inputId, error_list)
 }
 \arguments{
-\item{inputId}{The input Id of the error summary you want to update}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{error_list}{An updated list of text values to be displayed in the
 error body}
@@ -20,15 +22,14 @@ This function changes the text that displays in the error summary box.
 Requires \code{shinyjs::useShinyjs()} to work.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyjs::useShinyjs(),
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
     logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+  shinyGovstyle::gov_main_layout(
     error_summary(
       inputId = "errorId",
       error_title = "Error title",
@@ -53,9 +54,9 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle errors: 
-\code{\link{error_off}()},
-\code{\link{error_on}()},
-\code{\link{error_summary}()}
+Other Govstyle errors:
+\code{\link[=error_off]{error_off()}},
+\code{\link[=error_on]{error_on()}},
+\code{\link[=error_summary]{error_summary()}}
 }
 \concept{Govstyle errors}

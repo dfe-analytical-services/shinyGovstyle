@@ -11,7 +11,7 @@ govReactableOutput(
   output_table_name,
   caption,
   caption_size = "l",
-  heading_level = "h2"
+  heading_level = 2L
 )
 
 renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
@@ -21,11 +21,13 @@ renderGovReactable(expr, env = parent.frame(), quoted = FALSE)
 
 \item{caption}{Adds a caption to the table as a header}
 
-\item{caption_size}{Adjust the size of caption
-Options are s, m, l, xl, with l as the default}
+\item{caption_size}{Adjust the size of caption. One of \code{"s"}, \code{"m"}, \code{"l"},
+\code{"xl"}, with \code{"l"} as the default. Any other value throws an error.}
 
-\item{heading_level}{The HTML heading level for
-the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2"}
+\item{heading_level}{The HTML heading level for the caption, an integer
+from \code{2L} to \code{5L}. Defaults to \code{2L} (\verb{<h2>}). Strings such as \code{"h3"} are
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} as of shinyGovstyle 0.3.0 and will stop
+working in shinyGovstyle 1.0.0; use the integer form (e.g. \code{3L}) instead.}
 
 \item{expr}{An expression that generates a \code{reactable} widget}
 
@@ -46,7 +48,7 @@ Shiny bindings for govReactable
 Output and render functions for using govReactable within shiny apps
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   govReactableOutput(
     "table",
     caption = "Example table"
@@ -62,10 +64,10 @@ server <- function(input, output, session) {
 if (interactive()) shinyApp(ui, server)
 }
 \seealso{
-Other Govstyle tables tabs and accordions: 
-\code{\link{accordion}()},
-\code{\link{govReactable}()},
-\code{\link{govTable}()},
-\code{\link{govTabs}()}
+Other Govstyle tables tabs and accordions:
+\code{\link[=accordion]{accordion()}},
+\code{\link[=govReactable]{govReactable()}},
+\code{\link[=govTable]{govTable()}},
+\code{\link[=govTabs]{govTabs()}}
 }
 \concept{Govstyle tables tabs and accordions}

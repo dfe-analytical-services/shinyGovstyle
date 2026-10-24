@@ -11,17 +11,23 @@ test_that("Returns shiny.tag object", {
 })
 
 test_that("content and URL are correctly formatted", {
-  expect_equal(test_link$attribs$href, "")
-  expect_true(grepl("Download specific data set", test_link$children[[1]]))
-})
-
-test_that("File type and size correctly append", {
-  expect_true(grepl("\\(CSV", test_link$children[[1]]))
-  expect_true(grepl("12 KB\\)", test_link$children[[1]]))
+  expect_identical(htmltools::tagGetAttribute(test_link, "href"), "")
+  expect_identical(
+    as.character(tag_text(test_link, "shiny-download-link")),
+    "Download specific data set (CSV, 12 KB)"
+  )
 })
 
 test_that("attributes are attached properly", {
-  expect_equal(test_link$attribs$target, "_blank")
+  expect_identical(htmltools::tagGetAttribute(test_link, "target"), "_blank")
+  expect_identical(
+    htmltools::tagGetAttribute(test_link, "id"),
+    "download_data"
+  )
+  expect_identical(
+    htmltools::tagGetAttribute(test_link, "class"),
+    "shiny-download-link govuk-link disabled"
+  )
 })
 
 # Rest of tests against the function ==========================================
@@ -36,32 +42,25 @@ test_that("Rejects dodgy link text", {
 })
 
 test_that("Surrounding whitespace shrubbery is trimmed", {
-  expect_equal(
-    paste0(
-      download_link(
-        "download_data",
-        "   Download specific data set",
-        file_size = "96 MB"
-      )$children[[1]]
-    ),
+  trimmed_label <- function(text) {
+    as.character(
+      tag_text(
+        download_link("download_data", text, file_size = "96 MB"),
+        "shiny-download-link"
+      )
+    )
+  }
+
+  expect_identical(
+    trimmed_label("   Download specific data set"),
     "Download specific data set (CSV, 96 MB)"
   )
-
-  expect_equal(
-    paste0(download_link(
-      "download_data",
-      "Download specific data set    ",
-      file_size = "96 MB"
-    )$children[[1]]),
+  expect_identical(
+    trimmed_label("Download specific data set    "),
     "Download specific data set (CSV, 96 MB)"
   )
-
-  expect_equal(
-    paste0(download_link(
-      "download_data",
-      "   Download specific data set   ",
-      file_size = "96 MB"
-    )$children[[1]]),
+  expect_identical(
+    trimmed_label("   Download specific data set   "),
     "Download specific data set (CSV, 96 MB)"
   )
 })
@@ -102,4 +101,10 @@ test_that("file_size is valid", {
   expect_error(
     download_link("download_data", "Download your data", file_size = "12 JV")
   )
+})
+
+test_that("download_link attaches the GOV.UK and sr-only stylesheets", {
+  dep_names <- dependency_names(test_link)
+  expect_true("stylecss" %in% dep_names)
+  expect_true("sr-only" %in% dep_names)
 })

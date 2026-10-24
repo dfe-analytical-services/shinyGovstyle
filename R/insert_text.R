@@ -1,43 +1,54 @@
-#' Insert Text Function
+#' Insert text (deprecated)
 #'
-#' This function loads the insert text component to display additional
-#' information in a special format.
-#' @param inputId The input slot that will be used to access the value
-#' @param text Text that you want to display on the insert
-#' @return a insert text HTML shiny tag object
-#' @family Govstyle feedback types
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `insert_text()` was renamed to [inset_text()] in shinyGovstyle 0.3.0 to
+#' match the name of the GOV.UK Design System component. It will be removed in
+#' shinyGovstyle 1.0.0.
+#'
+#' @inheritParams inset_text
+#' @param text `r lifecycle::badge("deprecated")` Use `inset_text(content)`
+#' instead.
+#' @return an inset text HTML shiny tag object
+#' @keywords internal
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
-#'   shinyGovstyle::header(
-#'     org_name = "Example",
-#'     service_name = "User Examples",
-#'     logo="shinyGovstyle/images/moj_logo.png"
-#'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
-#'     shinyGovstyle::insert_text(
-#'       inputId = "note",
-#'       text = paste(
-#'         "It can take up to 8 weeks to register a lasting power of",
-#'         "attorney if there are no mistakes in the application."
-#'       )
-#'     )
-#'   ),
-#'   shinyGovstyle::footer(full = TRUE)
-#' )
+#' # Before
+#' # insert_text(inputId = "note", content = "Some supporting text")
 #'
-#' server <- function(input, output, session) {}
-#' if (interactive()) shinyApp(ui = ui, server = server)
+#' # After
+#' inset_text(inputId = "note", content = "Some supporting text")
 insert_text <- # nolint
   function(
     inputId, # nolint
-    text
+    content,
+    text = lifecycle::deprecated()
   ) {
-    gov_insert <- shiny::tags$div(
-      shiny::HTML(text),
-      id = inputId,
-      class = "govuk-inset-text"
-    )
-    attachDependency(gov_insert)
+    if (lifecycle::is_present(text)) {
+      # One warning covers both the rename and the argument change, so users
+      # only have to act on a single message.
+      lifecycle::deprecate_warn(
+        when = "0.3.0",
+        what = "insert_text(text)",
+        with = "inset_text(content)",
+        details = "`insert_text()` will be removed in shinyGovstyle 1.0.0."
+      )
+      if (!missing(content)) {
+        stop(
+          "Supply only one of `content` or the deprecated `text`, not both.",
+          call. = FALSE
+        )
+      }
+      content <- text
+    } else {
+      lifecycle::deprecate_warn(
+        when = "0.3.0",
+        what = "insert_text()",
+        with = "inset_text()",
+        details = "`insert_text()` will be removed in shinyGovstyle 1.0.0."
+      )
+    }
+
+    inset_text(inputId = inputId, content = content)
   }

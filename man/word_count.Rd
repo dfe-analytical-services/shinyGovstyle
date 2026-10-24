@@ -7,7 +7,9 @@
 word_count(inputId, input, word_limit = NULL)
 }
 \arguments{
-\item{inputId}{The input slot of the text area that you want to affect}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{input}{The text input that is associated with the box}
 
@@ -18,18 +20,23 @@ what was used in text area component}
 no value returned. Updates the word count in a shiny app
 }
 \description{
-This function create tracks the word count and should be used with the
-text area function.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{word_count()} was deprecated in shinyGovstyle 0.3.0 and will be removed in
+shinyGovstyle 1.0.0. \code{\link[=text_area_Input]{text_area_Input()}} now counts words in the browser and
+announces the count to screen readers, so no server code is needed. Set the
+limit with \code{text_area_Input(word_limit = )} and delete the \code{observeEvent()}
+that called \code{word_count()}.
 }
 \examples{
-ui <- shiny::fluidPage(
-  shinyjs::useShinyjs(),
+# The word count is handled by text_area_Input() alone; no server-side
+# word_count() observer is needed.
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     "Justice", "", logo = "shinyGovstyle/images/moj_logo.png"
   ),
-  gov_layout(
-    size = "full",
-    text_area_Input(
+  shinyGovstyle::gov_main_layout(
+    shinyGovstyle::text_area_Input(
       inputId = "text_area",
       label = "Can you provide more detail?",
       hint_label = paste(
@@ -39,26 +46,10 @@ ui <- shiny::fluidPage(
       word_limit = 300
     )
   ),
-  footer(TRUE)
+  shinyGovstyle::footer(TRUE)
 )
 
-server <- function(input, output, session) {
-  shiny::observeEvent(input$text_area,
-    word_count(
-      inputId = "text_area",
-      input = input$text_area
-    )
-  )
-}
+server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
-\seealso{
-Other Govstyle text types: 
-\code{\link{date_Input}()},
-\code{\link{gov_list}()},
-\code{\link{heading_text}()},
-\code{\link{input_field}()},
-\code{\link{text_Input}()},
-\code{\link{text_area_Input}()}
-}
-\concept{Govstyle text types}
+\keyword{internal}

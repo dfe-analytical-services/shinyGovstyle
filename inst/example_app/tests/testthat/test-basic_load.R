@@ -1,8 +1,123 @@
 app <- AppDriver$new(name = "example_app")
 
+# ids of the nav links marked as the current page
+current_links <- function() {
+  unlist(app$get_js(
+    paste0(
+      "Array.from(document.querySelectorAll(",
+      "'.govuk-service-navigation__link[aria-current=\"page\"]'",
+      ")).map(function (a) { return a.id; })"
+    )
+  ))
+}
+
+# ids of the nav links holding the GOV.UK active-fallback <strong>
+fallback_links <- function() {
+  unlist(app$get_js(
+    paste0(
+      "Array.from(document.querySelectorAll(",
+      "'.govuk-service-navigation__active-fallback'",
+      ")).map(function (s) {",
+      " return s.closest('.govuk-service-navigation__link').id; })"
+    )
+  ))
+}
+
 test_that("App loads and title of app appears as expected", {
   expect_equal(
     app$get_text("title"),
-    "ShinyGovstyle component showcase"
+    "Select Types | shinyGovstyle"
+  )
+})
+
+test_that("The first nav link is the current page on load", {
+  expect_equal(current_links(), "sn_select_types")
+  expect_equal(fallback_links(), "sn_select_types")
+})
+
+test_that("Browser tab title updates when a nav link is clicked", {
+  app$click("sn_text_types")
+  app$wait_for_idle()
+  expect_equal(
+    app$get_js("document.title"),
+    "Text Types | shinyGovstyle"
+  )
+
+  app$click("sn_feedback_types")
+  app$wait_for_idle()
+  expect_equal(
+    app$get_js("document.title"),
+    "Feedback types | shinyGovstyle"
+  )
+})
+
+test_that("Footer cookies link sets the title via nav-link sync", {
+  app$click("cookies_footer_link")
+  app$wait_for_idle()
+  expect_equal(
+    app$get_js("document.title"),
+    "Cookies | shinyGovstyle"
+  )
+})
+
+test_that("Next button switches the panel and updates the title", {
+  # Start from a known page so the next button is reachable.
+  app$click("sn_select_types")
+  app$wait_for_idle()
+  expect_equal(app$get_value(input = "tab-container"), "select_types")
+
+  # The in-module next button uses navigate_to() with mismatched
+  # inputId/panel value — this guards against regressing back to a state
+  # where only the nav highlight and title update.
+  app$click("select_types-text_types_next")
+  app$wait_for_idle()
+  expect_equal(app$get_value(input = "tab-container"), "text_types")
+  expect_equal(
+    app$get_js("document.title"),
+    "Text Types | shinyGovstyle"
+  )
+})
+
+test_that("Cookie banner link switches to the cookies panel", {
+  app$click("cookieLink")
+  app$wait_for_idle()
+  expect_equal(app$get_value(input = "tab-container"), "panel-cookies")
+  expect_equal(
+    app$get_js("document.title"),
+    "Cookies | shinyGovstyle"
+  )
+})
+
+test_that("Active nav link is exposed to screen readers via aria-current", {
+  # Direct click
+  app$click("sn_action_types")
+  app$wait_for_idle()
+  expect_equal(current_links(), "sn_action_types")
+  expect_equal(fallback_links(), "sn_action_types")
+
+  # Programmatic navigation (navigate_to() -> update_service_navigation())
+  app$click("cookies_footer_link")
+  app$wait_for_idle()
+  expect_equal(current_links(), "sn_cookies")
+  expect_equal(fallback_links(), "sn_cookies")
+})
+
+test_that("Each summary list Change button sets its own input", {
+  app$click("sn_feedback_types")
+  app$wait_for_idle()
+
+  app$click("feedback_types-sumID_name")
+  app$wait_for_idle()
+  app$click("feedback_types-sumID_date_of_birth")
+  app$click("feedback_types-sumID_date_of_birth")
+  app$wait_for_idle()
+
+  expect_equal(
+    as.integer(app$get_value(input = "feedback_types-sumID_name")),
+    1L
+  )
+  expect_equal(
+    as.integer(app$get_value(input = "feedback_types-sumID_date_of_birth")),
+    2L
   )
 })

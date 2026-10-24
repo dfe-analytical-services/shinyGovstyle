@@ -38,8 +38,15 @@
 }
 
 .govuk-header__logo {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     padding-right: 80px;
+}
+
+/* The mirror only does anything at the wide-desktop breakpoint below; keep
+   it fully out of the layout everywhere else so it can never affect the
+   stacked mobile/tablet header. */
+.govuk-header__logo--mirror {
+    display: none;
 }
 
 
@@ -57,36 +64,44 @@
 
 /* =============================================================================
    Wide desktop (min-width: 79em / 1264px)
-   Service name is centred on the page; organisation name sits on the left
+
+   The org name, the service name/title, and an invisible mirror of the
+   org name/logo (see header.R's build_logo()) share a 3-column grid, so
+   the title stays genuinely centred on the page. If there isn't room for
+   everything, the org name wraps first - the title is the page's own
+   heading and takes priority over the org name, which is comparatively
+   secondary and shared across many services.
    ============================================================================= */
 
 @media (min-width:79em) {
-    /* Container needs position:relative as the anchor for the absolutely
-       positioned service name */
     .govuk-header__container {
-        position: relative;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        column-gap: 40px;
     }
 
-    /* Symmetric padding so the org name's vertical centre matches the
-       container's 50% midpoint (v6 uses 16px top / 12px bottom which
-       offsets it by 2px). Flex centres the anchor within the padding box. */
     .govuk-header__logo {
+        grid-column: 1;
+        justify-self: start;
         display: flex;
         align-items: center;
         padding-top: 14px;
         padding-bottom: 14px;
+        padding-right: 0;
         margin-bottom: 0;
     }
 
-    /* Truly centre the service name horizontally and vertically in the bar */
     .govuk-header__content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        flex: none;
+        grid-column: 2;
+        justify-self: center;
         text-align: center;
-        white-space: nowrap;
+    }
+
+    .govuk-header__logo--mirror {
+        grid-column: 3;
+        justify-self: end;
+        visibility: hidden;
     }
 }
 

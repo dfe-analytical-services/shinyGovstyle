@@ -2,12 +2,12 @@
 #'
 #' This function turns off the the error o the component, once issues have
 #' been sorted.
-#' @param inputId The input Id to turn error handling on for
+#' @inheritParams id_arg
 #' @return no return value. This toggles off error CSS
 #' @family Govstyle errors
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   # Required for error handling function
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::header(
@@ -15,11 +15,10 @@
 #'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
+#'   shinyGovstyle::gov_main_layout(
 #'     # Error text box
 #'     shinyGovstyle::text_Input(
 #'       inputId = "eventId",
@@ -51,7 +50,7 @@ error_off <- function(
   inputId # nolint
 ) {
   shinyjs::removeClass(paste0(inputId, "div"), "govuk-form-group--error")
-  shinyjs::hide(paste0(inputId, "error"))
+  shinyjs::hide(govuk_error_id(inputId))
   shinyjs::removeClass(
     selector = paste0("#", inputId, "div :input"),
     class = "govuk-input--error"

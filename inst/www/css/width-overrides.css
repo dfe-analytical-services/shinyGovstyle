@@ -1,0 +1,105 @@
+/*
+ * Width tiers for .govuk-width-container: explicit "--standard/
+ * --three-quarters/--full" modifier classes for a component's own width,
+ * plus ambient [data-govuk-page-width] versions that gov_page(width = ...)
+ * uses to set a default for every component on the page. Both a bare class
+ * and a modifier class need to exist for "standard", so the ambient
+ * selectors can tell "left at its default, inherit the page width" apart
+ * from "explicitly asked to stay standard".
+ */
+
+.govuk-width-container--standard {
+    max-width: 960px;
+}
+
+/* Three-quarters of the viewport, floored at standard's 960px so it's never
+   narrower on a modest window. Keeps the normal grid gutters, unlike "full". */
+.govuk-width-container--three-quarters,
+[data-govuk-page-width="three-quarters"] .govuk-width-container:not([class*="govuk-width-container--"]) {
+    max-width: max(960px, 75vw);
+}
+
+.govuk-width-container--full,
+[data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) {
+    max-width: 100%;
+}
+
+/* A custom ambient width (gov_page(width = "1400px")) is set as a CSS
+   variable on the page wrapper, since a fixed class selector can't match it.
+   A component's own custom width sets max-width as an inline style instead. */
+[data-govuk-page-width="custom"] .govuk-width-container:not([class*="govuk-width-container--"]) {
+    max-width: var(--govuk-page-max-width);
+}
+
+/* "full" also goes edge-to-edge: zero the container's own native margin
+   (15px/30px, or auto-centred from 1020px up) as well as the grid gutters
+   (scoped inside a --full container only), replacing them with a small
+   symmetric padding so content isn't flush against the viewport edge. Without
+   zeroing the margin too, "full" ends up with margin *and* padding stacked -
+   effectively narrower than "standard"/"three-quarters" on a small screen,
+   where their grid-row/grid-column trick nets out to just the margin. */
+
+.govuk-width-container--full,
+[data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+@media (min-width: 40.0625em) {
+    .govuk-width-container--full,
+    [data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+.govuk-width-container--full .govuk-grid-row,
+[data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) .govuk-grid-row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.govuk-width-container--full [class*="govuk-grid-column-"],
+[data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) [class*="govuk-grid-column-"] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+/* GOV.UK Frontend gives .govuk-button-group a negative margin-right at
+   tablet+ (to cancel its last button/link's own trailing margin under a
+   margin-based gutter). "full" switches the container to a padding-based
+   gutter instead, so that negative margin now eats into the padding,
+   leaving the button row's edge 15px short of every other full-width
+   element's gutter. Cancel it here, matching "standard"'s behaviour, where
+   the same trick already nets out correctly against a margin-based gutter. */
+.govuk-width-container--full .govuk-button-group,
+[data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) .govuk-button-group {
+    margin-right: 0;
+}
+
+/* shiny::fluidPage()/bslib::page_fluid() wrap the page in Bootstrap's
+   .container-fluid, which adds its own side padding on top of
+   .govuk-width-container's margin. Zero it, but only where a
+   .govuk-width-container is actually present, so other .container-fluid
+   elements in the app are untouched. */
+.container-fluid:has(.govuk-width-container) {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+/* GOV.UK Frontend's 40px top padding on .govuk-main-wrapper reads as a
+   stray gap once the wider tiers remove their gutters/borders, so drop it
+   back to the mobile value (20px) for every tier except standard. */
+.govuk-width-container--three-quarters .govuk-main-wrapper,
+.govuk-width-container--three-quarters.govuk-main-wrapper,
+.govuk-width-container--full .govuk-main-wrapper,
+.govuk-width-container--full.govuk-main-wrapper,
+.govuk-width-container--custom .govuk-main-wrapper,
+.govuk-width-container--custom.govuk-main-wrapper,
+[data-govuk-page-width="three-quarters"] .govuk-main-wrapper,
+[data-govuk-page-width="full"] .govuk-main-wrapper,
+[data-govuk-page-width="custom"] .govuk-main-wrapper {
+    padding-top: 20px;
+}

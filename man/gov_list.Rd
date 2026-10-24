@@ -7,31 +7,44 @@
 gov_list(list, style = "none")
 }
 \arguments{
-\item{list}{vector of list}
+\item{list}{vector or list of items. Each item accepts a plain character
+string, or \code{shiny} tag objects such as \code{shiny::tags$a()} (e.g. to add a link
+to a bullet) or a \code{shiny::tagList()}.}
 
 \item{style}{options: "none", "bullet", "number". defaults to "none"}
+}
+\value{
+A Shiny tag representing an ordered or unordered HTML list.
 }
 \description{
 Gov List function
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+  shinyGovstyle::gov_main_layout(
     shinyGovstyle::heading_text("gov_list", size = "s"),
     shinyGovstyle::gov_text("List:"),
     gov_list(list = c("a", "b", "c")),
     shinyGovstyle::gov_text("Bulleted list:"),
     gov_list(list = c("a", "b", "c"), style = "bullet"),
     shinyGovstyle::gov_text("Numbered list:"),
-    gov_list(list = c("one", "two", "three"), style = "number")
+    gov_list(list = c("one", "two", "three"), style = "number"),
+    shinyGovstyle::gov_text("List with a link:"),
+    gov_list(
+      list = list(
+        "Plain item",
+        shiny::tags$a(href = "https://www.gov.uk", "A link"),
+        shiny::tagList("Item with ", shiny::tags$b("bold"), " text")
+      ),
+      style = "bullet"
+    )
   )
 )
 
@@ -40,12 +53,11 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle text types: 
-\code{\link{date_Input}()},
-\code{\link{heading_text}()},
-\code{\link{input_field}()},
-\code{\link{text_Input}()},
-\code{\link{text_area_Input}()},
-\code{\link{word_count}()}
+Other Govstyle text types:
+\code{\link[=date_Input]{date_Input()}},
+\code{\link[=heading_text]{heading_text()}},
+\code{\link[=input_field]{input_field()}},
+\code{\link[=text_Input]{text_Input()}},
+\code{\link[=text_area_Input]{text_area_Input()}}
 }
 \concept{Govstyle text types}

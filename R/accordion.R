@@ -1,25 +1,32 @@
 #' Accordion Function
 #'
 #' This function inserts a accordion
-#' @param inputId Input Id for the accordion
+#' @inheritParams id_arg
 #' @param titles Add the titles for the accordion
-#' @param descriptions Add the main text for the accordion
+#' @param descriptions Add the main content for each accordion section. Each
+#' item accepts a plain character string (rendered as a `govuk-body`
+#' paragraph), or `shiny` tag objects and `shiny::tagList()` values for richer
+#' block content such as multiple paragraphs, lists, or links. Tag content is
+#' inserted as-is and is *not* wrapped in a `govuk-body` paragraph, so build
+#' rich content from the styled helpers, `shinyGovstyle::gov_text()` for
+#' paragraphs and `shinyGovstyle::gov_list()` for lists, to keep GOV.UK
+#' styling. A bare tag or string passed without those helpers will render
+#' without `govuk-body` styling.
 #' @return an accordion HTML shiny tag object
 #' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png",
 #'     logo_alt_text = "Ministry of Justice logo"
 #'   ),
-#'   shinyGovstyle::banner(
+#'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", 'This is a new service'
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
+#'   shinyGovstyle::gov_main_layout(
 #'     accordion(
 #'       "acc1",
 #'       c(
@@ -28,11 +35,27 @@
 #'         "Know your audience",
 #'         "How people read"
 #'       ),
-#'       c(
+#'       list(
 #'         "This is the content for Writing well for the web.",
 #'         "This is the content for Writing well for specialists.",
 #'         "This is the content for Know your audience.",
-#'         "This is the content for How people read."
+#'         # Rich content: a paragraph followed by a bulleted list
+#'         # with a link
+#'         shiny::tagList(
+#'           shinyGovstyle::gov_text(
+#'             "People read in different ways, including:"
+#'           ),
+#'           shinyGovstyle::gov_list(
+#'             list(
+#'               "scanning for key words",
+#'               shiny::tags$a(
+#'                 href = "https://www.gov.uk",
+#'                 "following links"
+#'               )
+#'             ),
+#'             style = "bullet"
+#'           )
+#'         )
 #'       )
 #'     )
 #'   ),
@@ -60,7 +83,6 @@ accordion <- function(
           class = "govuk-accordion__show-all",
           `aria-expanded` = "false",
           shiny::tags$span(
-            id = "show-all-chevron",
             class = paste(
               "govuk-accordion-nav__chevron",
               "govuk-accordion-nav__chevron--down"
@@ -88,8 +110,9 @@ accordion <- function(
                 class = "govuk-accordion__section-header",
                 shiny::tags$button(
                   class = "govuk-accordion__section-button",
-                  id = paste0("accordion-default-heading-", z_str),
-                  name = paste0("accordion-default-heading-", z_str),
+                  id = paste0(inputId, "-accordion-default-heading-", z_str),
+                  name = paste0(inputId, "-accordion-default-heading-", z_str),
+                  `aria-expanded` = "false",
                   shiny::tags$span(
                     class = "govuk-accordion__section-heading-text",
                     shiny::tags$span(
@@ -127,13 +150,18 @@ accordion <- function(
               )
             ),
             shiny::tags$div(
-              id = "accordion-default-content-1",
+              id = paste0(inputId, "-accordion-default-content-", z_str),
               class = "govuk-accordion__section-content",
-              `aria-labelledby` = paste0("accordion-default-heading-", z_str),
-              shiny::tags$p(
-                class = "govuk-body",
-                y
-              )
+              `aria-labelledby` = paste0(
+                inputId,
+                "-accordion-default-heading-",
+                z_str
+              ),
+              if (is.character(y)) {
+                shiny::tags$p(class = "govuk-body", shiny::HTML(y))
+              } else {
+                as_govuk_html(y)
+              }
             )
           )
         },

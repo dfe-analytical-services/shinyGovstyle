@@ -64,11 +64,24 @@ mod_tables_tabs_ui <- function(id) {
         "Know your audience",
         "How people read"
       ),
-      c(
+      list(
         "This is the content for Writing well for the web.",
         "This is the content for Writing well for specialists.",
         "This is the content for Know your audience.",
-        "This is the content for How people read."
+        # Rich block content: paragraph + bulleted list with a link
+        shiny::tagList(
+          shinyGovstyle::gov_text("People read in different ways, including:"),
+          shinyGovstyle::gov_list(
+            list(
+              "scanning for key words",
+              shinyGovstyle::external_link(
+                "https://www.gov.uk",
+                "following links to GOV.UK"
+              )
+            ),
+            style = "bullet"
+          )
+        )
       )
     )
   )

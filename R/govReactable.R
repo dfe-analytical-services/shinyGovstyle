@@ -9,7 +9,7 @@
 #'
 #' @description
 #' This function is opinionated and sets table defaults that are in
-#' keeping with the wider GOV.UK design system. Some defaults are overrideable,
+#' keeping with the wider GOV.UK design system. Some defaults can be overridden,
 #' such as `highlight=TRUE` and `borderless=TRUE`, however some are fixed, such
 #' as `showSortIcon=FALSE` as the default sort icon is inaccessible. Additional
 #' arguments from `reactable::reactable` can be passed to customise the table.
@@ -23,6 +23,14 @@
 #' @param borderless Remove inner borders from table
 #' @param min_widths Customise minimum column width using a list of columns and
 #' minimum width in pixels
+#' @param columns Customise individual columns, for example to fix the
+#' number of decimal places shown. Give a named list, where each name
+#' matches a column in `df` and each value is built with
+#' `reactable::colDef()` (see examples). Any column left out of this list
+#' is unaffected, and keeps govReactable's usual GOV.UK look. For a column
+#' you do include, anything you don't set on it, such as sorting or
+#' alignment, also keeps that same default. Names that don't match a
+#' column in `df` are ignored.
 #' @param ... Additional arguments passed to `reactable::reactable`
 #' @return A `reactable` HTML widget styled with GOV.UK classes
 #' @family Govstyle tables tabs and accordions
@@ -51,6 +59,40 @@
 #'       Petal.Width = 75
 #'     )
 #'   )
+#'
+#'   # Show one column to a fixed number of decimal places, leaving every
+#'   # other column and style (sorting, alignment, etc.) untouched
+#'   sales_data <- data.frame(
+#'     shop = c("Shop A", "Shop B", "Shop C"),
+#'     growth = c(4, 4.7, 12.34)
+#'   )
+#'   govReactable(
+#'     sales_data,
+#'     columns = list(
+#'       growth = reactable::colDef(
+#'         format = reactable::colFormat(digits = 1)
+#'       )
+#'     )
+#'   )
+#'
+#'   # A more involved example: only `percent` is customised, so `region`
+#'   # and `count` keep the normal GOV.UK defaults untouched
+#'   # (counts shown as whole numbers alongside a percentage column fixed
+#'   # to 1 decimal place)
+#'   count_pct_data <- data.frame(
+#'     region = c("North", "South", "East"),
+#'     count = c(1234, 56, 789),
+#'     percent = c(4, 4.7, 12.34)
+#'   )
+#'   govReactable(
+#'     count_pct_data,
+#'     right_col = c("count", "percent"),
+#'     columns = list(
+#'       percent = reactable::colDef(
+#'         format = reactable::colFormat(digits = 1)
+#'       )
+#'     )
+#'   )
 #' }
 govReactable <- # nolint
   function(
@@ -60,6 +102,7 @@ govReactable <- # nolint
     highlight = TRUE,
     borderless = TRUE,
     min_widths = list(),
+    columns = list(),
     ...
   ) {
     # Generate column definitions
@@ -67,7 +110,7 @@ govReactable <- # nolint
       lapply(seq_along(names(df)), function(index) {
         col <- names(df)[index]
 
-        reactable::colDef(
+        default_col <- reactable::colDef(
           name = col,
           sortable = TRUE,
           headerClass = "bar-sort-header",
@@ -84,6 +127,24 @@ govReactable <- # nolint
             NULL
           }
         )
+
+        # Merge in any user-supplied colDef for this column, so only the
+        # fields the user actually set (non-NULL) override the GOV.UK
+        # defaults above. reactable::colDef() renames a handful of its
+        # input arguments in its returned object (class -> className,
+        # headerClass -> headerClassName, footerClass -> footerClassName,
+        # defaultSortOrder -> defaultSortDesc), so both `default_col` and
+        # the user's colDef are built via reactable::colDef() first
+        # (giving both the same *output*-name scheme), then merged
+        # directly as list objects instead of re-calling colDef() with
+        # the user's already-renamed fields as if they were input names.
+        if (!is.null(columns[[col]])) {
+          user_fields <- Filter(Negate(is.null), unclass(columns[[col]]))
+          merged_col <- utils::modifyList(unclass(default_col), user_fields)
+          structure(merged_col, class = "colDef")
+        } else {
+          default_col
+        }
       }),
       names(df)
     )
@@ -101,7 +162,8 @@ govReactable <- # nolint
       class = "gov-table govuk-table",
       ...
     )
-    attachDependency(table)
+
+    attachDependency(table, widget = "reactable")
   }
 
 #' Shiny bindings for govReactable
@@ -109,10 +171,12 @@ govReactable <- # nolint
 #'
 #' @param output_table_name Output variable to read from
 #' @param caption Adds a caption to the table as a header
-#' @param caption_size Adjust the size of caption
-#' Options are s, m, l, xl, with l as the default
-#' @param heading_level The HTML heading level for
-#' the caption (e.g., "h2", "h3", "h4", "h5"). Default is "h2"
+#' @param caption_size Adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
+#' `"xl"`, with `"l"` as the default. Any other value throws an error.
+#' @param heading_level The HTML heading level for the caption, an integer
+#' from `2L` to `5L`. Defaults to `2L` (`<h2>`). Strings such as `"h3"` are
+#' `r lifecycle::badge("deprecated")` as of shinyGovstyle 0.3.0 and will stop
+#' working in shinyGovstyle 1.0.0; use the integer form (e.g. `3L`) instead.
 #' @param expr An expression that generates a `reactable` widget
 #' @param env The environment in which to evaluate `expr`
 #' @param quoted Is `expr` a quoted expression (with [quote()])?
@@ -126,7 +190,7 @@ govReactable <- # nolint
 #' @name govReactable-shiny
 #' @family Govstyle tables tabs and accordions
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   govReactableOutput(
 #'     "table",
 #'     caption = "Example table"
@@ -146,23 +210,37 @@ govReactableOutput <- # nolint
     output_table_name,
     caption,
     caption_size = "l",
-    heading_level = "h2"
+    heading_level = 2L
   ) {
-    # Validate heading_level input
-    allowed_levels <- c("h2", "h3", "h4", "h5")
-    if (!heading_level %in% allowed_levels) {
-      stop(
-        "heading_level must be one of: ",
-        paste(allowed_levels, collapse = ", ")
+    validate_gds_text_size(caption_size, "caption_size")
+
+    # Warned here rather than in the helper so lifecycle attributes the
+    # deprecated usage to the user's code rather than to this package.
+    legacy_level <- heading_level
+    heading_level <- govreactable_heading_level(heading_level)
+    if (is.character(legacy_level)) {
+      lifecycle::deprecate_warn(
+        when = "0.3.0",
+        what = "govReactableOutput(heading_level = 'must be an integer')",
+        details = c(
+          i = paste0(
+            "Use `heading_level = ",
+            heading_level,
+            "L` instead of `heading_level = \"",
+            legacy_level,
+            "\"`."
+          ),
+          i = "Heading level strings will stop working in shinyGovstyle 1.0.0."
+        ),
+        # One id per legacy string, so each gets its own once-per-session
+        # warning showing the right integer.
+        id = paste0("shinyGovstyle_heading_level_", legacy_level)
       )
     }
 
-    heading_tag <- do.call(
-      shiny::tags[[heading_level]],
-      list(
-        class = paste0("govuk-heading-", caption_size),
-        caption
-      )
+    heading_tag <- shiny::tag(
+      paste0("h", heading_level),
+      list(class = paste0("govuk-heading-", caption_size), caption)
     )
 
     htmltools::div(
@@ -186,3 +264,33 @@ renderGovReactable <- # nolint
     }
     reactable::renderReactable(expr, env = env, quoted = TRUE)
   }
+
+# Internal helper: validates govReactableOutput()'s heading_level and returns
+# it as an integer. The "h2"-"h5" strings are still accepted during the
+# 0.3.0 transition; govReactableOutput() gives the deprecation warning.
+govreactable_heading_level <- function(heading_level) {
+  allowed_levels <- 2:5
+  legacy_levels <- paste0("h", allowed_levels)
+
+  if (
+    is.character(heading_level) &&
+      length(heading_level) == 1 &&
+      heading_level %in% legacy_levels
+  ) {
+    return(allowed_levels[match(heading_level, legacy_levels)])
+  }
+
+  if (
+    !is.numeric(heading_level) ||
+      length(heading_level) != 1 ||
+      is.na(heading_level) ||
+      !(heading_level %in% allowed_levels)
+  ) {
+    stop(
+      "`heading_level` must be a single integer from 2 to 5, e.g. `3L`.",
+      call. = FALSE
+    )
+  }
+
+  as.integer(heading_level)
+}

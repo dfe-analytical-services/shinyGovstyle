@@ -1,7 +1,7 @@
 #' Button Function
 #'
 #' This function create a gov style button
-#' @param inputId The input slot that will be used to access the value
+#' @inheritParams id_arg
 #' @param label Display label for the control, or `NULL` for no label
 #' @param type The type of button. Options are default, start, secondary and
 #' warning. Defaults to "default"
@@ -9,14 +9,13 @@
 #' @export
 #' @family Govstyle select inputs
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
 #'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
-#'   shinyGovstyle::gov_layout(
-#'     size = "two-thirds",
+#'   shinyGovstyle::gov_main_layout(
 #'     shinyGovstyle::button_Input(
 #'       inputId = "btn1",
 #'       label = "Continue",
@@ -47,8 +46,17 @@ button_Input <- # nolint
     value <- shiny::restoreInput(id = inputId, default = NULL)
 
     if (type == "start") {
+      label_content <- if (
+        inherits(label, "shiny.tag") ||
+          inherits(label, "shiny.tag.list") ||
+          inherits(label, "html")
+      ) {
+        shiny::tags$span(label)
+      } else {
+        label
+      }
       gov_button <- shiny::tags$button(
-        label,
+        label_content,
         id = inputId,
         class = paste0(class_input, " action-button"),
         `data-val` = value,

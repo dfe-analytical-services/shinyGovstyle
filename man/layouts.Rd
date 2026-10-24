@@ -8,7 +8,7 @@
 \alias{gov_text}
 \title{Page Layout Functions}
 \usage{
-gov_main_layout(..., inputID = "main")
+gov_main_layout(..., inputID = "main", width = "standard")
 
 gov_row(...)
 
@@ -23,31 +23,37 @@ example}
 
 \item{inputID}{ID of the main div. Defaults to "main"}
 
+\item{width}{Width of the component. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard),
+\code{"full"} (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
+
 \item{size}{size of the box in the row. Optional are full, one-half,
-two-thirds, one-third and one-quarter. Defaults to "full"}
+two-thirds, one-third, three-quarters and one-quarter. Defaults to "full"}
 }
 \value{
 a HTML shiny layout div
 }
 \description{
-These function loads the page layout in a gov layout. There is a selection
-of components that can sit within each other. The gov_main_layout is the
-overarching layout. The gov_row creates a each row and gov_box creates
-a box within the row. The gov_text is a container for text bodies.
+Build the main content area of a GOV.UK page. \code{gov_main_layout()} creates
+the page's \verb{<main>} landmark, and content can go straight inside it: items
+simply stack one below the other. Use \code{gov_row()} and \code{gov_box()} only when
+you need GOV.UK grid columns, such as two boxes side by side or a section
+with a set column width. \code{gov_text()} is a container for body text.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
     logo="shinyGovstyle/images/moj_logo.png"),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        size = "full",
-        shinyGovstyle::gov_text("govuk-grid-column-full")
-      )
-    ),
+    # Content with no columns goes straight into gov_main_layout()
+    shinyGovstyle::heading_text("Page heading", size = "l"),
+    shinyGovstyle::gov_text("Items stack one below the other."),
+    # Use gov_row() and gov_box() for side-by-side columns
     shinyGovstyle::gov_row(
       shinyGovstyle::gov_box(
         size = "one-half",
@@ -64,8 +70,8 @@ ui <- shiny::fluidPage(
         shinyGovstyle::gov_text("govuk-grid-column-one-third")
       ),
       shinyGovstyle::gov_box(
-        size = "two-third",
-        shinyGovstyle::gov_text("govuk-grid-column-two-third")
+        size = "two-thirds",
+        shinyGovstyle::gov_text("govuk-grid-column-two-thirds")
       )
     ),
     shinyGovstyle::gov_row(
@@ -87,12 +93,12 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle page structure: 
-\code{\link{banner}()},
-\code{\link{cookieBanner}()},
-\code{\link{footer}()},
-\code{\link{gov_layout}()},
-\code{\link{header}()},
-\code{\link{skip_to_main}()}
+Other Govstyle page structure:
+\code{\link[=cookieBanner]{cookieBanner()}},
+\code{\link[=footer]{footer()}},
+\code{\link[=gov_page]{gov_page()}},
+\code{\link[=header]{header()}},
+\code{\link[=phase_banner]{phase_banner()}},
+\code{\link[=skip_to_main]{skip_to_main()}}
 }
 \concept{Govstyle page structure}

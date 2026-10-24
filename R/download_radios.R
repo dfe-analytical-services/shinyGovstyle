@@ -17,7 +17,7 @@
 #' @export
 #'
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   download_radios("download_file",
 #'     file_types = c("CSV", "ODS"),
 #'     file_sizes = c("2 KB", "5 KB")

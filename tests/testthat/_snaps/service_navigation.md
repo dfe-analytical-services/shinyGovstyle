@@ -3,14 +3,14 @@
     Code
       service_navigation(links = c("Page 1", "Page 2", "Page 3"))
     Output
-      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation" data-auto-page-title="true">
         <div class="govuk-width-container">
           <div class="govuk-service-navigation__container">
             <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
               <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden="TRUE">Menu</button>
               <ul class="govuk-service-navigation__list" id="navigation">
-                <li class="govuk-service-navigation__item">
-                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="page_1"><span class="action-label">Page 1</span></a>
+                <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
+                  <a aria-current="page" class="action-button action-link govuk-service-navigation__link" href="#" id="page_1"><span class="action-label"><strong class="govuk-service-navigation__active-fallback">Page 1</strong></span></a>
                 </li>
                 <li class="govuk-service-navigation__item">
                   <a class="action-button action-link govuk-service-navigation__link" href="#" id="page_2"><span class="action-label">Page 2</span></a>
@@ -30,7 +30,7 @@
       service_navigation(service_name = "My app", c(`Page 1` = "p1", `Page 2` = "p2",
         `Page 3` = "p3"))
     Output
-      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation" data-auto-page-title="true">
         <div class="govuk-width-container">
           <div class="govuk-service-navigation__container">
             <span class="govuk-service-navigation__service-name">
@@ -39,8 +39,8 @@
             <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
               <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden="TRUE">Menu</button>
               <ul class="govuk-service-navigation__list" id="navigation">
-                <li class="govuk-service-navigation__item">
-                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="p1"><span class="action-label">Page 1</span></a>
+                <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
+                  <a aria-current="page" class="action-button action-link govuk-service-navigation__link" href="#" id="p1"><span class="action-label"><strong class="govuk-service-navigation__active-fallback">Page 1</strong></span></a>
                 </li>
                 <li class="govuk-service-navigation__item">
                   <a class="action-button action-link govuk-service-navigation__link" href="#" id="p2"><span class="action-label">Page 2</span></a>
@@ -59,14 +59,14 @@
     Code
       service_navigation(links = "Solo page")
     Output
-      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+      <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation" data-auto-page-title="true">
         <div class="govuk-width-container">
           <div class="govuk-service-navigation__container">
             <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
               <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden="TRUE">Menu</button>
               <ul class="govuk-service-navigation__list" id="navigation">
-                <li class="govuk-service-navigation__item">
-                  <a class="action-button action-link govuk-service-navigation__link" href="#" id="solo_page"><span class="action-label">Solo page</span></a>
+                <li class="govuk-service-navigation__item govuk-service-navigation__item--active">
+                  <a aria-current="page" class="action-button action-link govuk-service-navigation__link" href="#" id="solo_page"><span class="action-label"><strong class="govuk-service-navigation__active-fallback">Solo page</strong></span></a>
                 </li>
               </ul>
             </nav>

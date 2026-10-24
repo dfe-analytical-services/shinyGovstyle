@@ -4,7 +4,7 @@
       footer_with_links
     Output
       <footer class="govuk-footer " role="contentinfo">
-        <div class="govuk-width-container ">
+        <div class="govuk-width-container">
           <div class="govuk-footer__meta">
             <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
               <div>
@@ -29,7 +29,7 @@
       full_footer_with_links
     Output
       <footer class="govuk-footer " role="contentinfo">
-        <div class="govuk-width-container ">
+        <div class="govuk-width-container">
           <div class="govuk-footer__meta">
             <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
               <div>
@@ -65,7 +65,7 @@
       full_with_mixed_links
     Output
       <footer class="govuk-footer " role="contentinfo">
-        <div class="govuk-width-container ">
+        <div class="govuk-width-container">
           <div class="govuk-footer__meta">
             <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
               <div>
@@ -99,7 +99,7 @@
       full_with_ext_links
     Output
       <footer class="govuk-footer " role="contentinfo">
-        <div class="govuk-width-container ">
+        <div class="govuk-width-container">
           <div class="govuk-footer__meta">
             <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
               <div>

@@ -2,47 +2,51 @@
 % Please edit documentation in R/banner.R
 \name{banner}
 \alias{banner}
-\title{Banner Function}
+\title{Banner (deprecated)}
 \usage{
-banner(inputId, type, label)
+banner(inputId, type, label = NULL, feedback_url = NULL, width = "standard")
 }
 \arguments{
-\item{inputId}{The input slot that will be used to access the value}
+\item{inputId}{The id assigned to the component's root element. For Shiny
+input components this is also the name used to access the value via
+\verb{input$<inputId>}.}
 
 \item{type}{Main type of label e.g. alpha or beta. Can be any word}
 
-\item{label}{text to display}
+\item{label}{Text to display. Accepts a plain character string, or \code{shiny}
+tag objects such as \code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}. Not
+required if \code{feedback_url} is supplied instead.}
+
+\item{feedback_url}{Optional URL used to auto-generate the standard GOV.UK
+phase banner feedback text, e.g. "This is a new service - your feedback
+(opens in new tab) will help us to improve it.", with \code{feedback} linking to
+\code{feedback_url}. If \code{feedback_url} starts with \verb{mailto:} the text instead
+reads "This is a new service - please contact [email address] if you
+have any questions or feedback.". Exactly one of \code{label} or \code{feedback_url}
+must be supplied.}
+
+\item{width}{Width of the component. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard),
+\code{"full"} (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
 }
 \value{
-a banner HTML shiny tag object
+a phase banner HTML shiny tag object
 }
 \description{
-This function create a detail component that you can click for further
-details.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\code{banner()} was renamed to \code{\link[=phase_banner]{phase_banner()}} in shinyGovstyle 0.3.0 to match
+the name of the GOV.UK Design System component. The arguments and output
+are unchanged. \code{banner()} will be removed in shinyGovstyle 1.0.0.
 }
 \examples{
-ui <- shiny::fluidPage(
-  shinyGovstyle::header(
-    org_name = "Example",
-    service_name = "User Examples",
-    logo = "shinyGovstyle/images/moj_logo.png"
-  ),
-  shinyGovstyle::banner(
-    inputId = "banner", type = "Beta", 'This is a new service'
-  )
-)
+# Before
+# banner("banner", "Beta", "This is a new service")
 
-server <- function(input, output, session) {}
-
-if (interactive()) shinyApp(ui = ui, server = server)
+# After
+phase_banner("banner", "Beta", "This is a new service")
 }
-\seealso{
-Other Govstyle page structure: 
-\code{\link{cookieBanner}()},
-\code{\link{footer}()},
-\code{\link{gov_layout}()},
-\code{\link{header}()},
-\code{\link{layouts}},
-\code{\link{skip_to_main}()}
-}
-\concept{Govstyle page structure}
+\keyword{internal}

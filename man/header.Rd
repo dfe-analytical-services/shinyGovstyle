@@ -10,13 +10,14 @@ header(
   logo = "shinyGovstyle/images/Dept_logo.svg",
   main_text = lifecycle::deprecated(),
   secondary_text = lifecycle::deprecated(),
-  main_link = NULL,
-  secondary_link = NULL,
+  main_link = lifecycle::deprecated(),
+  secondary_link = lifecycle::deprecated(),
   logo_alt_text = "Departmental logo",
-  main_alt_text = NULL,
-  secondary_alt_text = NULL,
+  main_alt_text = lifecycle::deprecated(),
+  secondary_alt_text = lifecycle::deprecated(),
   logo_width = 66,
-  logo_height = 34
+  logo_height = 34,
+  width = "standard"
 )
 }
 \arguments{
@@ -32,24 +33,31 @@ use the crown SVG version on GOV UK}
 \item{secondary_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Use \code{service_name}
 instead}
 
-\item{main_link}{Add a link for clicking on main text
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+\item{main_link}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Has no effect and will
+be removed in shinyGovstyle 1.0.0}
 
-\item{secondary_link}{Add a link for clicking on secondary
-header \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+\item{secondary_link}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Has no effect and
+will be removed in shinyGovstyle 1.0.0}
 
 \item{logo_alt_text}{Add alternative text for the logo. Should be used when a
 logo is used}
 
-\item{main_alt_text}{Add alternative text for the main link. Should be used
-when a main link is used \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+\item{main_alt_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Has no effect and
+will be removed in shinyGovstyle 1.0.0}
 
-\item{secondary_alt_text}{Add alternative text for the secondary link. Should
-be used when a secondary link is used \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+\item{secondary_alt_text}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Has no effect
+and will be removed in shinyGovstyle 1.0.0}
 
 \item{logo_width}{Change the logo size width CSS to improve fit}
 
 \item{logo_height}{Change the logo size height CSS to improve fit}
+
+\item{width}{Width of the component. One of \code{"standard"} (the default,
+GOV.UK's usual 960px content width), \code{"three-quarters"}
+(three-quarters of the viewport, never narrower than standard),
+\code{"full"} (no max-width, so the container fills the viewport, with
+grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
+\code{"90vw"}) for a custom max-width.}
 }
 \value{
 a header HTML shiny tag object
@@ -58,7 +66,7 @@ a header HTML shiny tag object
 This function create a header banner. For use at top of the screen
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -72,12 +80,12 @@ server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle page structure: 
-\code{\link{banner}()},
-\code{\link{cookieBanner}()},
-\code{\link{footer}()},
-\code{\link{gov_layout}()},
+Other Govstyle page structure:
+\code{\link[=cookieBanner]{cookieBanner()}},
+\code{\link[=footer]{footer()}},
+\code{\link[=gov_page]{gov_page()}},
 \code{\link{layouts}},
-\code{\link{skip_to_main}()}
+\code{\link[=phase_banner]{phase_banner()}},
+\code{\link[=skip_to_main]{skip_to_main()}}
 }
 \concept{Govstyle page structure}

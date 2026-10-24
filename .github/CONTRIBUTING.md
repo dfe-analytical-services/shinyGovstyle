@@ -4,19 +4,90 @@ Ideas for shinyGovstyle should first be raised as a [GitHub issue](https://githu
 
 For support and information on package development in R, we recommend using the [R Packages (2e) guide by Hadley Wickham and Jennifer Bryan](https://r-pkgs.org/), this contains a wealth of information and best practice for all kinds of activities around package development in R.
 
+For a technical overview of the package, principles and common helpful commands, please refer to [AGENTS.md](../AGENTS.md).
+
 ## Formatting
 
 We use [Air](https://posit-dev.github.io/air/) to format the code and save any styling debate across the repo and keep us as close as we can to the expected lintr standards with minimal effort. 
 
-If you're working in VSCode or Positron, there is a settings.json file in the repo that includes format on save by default and should work for you without any additional work as long as you have the Air extension installed. If not, don't fear, as we also have a GitHub action that will check all pull requests for styling and offer formatting as a suggestion you can accept and commit from the PR in GitHub. Unless there's a reason not to, we recommend that if multiple suggestions are left, you go to the files changed view to accept them as one big batch, rather than individually committing everything.
+If you're working in VSCode or Positron, there is a settings.json file in the repo that includes format on save by default and should work for you without any additional work as long as you have the Air extension installed.
 
 Air is still in development, so it's worth checking [their documentation](https://posit-dev.github.io/air/editors.html) if you're a new contributor and want to see the best ways to use it within your chosen IDE.
+
+### Air suggestions on your PR
+
+If you can't run Air locally (or miss something), don't worry, we have a GitHub Action that runs Air on every PR and uses **ReviewDog** to leave inline suggestions on anything that doesn't match our formatting.
+
+These suggestions are purely about formatting and styling, so it's generally safe to accept them all as-is, you don't need to second-guess them.
+
+If there are several suggestions, the easiest way to apply them is to go to the **Files changed** tab on your PR and add each suggestion to a batch, then commit them all together as one commit. This avoids triggering CI on every individual change.
 
 ### no lint
 
 There are a number of places where the original function and argument names do not follow snake_case and therefore fail lintr's checks. To preserve backwards compatibility we've added `# nolint` to these lines so that we can turn on lintr checks for the package without creating breaking changes for everyone who uses it.
 
+## Testing
+
+Tests live in `tests/testthat/`. We aim for tests that read like a specification of the specifics we care about from a component, not a recording of its full HTML output, as that should be allowed to vary over time.
+
+### Principles to follow
+
+- **Navigate tag trees by class or id, not by position.** Use the helpers in `tests/testthat/helper-tags.R`: `find_tag()`, `find_tags()`, `find_tag_required()`, `tag_text()`, `tag_text_by_name()`, `child_classes()`, `find_by_id_suffix()`, `expect_has_tag()`, `expect_no_tag()`. Don't chain `$children[[N]]` to reach a nested tag; deep positional indexing breaks whenever the upstream GOV.UK Frontend markup is rearranged or we want to add or change elements of a component.
+- **Prefer code-based assertions** (`expect_identical()`, `expect_length()`, `expect_s3_class()`, `expect_error()`, `expect_warning()`) over `expect_snapshot()`. Reserve snapshots for components that embed HTML produced by an external dependency whose structure we don't control. In this package that means functions like `{reactable}` (via `govReactable()`) and `shiny::actionLink()` (used by multiple functions). The same reasoning extends to any other higher-level Shiny rendering function (e.g. `shiny::actionButton()`, `shiny::downloadLink()`) should we embed one in future. `expect_snapshot()` defaults to `cran = FALSE`, so these snapshots don't run on CRAN; an upstream version bump that reshuffles the embedded markup therefore can't break our (or downstream packages') CRAN checks (see [#155](https://github.com/dfe-analytical-services/shinyGovstyle/issues/155)).
+- **Use `expect_hidden_error()`** for any input that renders a hidden-by-default `govuk-error-message`.
+- **Add new shared assertions to `helper-tags.R`** rather than copy-pasting structural checks across test files.
+- **Cover error and warning paths**, not just the happy path. E.g. every `stop()` / `warning()` in `R/` should have a matching `expect_error()` / `expect_warning()`.
+
+### Worked example
+
+Don't reach into the tag tree by position:
+
+```r
+# Brittle: breaks if GOV.UK Frontend changes the wrapper structure
+expect_equal(
+  table$children[[2]]$children[[1]][[3]][[1]][[1]]$attribs$class,
+  "govuk-table__cell"
+)
+```
+
+Navigate by class instead:
+
+```r
+cell <- find_tag_required(table, "govuk-table__cell")
+expect_identical(htmltools::tagGetAttribute(cell, "class"), "govuk-table__cell")
+```
+
+For hidden errors:
+
+```r
+input <- text_Input(
+  "name", "Your name",
+  error = TRUE,
+  error_message = "Enter your name"
+)
+expect_hidden_error(input, "Enter your name")
+```
+
 ## Raising new changes
+
+### Before you raise a PR
+
+Run through these checks locally first; it makes review faster and avoids back-and-forth:
+
+- **Format with Air.** If you can't run Air locally, the GitHub Action will offer the same suggestions on your PR (see [Air suggestions on your PR](#air-suggestions-on-your-pr)).
+- **Lint** by running `devtools::load_all(); lintr::lint_package()` and resolving any new issues, loading the package before linting helps to avoid false positives.
+- **Run all tests locally** with `devtools::test()` and then `devtools::check()`, in the latter, don't worry about notes, but pay attention to any errors or warnings.
+- **Tests and documentation.** Add or update tests for any new behaviour, re-run `devtools::document()` so the `man/` pages stay in sync, and review the vignettes, README, and other doc files in the repo to see if any of them should also be updated. If you're touching the shared `label`/`hint` arguments (or any other future shared arguments), edit the descriptions once in `R/params.R` (pulled in via `@inheritParams control_label_params`) rather than per file - see [AGENTS.md](../AGENTS.md) for that convention.
+- **Design system check.** If you've added or changed a UI component, compare it against the [GOV.UK Design System](https://design-system.service.gov.uk/) to make sure looks and behaves consistently with the GOVUK guidance.
+- **Accessibility check.** For any UI component change, test it with assistive tech manually.
+    - **Keyboard only.** Tab / Shift+Tab through the component, activate with Enter or Space, escape modals or menus with Esc. Focus should be visible at every stop.
+    - **Screen reader.** [NVDA](https://www.nvaccess.org/download/) on Windows (free), or VoiceOver on macOS (⌘F5). Confirm labels, errors, and state changes are announced. `role="alert"` regressions and missing `for` / `id` associations only show up here.
+    - **Forced colours / High Contrast.** Windows Settings, Accessibility, Contrast themes; or Chromium DevTools, Rendering, "Emulate CSS media feature forced-colors: active". Confirm all visual elements translate appropriately in the high contrast themes. As an example of potential issues, `box-shadow`, `background-color`, and `text-shadow` are dropped in forced-colours mode and need a `border` or `outline` based fallback inside an `@media (forced-colors: active)` block (see `inst/www/css/reactable-overrides.css` for a worked example).
+
+    This isn't a full audit, just a smoke test. If you're touching `inst/www/css/govuk-frontend-x.x.x.min.css` directly, or adding a new component, do a fuller pass.
+- **CSS changes.** If you've edited `inst/www/css/govuk-frontend-x.x.x.min.css`, log the change in `css_changes.md` (see the [CSS changes](#css-changes) section).
+
+### Branching and raising a PR
 
 New changes should be made on a branch off of the latest version of the main branch.
 
@@ -34,7 +105,7 @@ We make use of [GitHub's CODEOWNERS file](https://docs.github.com/en/repositorie
 
 ## CSS changes
 
-All changes made to the main `inst/www/css/govuk-frontend-norem.css` file should be logged in the `css_changes.md` file, this way they can easily be reapplied whenever the CSS assests from GOV.UK are updated.
+All changes made to the main `inst/www/css/govuk-frontend-x.x.x.min.css` file should be logged in the `css_changes.md` file, this way they can easily be reapplied whenever the CSS assests from GOV.UK are updated.
 
 Alternatively, you can start a separate CSS file if your styling is separate to the GOV.UK styling.
 
@@ -50,15 +121,29 @@ Currently we take [static precompiled exports of the GOV.UK Frontend files](http
 
 3. Update the CSS file name in `attachDependency.R` script
 
-4. Apply any changes from `css_changes.md` manually, to preserve previous edits
+4. Pretty-print the upstream CSS (keeping the `.min.css` filename) so edits are readable, then apply any changes from `css_changes.md` manually, to preserve previous edits
 
 5. Test all the code functions as expected using `devtools::check()`
 
 6. Manually test the examples using `shinyGovstyle::run_example()`, ensuring the styling is as expected
 
-7. Update the version of GOV.UK frontend in the `package.json` file to match the version you've just added
+7. Update the version of GOV.UK frontend in the `package.json` file to match the version you've just added.
+
+8. Update the README badge so users will be able to see the right version number.
 
 If unsure on the styling and expected appearance, use the [GOV.UK Design System site](https://design-system.service.gov.uk/) to explore the components in more detail and official guidance for their use.
+
+If you use an AI coding agent, the [`update-govuk` skill](#agent-skills) walks it through these steps, then reports upstream changes worth knowing about and anything that didn't copy across as smoothly as usual.
+
+## Agent skills
+
+We keep repo-specific skills for AI coding agents in `.agents/skills/`, one folder per skill, each with a `SKILL.md` describing when to use it and the steps to follow. They're written to work with any agent: Codex picks them up automatically, and for other agents (such as Claude Code) ask it to read and follow the skill's `SKILL.md`.
+
+| Skill | What it's for |
+| --- | --- |
+| [`update-govuk`](../.agents/skills/update-govuk/SKILL.md) | Upgrades the precompiled GOV.UK Frontend assets using the manual process above and leaves the changes staged on a local branch without committing. Afterwards it reports upstream changes to be aware of (with suggestions for shinyGovstyle) and anything that couldn't be copied across as smoothly as usual. |
+
+When adding a new skill, put it in its own folder under `.agents/skills/`, keep it agent-agnostic, and add a row to this table.
 
 ## Code of Conduct
 

@@ -16,7 +16,8 @@ displayed}
 
 \item{colour}{Character. A colour to apply to the value box. Defaults
 to "blue". Choose from the following: "grey", "purple", "teal",
-"blue", "yellow", "orange", "red", "magenta", or "green"}
+"blue", "yellow", "orange", "red", "magenta", or "green". Any other value
+gives a warning listing these options}
 }
 \value{
 A Shiny \code{div} tag representing the value box, styled according
@@ -38,15 +39,14 @@ value_box(
 )
 }
 \seealso{
-Other Govstyle feedback types: 
-\code{\link{details}()},
-\code{\link{gov_summary}()},
-\code{\link{gov_summary_card}()},
-\code{\link{insert_text}()},
-\code{\link{label_hint}()},
-\code{\link{noti_banner}()},
-\code{\link{panel_output}()},
-\code{\link{tag_Input}()},
-\code{\link{warning_text}()}
+Other Govstyle feedback types:
+\code{\link[=confirmation_panel]{confirmation_panel()}},
+\code{\link[=details]{details()}},
+\code{\link[=gov_summary]{gov_summary()}},
+\code{\link[=gov_tag]{gov_tag()}},
+\code{\link[=inset_text]{inset_text()}},
+\code{\link[=label_hint]{label_hint()}},
+\code{\link[=noti_banner]{noti_banner()}},
+\code{\link[=warning_text]{warning_text()}}
 }
 \concept{Govstyle feedback types}

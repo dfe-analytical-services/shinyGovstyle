@@ -8,7 +8,7 @@ skip_to_main(id = "main")
 }
 \arguments{
 \item{id}{An optional parameter to specify the Id of the main content
-section, will be automatically preceeded by a hash '#'. Default is
+section, will be automatically preceded by a hash '#'. Default is
 "main" to match the "#main" Id within \code{gov_main()}.}
 }
 \value{
@@ -20,7 +20,7 @@ typically used by keyboard users to bypass content and
 navigate directly to the main content of a page.
 }
 \examples{
-ui <- shiny::fluidPage(
+ui <- shinyGovstyle::gov_page(
   skip_to_main(),
   header(
     org_name = "Example",
@@ -37,12 +37,12 @@ server <- function(input, output, session){}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
-Other Govstyle page structure: 
-\code{\link{banner}()},
-\code{\link{cookieBanner}()},
-\code{\link{footer}()},
-\code{\link{gov_layout}()},
-\code{\link{header}()},
-\code{\link{layouts}}
+Other Govstyle page structure:
+\code{\link[=cookieBanner]{cookieBanner()}},
+\code{\link[=footer]{footer()}},
+\code{\link[=gov_page]{gov_page()}},
+\code{\link[=header]{header()}},
+\code{\link{layouts}},
+\code{\link[=phase_banner]{phase_banner()}}
 }
 \concept{Govstyle page structure}

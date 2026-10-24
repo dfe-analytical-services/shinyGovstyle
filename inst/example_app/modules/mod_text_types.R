@@ -17,7 +17,14 @@ mod_text_types_ui <- function(id) {
     shinyGovstyle::heading_text("text_Input", size = "s", level = 2),
     shinyGovstyle::text_Input(
       inputId = shiny::NS(id, "txt1"),
-      label = "Event name"
+      label = "Event name",
+      hint_label = shiny::tagList(
+        "As shown on your ",
+        shinyGovstyle::external_link(
+          "https://www.gov.uk",
+          "confirmation letter"
+        )
+      )
     ),
     shinyGovstyle::heading_text("text_area_Input", size = "s", level = 2),
     shinyGovstyle::text_area_Input(
@@ -54,19 +61,39 @@ mod_text_types_ui <- function(id) {
     shinyGovstyle::gov_list(list = c("a", "b", "c"), style = "bullet"),
     shinyGovstyle::gov_text("Numbered list:"),
     shinyGovstyle::gov_list(list = c("one", "two", "three"), style = "number"),
+    shinyGovstyle::gov_text("List with a link:"),
+    shinyGovstyle::gov_list(
+      list = list(
+        "An ordinary item",
+        shiny::tagList(
+          "An item with a ",
+          shinyGovstyle::external_link("https://www.gov.uk", "link to GOV.UK")
+        )
+      ),
+      style = "bullet"
+    )
   )
 }
 
 mod_text_types_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
-    shiny::observeEvent(
-      input$text_area2,
-      shinyGovstyle::word_count("text_area2", input$text_area2)
-    )
-
     shiny::observeEvent(input$btn_error, {
+      word_count <- if (input$text_area2 == "") {
+        0
+      } else {
+        length(gregexpr("\\S+", input$text_area2)[[1]])
+      }
+
       if (input$text_area2 == "") {
-        shinyGovstyle::error_on("text_area2")
+        shinyGovstyle::error_on(
+          "text_area2",
+          error_message = "Please do not leave blank"
+        )
+      } else if (word_count > 300) {
+        shinyGovstyle::error_on(
+          "text_area2",
+          error_message = "Your answer must be 300 words or less"
+        )
       } else {
         shinyGovstyle::error_off("text_area2")
       }

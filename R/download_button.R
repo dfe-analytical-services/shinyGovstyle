@@ -15,23 +15,19 @@
 #' size is not easily determined, then it may be acceptable to provide an
 #' estimate or an upper limit.
 #'
-#' @param outputId The name of the output slot that the
-#' `shiny::downloadHandler()` is assigned to
 #' @param button_label Text that will appear describing the download action.
 #' Vague text like 'click here' or 'here' will cause an error, as will ending
 #' in a full stop. Leading and trailing white space will be automatically
 #' trimmed. If the string is shorter than 7 characters a console warning will
 #' be thrown. There is no way to hush this other than providing more detail
-#' @param file_type The file type to be download (default: CSV)
-#' @param file_size The file size if known. Needs to be a string ending in one
-#' of KB, MB, GB or rows
+#' @inheritParams download_args
 #'
 #' @returns shiny tag object
 #' @family Govstyle actions
 #' @export
 #'
 #' @examples
-#' ui <- shiny::fluidPage(
+#' ui <- shinyGovstyle::gov_page(
 #'   gov_text("Choose a data set to download."),
 #'   select_Input(
 #'     "dataset",
@@ -159,6 +155,7 @@ download_button <- function(
     stylesheet = "sr-only.css"
   )
 
-  # Return the link with the CSS attached
+  # Return the link with the GOV.UK and sr-only CSS attached
+  link <- attachDependency(link)
   htmltools::attachDependencies(link, dependency, append = TRUE)
 }

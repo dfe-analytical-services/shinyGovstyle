@@ -226,3 +226,52 @@ test_that("error_on() and error_off() style and describe a select", {
   expect_false("govuk-select--error" %in% state$classes)
   expect_equal(state$described_by, "select_types-location-hint")
 })
+
+test_that("Word count matches GOV.UK Frontend's Intl.Segmenter count", {
+  app$click("sn_text_types")
+  app$wait_for_idle()
+
+  # The live count replaces the static message once the JS starts
+  expect_true(app$get_js(
+    paste0(
+      "document.getElementById('text_types-text_area2-info')",
+      ".classList.contains('govuk-visually-hidden')"
+    )
+  ))
+  expect_false(app$get_js(
+    "document.getElementById('text_types-text_area2-status').hidden"
+  ))
+
+  # Type text as a user would: set the value and fire an input event
+  word_count_status <- function(text) {
+    app$run_js(sprintf(
+      paste0(
+        "var el = document.getElementById('text_types-text_area2');",
+        "el.value = %s;",
+        "el.dispatchEvent(new Event('input', { bubbles: true }));"
+      ),
+      jsonlite::toJSON(text, auto_unbox = TRUE)
+    ))
+    app$get_js(
+      "document.getElementById('text_types-text_area2-status').textContent"
+    )
+  }
+
+  # Examples and GOV.UK 6.6.0 counts from issue #262; the limit is 300.
+  # The Chinese text means "I like eating apples".
+  expect_equal(
+    word_count_status("well-known fact"),
+    "You have 297 words remaining"
+  )
+  expect_equal(word_count_status("yes—no"), "You have 298 words remaining")
+  expect_equal(word_count_status("A - B"), "You have 298 words remaining")
+  expect_equal(
+    word_count_status("\U0001F44D great"),
+    "You have 299 words remaining"
+  )
+  expect_equal(
+    word_count_status("我喜欢吃苹果"),
+    "You have 296 words remaining"
+  )
+  expect_equal(word_count_status(""), "You have 300 words remaining")
+})

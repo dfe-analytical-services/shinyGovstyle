@@ -33,13 +33,32 @@ reserve a slot for the error message. Defaults to \code{FALSE}.}
 
 \item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
 
-\item{word_limit}{Add a word limit to the display. Defaults to \code{NULL}}
+\item{word_limit}{Maximum number of words. When set, a live count below the
+text area tells users how many words they have left, matching the GOV.UK
+character count component
+(\url{https://design-system.service.gov.uk/components/character-count/}).
+Defaults to \code{NULL}, no limit. See Details for how words are counted.}
 }
 \value{
 a text area box HTML shiny tag object
 }
 \description{
 This function create a text area input.
+}
+\details{
+With \code{word_limit}, the browser counts words the way GOV.UK Frontend does,
+using the JavaScript \code{Intl.Segmenter} API and counting only word segments,
+in the language set by the closest \code{lang} attribute. So \code{"well-known fact"}
+is 3 words, \code{"A - B"} is 2, emoji are not counted, and languages written
+without spaces, such as Chinese, are split into words. In browsers without
+\code{Intl.Segmenter} the live count does not start and users see "You can enter
+up to N words" instead.
+
+The count is only a guide for users: always check the limit on the server
+too. To match the browser's count, use
+\code{stringr::str_count(x, stringr::boundary("word"))}. As GOV.UK advises, front
+end and back end counts may still differ for some text, so check how your
+server counts words and allow for small differences.
 }
 \examples{
 text_area_Input(
@@ -59,6 +78,14 @@ text_area_Input(
     "Read the ",
     shinyGovstyle::external_link("https://www.gov.uk", "guidance on detail")
   )
+)
+
+# Word limit with a live count. On the server, check the limit with
+# stringr::str_count(input$taId3, stringr::boundary("word")) > 300
+text_area_Input(
+  "taId3",
+  "Can you provide more detail?",
+  word_limit = 300
 )
 }
 \seealso{

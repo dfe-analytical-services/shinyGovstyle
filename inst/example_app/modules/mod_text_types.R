@@ -78,11 +78,11 @@ mod_text_types_ui <- function(id) {
 mod_text_types_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observeEvent(input$btn_error, {
-      word_count <- if (input$text_area2 == "") {
-        0
-      } else {
-        length(gregexpr("\\S+", input$text_area2)[[1]])
-      }
+      # Count words the same way as the browser's live count
+      word_count <- stringr::str_count(
+        input$text_area2,
+        stringr::boundary("word")
+      )
 
       if (input$text_area2 == "") {
         shinyGovstyle::error_on(

@@ -21,6 +21,27 @@
   longer announced before an error is raised: `error_on()` and `error_off()`
   now add and remove the error from the control's description.
 
+* `text_area_Input(word_limit = )` now counts words the same way as the
+  GOV.UK Frontend 6.6.0 character count (#262). In 0.3.0 it split text on
+  spaces; it now uses the browser's `Intl.Segmenter` and counts only words,
+  so some text gets a different count. For example, `"well-known fact"` is
+  now 3 words (was 2), `"A - B"` is 2 (was 3), emoji are no longer counted,
+  and languages written without spaces, such as Chinese, are split into
+  words. In browsers without `Intl.Segmenter`, users see the static "You can
+  enter up to N words" message instead of a live count.
+
+* The `text_area_Input(word_limit = )` markup now follows GOV.UK Frontend
+  6.6.0. The form group has `data-maxlength` and `data-count-type="words"`
+  instead of the deprecated `data-maxwords`, so update any CSS or JavaScript
+  that targets `[data-maxwords]`. The "You can enter up to N words" message
+  now sits below the text area and stays visible until the live count
+  starts, and the live count is hidden until then.
+
+* If you check `word_limit` on the server, switch to
+  `stringr::str_count(x, stringr::boundary("word"))` so your count matches
+  the browser's. Counting with `gregexpr("\\S+", x)` or similar now gives
+  different results for some text.
+
 # shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments

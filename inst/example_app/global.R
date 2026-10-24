@@ -20,3 +20,11 @@ app_url <- paste0(
   "https://department-for-education.shinyapps.io/",
   "shinygovstyle-example-app/"
 )
+
+# Link preview image, served from the app's www/ folder. It points at the dev
+# app because that is always deployed from main, so the image exists there
+# even before the CRAN release app has caught up with a new version
+og_image_url <- paste0(
+  "https://department-for-education.shinyapps.io/",
+  "shinygovstyle-example-app-dev/shinygovstyle-opengraph.png"
+)

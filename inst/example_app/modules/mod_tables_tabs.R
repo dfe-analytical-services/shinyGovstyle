@@ -22,8 +22,8 @@ mod_tables_tabs_ui <- function(id) {
     ),
     shinyGovstyle::heading_text(
       "Caption added separately",
-      size = "l",
-      level = 2
+      size = "s",
+      level = 3
     ),
     shinyGovstyle::govReactable(
       shinyGovstyle::transport_data,

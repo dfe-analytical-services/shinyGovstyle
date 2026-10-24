@@ -26,7 +26,7 @@ fallback_links <- function() {
 test_that("App loads and title of app appears as expected", {
   expect_equal(
     app$get_text("title"),
-    "Select Types | shinyGovstyle: GOV.UK Design System for R Shiny"
+    "Select types | shinyGovstyle: GOV.UK Design System for R Shiny"
   )
 })
 
@@ -40,7 +40,7 @@ test_that("Browser tab title updates when a nav link is clicked", {
   app$wait_for_idle()
   expect_equal(
     app$get_js("document.title"),
-    "Text Types | shinyGovstyle: GOV.UK Design System for R Shiny"
+    "Text types | shinyGovstyle: GOV.UK Design System for R Shiny"
   )
 
   app$click("sn_feedback_types")
@@ -74,7 +74,7 @@ test_that("Next button switches the panel and updates the title", {
   expect_equal(app$get_value(input = "tab-container"), "text_types")
   expect_equal(
     app$get_js("document.title"),
-    "Text Types | shinyGovstyle: GOV.UK Design System for R Shiny"
+    "Text types | shinyGovstyle: GOV.UK Design System for R Shiny"
   )
 })
 

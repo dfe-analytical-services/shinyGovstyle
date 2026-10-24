@@ -1,6 +1,6 @@
 mod_select_types_ui <- function(id) {
   shiny::tagList(
-    shinyGovstyle::heading_text("Select Types", size = "l"),
+    shinyGovstyle::heading_text("Select types", size = "l"),
     shinyGovstyle::label_hint(
       shiny::NS(id, "label1"),
       "These are some examples of the types of user

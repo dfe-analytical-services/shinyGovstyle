@@ -1,11 +1,10 @@
 shinyGovstyle::gov_page(
   theme = bslib::bs_theme(version = 5, brand = FALSE),
-  title = "Select Types | shinyGovstyle: GOV.UK Design System for R Shiny",
+  title = "Select types | shinyGovstyle: GOV.UK Design System for R Shiny",
   description = paste(
     "Interactive showcase of shinyGovstyle, an R package of GOV.UK Design",
     "System components for Shiny apps: inputs, tables, tabs, banners and more."
   ),
-  favicon = "govuk",
   width = demo_width,
 
   # Canonical, Open Graph and Twitter card tags: the dev app points at the
@@ -28,18 +27,15 @@ shinyGovstyle::gov_page(
         "Shiny apps."
       )
     ),
-    shiny::tags$meta(
-      property = "og:image",
-      content = paste0(
-        app_url,
-        "shinyGovstyle/images/govuk-opengraph-image.png"
-      )
-    ),
+    shiny::tags$meta(property = "og:image", content = og_image_url),
     shiny::tags$meta(property = "og:image:width", content = "1200"),
     shiny::tags$meta(property = "og:image:height", content = "630"),
     shiny::tags$meta(
       property = "og:image:alt",
-      content = "GOV.UK logo: a white crown and wordmark on a blue background"
+      content = paste(
+        "shinyGovstyle: GOV.UK Design System for R Shiny, in white text",
+        "beside a teal dot on a blue background"
+      )
     ),
     shiny::tags$meta(name = "twitter:card", content = "summary_large_image")
   ),
@@ -54,9 +50,9 @@ shinyGovstyle::gov_page(
   ),
   shinyGovstyle::service_navigation(
     c(
-      "Select Types" = "sn_select_types",
-      "Text Types" = "sn_text_types",
-      "Action Types" = "sn_action_types",
+      "Select types" = "sn_select_types",
+      "Text types" = "sn_text_types",
+      "Action types" = "sn_action_types",
       "Tables, tabs and accordions" = "sn_tables_tabs",
       "Feedback types" = "sn_feedback_types",
       "Cookies" = "sn_cookies"
@@ -102,13 +98,13 @@ shinyGovstyle::gov_page(
           id = "tab-container",
 
           shiny::tabPanel(
-            "Select Types",
+            "Select types",
             value = "select_types",
             mod_select_types_ui("select_types")
           ),
 
           shiny::tabPanel(
-            "Text Types",
+            "Text types",
             value = "text_types",
             mod_text_types_ui("text_types")
           ),
@@ -126,7 +122,7 @@ shinyGovstyle::gov_page(
           ),
 
           shiny::tabPanel(
-            "Feedback Types",
+            "Feedback types",
             value = "feedback_types",
             mod_feedback_types_ui("feedback_types")
           ),

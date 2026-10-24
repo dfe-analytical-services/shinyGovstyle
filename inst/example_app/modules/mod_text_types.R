@@ -1,13 +1,13 @@
 mod_text_types_ui <- function(id) {
   shiny::tagList(
-    shinyGovstyle::heading_text("backlink_Input", size = "s", level = 2),
-    shinyGovstyle::backlink_Input(shiny::NS(id, "select_types_back")),
-    shinyGovstyle::heading_text("Text Types", size = "l"),
+    shinyGovstyle::heading_text("Text types", size = "l"),
     shinyGovstyle::label_hint(
       shiny::NS(id, "label2"),
       "These are some examples of the types of user
            text inputs that you can use"
     ),
+    shinyGovstyle::heading_text("backlink_Input", size = "s", level = 2),
+    shinyGovstyle::backlink_Input(shiny::NS(id, "select_types_back")),
     shinyGovstyle::heading_text("date_Input", size = "s", level = 2),
     shinyGovstyle::date_Input(
       inputId = shiny::NS(id, "date1"),

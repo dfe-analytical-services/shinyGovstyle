@@ -297,7 +297,7 @@ click_summary_link <- function(target) {
 test_that("A failed submit focuses an error summary of linked errors", {
   app$click("sn_text_types")
   app$wait_for_idle()
-  app$set_inputs(`text_types-text_area2` = "")
+  app$set_inputs(`text_types-text_area2` = "", wait_ = FALSE)
   app$click("text_types-btn_error")
   app$wait_for_idle()
 
@@ -325,7 +325,7 @@ test_that("Error summary links focus the control they are about", {
 })
 
 test_that("Error summary links still work after a second update", {
-  app$set_inputs(`text_types-text_area2` = "Fine thanks")
+  app$set_inputs(`text_types-text_area2` = "Fine thanks", wait_ = FALSE)
   app$click("text_types-btn_error")
   app$wait_for_idle()
 

@@ -90,13 +90,52 @@ function setActiveServiceNavLink(link, keepTitle) {
   wrapActiveFallback(link);
 
   if (!keepTitle) applyAutoPageTitle(link);
-  // Both flags only last until the nav next changes
-  window.shinyGovstyleServerTitle = false;
-  serverNavPending = false;
+  // A choice only lasts until the nav next changes
+  clearAppChoice();
 }
 
-// Set by update_service_navigation() so the next sync keeps the app's choice
+// The app's own choice of active link (update_service_navigation()) or page
+// title (update_page_title(), which sets window.shinyGovstyleServerTitle),
+// kept so the next sync doesn't overwrite it. It only counts for a tab change
+// made in the same server update. Shiny sends custom messages straight away
+// but tab changes at the end of the update, so a choice waits for that tab
+// change and is dropped when the next update starts without one.
 var serverNavPending = false;
+var appChoiceTabset = null;
+
+function hasAppChoice() {
+  return serverNavPending || window.shinyGovstyleServerTitle === true;
+}
+
+function clearAppChoice() {
+  serverNavPending = false;
+  window.shinyGovstyleServerTitle = false;
+  appChoiceTabset = null;
+}
+
+// A tab change from the server, e.g. updateTabsetPanel(). Ties a waiting
+// choice to it, or drops the choice if the tab is not actually changing, as
+// no sync will follow.
+$(document).on("shiny:updateinput", function (event) {
+  if (!hasAppChoice() || appChoiceTabset !== null) return;
+  var el = event.target;
+  if (!el.classList.contains("shiny-tab-input") || !event.binding) return;
+  if (
+    event.message &&
+    event.message.value !== undefined &&
+    event.message.value !== event.binding.getValue(el)
+  ) {
+    appChoiceTabset = el.id;
+  } else {
+    clearAppChoice();
+  }
+});
+
+// A new server update has started, so a choice that never got its tab
+// change is out of date
+$(document).on("shiny:busy", function () {
+  if (appChoiceTabset === null) clearAppChoice();
+});
 
 // Allow programmatic update of active nav item from R server code
 Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
@@ -112,16 +151,20 @@ Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
   serverNavPending = true;
 });
 
-// Sent by service_navigation_server() when the tab changes, with the links
-// for the new panel (empty if it has none). Does nothing if the app already
-// set the nav or a matching link is active. Otherwise activates the first
-// link, or clears the nav if there isn't one.
-Shiny.addCustomMessageHandler("sync_service_navigation", function (inputIds) {
-  var keepTitle = window.shinyGovstyleServerTitle === true;
-  window.shinyGovstyleServerTitle = false;
-  var appChoseNav = serverNavPending;
-  serverNavPending = false;
+// Sent by service_navigation_server() when the tab changes, with the tabset
+// id and the links for the new panel (empty if it has none). Does nothing if
+// the app already set the nav for this change or a matching link is active.
+// Otherwise activates the first link, or clears the nav if there isn't one.
+Shiny.addCustomMessageHandler("sync_service_navigation", function (message) {
+  // A choice with no tabset was made in this update, e.g. by an observer on
+  // the tabset input; older ones were dropped when the update started
+  var forThisChange =
+    appChoiceTabset === null || appChoiceTabset === message.tabset;
+  var appChoseNav = forThisChange && serverNavPending;
+  var keepTitle = forThisChange && window.shinyGovstyleServerTitle === true;
+  clearAppChoice();
   if (appChoseNav) return;
+  var inputIds = message.links;
   var first = null;
   for (var i = 0; i < inputIds.length; i++) {
     var link = findServiceNavLink(inputIds[i]);

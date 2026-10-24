@@ -380,8 +380,12 @@ test_that("service_navigation_server cleans inputIds, not panel values", {
 
 # Runs service_navigation_server() with a session that records custom
 # messages (MockShinySession drops them). Starts on the first panel, then
-# moves to each of `tab_changes`.
-sync_messages <- function(link_to_panel, tab_changes = character()) {
+# moves to each of `tab_changes`. `ns` stands in for a module's namespace.
+sync_messages <- function(
+  link_to_panel,
+  tab_changes = character(),
+  ns = shiny::NS(NULL)
+) {
   state <- new.env(parent = emptyenv())
   state$messages <- list()
   local_mocked_bindings(
@@ -399,6 +403,7 @@ sync_messages <- function(link_to_panel, tab_changes = character()) {
     function(input, output, session) {
       recording_session <- list(
         input = session$input,
+        ns = ns,
         sendCustomMessage = function(type, message) {
           state$messages <- c(
             state$messages,
@@ -430,8 +435,9 @@ test_that("a programmatic tab change moves the active link to that panel", {
 
   expect_length(messages, 1)
   expect_identical(messages[[1]]$type, "sync_service_navigation")
+  expect_identical(messages[[1]]$message$tabset, "tabs")
   # A list, so one link is still a JSON array
-  expect_identical(messages[[1]]$message, list("sn_two"))
+  expect_identical(messages[[1]]$message$links, list("sn_two"))
 })
 
 test_that("the starting panel does not send a sync message", {
@@ -447,7 +453,7 @@ test_that("panels without a nav link send an empty sync to clear the nav", {
   # Empty, so the browser clears the nav
   expect_length(messages, 1)
   expect_identical(messages[[1]]$type, "sync_service_navigation")
-  expect_identical(messages[[1]]$message, list())
+  expect_identical(messages[[1]]$message$links, list())
 })
 
 test_that("every link sharing a panel is sent, in link_to_panel order", {
@@ -455,7 +461,7 @@ test_that("every link sharing a panel is sent, in link_to_panel order", {
     c(sn_one = "one", sn_two = "shared", sn_three = "shared"),
     tab_changes = "shared"
   )
-  expect_identical(messages[[1]]$message, list("sn_two", "sn_three"))
+  expect_identical(messages[[1]]$message$links, list("sn_two", "sn_three"))
 })
 
 test_that("synced links use the cleaned inputIDs", {
@@ -463,5 +469,14 @@ test_that("synced links use the cleaned inputIDs", {
     c("Page-One" = "one", "Page-Two" = "Panel-2"),
     tab_changes = "Panel-2"
   )
-  expect_identical(messages[[1]]$message, list("page_two"))
+  expect_identical(messages[[1]]$message$links, list("page_two"))
+})
+
+test_that("the synced tabset id is namespaced, as the browser sees it", {
+  messages <- sync_messages(
+    c(sn_one = "one", sn_two = "two"),
+    tab_changes = "two",
+    ns = shiny::NS("module")
+  )
+  expect_identical(messages[[1]]$message$tabset, "module-tabs")
 })

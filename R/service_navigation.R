@@ -242,15 +242,17 @@ update_service_navigation <- function(
 #' It also follows the tabset. When a panel in `link_to_panel` is selected
 #' from the server, for example with `shiny::updateTabsetPanel()`, its link
 #' becomes active and the page title updates. A title set with
-#' [update_page_title()] at the same time is kept. If several links share a
-#' panel, the first is used unless one is already active.
+#' [update_page_title()] in the same observer as the tab change, or in an
+#' observer of the tabset input, is kept; one set earlier is not. If several
+#' links share a panel, the first is used unless one is already active.
 #'
 #' When a panel that is not in `link_to_panel` is selected, such as a footer
 #' page, the active link is cleared so screen readers don't announce the
 #' previous page as current. Set its title with [update_page_title()].
 #'
-#' Calling [update_service_navigation()] with the tab change overrides both,
-#' for example to keep a parent link active on a sub-page.
+#' Calling [update_service_navigation()] in the same observer as the tab
+#' change overrides both, for example to keep a parent link active on a
+#' sub-page.
 #'
 #' @param session The Shiny session object
 #' @param tabset_id The `id` of the `shiny::tabsetPanel()` or
@@ -336,8 +338,12 @@ service_navigation_server <- function(
     {
       links <- names(link_to_panel)[link_to_panel == input[[tabset_id]]]
       # Sent even when empty, so the browser clears the nav. as.list() keeps
-      # one link as a JSON array.
-      session$sendCustomMessage("sync_service_navigation", as.list(links))
+      # one link as a JSON array. The tabset id lets the browser match the
+      # sync to an update_service_navigation() call made with the tab change.
+      session$sendCustomMessage(
+        "sync_service_navigation",
+        list(tabset = session$ns(tabset_id), links = as.list(links))
+      )
     },
     ignoreInit = TRUE
   )

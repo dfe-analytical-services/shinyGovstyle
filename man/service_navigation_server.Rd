@@ -37,15 +37,17 @@ client-side, so no additional wiring is needed.
 It also follows the tabset. When a panel in \code{link_to_panel} is selected
 from the server, for example with \code{shiny::updateTabsetPanel()}, its link
 becomes active and the page title updates. A title set with
-\code{\link[=update_page_title]{update_page_title()}} at the same time is kept. If several links share a
-panel, the first is used unless one is already active.
+\code{\link[=update_page_title]{update_page_title()}} in the same observer as the tab change, or in an
+observer of the tabset input, is kept; one set earlier is not. If several
+links share a panel, the first is used unless one is already active.
 
 When a panel that is not in \code{link_to_panel} is selected, such as a footer
 page, the active link is cleared so screen readers don't announce the
 previous page as current. Set its title with \code{\link[=update_page_title]{update_page_title()}}.
 
-Calling \code{\link[=update_service_navigation]{update_service_navigation()}} with the tab change overrides both,
-for example to keep a parent link active on a sub-page.
+Calling \code{\link[=update_service_navigation]{update_service_navigation()}} in the same observer as the tab
+change overrides both, for example to keep a parent link active on a
+sub-page.
 }
 \examples{
 ui <- shinyGovstyle::gov_page(

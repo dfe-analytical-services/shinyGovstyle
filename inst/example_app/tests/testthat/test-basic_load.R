@@ -117,3 +117,81 @@ test_that("A tab change outside the nav moves the active link and title", {
     "Feedback types | shinyGovstyle"
   )
 })
+
+# Replays a message from the server, so a test can recreate the order Shiny
+# sends them in: custom messages straight away, tab changes at the end
+server_message <- function(message) {
+  app$run_js(
+    paste0(
+      "Shiny.shinyapp.dispatchMessage(",
+      jsonlite::toJSON(
+        as.character(jsonlite::toJSON(message, auto_unbox = TRUE)),
+        auto_unbox = TRUE
+      ),
+      ");"
+    )
+  )
+}
+
+test_that("navigate_to() the current panel doesn't pin the nav later on", {
+  app$click("cookies_footer_link")
+  app$wait_for_idle()
+  # Already on cookies, so the tab doesn't change and no sync follows
+  app$click("cookies_footer_link")
+  app$wait_for_idle()
+
+  app$set_inputs(`tab-container` = "feedback_types")
+  app$wait_for_idle()
+  expect_equal(current_links(), "sn_feedback_types")
+  expect_equal(
+    app$get_js("document.title"),
+    "Feedback types | shinyGovstyle"
+  )
+})
+
+test_that("a title set without a tab change isn't kept for a later one", {
+  app$click("sn_select_types")
+  app$wait_for_idle()
+  # update_page_title() on its own, e.g. after a filter changes
+  server_message(list(custom = list(update_page_title = "Filtered")))
+
+  app$set_inputs(`tab-container` = "feedback_types")
+  app$wait_for_idle()
+  expect_equal(
+    app$get_js("document.title"),
+    "Feedback types | shinyGovstyle"
+  )
+})
+
+test_that("a title set with the tab change is kept", {
+  app$click("sn_select_types")
+  app$wait_for_idle()
+  # update_page_title() and updateTabsetPanel() in one observer
+  server_message(list(custom = list(update_page_title = "Custom title")))
+  server_message(list(
+    inputMessages = list(
+      list(id = "tab-container", message = list(value = "feedback_types"))
+    )
+  ))
+  app$wait_for_idle()
+  expect_equal(app$get_value(input = "tab-container"), "feedback_types")
+  expect_equal(current_links(), "sn_feedback_types")
+  expect_equal(app$get_js("document.title"), "Custom title")
+})
+
+test_that("update_service_navigation() with the tab change is kept", {
+  app$click("sn_select_types")
+  app$wait_for_idle()
+  # e.g. keeping a parent link active on a sub-page
+  server_message(list(
+    custom = list(update_service_navigation = "sn_cookies")
+  ))
+  server_message(list(
+    inputMessages = list(
+      list(id = "tab-container", message = list(value = "text_types"))
+    )
+  ))
+  app$wait_for_idle()
+  expect_equal(app$get_value(input = "tab-container"), "text_types")
+  expect_equal(current_links(), "sn_cookies")
+})

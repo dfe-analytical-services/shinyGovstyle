@@ -124,8 +124,8 @@ test_that("two instances with the same data share no ids", {
   # Read every id from the rendered HTML so nothing is missed
   html <- as.character(page)
   ids <- regmatches(html, gregexpr('(?<= id=")[^"]+', html, perl = TRUE))[[1L]]
-  # 2 wrappers + 2 x (4 tabs + 4 panels)
-  expect_length(ids, 18L)
+  # 2 wrappers + 2 x (4 tabs + 4 panels + 4 panel headings)
+  expect_length(ids, 26L)
   expect_false(anyDuplicated(ids) > 0L)
 })
 

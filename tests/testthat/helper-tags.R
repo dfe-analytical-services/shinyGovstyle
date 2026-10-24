@@ -249,6 +249,26 @@ expect_has_tag <- function(x, class) {
   invisible(node)
 }
 
+# find_reactable_col() returns the serialised column definition with `id` from
+# a govReactable() / reactable() widget, erroring unless there is exactly one.
+# Column order in the payload follows the data frame, so look columns up by id
+# rather than by position.
+find_reactable_col <- function(table, id) {
+  cols <- table$x$tag$attribs$columns
+  hits <- Filter(function(col) identical(col$id, id), cols)
+  if (length(hits) != 1L) {
+    stop(
+      sprintf(
+        "Expected exactly one reactable column with id %s, found %d",
+        shQuote(id),
+        length(hits)
+      ),
+      call. = FALSE
+    )
+  }
+  hits[[1L]]
+}
+
 # expect_no_tag() asserts no tag with `class` is present.
 expect_no_tag <- function(x, class) {
   testthat::expect_null(find_tag(x, class))

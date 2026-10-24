@@ -118,3 +118,14 @@ test_that("deprecated string heading_level still works with a warning", {
     fixed = TRUE
   )
 })
+
+test_that("govReactableOutput attaches the GOV.UK stylesheet", {
+  output_check <- govReactableOutput("table", caption = "Example table")
+  dep_names <- vapply(
+    htmltools::findDependencies(output_check),
+    `[[`,
+    character(1),
+    "name"
+  )
+  expect_true("stylecss" %in% dep_names)
+})

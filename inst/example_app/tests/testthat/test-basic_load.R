@@ -195,3 +195,81 @@ test_that("update_service_navigation() with the tab change is kept", {
   expect_equal(app$get_value(input = "tab-container"), "text_types")
   expect_equal(current_links(), "sn_cookies")
 })
+
+# id or tag name of the focused element, e.g. "H1#..." or "BODY"
+focused <- function() {
+  app$get_js(
+    paste0(
+      "(function (el) { return el.tagName + (el.id ? '#' + el.id : ''); })",
+      "(document.activeElement)"
+    )
+  )
+}
+
+# text of the focused element
+focused_text <- function() {
+  app$get_js("document.activeElement.textContent.trim()")
+}
+
+test_that("Next button moves focus to the new panel's heading", {
+  app$click("sn_select_types")
+  app$wait_for_idle()
+
+  app$run_js("document.getElementById('select_types-text_types_next').focus()")
+  app$click("select_types-text_types_next")
+  app$wait_for_idle()
+  app$wait_for_js("document.activeElement.tagName === 'H1'", timeout = 5000)
+
+  expect_equal(app$get_js("document.activeElement.tagName"), "H1")
+  expect_equal(focused_text(), "Text Types")
+  expect_equal(
+    app$get_js(
+      paste0(
+        "document.activeElement.closest('.tab-pane')",
+        ".getAttribute('data-value')"
+      )
+    ),
+    "text_types"
+  )
+  expect_equal(app$get_js("document.activeElement.tabIndex"), -1L)
+})
+
+test_that("Back link moves focus to the previous panel's heading", {
+  app$click("text_types-select_types_back")
+  app$wait_for_idle()
+  app$wait_for_js(
+    "document.activeElement.textContent.trim() === 'Select Types'",
+    timeout = 5000
+  )
+  expect_equal(app$get_js("document.activeElement.tagName"), "H1")
+})
+
+test_that("Footer cookies link moves focus to the cookies heading", {
+  app$click("cookies_footer_link")
+  app$wait_for_idle()
+  app$wait_for_js(
+    "document.activeElement.textContent.trim() === 'Cookies'",
+    timeout = 5000
+  )
+  expect_equal(app$get_js("document.activeElement.tagName"), "H1")
+})
+
+test_that("Accepting cookies moves focus to the confirmation alert", {
+  app$click("cookieAccept")
+  app$wait_for_idle()
+  app$wait_for_js(
+    "document.activeElement.id === 'cookieAcceptDiv'",
+    timeout = 5000
+  )
+  expect_equal(focused(), "DIV#cookieAcceptDiv")
+  expect_equal(
+    app$get_js("document.activeElement.getAttribute('role')"),
+    "alert"
+  )
+
+  # Hiding the message moves focus on to the main content
+  app$click("hideAccept")
+  app$wait_for_idle()
+  app$wait_for_js("document.activeElement.id === 'main'", timeout = 5000)
+  expect_equal(focused(), "MAIN#main")
+})

@@ -3,6 +3,15 @@
 #' This function creates a cookie banner. You need to have
 #' `shinyjs::useShinyjs()` enabled for this to work. All the Ids are preset.
 #' See example for how to structure.
+#'
+#' As in the GOV.UK cookie banner, the accept and reject confirmation
+#' messages have `role = "alert"` and `tabindex = "-1"`. When the user
+#' presses "Accept" or "Reject", focus moves to the confirmation message
+#' once your server code shows it, so screen readers read it out and
+#' keyboard users are not left on a hidden button. When the user presses
+#' "Hide this message", focus moves to the page's `<main>` element once the
+#' banner is hidden. Both are handled in the browser, so the server code in
+#' the example below is all you need.
 #' @param service_name Name for this service to add to banner
 #' @inheritParams width_arg
 #' @return a cookie banner HTML shiny tag object
@@ -62,7 +71,8 @@ cookieBanner <- # nolint
       shiny::tags$div(
         id = "cookieDiv",
         class = "govuk-cookie-banner",
-        `data-nosnippet role` = "region",
+        `data-nosnippet` = NA,
+        role = "region",
         `aria-label` = paste("Cookies on", service_name),
         shiny::tags$div(
           id = "cookieMain",
@@ -100,6 +110,8 @@ cookieBanner <- # nolint
             id = "cookieAcceptDiv",
             class = paste0("govuk-cookie-banner__message ", wc$class),
             style = wc$style,
+            role = "alert",
+            tabindex = "-1",
             shiny::tags$div(
               class = "govuk-grid-row",
               shiny::tags$div(
@@ -126,6 +138,8 @@ cookieBanner <- # nolint
             id = "cookieRejectDiv",
             class = paste0("govuk-cookie-banner__message ", wc$class),
             style = wc$style,
+            role = "alert",
+            tabindex = "-1",
             shiny::tags$div(
               class = "govuk-grid-row",
               shiny::tags$div(
@@ -149,5 +163,5 @@ cookieBanner <- # nolint
         )
       )
 
-    attachDependency(cookie_banner_input)
+    attachDependency(cookie_banner_input, "cookie_banner")
   }

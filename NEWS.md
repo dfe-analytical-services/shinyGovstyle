@@ -1,11 +1,26 @@
 # shinyGovstyle (development version)
 
+## Bug fixes
+
 * `service_navigation_server()` now updates the active link and page title
   when the tab is changed from the server, e.g. with `updateTabsetPanel()`.
   You no longer need to call `update_service_navigation()` as well.
 * `service_navigation_server()` now clears the active link on pages that are
   not in the navigation, such as footer pages, so screen readers no longer
   announce the previous page as current.
+* `navigate_to()` now moves keyboard focus to the `<h1>` of the panel it
+  shows, or to `<main>` if the panel has no `<h1>`. Previously the next
+  button or back link that called it was hidden with the old panel, so
+  focus dropped to the top of the page and screen readers announced
+  nothing. Use `navigate_to(focus = FALSE)` to switch panels without moving
+  focus. Clicking a `service_navigation()` link directly still leaves focus
+  on the link.
+* `cookieBanner()` confirmation messages now have `role="alert"` and
+  `tabindex="-1"`, as in the GOV.UK Design System, and focus moves to the
+  message after "Accept" or "Reject" so it is read out. After "Hide this
+  message", focus moves to `<main>` rather than being lost with the
+  hidden banner. This works with your existing server code. The banner's
+  `data-nosnippet` and `role` attributes are also now set separately.
 
 # shinyGovstyle 0.3.0
 

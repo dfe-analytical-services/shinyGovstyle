@@ -114,7 +114,10 @@ test_that("error_off toggles the GOV.UK select and textarea error classes", {
     selectors_for("govuk-textarea--error"),
     "#eventIddiv textarea"
   )
-  expect_false(any(selectors_for("govuk-input--error") == "#eventIddiv :input"))
+  expect_identical(
+    selectors_for("govuk-input--error"),
+    c("#eventIddiv :input:not(select, textarea)", "#eventIdfile_div")
+  )
 })
 
 test_that("error_off namespaces class selectors inside modules", {

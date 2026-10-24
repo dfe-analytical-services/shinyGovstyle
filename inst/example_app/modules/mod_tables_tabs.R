@@ -48,7 +48,9 @@ mod_tables_tabs_ui <- function(id) {
     ),
     shinyGovstyle::govReactableOutput(
       shiny::NS(id, "interactive_table_test"),
-      caption = "Caption in output function"
+      caption = "Caption in output function",
+      caption_size = "s",
+      heading_level = 3L
     ),
 
     shinyGovstyle::heading_text("govTabs", size = "s", level = 2),

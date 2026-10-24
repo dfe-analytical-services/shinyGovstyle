@@ -1,9 +1,10 @@
 # shinyGovstyle (development version)
 
 * `gov_page()` now adds a browser tab icon (favicon) by default: the teal dot
-  from the GOV.UK logo on a GOV.UK blue square, with no crown. Use the new `favicon` argument to switch
-  to the GOV.UK crown icon set (`favicon = "govuk"`, only for services on
-  GOV.UK) or to leave icons out and add your own (`favicon = "none"`).
+  from the GOV.UK logo on a GOV.UK blue square, with no crown. Use the new
+  `favicon` argument to switch to the GOV.UK crown icon set
+  (`favicon = "govuk"`, only for services on GOV.UK) or to leave icons out
+  and add your own (`favicon = "none"`).
 
 * The showcase app and package documentation now have separate CRAN release
   and development versions. The [showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/)

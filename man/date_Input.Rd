@@ -14,7 +14,8 @@ date_Input(
   month = NULL,
   year = NULL,
   label_size = c("m", "s", "l", "xl"),
-  heading_level = NULL
+  heading_level = NULL,
+  date_of_birth = FALSE
 )
 }
 \arguments{
@@ -48,6 +49,14 @@ to \code{"m"}.}
 (an integer 1-6), the legend text is wrapped in a \verb{<hN>} with the GDS
 \code{govuk-fieldset__heading} class, following the GDS pattern for using a
 question as the page heading. Defaults to \code{NULL} (no heading wrap).}
+
+\item{date_of_birth}{If \code{TRUE}, set the \code{autocomplete} attribute on the
+day, month and year fields to \code{bday-day}, \code{bday-month} and \code{bday-year},
+so browsers can fill in the user's date of birth. Use this whenever you
+ask for the user's own date of birth, as the GOV.UK Design System
+recommends; it helps meet WCAG 2.2 success criterion 1.3.5 (Identify
+Input Purpose). Leave it \code{FALSE} for any other date, such as a start
+date or someone else's date of birth. Defaults to \code{FALSE}.}
 }
 \value{
 a data input HTML shiny tag object
@@ -68,10 +77,11 @@ ui <- shinyGovstyle::gov_page(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
   shinyGovstyle::gov_main_layout(
-    # Simple date input
+    # Simple date input, with autocomplete for a date of birth
     shinyGovstyle::date_Input(
       inputId = "dob_input",
-      label = "Please enter your birthday"
+      label = "Please enter your birthday",
+      date_of_birth = TRUE
     ),
     # Error date input
     shinyGovstyle::date_Input(

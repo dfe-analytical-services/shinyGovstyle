@@ -1,3 +1,29 @@
+# shinyGovstyle (development version)
+
+## New features
+
+* `date_Input()` gains a `date_of_birth` argument. When `TRUE`, the day,
+  month and year fields get `autocomplete="bday-day"`, `"bday-month"` and
+  `"bday-year"`, so browsers can fill in a user's date of birth. The
+  GOV.UK Design System asks for this whenever you collect the user's own
+  date of birth, and it helps meet WCAG 2.2 success criterion 1.3.5
+  (Identify Input Purpose). It defaults to `FALSE`.
+
+## Minor improvements and bug fixes
+
+* `date_Input()`'s day, month and year fields now match current GOV.UK
+  markup: they are `type="text"` with `inputmode="numeric"`, rather than
+  `type="number"` with `pattern="[0-9]*"`. Mobile users still get a numeric
+  keypad, but the fields no longer show browser spin buttons or change value
+  when scrolled over. The `pattern` attribute has been removed (GOV.UK
+  Frontend dropped it in v4.1.0), so any custom CSS or JS that targets
+  `input[pattern]` or `input[type="number"]` in a date input needs
+  updating. The value returned to the server is unchanged.
+* Each `accordion()` section button now has `aria-controls` pointing at its
+  section's content, as in GOV.UK Frontend, so assistive technology can tell
+  which content a button expands. The "Show all sections" button is
+  unchanged.
+
 # shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments

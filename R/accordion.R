@@ -112,6 +112,11 @@ accordion <- function(
                   class = "govuk-accordion__section-button",
                   id = paste0(inputId, "-accordion-default-heading-", z_str),
                   name = paste0(inputId, "-accordion-default-heading-", z_str),
+                  `aria-controls` = paste0(
+                    inputId,
+                    "-accordion-default-content-",
+                    z_str
+                  ),
                   `aria-expanded` = "false",
                   shiny::tags$span(
                     class = "govuk-accordion__section-heading-text",

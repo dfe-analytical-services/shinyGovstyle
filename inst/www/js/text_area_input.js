@@ -40,7 +40,13 @@
     var id = $textarea.attr('id');
     var $status = $('#' + id + '-status');
 
-    $textarea.toggleClass('govuk-textarea--error', isOverLimit);
+    // While error_on() has raised an error, it owns the textarea's error
+    // styling; leave the class alone so typing doesn't clear the red border
+    // until error_off() is called. GOV.UK's character count does the same
+    // when the form group has an error message.
+    if (!$container.hasClass('govuk-form-group--error')) {
+      $textarea.toggleClass('govuk-textarea--error', isOverLimit);
+    }
     $status.toggleClass('govuk-error-message', isOverLimit);
     $status.toggleClass('govuk-hint', !isOverLimit);
     $status.text(message);

@@ -149,6 +149,18 @@ test_that("Error ids join aria-describedby only while the error shows", {
   expect_true("govuk-textarea--error" %in% text_area2_classes())
   expect_false("govuk-input--error" %in% text_area2_classes())
 
+  # Typing fires the word count's input handler, which must not clear the
+  # error styling while the error is still raised. set_inputs() skips DOM
+  # events, so dispatch one directly.
+  app$run_js(
+    paste0(
+      "var el = document.getElementById('text_types-text_area2');",
+      "el.value = 'Fine';",
+      "el.dispatchEvent(new Event('input', { bubbles: true }));"
+    )
+  )
+  expect_true("govuk-textarea--error" %in% text_area2_classes())
+
   # Fixing the answer clears the error and its reference, keeping the rest.
   app$set_inputs(`text_types-text_area2` = "Fine thanks", wait_ = FALSE)
   app$click("text_types-btn_error")

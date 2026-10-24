@@ -88,6 +88,41 @@ test_that("Cookie banner link switches to the cookies panel", {
   )
 })
 
+test_that("A gov_row with a width keeps GOV.UK gutters on a full page", {
+  computed <- function(selector, property) {
+    app$get_js(sprintf(
+      "getComputedStyle(document.querySelector('%s')).%s",
+      selector,
+      property
+    ))
+  }
+
+  app$click("sn_cookies")
+  app$wait_for_idle()
+
+  # The cookies page uses gov_row(width = "standard") inside the app's
+  # gov_page(width = "full"), so its grid keeps the standard gutters
+  standard_row <- ".shinygovstyle-row-container > .govuk-grid-row"
+  expect_equal(computed(standard_row, "marginLeft"), "-15px")
+  expect_equal(
+    computed(
+      paste(standard_row, "> .govuk-grid-column-two-thirds"),
+      "paddingLeft"
+    ),
+    "15px"
+  )
+
+  # A plain gov_row() elsewhere on the same full page still has its
+  # gutters removed
+  expect_equal(
+    computed(
+      "[data-value=\"select_types\"] .govuk-grid-column-two-thirds",
+      "paddingLeft"
+    ),
+    "0px"
+  )
+})
+
 test_that("Active nav link is exposed to screen readers via aria-current", {
   # Direct click
   app$click("sn_action_types")

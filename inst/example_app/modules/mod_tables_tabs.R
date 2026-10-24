@@ -1,9 +1,17 @@
 mod_tables_tabs_ui <- function(id) {
+  # Tables sit outside any row so they get the full page width; headings,
+  # inputs and prose go in two-thirds rows for readable line lengths (see
+  # vignette("layout-options")).
   shiny::tagList(
-    shinyGovstyle::heading_text("Tables, tabs and accordions", size = "l"),
-    shinyGovstyle::label_hint(
-      shiny::NS(id, "label3"),
-      "These are some examples of using tabs and tables"
+    shinyGovstyle::gov_row(
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        shinyGovstyle::heading_text("Tables, tabs and accordions", size = "l"),
+        shinyGovstyle::label_hint(
+          shiny::NS(id, "label3"),
+          "These are some examples of using tabs and tables"
+        )
+      )
     ),
 
     shinyGovstyle::heading_text("govTable", size = "s", level = 2),
@@ -36,15 +44,20 @@ mod_tables_tabs_ui <- function(id) {
       size = "s",
       level = 2
     ),
-    shinyGovstyle::select_Input(
-      inputId = shiny::NS(id, "colourFilter"),
-      label = "Select Colour",
-      select_text = c(sort(unique(
-        shinyGovstyle::transport_data$colours
-      ))),
-      select_value = c(sort(unique(
-        shinyGovstyle::transport_data$colours
-      )))
+    shinyGovstyle::gov_row(
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        shinyGovstyle::select_Input(
+          inputId = shiny::NS(id, "colourFilter"),
+          label = "Select Colour",
+          select_text = c(sort(unique(
+            shinyGovstyle::transport_data$colours
+          ))),
+          select_value = c(sort(unique(
+            shinyGovstyle::transport_data$colours
+          )))
+        )
+      )
     ),
     shinyGovstyle::govReactableOutput(
       shiny::NS(id, "interactive_table_test"),
@@ -61,31 +74,38 @@ mod_tables_tabs_ui <- function(id) {
     ),
     shiny::tags$br(),
     shiny::tags$br(),
-    shinyGovstyle::heading_text("accordions", size = "s", level = 2),
-    shinyGovstyle::accordion(
-      shiny::NS(id, "acc1"),
-      c(
-        "Writing well for the web",
-        "Writing well for specialists",
-        "Know your audience",
-        "How people read"
-      ),
-      list(
-        "This is the content for Writing well for the web.",
-        "This is the content for Writing well for specialists.",
-        "This is the content for Know your audience.",
-        # Rich block content: paragraph + bulleted list with a link
-        shiny::tagList(
-          shinyGovstyle::gov_text("People read in different ways, including:"),
-          shinyGovstyle::gov_list(
-            list(
-              "scanning for key words",
-              shinyGovstyle::external_link(
-                "https://www.gov.uk",
-                "following links to GOV.UK"
+    shinyGovstyle::gov_row(
+      shinyGovstyle::gov_box(
+        size = "two-thirds",
+        shinyGovstyle::heading_text("accordions", size = "s", level = 2),
+        shinyGovstyle::accordion(
+          shiny::NS(id, "acc1"),
+          c(
+            "Writing well for the web",
+            "Writing well for specialists",
+            "Know your audience",
+            "How people read"
+          ),
+          list(
+            "This is the content for Writing well for the web.",
+            "This is the content for Writing well for specialists.",
+            "This is the content for Know your audience.",
+            # Rich block content: paragraph + bulleted list with a link
+            shiny::tagList(
+              shinyGovstyle::gov_text(
+                "People read in different ways, including:"
+              ),
+              shinyGovstyle::gov_list(
+                list(
+                  "scanning for key words",
+                  shinyGovstyle::external_link(
+                    "https://www.gov.uk",
+                    "following links to GOV.UK"
+                  )
+                ),
+                style = "bullet"
               )
-            ),
-            style = "bullet"
+            )
           )
         )
       )

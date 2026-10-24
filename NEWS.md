@@ -14,6 +14,12 @@
   and [development documentation](https://dfe-analytical-services.github.io/shinyGovstyle/dev/)
   follow the `main` branch.
 
+* `gov_row()` gains an optional `width` argument. Give it a width such as
+  `"standard"` to centre the row in its own container, so a text page like a
+  cookies page or accessibility statement reads like a normal GOV.UK page
+  inside a full-width `gov_page()`. Leaving it out renders the same plain grid
+  row as before.
+
 # shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments

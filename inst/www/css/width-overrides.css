@@ -12,6 +12,15 @@
     max-width: 960px;
 }
 
+/* gov_row(width = ...) nested inside a wider page only needs centring: the
+   outer container already provides the side gutter, so drop GOV.UK's own
+   margin. Scoped to gov_row()'s wrapper class so other width containers
+   (header(), cookieBanner(), ...) placed inside a layout keep theirs. */
+.govuk-width-container .shinygovstyle-row-container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* Three-quarters of the viewport, floored at standard's 960px so it's never
    narrower on a modest window. Keeps the normal grid gutters, unlike "full". */
 .govuk-width-container--three-quarters,
@@ -77,6 +86,36 @@
 .govuk-width-container--full .govuk-button-group,
 [data-govuk-page-width="full"] .govuk-width-container:not([class*="govuk-width-container--"]) .govuk-button-group {
     margin-right: 0;
+}
+
+/* The "full" rules above match every grid row and column inside the page's
+   container, including those in a narrower gov_row(width = ...) nested
+   within it. Put GOV.UK's own gutters back there, so side-by-side columns
+   in a standard-width row keep their 30px gap. Same specificity as the
+   ambient "full" selectors, so this has to stay below them. */
+.govuk-width-container .shinygovstyle-row-container:not(.govuk-width-container--full) .govuk-grid-row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.govuk-width-container .shinygovstyle-row-container:not(.govuk-width-container--full) [class*="govuk-grid-column-"] {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+@media (min-width: 40.0625em) {
+    .govuk-width-container .shinygovstyle-row-container:not(.govuk-width-container--full) .govuk-button-group {
+        margin-right: -15px;
+    }
+}
+
+/* A gov_row(width = "full") nested inside a page container already sits
+   within that container's side gutter, so drop the "full" padding as well
+   as the margin. Otherwise it stacks a second 15px/30px gutter and the row
+   is indented further than the rows around it. */
+.govuk-width-container .shinygovstyle-row-container.govuk-width-container--full {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* shiny::fluidPage()/bslib::page_fluid() wrap the page in Bootstrap's

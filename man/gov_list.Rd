@@ -13,6 +13,9 @@ to a bullet) or a \code{shiny::tagList()}.}
 
 \item{style}{options: "none", "bullet", "number". defaults to "none"}
 }
+\value{
+A Shiny tag representing an ordered or unordered HTML list.
+}
 \description{
 Gov List function
 }
@@ -22,11 +25,10 @@ ui <- shinyGovstyle::gov_page(
     org_name = "Example",
     service_name = "User Examples"
   ),
-  shinyGovstyle::banner(
+  shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", 'This is a new service'
   ),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+  shinyGovstyle::gov_main_layout(
     shinyGovstyle::heading_text("gov_list", size = "s"),
     shinyGovstyle::gov_text("List:"),
     gov_list(list = c("a", "b", "c")),
@@ -56,7 +58,6 @@ Other Govstyle text types:
 \code{\link[=heading_text]{heading_text()}},
 \code{\link[=input_field]{input_field()}},
 \code{\link[=text_Input]{text_Input()}},
-\code{\link[=text_area_Input]{text_area_Input()}},
-\code{\link[=word_count]{word_count()}}
+\code{\link[=text_area_Input]{text_area_Input()}}
 }
 \concept{Govstyle text types}

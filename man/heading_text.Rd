@@ -20,7 +20,7 @@ heading_text(text_input, size = "xl", id, level = 1)
 a heading text HTML shiny tag object
 }
 \description{
-This function createS heading text
+This function creates heading text
 }
 \examples{
 shinyGovstyle::heading_text("This is great text")
@@ -32,7 +32,6 @@ Other Govstyle text types:
 \code{\link[=gov_list]{gov_list()}},
 \code{\link[=input_field]{input_field()}},
 \code{\link[=text_Input]{text_Input()}},
-\code{\link[=text_area_Input]{text_area_Input()}},
-\code{\link[=word_count]{word_count()}}
+\code{\link[=text_area_Input]{text_area_Input()}}
 }
 \concept{Govstyle text types}

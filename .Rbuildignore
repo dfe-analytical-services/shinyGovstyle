@@ -15,6 +15,7 @@ _\.new\.png$
 ^\.vscode$
 package.json
 ^.claude$
+^\.agents$
 ^man/figures/example_app\.gif$
 ^AGENTS.md$
 ^.posit$

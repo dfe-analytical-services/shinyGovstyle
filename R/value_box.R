@@ -13,7 +13,8 @@
 #' displayed
 #' @param colour Character. A colour to apply to the value box. Defaults
 #' to "blue". Choose from the following: "grey", "purple", "teal",
-#' "blue", "yellow", "orange", "red", "magenta", or "green"
+#' "blue", "yellow", "orange", "red", "magenta", or "green". Any other value
+#' gives a warning listing these options
 #'
 #' @return A Shiny `div` tag representing the value box, styled according
 #' to the specified parameters
@@ -31,31 +32,20 @@ value_box <- function(
   text = NA,
   colour = "blue"
 ) {
-  #check for deprecated colours
-  if (colour == "light-blue") {
-    warning(
-      "'light-blue' is no longer a supported colour.
-      Please select an alternative from:
-      'grey', 'purple', 'teal', 'blue', 'yellow',
-      'orange', 'red', 'magenta', or 'green'."
+  validate_colour(
+    colour,
+    supported = c(
+      "grey",
+      "purple",
+      "teal",
+      "blue",
+      "yellow",
+      "orange",
+      "red",
+      "magenta",
+      "green"
     )
-  }
-  if (colour == "turquoise") {
-    warning(
-      "'turquoise' is no longer a supported colour.
-      Please select an alternative from:
-      'grey', 'purple', 'teal', 'blue', 'yellow',
-      'orange', 'red', 'magenta', or 'green'."
-    )
-  }
-  if (colour == "pink") {
-    warning(
-      "'pink' is no longer a supported colour.
-      Please select an alternative from:
-      'grey', 'purple', 'teal', 'blue', 'yellow',
-      'orange', 'red', 'magenta', or 'green'."
-    )
-  }
+  )
 
   # Use the govuk-tag--<colour> class for coloring
   class_colour <- paste0("govuk-tag--", colour)

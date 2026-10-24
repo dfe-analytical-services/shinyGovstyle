@@ -183,3 +183,39 @@ test_that("heading_text returns correct heading level", {
     "level must be an integer between 1 and 6"
   )
 })
+
+
+test_that("renamed header() arguments name their replacement", {
+  expect_one_deprecation(
+    header(main_text = "Org", logo = NULL),
+    mentions = c("`main_text`", "`org_name`", "1.0.0")
+  )
+  expect_one_deprecation(
+    header(secondary_text = "Service", logo = NULL),
+    mentions = c("`secondary_text`", "`service_name`", "1.0.0")
+  )
+})
+
+test_that("unused header() arguments say they have no effect", {
+  for (arg in c(
+    "main_link",
+    "secondary_link",
+    "main_alt_text",
+    "secondary_alt_text"
+  )) {
+    args <- list(logo = NULL)
+    args[[arg]] <- "value"
+    expect_one_deprecation(
+      do.call(header, args),
+      mentions = c(paste0("`", arg, "`"), "no effect", "removed", "1.0.0")
+    )
+  }
+})
+
+test_that("deprecated header() arguments still map to their replacement", {
+  rlang::local_options(lifecycle_verbosity = "quiet")
+  expect_identical(
+    as.character(header(main_text = "Org", secondary_text = "Svc")),
+    as.character(header(org_name = "Org", service_name = "Svc"))
+  )
+})

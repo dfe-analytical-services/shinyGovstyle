@@ -17,7 +17,7 @@
 #'   #Needs shinyjs to work
 #'   shinyjs::useShinyjs(),
 #'   shinyGovstyle::cookieBanner("The best thing"),
-#'   shinyGovstyle::gov_layout(size = "two-thirds"),
+#'   shinyGovstyle::gov_main_layout(),
 #'   shinyGovstyle::footer(full = TRUE)
 #' )
 #'

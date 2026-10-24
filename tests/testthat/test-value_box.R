@@ -35,10 +35,40 @@ test_that("deprecated colours are warned against", {
   expect_warning(
     value_box("testId3", "Test Value", colour = "light-blue"),
     paste(
-      "'light-blue' is no longer a supported colour.
-      Please select an alternative from:
-      'grey', 'purple', 'teal', 'blue', 'yellow',
-      'orange', 'red', 'magenta', or 'green'."
-    )
+      "'light-blue' is no longer a supported colour.",
+      "Please select an alternative from: 'grey', 'purple', 'teal', 'blue',",
+      "'yellow', 'orange', 'red', 'magenta', or 'green'."
+    ),
+    fixed = TRUE
   )
+})
+
+
+test_that("unknown colours warn and list the supported options", {
+  # "navy" is a gov_tag() colour but not a value_box() one
+  for (colour in c("rainbow", "navy")) {
+    expect_warning(
+      value_box("Test Value", colour = colour),
+      paste0(
+        "'",
+        colour,
+        "' is not a supported colour. Please select an alternative from: ",
+        "'grey', 'purple', 'teal', 'blue', 'yellow', 'orange', 'red', ",
+        "'magenta', or 'green'."
+      ),
+      fixed = TRUE
+    )
+  }
+  expect_no_warning(value_box("Test Value", colour = "green"))
+})
+
+
+test_that("a colour that is not a single string errors clearly", {
+  for (colour in list(NULL, NA_character_, 1, c("red", "blue"))) {
+    expect_error(
+      value_box("Test Value", colour = colour),
+      "`colour` must be a single character string.",
+      fixed = TRUE
+    )
+  }
 })

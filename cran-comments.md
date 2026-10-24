@@ -1,8 +1,11 @@
 ## Release summary
-This is a patch release to update the testing approach and maintainer details.
+
+Update release.
 
 ## R CMD check results
-0 errors v | 0 warnings v | 1 note v
 
-## revdepcheck results
-There are currently no downstream dependencies for this package.
+0 errors | 0 warnings | 0 notes
+
+## Reverse dependencies
+
+There are currently no reverse dependencies.

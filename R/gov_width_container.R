@@ -42,8 +42,9 @@ validate_width_tier <- function(width) {
 #' Resolve the class and inline style for a `.govuk-width-container`
 #'
 #' Shared by every component that renders a `govuk-width-container` (header,
-#' footer, banner, cookieBanner, service_navigation, gov_main_layout and
-#' gov_layout) so the `width` argument behaves consistently everywhere.
+#' footer, phase_banner, cookieBanner, service_navigation, gov_main_layout and
+#' the deprecated gov_layout) so the `width` argument behaves consistently
+#' everywhere.
 #'
 #' @param width One of `"standard"`, `"three-quarters"`, `"full"`, or a CSS
 #' length (e.g. `"1400px"`, `"90vw"`).

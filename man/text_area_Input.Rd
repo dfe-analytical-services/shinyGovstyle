@@ -67,7 +67,6 @@ Other Govstyle text types:
 \code{\link[=gov_list]{gov_list()}},
 \code{\link[=heading_text]{heading_text()}},
 \code{\link[=input_field]{input_field()}},
-\code{\link[=text_Input]{text_Input()}},
-\code{\link[=word_count]{word_count()}}
+\code{\link[=text_Input]{text_Input()}}
 }
 \concept{Govstyle text types}

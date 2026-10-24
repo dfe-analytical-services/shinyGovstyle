@@ -4,7 +4,7 @@ function(input, output, session) {
   text_types <- mod_text_types_server("text_types")
   mod_action_types_server("action_types")
   mod_tables_tabs_server("tables_tabs")
-  mod_width_toggle_server("width_toggle", initial = demo_width)
+  mod_width_toggle_server("width_toggle")
 
   # Cookies page: banner accept/reject drive the settings radio server-side
   mod_cookies_server(

@@ -19,7 +19,9 @@
 #' @param tabset_id The `id` of the `shiny::tabsetPanel()` or
 #'   `bslib::navset_hidden()` to switch
 #' @param inputId The nav link inputId to set as the active item in the
-#'   service navigation
+#'   service navigation. It is cleaned up the same way as in
+#'   [service_navigation()], so `"Page-Two"` and `"page_two"` both refer to
+#'   the same link
 #' @param panel The `value` of the tab panel to switch to. Defaults to
 #'   `inputId` for the common case where the two are the same. When your
 #'   nav inputIds and panel values differ (e.g. nav id `sn_cookies`, panel

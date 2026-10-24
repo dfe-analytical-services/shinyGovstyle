@@ -6,17 +6,17 @@ mod_feedback_types_ui <- function(id) {
       "These are some examples of the types of user
            feedback inputs that you can use"
     ),
-    shinyGovstyle::heading_text("tag_Input", size = "s", level = 2),
-    shinyGovstyle::tag_Input(shiny::NS(id, "tag1"), "Default"),
-    shinyGovstyle::tag_Input(shiny::NS(id, "tag2"), "Grey", "grey"),
-    shinyGovstyle::tag_Input(shiny::NS(id, "tag3"), "Green", "green"),
-    shinyGovstyle::tag_Input(shiny::NS(id, "tag4"), "Teal", "teal"),
-    shinyGovstyle::tag_Input(shiny::NS(id, "tag5"), "Blue", "blue"),
-    shinyGovstyle::tag_Input(shiny::NS(id, "tag6"), "Purple", "purple"),
-    shinyGovstyle::tag_Input(shiny::NS(id, "tag7"), "Magenta", "magenta"),
-    shinyGovstyle::tag_Input(shiny::NS(id, "tag8"), "Red", "red"),
-    shinyGovstyle::tag_Input(shiny::NS(id, "tag9"), "Orange", "orange"),
-    shinyGovstyle::tag_Input(shiny::NS(id, "tag10"), "Yellow", "yellow"),
+    shinyGovstyle::heading_text("gov_tag", size = "s", level = 2),
+    shinyGovstyle::gov_tag(shiny::NS(id, "tag1"), "Default"),
+    shinyGovstyle::gov_tag(shiny::NS(id, "tag2"), "Grey", "grey"),
+    shinyGovstyle::gov_tag(shiny::NS(id, "tag3"), "Green", "green"),
+    shinyGovstyle::gov_tag(shiny::NS(id, "tag4"), "Teal", "teal"),
+    shinyGovstyle::gov_tag(shiny::NS(id, "tag5"), "Blue", "blue"),
+    shinyGovstyle::gov_tag(shiny::NS(id, "tag6"), "Purple", "purple"),
+    shinyGovstyle::gov_tag(shiny::NS(id, "tag7"), "Magenta", "magenta"),
+    shinyGovstyle::gov_tag(shiny::NS(id, "tag8"), "Red", "red"),
+    shinyGovstyle::gov_tag(shiny::NS(id, "tag9"), "Orange", "orange"),
+    shinyGovstyle::gov_tag(shiny::NS(id, "tag10"), "Yellow", "yellow"),
     shiny::tags$br(),
     shiny::tags$br(),
     shinyGovstyle::heading_text("details", size = "s", level = 2),
@@ -30,8 +30,8 @@ mod_feedback_types_ui <- function(id) {
         "send copies of identity documents through the post."
       )
     ),
-    shinyGovstyle::heading_text("insert_text", size = "s", level = 2),
-    shinyGovstyle::insert_text(
+    shinyGovstyle::heading_text("inset_text", size = "s", level = 2),
+    shinyGovstyle::inset_text(
       inputId = shiny::NS(id, "insertId"),
       content = "It can take up to 8 weeks to register a lasting
                 power of attorney if there are no mistakes in the
@@ -60,11 +60,11 @@ mod_feedback_types_ui <- function(id) {
       ),
       colour = "red"
     ),
-    shinyGovstyle::heading_text("panel_output", size = "s", level = 2),
-    shinyGovstyle::panel_output(
+    shinyGovstyle::heading_text("confirmation_panel", size = "s", level = 2),
+    shinyGovstyle::confirmation_panel(
       inputId = shiny::NS(id, "panId"),
-      main_text = "Application complete",
-      sub_text = paste(
+      title = "Application complete",
+      content = paste(
         "Your reference number <br>",
         "<strong>HDJ2123F</strong>"
       )

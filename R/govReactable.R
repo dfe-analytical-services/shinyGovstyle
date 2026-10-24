@@ -9,7 +9,7 @@
 #'
 #' @description
 #' This function is opinionated and sets table defaults that are in
-#' keeping with the wider GOV.UK design system. Some defaults are overrideable,
+#' keeping with the wider GOV.UK design system. Some defaults can be overridden,
 #' such as `highlight=TRUE` and `borderless=TRUE`, however some are fixed, such
 #' as `showSortIcon=FALSE` as the default sort icon is inaccessible. Additional
 #' arguments from `reactable::reactable` can be passed to customise the table.
@@ -317,31 +317,6 @@ validate_caption_id <- function(caption_id) {
   invisible(caption_id)
 }
 
-# Internal helper: govReactableOutput() shipped in CRAN release 0.2.0 with a
-# string heading_level ("h2"-"h5"), before the rest of the package's integer
-# 1-6 convention existed. Accept the old strings for one deprecation cycle
-# (removal planned for 1.0.0) so 0.2.0 callers don't break outright.
-coerce_heading_level <- function(heading_level) {
-  if (!is.character(heading_level)) {
-    return(heading_level)
-  }
-
-  lifecycle::deprecate_warn(
-    when = "0.3.0",
-    what = I("govReactableOutput(heading_level = 'a \"h2\"-style string')"),
-    with = I("an integer between 1 and 6, e.g. heading_level = 2")
-  )
-
-  if (!grepl("^h[1-6]$", heading_level)) {
-    stop(
-      "heading_level must be an integer between 1 and 6 ",
-      "(or a deprecated \"h1\"-\"h6\" string).",
-      call. = FALSE
-    )
-  }
-  as.integer(sub("^h", "", heading_level))
-}
-
 #' Shiny bindings for govReactable
 #' Output and render functions for using govReactable within shiny apps
 #'
@@ -356,10 +331,10 @@ coerce_heading_level <- function(heading_level) {
 #' @inheritSection table_title_params Table titles
 #' @param caption_size Adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
 #' `"xl"`, with `"l"` as the default. Any other value throws an error.
-#' @param heading_level Heading level for the caption, an integer between 1
-#' and 6. Defaults to 2. A string such as `"h2"` is also accepted for
-#' backwards compatibility but is deprecated (emits a warning) and will be
-#' removed in a future version; use the integer form instead
+#' @param heading_level The HTML heading level for the caption, an integer
+#' from `2L` to `5L`. Defaults to `2L` (`<h2>`). Strings such as `"h3"` are
+#' `r lifecycle::badge("deprecated")` as of shinyGovstyle 0.3.0 and will stop
+#' working in shinyGovstyle 1.0.0; use the integer form (e.g. `3L`) instead.
 #' @param expr An expression that generates a `reactable` widget
 #' @param env The environment in which to evaluate `expr`
 #' @param quoted Is `expr` a quoted expression (with [quote()])?
@@ -428,10 +403,33 @@ govReactableOutput <- # nolint
     output_table_name,
     caption,
     caption_size = "l",
-    heading_level = 2,
+    heading_level = 2L,
     subtitle = NULL
   ) {
-    heading_level <- coerce_heading_level(heading_level)
+    # Warned here rather than in the helper so lifecycle attributes the
+    # deprecated usage to the user's code rather than to this package.
+    legacy_level <- heading_level
+    heading_level <- govreactable_heading_level(heading_level)
+    if (is.character(legacy_level)) {
+      lifecycle::deprecate_warn(
+        when = "0.3.0",
+        what = "govReactableOutput(heading_level = 'must be an integer')",
+        details = c(
+          i = paste0(
+            "Use `heading_level = ",
+            heading_level,
+            "L` instead of `heading_level = \"",
+            legacy_level,
+            "\"`."
+          ),
+          i = "Heading level strings will stop working in shinyGovstyle 1.0.0."
+        ),
+        # One id per legacy string, so each gets its own once-per-session
+        # warning showing the right integer.
+        id = paste0("shinyGovstyle_heading_level_", legacy_level)
+      )
+    }
+
     validate_single_content(caption, "caption", allow_null = FALSE)
     validate_single_content(subtitle, "subtitle")
 
@@ -472,3 +470,33 @@ renderGovReactable <- # nolint
     }
     reactable::renderReactable(expr, env = env, quoted = TRUE)
   }
+
+# Internal helper: validates govReactableOutput()'s heading_level and returns
+# it as an integer. The "h2"-"h5" strings are still accepted during the
+# 0.3.0 transition; govReactableOutput() gives the deprecation warning.
+govreactable_heading_level <- function(heading_level) {
+  allowed_levels <- 2:5
+  legacy_levels <- paste0("h", allowed_levels)
+
+  if (
+    is.character(heading_level) &&
+      length(heading_level) == 1 &&
+      heading_level %in% legacy_levels
+  ) {
+    return(allowed_levels[match(heading_level, legacy_levels)])
+  }
+
+  if (
+    !is.numeric(heading_level) ||
+      length(heading_level) != 1 ||
+      is.na(heading_level) ||
+      !(heading_level %in% allowed_levels)
+  ) {
+    stop(
+      "`heading_level` must be a single integer from 2 to 5, e.g. `3L`.",
+      call. = FALSE
+    )
+  }
+
+  as.integer(heading_level)
+}

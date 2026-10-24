@@ -81,8 +81,7 @@ avoid repeating the same information in both. See also the
 
 \examples{
 ui <- shinyGovstyle::gov_page(
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+  shinyGovstyle::gov_main_layout(
     shinyGovstyle::govTable(
       "tab1",
       shinyGovstyle::transport_data_small,

@@ -11,7 +11,7 @@ mod_cookies_ui <- function(id) {
 
   shiny::tagList(
     shinyGovstyle::heading_text("Cookies", size = "l", level = 1),
-    shinyGovstyle::insert_text(
+    shinyGovstyle::inset_text(
       inputId = shiny::NS(id, "cookies_mock_notice"),
       content = paste(
         "This is a mock cookies page for demonstration only. It shows how",

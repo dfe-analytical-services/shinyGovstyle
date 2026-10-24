@@ -1,3 +1,25 @@
+# shinyGovstyle (development version)
+
+* `gov_page()` now adds a browser tab icon (favicon) by default: the teal dot
+  from the GOV.UK logo on a GOV.UK blue square, with no crown. Use the new
+  `favicon` argument to switch to the GOV.UK crown icon set
+  (`favicon = "govuk"`, only for services on GOV.UK) or to leave icons out
+  and add your own (`favicon = "none"`).
+
+* The showcase app and package documentation now have separate CRAN release
+  and development versions. The [showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/)
+  and [documentation](https://dfe-analytical-services.github.io/shinyGovstyle/)
+  match the latest CRAN release, while the
+  [development showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app-dev/)
+  and [development documentation](https://dfe-analytical-services.github.io/shinyGovstyle/dev/)
+  follow the `main` branch.
+
+* `gov_row()` gains an optional `width` argument. Give it a width such as
+  `"standard"` to centre the row in its own container, so a text page like a
+  cookies page or accessibility statement reads like a normal GOV.UK page
+  inside a full-width `gov_page()`. Leaving it out renders the same plain grid
+  row as before.
+
 # shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments

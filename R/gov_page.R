@@ -34,6 +34,16 @@
 #' that sets its own `width` always overrides this default.
 #' @param theme A `bslib::bs_theme()` object, passed straight to
 #' `bslib::page_fluid()`.
+#' @param favicon Which browser tab icon (favicon) and theme colour to add.
+#' One of:
+#' * `"default"` (the default): the teal dot from the GOV.UK logo on a GOV.UK
+#'   blue square, so every app gets an on-brand icon instead of the browser's
+#'   blank page, without using the crown.
+#' * `"govuk"`: the GOV.UK crown icon set from the GOV.UK page template. Only
+#'   use this if your service is on GOV.UK: GOV.UK asks that its crown
+#'   branding isn't used elsewhere.
+#' * `"none"`: no icon tags, for when you add your own with
+#'   `shiny::tags$head()`.
 #' @return a page HTML shiny tag object
 #' @family Govstyle page structure
 #' @export
@@ -61,8 +71,11 @@ gov_page <- function(
   lang = "en",
   description = NULL,
   width = "full",
-  theme = bslib::bs_theme()
+  theme = bslib::bs_theme(),
+  favicon = c("default", "govuk", "none")
 ) {
+  favicon <- match.arg(favicon)
+
   page_width <- validate_width_tier(width)
   page_style <- if (page_width == "custom") {
     paste0("--govuk-page-max-width: ", width, ";")
@@ -79,6 +92,7 @@ gov_page <- function(
         shiny::tags$meta(name = "description", content = description)
       )
     },
+    favicon_tags(favicon),
     shiny::tags$div(
       `data-govuk-page-width` = page_width,
       style = page_style,
@@ -87,4 +101,64 @@ gov_page <- function(
   )
 
   attachDependency(page)
+}
+
+# Icon tags for gov_page(favicon = ). "govuk" is the icon set from the GOV.UK
+# Frontend page template; "default" is a crown-free version for apps that
+# aren't on GOV.UK. All files are shipped in inst/www/images/ and served under
+# the shinyGovstyle/ resource path.
+favicon_tags <- function(favicon) {
+  if (favicon == "none") {
+    return(NULL)
+  }
+  img <- function(file) paste0("shinyGovstyle/images/", file)
+  theme_color <- "#1d70b8"
+
+  icons <- if (favicon == "govuk") {
+    shiny::tagList(
+      shiny::tags$link(
+        rel = "icon",
+        sizes = "48x48",
+        href = img("favicon.ico")
+      ),
+      shiny::tags$link(
+        rel = "icon",
+        sizes = "any",
+        href = img("favicon.svg"),
+        type = "image/svg+xml"
+      ),
+      shiny::tags$link(
+        rel = "mask-icon",
+        href = img("govuk-icon-mask.svg"),
+        color = theme_color
+      ),
+      shiny::tags$link(
+        rel = "apple-touch-icon",
+        href = img("govuk-icon-180.png")
+      )
+    )
+  } else {
+    shiny::tagList(
+      shiny::tags$link(
+        rel = "icon",
+        sizes = "48x48",
+        href = img("favicon-default.ico")
+      ),
+      shiny::tags$link(
+        rel = "icon",
+        sizes = "any",
+        href = img("favicon-default.svg"),
+        type = "image/svg+xml"
+      ),
+      shiny::tags$link(
+        rel = "apple-touch-icon",
+        href = img("favicon-default-180.png")
+      )
+    )
+  }
+
+  shiny::tags$head(
+    icons,
+    shiny::tags$meta(name = "theme-color", content = theme_color)
+  )
 }

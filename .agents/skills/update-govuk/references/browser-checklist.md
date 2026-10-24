@@ -14,7 +14,7 @@ a check, record it as unavailable and explain the remaining manual action.
   This is the source-checkout equivalent of `shinyGovstyle::run_example()`. Replace
   the port placeholder with an available port and record the PID and URL. Background
   launchers on Windows should use hidden windows. Wait for Shiny to connect.
-- Compare with the [deployed main showcase](https://department-for-education.shinyapps.io/shinygovstyle-example-app/).
+- Compare with the [deployed main showcase](https://department-for-education.shinyapps.io/shinygovstyle-example-app-dev/).
   Use synthetic test values only. Uploads use small synthetic files; don't follow
   feedback links to submit issues or send anything outside the showcase.
 - Use Chromium at 1280 x 900 and 390 x 844 CSS pixels, zoom 100%, with matching

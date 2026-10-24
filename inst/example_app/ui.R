@@ -1,8 +1,43 @@
 shinyGovstyle::gov_page(
   theme = bslib::bs_theme(version = 5, brand = FALSE),
-  title = "Select Types | shinyGovstyle",
-  description = "A showcase of the components available in shinyGovstyle",
-  width = demo_width,
+  title = "Select types | shinyGovstyle: GOV.UK Design System for R Shiny",
+  description = paste(
+    "Interactive showcase of shinyGovstyle, an R package of GOV.UK Design",
+    "System components for Shiny apps: inputs, tables, tabs, banners and more."
+  ),
+
+  # Canonical, Open Graph and Twitter card tags: the dev app points at the
+  # CRAN app so the two aren't treated as duplicates, and shared links get a
+  # large preview card
+  shiny::tags$head(
+    shiny::tags$link(rel = "canonical", href = app_url),
+    shiny::tags$meta(property = "og:type", content = "website"),
+    shiny::tags$meta(property = "og:site_name", content = "shinyGovstyle"),
+    shiny::tags$meta(property = "og:locale", content = "en_GB"),
+    shiny::tags$meta(property = "og:url", content = app_url),
+    shiny::tags$meta(
+      property = "og:title",
+      content = "shinyGovstyle: GOV.UK Design System for R Shiny"
+    ),
+    shiny::tags$meta(
+      property = "og:description",
+      content = paste(
+        "Interactive showcase of GOV.UK Design System components for R",
+        "Shiny apps."
+      )
+    ),
+    shiny::tags$meta(property = "og:image", content = og_image_url),
+    shiny::tags$meta(property = "og:image:width", content = "1200"),
+    shiny::tags$meta(property = "og:image:height", content = "630"),
+    shiny::tags$meta(
+      property = "og:image:alt",
+      content = paste(
+        "shinyGovstyle: GOV.UK Design System for R Shiny, in white text",
+        "beside a teal dot on a blue background"
+      )
+    ),
+    shiny::tags$meta(name = "twitter:card", content = "summary_large_image")
+  ),
 
   shinyGovstyle::cookieBanner("shinyGovstyle component showcase"),
   shinyjs::useShinyjs(),
@@ -14,14 +49,14 @@ shinyGovstyle::gov_page(
   ),
   shinyGovstyle::service_navigation(
     c(
-      "Select Types" = "sn_select_types",
-      "Text Types" = "sn_text_types",
-      "Action Types" = "sn_action_types",
+      "Select types" = "sn_select_types",
+      "Text types" = "sn_text_types",
+      "Action types" = "sn_action_types",
       "Tables, tabs and accordions" = "sn_tables_tabs",
       "Feedback types" = "sn_feedback_types",
       "Cookies" = "sn_cookies"
     ),
-    page_title_suffix = "shinyGovstyle"
+    page_title_suffix = "shinyGovstyle: GOV.UK Design System for R Shiny"
   ),
 
   shinyGovstyle::phase_banner(
@@ -34,69 +69,44 @@ shinyGovstyle::gov_page(
   ),
 
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        size = "two-thirds",
-        mod_width_toggle_ui("width_toggle", initial = demo_width),
-        shinyGovstyle::gov_text(
-          "This example app showcases the components available in the",
-          "latest development version of the shinyGovstyle package.",
-          "The source code is on the ",
-          shinyGovstyle::external_link(
-            href = paste0(
-              "https://github.com/dfe-analytical-services/shinyGovstyle/",
-              "blob/main/inst/example_app"
-            ),
-            link_text = "main GitHub branch"
-          ),
-          ". The switcher allows you to preview the main page width options."
-        )
-      )
-    ),
+    shiny::tabsetPanel(
+      type = "hidden",
+      id = "tab-container",
 
-    shinyGovstyle::gov_row(
-      shinyGovstyle::gov_box(
-        size = "two-thirds",
-        shiny::tabsetPanel(
-          type = "hidden",
-          id = "tab-container",
+      shiny::tabPanel(
+        "Select types",
+        value = "select_types",
+        mod_select_types_ui("select_types")
+      ),
 
-          shiny::tabPanel(
-            "Select Types",
-            value = "select_types",
-            mod_select_types_ui("select_types")
-          ),
+      shiny::tabPanel(
+        "Text types",
+        value = "text_types",
+        mod_text_types_ui("text_types")
+      ),
 
-          shiny::tabPanel(
-            "Text Types",
-            value = "text_types",
-            mod_text_types_ui("text_types")
-          ),
+      shiny::tabPanel(
+        "Action types",
+        value = "action_types",
+        mod_action_types_ui("action_types")
+      ),
 
-          shiny::tabPanel(
-            "Action types",
-            value = "action_types",
-            mod_action_types_ui("action_types")
-          ),
+      shiny::tabPanel(
+        "Tables, tabs and accordions",
+        value = "tables_tabs_and_accordions",
+        mod_tables_tabs_ui("tables_tabs")
+      ),
 
-          shiny::tabPanel(
-            "Tables, tabs and accordions",
-            value = "tables_tabs_and_accordions",
-            mod_tables_tabs_ui("tables_tabs")
-          ),
+      shiny::tabPanel(
+        "Feedback types",
+        value = "feedback_types",
+        mod_feedback_types_ui("feedback_types")
+      ),
 
-          shiny::tabPanel(
-            "Feedback Types",
-            value = "feedback_types",
-            mod_feedback_types_ui("feedback_types")
-          ),
-
-          shiny::tabPanel(
-            "Cookies",
-            value = "panel-cookies",
-            mod_cookies_ui("cookies")
-          )
-        )
+      shiny::tabPanel(
+        "Cookies",
+        value = "panel-cookies",
+        mod_cookies_ui("cookies")
       )
     )
   ),
@@ -107,6 +117,10 @@ shinyGovstyle::gov_page(
       `Cookies` = "cookies_footer_link",
       `GitHub repository` = paste(
         "https://github.com/dfe-analytical-services/shinyGovstyle"
+      ),
+      `Example app source code` = paste0(
+        "https://github.com/dfe-analytical-services/shinyGovstyle/",
+        "tree/main/inst/example_app"
       )
     )
   )

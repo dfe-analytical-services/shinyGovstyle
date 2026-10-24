@@ -15,7 +15,7 @@
 
 ## Overview
 
-This package provides custom widgets to style R Shiny apps using the GOV.UK design system. The components can be previewed in our [example showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/).
+This package provides custom widgets to style R Shiny apps using the GOV.UK design system. The components can be previewed in our [example showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/), which shows the latest CRAN release.
 <br> 
 
 ![example app demonstration](man/figures/example_app.gif)
@@ -34,6 +34,8 @@ If you want to make use of the development version then install directly from Gi
 pak::pak("dfe-analytical-services/shinyGovstyle")
 ```
 
+You can preview the development version in the [development showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app-dev/) and read its [development documentation](https://dfe-analytical-services.github.io/shinyGovstyle/dev/).
+
 To use error and word count elements you will need to load `useShinyjs()` from shinyjs in your ui.R file
 ```r
 shinyjs::useShinyjs()
@@ -51,7 +53,7 @@ This package is also released with a `.github/CODE_OF_CONDUCT.md`. By contributi
 
 Details of all available components and how to use them can be found in the [package documentation](https://dfe-analytical-services.github.io/shinyGovstyle/reference/index.html).
 
-The package contains an [example showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/) you can view or run yourself, showcasing available components. The code for the example app is in the `inst/example_app/` folder. You can easily run the app from the console using:
+The package contains an [example showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/) you can view or run yourself, showcasing available components. The online version shows the latest CRAN release, matching what `run_example()` runs if you installed from CRAN. The code for the example app is in the `inst/example_app/` folder. You can easily run the app from the console using:
 
 ```r
 shinyGovstyle::run_example()

@@ -221,8 +221,3 @@ test_that("invalid heading_level values error", {
     )
   }
 })
-
-test_that("govReactableOutput attaches the GOV.UK stylesheet", {
-  output_check <- govReactableOutput("table", caption = "Example table")
-  expect_true("stylecss" %in% dependency_names(output_check))
-})

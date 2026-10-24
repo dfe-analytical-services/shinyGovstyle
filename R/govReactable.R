@@ -243,11 +243,10 @@ govReactableOutput <- # nolint
       list(class = paste0("govuk-heading-", caption_size), caption)
     )
 
-    output_div <- htmltools::div(
+    htmltools::div(
       heading_tag,
       reactable::reactableOutput(output_table_name)
     )
-    attachDependency(output_div)
   }
 
 # use renderReactable to render the govTables - naming just for convention

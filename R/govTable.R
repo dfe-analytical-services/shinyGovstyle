@@ -16,7 +16,9 @@
 #' Columns must add up to 1.
 #' Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
 #' Default is `NULL`
-#' @return a table HTML shiny tag object
+#' @return A `div` HTML shiny tag object: a scroll container holding the
+#'   table, which has `inputId` as its id. Wide tables scroll sideways inside
+#'   the container rather than making the whole page scroll.
 #' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
@@ -70,11 +72,14 @@ govTable <- # nolint
       function(i) create_rows(df[i, ], num_col)
     )
 
+    caption_id <- paste0(inputId, "-caption")
+
     # Create the actual table
     gov_table <- shiny::tags$table(
       id = inputId,
       class = "govuk-table",
       shiny::tags$caption(
+        id = caption_id,
         class = paste0(
           "govuk-table__caption govuk-table__caption--",
           caption_size
@@ -120,7 +125,11 @@ govTable <- # nolint
       }
     }
 
-    attachDependency(gov_table)
+    # Wide tables scroll inside their own container rather than the page; see
+    # table_scroll_container() for why this extends GOV.UK Frontend
+    scroll_region <- table_scroll_container(caption_id, gov_table)
+
+    attachDependency(scroll_region, "table")
   }
 
 create_rows <- function(df_row, num_col = NULL) {

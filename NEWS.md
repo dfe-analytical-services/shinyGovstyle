@@ -61,6 +61,24 @@ deprecated keeps working in this release.
   on form inputs like `checkbox_Input()`) now throw an error if given
   anything other than `"s"`, `"m"`, `"l"`, or `"xl"`. Previously an invalid
   value was accepted silently and could produce broken styling.
+* `govTable()` now returns a `<div>` scroll container with the `<table>`
+  inside it, rather than the `<table>` itself. The `<table>` still has
+  `inputId` as its id, so CSS, JavaScript and `shinytest2` selectors that
+  use the id keep working. Code that changes the returned tag directly (for
+  example `htmltools::tagAppendAttributes()`, or checking
+  `$name == "table"`) now acts on the container; use
+  `htmltools::tagQuery()` to reach the `<table>`. See below for why.
+* `govTable()` and `govTabs()` tables that are wider than the screen now
+  scroll sideways inside their own container, so the rest of the page
+  reflows to the screen width instead of the whole page scrolling. This
+  follows the technique recommended for data tables in the WCAG 1.4.10
+  Reflow guidance. GOV.UK Frontend has no scroll container for tables, so
+  this is a shinyGovstyle addition; where you can, follow GOV.UK's advice
+  to put less data in each table or split it up. While a table scrolls, its
+  container can be reached with the keyboard so it can be scrolled without
+  a mouse, and screen readers announce it using the table's caption
+  (`govTable()`) or the tab's heading (`govTabs()`). A table that fits adds
+  no extra tab stop.
 
 ## New features
 

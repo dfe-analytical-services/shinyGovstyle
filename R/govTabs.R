@@ -98,6 +98,8 @@ create_tab_table <- function(
   inputId, # nolint
   is_first
 ) {
+  heading_id <- paste0(inputId, "-heading-", slug)
+
   shiny::tags$div(
     class = if (is_first) {
       "govuk-tabs__panel"
@@ -107,28 +109,33 @@ create_tab_table <- function(
     id = panel_id(inputId, slug),
     role = "tabpanel",
     `aria-labelledby` = tab_id(inputId, slug),
-    shiny::tags$h2(class = "govuk-heading-l", tab),
-    shiny::tags$table(
-      class = "govuk-table",
-      shiny::tags$thead(
-        class = "govuk-table__head",
-        shiny::tags$tr(
-          class = "govuk-table__row",
-          Map(
-            function(x) {
-              shiny::tags$th(
-                scope = "col",
-                class = "govuk-table__header",
-                x
-              )
-            },
-            x = colnames(df)
+    shiny::tags$h2(class = "govuk-heading-l", id = heading_id, tab),
+    # Wide tables scroll inside their own container rather than the page; see
+    # table_scroll_container() for why this extends GOV.UK Frontend
+    table_scroll_container(
+      heading_id,
+      table = shiny::tags$table(
+        class = "govuk-table",
+        shiny::tags$thead(
+          class = "govuk-table__head",
+          shiny::tags$tr(
+            class = "govuk-table__row",
+            Map(
+              function(x) {
+                shiny::tags$th(
+                  scope = "col",
+                  class = "govuk-table__header",
+                  x
+                )
+              },
+              x = colnames(df)
+            )
           )
+        ),
+        shiny::tags$tbody(
+          class = "govuk-table__body",
+          rows
         )
-      ),
-      shiny::tags$tbody(
-        class = "govuk-table__body",
-        rows
       )
     )
   )

@@ -102,6 +102,55 @@ test_that("Active nav link is exposed to screen readers via aria-current", {
   expect_equal(fallback_links(), "sn_cookies")
 })
 
+# The visible govTabs table's scroll container, if it is currently focusable
+visible_focusable_scroll <- paste0(
+  "document.querySelector('",
+  ".govuk-tabs__panel:not(.govuk-tabs__panel--hidden) ",
+  ".shinygovstyle-table-scroll[tabindex]')"
+)
+
+# Scroll container state for the visible govTabs table, plus page overflow
+table_scroll_state <- function() {
+  app$get_js(
+    paste0(
+      "(function () {",
+      " var c = Array.from(document.querySelectorAll(",
+      "'.govuk-tabs__panel .shinygovstyle-table-scroll'",
+      ")).find(function (e) { return e.offsetParent !== null; });",
+      " return {",
+      " tabindex: c.getAttribute('tabindex'),",
+      " role: c.getAttribute('role'),",
+      " labelledby: c.getAttribute('aria-labelledby'),",
+      " pageOverflows: document.documentElement.scrollWidth >",
+      " document.documentElement.clientWidth };",
+      "})()"
+    )
+  )
+}
+
+test_that("Wide tables scroll in a keyboard-reachable region on phones", {
+  app$click("sn_tables_tabs")
+  app$wait_for_idle()
+
+  # At 320px the govTabs table is wider than the screen: it scrolls inside
+  # its container, which becomes a named, focusable region
+  app$set_window_size(width = 320, height = 800)
+  app$wait_for_js(paste(visible_focusable_scroll, "!== null"))
+  state <- table_scroll_state()
+  expect_identical(state$tabindex, "0")
+  expect_identical(state$role, "region")
+  expect_identical(state$labelledby, "tables_tabs-govTabs-heading-past-day")
+  expect_false(state$pageOverflows)
+
+  # At desktop width the table fits, so there is no extra tab stop
+  app$set_window_size(width = 1200, height = 800)
+  app$wait_for_js(paste(visible_focusable_scroll, "=== null"))
+  state <- table_scroll_state()
+  expect_null(state$tabindex)
+  expect_null(state$role)
+  expect_null(state$labelledby)
+})
+
 # ids of the visible panels in the govTabs with this id
 visible_tab_panels <- function(tabs_id) {
   unlist(app$get_js(

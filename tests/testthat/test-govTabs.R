@@ -173,3 +173,52 @@ test_that("tab labels become unique, selector-safe ids", {
     c("x-tab-past-day", "x-tab-past-day-1", "x-tab-50-over")
   )
 })
+
+test_that("each table sits in a scroll container labelled by its heading", {
+  tab_check <- govTabs("tabsID", shinyGovstyle::case_data, "tabs")
+
+  panels <- find_tags(tab_check, "govuk-tabs__panel")
+  expect_length(panels, 4L)
+
+  for (panel in panels) {
+    heading <- find_tag_required(panel, "govuk-heading-l")
+    heading_id <- htmltools::tagGetAttribute(heading, "id")
+    expect_true(nzchar(heading_id))
+
+    # table_scroll.js copies data-labelledby to aria-labelledby, and adds
+    # tabindex and role, only while the table scrolls
+    wrapper <- find_tag_required(panel, "shinygovstyle-table-scroll")
+    expect_identical(
+      htmltools::tagGetAttribute(wrapper, "data-labelledby"),
+      heading_id
+    )
+    expect_null(htmltools::tagGetAttribute(wrapper, "tabindex"))
+    expect_null(htmltools::tagGetAttribute(wrapper, "role"))
+
+    # The table sits inside the scroll container, not directly in the panel
+    expect_has_tag(wrapper, "govuk-table")
+  }
+
+  # Heading ids are unique on the page, and scoped to the govTabs instance
+  heading_ids <- vapply(
+    find_tags(tab_check, "govuk-heading-l"),
+    htmltools::tagGetAttribute,
+    character(1),
+    attr = "id"
+  )
+  expect_false(anyDuplicated(heading_ids) > 0)
+  expect_true(all(startsWith(heading_ids, "tabsID-")))
+})
+
+test_that("govTabs attaches the table scroll stylesheet and script", {
+  tab_check <- govTabs("tabsID", shinyGovstyle::case_data, "tabs")
+
+  dep_names <- vapply(
+    htmltools::findDependencies(tab_check),
+    function(dep) dep$name,
+    character(1)
+  )
+  expect_true(all(
+    c("govTab", "table-scroll", "table-scroll-js") %in% dep_names
+  ))
+})

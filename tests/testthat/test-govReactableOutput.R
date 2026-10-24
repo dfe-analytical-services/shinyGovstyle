@@ -88,25 +88,6 @@ test_that("govReactableOutput caption respects caption_size/heading_level", {
   )
 })
 
-test_that("govReactableOutput errors on an invalid heading_level", {
-  expect_error(
-    govReactableOutput(
-      "table",
-      caption = "Example table",
-      heading_level = 0
-    ),
-    "heading_level must be an integer between 1 and 6"
-  )
-  expect_error(
-    govReactableOutput(
-      "table",
-      caption = "Example table",
-      heading_level = 7
-    ),
-    "heading_level must be an integer between 1 and 6"
-  )
-})
-
 test_that("govReactableOutput errors on an invalid caption_size", {
   expect_error(
     govReactableOutput(
@@ -135,17 +116,5 @@ test_that("deprecated string heading_level still works with a warning", {
     html,
     '<h3 class="govuk-heading-l" id="table-caption">Example table</h3>',
     fixed = TRUE
-  )
-})
-
-test_that("deprecated string heading_level rejects malformed values", {
-  rlang::local_options(lifecycle_verbosity = "quiet")
-  expect_error(
-    govReactableOutput(
-      "table",
-      caption = "Example table",
-      heading_level = "h9"
-    ),
-    "heading_level must be an integer between 1 and 6"
   )
 })

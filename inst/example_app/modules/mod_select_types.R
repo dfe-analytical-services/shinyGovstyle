@@ -78,8 +78,10 @@ mod_select_types_ui <- function(id) {
         "Wales"
       ),
       select_value = c("", "england", "northern-ireland", "scotland", "wales"),
-      hint_label = "Choose the country you live in. Submit without choosing
-                    to see the error.",
+      hint_label = paste(
+        "Choose the country you live in.",
+        "Submit without choosing to see the error."
+      ),
       error = TRUE
     ),
     shinyGovstyle::button_Input(

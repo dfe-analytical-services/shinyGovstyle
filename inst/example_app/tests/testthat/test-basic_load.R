@@ -132,7 +132,7 @@ test_that("Error ids join aria-describedby only while the error shows", {
   )
 
   # Blank submit raises the error; raising it twice must not duplicate it.
-  app$set_inputs(`text_types-text_area2` = "")
+  app$set_inputs(`text_types-text_area2` = "", wait_ = FALSE)
   app$click("text_types-btn_error")
   app$wait_for_idle()
   app$click("text_types-btn_error")
@@ -150,7 +150,7 @@ test_that("Error ids join aria-describedby only while the error shows", {
   expect_false("govuk-input--error" %in% text_area2_classes())
 
   # Fixing the answer clears the error and its reference, keeping the rest.
-  app$set_inputs(`text_types-text_area2` = "Fine thanks")
+  app$set_inputs(`text_types-text_area2` = "Fine thanks", wait_ = FALSE)
   app$click("text_types-btn_error")
   app$wait_for_idle()
   expect_equal(

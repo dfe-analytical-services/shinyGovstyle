@@ -41,3 +41,22 @@ test_that("govFieldset rejects invalid label_size", {
     "label_size"
   )
 })
+
+test_that("govuk_described_by() lists visible ids and never the error id", {
+  expect_null(govuk_described_by("x"))
+  expect_identical(govuk_described_by("x", hint_label = "Hint"), "x-hint")
+  expect_identical(
+    govuk_described_by("x", hint_label = "Hint", extra_ids = "x-info"),
+    "x-info x-hint"
+  )
+})
+
+test_that("govuk_error_describedby_js() applies the module namespace", {
+  # shinyjs namespaces ids itself inside modules; runjs() does not, so the
+  # helper has to, or error_on() would miss controls built with shiny::NS().
+  session <- list(ns = shiny::NS("mod"))
+  js <- govuk_error_describedby_js("txt", show = TRUE, session = session)
+
+  expect_match(js, "var id = \"mod-txt\";", fixed = TRUE)
+  expect_match(js, "var errorId = \"mod-txt-error\";", fixed = TRUE)
+})

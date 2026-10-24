@@ -81,9 +81,16 @@ input_field <- function(
         shiny::tags$div(
           class = "govuk-form-group",
           id = paste0(y, "div"),
-          shiny::tags$label(shiny::HTML(x), class = "govuk-label"),
+          shiny::tags$label(shiny::HTML(x), class = "govuk-label", `for` = y),
           if (error == TRUE) govuk_error_message(y, error_message),
-          shiny::tags$input(id = y, class = width_class, type = a)
+          # Fields take no hint, so this is NULL until error_on() adds the
+          # error id; it goes through the helper to keep that rule in one place.
+          shiny::tags$input(
+            id = y,
+            class = width_class,
+            type = a,
+            `aria-describedby` = govuk_described_by(y)
+          )
         )
       },
       x = labels,

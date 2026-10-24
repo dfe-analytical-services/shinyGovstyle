@@ -84,14 +84,30 @@ text_Input <- # nolint
     } else {
       width_class <- paste0("govuk-input govuk-input--width-", width)
     }
+    input_tag <- shiny::tags$input(
+      id = inputId,
+      class = width_class,
+      type = type,
+      `aria-describedby` = govuk_described_by(inputId, hint_label)
+    )
     gov_text <- shiny::tags$div(
       class = "govuk-form-group",
       id = paste0(inputId, "div"),
-      shiny::tags$label(as_govuk_html(label), class = "govuk-label"),
-      shiny::tags$div(as_govuk_html(hint_label), class = "govuk-hint"),
+      shiny::tags$label(
+        as_govuk_html(label),
+        class = "govuk-label",
+        `for` = inputId
+      ),
+      if (!is.null(hint_label)) {
+        shiny::tags$div(
+          as_govuk_html(hint_label),
+          class = "govuk-hint",
+          id = govuk_hint_id(inputId)
+        )
+      },
       if (error == TRUE) govuk_error_message(inputId, error_message),
       if (is.null(prefix) & is.null(suffix)) {
-        shiny::tags$input(id = inputId, class = width_class, type = type)
+        input_tag
       } else if (is.null(suffix)) {
         shiny::tags$div(
           class = "govuk-input__wrapper",
@@ -100,12 +116,12 @@ text_Input <- # nolint
             class = "govuk-input__prefix",
             `aria-hidden` = "true"
           ),
-          shiny::tags$input(id = inputId, class = width_class, type = type)
+          input_tag
         )
       } else if (is.null(prefix)) {
         shiny::tags$div(
           class = "govuk-input__wrapper",
-          shiny::tags$input(id = inputId, class = width_class, type = type),
+          input_tag,
           shiny::tags$div(
             suffix,
             class = "govuk-input__suffix",
@@ -120,7 +136,7 @@ text_Input <- # nolint
             class = "govuk-input__prefix",
             `aria-hidden` = "true"
           ),
-          shiny::tags$input(id = inputId, class = width_class, type = type),
+          input_tag,
           shiny::tags$div(
             suffix,
             class = "govuk-input__suffix",

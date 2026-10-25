@@ -81,7 +81,10 @@ a different page, call \code{\link[=update_service_navigation]{update_service_na
 starts.
 
 On screens narrower than GOV.UK's tablet breakpoint (641px), the links are
-collapsed behind a "Menu" button, as in the GOV.UK Design System.
+collapsed behind a "Menu" button, as in the GOV.UK Design System. Choosing
+an in-app link from the open menu closes it and moves keyboard focus to the
+new page's \verb{<h1>} (or \verb{<main>} if it has none), as a page load would on a
+GOV.UK service, rather than leaving focus on the hidden link.
 
 Put \code{service_navigation()} in your app's top-level UI and wire it up from
 the top-level server function. It is not designed to be used inside a

@@ -22,6 +22,10 @@
   and 768px the links were hidden behind a "Menu" button inside the
   wide-screen layout. The menu also stays open or closed when the window is
   resized, as in GOV.UK Frontend.
+* Choosing a page from the open `service_navigation()` "Menu" on a small
+  screen now closes the menu and moves keyboard focus to the new page's
+  `<h1>` (or `<main>`), as a page load would on a GOV.UK service. Previously
+  the menu stayed open over the page.
 
 * `service_navigation_server()` now updates the active link and page title
   when the tab is changed from the server, e.g. with `updateTabsetPanel()`.
@@ -34,8 +38,8 @@
   button or back link that called it was hidden with the old panel, so
   focus dropped to the top of the page and screen readers announced
   nothing. Use `navigate_to(focus = FALSE)` to switch panels without moving
-  focus. Clicking a `service_navigation()` link directly still leaves focus
-  on the link.
+  focus. On wider screens, clicking a `service_navigation()` link directly
+  still leaves focus on the link.
 * `cookieBanner()` confirmation messages now have `role="alert"` and
   `tabindex="-1"`, as in the GOV.UK Design System, and focus moves to the
   message after "Accept" or "Reject" so it is read out. After "Hide this

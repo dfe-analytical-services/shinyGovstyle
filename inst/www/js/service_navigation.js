@@ -243,6 +243,66 @@ function setUpServiceNavMenu(section) {
     menuIsOpen = !menuIsOpen;
     setHiddenStates();
   });
+
+  // On a small screen, choosing a page from the open menu closes it, as a
+  // GOV.UK page load would. That hides the link that had focus, so focus
+  // moves to the new page instead of dropping to the top of the document.
+  // Only in-app links: URL links leave the page, so need nothing.
+  $(navList).on("click", ".govuk-service-navigation__link.action-button",
+    function () {
+      if (mql.matches || !menuIsOpen) return;
+      var activeBefore = activeMainPanels();
+      menuIsOpen = false;
+      setHiddenStates();
+      focusNewPage(activeBefore);
+    }
+  );
+}
+
+// The tab panels currently showing in the page's <main>
+function activeMainPanels() {
+  var ns = window.shinyGovstyle;
+  var main = ns && ns.mainElement ? ns.mainElement() : null;
+  return main ? Array.prototype.slice.call(
+    main.querySelectorAll(".tab-pane.active")
+  ) : [];
+}
+
+// Once the server has shown the new panel, focus its <h1>, or <main> if it
+// has none, using the same rule as navigate_to() (focus_management.js). If
+// no panel changes, e.g. the current page was chosen again, the current
+// panel is used once the wait times out.
+function focusNewPage(activeBefore) {
+  var ns = window.shinyGovstyle;
+  if (!ns || !ns.focusElement) return;
+  var moved = false;
+
+  function newPanel() {
+    var panels = activeMainPanels();
+    for (var i = 0; i < panels.length; i++) {
+      if (activeBefore.indexOf(panels[i]) === -1 && ns.isVisible(panels[i])) {
+        return panels[i];
+      }
+    }
+    return null;
+  }
+
+  function focusPanel(panel) {
+    if (moved) return;
+    moved = true;
+    var heading = panel && panel.querySelector("h1");
+    ns.focusElement(ns.isVisible(heading) ? heading : ns.mainElement());
+  }
+
+  ns.whenReady(
+    function () { return newPanel() !== null; },
+    function () { focusPanel(newPanel()); },
+    1500
+  );
+  setTimeout(function () {
+    var current = activeMainPanels().filter(ns.isVisible)[0];
+    focusPanel(current);
+  }, 1600);
 }
 
 $(document).ready(function () {

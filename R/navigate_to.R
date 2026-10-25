@@ -44,11 +44,14 @@
 #' reader users (WCAG 2.4.3 Focus Order). Give each panel an `<h1>`, for
 #' example with [heading_text()], so the move reads out the new page name.
 #'
-#' Direct clicks on [service_navigation()] links do not move focus: they go
-#' through [service_navigation_server()], not `navigate_to()`. On a GOV.UK
-#' service each nav link loads a new page and focus starts again from the
-#' top. Leaving focus on the link, which stays visible and is marked as
-#' the current page, is the closest match, and users can carry on with the
+#' On wider screens, direct clicks on [service_navigation()] links do not
+#' move focus: they go through [service_navigation_server()], not
+#' `navigate_to()`. On a GOV.UK service each nav link loads a new page and
+#' focus starts again from the top. Leaving focus on the link, which stays
+#' visible and is marked as the current page, is the closest match. On
+#' small screens, choosing a link from the open "Menu" closes the menu and
+#' hides the link, so focus moves to the new panel's `<h1>` (or `<main>`)
+#' in the same way as here. Either way, users can carry on with the
 #' skip link or Tab into the content.
 #'
 #' @returns NULL, called for side effects

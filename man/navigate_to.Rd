@@ -59,11 +59,14 @@ drops to the top of the document with nothing announced to screen
 reader users (WCAG 2.4.3 Focus Order). Give each panel an \verb{<h1>}, for
 example with \code{\link[=heading_text]{heading_text()}}, so the move reads out the new page name.
 
-Direct clicks on \code{\link[=service_navigation]{service_navigation()}} links do not move focus: they go
-through \code{\link[=service_navigation_server]{service_navigation_server()}}, not \code{navigate_to()}. On a GOV.UK
-service each nav link loads a new page and focus starts again from the
-top. Leaving focus on the link, which stays visible and is marked as
-the current page, is the closest match, and users can carry on with the
+On wider screens, direct clicks on \code{\link[=service_navigation]{service_navigation()}} links do not
+move focus: they go through \code{\link[=service_navigation_server]{service_navigation_server()}}, not
+\code{navigate_to()}. On a GOV.UK service each nav link loads a new page and
+focus starts again from the top. Leaving focus on the link, which stays
+visible and is marked as the current page, is the closest match. On
+small screens, choosing a link from the open "Menu" closes the menu and
+hides the link, so focus moves to the new panel's \verb{<h1>} (or \verb{<main>})
+in the same way as here. Either way, users can carry on with the
 skip link or Tab into the content.
 }
 

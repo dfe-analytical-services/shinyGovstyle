@@ -313,6 +313,116 @@ test_that("the first link is the current page when the app loads", {
   )
 })
 
+# Service name link -----------------------------------------------------------
+
+test_that("the service name is text, not a link, without service_url", {
+  nav <- service_navigation(c("Page 1", "Page 2"), service_name = "My app")
+  service_name <- find_tag_required(
+    nav,
+    "govuk-service-navigation__service-name"
+  )
+  expect_identical(
+    tag_text(service_name, "govuk-service-navigation__text"),
+    "My app"
+  )
+  expect_no_tag(service_name, "govuk-service-navigation__link")
+  expect_false(grepl("href=", as.character(service_name), fixed = TRUE))
+})
+
+test_that("service_url makes the service name a link", {
+  nav <- service_navigation(
+    c("Page 1", "Page 2"),
+    service_name = "My app",
+    service_url = "/my-app/"
+  )
+  service_name <- find_tag_required(
+    nav,
+    "govuk-service-navigation__service-name"
+  )
+  link <- find_tag_required(service_name, "govuk-service-navigation__link")
+  expect_identical(link$name, "a")
+  expect_identical(htmltools::tagGetAttribute(link, "href"), "/my-app/")
+  expect_identical(tag_text(link, "govuk-service-navigation__link"), "My app")
+})
+
+test_that("service_url must be a single, non-empty string", {
+  for (bad in list("", NA_character_, c("/a", "/b"), 1)) {
+    expect_error(
+      service_navigation("Page 1", service_name = "App", service_url = bad),
+      "`service_url` must be a single, non-empty string"
+    )
+  }
+})
+
+# Links to URLs ---------------------------------------------------------------
+
+test_that("named values that are URLs become ordinary links", {
+  nav <- service_navigation(c(
+    "Summary" = "summary",
+    "Guidance" = "https://www.gov.uk/guidance",
+    "Help" = "/help",
+    "Contact" = "mailto:team@example.gov.uk"
+  ))
+  links <- find_tags(nav, "govuk-service-navigation__link")
+  hrefs <- vapply(
+    links,
+    function(link) {
+      href <- htmltools::tagGetAttribute(link, "href")
+      if (is.null(href)) NA_character_ else href
+    },
+    character(1)
+  )
+  # The in-app link keeps Shiny's actionLink href; URL links keep their URL
+  expect_identical(
+    hrefs[-1],
+    c("https://www.gov.uk/guidance", "/help", "mailto:team@example.gov.uk")
+  )
+  # URL links are not Shiny inputs, so have no inputID or action-button class
+  expect_identical(nav_link_ids(nav), "summary")
+  expect_length(find_tags(nav, "action-button"), 1)
+  expect_identical(
+    vapply(
+      links[-1],
+      function(l) tag_text(l, "govuk-service-navigation__link"),
+      character(1)
+    ),
+    c("Guidance", "Help", "Contact")
+  )
+})
+
+test_that("a URL link is never the current page", {
+  nav <- service_navigation(c(
+    "Guidance" = "https://www.gov.uk/guidance",
+    "Summary" = "summary"
+  ))
+  active_items <- find_tags(nav, "govuk-service-navigation__item--active")
+  expect_length(active_items, 1)
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_tag_required(active_items[[1]], "govuk-service-navigation__link"),
+      "id"
+    ),
+    "summary"
+  )
+
+  # With only URL links, nothing is current
+  only_urls <- service_navigation(c("A" = "/a", "B" = "/b"))
+  expect_no_tag(only_urls, "govuk-service-navigation__item--active")
+})
+
+test_that("a URL link needs link text", {
+  expect_error(
+    service_navigation(c("Summary", "https://www.gov.uk")),
+    "need link text"
+  )
+})
+
+test_that("URL links don't count towards duplicate inputIDs", {
+  expect_no_error(
+    service_navigation(c("A" = "/same", "B" = "/same", "Summary" = "summary"))
+  )
+})
+
 # Programmatic updates -----------------------------------------------------
 
 test_that("update_service_navigation sends the cleaned inputID", {

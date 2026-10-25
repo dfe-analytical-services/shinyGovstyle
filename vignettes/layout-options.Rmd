@@ -354,6 +354,26 @@ Either way, every inputID is cleaned up by lowercasing it and replacing non-alph
 
 Put `service_navigation()` in your app's top-level UI and wire it up from the top-level server function, not inside a Shiny module. Because of the clean-up, an id wrapped in `ns()` (e.g. `NS("mod", "summary")`) becomes `mod_summary`, which no longer matches the module's namespaced input.
 
+### Links to pages outside the app
+
+A link can also go to an ordinary URL, such as guidance on GOV.UK or another service. Give it link text as the name and the URL as the value. Values starting with `https://`, `http://`, `mailto:`, `/`, `./`, `../`, `?` or `#` are treated as URLs rather than inputIDs:
+
+```{r, eval = FALSE}
+service_navigation(
+  c(
+    "Summary" = "nav_summary",
+    "Detailed data" = "nav_detail",
+    "Methodology" = "https://www.gov.uk/government/statistics"
+  ),
+  service_name = "My dashboard",
+  service_url = "/my-dashboard/"
+)
+```
+
+URL links open in the same tab, as in the GOV.UK Design System. They are never marked as the current page, and `service_navigation_server()`, `navigate_to()` and `update_service_navigation()` ignore them.
+
+`service_url` makes the service name a link, usually to the service's start page. Without it, the service name is shown as text.
+
 ### Wiring navigation to panels
 
 Use a hidden tab panel for the content area. `service_navigation_server()` then wires every nav link to its panel in a single call — no per-link `observeEvent` boilerplate:

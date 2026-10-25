@@ -185,65 +185,69 @@ Shiny.addCustomMessageHandler("sync_service_navigation", function (message) {
   }
 });
 
-// Set active state on navigation links when clicked
-// Scoped to links within the list to avoid matching the service name link
+// Set active state on in-app navigation links when clicked. Only Shiny
+// action links (class action-button) are pages in the app: the service name
+// and links to URLs outside the app never become the current page.
 $(document).on(
   "click",
-  ".govuk-service-navigation__list .govuk-service-navigation__link",
+  ".govuk-service-navigation__list .govuk-service-navigation__link.action-button",
   function () {
     setActiveServiceNavLink(this);
   }
 );
 
-// Mobile menu toggle for service navigation
-// Mirrors GDS govuk-service-navigation JS module behaviour:
-// - On small screens: show toggle button, hide nav list
-// - On large screens (>=48.0625em): hide toggle, show list
-$(document).ready(function () {
-  var toggle = document.querySelector(
-    ".govuk-service-navigation__toggle"
-  );
-  var navList = document.getElementById("navigation");
+// Mobile menu toggle, matching GOV.UK Frontend's ServiceNavigation module:
+// below the tablet breakpoint the links collapse behind the "Menu" button,
+// and from it the button is hidden and the links show. The breakpoint is
+// read from GOV.UK's --govuk-breakpoint-tablet, as GOV.UK's own script does,
+// so it always matches the CSS that lays the links out in a row. The menu
+// stays open or closed across resizes, as in GOV.UK. Each service navigation
+// on the page is set up separately.
+function setUpServiceNavMenu(section) {
+  var toggle = section.querySelector(".govuk-service-navigation__toggle");
+  var navList = toggle &&
+    document.getElementById(toggle.getAttribute("aria-controls"));
+  if (!toggle || !navList || toggle.getAttribute("data-menu-ready")) return;
+  toggle.setAttribute("data-menu-ready", "true");
 
-  if (!toggle || !navList) return;
+  var breakpoint = window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue("--govuk-breakpoint-tablet")
+    .trim() || "40.0625em";
+  var mql = window.matchMedia("(min-width: " + breakpoint + ")");
+  var menuIsOpen = false;
 
-  var mql = window.matchMedia("(min-width: 48.0625em)");
-
-  function checkMode() {
+  function setHiddenStates() {
     if (mql.matches) {
-      // Desktop: hide toggle, show full list
-      toggle.setAttribute("hidden", "");
       navList.removeAttribute("hidden");
+      toggle.setAttribute("hidden", "");
     } else {
-      // Mobile: show toggle, collapse menu
       toggle.removeAttribute("hidden");
-      toggle.setAttribute("aria-expanded", "false");
-      navList.setAttribute("hidden", "");
+      toggle.setAttribute("aria-expanded", String(menuIsOpen));
+      if (menuIsOpen) {
+        navList.removeAttribute("hidden");
+      } else {
+        navList.setAttribute("hidden", "");
+      }
     }
   }
 
   if ("addEventListener" in mql) {
-    mql.addEventListener("change", checkMode);
+    mql.addEventListener("change", setHiddenStates);
   } else {
-    mql.addListener(checkMode);
+    mql.addListener(setHiddenStates);
   }
+  setHiddenStates();
 
-  checkMode();
-
-  $(toggle).on("click", function () {
-    var expanded = toggle.getAttribute(
-      "aria-expanded"
-    ) === "true";
-
-    toggle.setAttribute(
-      "aria-expanded",
-      String(!expanded)
-    );
-
-    if (expanded) {
-      navList.setAttribute("hidden", "");
-    } else {
-      navList.removeAttribute("hidden");
-    }
+  toggle.addEventListener("click", function () {
+    menuIsOpen = !menuIsOpen;
+    setHiddenStates();
   });
+}
+
+$(document).ready(function () {
+  var sections = document.querySelectorAll(".govuk-service-navigation");
+  for (var i = 0; i < sections.length; i++) {
+    setUpServiceNavMenu(sections[i]);
+  }
 });

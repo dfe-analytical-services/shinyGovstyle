@@ -1,6 +1,27 @@
 # shinyGovstyle (development version)
 
+## New features
+
+* `service_navigation()` links can now go to ordinary URLs as well as pages
+  in the app. Give a link text as the name and a URL as the value, e.g.
+  `c("Summary" = "summary", "Guidance" = "https://www.gov.uk/guidance")`.
+  Values starting with `https://`, `http://`, `mailto:`, `/`, `./`, `../`,
+  `?` or `#` are treated as URLs. They open in the same tab and are never
+  marked as the current page.
+* `service_navigation()` gains `service_url`, so the service name can link
+  to a real page, such as the service's start page.
+
 ## Bug fixes
+
+* `service_navigation()`'s service name is no longer a link to `"#"`, which
+  went nowhere. Without the new `service_url` it is shown as text, as in the
+  GOV.UK Design System.
+* The `service_navigation()` "Menu" button now appears below GOV.UK's tablet
+  breakpoint (641px), matching GOV.UK Frontend and the GOV.UK styles that lay
+  the links out in a row. Previously it switched at 769px, so between 641px
+  and 768px the links were hidden behind a "Menu" button inside the
+  wide-screen layout. The menu also stays open or closed when the window is
+  resized, as in GOV.UK Frontend.
 
 * `service_navigation_server()` now updates the active link and page title
   when the tab is changed from the server, e.g. with `updateTabsetPanel()`.

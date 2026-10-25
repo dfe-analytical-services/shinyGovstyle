@@ -264,22 +264,31 @@ test_that("govReactable accepts tags and HTML as the caption", {
 })
 
 test_that("govReactable errors on an invalid heading_level", {
-  expect_error(
-    govReactable(
-      df = shinyGovstyle::transport_data,
-      caption = "Transport data",
-      heading_level = 0
-    ),
-    "heading_level must be an integer between 1 and 6"
+  # Strings are only accepted (and deprecated) on govReactableOutput()
+  bad_levels <- list(0L, 6L, 2.5, "h2", c(2L, 3L), NA_integer_, NULL)
+  for (level in bad_levels) {
+    expect_error(
+      govReactable(
+        df = shinyGovstyle::transport_data,
+        caption = "Transport data",
+        heading_level = level
+      ),
+      "`heading_level` must be a single integer from 1 to 5"
+    )
+  }
+})
+
+test_that("heading_level = 1 makes the caption the page's h1", {
+  # For an app whose page is a single table
+  table <- govReactable(
+    df = shinyGovstyle::transport_data,
+    caption = "Transport data",
+    heading_level = 1
   )
-  expect_error(
-    govReactable(
-      df = shinyGovstyle::transport_data,
-      caption = "Transport data",
-      heading_level = 7
-    ),
-    "heading_level must be an integer between 1 and 6"
-  )
+  expect_identical(find_tag_required(table, "govuk-heading-l")$name, "h1")
+
+  output <- govReactableOutput("table", caption = "Test", heading_level = 1L)
+  expect_identical(find_tag_required(output, "govuk-heading-l")$name, "h1")
 })
 
 test_that("govReactable errors on an invalid caption_size", {
@@ -660,7 +669,7 @@ test_that("heading_level defaults to an h2 caption", {
 })
 
 test_that("integer heading_level sets the caption's tag name", {
-  for (level in 2:5) {
+  for (level in 1:5) {
     output <- govReactableOutput(
       "table",
       caption = "Test",
@@ -692,11 +701,12 @@ test_that("string heading_level still works, with a warning to use integers", {
 })
 
 test_that("invalid heading_level values error", {
-  bad_levels <- list(1L, 6L, 2.5, "h1", "h6", "3", c(2L, 3L), NA_integer_, NULL)
+  # "h1" was never a valid string, so only integers reach level 1
+  bad_levels <- list(0L, 6L, 2.5, "h1", "h6", "3", c(2L, 3L), NA_integer_, NULL)
   for (level in bad_levels) {
     expect_error(
       govReactableOutput("table", caption = "Test", heading_level = level),
-      "`heading_level` must be a single integer from 2 to 5"
+      "`heading_level` must be a single integer from 1 to 5"
     )
   }
 })

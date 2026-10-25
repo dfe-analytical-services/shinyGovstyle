@@ -31,7 +31,9 @@ id is \code{output_table_name} followed by \code{-caption} (and the subtitle's i
 \code{"xl"}, with \code{"l"} as the default. Any other value throws an error.}
 
 \item{heading_level}{The HTML heading level for the caption, an integer
-from \code{2L} to \code{5L}. Defaults to \code{2L} (\verb{<h2>}). Strings such as \code{"h3"} are
+from \code{1L} to \code{5L}. Defaults to \code{2L} (\verb{<h2>}). Use \code{1L} when the table is
+the main content of the page, such as an app that shows a single table, so
+the caption is the page's main heading. Strings such as \code{"h3"} are
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} as of shinyGovstyle 0.3.0 and will stop
 working in shinyGovstyle 1.0.0; use the integer form (e.g. \code{3L}) instead.}
 

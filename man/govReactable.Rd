@@ -15,7 +15,7 @@ govReactable(
   caption = NULL,
   subtitle = NULL,
   caption_size = "l",
-  heading_level = 2,
+  heading_level = 2L,
   caption_id = NULL,
   language = getOption("reactable.language"),
   ...
@@ -73,8 +73,9 @@ subtitle}
 \item{caption_size}{Adjust the size of caption. One of \code{"s"}, \code{"m"}, \code{"l"},
 \code{"xl"}, with \code{"l"} as the default. Any other value throws an error.}
 
-\item{heading_level}{Heading level for the caption, an integer between 1
-and 6. Defaults to 2}
+\item{heading_level}{The HTML heading level for the caption, an integer
+from \code{1L} to \code{5L}. Defaults to \code{2L} (\verb{<h2>}). Use \code{1L} when the table is
+the main content of the page, so the caption is the page's main heading}
 
 \item{caption_id}{The id given to the caption heading, which the table
 references via \code{aria-labelledby}. Must be unique on the page and contain no

@@ -32,6 +32,9 @@
   `heading_level`, and `caption_id` arguments, mirroring
   `govReactableOutput()`, so a title can be added to a static table (e.g. in
   R Markdown/Quarto) without a separate `heading_text()` call (#158).
+* `govReactable()` and `govReactableOutput()` captions can now be an `<h1>`
+  with `heading_level = 1`, for an app whose page is a single table. Both
+  take an integer from 1 to 5; the default is still 2.
 * `govTable()`, `govReactable()`, and `govReactableOutput()` gain a
   `subtitle` argument, following the Analysis Function guidance on table
   titles: a short headline in `caption` stating the message, with what the

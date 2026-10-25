@@ -53,8 +53,9 @@
 #' @inheritSection table_title_params Table titles
 #' @param caption_size Adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
 #' `"xl"`, with `"l"` as the default. Any other value throws an error.
-#' @param heading_level Heading level for the caption, an integer between 1
-#' and 6. Defaults to 2
+#' @param heading_level The HTML heading level for the caption, an integer
+#' from `1L` to `5L`. Defaults to `2L` (`<h2>`). Use `1L` when the table is
+#' the main content of the page, so the caption is the page's main heading
 #' @param caption_id The id given to the caption heading, which the table
 #' references via `aria-labelledby`. Must be unique on the page and contain no
 #' spaces. `NULL` (default) generates a unique id for you, so you only need
@@ -146,11 +147,15 @@ govReactable <- # nolint
     caption = NULL,
     subtitle = NULL,
     caption_size = "l",
-    heading_level = 2,
+    heading_level = 2L,
     caption_id = NULL,
     language = getOption("reactable.language"),
     ...
   ) {
+    heading_level <- govreactable_heading_level(
+      heading_level,
+      allow_legacy = FALSE
+    )
     validate_single_content(caption, "caption")
     validate_single_content(subtitle, "subtitle")
     validate_subtitle_has_caption(caption, subtitle)
@@ -448,7 +453,9 @@ govuk_reactable_lang <- function(language) {
 #' @param caption_size Adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
 #' `"xl"`, with `"l"` as the default. Any other value throws an error.
 #' @param heading_level The HTML heading level for the caption, an integer
-#' from `2L` to `5L`. Defaults to `2L` (`<h2>`). Strings such as `"h3"` are
+#' from `1L` to `5L`. Defaults to `2L` (`<h2>`). Use `1L` when the table is
+#' the main content of the page, such as an app that shows a single table, so
+#' the caption is the page's main heading. Strings such as `"h3"` are
 #' `r lifecycle::badge("deprecated")` as of shinyGovstyle 0.3.0 and will stop
 #' working in shinyGovstyle 1.0.0; use the integer form (e.g. `3L`) instead.
 #' @param expr An expression that generates a `reactable` widget
@@ -587,19 +594,24 @@ renderGovReactable <- # nolint
     reactable::renderReactable(expr, env = env, quoted = TRUE)
   }
 
-# Internal helper: validates govReactableOutput()'s heading_level and returns
-# it as an integer. The "h2"-"h5" strings are still accepted during the
-# 0.3.0 transition; govReactableOutput() gives the deprecation warning.
-govreactable_heading_level <- function(heading_level) {
-  allowed_levels <- 2:5
-  legacy_levels <- paste0("h", allowed_levels)
+# Internal helper: validates a table caption's heading_level for
+# govReactable() and govReactableOutput(), and returns it as an integer.
+# Level 1 is allowed for an app whose page is a single table, where the
+# caption is the page's main heading; h6 is too small to be a table title.
+# govReactableOutput() shipped in 0.2.0 with "h2"-"h5" strings, which are
+# still accepted with `allow_legacy = TRUE` during the 0.3.0 transition;
+# govReactableOutput() gives the deprecation warning.
+govreactable_heading_level <- function(heading_level, allow_legacy = TRUE) {
+  allowed_levels <- 1:5
+  legacy_levels <- paste0("h", 2:5)
 
   if (
-    is.character(heading_level) &&
+    allow_legacy &&
+      is.character(heading_level) &&
       length(heading_level) == 1 &&
       heading_level %in% legacy_levels
   ) {
-    return(allowed_levels[match(heading_level, legacy_levels)])
+    return(match(heading_level, legacy_levels) + 1L)
   }
 
   if (
@@ -609,7 +621,7 @@ govreactable_heading_level <- function(heading_level) {
       !(heading_level %in% allowed_levels)
   ) {
     stop(
-      "`heading_level` must be a single integer from 2 to 5, e.g. `3L`.",
+      "`heading_level` must be a single integer from 1 to 5, e.g. `3L`.",
       call. = FALSE
     )
   }

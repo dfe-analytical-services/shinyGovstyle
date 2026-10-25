@@ -58,7 +58,9 @@ readers announce, for example, "Change date of birth" rather than a bare
 \item{border}{Whether to show borders between rows. Default \code{TRUE}.}
 }
 \value{
-a summary list HTML shiny tag object
+A \code{div} HTML shiny tag object holding the summary list \verb{<dl>},
+which has \code{inputId} as its id. The \code{div} lets the list change layout
+based on its own width.
 }
 \description{
 Creates a GOV.UK summary list: a set of key and value pairs, optionally with
@@ -68,9 +70,16 @@ actions per row, per-row borders, HTML keys and mixed-action lists. To show
 several lists that need telling apart, wrap each in \code{\link[=gov_summary_card]{gov_summary_card()}}.
 }
 \details{
-Between 641px and 768px wide, the list stays stacked rather than switching
-to GOV.UK's side-by-side layout, so the key column is never too narrow for
-ordinary words.
+The list switches between GOV.UK's stacked and side-by-side layouts based
+on its own width rather than the screen's. It stays stacked until it is
+as wide as a full-width GOV.UK list at GOV.UK's 641px breakpoint (about
+580px), so in a narrow column, such as
+\code{gov_box(size = "two-thirds")}, the key column is never too narrow for
+ordinary words. Browsers without CSS container queries use GOV.UK's
+screen-width breakpoint instead.
+
+Actions are buttons, so each one is a Shiny input, but they look and
+behave like the links GOV.UK uses for summary list actions.
 }
 \examples{
 # Vector API

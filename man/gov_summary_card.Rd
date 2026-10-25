@@ -27,7 +27,7 @@ Default \code{2L}.}
 \item{card_actions}{Optional list of card-level action specs. Each element is
 a named list with \code{id}, \code{text}, and optionally \code{visually_hidden_text}. Card
 actions appear in the title bar and apply to the whole card (e.g. "Delete",
-"Withdraw").}
+"Withdraw"). The card title is added to their hidden text for you.}
 
 \item{headers}{See \code{\link[=gov_summary]{gov_summary()}}.}
 
@@ -47,6 +47,12 @@ Wraps a \code{\link[=gov_summary]{gov_summary()}} in a GOV.UK summary card, addi
 optional card-level actions. Use summary cards when you need to show multiple
 summary lists and need to tell them apart, for example in a multi-section
 check-your-answers page.
+}
+\details{
+As in the GOV.UK Design System, every action in the card, both card actions
+and row actions, includes the card title in brackets in its visually hidden
+text. Screen readers announce, for example, "Change age (Lead tenant)", so
+actions in different cards can be told apart.
 }
 \examples{
 rows <- list(
@@ -80,16 +86,8 @@ ui <- shinyGovstyle::gov_page(
       inputId = "cardID",
       title = "Lead tenant",
       card_actions = list(
-        list(
-          id = "delete_card",
-          text = "Delete choice",
-          visually_hidden_text = "(Lead tenant)"
-        ),
-        list(
-          id = "withdraw_card",
-          text = "Withdraw",
-          visually_hidden_text = "(Lead tenant)"
-        )
+        list(id = "delete_card", text = "Delete choice"),
+        list(id = "withdraw_card", text = "Withdraw")
       ),
       rows = rows
     )

@@ -147,16 +147,8 @@ mod_feedback_types_ui <- function(id) {
       inputId = shiny::NS(id, "cardID"),
       title = "Lead tenant",
       card_actions = list(
-        list(
-          id = shiny::NS(id, "delete_card"),
-          text = "Delete choice",
-          visually_hidden_text = "(Lead tenant)"
-        ),
-        list(
-          id = shiny::NS(id, "withdraw_card"),
-          text = "Withdraw",
-          visually_hidden_text = "(Lead tenant)"
-        )
+        list(id = shiny::NS(id, "delete_card"), text = "Delete choice"),
+        list(id = shiny::NS(id, "withdraw_card"), text = "Withdraw")
       ),
       rows = list(
         list(

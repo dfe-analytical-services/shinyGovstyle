@@ -1,66 +1,132 @@
 /*
- * Summary list breakpoint override.
+ * Summary list and summary card overrides, attached by gov_summary() and
+ * gov_summary_card().
  *
- * govuk-frontend switches the summary list to a fixed-layout table at 40.0625em
- * (641px). In Shiny apps using gov_layout(size = "two-thirds") the resulting
- * 30% key column is around 110-120px - too narrow for typical English key
- * names, forcing overflow-wrap: break-word to break words mid-character.
+ * 1. Layout follows the component's width, not the screen's.
  *
- * This override keeps the stacked layout in place until the desktop breakpoint
- * (48.0625em / 769px), matching the rest of the GOV.UK responsive grid.
+ * GOV.UK Frontend switches the summary list to a side-by-side table at a
+ * 641px (40.0625em) viewport. That suits a full-width list, but in a Shiny
+ * column (e.g. gov_box(size = "two-thirds")) the 30% key column can be as
+ * narrow as 110-145px, so words like "Correspondence" break mid-word (#89).
  *
- * Above 769px the original govuk-frontend rules apply unchanged.
+ * Instead, each summary list (or summary card) is a container, and it uses
+ * GOV.UK's mobile, stacked styles whenever the component itself is 36.125rem
+ * (578px) wide or less. A full-width GOV.UK component at the 641px breakpoint
+ * is 581px wide (579px inside a card's border), so the side-by-side layout is
+ * used from the same component width as in GOV.UK Frontend, and never at a
+ * narrower one. Browsers without container queries get GOV.UK Frontend's own
+ * behaviour.
+ *
+ * The rules below repeat GOV.UK Frontend's mobile rules. Each selector starts
+ * with .shinygovstyle-summary so it outranks GOV.UK's tablet rules, such as
+ * .govuk-summary-list__actions-list-item:first-child.
  */
-@media (min-width: 40.0625em) and (max-width: 48.0525em) {
-    .govuk-summary-list {
+.shinygovstyle-summary {
+    container-name: shinygovstyle-summary;
+    container-type: inline-size;
+}
+
+@container shinygovstyle-summary (max-width: 36.125rem) {
+    .shinygovstyle-summary .govuk-summary-list {
         display: block;
-        margin-bottom: 20px;
     }
 
-    .govuk-summary-list__row {
+    .shinygovstyle-summary .govuk-summary-list__row {
         display: block;
         margin-bottom: 15px;
     }
 
-    .govuk-summary-list__key,
-    .govuk-summary-list__value,
-    .govuk-summary-list__actions {
-        display: block;
-        width: auto;
-        padding: 0;
-        text-align: left;
-        vertical-align: baseline;
-    }
-
-    .govuk-summary-list__value,
-    .govuk-summary-list__actions {
-        margin-bottom: 15px;
-    }
-
-    .govuk-summary-list__row--no-actions::after {
+    .shinygovstyle-summary .govuk-summary-list__row--no-actions::after {
         content: none;
     }
 
-    /* Actions list inline-block + border separators mirror the mobile rules */
-    .govuk-summary-card__action,
-    .govuk-summary-list__actions-list-item {
-        margin-right: 10px;
-        padding-right: 10px;
-        border-right: 1px solid;
-        border-right-color: var(--govuk-border-colour, #cecece);
-        margin-left: 0;
-        padding-left: 0;
+    .shinygovstyle-summary .govuk-summary-list__key,
+    .shinygovstyle-summary .govuk-summary-list__value,
+    .shinygovstyle-summary .govuk-summary-list__actions {
+        display: block;
+        width: auto;
+        padding: 0;
+        text-align: start;
+        vertical-align: baseline;
     }
 
-    .govuk-summary-card__action:last-child,
-    .govuk-summary-list__actions-list-item:last-child {
+    .shinygovstyle-summary .govuk-summary-list__value {
+        margin-bottom: 15px;
+    }
+
+    .shinygovstyle-summary .govuk-summary-card__content .govuk-summary-list__row:last-of-type {
+        margin-bottom: 0;
+    }
+
+    /* Separators between actions sit on the right, as on mobile */
+    .shinygovstyle-summary .govuk-summary-card__action,
+    .shinygovstyle-summary .govuk-summary-list__actions-list-item {
+        margin-right: 10px;
+        margin-left: 0;
+        padding-right: 10px;
+        padding-left: 0;
+        border: 0;
+        border-right: 1px solid;
+        border-right-color: var(--govuk-border-colour, #cecece);
+    }
+
+    .shinygovstyle-summary .govuk-summary-card__action:last-child,
+    .shinygovstyle-summary .govuk-summary-list__actions-list-item:last-child {
         margin-right: 0;
         padding-right: 0;
         border: 0;
     }
 
-    .govuk-summary-card__action:not(:first-child),
-    .govuk-summary-list__actions-list-item:not(:first-child) {
-        border-left: 0;
+    .shinygovstyle-summary .govuk-summary-card__title-wrapper {
+        display: block;
+        padding: 15px;
     }
+
+    .shinygovstyle-summary .govuk-summary-card__title {
+        margin-bottom: 10px;
+    }
+
+    .shinygovstyle-summary .govuk-summary-card__actions {
+        justify-content: normal;
+        text-align: start;
+    }
+
+    .shinygovstyle-summary .govuk-summary-card__content {
+        padding: 15px 15px 0;
+    }
+}
+
+/*
+ * 2. Actions look and behave like GOV.UK links.
+ *
+ * GOV.UK uses links for summary list actions. shinyGovstyle uses buttons so
+ * each action is a Shiny input, but .govuk-link only colours <a> elements
+ * (via :link), so the browser's grey button styling showed instead. Reset it
+ * and apply the GOV.UK link colours. Focus keeps .govuk-link's yellow focus
+ * style.
+ */
+.shinygovstyle-summary .action-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--govuk-link-colour, #175892);
+    font: inherit;
+    text-align: inherit;
+    cursor: pointer;
+}
+
+.shinygovstyle-summary .action-button:hover {
+    color: var(--govuk-link-hover-colour, #0f385c);
+}
+
+.shinygovstyle-summary .action-button:active {
+    color: var(--govuk-link-active-colour, #0b0c0c);
+}
+
+.shinygovstyle-summary .action-button:focus {
+    background-color: var(--govuk-focus-colour, #fd0);
+    color: var(--govuk-focus-text-colour, #0b0c0c);
 }

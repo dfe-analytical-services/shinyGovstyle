@@ -186,14 +186,27 @@ test_that("gov_summary attaches the summary-overrides stylesheet", {
 
 ## ---- rows without actions ---------------------------------------------------
 
-test_that("action = FALSE rows get the --no-actions class", {
+test_that("a list with no actions at all has no --no-actions rows", {
+  # As in GOV.UK Frontend, the class (and its empty actions column) is only
+  # needed to line rows up with other rows that do have actions
   out <- gov_summary(
     "sumID",
     c("Name", "Date of birth"),
     c("Sarah Philips", "5 January 1978"),
     action = FALSE
   )
-  expect_length(find_tags(out, "govuk-summary-list__row--no-actions"), 2)
+  expect_no_tag(out, "govuk-summary-list__row--no-actions")
+})
+
+test_that("gov_summary wraps the list in its layout container", {
+  out <- gov_summary("sumID", c("Name"), c("Sarah Philips"))
+  expect_identical(
+    htmltools::tagGetAttribute(out, "class"),
+    "shinygovstyle-summary"
+  )
+  summary_dl <- find_tag_required(out, "govuk-summary-list")
+  expect_identical(summary_dl$name, "dl")
+  expect_identical(htmltools::tagGetAttribute(summary_dl, "id"), "sumID")
 })
 
 test_that("action = TRUE rows don't get the --no-actions class", {
@@ -222,13 +235,27 @@ test_that("a character vector of IDs sets each row's action", {
 
 ## ---- rows API ---------------------------------------------------------------
 
-test_that("rows API: a row without actions gets the --no-actions class", {
+test_that("rows API: rows without actions in a mixed list get --no-actions", {
   out <- gov_summary(
     "sumID",
-    rows = list(list(key = "Name", value = "Sarah", actions = list()))
+    rows = list(
+      list(
+        key = "Name",
+        value = "Sarah",
+        actions = list(
+          list(
+            id = "change_name",
+            text = "Change",
+            visually_hidden_text = "name"
+          )
+        )
+      ),
+      list(key = "Age", value = "38", actions = list()),
+      list(key = "Nationality", value = "French")
+    )
   )
-  expect_has_tag(out, "govuk-summary-list__row--no-actions")
-  expect_no_tag(out, "govuk-summary-list__actions")
+  expect_length(find_tags(out, "govuk-summary-list__row--no-actions"), 2)
+  expect_length(find_tags(out, "govuk-summary-list__actions"), 1)
 })
 
 test_that("rows API: a row with an action has no --no-actions class", {
@@ -314,7 +341,12 @@ summary_card <- function(...) {
 
 test_that("gov_summary_card wraps the list in the card structure", {
   out <- summary_card()
-  expect_match(htmltools::tagGetAttribute(out, "class"), "govuk-summary-card")
+  expect_identical(
+    htmltools::tagGetAttribute(out, "class"),
+    "govuk-summary-card shinygovstyle-summary"
+  )
+  # The card is the layout container, so its list isn't wrapped in another
+  expect_length(find_tags(out, "shinygovstyle-summary"), 1)
   content <- find_tag_required(out, "govuk-summary-card__content")
   expect_has_tag(content, "govuk-summary-list")
   expect_true("summary" %in% dependency_names(content))
@@ -345,15 +377,67 @@ test_that("gov_summary_card without card_actions has no actions list", {
 test_that("gov_summary_card card_actions render as list items", {
   out <- summary_card(
     card_actions = list(
-      list(id = "del", text = "Delete", visually_hidden_text = "(Lead tenant)"),
-      list(
-        id = "wit",
-        text = "Withdraw",
-        visually_hidden_text = "(Lead tenant)"
-      )
+      list(id = "del", text = "Delete"),
+      list(id = "wit", text = "Withdraw")
     )
   )
   actions <- find_tag_required(out, "govuk-summary-card__actions")
   expect_identical(actions$name, "ul")
   expect_length(find_tags(actions, "govuk-summary-card__action"), 2)
+})
+
+test_that("gov_summary_card puts a single card action in a div", {
+  out <- summary_card(card_actions = list(list(id = "del", text = "Delete")))
+  actions <- find_tag_required(out, "govuk-summary-card__actions")
+  expect_identical(actions$name, "div")
+  expect_no_tag(actions, "govuk-summary-card__action")
+  expect_length(
+    htmltools::tagQuery(actions)$find("button#del")$selectedTags(),
+    1
+  )
+})
+
+# Visually hidden text of the action button with this id
+hidden_text <- function(x, id) {
+  span <- htmltools::tagQuery(x)$find(paste0("button#", id))$find(
+    ".govuk-visually-hidden"
+  )$selectedTags()
+  vapply(
+    span,
+    function(s) paste(s$children, collapse = ""),
+    character(1),
+    USE.NAMES = FALSE
+  )
+}
+
+test_that("gov_summary_card adds its title to each action's hidden text", {
+  out <- gov_summary_card(
+    inputId = "cardID",
+    title = "Lead tenant",
+    card_actions = list(
+      list(id = "del", text = "Delete choice"),
+      list(id = "wit", text = "Withdraw", visually_hidden_text = "choice")
+    ),
+    rows = list(list(
+      key = "Age",
+      value = "38",
+      actions = list(
+        list(id = "change_age", text = "Change", visually_hidden_text = "age")
+      )
+    ))
+  )
+  expect_identical(hidden_text(out, "del"), " (Lead tenant)")
+  expect_identical(hidden_text(out, "wit"), " choice (Lead tenant)")
+  expect_identical(hidden_text(out, "change_age"), " age (Lead tenant)")
+})
+
+test_that("gov_summary_card errors on a missing or non-string title", {
+  expect_error(
+    gov_summary_card("cardID", title = "", rows = list()),
+    "`title` must be a single, non-empty string"
+  )
+  expect_error(
+    gov_summary_card("cardID", title = c("A", "B"), rows = list()),
+    "`title`"
+  )
 })

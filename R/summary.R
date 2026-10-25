@@ -1,25 +1,37 @@
 # ---- Internal helpers -------------------------------------------------------
 
 # Build a single <button> action element with visually-hidden context text.
-build_action_button <- function(id, text, visually_hidden_text) {
+# Inside a summary card, GOV.UK adds the card title in brackets to every
+# action's hidden text, so "Change" reads as e.g. "Change age (Lead tenant)"
+# and actions in different cards can be told apart.
+build_action_button <- function(
+  id,
+  text,
+  visually_hidden_text,
+  card_title = NULL
+) {
+  hidden_text <- paste0(
+    if (!is.null(visually_hidden_text) && nzchar(visually_hidden_text)) {
+      paste0(" ", visually_hidden_text)
+    },
+    if (!is.null(card_title)) paste0(" (", card_title, ")")
+  )
+
   shiny::tags$button(
     type = "button",
     id = id,
     class = "govuk-link action-button",
     `data-val` = shiny::restoreInput(id = id, default = NULL),
     text,
-    if (!is.null(visually_hidden_text) && nchar(visually_hidden_text) > 0) {
-      shiny::tags$span(
-        class = "govuk-visually-hidden",
-        paste0(" ", visually_hidden_text)
-      )
+    if (nzchar(hidden_text)) {
+      shiny::tags$span(class = "govuk-visually-hidden", hidden_text)
     }
   )
 }
 
 # Build the <dd class="govuk-summary-list__actions"> cell for one row.
 # `actions` is a list of action specs: list(id, text, visually_hidden_text).
-build_actions_cell <- function(actions) {
+build_actions_cell <- function(actions, card_title = NULL) {
   if (length(actions) == 0) {
     return(NULL)
   }
@@ -28,13 +40,13 @@ build_actions_cell <- function(actions) {
     a <- actions[[1]]
     shiny::tags$dd(
       class = "govuk-summary-list__actions",
-      build_action_button(a$id, a$text, a$visually_hidden_text)
+      build_action_button(a$id, a$text, a$visually_hidden_text, card_title)
     )
   } else {
     li_items <- lapply(actions, function(a) {
       shiny::tags$li(
         class = "govuk-summary-list__actions-list-item",
-        build_action_button(a$id, a$text, a$visually_hidden_text)
+        build_action_button(a$id, a$text, a$visually_hidden_text, card_title)
       )
     })
     shiny::tags$dd(
@@ -49,11 +61,15 @@ build_actions_cell <- function(actions) {
 
 # Build a single <div class="govuk-summary-list__row"> from a row spec.
 # Row spec fields: key, value, actions (list), no_border (logical).
-build_summary_row <- function(row) {
+# As in GOV.UK Frontend, a row without actions only gets the --no-actions
+# class when another row in the list has actions. The class adds an empty
+# actions column so borders line up, which a list with no actions at all
+# doesn't need.
+build_summary_row <- function(row, any_actions, card_title = NULL) {
   has_actions <- length(row$actions) > 0
 
   row_classes <- "govuk-summary-list__row"
-  if (!has_actions) {
+  if (any_actions && !has_actions) {
     row_classes <- paste(row_classes, "govuk-summary-list__row--no-actions")
   }
   if (isTRUE(row$no_border)) {
@@ -70,7 +86,7 @@ build_summary_row <- function(row) {
       class = "govuk-summary-list__value",
       as_govuk_html(row$value)
     ),
-    build_actions_cell(row$actions)
+    build_actions_cell(row$actions, card_title)
   )
 }
 
@@ -149,6 +165,54 @@ summary_action_ids <- function(input_id, headers) {
   paste0(input_id, "_", slugs)
 }
 
+# Build the <dl> for gov_summary() and gov_summary_card(), with the GOV.UK and
+# summary-overrides stylesheets attached. `card_title` is the title of the
+# summary card the list sits in, if any.
+summary_list <- function(
+  input_id,
+  headers,
+  info,
+  rows,
+  action,
+  border,
+  card_title = NULL
+) {
+  if (is.null(rows)) {
+    rows <- legacy_to_rows(input_id, headers, info, action)
+  }
+
+  border_class <- if (border) {
+    "govuk-summary-list"
+  } else {
+    "govuk-summary-list govuk-summary-list--no-border"
+  }
+
+  any_actions <- any(vapply(rows, function(row) length(row$actions) > 0, TRUE))
+  row_tags <- lapply(
+    rows,
+    build_summary_row,
+    any_actions = any_actions,
+    card_title = card_title
+  )
+  dl <- do.call(
+    shiny::tags$dl,
+    c(list(class = border_class, id = input_id), row_tags)
+  )
+
+  summary_css <- htmltools::htmlDependency(
+    name = "summary",
+    version = as.character(utils::packageVersion("shinyGovstyle")[[1]]),
+    src = c(href = "shinyGovstyle/css"),
+    stylesheet = "summary-overrides.css"
+  )
+
+  htmltools::attachDependencies(
+    attachDependency(dl),
+    summary_css,
+    append = TRUE
+  )
+}
+
 # ---- Exported functions -----------------------------------------------------
 
 #' Summary list
@@ -159,9 +223,16 @@ summary_action_ids <- function(input_id, headers) {
 #' actions per row, per-row borders, HTML keys and mixed-action lists. To show
 #' several lists that need telling apart, wrap each in [gov_summary_card()].
 #'
-#' Between 641px and 768px wide, the list stays stacked rather than switching
-#' to GOV.UK's side-by-side layout, so the key column is never too narrow for
-#' ordinary words.
+#' The list switches between GOV.UK's stacked and side-by-side layouts based
+#' on its own width rather than the screen's. It stays stacked until it is
+#' as wide as a full-width GOV.UK list at GOV.UK's 641px breakpoint (about
+#' 580px), so in a narrow column, such as
+#' `gov_box(size = "two-thirds")`, the key column is never too narrow for
+#' ordinary words. Browsers without CSS container queries use GOV.UK's
+#' screen-width breakpoint instead.
+#'
+#' Actions are buttons, so each one is a Shiny input, but they look and
+#' behave like the links GOV.UK uses for summary list actions.
 #'
 #' @inheritParams id_arg
 #' @param headers Character vector of row headers (the keys). Used with the
@@ -198,7 +269,9 @@ summary_action_ids <- function(input_id, headers) {
 #'   readers announce, for example, "Change date of birth" rather than a bare
 #'   "Change". Ignored when `rows` is supplied.
 #' @param border Whether to show borders between rows. Default `TRUE`.
-#' @return a summary list HTML shiny tag object
+#' @return A `div` HTML shiny tag object holding the summary list `<dl>`,
+#'   which has `inputId` as its id. The `div` lets the list change layout
+#'   based on its own width.
 #' @family Govstyle feedback types
 #' @export
 #' @examples
@@ -289,33 +362,11 @@ gov_summary <- function(
   action = FALSE,
   border = TRUE
 ) {
-  if (is.null(rows)) {
-    rows <- legacy_to_rows(inputId, headers, info, action)
-  }
-
-  border_class <- if (border) {
-    "govuk-summary-list"
-  } else {
-    "govuk-summary-list govuk-summary-list--no-border"
-  }
-
-  row_tags <- lapply(rows, build_summary_row)
-  summary_list <- do.call(
-    shiny::tags$dl,
-    c(list(class = border_class, id = inputId), row_tags)
-  )
-
-  summary_css <- htmltools::htmlDependency(
-    name = "summary",
-    version = as.character(utils::packageVersion("shinyGovstyle")[[1]]),
-    src = c(href = "shinyGovstyle/css"),
-    stylesheet = "summary-overrides.css"
-  )
-
-  htmltools::attachDependencies(
-    attachDependency(summary_list),
-    summary_css,
-    append = TRUE
+  # The div is the CSS container summary-overrides.css measures, so the list
+  # can stack when it is narrow; see that file for why this extends GOV.UK
+  shiny::tags$div(
+    class = "shinygovstyle-summary",
+    summary_list(inputId, headers, info, rows, action, border)
   )
 }
 
@@ -326,6 +377,11 @@ gov_summary <- function(
 #' summary lists and need to tell them apart, for example in a multi-section
 #' check-your-answers page.
 #'
+#' As in the GOV.UK Design System, every action in the card, both card actions
+#' and row actions, includes the card title in brackets in its visually hidden
+#' text. Screen readers announce, for example, "Change age (Lead tenant)", so
+#' actions in different cards can be told apart.
+#'
 #' @param inputId The Id for the inner summary list `<dl>` element.
 #' @param title Character string. The card title text.
 #' @param heading_level Integer (1-6). HTML heading level for the card title.
@@ -333,7 +389,7 @@ gov_summary <- function(
 #' @param card_actions Optional list of card-level action specs. Each element is
 #'   a named list with `id`, `text`, and optionally `visually_hidden_text`. Card
 #'   actions appear in the title bar and apply to the whole card (e.g. "Delete",
-#'   "Withdraw").
+#'   "Withdraw"). The card title is added to their hidden text for you.
 #' @param headers See [gov_summary()].
 #' @param info See [gov_summary()].
 #' @param rows See [gov_summary()].
@@ -374,16 +430,8 @@ gov_summary <- function(
 #'       inputId = "cardID",
 #'       title = "Lead tenant",
 #'       card_actions = list(
-#'         list(
-#'           id = "delete_card",
-#'           text = "Delete choice",
-#'           visually_hidden_text = "(Lead tenant)"
-#'         ),
-#'         list(
-#'           id = "withdraw_card",
-#'           text = "Withdraw",
-#'           visually_hidden_text = "(Lead tenant)"
-#'         )
+#'         list(id = "delete_card", text = "Delete choice"),
+#'         list(id = "withdraw_card", text = "Withdraw")
 #'       ),
 #'       rows = rows
 #'     )
@@ -408,13 +456,27 @@ gov_summary_card <- function(
   if (heading_level < 1L || heading_level > 6L) {
     stop("`heading_level` must be an integer between 1 and 6.")
   }
+  if (!is.character(title) || length(title) != 1 || !nzchar(title)) {
+    stop("`title` must be a single, non-empty string.", call. = FALSE)
+  }
   heading_tag <- paste0("h", heading_level)
 
-  actions_html <- if (!is.null(card_actions) && length(card_actions) > 0) {
+  card_action_button <- function(a) {
+    build_action_button(a$id, a$text, a$visually_hidden_text, title)
+  }
+
+  # GOV.UK puts a single card action straight in a div, and only uses a list
+  # when there are several
+  actions_html <- if (length(card_actions) == 1) {
+    shiny::tags$div(
+      class = "govuk-summary-card__actions",
+      card_action_button(card_actions[[1]])
+    )
+  } else if (length(card_actions) > 1) {
     li_items <- lapply(card_actions, function(a) {
       shiny::tags$li(
         class = "govuk-summary-card__action",
-        build_action_button(a$id, a$text, a$visually_hidden_text)
+        card_action_button(a)
       )
     })
     do.call(
@@ -423,17 +485,20 @@ gov_summary_card <- function(
     )
   }
 
-  inner_list <- gov_summary(
-    inputId = inputId,
-    headers = headers,
-    info = info,
-    rows = rows,
-    action = action,
-    border = border
+  inner_list <- summary_list(
+    inputId,
+    headers,
+    info,
+    rows,
+    action,
+    border,
+    card_title = title
   )
 
+  # The card is the CSS container summary-overrides.css measures, so the card
+  # header and its list stack together when the card is narrow
   shiny::tags$div(
-    class = "govuk-summary-card",
+    class = "govuk-summary-card shinygovstyle-summary",
     shiny::tags$div(
       class = "govuk-summary-card__title-wrapper",
       shiny::tags[[heading_tag]](

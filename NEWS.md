@@ -10,17 +10,31 @@
   vector of input IDs, one per row, with `NA` for a row with no action.
 * New `gov_summary_card()` wraps a summary list in a GOV.UK summary card,
   with a title and optional card-level actions, for pages that show several
-  summary lists.
+  summary lists. As in the GOV.UK Design System, the card title is added to
+  each action's visually hidden text, so screen readers announce, for
+  example, "Change age (Lead tenant)".
+
+## Breaking changes
+
+* `gov_summary()` now returns a `<div>` container with the summary list
+  `<dl>` inside it, rather than the `<dl>` itself. The `<dl>` still has
+  `inputId` as its id, so CSS, JavaScript and `shinytest2` selectors that use
+  the id keep working. Code that changes the returned tag directly now acts
+  on the container; use `htmltools::tagQuery()` to reach the `<dl>`.
 
 ## Bug fixes
 
-* `gov_summary()` keys no longer break mid-word on medium-width screens
-  (#89). GOV.UK Frontend switches the summary list to a side-by-side layout
-  at 641px, which leaves the key column too narrow inside a typical Shiny
-  layout. The list now stays stacked until 769px.
+* `gov_summary()` keys no longer break mid-word in narrow columns (#89).
+  GOV.UK Frontend switches the summary list to a side-by-side layout at a
+  641px screen width, which leaves the key column too narrow inside a column
+  such as `gov_box(size = "two-thirds")`. The list now switches based on its
+  own width instead, staying stacked until it is as wide as a full-width
+  GOV.UK list at that breakpoint (about 580px).
+* `gov_summary()` actions now look like the links GOV.UK uses, rather than
+  grey browser buttons. They are still buttons, so each one is a Shiny input.
 * `gov_summary()` rows without an action now have the
-  `govuk-summary-list__row--no-actions` class, so their borders line up with
-  rows that do have actions.
+  `govuk-summary-list__row--no-actions` class when another row in the list
+  has actions, so their borders line up, as in GOV.UK Frontend.
 
 * `govTable()` no longer fails with "incorrect number of dimensions" when
   given a data frame with a single column.

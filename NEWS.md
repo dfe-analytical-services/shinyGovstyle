@@ -8,7 +8,8 @@
   use the id keep working. Code that changes the returned tag directly (for
   example `htmltools::tagAppendAttributes()`, or checking
   `$name == "table"`) now acts on the container; use
-  `htmltools::tagQuery()` to reach the `<table>`. See below for why.
+  `htmltools::tagQuery()` to reach the `<table>`; the new "Upgrading
+  shinyGovstyle" vignette shows how. See below for why.
 * `govTable()` and `govTabs()` tables that are wider than the screen now
   scroll sideways inside their own container, so the rest of the page
   reflows to the screen width instead of the whole page scrolling. This

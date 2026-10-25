@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.R
 \name{gov_summary_card}
 \alias{gov_summary_card}
-\title{Summary Card Function}
+\title{Summary card}
 \usage{
 gov_summary_card(
   inputId,
@@ -21,7 +21,7 @@ gov_summary_card(
 
 \item{title}{Character string. The card title text.}
 
-\item{heading_level}{Integer (1–6). HTML heading level for the card title.
+\item{heading_level}{Integer (1-6). HTML heading level for the card title.
 Default \code{2L}.}
 
 \item{card_actions}{Optional list of card-level action specs. Each element is
@@ -50,45 +50,66 @@ check-your-answers page.
 }
 \examples{
 rows <- list(
-  list(key = "Age",        value = "38",
-       actions = list(list(id = "change_age", text = "Change",
-                           visually_hidden_text = "age"))),
-  list(key = "Nationality", value = "French",
-       actions = list(list(id = "change_nat", text = "Change",
-                           visually_hidden_text = "nationality")))
+  list(
+    key = "Age",
+    value = "38",
+    actions = list(
+      list(id = "change_age", text = "Change", visually_hidden_text = "age")
+    )
+  ),
+  list(
+    key = "Nationality",
+    value = "French",
+    actions = list(
+      list(
+        id = "change_nat",
+        text = "Change",
+        visually_hidden_text = "nationality"
+      )
+    )
+  )
 )
 
-ui <- shiny::fluidPage(
-  shinyGovstyle::header("Example", "User Examples",
-                        logo = "shinyGovstyle/images/moj_logo.png"),
-  shinyGovstyle::gov_layout(
-    size = "two-thirds",
+ui <- shinyGovstyle::gov_page(
+  shinyGovstyle::header(
+    org_name = "Example",
+    service_name = "User Examples"
+  ),
+  shinyGovstyle::gov_main_layout(
     shinyGovstyle::gov_summary_card(
       inputId = "cardID",
-      title   = "Lead tenant",
+      title = "Lead tenant",
       card_actions = list(
-        list(id = "delete_card", text = "Delete choice",
-             visually_hidden_text = "(Lead tenant)"),
-        list(id = "withdraw_card", text = "Withdraw",
-             visually_hidden_text = "(Lead tenant)")
+        list(
+          id = "delete_card",
+          text = "Delete choice",
+          visually_hidden_text = "(Lead tenant)"
+        ),
+        list(
+          id = "withdraw_card",
+          text = "Withdraw",
+          visually_hidden_text = "(Lead tenant)"
+        )
       ),
       rows = rows
     )
   ),
   shinyGovstyle::footer(full = TRUE)
 )
-if (interactive()) shinyApp(ui = ui, server = function(input, output, session) {})
+if (interactive()) {
+  shinyApp(ui = ui, server = function(input, output, session) {})
+}
 }
 \seealso{
-Other Govstyle feedback types: 
-\code{\link{details}()},
-\code{\link{gov_summary}()},
-\code{\link{insert_text}()},
-\code{\link{label_hint}()},
-\code{\link{noti_banner}()},
-\code{\link{panel_output}()},
-\code{\link{tag_Input}()},
-\code{\link{value_box}()},
-\code{\link{warning_text}()}
+Other Govstyle feedback types:
+\code{\link[=confirmation_panel]{confirmation_panel()}},
+\code{\link[=details]{details()}},
+\code{\link[=gov_summary]{gov_summary()}},
+\code{\link[=gov_tag]{gov_tag()}},
+\code{\link[=inset_text]{inset_text()}},
+\code{\link[=label_hint]{label_hint()}},
+\code{\link[=noti_banner]{noti_banner()}},
+\code{\link[=value_box]{value_box()}},
+\code{\link[=warning_text]{warning_text()}}
 }
 \concept{Govstyle feedback types}

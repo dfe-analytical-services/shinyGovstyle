@@ -242,7 +242,11 @@ summary_action_ids <- function(input_id, headers) {
 #'     key = "Name",
 #'     value = "Sarah Philips",
 #'     actions = list(
-#'       list(id = "change_name", text = "Change", visually_hidden_text = "name")
+#'       list(
+#'         id = "change_name",
+#'         text = "Change",
+#'         visually_hidden_text = "name"
+#'       )
 #'     )
 #'   ),
 #'   list(

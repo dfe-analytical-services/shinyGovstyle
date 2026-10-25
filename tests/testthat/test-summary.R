@@ -248,7 +248,7 @@ test_that("rows API: a row with an action has no --no-actions class", {
   button <- htmltools::tagQuery(out)$find("button#change_name")$selectedTags()
   expect_length(button, 1)
   expect_match(
-    gsub("\s+", " ", as.character(button[[1]])),
+    gsub("\\s+", " ", as.character(button[[1]])),
     "Change <span class=\"govuk-visually-hidden\"> name</span>",
     fixed = TRUE
   )
@@ -328,7 +328,10 @@ test_that("gov_summary_card title defaults to an h2", {
 
 test_that("gov_summary_card heading_level sets the title's tag name", {
   out <- summary_card(heading_level = 3L)
-  expect_identical(find_tag_required(out, "govuk-summary-card__title")$name, "h3")
+  expect_identical(
+    find_tag_required(out, "govuk-summary-card__title")$name,
+    "h3"
+  )
 })
 
 test_that("gov_summary_card errors on an invalid heading_level", {
@@ -343,7 +346,11 @@ test_that("gov_summary_card card_actions render as list items", {
   out <- summary_card(
     card_actions = list(
       list(id = "del", text = "Delete", visually_hidden_text = "(Lead tenant)"),
-      list(id = "wit", text = "Withdraw", visually_hidden_text = "(Lead tenant)")
+      list(
+        id = "wit",
+        text = "Withdraw",
+        visually_hidden_text = "(Lead tenant)"
+      )
     )
   )
   actions <- find_tag_required(out, "govuk-summary-card__actions")

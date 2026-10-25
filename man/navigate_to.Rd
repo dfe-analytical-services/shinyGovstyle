@@ -4,7 +4,7 @@
 \alias{navigate_to}
 \title{Navigate to a page in one call}
 \usage{
-navigate_to(session, tabset_id, inputId, panel = inputId)
+navigate_to(session, tabset_id, inputId, panel = inputId, focus = TRUE)
 }
 \arguments{
 \item{session}{The Shiny session object}
@@ -23,6 +23,11 @@ nav inputIds and panel values differ (e.g. nav id \code{sn_cookies}, panel
 value \code{panel-cookies}), pass \code{panel} explicitly. If you omit it when
 the values differ, only the nav highlight moves, the visible tab
 stays put.}
+
+\item{focus}{Whether to move keyboard focus to the newly shown panel.
+Defaults to \code{TRUE}. Set to \code{FALSE} when the switch is not a response to
+something the user did, for example restoring a page from a bookmarked
+URL when the app starts.}
 }
 \value{
 NULL, called for side effects
@@ -42,6 +47,29 @@ By default the nav link \code{inputId} is also used as the target tab panel
 \code{value}. When they differ — for example when nav inputIds carry a prefix
 like \code{sn_} to disambiguate from panel values — pass \code{panel} explicitly.
 }
+\section{Focus management}{
+
+When \code{focus = TRUE}, focus moves to the first \verb{<h1>} in the newly shown
+panel once it is visible, falling back to the page's \verb{<main>} element
+(as created by \code{\link[=gov_main_layout]{gov_main_layout()}}) when the panel has no \verb{<h1>}. The
+heading is given \code{tabindex="-1"} for the move, and loses it again when
+focus leaves it. Without this, the button or link that triggered the
+switch is usually inside the panel that has just been hidden, so focus
+drops to the top of the document with nothing announced to screen
+reader users (WCAG 2.4.3 Focus Order). Give each panel an \verb{<h1>}, for
+example with \code{\link[=heading_text]{heading_text()}}, so the move reads out the new page name.
+
+On wider screens, direct clicks on \code{\link[=service_navigation]{service_navigation()}} links do not
+move focus: they go through \code{\link[=service_navigation_server]{service_navigation_server()}}, not
+\code{navigate_to()}. On a GOV.UK service each nav link loads a new page and
+focus starts again from the top. Leaving focus on the link, which stays
+visible and is marked as the current page, is the closest match. On
+small screens, choosing a link from the open "Menu" closes the menu and
+hides the link, so focus moves to the new panel's \verb{<h1>} (or \verb{<main>})
+in the same way as here. Either way, users can carry on with the
+skip link or Tab into the content.
+}
+
 \examples{
 # Next / back buttons that cross page boundaries — inputId and panel
 # value match, so a single id is enough.

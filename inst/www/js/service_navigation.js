@@ -78,7 +78,7 @@ function clearActiveServiceNavLinks() {
   }
 }
 
-function setActiveServiceNavLink(link) {
+function setActiveServiceNavLink(link, keepTitle) {
   clearActiveServiceNavLinks();
 
   link.closest(
@@ -89,8 +89,53 @@ function setActiveServiceNavLink(link) {
   link.setAttribute("aria-current", "page");
   wrapActiveFallback(link);
 
-  applyAutoPageTitle(link);
+  if (!keepTitle) applyAutoPageTitle(link);
+  // A choice only lasts until the nav next changes
+  clearAppChoice();
 }
+
+// The app's own choice of active link (update_service_navigation()) or page
+// title (update_page_title(), which sets window.shinyGovstyleServerTitle),
+// kept so the next sync doesn't overwrite it. It only counts for a tab change
+// made in the same server update. Shiny sends custom messages straight away
+// but tab changes at the end of the update, so a choice waits for that tab
+// change and is dropped when the next update starts without one.
+var serverNavPending = false;
+var appChoiceTabset = null;
+
+function hasAppChoice() {
+  return serverNavPending || window.shinyGovstyleServerTitle === true;
+}
+
+function clearAppChoice() {
+  serverNavPending = false;
+  window.shinyGovstyleServerTitle = false;
+  appChoiceTabset = null;
+}
+
+// A tab change from the server, e.g. updateTabsetPanel(). Ties a waiting
+// choice to it, or drops the choice if the tab is not actually changing, as
+// no sync will follow.
+$(document).on("shiny:updateinput", function (event) {
+  if (!hasAppChoice() || appChoiceTabset !== null) return;
+  var el = event.target;
+  if (!el.classList.contains("shiny-tab-input") || !event.binding) return;
+  if (
+    event.message &&
+    event.message.value !== undefined &&
+    event.message.value !== event.binding.getValue(el)
+  ) {
+    appChoiceTabset = el.id;
+  } else {
+    clearAppChoice();
+  }
+});
+
+// A new server update has started, so a choice that never got its tab
+// change is out of date
+$(document).on("shiny:busy", function () {
+  if (appChoiceTabset === null) clearAppChoice();
+});
 
 // Allow programmatic update of active nav item from R server code
 Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
@@ -103,67 +148,166 @@ Shiny.addCustomMessageHandler("update_service_navigation", function (inputId) {
   } else {
     clearActiveServiceNavLinks();
   }
+  serverNavPending = true;
 });
 
-// Set active state on navigation links when clicked
-// Scoped to links within the list to avoid matching the service name link
+// Sent by service_navigation_server() when the tab changes, with the tabset
+// id and the links for the new panel (empty if it has none). Does nothing if
+// the app already set the nav for this change or a matching link is active.
+// Otherwise activates the first link, or clears the nav if there isn't one.
+Shiny.addCustomMessageHandler("sync_service_navigation", function (message) {
+  // A choice with no tabset was made in this update, e.g. by an observer on
+  // the tabset input; older ones were dropped when the update started
+  var forThisChange =
+    appChoiceTabset === null || appChoiceTabset === message.tabset;
+  var appChoseNav = forThisChange && serverNavPending;
+  var keepTitle = forThisChange && window.shinyGovstyleServerTitle === true;
+  clearAppChoice();
+  if (appChoseNav) return;
+  var inputIds = message.links;
+  var first = null;
+  for (var i = 0; i < inputIds.length; i++) {
+    var link = findServiceNavLink(inputIds[i]);
+    if (!link) continue;
+    if (
+      link.closest(".govuk-service-navigation__item").classList.contains(
+        "govuk-service-navigation__item--active"
+      )
+    ) {
+      return;
+    }
+    if (!first) first = link;
+  }
+  if (first) {
+    setActiveServiceNavLink(first, keepTitle);
+  } else {
+    clearActiveServiceNavLinks();
+  }
+});
+
+// Set active state on in-app navigation links when clicked. Only Shiny
+// action links (class action-button) are pages in the app: the service name
+// and links to URLs outside the app never become the current page.
 $(document).on(
   "click",
-  ".govuk-service-navigation__list .govuk-service-navigation__link",
+  ".govuk-service-navigation__list .govuk-service-navigation__link.action-button",
   function () {
     setActiveServiceNavLink(this);
   }
 );
 
-// Mobile menu toggle for service navigation
-// Mirrors GDS govuk-service-navigation JS module behaviour:
-// - On small screens: show toggle button, hide nav list
-// - On large screens (>=48.0625em): hide toggle, show list
-$(document).ready(function () {
-  var toggle = document.querySelector(
-    ".govuk-service-navigation__toggle"
-  );
-  var navList = document.getElementById("navigation");
+// Mobile menu toggle, matching GOV.UK Frontend's ServiceNavigation module:
+// below the tablet breakpoint the links collapse behind the "Menu" button,
+// and from it the button is hidden and the links show. The breakpoint is
+// read from GOV.UK's --govuk-breakpoint-tablet, as GOV.UK's own script does,
+// so it always matches the CSS that lays the links out in a row. The menu
+// stays open or closed across resizes, as in GOV.UK. Each service navigation
+// on the page is set up separately.
+function setUpServiceNavMenu(section) {
+  var toggle = section.querySelector(".govuk-service-navigation__toggle");
+  var navList = toggle &&
+    document.getElementById(toggle.getAttribute("aria-controls"));
+  if (!toggle || !navList || toggle.getAttribute("data-menu-ready")) return;
+  toggle.setAttribute("data-menu-ready", "true");
 
-  if (!toggle || !navList) return;
+  var breakpoint = window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue("--govuk-breakpoint-tablet")
+    .trim() || "40.0625em";
+  var mql = window.matchMedia("(min-width: " + breakpoint + ")");
+  var menuIsOpen = false;
 
-  var mql = window.matchMedia("(min-width: 48.0625em)");
-
-  function checkMode() {
+  function setHiddenStates() {
     if (mql.matches) {
-      // Desktop: hide toggle, show full list
-      toggle.setAttribute("hidden", "");
       navList.removeAttribute("hidden");
+      toggle.setAttribute("hidden", "");
     } else {
-      // Mobile: show toggle, collapse menu
       toggle.removeAttribute("hidden");
-      toggle.setAttribute("aria-expanded", "false");
-      navList.setAttribute("hidden", "");
+      toggle.setAttribute("aria-expanded", String(menuIsOpen));
+      if (menuIsOpen) {
+        navList.removeAttribute("hidden");
+      } else {
+        navList.setAttribute("hidden", "");
+      }
     }
   }
 
   if ("addEventListener" in mql) {
-    mql.addEventListener("change", checkMode);
+    mql.addEventListener("change", setHiddenStates);
   } else {
-    mql.addListener(checkMode);
+    mql.addListener(setHiddenStates);
+  }
+  setHiddenStates();
+
+  toggle.addEventListener("click", function () {
+    menuIsOpen = !menuIsOpen;
+    setHiddenStates();
+  });
+
+  // On a small screen, choosing a page from the open menu closes it, as a
+  // GOV.UK page load would. That hides the link that had focus, so focus
+  // moves to the new page instead of dropping to the top of the document.
+  // Only in-app links: URL links leave the page, so need nothing.
+  $(navList).on("click", ".govuk-service-navigation__link.action-button",
+    function () {
+      if (mql.matches || !menuIsOpen) return;
+      var activeBefore = activeMainPanels();
+      menuIsOpen = false;
+      setHiddenStates();
+      focusNewPage(activeBefore);
+    }
+  );
+}
+
+// The tab panels currently showing in the page's <main>
+function activeMainPanels() {
+  var ns = window.shinyGovstyle;
+  var main = ns && ns.mainElement ? ns.mainElement() : null;
+  return main ? Array.prototype.slice.call(
+    main.querySelectorAll(".tab-pane.active")
+  ) : [];
+}
+
+// Once the server has shown the new panel, focus its <h1>, or <main> if it
+// has none, using the same rule as navigate_to() (focus_management.js). If
+// no panel changes, e.g. the current page was chosen again, the current
+// panel is used once the wait times out.
+function focusNewPage(activeBefore) {
+  var ns = window.shinyGovstyle;
+  if (!ns || !ns.focusElement) return;
+  var moved = false;
+
+  function newPanel() {
+    var panels = activeMainPanels();
+    for (var i = 0; i < panels.length; i++) {
+      if (activeBefore.indexOf(panels[i]) === -1 && ns.isVisible(panels[i])) {
+        return panels[i];
+      }
+    }
+    return null;
   }
 
-  checkMode();
+  function focusPanel(panel) {
+    if (moved) return;
+    moved = true;
+    var heading = panel && panel.querySelector("h1");
+    ns.focusElement(ns.isVisible(heading) ? heading : ns.mainElement());
+  }
 
-  $(toggle).on("click", function () {
-    var expanded = toggle.getAttribute(
-      "aria-expanded"
-    ) === "true";
+  ns.whenReady(
+    function () { return newPanel() !== null; },
+    function () { focusPanel(newPanel()); },
+    1500
+  );
+  setTimeout(function () {
+    var current = activeMainPanels().filter(ns.isVisible)[0];
+    focusPanel(current);
+  }, 1600);
+}
 
-    toggle.setAttribute(
-      "aria-expanded",
-      String(!expanded)
-    );
-
-    if (expanded) {
-      navList.setAttribute("hidden", "");
-    } else {
-      navList.removeAttribute("hidden");
-    }
-  });
+$(document).ready(function () {
+  var sections = document.querySelectorAll(".govuk-service-navigation");
+  for (var i = 0; i < sections.length; i++) {
+    setUpServiceNavMenu(sections[i]);
+  }
 });

@@ -72,3 +72,49 @@ test_that("a custom width sets an inline max-width style", {
     "max-width: 1400px;"
   )
 })
+
+test_that("the banner region has separate data-nosnippet and role attributes", {
+  banner <- cookieBanner("The best thing")
+  expect_true("data-nosnippet" %in% names(banner$attribs))
+  expect_identical(htmltools::tagGetAttribute(banner, "role"), "region")
+  expect_false("data-nosnippet role" %in% names(banner$attribs))
+  expect_match(
+    as.character(banner),
+    'class="govuk-cookie-banner" data-nosnippet role="region"',
+    fixed = TRUE
+  )
+})
+
+test_that("confirmation messages are alerts that can take focus", {
+  banner <- cookieBanner("The best thing")
+  for (id in c("cookieAcceptDiv", "cookieRejectDiv")) {
+    message <- htmltools::tagQuery(banner)$find(paste0("#", id))$selectedTags()
+    expect_length(message, 1L)
+    expect_identical(htmltools::tagGetAttribute(message[[1]], "role"), "alert")
+    expect_identical(htmltools::tagGetAttribute(message[[1]], "tabindex"), "-1")
+  }
+
+  # The initial message is not an alert: it is there on page load
+  main <- htmltools::tagQuery(banner)$find("#cookieMain")$selectedTags()[[1]]
+  expect_null(htmltools::tagGetAttribute(main, "role"))
+})
+
+test_that("the cookie banner ships the focus-moving script", {
+  deps <- htmltools::findDependencies(cookieBanner("The best thing"))
+  scripts <- unlist(lapply(deps, function(d) d$script))
+  expect_true(all(c("focus_management.js", "cookie_banner.js") %in% scripts))
+
+  js_path <- system.file(
+    "www",
+    "js",
+    "cookie_banner.js",
+    package = "shinyGovstyle"
+  )
+  js <- paste(readLines(js_path, warn = FALSE), collapse = "\n")
+  for (id in c("cookieAccept", "cookieReject", "hideAccept", "hideReject")) {
+    expect_match(js, paste0("#", id), fixed = TRUE)
+  }
+  for (id in c("cookieAcceptDiv", "cookieRejectDiv", "cookieDiv")) {
+    expect_match(js, paste0('"', id, '"'), fixed = TRUE)
+  }
+})

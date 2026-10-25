@@ -1,10 +1,10 @@
 #' Base shinyGovstyle dependencies
 #'
-#' The core stylesheet plus the `update_page_title` handler, shipped with
-#' every shinyGovstyle UI function (via `attachDependency()` or directly)
-#' so that `update_page_title()` works in any app that uses at least one
-#' shinyGovstyle function, regardless of whether `service_navigation()` is
-#' present.
+#' The core stylesheet plus the `update_page_title` and focus management
+#' handlers, shipped with every shinyGovstyle UI function (via
+#' `attachDependency()` or directly) so that `update_page_title()` and
+#' `navigate_to()` work in any app that uses at least one shinyGovstyle
+#' function, regardless of whether `service_navigation()` is present.
 #'
 #' @noRd
 #' @importFrom utils packageVersion
@@ -30,6 +30,12 @@ base_dependencies <- function() {
       version = version,
       src = c(href = "shinyGovstyle/js"),
       script = "update_page_title.js"
+    ),
+    htmltools::htmlDependency(
+      name = "focus_management",
+      version = version,
+      src = c(href = "shinyGovstyle/js"),
+      script = "focus_management.js"
     )
   )
 }
@@ -98,6 +104,13 @@ attachDependency <- # nolint
           version = version,
           src = c(href = "shinyGovstyle/js"),
           script = "service_navigation.js"
+        )
+      } else if (widget == "cookie_banner") {
+        htmltools::htmlDependency(
+          name = "cookie_banner",
+          version = version,
+          src = c(href = "shinyGovstyle/js"),
+          script = "cookie_banner.js"
         )
       } else if (widget == "reactable") {
         htmltools::htmlDependency(

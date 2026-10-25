@@ -354,6 +354,26 @@ Either way, every inputID is cleaned up by lowercasing it and replacing non-alph
 
 Put `service_navigation()` in your app's top-level UI and wire it up from the top-level server function, not inside a Shiny module. Because of the clean-up, an id wrapped in `ns()` (e.g. `NS("mod", "summary")`) becomes `mod_summary`, which no longer matches the module's namespaced input.
 
+### Links to pages outside the app
+
+A link can also go to an ordinary URL, such as guidance on GOV.UK or another service. Give it link text as the name and the URL as the value. Values starting with `https://`, `http://`, `mailto:`, `/`, `./`, `../`, `?` or `#` are treated as URLs rather than inputIDs:
+
+```{r, eval = FALSE}
+service_navigation(
+  c(
+    "Summary" = "nav_summary",
+    "Detailed data" = "nav_detail",
+    "Methodology" = "https://www.gov.uk/government/statistics"
+  ),
+  service_name = "My dashboard",
+  service_url = "/my-dashboard/"
+)
+```
+
+URL links open in the same tab, as in the GOV.UK Design System. They are never marked as the current page, and `service_navigation_server()`, `navigate_to()` and `update_service_navigation()` ignore them.
+
+`service_url` makes the service name a link, usually to the service's start page. Without it, the service name is shown as text.
+
 ### Wiring navigation to panels
 
 Use a hidden tab panel for the content area. `service_navigation_server()` then wires every nav link to its panel in a single call — no per-link `observeEvent` boilerplate:
@@ -384,7 +404,9 @@ shinyGovstyle::service_navigation_server(
 
 `bslib::navset_hidden()` also responds to `updateTabsetPanel()`, so the same call works whether your tab panel is shiny or bslib.
 
-For navigation that can't be wired declaratively — next / back buttons, modal links, footer shortcuts — use `navigate_to()` to combine the panel switch and the nav-active update in one call:
+`service_navigation_server()` also follows the tabset, so when your own `updateTabsetPanel()` call selects one of its panels, that panel's link becomes active and the page title updates.
+
+For navigation that can't be wired declaratively — next / back buttons, modal links, footer shortcuts — use `navigate_to()` to combine the panel switch and the nav-active update in one call. It works with or without `service_navigation_server()`:
 
 ```{r, eval = FALSE}
 # server.R — programmatic navigation in one call
@@ -400,13 +422,15 @@ shiny::observeEvent(input$next_btn, {
 
 ### Keeping the page title in sync
 
-`service_navigation()` syncs the browser tab title with the active nav link by default, both for link clicks and for programmatic navigation via `update_service_navigation()`. Pass `page_title_suffix` to get the recommended `"<page> | <service>"` format, or `auto_page_title = FALSE` to opt out. For pages where the heading differs from the nav label (or for pages not in the nav), call `update_page_title()` explicitly. See the [Page titles section of the Headings and text vignette](headings-and-text.html#page-titles) for the full rationale and examples.
+`service_navigation()` syncs the browser tab title with the active nav link by default, both for link clicks and for programmatic navigation. Pass `page_title_suffix` to get the recommended `"<page> | <service>"` format, or `auto_page_title = FALSE` to opt out. For pages where the heading differs from the nav label (or for pages not in the nav), call `update_page_title()` explicitly. See the [Page titles section of the Headings and text vignette](headings-and-text.html#page-titles) for the full rationale and examples.
 
 ### Footer-only pages
 
 Some pages — such as an accessibility statement, privacy notice, or cookies information page — should not appear in the service navigation but still need to be reachable. The standard pattern is to add a link in `footer()` and a corresponding hidden tab panel, but to omit the link from `service_navigation()`.
 
-Because the user navigates to these pages outside of the service navigation, there is no active nav item to highlight. You do not need to call `update_service_navigation()` for these transitions. However, you should call it when navigating *back* to a main page from a footer-linked page, so the correct nav item becomes active again.
+No nav link should be marked as current while these pages are shown, otherwise screen readers announce the previous page as current. `service_navigation_server()` handles this: it clears the active link when a panel not in `link_to_panel` is selected, and sets it again when you go back to one that is.
+
+Without `service_navigation_server()`, call `update_service_navigation()` with an id that matches no nav link (such as `"accessibility_statement"`) on the way to a footer page, and with the main page's link id (or use `navigate_to()`) on the way back.
 
 Footer-only pages also fall outside the `service_navigation()` auto page-title sync — there is no nav link for the JavaScript binding to read. Call `update_page_title()` so the browser tab title reflects the new page:
 
@@ -426,7 +450,8 @@ shiny::tabsetPanel(
                   "Content")
 )
 
-# server.R — navigate to the footer page (no update_service_navigation needed)
+# server.R — navigate to the footer page (service_navigation_server() clears
+# the active nav link)
 shiny::observeEvent(input$accessibility_footer_link, {
   shiny::updateTabsetPanel(session, "main_panels",
                            selected = "accessibility_panel")

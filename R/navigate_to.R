@@ -28,6 +28,31 @@
 #'   value `panel-cookies`), pass `panel` explicitly. If you omit it when
 #'   the values differ, only the nav highlight moves, the visible tab
 #'   stays put.
+#' @param focus Whether to move keyboard focus to the newly shown panel.
+#'   Defaults to `TRUE`. Set to `FALSE` when the switch is not a response to
+#'   something the user did, for example restoring a page from a bookmarked
+#'   URL when the app starts.
+#'
+#' @section Focus management:
+#' When `focus = TRUE`, focus moves to the first `<h1>` in the newly shown
+#' panel once it is visible, falling back to the page's `<main>` element
+#' (as created by [gov_main_layout()]) when the panel has no `<h1>`. The
+#' heading is given `tabindex="-1"` for the move, and loses it again when
+#' focus leaves it. Without this, the button or link that triggered the
+#' switch is usually inside the panel that has just been hidden, so focus
+#' drops to the top of the document with nothing announced to screen
+#' reader users (WCAG 2.4.3 Focus Order). Give each panel an `<h1>`, for
+#' example with [heading_text()], so the move reads out the new page name.
+#'
+#' On wider screens, direct clicks on [service_navigation()] links do not
+#' move focus: they go through [service_navigation_server()], not
+#' `navigate_to()`. On a GOV.UK service each nav link loads a new page and
+#' focus starts again from the top. Leaving focus on the link, which stays
+#' visible and is marked as the current page, is the closest match. On
+#' small screens, choosing a link from the open "Menu" closes the menu and
+#' hides the link, so focus moves to the new panel's `<h1>` (or `<main>`)
+#' in the same way as here. Either way, users can carry on with the
+#' skip link or Tab into the content.
 #'
 #' @returns NULL, called for side effects
 #' @family Govstyle navigation
@@ -83,8 +108,26 @@ navigate_to <- function(
   session,
   tabset_id, # nolint: object_name_linter.
   inputId, # nolint: object_name_linter.
-  panel = inputId
+  panel = inputId,
+  focus = TRUE
 ) {
   shiny::updateTabsetPanel(session, tabset_id, selected = panel)
   update_service_navigation(session, inputId)
+  if (isTRUE(focus)) {
+    focus_panel(session, tabset_id, panel)
+  }
+}
+
+#' Move focus to a tab panel once it is shown
+#'
+#' Sends the message handled in `inst/www/js/focus_management.js`. The
+#' tabset id is namespaced the same way `shiny::updateTabsetPanel()` does it,
+#' so this works from inside a module.
+#'
+#' @noRd
+focus_panel <- function(session, tabset_id, panel) {
+  session$sendCustomMessage(
+    "shinygovstyle_focus_panel",
+    list(tabset_id = session$ns(tabset_id), panel = panel)
+  )
 }

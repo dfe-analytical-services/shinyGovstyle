@@ -1,3 +1,52 @@
+# shinyGovstyle (development version)
+
+## New features
+
+* `service_navigation()` links can now go to ordinary URLs as well as pages
+  in the app. Give a link text as the name and a URL as the value, e.g.
+  `c("Summary" = "summary", "Guidance" = "https://www.gov.uk/guidance")`.
+  Values starting with `https://`, `http://`, `mailto:`, `/`, `./`, `../`,
+  `?` or `#` are treated as URLs. They open in the same tab and are never
+  marked as the current page.
+* `service_navigation()` gains `service_url`, so the service name can link
+  to a real page, such as the service's start page.
+
+## Bug fixes
+
+* `service_navigation()`'s service name is no longer a link to `"#"`, which
+  went nowhere. Without the new `service_url` it is shown as text, as in the
+  GOV.UK Design System.
+* The `service_navigation()` "Menu" button now appears below GOV.UK's tablet
+  breakpoint (641px), matching GOV.UK Frontend and the GOV.UK styles that lay
+  the links out in a row. Previously it switched at 769px, so between 641px
+  and 768px the links were hidden behind a "Menu" button inside the
+  wide-screen layout. The menu also stays open or closed when the window is
+  resized, as in GOV.UK Frontend.
+* Choosing a page from the open `service_navigation()` "Menu" on a small
+  screen now closes the menu and moves keyboard focus to the new page's
+  `<h1>` (or `<main>`), as a page load would on a GOV.UK service. Previously
+  the menu stayed open over the page.
+
+* `service_navigation_server()` now updates the active link and page title
+  when the tab is changed from the server, e.g. with `updateTabsetPanel()`.
+  You no longer need to call `update_service_navigation()` as well.
+* `service_navigation_server()` now clears the active link on pages that are
+  not in the navigation, such as footer pages, so screen readers no longer
+  announce the previous page as current.
+* `navigate_to()` now moves keyboard focus to the `<h1>` of the panel it
+  shows, or to `<main>` if the panel has no `<h1>`. Previously the next
+  button or back link that called it was hidden with the old panel, so
+  focus dropped to the top of the page and screen readers announced
+  nothing. Use `navigate_to(focus = FALSE)` to switch panels without moving
+  focus. On wider screens, clicking a `service_navigation()` link directly
+  still leaves focus on the link.
+* `cookieBanner()` confirmation messages now have `role="alert"` and
+  `tabindex="-1"`, as in the GOV.UK Design System, and focus moves to the
+  message after "Accept" or "Reject" so it is read out. After "Hide this
+  message", focus moves to `<main>` rather than being lost with the
+  hidden banner. This works with your existing server code. The banner's
+  `data-nosnippet` and `role` attributes are also now set separately.
+
 # shinyGovstyle 0.3.0
 
 This release is the transition to a stable v1.0.0. Functions and arguments

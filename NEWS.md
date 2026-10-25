@@ -20,7 +20,8 @@
   `<dl>` inside it, rather than the `<dl>` itself. The `<dl>` still has
   `inputId` as its id, so CSS, JavaScript and `shinytest2` selectors that use
   the id keep working. Code that changes the returned tag directly now acts
-  on the container; use `htmltools::tagQuery()` to reach the `<dl>`.
+  on the container; use `htmltools::tagQuery()` to reach the `<dl>`. The new
+  "Upgrading shinyGovstyle" vignette shows how.
 
 ## Bug fixes
 

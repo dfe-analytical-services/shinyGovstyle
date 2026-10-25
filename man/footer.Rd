@@ -4,7 +4,12 @@
 \alias{footer}
 \title{Footer Function}
 \usage{
-footer(full = FALSE, links = NULL, width = "standard")
+footer(
+  full = FALSE,
+  links = NULL,
+  width = "standard",
+  branding = c("generic", "govuk")
+)
 }
 \arguments{
 \item{full}{Whenever you want to have blank footer or official gov version.
@@ -21,6 +26,12 @@ GOV.UK's usual 960px content width), \code{"three-quarters"}
 \code{"full"} (no max-width, so the container fills the viewport, with
 grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
 \code{"90vw"}) for a custom max-width.}
+
+\item{branding}{\code{"generic"} (the default) for a footer without GOV.UK
+branding. \code{"govuk"} adds the GOV.UK crown at the top of the footer, as in
+the GOV.UK footer, which GOV.UK says to use only for services on the GOV.UK
+website. Use it with \code{\link[=header]{header()}}'s \code{branding = "govuk"}, and usually with
+\code{full = TRUE} for the Open Government Licence and Crown copyright.}
 }
 \value{
 a footer HTML shiny tag object
@@ -45,8 +56,7 @@ ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
-    logo = "shinyGovstyle/images/moj_logo.png",
-    logo_alt_text = "Ministry of Justice logo"
+    logo = "shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", "This is a new service"
@@ -61,6 +71,9 @@ if (interactive()) shinyApp(ui = ui, server = server)
 
 # Add links
 footer(links = c("Accessibility statement", "Cookies"))
+
+# The GOV.UK footer, only for services on the GOV.UK website
+footer(full = TRUE, branding = "govuk")
 
 # Add links, internal and external
 footer(
@@ -77,8 +90,7 @@ ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
-    logo = "shinyGovstyle/images/moj_logo.png",
-    logo_alt_text = "Ministry of Justice logo"
+    logo = "shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::phase_banner(
     inputId = "banner", type = "beta", "This is a new service"

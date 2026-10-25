@@ -20,6 +20,11 @@
 #' are auto-generated and are the snake case version of the link text, e.g.
 #' "Accessibility Statement" will have an inputID of accessibility_statement
 #' @inheritParams width_arg
+#' @param branding `"generic"` (the default) for a footer without GOV.UK
+#' branding. `"govuk"` adds the GOV.UK crown at the top of the footer, as in
+#' the GOV.UK footer, which GOV.UK says to use only for services on the GOV.UK
+#' website. Use it with [header()]'s `branding = "govuk"`, and usually with
+#' `full = TRUE` for the Open Government Licence and Crown copyright.
 #' @return a footer HTML shiny tag object
 #' @family Govstyle page structure
 #' @export
@@ -28,8 +33,7 @@
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
-#'     logo = "shinyGovstyle/images/moj_logo.png",
-#'     logo_alt_text = "Ministry of Justice logo"
+#'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", "This is a new service"
@@ -44,6 +48,9 @@
 #'
 #' # Add links
 #' footer(links = c("Accessibility statement", "Cookies"))
+#'
+#' # The GOV.UK footer, only for services on the GOV.UK website
+#' footer(full = TRUE, branding = "govuk")
 #'
 #' # Add links, internal and external
 #' footer(
@@ -60,8 +67,7 @@
 #'   shinyGovstyle::header(
 #'     org_name = "Example",
 #'     service_name = "User Examples",
-#'     logo = "shinyGovstyle/images/moj_logo.png",
-#'     logo_alt_text = "Ministry of Justice logo"
+#'     logo = "shinyGovstyle/images/moj_logo.png"
 #'   ),
 #'   shinyGovstyle::phase_banner(
 #'     inputId = "banner", type = "beta", "This is a new service"
@@ -117,7 +123,13 @@
 #' }
 #'
 #' if (interactive()) shinyApp(ui = ui, server = server)
-footer <- function(full = FALSE, links = NULL, width = "standard") {
+footer <- function(
+  full = FALSE,
+  links = NULL,
+  width = "standard",
+  branding = c("generic", "govuk")
+) {
+  branding <- match.arg(branding)
   wc <- gov_width_container(width, is_default = missing(width))
 
   if (is.null(names(links))) {
@@ -134,6 +146,11 @@ footer <- function(full = FALSE, links = NULL, width = "standard") {
     shiny::div(
       class = wc$class,
       style = wc$style,
+      # The GOV.UK footer starts with the crown, without the GOV.UK wordmark.
+      # It is decorative: the header already names the service as GOV.UK.
+      if (branding == "govuk") {
+        govuk_logo_svg("govuk-footer__crown", logotype = FALSE)
+      },
       shiny::div(
         class = "govuk-footer__meta",
         if (full == FALSE) {

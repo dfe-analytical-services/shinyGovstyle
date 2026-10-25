@@ -87,3 +87,22 @@ test_that("a custom width sets an inline max-width style", {
     "max-width: 90vw;"
   )
 })
+
+test_that("branding = 'govuk' adds the decorative GOV.UK crown", {
+  f <- footer(full = TRUE, branding = "govuk")
+  crown <- find_tag_required(f, "govuk-footer__crown")
+  expect_identical(crown$name, "svg")
+  expect_identical(htmltools::tagGetAttribute(crown, "role"), "presentation")
+  expect_identical(htmltools::tagGetAttribute(crown, "viewBox"), "0 0 64 60")
+  expect_null(htmltools::tagGetAttribute(crown, "aria-label"))
+  # The crown alone, without the GOV.UK wordmark
+  expect_no_tag(crown, "govuk-logo-dot")
+  # The licence and copyright are unchanged
+  expect_has_tag(f, "govuk-footer__licence-description")
+  expect_has_tag(f, "govuk-footer__copyright-logo")
+})
+
+test_that("the default footer has no GOV.UK crown", {
+  expect_no_tag(footer(full = TRUE), "govuk-footer__crown")
+  expect_error(footer(branding = "crown"), "should be one of")
+})

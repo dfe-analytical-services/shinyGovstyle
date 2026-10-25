@@ -1,4 +1,13 @@
-# shinyGovstyle 0.3.0.9000 (development)
+# shinyGovstyle (development version)
+
+## New features
+
+* `header()` and `footer()` gain `branding = "govuk"` for services on the
+  GOV.UK website. The header shows the GOV.UK logo, as in GOV.UK Frontend's
+  GOV.UK header, linking to `https://www.gov.uk/` unless you set
+  `homepage_url`; `service_name` is still shown as the centred service title.
+  The footer gains the GOV.UK crown. The default, `branding = "generic"`, is
+  unchanged.
 
 ## Breaking changes planned for v1.0.0
 
@@ -10,8 +19,9 @@
   `homepage_url` for your app; the default `/` points to the domain root, so an
   app hosted under `/my-app/` should use `homepage_url = "/my-app/"`.
 * The default is now text only (`logo = NULL`). Supply your own logo explicitly.
-  `logo = "crown"` now errors: replace it with `NULL` or your own logo path and
-  suitable `logo_alt_text`.
+  `logo = "crown"` now errors: for the GOV.UK logo use `branding = "govuk"`
+  (only for services on GOV.UK); otherwise replace it with `NULL` or your own
+  logo path and suitable `logo_alt_text`.
 * `logo_alt_text` now defaults to `""`, so a logo beside the organisation name
   is decorative and the homepage link is announced once. An image-only identity
   (`org_name = NULL`) must supply meaningful `logo_alt_text` or `header()`

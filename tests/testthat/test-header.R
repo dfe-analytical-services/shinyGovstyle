@@ -118,7 +118,7 @@ test_that("an image-only identity needs alternative text by default", {
 test_that("crown shortcut errors with migration guidance", {
   expect_error(
     header(org_name = "Test", logo = "crown"),
-    "Use `logo = NULL`.*own logo path"
+    "use `logo = NULL`.*own logo path"
   )
 })
 
@@ -351,5 +351,65 @@ test_that("customisation hooks reject ambiguous attributes", {
   expect_error(
     header(attributes = list(role = "navigation")),
     "banner role is fixed"
+  )
+})
+
+# GOV.UK branding ------------------------------------------------------------
+
+test_that("branding = 'govuk' renders the GOV.UK header and logotype", {
+  h <- header(service_name = "My service", branding = "govuk")
+
+  expect_identical(htmltools::tagGetAttribute(h, "role"), "banner")
+  expect_has_tag(h, "govuk-header")
+  expect_has_tag(h, "govuk-header__container")
+  expect_no_tag(h, "govuk-generic-header")
+
+  link <- find_tag_required(h, "govuk-header__homepage-link")
+  expect_identical(
+    htmltools::tagGetAttribute(link, "href"),
+    "https://www.gov.uk/"
+  )
+
+  logo <- find_tag_required(h, "govuk-header__logotype")
+  expect_identical(logo$name, "svg")
+  expect_identical(htmltools::tagGetAttribute(logo, "role"), "img")
+  expect_identical(htmltools::tagGetAttribute(logo, "aria-label"), "GOV.UK")
+  expect_identical(htmltools::tagGetAttribute(logo, "viewBox"), "0 0 324 60")
+  expect_has_tag(logo, "govuk-logo-dot")
+
+  # The service title is kept as the shinyGovstyle extension
+  expect_identical(
+    tag_text(h, "shinygovstyle-header__service-name"),
+    "My service"
+  )
+  expect_no_tag(h, "shinygovstyle-header__organisation")
+})
+
+test_that("GOV.UK header keeps a custom homepage_url", {
+  h <- header(branding = "govuk", homepage_url = "/my-service/")
+  link <- find_tag_required(h, "govuk-header__homepage-link")
+  expect_identical(htmltools::tagGetAttribute(link, "href"), "/my-service/")
+})
+
+test_that("GOV.UK header warns that org_name and logo are ignored", {
+  expect_warning(
+    header(org_name = "Department", branding = "govuk"),
+    "`org_name` and `logo` are ignored"
+  )
+  expect_warning(
+    header(logo = "shinyGovstyle/images/moj_logo.png", branding = "govuk"),
+    "ignored"
+  )
+  expect_no_warning(header(branding = "govuk"))
+})
+
+test_that("branding must be generic or govuk", {
+  expect_error(header("Org", branding = "crown"), "should be one of")
+})
+
+test_that("crown shortcut points to branding = 'govuk'", {
+  expect_error(
+    header(org_name = "Test", logo = "crown"),
+    'branding = "govuk"'
   )
 })

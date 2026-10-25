@@ -20,7 +20,8 @@ header(
   width = "standard",
   homepage_url = "/",
   classes = NULL,
-  attributes = list()
+  attributes = list(),
+  branding = c("generic", "govuk")
 )
 }
 \arguments{
@@ -67,6 +68,14 @@ root). For an app hosted at \verb{https://example.org/my-app/}, use
 \item{attributes}{Named list of HTML attributes for the outer header,
 such as \code{list(id = "site-header")} or a named \code{data-brand} attribute.
 Use \code{classes} for CSS classes; the banner role cannot be overridden.}
+
+\item{branding}{\code{"generic"} (the default) for your organisation's own name
+and logo, using GOV.UK Frontend's Generic header. \code{"govuk"} for the GOV.UK
+header, with the GOV.UK logo, which GOV.UK says to use only for services
+on the GOV.UK website. With \code{"govuk"}, \code{org_name} and \code{logo} don't apply
+(passing them gives a warning), \code{homepage_url} defaults to
+\code{"https://www.gov.uk/"}, and \code{service_name} is still shown as the centred
+service title. Use \code{\link[=footer]{footer()}} with \code{branding = "govuk"} to match.}
 }
 \value{
 A header HTML Shiny tag object.
@@ -97,6 +106,9 @@ header(
   logo = "shinyGovstyle/images/moj_logo.png",
   homepage_url = "/my-app/"
 )
+
+# The GOV.UK header, only for services on the GOV.UK website
+header(service_name = "Check your state pension", branding = "govuk")
 }
 \seealso{
 Other Govstyle page structure:

@@ -249,9 +249,56 @@ expect_has_tag <- function(x, class) {
   invisible(node)
 }
 
+# find_reactable_col() returns the serialised column definition with `id` from
+# a govReactable() / reactable() widget, erroring unless there is exactly one.
+# Column order in the payload follows the data frame, so look columns up by id
+# rather than by position.
+find_reactable_col <- function(table, id) {
+  cols <- table$x$tag$attribs$columns
+  hits <- Filter(function(col) identical(col$id, id), cols)
+  if (length(hits) != 1L) {
+    stop(
+      sprintf(
+        "Expected exactly one reactable column with id %s, found %d",
+        shQuote(id),
+        length(hits)
+      ),
+      call. = FALSE
+    )
+  }
+  hits[[1L]]
+}
+
 # expect_no_tag() asserts no tag with `class` is present.
 expect_no_tag <- function(x, class) {
   testthat::expect_null(find_tag(x, class))
+}
+
+# caption_links() pairs up the caption heading ids and the aria-labelledby
+# values of the role="region" wrappers from a captioned govReactable() or
+# govReactableOutput(), in document order, so tests can check each table
+# points at its own caption without hard-coding generated ids.
+caption_links <- function(x, heading_class = "govuk-heading-l") {
+  regions <- Filter(
+    function(div) identical(htmltools::tagGetAttribute(div, "role"), "region"),
+    find_tags_by_name(x, "div")
+  )
+  list(
+    heading_ids = vapply(
+      find_tags(x, heading_class),
+      htmltools::tagGetAttribute,
+      character(1),
+      attr = "id",
+      USE.NAMES = FALSE
+    ),
+    labelledby = vapply(
+      regions,
+      htmltools::tagGetAttribute,
+      character(1),
+      attr = "aria-labelledby",
+      USE.NAMES = FALSE
+    )
+  )
 }
 
 # dependency_names() lists the names of every htmlDependency attached anywhere

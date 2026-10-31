@@ -21,9 +21,61 @@
   a mouse, and screen readers announce it using the table's caption
   (`govTable()`) or the tab's heading (`govTabs()`). A table that fits adds
   no extra tab stop.
+* `govReactable()` now right-aligns numeric columns automatically, as its
+  documentation always said it did and as GOV.UK recommends for comparing
+  numbers. Previously every column not named in `right_col` was
+  left-aligned. `right_col` still right-aligns extra columns, such as numbers
+  stored as text like `"£85"`. To keep a numeric column left-aligned, pass
+  `columns = list(<column> = reactable::colDef(align = "left"))`.
+
+## New features
+
+* Sortable `govReactable()` column headings are now buttons, so screen
+  readers announce them as something you can select, and voice control
+  software can select them by their visible text, for example "click Months"
+  (see issue #190). Each heading also shows a permanent up and down arrow,
+  which changes to a single up or down arrow once the table is sorted by
+  that column, and the whole heading can be clicked. A `headerClass` set
+  through the `columns` argument is now added alongside the sort styling
+  rather than replacing it, and a column set to `sortable = FALSE` doesn't
+  show the arrows. A custom `header` set through `columns` is shown inside
+  the sort button, so it shouldn't contain links or other interactive
+  content, and a header written with `JS()` on a sortable column gives an
+  error because the button can't be added to it.
+* `govReactable()` gains a `language` argument, so you can still translate
+  reactable's text (such as the pagination buttons) with
+  `reactable::reactableLang()`. `sortLabel` is always set so each heading's
+  accessible name matches its visible text; setting it yourself gives a
+  warning.
+* `govReactable()` gains `caption`, `subtitle`, `caption_size`,
+  `heading_level`, and `caption_id` arguments, mirroring
+  `govReactableOutput()`, so a title can be added to a static table (e.g. in
+  R Markdown/Quarto) without a separate `heading_text()` call (#158).
+* `govReactable()` and `govReactableOutput()` captions can now be an `<h1>`
+  with `heading_level = 1`, for an app whose page is a single table. Both
+  take an integer from 1 to 5; the default is still 2.
+* `govTable()`, `govReactable()`, and `govReactableOutput()` gain a
+  `subtitle` argument, following the Analysis Function guidance on table
+  titles: a short headline in `caption` stating the message, with what the
+  data is, where and when in `subtitle` underneath. Both form the table's
+  accessible name. See the new "Table titles" section in each function's
+  help page.
+* New `update_reactable_caption()` changes a `govReactableOutput()` caption,
+  subtitle, or both from the server, so the title (and the table's accessible
+  name) can keep describing the data after a filter changes it. Works inside
+  Shiny modules.
 
 ## Bug fixes
 
+* `govReactable()`'s and `govReactableOutput()`'s `caption` is now
+  programmatically linked to the table via `aria-labelledby`, so screen
+  reader users are told what the table is about. Previously the caption
+  heading and the table had no relationship beyond visual proximity. Each
+  caption gets a unique id: `govReactableOutput()` uses
+  `"<output_table_name>-caption"`, and `govReactable()` generates one (or
+  takes your own via the new `caption_id` argument). `caption` also now
+  accepts tags and `shiny::HTML()` for deliberate markup; plain text is still
+  escaped, so a caption built from user input can't inject HTML.
 * `govTabs()` now shows the first tab's panel when the page loads.
   Previously every panel started hidden, even though the first tab was
   marked as selected.

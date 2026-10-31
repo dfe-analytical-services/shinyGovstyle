@@ -131,6 +131,10 @@ test_that("headers that give the same input ID error", {
     gov_summary("sumID", c("Name", "?"), c("a", "b"), action = TRUE),
     "letter or number"
   )
+  expect_error(
+    gov_summary("sumID", c(1, 2), c("a", "b"), action = TRUE),
+    "must be a character vector"
+  )
   # Duplicate headers are fine when there are no actions.
   expect_no_error(
     gov_summary("sumID", c("Name", "Name"), c("a", "b"), action = FALSE)

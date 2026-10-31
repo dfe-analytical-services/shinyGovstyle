@@ -1,11 +1,32 @@
 # shinyGovstyle (development version)
 
+## New features
+
+* `gov_summary()` gains a `rows` argument, a list of row specs, for GOV.UK
+  summary list variants the vector API can't express: removing the border
+  from a single row (`no_border = TRUE`) and tags as keys. The `headers` and
+  `info` arguments work as before.
+* New `gov_summary_card()` wraps a summary list in a GOV.UK summary card with
+  a title, for pages that show several summary lists.
+
 ## Breaking changes
 
 * `gov_summary()` no longer has an `action` argument; remove it from any calls.
+* `gov_summary()` now returns a `<div>` container with the summary list
+  `<dl>` inside it, rather than the `<dl>` itself. The `<dl>` still has
+  `inputId` as its id, so CSS, JavaScript and `shinytest2` selectors that use
+  the id keep working. Code that changes the returned tag directly now acts
+  on the container; use `htmltools::tagQuery()` to reach the `<dl>`. The new
+  "Upgrading shinyGovstyle" vignette shows how.
 
 ## Bug fixes
 
+* `gov_summary()` keys no longer break mid-word in narrow columns (#89).
+  GOV.UK Frontend switches the summary list to a side-by-side layout at a
+  641px screen width, which leaves the key column too narrow inside a column
+  such as `gov_box(size = "two-thirds")`. The list now switches based on its
+  own width instead, staying stacked until it is as wide as a full-width
+  GOV.UK list at that breakpoint (about 580px).
 * `govTable()` no longer fails with "incorrect number of dimensions" when
   given a data frame with a single column.
 * `gov_summary()`, `gov_text()`, `download_button()`, `download_link()` and

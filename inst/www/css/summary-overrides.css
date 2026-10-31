@@ -1,0 +1,67 @@
+/*
+ * Summary list and summary card overrides, attached by gov_summary() and
+ * gov_summary_card().
+ *
+ * 1. Layout follows the component's width, not the screen's.
+ *
+ * GOV.UK Frontend switches the summary list to a side-by-side table at a
+ * 641px (40.0625em) viewport. That suits a full-width list, but in a Shiny
+ * column (e.g. gov_box(size = "two-thirds")) the 30% key column can be as
+ * narrow as 110-145px, so words like "Correspondence" break mid-word (#89).
+ *
+ * Instead, each summary list (or summary card) is a container, and it uses
+ * GOV.UK's mobile, stacked styles whenever the component itself is 36.125rem
+ * (578px) wide or less. A full-width GOV.UK component at the 641px breakpoint
+ * is 581px wide (579px inside a card's border), so the side-by-side layout is
+ * used from the same component width as in GOV.UK Frontend, and never at a
+ * narrower one. Browsers without container queries get GOV.UK Frontend's own
+ * behaviour.
+ *
+ * The rules below repeat GOV.UK Frontend's mobile rules. Each selector starts
+ * with .shinygovstyle-summary so it outranks GOV.UK's tablet rules.
+ */
+.shinygovstyle-summary {
+    container-name: shinygovstyle-summary;
+    container-type: inline-size;
+}
+
+@container shinygovstyle-summary (max-width: 36.125rem) {
+    .shinygovstyle-summary .govuk-summary-list {
+        display: block;
+    }
+
+    .shinygovstyle-summary .govuk-summary-list__row {
+        display: block;
+        margin-bottom: 15px;
+    }
+
+    .shinygovstyle-summary .govuk-summary-list__key,
+    .shinygovstyle-summary .govuk-summary-list__value {
+        display: block;
+        width: auto;
+        padding: 0;
+        text-align: start;
+        vertical-align: baseline;
+    }
+
+    .shinygovstyle-summary .govuk-summary-list__value {
+        margin-bottom: 15px;
+    }
+
+    .shinygovstyle-summary .govuk-summary-card__content .govuk-summary-list__row:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .shinygovstyle-summary .govuk-summary-card__title-wrapper {
+        display: block;
+        padding: 15px;
+    }
+
+    .shinygovstyle-summary .govuk-summary-card__title {
+        margin-bottom: 10px;
+    }
+
+    .shinygovstyle-summary .govuk-summary-card__content {
+        padding: 15px 15px 0;
+    }
+}

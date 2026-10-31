@@ -4,31 +4,57 @@
 \alias{gov_summary}
 \title{Summary list}
 \usage{
-gov_summary(inputId, headers, info, border = TRUE)
+gov_summary(inputId, headers = NULL, info = NULL, rows = NULL, border = TRUE)
 }
 \arguments{
 \item{inputId}{The id assigned to the component's root element. For Shiny
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{headers}{character vector of row headers (the keys)}
+\item{headers}{Character vector of row headers (the keys). Used with the
+vector API. Ignored when \code{rows} is supplied.}
 
 \item{info}{Summary information values for the table. Each value accepts a
 plain character string, or \code{shiny} tag objects such as
 \code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}. Pass a list rather than a
-character vector to mix tag and string values.}
+character vector to mix tag and string values. Used with the vector API.
+Ignored when \code{rows} is supplied.}
 
-\item{border}{set if the table should have borders. Default set
-to \code{TRUE}}
+\item{rows}{A list of row spec lists for the richer API. Each element is a
+named list with the following fields:
+\describe{
+\item{\code{key}}{Required. A character string or htmltools/shiny tag for the
+key column.}
+\item{\code{value}}{Required. A character string or htmltools/shiny tag for
+the value column.}
+\item{\code{no_border}}{Optional logical. Set \code{TRUE} to remove this row's
+border.}
+}}
+
+\item{border}{Whether to show borders between rows. Default \code{TRUE}.}
 }
 \value{
-a summary list table HTML shiny tag object
+A \code{div} HTML shiny tag object holding the summary list \verb{<dl>},
+which has \code{inputId} as its id. The \code{div} lets the list change layout
+based on its own width.
 }
 \description{
-This function creates a GOV.UK summary list: a set of key and value pairs.
+Creates a GOV.UK summary list: a set of key and value pairs. Supports a
+simple vector API and a row-spec list API that covers per-row borders and
+HTML keys. To show several lists that need telling apart, wrap each in
+\code{\link[=gov_summary_card]{gov_summary_card()}}.
+}
+\details{
+The list switches between GOV.UK's stacked and side-by-side layouts based
+on its own width rather than the screen's. It stays stacked until it is
+as wide as a full-width GOV.UK list at GOV.UK's 641px breakpoint (about
+580px), so in a narrow column, such as
+\code{gov_box(size = "two-thirds")}, the key column is never too narrow for
+ordinary words. Browsers without CSS container queries use GOV.UK's
+screen-width breakpoint instead.
 }
 \examples{
-# Create an example dataset
+# Vector API
 headers <- c(
   "Name",
   "Date of birth",
@@ -45,8 +71,7 @@ info <- c(
 ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
-    service_name = "User Examples",
-    logo="shinyGovstyle/images/moj_logo.png"
+    service_name = "User Examples"
   ),
   shinyGovstyle::gov_main_layout(
     shinyGovstyle::gov_summary("sumID", headers, info)
@@ -56,11 +81,35 @@ ui <- shinyGovstyle::gov_page(
 
 server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
+
+# Rows API with a borderless row and a tag as a key
+rows <- list(
+  list(key = "Name", value = "Sarah Philips", no_border = TRUE),
+  list(
+    key = shiny::tags$abbr(title = "Date of birth", "DOB"),
+    value = "5 January 1978"
+  )
+)
+
+ui2 <- shinyGovstyle::gov_page(
+  shinyGovstyle::header(
+    org_name = "Example",
+    service_name = "User Examples"
+  ),
+  shinyGovstyle::gov_main_layout(
+    shinyGovstyle::gov_summary("sumID2", rows = rows)
+  ),
+  shinyGovstyle::footer(full = TRUE)
+)
+if (interactive()) {
+  shinyApp(ui = ui2, server = function(input, output, session) {})
+}
 }
 \seealso{
 Other Govstyle feedback types:
 \code{\link[=confirmation_panel]{confirmation_panel()}},
 \code{\link[=details]{details()}},
+\code{\link[=gov_summary_card]{gov_summary_card()}},
 \code{\link[=gov_tag]{gov_tag()}},
 \code{\link[=inset_text]{inset_text()}},
 \code{\link[=label_hint]{label_hint()}},

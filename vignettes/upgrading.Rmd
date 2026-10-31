@@ -1,0 +1,52 @@
+---
+title: "Upgrading shinyGovstyle"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Upgrading shinyGovstyle}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This guide covers changes on the way to shinyGovstyle 1.0.0 that may need updates to your app's code. Check `NEWS.md` for the full list of changes in each release.
+
+## Components that now return a wrapper `<div>`
+
+Some components now wrap their main element in a `<div>`, so they can adapt to the space they are given. In each case:
+
+- The main element keeps `inputId` as its `id`, so CSS, JavaScript and `shinytest2` selectors that use the id, such as `#my_table`, carry on working.
+- Most apps need no changes. You only need to update code that edits or inspects the tag a component returns, for example with `htmltools::tagAppendAttributes()` or by checking `$name`.
+- To reach the main element, use `htmltools::tagQuery()`.
+
+### `gov_summary()`
+
+`gov_summary()` now returns a `<div class="shinygovstyle-summary">` with the summary list `<dl>` inside it. The list switches between its stacked and side-by-side layouts based on the width of this container, rather than the width of the screen, so keys don't break mid-word in a narrow column.
+
+Before, `gov_summary()` returned the `<dl>` itself:
+
+```{r, eval = FALSE}
+# Before: worked on the <dl>
+gov_summary("answers", headers, info) |>
+  htmltools::tagAppendAttributes(`data-section` = "applicant")
+
+# Now this adds the attribute to the wrapper <div> instead
+```
+
+Now, reach the `<dl>` with `htmltools::tagQuery()`:
+
+```{r, eval = FALSE}
+htmltools::tagQuery(gov_summary("answers", headers, info))$
+  find("dl")$
+  addAttrs(`data-section` = "applicant")$
+  allTags()
+```
+
+Code that checked `gov_summary(...)$name == "dl"` should check the `<dl>` found this way instead.
+
+`gov_summary_card()` is new, so it has nothing to migrate. The card's outer `<div>` is its layout container.

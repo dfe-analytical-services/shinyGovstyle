@@ -91,6 +91,31 @@ mod_feedback_types_ui <- function(id) {
         "72 Guild Street <br> London <br> SE23 6FH",
         "07700 900457 <br> sarah.phillips@example.com"
       )
+    ),
+    shinyGovstyle::heading_text(
+      "gov_summary with the rows API",
+      size = "s",
+      level = 2
+    ),
+    shinyGovstyle::gov_summary(
+      shiny::NS(id, "sumID2"),
+      rows = list(
+        list(key = "Name", value = "Sarah Philips"),
+        list(key = "Date of birth", value = "5 January 1978", no_border = TRUE),
+        list(
+          key = shiny::tags$abbr(title = "Telephone", "Tel."),
+          value = "07700 900457"
+        )
+      )
+    ),
+    shinyGovstyle::heading_text("gov_summary_card", size = "s", level = 2),
+    shinyGovstyle::gov_summary_card(
+      inputId = shiny::NS(id, "cardID"),
+      title = "Lead tenant",
+      rows = list(
+        list(key = "Age", value = "38"),
+        list(key = "Nationality", value = "French")
+      )
     )
   )
 }

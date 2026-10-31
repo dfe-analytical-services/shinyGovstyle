@@ -61,3 +61,100 @@ test_that("gov_summary attaches the GOV.UK stylesheet", {
   summary_check <- gov_summary("sumID", c("Name"), c("Sarah Philips"))
   expect_true("stylecss" %in% dependency_names(summary_check))
 })
+
+test_that("gov_summary attaches the summary-overrides stylesheet", {
+  out <- gov_summary("sumID", c("Name"), c("Sarah Philips"))
+  deps <- htmltools::findDependencies(out)
+  summary_dep <- Filter(function(d) identical(d$name, "summary"), deps)
+  expect_length(summary_dep, 1)
+  expect_identical(summary_dep[[1]]$stylesheet, "summary-overrides.css")
+})
+
+test_that("gov_summary wraps the list in its layout container", {
+  out <- gov_summary("sumID", c("Name"), c("Sarah Philips"))
+  expect_identical(
+    htmltools::tagGetAttribute(out, "class"),
+    "shinygovstyle-summary"
+  )
+  summary_dl <- find_tag_required(out, "govuk-summary-list")
+  expect_identical(summary_dl$name, "dl")
+  expect_identical(htmltools::tagGetAttribute(summary_dl, "id"), "sumID")
+})
+
+## ---- rows API ---------------------------------------------------------------
+
+test_that("rows API: no_border = TRUE removes the row's border", {
+  out <- gov_summary(
+    "sumID",
+    rows = list(
+      list(key = "Name", value = "Sarah", no_border = TRUE),
+      list(key = "Age", value = "38")
+    )
+  )
+  expect_length(find_tags(out, "govuk-summary-list__row--no-border"), 1)
+})
+
+test_that("rows API: a tag passed as key is rendered as-is", {
+  out <- gov_summary(
+    "sumID",
+    rows = list(list(
+      key = shiny::tags$span(class = "custom-key", "My key"),
+      value = "val"
+    ))
+  )
+  key_cell <- find_tag_required(out, "govuk-summary-list__key")
+  expect_identical(tag_text(key_cell, "custom-key"), "My key")
+})
+
+## ---- gov_summary_card -------------------------------------------------------
+
+summary_card <- function(...) {
+  gov_summary_card(
+    inputId = "cardID",
+    title = "Lead tenant",
+    rows = list(list(key = "Age", value = "38")),
+    ...
+  )
+}
+
+test_that("gov_summary_card wraps the list in the card structure", {
+  out <- summary_card()
+  expect_identical(
+    htmltools::tagGetAttribute(out, "class"),
+    "govuk-summary-card shinygovstyle-summary"
+  )
+  # The card is the layout container, so its list isn't wrapped in another
+  expect_length(find_tags(out, "shinygovstyle-summary"), 1)
+  content <- find_tag_required(out, "govuk-summary-card__content")
+  expect_has_tag(content, "govuk-summary-list")
+  expect_true("summary" %in% dependency_names(content))
+})
+
+test_that("gov_summary_card title defaults to an h2", {
+  title <- find_tag_required(summary_card(), "govuk-summary-card__title")
+  expect_identical(title$name, "h2")
+  expect_identical(tag_text(title, "govuk-summary-card__title"), "Lead tenant")
+})
+
+test_that("gov_summary_card heading_level sets the title's tag name", {
+  out <- summary_card(heading_level = 3L)
+  expect_identical(
+    find_tag_required(out, "govuk-summary-card__title")$name,
+    "h3"
+  )
+})
+
+test_that("gov_summary_card errors on an invalid heading_level", {
+  expect_error(summary_card(heading_level = 7L), "heading_level")
+})
+
+test_that("gov_summary_card errors on a missing or non-string title", {
+  expect_error(
+    gov_summary_card("cardID", title = "", rows = list()),
+    "`title` must be a single, non-empty string"
+  )
+  expect_error(
+    gov_summary_card("cardID", title = c("A", "B"), rows = list()),
+    "`title`"
+  )
+})

@@ -21,6 +21,7 @@
   a mouse, and screen readers announce it using the table's caption
   (`govTable()`) or the tab's heading (`govTabs()`). A table that fits adds
   no extra tab stop.
+* `gov_summary()` no longer has an `action` argument; remove it from any calls.
 
 ## Bug fixes
 
@@ -43,13 +44,6 @@
   `skip_to_main()` now attach the GOV.UK stylesheet themselves. Previously
   they were only styled when another shinyGovstyle component on the page had
   loaded it.
-* `gov_summary(action = TRUE)` now gives each "Change" button its own input
-  ID, `paste0(inputId, "_", slug)`, where the slug is the lowercased header
-  with gaps replaced by `_` (for example `input$sumID_date_of_birth`).
-  Previously every button had the ID `"TRUE"`, so rows could not be told
-  apart. Headers that give the same slug now give an error, and each button
-  includes visually hidden text so screen readers hear "Change name" rather
-  than a bare "Change".
 
 # shinyGovstyle 0.3.0
 

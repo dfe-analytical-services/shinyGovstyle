@@ -2,6 +2,10 @@
 #'
 #' This function creates a tabs based table. It requires a single dataframe
 #' with a grouping variable.
+#'
+#' Every tab and panel id is prefixed with `inputId`, so several `govTabs()`
+#' on one page work independently, even when they share the same group
+#' values. The first tab is selected when the page loads.
 #' @inheritParams id_arg
 #' @param df A single dataframe with all data. See example for structure
 #' @param group_col The column name with the groups to be used as tabs
@@ -30,129 +34,159 @@ govTabs <- # nolint
     df,
     group_col
   ) {
-    tabs <- unique(df[[group_col]])
-    tab_headers <- create_tabs(tabs, inputId)
+    tabs <- as.character(unique(df[[group_col]]))
+    tab_ids <- tab_slugs(tabs)
+    is_first <- seq_along(tabs) == 1L
+    value_cols <- setdiff(names(df), group_col)
 
-    # Select the first tab as the selected one
-    tab_headers$children[[1]][[1]]$attribs$class <-
-      "govuk-tabs__list-item govuk-tabs__list-item--selected"
-    tab_headers$children[[1]][[1]]$children[[1]]$attribs$`aria-selected` <-
-      "true"
-    tab_headers$children[[1]][[1]]$children[[1]]$attribs$tabindex <- "0"
+    panels <- lapply(seq_along(tabs), function(i) {
+      # Filter to this tab's rows and drop the grouping column. drop = FALSE
+      # keeps a data frame when only one value column is left.
+      temp_table <- df[
+        which(df[[group_col]] == tabs[[i]]),
+        value_cols,
+        drop = FALSE
+      ]
+      rows <- lapply(seq_len(nrow(temp_table)), function(j) {
+        create_tab_row(temp_table[j, , drop = FALSE])
+      })
+      create_tab_table(
+        temp_table,
+        rows,
+        tabs[[i]],
+        tab_ids[[i]],
+        inputId,
+        is_first[[i]]
+      )
+    })
 
-    main_temp_hold <- NULL
-    # This needs to make up the tables on each tab
-    for (i in tabs) {
-      # filter through tabs and drop the grouping value
-      temp_table <- df[df[[group_col]] == i, ]
-      temp_table[group_col] <- NULL
-      # Create row by row the main bulk of table to insert later
-      main_row_store <- NULL
-      for (j in seq_len(nrow(temp_table))) {
-        temp_row_store <- create_tab_row(temp_table[j, ])
-        main_row_store <- shiny::tagList(temp_row_store, main_row_store)
-      }
-
-      temp_hold <- create_tab_table(temp_table, main_row_store, i, inputId)
-      main_temp_hold <- shiny::tagList(main_temp_hold, temp_hold)
-    }
-
-    # Put the lime with coconut and create the final thing
     main_tab_div <- shiny::tags$div(
-      class = "govuk-frontend-supported",
+      # govuk-frontend-supported switches on the tabs layout in the GOV.UK
+      # stylesheet. GOV.UK puts it on <body> once its own JS has loaded, which
+      # shinyGovstyle does not do, so it goes on the component instead.
+      class = "govuk-tabs govuk-frontend-supported",
+      id = inputId,
       shiny::tags$h2(class = "govuk-tabs__title", "Contents"),
-      tab_headers,
-      main_temp_hold
+      create_tabs(tabs, tab_ids, inputId, is_first),
+      panels
     )
-
-    # unhide first tab
-    main_tab_div$children[[3]][[1]][[1]][[1]][[2]][[2]]$class <-
-      "govuk-tabs__panel"
 
     attachDependency(main_tab_div, "govTab")
   }
+
+# Turn tab labels into unique, selector-safe id fragments.
+tab_slugs <- function(tabs) {
+  slugs <- gsub("[^a-z0-9]+", "-", tolower(tabs))
+  slugs <- gsub("^-+|-+$", "", slugs)
+  slugs[slugs == ""] <- "tab"
+  make.unique(slugs, sep = "-")
+}
+
+tab_id <- function(input_id, slug) {
+  paste0(input_id, "-tab-", slug)
+}
+
+panel_id <- function(input_id, slug) {
+  paste0(input_id, "-panel-", slug)
+}
 
 create_tab_table <- function(
   df,
   rows,
   tab,
-  inputId # nolint
+  slug,
+  inputId, # nolint
+  is_first
 ) {
+  heading_id <- paste0(inputId, "-heading-", slug)
+
   shiny::tags$div(
-    class = "govuk-tabs__panel govuk-tabs__panel--hidden",
-    id = tolower(gsub(" ", "-", tab)),
-    name = paste0(tolower(gsub(" ", "-", tab)), "-", inputId, "-table"),
+    class = if (is_first) {
+      "govuk-tabs__panel"
+    } else {
+      "govuk-tabs__panel govuk-tabs__panel--hidden"
+    },
+    id = panel_id(inputId, slug),
     role = "tabpanel",
-    `aria-labelledby` = paste0(tolower(gsub(" ", "-", tab)), "-l-test"),
-    shiny::tags$h2(class = "govuk-heading-l", tab),
-    shiny::tags$table(
-      class = "govuk-table",
-      shiny::tags$thead(
-        class = "govuk-table__head",
-        shiny::tags$tr(
-          class = "govuk-table__row",
-          Map(
-            function(x) {
-              shiny::tags$th(
-                scope = "col",
-                class = "govuk-table__header",
-                x
-              )
-            },
-            x = colnames(df)
+    `aria-labelledby` = tab_id(inputId, slug),
+    shiny::tags$h2(class = "govuk-heading-l", id = heading_id, tab),
+    # Wide tables scroll inside their own container rather than the page; see
+    # table_scroll_container() for why this extends GOV.UK Frontend
+    table_scroll_container(
+      heading_id,
+      table = shiny::tags$table(
+        class = "govuk-table",
+        shiny::tags$thead(
+          class = "govuk-table__head",
+          shiny::tags$tr(
+            class = "govuk-table__row",
+            Map(
+              function(x) {
+                shiny::tags$th(
+                  scope = "col",
+                  class = "govuk-table__header",
+                  x
+                )
+              },
+              x = colnames(df)
+            )
           )
+        ),
+        shiny::tags$tbody(
+          class = "govuk-table__body",
+          rows
         )
-      ),
-      shiny::tags$tbody(
-        class = "govuk-table__body",
-        rows
       )
     )
   )
 }
 
 create_tab_row <- function(df_row) {
-  rowHTML <- # nolint
-    shiny::tags$tr(
-      class = "govuk-table__row",
-      Map(
-        function(x) {
-          shiny::tags$td(class = "govuk-table__cell", x)
-        },
-        x = df_row
-      )
+  shiny::tags$tr(
+    class = "govuk-table__row",
+    Map(
+      function(x) {
+        shiny::tags$td(class = "govuk-table__cell", x)
+      },
+      x = df_row
     )
+  )
 }
 
 create_tabs <- function(
   tabs_names,
-  inputId # nolint
+  slugs,
+  inputId, # nolint
+  is_first
 ) {
   shiny::tags$ul(
     class = "govuk-tabs__list",
-    id = paste0(inputId, "tab"),
     role = "tablist",
     Map(
-      function(x) {
+      function(x, slug, first) {
         shiny::tags$li(
-          name = paste0(tolower(gsub(" ", "-", x)), "-t"),
-          id = paste0(tolower(gsub(" ", "-", x)), "-test"),
-          class = "govuk-tabs__list-item",
+          class = if (first) {
+            "govuk-tabs__list-item govuk-tabs__list-item--selected"
+          } else {
+            "govuk-tabs__list-item"
+          },
           role = "presentation",
           shiny::tags$a(
             class = "govuk-tabs__tab",
-            name = paste0(tolower(gsub(" ", "-", x)), "-l"),
-            id = paste0(tolower(gsub(" ", "-", x)), "-l-test"),
-            href = paste0("#", tolower(gsub(" ", "-", x))),
+            id = tab_id(inputId, slug),
+            href = paste0("#", panel_id(inputId, slug)),
             role = "tab",
-            tabindex = "-1",
-            `aria-selected` = "false",
-            `aria-controls` = tolower(gsub(" ", "-", x)),
+            tabindex = if (first) "0" else "-1",
+            `aria-selected` = if (first) "true" else "false",
+            `aria-controls` = panel_id(inputId, slug),
             x
           )
         )
       },
-      x = tabs_names
+      x = tabs_names,
+      slug = slugs,
+      first = is_first,
+      USE.NAMES = FALSE
     )
   )
 }

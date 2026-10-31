@@ -1,5 +1,9 @@
 # shinyGovstyle (development version)
 
+## Breaking changes
+
+* `gov_summary()` no longer has an `action` argument; remove it from any calls.
+
 ## Bug fixes
 
 * `govTable()` no longer fails with "incorrect number of dimensions" when
@@ -8,10 +12,6 @@
   `skip_to_main()` now attach the GOV.UK stylesheet themselves. Previously
   they were only styled when another shinyGovstyle component on the page had
   loaded it.
-* `gov_summary(action = TRUE)` now gives each "Change" button its own input
-  ID (for example `input$sumID_date_of_birth`) instead of all sharing
-  `"TRUE"`, and adds visually hidden text so screen readers hear which row it
-  changes.
 
 # shinyGovstyle 0.3.0
 

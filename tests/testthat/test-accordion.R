@@ -111,3 +111,34 @@ test_that("descriptions accept rich block content (tagList)", {
   expect_match(html, "govuk-list--bullet", fixed = TRUE)
   expect_match(html, '<a href="https://www.gov.uk">Link</a>', fixed = TRUE)
 })
+
+test_that("each section button's aria-controls points at its content", {
+  accordion_check <- accordion(
+    "acc1",
+    c("Section one", "Section two"),
+    c("Content one", "Content two")
+  )
+
+  buttons <- find_tags(accordion_check, "govuk-accordion__section-button")
+  contents <- find_tags(accordion_check, "govuk-accordion__section-content")
+  expect_length(buttons, 2L)
+
+  controls <- vapply(
+    buttons,
+    function(button) htmltools::tagGetAttribute(button, "aria-controls"),
+    character(1L)
+  )
+  content_ids <- vapply(
+    contents,
+    function(content) htmltools::tagGetAttribute(content, "id"),
+    character(1L)
+  )
+  expect_identical(controls, content_ids)
+  expect_identical(controls[[1]], "acc1-accordion-default-content-01")
+})
+
+test_that("Show all button has no aria-controls", {
+  accordion_check <- accordion("acc1", "Section one", "Content one")
+  show_all <- find_tag(accordion_check, "govuk-accordion__show-all")
+  expect_null(htmltools::tagGetAttribute(show_all, "aria-controls"))
+})

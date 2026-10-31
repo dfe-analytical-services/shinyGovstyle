@@ -8,11 +8,9 @@ gov_summary_card(
   inputId,
   title,
   heading_level = 2L,
-  card_actions = NULL,
   headers = NULL,
   info = NULL,
   rows = NULL,
-  action = FALSE,
   border = TRUE
 )
 }
@@ -24,18 +22,11 @@ gov_summary_card(
 \item{heading_level}{Integer (1-6). HTML heading level for the card title.
 Default \code{2L}.}
 
-\item{card_actions}{Optional list of card-level action specs. Each element is
-a named list with \code{id}, \code{text}, and optionally \code{visually_hidden_text}. Card
-actions appear in the title bar and apply to the whole card (e.g. "Delete",
-"Withdraw"). The card title is added to their hidden text for you.}
-
 \item{headers}{See \code{\link[=gov_summary]{gov_summary()}}.}
 
 \item{info}{See \code{\link[=gov_summary]{gov_summary()}}.}
 
 \item{rows}{See \code{\link[=gov_summary]{gov_summary()}}.}
-
-\item{action}{See \code{\link[=gov_summary]{gov_summary()}}.}
 
 \item{border}{See \code{\link[=gov_summary]{gov_summary()}}.}
 }
@@ -43,37 +34,14 @@ actions appear in the title bar and apply to the whole card (e.g. "Delete",
 An HTML shiny tag object.
 }
 \description{
-Wraps a \code{\link[=gov_summary]{gov_summary()}} in a GOV.UK summary card, adding a titled header and
-optional card-level actions. Use summary cards when you need to show multiple
-summary lists and need to tell them apart, for example in a multi-section
-check-your-answers page.
-}
-\details{
-As in the GOV.UK Design System, every action in the card, both card actions
-and row actions, includes the card title in brackets in its visually hidden
-text. Screen readers announce, for example, "Change age (Lead tenant)", so
-actions in different cards can be told apart.
+Wraps a \code{\link[=gov_summary]{gov_summary()}} in a GOV.UK summary card with a titled header. Use
+summary cards when you need to show multiple summary lists and need to tell
+them apart, for example in a multi-section check-your-answers page.
 }
 \examples{
 rows <- list(
-  list(
-    key = "Age",
-    value = "38",
-    actions = list(
-      list(id = "change_age", text = "Change", visually_hidden_text = "age")
-    )
-  ),
-  list(
-    key = "Nationality",
-    value = "French",
-    actions = list(
-      list(
-        id = "change_nat",
-        text = "Change",
-        visually_hidden_text = "nationality"
-      )
-    )
-  )
+  list(key = "Age", value = "38"),
+  list(key = "Nationality", value = "French")
 )
 
 ui <- shinyGovstyle::gov_page(
@@ -85,10 +53,6 @@ ui <- shinyGovstyle::gov_page(
     shinyGovstyle::gov_summary_card(
       inputId = "cardID",
       title = "Lead tenant",
-      card_actions = list(
-        list(id = "delete_card", text = "Delete choice"),
-        list(id = "withdraw_card", text = "Withdraw")
-      ),
       rows = rows
     )
   ),

@@ -2,20 +2,16 @@
 
 ## New features
 
-* `gov_summary()` gains a `rows` argument, a list of row specs, covering the
-  GOV.UK summary list variants the vector API can't: several actions on one
-  row, removing the border from a single row (`no_border = TRUE`), tags as
-  keys, and lists where only some rows have actions. The `headers`, `info`
-  and `action` arguments work as before. `action` also accepts a character
-  vector of input IDs, one per row, with `NA` for a row with no action.
-* New `gov_summary_card()` wraps a summary list in a GOV.UK summary card,
-  with a title and optional card-level actions, for pages that show several
-  summary lists. As in the GOV.UK Design System, the card title is added to
-  each action's visually hidden text, so screen readers announce, for
-  example, "Change age (Lead tenant)".
+* `gov_summary()` gains a `rows` argument, a list of row specs, for GOV.UK
+  summary list variants the vector API can't express: removing the border
+  from a single row (`no_border = TRUE`) and tags as keys. The `headers` and
+  `info` arguments work as before.
+* New `gov_summary_card()` wraps a summary list in a GOV.UK summary card with
+  a title, for pages that show several summary lists.
 
 ## Breaking changes
 
+* `gov_summary()` no longer has an `action` argument; remove it from any calls.
 * `gov_summary()` now returns a `<div>` container with the summary list
   `<dl>` inside it, rather than the `<dl>` itself. The `<dl>` still has
   `inputId` as its id, so CSS, JavaScript and `shinytest2` selectors that use
@@ -31,25 +27,12 @@
   such as `gov_box(size = "two-thirds")`. The list now switches based on its
   own width instead, staying stacked until it is as wide as a full-width
   GOV.UK list at that breakpoint (about 580px).
-* `gov_summary()` actions now look like the links GOV.UK uses, rather than
-  grey browser buttons. They are still buttons, so each one is a Shiny input.
-* `gov_summary()` rows without an action now have the
-  `govuk-summary-list__row--no-actions` class when another row in the list
-  has actions, so their borders line up, as in GOV.UK Frontend.
-
 * `govTable()` no longer fails with "incorrect number of dimensions" when
   given a data frame with a single column.
 * `gov_summary()`, `gov_text()`, `download_button()`, `download_link()` and
   `skip_to_main()` now attach the GOV.UK stylesheet themselves. Previously
   they were only styled when another shinyGovstyle component on the page had
   loaded it.
-* `gov_summary(action = TRUE)` now gives each "Change" button its own input
-  ID, `paste0(inputId, "_", slug)`, where the slug is the lowercased header
-  with gaps replaced by `_` (for example `input$sumID_date_of_birth`).
-  Previously every button had the ID `"TRUE"`, so rows could not be told
-  apart. Headers that give the same slug now give an error, and each button
-  includes visually hidden text so screen readers hear "Change name" rather
-  than a bare "Change".
 
 # shinyGovstyle 0.3.0
 

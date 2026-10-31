@@ -101,23 +101,3 @@ test_that("Active nav link is exposed to screen readers via aria-current", {
   expect_equal(current_links(), "sn_cookies")
   expect_equal(fallback_links(), "sn_cookies")
 })
-
-test_that("Each summary list Change button sets its own input", {
-  app$click("sn_feedback_types")
-  app$wait_for_idle()
-
-  app$click("feedback_types-sumID_name")
-  app$wait_for_idle()
-  app$click("feedback_types-sumID_date_of_birth")
-  app$click("feedback_types-sumID_date_of_birth")
-  app$wait_for_idle()
-
-  expect_equal(
-    as.integer(app$get_value(input = "feedback_types-sumID_name")),
-    1L
-  )
-  expect_equal(
-    as.integer(app$get_value(input = "feedback_types-sumID_date_of_birth")),
-    2L
-  )
-})

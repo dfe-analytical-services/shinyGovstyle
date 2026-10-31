@@ -4,14 +4,7 @@
 \alias{gov_summary}
 \title{Summary list}
 \usage{
-gov_summary(
-  inputId,
-  headers = NULL,
-  info = NULL,
-  rows = NULL,
-  action = FALSE,
-  border = TRUE
-)
+gov_summary(inputId, headers = NULL, info = NULL, rows = NULL, border = TRUE)
 }
 \arguments{
 \item{inputId}{The id assigned to the component's root element. For Shiny
@@ -34,26 +27,9 @@ named list with the following fields:
 key column.}
 \item{\code{value}}{Required. A character string or htmltools/shiny tag for
 the value column.}
-\item{\code{actions}}{Optional. A list of action spec lists. Each action spec
-has \code{id} (button input ID), \code{text} (button label, e.g. "Change"), and
-\code{visually_hidden_text} (screen reader context, e.g. "name"). An empty
-list or \code{NULL} means no actions for that row.}
 \item{\code{no_border}}{Optional logical. Set \code{TRUE} to remove this row's
 border.}
 }}
-
-\item{action}{Used with the vector API. \code{FALSE} (default) gives rows with
-no actions. \code{TRUE} gives each row its own "Change" button whose input ID
-is \code{paste0(inputId, "_", slug)}, where \code{slug} is the header in lowercase
-with each run of characters other than letters and numbers replaced by
-\verb{_} and any leading or trailing \verb{_} removed. For example, with
-\code{inputId = "sumID"} the "Date of birth" row sets
-\code{input$sumID_date_of_birth}, which counts its clicks like
-\code{\link[shiny:actionButton]{shiny::actionButton()}}. Headers must give unique slugs. A character
-vector of input IDs, one per row, sets the IDs yourself; use \code{NA} for a
-row with no action. Each button has visually hidden text so screen
-readers announce, for example, "Change date of birth" rather than a bare
-"Change". Ignored when \code{rows} is supplied.}
 
 \item{border}{Whether to show borders between rows. Default \code{TRUE}.}
 }
@@ -63,11 +39,10 @@ which has \code{inputId} as its id. The \code{div} lets the list change layout
 based on its own width.
 }
 \description{
-Creates a GOV.UK summary list: a set of key and value pairs, optionally with
-actions such as "Change" on each row. Supports a simple vector API and a
-richer row-spec list API that covers the design system variants: multiple
-actions per row, per-row borders, HTML keys and mixed-action lists. To show
-several lists that need telling apart, wrap each in \code{\link[=gov_summary_card]{gov_summary_card()}}.
+Creates a GOV.UK summary list: a set of key and value pairs. Supports a
+simple vector API and a row-spec list API that covers per-row borders and
+HTML keys. To show several lists that need telling apart, wrap each in
+\code{\link[=gov_summary_card]{gov_summary_card()}}.
 }
 \details{
 The list switches between GOV.UK's stacked and side-by-side layouts based
@@ -77,9 +52,6 @@ as wide as a full-width GOV.UK list at GOV.UK's 641px breakpoint (about
 \code{gov_box(size = "two-thirds")}, the key column is never too narrow for
 ordinary words. Browsers without CSS container queries use GOV.UK's
 screen-width breakpoint instead.
-
-Actions are buttons, so each one is a Shiny input, but they look and
-behave like the links GOV.UK uses for summary list actions.
 }
 \examples{
 # Vector API
@@ -102,50 +74,21 @@ ui <- shinyGovstyle::gov_page(
     service_name = "User Examples"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_summary("sumID", headers, info, action = TRUE),
-    shiny::textOutput("changed")
+    shinyGovstyle::gov_summary("sumID", headers, info)
   ),
   shinyGovstyle::footer(full = TRUE)
 )
 
-server <- function(input, output, session) {
-  # Each row has its own input: sumID_name, sumID_date_of_birth, ...
-  shiny::observeEvent(input$sumID_name, {
-    output$changed <- shiny::renderText("Change name clicked")
-  })
-}
+server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 
-# Rows API with multiple actions on one row
+# Rows API with a borderless row and a tag as a key
 rows <- list(
+  list(key = "Name", value = "Sarah Philips", no_border = TRUE),
   list(
-    key = "Name",
-    value = "Sarah Philips",
-    actions = list(
-      list(
-        id = "change_name",
-        text = "Change",
-        visually_hidden_text = "name"
-      )
-    )
-  ),
-  list(
-    key = "Contact details",
-    value = "Not provided",
-    actions = list(
-      list(
-        id = "add_contact",
-        text = "Add",
-        visually_hidden_text = "contact details"
-      ),
-      list(
-        id = "change_contact",
-        text = "Change",
-        visually_hidden_text = "contact details"
-      )
-    )
-  ),
-  list(key = "Date of birth", value = "5 January 1978", actions = list())
+    key = shiny::tags$abbr(title = "Date of birth", "DOB"),
+    value = "5 January 1978"
+  )
 )
 
 ui2 <- shinyGovstyle::gov_page(

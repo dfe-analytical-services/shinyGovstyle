@@ -18,8 +18,7 @@
  * behaviour.
  *
  * The rules below repeat GOV.UK Frontend's mobile rules. Each selector starts
- * with .shinygovstyle-summary so it outranks GOV.UK's tablet rules, such as
- * .govuk-summary-list__actions-list-item:first-child.
+ * with .shinygovstyle-summary so it outranks GOV.UK's tablet rules.
  */
 .shinygovstyle-summary {
     container-name: shinygovstyle-summary;
@@ -36,13 +35,8 @@
         margin-bottom: 15px;
     }
 
-    .shinygovstyle-summary .govuk-summary-list__row--no-actions::after {
-        content: none;
-    }
-
     .shinygovstyle-summary .govuk-summary-list__key,
-    .shinygovstyle-summary .govuk-summary-list__value,
-    .shinygovstyle-summary .govuk-summary-list__actions {
+    .shinygovstyle-summary .govuk-summary-list__value {
         display: block;
         width: auto;
         padding: 0;
@@ -58,25 +52,6 @@
         margin-bottom: 0;
     }
 
-    /* Separators between actions sit on the right, as on mobile */
-    .shinygovstyle-summary .govuk-summary-card__action,
-    .shinygovstyle-summary .govuk-summary-list__actions-list-item {
-        margin-right: 10px;
-        margin-left: 0;
-        padding-right: 10px;
-        padding-left: 0;
-        border: 0;
-        border-right: 1px solid;
-        border-right-color: var(--govuk-border-colour, #cecece);
-    }
-
-    .shinygovstyle-summary .govuk-summary-card__action:last-child,
-    .shinygovstyle-summary .govuk-summary-list__actions-list-item:last-child {
-        margin-right: 0;
-        padding-right: 0;
-        border: 0;
-    }
-
     .shinygovstyle-summary .govuk-summary-card__title-wrapper {
         display: block;
         padding: 15px;
@@ -86,47 +61,7 @@
         margin-bottom: 10px;
     }
 
-    .shinygovstyle-summary .govuk-summary-card__actions {
-        justify-content: normal;
-        text-align: start;
-    }
-
     .shinygovstyle-summary .govuk-summary-card__content {
         padding: 15px 15px 0;
     }
-}
-
-/*
- * 2. Actions look and behave like GOV.UK links.
- *
- * GOV.UK uses links for summary list actions. shinyGovstyle uses buttons so
- * each action is a Shiny input, but .govuk-link only colours <a> elements
- * (via :link), so the browser's grey button styling showed instead. Reset it
- * and apply the GOV.UK link colours. Focus keeps .govuk-link's yellow focus
- * style.
- */
-.shinygovstyle-summary .action-button {
-    -webkit-appearance: none;
-    appearance: none;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: none;
-    color: var(--govuk-link-colour, #175892);
-    font: inherit;
-    text-align: inherit;
-    cursor: pointer;
-}
-
-.shinygovstyle-summary .action-button:hover {
-    color: var(--govuk-link-hover-colour, #0f385c);
-}
-
-.shinygovstyle-summary .action-button:active {
-    color: var(--govuk-link-active-colour, #0b0c0c);
-}
-
-.shinygovstyle-summary .action-button:focus {
-    background-color: var(--govuk-focus-colour, #fd0);
-    color: var(--govuk-focus-text-colour, #0b0c0c);
 }

@@ -1,12 +1,12 @@
-# Tabs Function
+# Summary list
 
-This function creates a tabs based table. It requires a single dataframe
-with a grouping variable.
+This function creates a GOV.UK summary list: a set of key and value
+pairs.
 
 ## Usage
 
 ``` r
-gov_summary(inputId, headers, info, action = FALSE, border = TRUE)
+gov_summary(inputId, headers, info, border = TRUE)
 ```
 
 ## Arguments
@@ -19,7 +19,7 @@ gov_summary(inputId, headers, info, action = FALSE, border = TRUE)
 
 - headers:
 
-  input for the row headers value
+  character vector of row headers (the keys)
 
 - info:
 
@@ -29,12 +29,6 @@ gov_summary(inputId, headers, info, action = FALSE, border = TRUE)
   [`shiny::tagList()`](https://rstudio.github.io/htmltools/reference/tagList.html).
   Pass a list rather than a character vector to mix tag and string
   values.
-
-- action:
-
-  whenever a change link is needed. Sets input to the value of the
-  headers using lowercase and with underscore to replace gaps. Default
-  set to `FALSE`
 
 - border:
 
@@ -80,7 +74,7 @@ ui <- shinyGovstyle::gov_page(
     logo="shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_summary("sumID", headers, info, action = FALSE)
+    shinyGovstyle::gov_summary("sumID", headers, info)
   ),
   shinyGovstyle::footer(full = TRUE)
 )

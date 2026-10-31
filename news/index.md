@@ -1,5 +1,26 @@
 # Changelog
 
+## shinyGovstyle (development version)
+
+### Breaking changes
+
+- [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
+  no longer has an `action` argument; remove it from any calls.
+
+### Bug fixes
+
+- [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md)
+  no longer fails with “incorrect number of dimensions” when given a
+  data frame with a single column.
+- [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md),
+  [`gov_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/layouts.md),
+  [`download_button()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_button.md),
+  [`download_link()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/download_link.md)
+  and
+  [`skip_to_main()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/skip_to_main.md)
+  now attach the GOV.UK stylesheet themselves. Previously they were only
+  styled when another shinyGovstyle component on the page had loaded it.
+
 ## shinyGovstyle 0.3.0
 
 CRAN release: 2026-10-15

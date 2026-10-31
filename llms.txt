@@ -185,7 +185,7 @@ shinyGovstyle::run_example()
 - [`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md)
   : Details Function
 - [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
-  : Tabs Function
+  : Summary list
 - [`gov_tag()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_tag.md)
   : Tag
 - [`inset_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.md)

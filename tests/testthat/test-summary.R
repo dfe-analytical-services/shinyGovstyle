@@ -12,22 +12,18 @@ test_that("summary list works", {
     "07700 900457 <br> sarah.phillips@example.com"
   )
 
-  summary_check <- gov_summary("sumID", headers, info, action = FALSE)
+  summary_check <- gov_summary("sumID", headers, info)
 
   expect_length(find_tags(summary_check, "govuk-summary-list__row"), 4L)
+  query <- htmltools::tagQuery(summary_check)
+  expect_length(query$find(".govuk-summary-list__actions")$selectedTags(), 0)
+  expect_length(query$find("button")$selectedTags(), 0)
 
-  summary_check <- gov_summary(
-    "sumID",
-    headers,
-    info,
-    action = TRUE,
-    border = FALSE
-  )
+  summary_check <- gov_summary("sumID", headers, info, border = FALSE)
 
-  # Action cell renders as a <button> styled with the govuk-link class.
-  expect_identical(
-    find_tag(summary_check, "govuk-link")$name,
-    "button"
+  expect_length(
+    find_tags(summary_check, "govuk-summary-list--no-border"),
+    1L
   )
 })
 
@@ -44,7 +40,7 @@ test_that("info accepts a list of mixed string and tag values", {
     )
   )
 
-  out <- gov_summary("sumID", headers, info, action = FALSE)
+  out <- gov_summary("sumID", headers, info)
   html <- as.character(out)
 
   expect_match(html, "Sarah Philips", fixed = TRUE)
@@ -57,6 +53,11 @@ test_that("info accepts a list containing a single shiny.tag value", {
   headers <- "Reference"
   info <- list(shiny::tags$strong("ABC-123"))
 
-  out <- gov_summary("sumID", headers, info, action = FALSE)
+  out <- gov_summary("sumID", headers, info)
   expect_match(as.character(out), "<strong>ABC-123</strong>", fixed = TRUE)
+})
+
+test_that("gov_summary attaches the GOV.UK stylesheet", {
+  summary_check <- gov_summary("sumID", c("Name"), c("Sarah Philips"))
+  expect_true("stylecss" %in% dependency_names(summary_check))
 })

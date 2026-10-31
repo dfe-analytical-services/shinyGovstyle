@@ -253,3 +253,10 @@ expect_has_tag <- function(x, class) {
 expect_no_tag <- function(x, class) {
   testthat::expect_null(find_tag(x, class))
 }
+
+# dependency_names() lists the names of every htmlDependency attached anywhere
+# in a tag tree, e.g. to check a component ships the "stylecss" stylesheet
+# itself rather than relying on another component on the page to load it.
+dependency_names <- function(x) {
+  vapply(htmltools::findDependencies(x), function(d) d$name, character(1))
+}

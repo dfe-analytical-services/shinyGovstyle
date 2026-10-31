@@ -2,12 +2,8 @@
 
 ## New features
 
-* `gov_summary()` gains a `rows` argument, a list of row specs, for GOV.UK
-  summary list variants the vector API can't express: removing the border
-  from a single row (`no_border = TRUE`) and tags as keys. The `headers` and
-  `info` arguments work as before.
 * New `gov_summary_card()` wraps a summary list in a GOV.UK summary card with
-  a title, for pages that show several summary lists.
+  a title and heading level, for pages that show several summary lists.
 
 ## Breaking changes
 

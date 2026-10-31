@@ -4,32 +4,19 @@
 \alias{gov_summary}
 \title{Summary list}
 \usage{
-gov_summary(inputId, headers = NULL, info = NULL, rows = NULL, border = TRUE)
+gov_summary(inputId, headers, info, border = TRUE)
 }
 \arguments{
 \item{inputId}{The id assigned to the component's root element. For Shiny
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{headers}{Character vector of row headers (the keys). Used with the
-vector API. Ignored when \code{rows} is supplied.}
+\item{headers}{Character vector of row headers (the keys).}
 
 \item{info}{Summary information values for the table. Each value accepts a
 plain character string, or \code{shiny} tag objects such as
 \code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}. Pass a list rather than a
-character vector to mix tag and string values. Used with the vector API.
-Ignored when \code{rows} is supplied.}
-
-\item{rows}{A list of row spec lists for the richer API. Each element is a
-named list with the following fields:
-\describe{
-\item{\code{key}}{Required. A character string or htmltools/shiny tag for the
-key column.}
-\item{\code{value}}{Required. A character string or htmltools/shiny tag for
-the value column.}
-\item{\code{no_border}}{Optional logical. Set \code{TRUE} to remove this row's
-border.}
-}}
+character vector to mix tag and string values.}
 
 \item{border}{Whether to show borders between rows. Default \code{TRUE}.}
 }
@@ -39,10 +26,8 @@ which has \code{inputId} as its id. The \code{div} lets the list change layout
 based on its own width.
 }
 \description{
-Creates a GOV.UK summary list: a set of key and value pairs. Supports a
-simple vector API and a row-spec list API that covers per-row borders and
-HTML keys. To show several lists that need telling apart, wrap each in
-\code{\link[=gov_summary_card]{gov_summary_card()}}.
+Creates a GOV.UK summary list: a set of key and value pairs. To show several
+lists that need telling apart, wrap each in \code{\link[=gov_summary_card]{gov_summary_card()}}.
 }
 \details{
 The list switches between GOV.UK's stacked and side-by-side layouts based
@@ -81,29 +66,6 @@ ui <- shinyGovstyle::gov_page(
 
 server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
-
-# Rows API with a borderless row and a tag as a key
-rows <- list(
-  list(key = "Name", value = "Sarah Philips", no_border = TRUE),
-  list(
-    key = shiny::tags$abbr(title = "Date of birth", "DOB"),
-    value = "5 January 1978"
-  )
-)
-
-ui2 <- shinyGovstyle::gov_page(
-  shinyGovstyle::header(
-    org_name = "Example",
-    service_name = "User Examples"
-  ),
-  shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_summary("sumID2", rows = rows)
-  ),
-  shinyGovstyle::footer(full = TRUE)
-)
-if (interactive()) {
-  shinyApp(ui = ui2, server = function(input, output, session) {})
-}
 }
 \seealso{
 Other Govstyle feedback types:

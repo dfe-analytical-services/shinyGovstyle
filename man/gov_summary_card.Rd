@@ -8,9 +8,8 @@ gov_summary_card(
   inputId,
   title,
   heading_level = 2L,
-  headers = NULL,
-  info = NULL,
-  rows = NULL,
+  headers,
+  info,
   border = TRUE
 )
 }
@@ -26,8 +25,6 @@ Default \code{2L}.}
 
 \item{info}{See \code{\link[=gov_summary]{gov_summary()}}.}
 
-\item{rows}{See \code{\link[=gov_summary]{gov_summary()}}.}
-
 \item{border}{See \code{\link[=gov_summary]{gov_summary()}}.}
 }
 \value{
@@ -39,11 +36,6 @@ summary cards when you need to show multiple summary lists and need to tell
 them apart, for example in a multi-section check-your-answers page.
 }
 \examples{
-rows <- list(
-  list(key = "Age", value = "38"),
-  list(key = "Nationality", value = "French")
-)
-
 ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
@@ -53,7 +45,8 @@ ui <- shinyGovstyle::gov_page(
     shinyGovstyle::gov_summary_card(
       inputId = "cardID",
       title = "Lead tenant",
-      rows = rows
+      headers = c("Age", "Nationality"),
+      info = c("38", "French")
     )
   ),
   shinyGovstyle::footer(full = TRUE)

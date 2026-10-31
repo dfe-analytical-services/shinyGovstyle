@@ -227,3 +227,133 @@ test_that("govReactable sort buttons sort once per keypress (#190)", {
   app$wait_for_idle()
   expect_equal(aria_sort(), "ascending")
 })
+
+# The visible govTabs table's scroll container, if it is currently focusable
+visible_focusable_scroll <- paste0(
+  "document.querySelector('",
+  ".govuk-tabs__panel:not(.govuk-tabs__panel--hidden) ",
+  ".shinygovstyle-table-scroll[tabindex]')"
+)
+
+# Scroll container state for the visible govTabs table, plus page overflow
+table_scroll_state <- function() {
+  app$get_js(
+    paste0(
+      "(function () {",
+      " var c = Array.from(document.querySelectorAll(",
+      "'.govuk-tabs__panel .shinygovstyle-table-scroll'",
+      ")).find(function (e) { return e.offsetParent !== null; });",
+      " return {",
+      " tabindex: c.getAttribute('tabindex'),",
+      " role: c.getAttribute('role'),",
+      " labelledby: c.getAttribute('aria-labelledby'),",
+      " pageOverflows: document.documentElement.scrollWidth >",
+      " document.documentElement.clientWidth };",
+      "})()"
+    )
+  )
+}
+
+test_that("Wide tables scroll in a keyboard-reachable region on phones", {
+  app$click("sn_tables_tabs")
+  app$wait_for_idle()
+
+  # At 320px the govTabs table is wider than the screen: it scrolls inside
+  # its container, which becomes a named, focusable region
+  app$set_window_size(width = 320, height = 800)
+  app$wait_for_js(paste(visible_focusable_scroll, "!== null"))
+  state <- table_scroll_state()
+  expect_identical(state$tabindex, "0")
+  expect_identical(state$role, "region")
+  expect_identical(state$labelledby, "tables_tabs-govTabs-heading-past-day")
+  expect_false(state$pageOverflows)
+
+  # At desktop width the table fits, so there is no extra tab stop
+  app$set_window_size(width = 1200, height = 800)
+  app$wait_for_js(paste(visible_focusable_scroll, "=== null"))
+  state <- table_scroll_state()
+  expect_null(state$tabindex)
+  expect_null(state$role)
+  expect_null(state$labelledby)
+})
+
+# ids of the visible panels in the govTabs with this id
+visible_tab_panels <- function(tabs_id) {
+  unlist(app$get_js(
+    paste0(
+      "Array.from(document.getElementById('",
+      tabs_id,
+      "')",
+      ".querySelectorAll('.govuk-tabs__panel'))",
+      ".filter(function (p) { return p.offsetParent !== null; })",
+      ".map(function (p) { return p.id; })"
+    )
+  ))
+}
+
+# ids of the tabs marked aria-selected in the govTabs with this id
+selected_tabs <- function(tabs_id) {
+  unlist(app$get_js(
+    paste0(
+      "Array.from(document.getElementById('",
+      tabs_id,
+      "')",
+      ".querySelectorAll('.govuk-tabs__tab[aria-selected=\"true\"]'))",
+      ".map(function (a) { return a.id; })"
+    )
+  ))
+}
+
+test_that("govTabs show the first panel and switch independently", {
+  app$click("sn_tables_tabs")
+  app$wait_for_idle()
+
+  first <- "tables_tabs-govTabs"
+  second <- "tables_tabs-govTabs2"
+
+  # The first panel of each instance is visible on load
+  expect_equal(visible_tab_panels(first), paste0(first, "-panel-past-day"))
+  expect_equal(visible_tab_panels(second), paste0(second, "-panel-past-day"))
+
+  # Switching tabs in the second instance leaves the first unchanged
+  app$click(selector = paste0("#", second, "-tab-past-week"))
+  app$wait_for_idle()
+  expect_equal(visible_tab_panels(second), paste0(second, "-panel-past-week"))
+  expect_equal(selected_tabs(second), paste0(second, "-tab-past-week"))
+  expect_equal(visible_tab_panels(first), paste0(first, "-panel-past-day"))
+  expect_equal(selected_tabs(first), paste0(first, "-tab-past-day"))
+
+  # Arrow keys move within the focused instance only
+  app$run_js(paste0(
+    "var t = document.getElementById('",
+    first,
+    "-tab-past-day');",
+    "t.focus();",
+    "t.dispatchEvent(new KeyboardEvent('keydown',",
+    " { key: 'ArrowLeft', bubbles: true }));"
+  ))
+  app$wait_for_idle()
+  expect_equal(visible_tab_panels(first), paste0(first, "-panel-past-year"))
+  expect_equal(selected_tabs(first), paste0(first, "-tab-past-year"))
+  expect_equal(visible_tab_panels(second), paste0(second, "-panel-past-week"))
+})
+
+test_that("Each summary list Change button sets its own input", {
+  app$click("sn_feedback_types")
+  app$wait_for_idle()
+
+  app$click("feedback_types-sumID_name")
+  app$wait_for_idle()
+  app$click("feedback_types-sumID_date_of_birth")
+  app$click("feedback_types-sumID_date_of_birth")
+  app$wait_for_idle()
+
+  expect_equal(
+    as.integer(app$get_value(input = "feedback_types-sumID_name")),
+    1L
+  )
+  expect_equal(
+    as.integer(app$get_value(input = "feedback_types-sumID_date_of_birth")),
+    2L
+  )
+})

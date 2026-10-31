@@ -1,0 +1,50 @@
+---
+title: "Upgrading shinyGovstyle"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Upgrading shinyGovstyle}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This guide covers changes on the way to shinyGovstyle 1.0.0 that may need updates to your app's code. Check `NEWS.md` for the full list of changes in each release.
+
+## Components that now return a wrapper `<div>`
+
+Some components now wrap their main element in a `<div>`, so they can adapt to the space they are given. In each case:
+
+- The main element keeps `inputId` as its `id`, so CSS, JavaScript and `shinytest2` selectors that use the id, such as `#my_table`, carry on working.
+- Most apps need no changes. You only need to update code that edits or inspects the tag a component returns, for example with `htmltools::tagAppendAttributes()` or by checking `$name`.
+- To reach the main element, use `htmltools::tagQuery()`.
+
+### `govTable()`
+
+`govTable()` now returns a `<div class="shinygovstyle-table-scroll">` with the `<table>` inside it. A table wider than the screen scrolls sideways inside this container, rather than making the whole page scroll, so the rest of the page still fits the screen (WCAG 1.4.10 Reflow).
+
+Before, `govTable()` returned the `<table>` itself:
+
+```{r, eval = FALSE}
+# Before: worked on the <table>
+govTable("my_table", df, "Pupil numbers") |>
+  htmltools::tagAppendAttributes(`data-source` = "school census")
+
+# Now this adds the attribute to the wrapper <div> instead
+```
+
+Now, reach the `<table>` with `htmltools::tagQuery()`:
+
+```{r, eval = FALSE}
+htmltools::tagQuery(govTable("my_table", df, "Pupil numbers"))$
+  find("table")$
+  addAttrs(`data-source` = "school census")$
+  allTags()
+```
+
+Code that checked `govTable(...)$name == "table"` should check the `<table>` found this way instead.

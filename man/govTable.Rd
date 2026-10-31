@@ -42,7 +42,9 @@ part of the table's accessible name, together with the caption. Needs a
 subtitle}
 }
 \value{
-a table HTML shiny tag object
+A \code{div} HTML shiny tag object: a scroll container holding the
+table, which has \code{inputId} as its id. Wide tables scroll sideways inside
+the container rather than making the whole page scroll.
 }
 \description{
 This function inserts a gov styled table. Format is with header looking

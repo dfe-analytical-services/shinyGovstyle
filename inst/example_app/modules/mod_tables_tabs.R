@@ -63,6 +63,19 @@ mod_tables_tabs_ui <- function(id) {
       shinyGovstyle::case_data,
       "tabs"
     ),
+    shinyGovstyle::heading_text(
+      "A second govTabs with the same tabs",
+      size = "s",
+      level = 2
+    ),
+    shinyGovstyle::gov_text(
+      "Each govTabs works on its own, even when the tab names are the same."
+    ),
+    shinyGovstyle::govTabs(
+      shiny::NS(id, "govTabs2"),
+      shinyGovstyle::case_data,
+      "tabs"
+    ),
     shiny::tags$br(),
     shiny::tags$br(),
     shinyGovstyle::heading_text("accordions", size = "s", level = 2),

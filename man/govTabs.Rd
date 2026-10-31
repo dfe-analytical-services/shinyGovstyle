@@ -22,6 +22,11 @@ a tab table HTML shiny tag object
 This function creates a tabs based table. It requires a single dataframe
 with a grouping variable.
 }
+\details{
+Every tab and panel id is prefixed with \code{inputId}, so several \code{govTabs()}
+on one page work independently, even when they share the same group
+values. The first tab is selected when the page loads.
+}
 \examples{
 ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(

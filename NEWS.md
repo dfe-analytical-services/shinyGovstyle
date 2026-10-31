@@ -2,6 +2,25 @@
 
 ## Breaking changes
 
+* `govTable()` now returns a `<div>` scroll container with the `<table>`
+  inside it, rather than the `<table>` itself. The `<table>` still has
+  `inputId` as its id, so CSS, JavaScript and `shinytest2` selectors that
+  use the id keep working. Code that changes the returned tag directly (for
+  example `htmltools::tagAppendAttributes()`, or checking
+  `$name == "table"`) now acts on the container; use
+  `htmltools::tagQuery()` to reach the `<table>`; the new "Upgrading
+  shinyGovstyle" vignette shows how. See below for why.
+* `govTable()` and `govTabs()` tables that are wider than the screen now
+  scroll sideways inside their own container, so the rest of the page
+  reflows to the screen width instead of the whole page scrolling. This
+  follows the technique recommended for data tables in the WCAG 1.4.10
+  Reflow guidance. GOV.UK Frontend has no scroll container for tables, so
+  this is a shinyGovstyle addition; where you can, follow GOV.UK's advice
+  to put less data in each table or split it up. While a table scrolls, its
+  container can be reached with the keyboard so it can be scrolled without
+  a mouse, and screen readers announce it using the table's caption
+  (`govTable()`) or the tab's heading (`govTabs()`). A table that fits adds
+  no extra tab stop.
 * `govReactable()` now right-aligns numeric columns automatically, as its
   documentation always said it did and as GOV.UK recommends for comparing
   numbers. Previously every column not named in `right_col` was
@@ -57,6 +76,32 @@
   takes your own via the new `caption_id` argument). `caption` also now
   accepts tags and `shiny::HTML()` for deliberate markup; plain text is still
   escaped, so a caption built from user input can't inject HTML.
+* `govTabs()` now shows the first tab's panel when the page loads.
+  Previously every panel started hidden, even though the first tab was
+  marked as selected.
+* Several `govTabs()` on one page now work independently. Every tab and
+  panel id is now prefixed with `inputId` (for example
+  `<inputId>-tab-past-day` and `<inputId>-panel-past-day`), so two instances
+  with the same group values no longer produce duplicate ids, and clicking a
+  tab in one no longer changes the other. The wrapper now has
+  `id = inputId` and the GOV.UK `govuk-tabs` class. The old ids and `name`
+  attributes are gone, so update any custom CSS or JavaScript that used
+  them.
+* `govTabs()` now keeps table rows in the order they appear in `df`.
+  Previously each tab's rows were reversed.
+* `govTable()` no longer fails with "incorrect number of dimensions" when
+  given a data frame with a single column.
+* `gov_summary()`, `gov_text()`, `download_button()`, `download_link()` and
+  `skip_to_main()` now attach the GOV.UK stylesheet themselves. Previously
+  they were only styled when another shinyGovstyle component on the page had
+  loaded it.
+* `gov_summary(action = TRUE)` now gives each "Change" button its own input
+  ID, `paste0(inputId, "_", slug)`, where the slug is the lowercased header
+  with gaps replaced by `_` (for example `input$sumID_date_of_birth`).
+  Previously every button had the ID `"TRUE"`, so rows could not be told
+  apart. Headers that give the same slug now give an error, and each button
+  includes visually hidden text so screen readers hear "Change name" rather
+  than a bare "Change".
 
 # shinyGovstyle 0.3.0
 

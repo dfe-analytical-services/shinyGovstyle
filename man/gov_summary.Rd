@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.R
 \name{gov_summary}
 \alias{gov_summary}
-\title{Tabs Function}
+\title{Summary list}
 \usage{
 gov_summary(inputId, headers, info, action = FALSE, border = TRUE)
 }
@@ -11,16 +11,22 @@ gov_summary(inputId, headers, info, action = FALSE, border = TRUE)
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{headers}{input for the row headers value}
+\item{headers}{character vector of row headers (the keys)}
 
 \item{info}{Summary information values for the table. Each value accepts a
 plain character string, or \code{shiny} tag objects such as
 \code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}. Pass a list rather than a
 character vector to mix tag and string values.}
 
-\item{action}{whenever a change link is needed. Sets input to the value of
-the headers using lowercase and with underscore to replace gaps. Default
-set to \code{FALSE}}
+\item{action}{whether to add a "Change" action to each row. Default set to
+\code{FALSE}. When \code{TRUE}, each row gets its own action button whose input ID is
+\code{paste0(inputId, "_", slug)}, where \code{slug} is the header in lowercase with
+each run of characters other than letters and numbers replaced by \verb{_} and
+any leading or trailing \verb{_} removed. For example, with \code{inputId = "sumID"}
+the "Date of birth" row sets \code{input$sumID_date_of_birth}, which counts its
+clicks like \code{\link[shiny:actionButton]{shiny::actionButton()}}. Headers must give unique slugs. Each
+button also has visually hidden text so screen readers announce, for
+example, "Change date of birth" rather than a bare "Change".}
 
 \item{border}{set if the table should have borders. Default set
 to \code{TRUE}}
@@ -29,8 +35,8 @@ to \code{TRUE}}
 a summary list table HTML shiny tag object
 }
 \description{
-This function creates a tabs based table. It requires a single dataframe
-with a grouping variable.
+This function creates a GOV.UK summary list: a set of key and value pairs,
+optionally with a "Change" action on each row.
 }
 \examples{
 # Create an example dataset
@@ -54,12 +60,18 @@ ui <- shinyGovstyle::gov_page(
     logo="shinyGovstyle/images/moj_logo.png"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_summary("sumID", headers, info, action = FALSE)
+    shinyGovstyle::gov_summary("sumID", headers, info, action = TRUE),
+    shiny::textOutput("changed")
   ),
   shinyGovstyle::footer(full = TRUE)
 )
 
-server <- function(input, output, session) {}
+server <- function(input, output, session) {
+  # Each row has its own input: sumID_name, sumID_date_of_birth, ...
+  shiny::observeEvent(input$sumID_name, {
+    output$changed <- shiny::renderText("Change name clicked")
+  })
+}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{

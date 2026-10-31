@@ -300,3 +300,10 @@ caption_links <- function(x, heading_class = "govuk-heading-l") {
     )
   )
 }
+
+# dependency_names() lists the names of every htmlDependency attached anywhere
+# in a tag tree, e.g. to check a component ships the "stylecss" stylesheet
+# itself rather than relying on another component on the page to load it.
+dependency_names <- function(x) {
+  vapply(htmltools::findDependencies(x), function(d) d$name, character(1))
+}

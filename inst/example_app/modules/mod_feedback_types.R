@@ -91,7 +91,7 @@ mod_feedback_types_ui <- function(id) {
         "72 Guild Street <br> London <br> SE23 6FH",
         "07700 900457 <br> sarah.phillips@example.com"
       ),
-      action = FALSE
+      action = TRUE
     )
   )
 }

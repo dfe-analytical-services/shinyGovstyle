@@ -211,3 +211,23 @@ test_that("govTabs show the first panel and switch independently", {
   expect_equal(selected_tabs(first), paste0(first, "-tab-past-year"))
   expect_equal(visible_tab_panels(second), paste0(second, "-panel-past-week"))
 })
+
+test_that("Each summary list Change button sets its own input", {
+  app$click("sn_feedback_types")
+  app$wait_for_idle()
+
+  app$click("feedback_types-sumID_name")
+  app$wait_for_idle()
+  app$click("feedback_types-sumID_date_of_birth")
+  app$click("feedback_types-sumID_date_of_birth")
+  app$wait_for_idle()
+
+  expect_equal(
+    as.integer(app$get_value(input = "feedback_types-sumID_name")),
+    1L
+  )
+  expect_equal(
+    as.integer(app$get_value(input = "feedback_types-sumID_date_of_birth")),
+    2L
+  )
+})

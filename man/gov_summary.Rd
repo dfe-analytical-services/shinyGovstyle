@@ -25,8 +25,9 @@ each run of characters other than letters and numbers replaced by \verb{_} and
 any leading or trailing \verb{_} removed. For example, with \code{inputId = "sumID"}
 the "Date of birth" row sets \code{input$sumID_date_of_birth}, which counts its
 clicks like \code{\link[shiny:actionButton]{shiny::actionButton()}}. Headers must give unique slugs. Each
-button also has visually hidden text so screen readers announce, for
-example, "Change date of birth" rather than a bare "Change".}
+button also has visually hidden text holding the header as written, so
+screen readers announce, for example, "Change Date of birth" rather than a
+bare "Change".}
 
 \item{border}{set if the table should have borders. Default set
 to \code{TRUE}}
@@ -68,8 +69,9 @@ ui <- shinyGovstyle::gov_page(
 
 server <- function(input, output, session) {
   # Each row has its own input: sumID_name, sumID_date_of_birth, ...
-  shiny::observeEvent(input$sumID_name, {
-    output$changed <- shiny::renderText("Change name clicked")
+  output$changed <- shiny::renderText({
+    shiny::req(input$sumID_name)
+    "Change name clicked"
   })
 }
 if (interactive()) shinyApp(ui = ui, server = server)

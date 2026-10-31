@@ -144,8 +144,8 @@ test_that("headers that give the same input ID error", {
 test_that("action buttons include visually hidden header text", {
   out <- gov_summary(
     "sumID",
-    c("Name", "Date of birth"),
-    c("Sarah Philips", "5 January 1978"),
+    c("Name", "Date of birth", "NHS number"),
+    c("Sarah Philips", "5 January 1978", "485 777 3456"),
     action = TRUE
   )
   hidden <- htmltools::tagQuery(out)$find("#sumID_date_of_birth")$find(
@@ -155,13 +155,21 @@ test_that("action buttons include visually hidden header text", {
   expect_length(hidden, 1)
   expect_identical(
     as.character(hidden[[1]]),
-    "<span class=\"govuk-visually-hidden\"> date of birth</span>"
+    "<span class=\"govuk-visually-hidden\"> Date of birth</span>"
   )
   name_button <- htmltools::tagQuery(out)$find("#sumID_name")$selectedTags()
   expect_match(
     gsub("\\s+", " ", as.character(name_button[[1]])),
-    "Change <span class=\"govuk-visually-hidden\"> name</span>",
+    "Change <span class=\"govuk-visually-hidden\"> Name</span>",
     fixed = TRUE
+  )
+  # The header is used as written, as GOV.UK does, so acronyms keep their case.
+  nhs_hidden <- htmltools::tagQuery(out)$find("#sumID_nhs_number")$find(
+    ".govuk-visually-hidden"
+  )$selectedTags()
+  expect_identical(
+    as.character(nhs_hidden[[1]]),
+    "<span class=\"govuk-visually-hidden\"> NHS number</span>"
   )
 })
 

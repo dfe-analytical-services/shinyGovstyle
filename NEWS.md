@@ -9,12 +9,9 @@
   they were only styled when another shinyGovstyle component on the page had
   loaded it.
 * `gov_summary(action = TRUE)` now gives each "Change" button its own input
-  ID, `paste0(inputId, "_", slug)`, where the slug is the lowercased header
-  with gaps replaced by `_` (for example `input$sumID_date_of_birth`).
-  Previously every button had the ID `"TRUE"`, so rows could not be told
-  apart. Headers that give the same slug now give an error, and each button
-  includes visually hidden text so screen readers hear "Change name" rather
-  than a bare "Change".
+  ID (for example `input$sumID_date_of_birth`) instead of all sharing
+  `"TRUE"`, and adds visually hidden text so screen readers hear which row it
+  changes.
 
 # shinyGovstyle 0.3.0
 

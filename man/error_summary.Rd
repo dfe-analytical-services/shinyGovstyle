@@ -13,7 +13,10 @@ input components this is also the name used to access the value via
 
 \item{error_title}{The title for the error summary}
 
-\item{error_list}{A list of text values to be displayed in the error body}
+\item{error_list}{A character vector or list of messages to be displayed in
+the error body. Messages named with the id of an input link to that input,
+for example \code{c(name = "Enter your name")}. Plain strings are escaped; pass
+tags or \code{\link[shiny:HTML]{shiny::HTML()}} for markup.}
 }
 \value{
 an error_summary HTML shiny tag object
@@ -22,6 +25,17 @@ an error_summary HTML shiny tag object
 This function loads the error summary component to display error text.
 This replicates the gov style error boxes linked below:
 https://design-system.service.gov.uk/components/error-summary/
+}
+\details{
+Name each message with the \code{inputId} of the control it is about to turn it
+into a link, as the GOV.UK Design System requires. Selecting a link moves
+focus to that control (the day field of a \code{\link[=date_Input]{date_Input()}}, the first option
+of a \code{\link[=radio_button_Input]{radio_button_Input()}} or \code{\link[=checkbox_Input]{checkbox_Input()}}) and scrolls its label or
+legend into view. Unnamed messages are shown as plain text.
+
+Pass the full id of the control, as it appears in the page. Inside a module
+that means wrapping it in \code{ns()}, the same as the \code{inputId} of the summary
+itself.
 }
 \examples{
 ui <- shinyGovstyle::gov_page(
@@ -34,9 +48,14 @@ ui <- shinyGovstyle::gov_page(
   shinyGovstyle::gov_main_layout(
     error_summary(
       inputId = "errorId",
-      error_title = "Error title",
-      error_list = c("error item1", "error item2")
-    )
+      error_title = "There is a problem",
+      error_list = c(
+        name = "Enter your full name",
+        dob = "Enter your date of birth"
+      )
+    ),
+    shinyGovstyle::text_Input("name", "Full name"),
+    shinyGovstyle::date_Input("dob", "Date of birth")
   ),
   shinyGovstyle::button_Input("btn1", "Change error summary"),
   shinyGovstyle::footer(full = TRUE)
@@ -46,7 +65,7 @@ server <- function(input, output, session) {
   shiny::observeEvent(input$btn1, {
     error_summary_update(
       "errorId",
-      c("error item1", "error item2", "error item3")
+      c(dob = "Date of birth must be in the past")
     )},
     ignoreInit = TRUE
   )

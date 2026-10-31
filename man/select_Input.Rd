@@ -4,7 +4,15 @@
 \alias{select_Input}
 \title{Select Function}
 \usage{
-select_Input(inputId, label, select_text, select_value)
+select_Input(
+  inputId,
+  label,
+  select_text,
+  select_value,
+  hint_label = NULL,
+  error = FALSE,
+  error_message = NULL
+)
 }
 \arguments{
 \item{inputId}{The id assigned to the component's root element. For Shiny
@@ -18,6 +26,14 @@ a plain character string, an HTML string, or \code{shiny} tag objects such as
 \item{select_text}{Add the text that will apply in the drop down as a list}
 
 \item{select_value}{Add the value that will be used for each selection}
+
+\item{hint_label}{Display hint label for the control, or \code{NULL} for no hint
+label. Accepts the same rich content as \code{label}, so it can include a link.}
+
+\item{error}{If \code{TRUE}, render the component in its error state and
+reserve a slot for the error message. Defaults to \code{FALSE}.}
+
+\item{error_message}{Text shown when \code{error} is \code{TRUE}. Defaults to \code{NULL}.}
 }
 \value{
 a select input HTML shiny tag object
@@ -27,6 +43,8 @@ This function inserts a select box
 }
 \examples{
 ui <- shinyGovstyle::gov_page(
+  # Required for error handling function
+  shinyjs::useShinyjs(),
   shinyGovstyle::header(
     org_name = "Example",
     service_name = "User Examples",
@@ -45,12 +63,31 @@ ui <- shinyGovstyle::gov_page(
       ),
       select_value = c("published", "updated", "view", "comments")
     ),
-    shinyGovstyle::gov_text("Placeholder text")
+    # Select with a hint, and an error raised from the server
+    select_Input(
+      inputId = "location",
+      label = "Where do you live?",
+      select_text = c("Choose location", "England", "Scotland", "Wales"),
+      select_value = c("", "england", "scotland", "wales"),
+      hint_label = "Choose the country you live in"
+    ),
+    shinyGovstyle::button_Input(inputId = "submit", label = "Submit")
   ),
   shinyGovstyle::footer(full = TRUE)
 )
 
-server <- function(input, output, session) {}
+server <- function(input, output, session) {
+  observeEvent(input$submit, {
+    if (input$location != "") {
+      shinyGovstyle::error_off(inputId = "location")
+    } else {
+      shinyGovstyle::error_on(
+        inputId = "location",
+        error_message = "Select where you live"
+      )
+    }
+  })
+}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{

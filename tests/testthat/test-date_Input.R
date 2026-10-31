@@ -229,3 +229,35 @@ test_that("date_of_birth rejects non-logical values", {
     "date_of_birth"
   )
 })
+
+test_that("hidden error id is never in the fieldset aria-describedby", {
+  # error_on() adds the error id at runtime; rendering it up front would make
+  # screen readers announce the hidden error before it is raised.
+  with_hint <- date_Input(
+    "dateid",
+    "Test Date",
+    hint_label = "DD MM YYYY",
+    error = TRUE,
+    error_message = "Error test"
+  )
+  without_hint <- date_Input(
+    "dateid",
+    "Test Date",
+    error = TRUE,
+    error_message = "Error test"
+  )
+
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_tag(with_hint, "govuk-fieldset"),
+      "aria-describedby"
+    ),
+    "dateid-hint"
+  )
+  expect_null(
+    htmltools::tagGetAttribute(
+      find_tag(without_hint, "govuk-fieldset"),
+      "aria-describedby"
+    )
+  )
+})

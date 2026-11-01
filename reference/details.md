@@ -37,6 +37,7 @@ a details box HTML shiny tag object
 Other Govstyle feedback types:
 [`confirmation_panel()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/confirmation_panel.md),
 [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md),
+[`gov_summary_card()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary_card.md),
 [`gov_tag()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_tag.md),
 [`inset_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.md),
 [`label_hint()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/label_hint.md),

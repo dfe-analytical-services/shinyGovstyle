@@ -41,6 +41,10 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="shinygovstyle-development-version">shinyGovstyle (development version)<a class="anchor" aria-label="anchor" href="#shinygovstyle-development-version"></a></h2>
 <div class="section level3">
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>New <code><a href="../reference/gov_summary_card.html">gov_summary_card()</a></code> wraps a summary list in a GOV.UK summary card with a title and heading level, for pages that show several summary lists.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
 <ul><li>
 <code><a href="../reference/gov_summary.html">gov_summary()</a></code> no longer has an <code>action</code> argument; remove it from any calls.</li>
@@ -48,6 +52,8 @@
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
 <ul><li>
+<code><a href="../reference/gov_summary.html">gov_summary()</a></code> keys no longer break mid-word in narrow columns (<a href="https://github.com/dfe-analytical-services/shinyGovstyle/issues/89" class="external-link">#89</a>).</li>
+<li>
 <code><a href="../reference/govTable.html">govTable()</a></code> no longer fails with “incorrect number of dimensions” when given a data frame with a single column.</li>
 <li>
 <code><a href="../reference/gov_summary.html">gov_summary()</a></code>, <code><a href="../reference/layouts.html">gov_text()</a></code>, <code><a href="../reference/download_button.html">download_button()</a></code>, <code><a href="../reference/download_link.html">download_link()</a></code> and <code><a href="../reference/skip_to_main.html">skip_to_main()</a></code> now attach the GOV.UK stylesheet themselves. Previously they were only styled when another shinyGovstyle component on the page had loaded it.</li>

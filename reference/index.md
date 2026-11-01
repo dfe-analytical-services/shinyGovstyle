@@ -110,6 +110,8 @@
   : Details Function
 - [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
   : Summary list
+- [`gov_summary_card()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary_card.md)
+  : Summary card
 - [`gov_tag()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_tag.md)
   : Tag
 - [`inset_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.md)

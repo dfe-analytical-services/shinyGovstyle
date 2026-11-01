@@ -38,6 +38,7 @@ Other Govstyle feedback types:
 [`confirmation_panel()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/confirmation_panel.md),
 [`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md),
 [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md),
+[`gov_summary_card()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary_card.md),
 [`gov_tag()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_tag.md),
 [`inset_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.md),
 [`noti_banner()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/noti_banner.md),

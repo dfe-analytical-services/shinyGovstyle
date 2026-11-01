@@ -1,7 +1,8 @@
 # Summary list
 
-This function creates a GOV.UK summary list: a set of key and value
-pairs.
+Creates a GOV.UK summary list: a set of key and value pairs. To show
+several lists that need telling apart, wrap each in
+[`gov_summary_card()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary_card.md).
 
 ## Usage
 
@@ -19,7 +20,7 @@ gov_summary(inputId, headers, info, border = TRUE)
 
 - headers:
 
-  character vector of row headers (the keys)
+  Character vector of row headers (the keys).
 
 - info:
 
@@ -32,17 +33,30 @@ gov_summary(inputId, headers, info, border = TRUE)
 
 - border:
 
-  set if the table should have borders. Default set to `TRUE`
+  Whether to show borders between rows. Default `TRUE`.
 
 ## Value
 
-a summary list table HTML shiny tag object
+A `div` HTML shiny tag object holding the summary list `<dl>`, which has
+`inputId` as its id. The `div` lets the list change layout based on its
+own width.
+
+## Details
+
+The list switches between GOV.UK's stacked and side-by-side layouts
+based on its own width rather than the screen's. It stays stacked until
+it is as wide as a full-width GOV.UK list at GOV.UK's 641px breakpoint
+(about 580px), so in a narrow column, such as
+`gov_box(size = "two-thirds")`, the key column is never too narrow for
+ordinary words. Browsers without CSS container queries use GOV.UK's
+screen-width breakpoint instead.
 
 ## See also
 
 Other Govstyle feedback types:
 [`confirmation_panel()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/confirmation_panel.md),
 [`details()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/details.md),
+[`gov_summary_card()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary_card.md),
 [`gov_tag()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_tag.md),
 [`inset_text()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/inset_text.md),
 [`label_hint()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/label_hint.md),
@@ -53,7 +67,7 @@ Other Govstyle feedback types:
 ## Examples
 
 ``` r
-# Create an example dataset
+# Vector API
 headers <- c(
   "Name",
   "Date of birth",
@@ -70,8 +84,7 @@ info <- c(
 ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
-    service_name = "User Examples",
-    logo="shinyGovstyle/images/moj_logo.png"
+    service_name = "User Examples"
   ),
   shinyGovstyle::gov_main_layout(
     shinyGovstyle::gov_summary("sumID", headers, info)

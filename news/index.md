@@ -2,6 +2,13 @@
 
 ## shinyGovstyle (development version)
 
+### New features
+
+- New
+  [`gov_summary_card()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary_card.md)
+  wraps a summary list in a GOV.UK summary card with a title and heading
+  level, for pages that show several summary lists.
+
 ### Breaking changes
 
 - [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
@@ -9,6 +16,9 @@
 
 ### Bug fixes
 
+- [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
+  keys no longer break mid-word in narrow columns
+  ([\#89](https://github.com/dfe-analytical-services/shinyGovstyle/issues/89)).
 - [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md)
   no longer fails with “incorrect number of dimensions” when given a
   data frame with a single column.

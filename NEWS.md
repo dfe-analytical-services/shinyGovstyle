@@ -1,11 +1,17 @@
 # shinyGovstyle (development version)
 
+## New features
+
+* New `gov_summary_card()` wraps a summary list in a GOV.UK summary card with
+  a title and heading level, for pages that show several summary lists.
+
 ## Breaking changes
 
 * `gov_summary()` no longer has an `action` argument; remove it from any calls.
 
 ## Bug fixes
 
+* `gov_summary()` keys no longer break mid-word in narrow columns (#89).
 * `govTable()` no longer fails with "incorrect number of dimensions" when
   given a data frame with a single column.
 * `gov_summary()`, `gov_text()`, `download_button()`, `download_link()` and

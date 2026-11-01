@@ -40,30 +40,42 @@
       });
     });
 
+  function register(container) {
+    if (container.hasAttribute("data-table-scroll-watched")) {
+      return;
+    }
+    container.setAttribute("data-table-scroll-watched", "");
+    update(container);
+    if (resizeObserver) {
+      // Observe the table as well, since its width can change (for example
+      // with user text spacing) without the container changing size.
+      resizeObserver.observe(container);
+      if (container.firstElementChild) {
+        resizeObserver.observe(container.firstElementChild);
+      }
+    }
+  }
+
+  // Register the containers inside root, and root itself if it is one
   function watch(root) {
+    if (root.matches && root.matches(SELECTOR)) {
+      register(root);
+    }
     var containers = root.querySelectorAll ? root.querySelectorAll(SELECTOR) : [];
-    Array.prototype.forEach.call(containers, function (container) {
-      if (container.hasAttribute("data-table-scroll-watched")) {
-        return;
-      }
-      container.setAttribute("data-table-scroll-watched", "");
-      update(container);
-      if (resizeObserver) {
-        // Observe the table as well, since its width can change (for example
-        // with user text spacing) without the container changing size.
-        resizeObserver.observe(container);
-        if (container.firstElementChild) {
-          resizeObserver.observe(container.firstElementChild);
-        }
-      }
-    });
+    Array.prototype.forEach.call(containers, register);
   }
 
   function start() {
     watch(document);
     // Tables added later, for example by renderUI(), are picked up here.
-    new MutationObserver(function () {
-      watch(document);
+    new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        Array.prototype.forEach.call(mutation.addedNodes, function (node) {
+          if (node.nodeType === 1) {
+            watch(node);
+          }
+        });
+      });
     }).observe(document.body, { childList: true, subtree: true });
 
     if (!resizeObserver) {

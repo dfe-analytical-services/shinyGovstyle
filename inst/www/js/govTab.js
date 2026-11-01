@@ -24,7 +24,14 @@ function switchTab(tab) {
     .removeClass('govuk-tabs__panel--hidden');
 }
 
+// GOV.UK only applies the tabs layout from 641px up. Below that the tab list
+// is a "Contents" list of anchor links, which should jump to their panels.
+var tabsLayout = window.matchMedia('(min-width: 40.0625em)');
+
 $(document).on('click', '.govuk-tabs .govuk-tabs__list-item', function(e) {
+  if (!tabsLayout.matches) {
+    return;
+  }
   e.preventDefault();
   switchTab($(this).find('.govuk-tabs__tab')[0]);
 });

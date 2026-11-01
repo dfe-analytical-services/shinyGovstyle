@@ -7,42 +7,22 @@
 
 ## Breaking changes
 
-* `govTable()` now returns a `<div>` scroll container with the `<table>`
-  inside it, rather than the `<table>` itself. The `<table>` still has
-  `inputId` as its id, so CSS, JavaScript and `shinytest2` selectors that
-  use the id keep working. Code that changes the returned tag directly (for
-  example `htmltools::tagAppendAttributes()`, or checking
-  `$name == "table"`) now acts on the container; use
-  `htmltools::tagQuery()` to reach the `<table>`; the new "Upgrading
-  shinyGovstyle" vignette shows how. See below for why.
-* `govTable()` and `govTabs()` tables that are wider than the screen now
-  scroll sideways inside their own container, so the rest of the page
-  reflows to the screen width instead of the whole page scrolling. This
-  follows the technique recommended for data tables in the WCAG 1.4.10
-  Reflow guidance. GOV.UK Frontend has no scroll container for tables, so
-  this is a shinyGovstyle addition; where you can, follow GOV.UK's advice
-  to put less data in each table or split it up. While a table scrolls, its
-  container can be reached with the keyboard so it can be scrolled without
-  a mouse, and screen readers announce it using the table's caption
-  (`govTable()`) or the tab's heading (`govTabs()`). A table that fits adds
-  no extra tab stop.
+* `govTable()` now returns a `<div>` with the `<table>` inside it, so wide
+  tables can scroll. The table keeps `inputId` as its id. If you edit the
+  returned tag directly, use `htmltools::tagQuery()` to reach the table.
+* `govTabs()` tab and panel ids now start with `inputId`, and the old `name`
+  attributes are gone. Update any custom CSS or JavaScript that used them.
 * `gov_summary()` no longer has an `action` argument; remove it from any calls.
 
 ## Bug fixes
 
-* `govTabs()` now shows the first tab's panel when the page loads.
-  Previously every panel started hidden, even though the first tab was
-  marked as selected.
-* Several `govTabs()` on one page now work independently. Every tab and
-  panel id is now prefixed with `inputId` (for example
-  `<inputId>-tab-past-day` and `<inputId>-panel-past-day`), so two instances
-  with the same group values no longer produce duplicate ids, and clicking a
-  tab in one no longer changes the other. The wrapper now has
-  `id = inputId` and the GOV.UK `govuk-tabs` class. The old ids and `name`
-  attributes are gone, so update any custom CSS or JavaScript that used
-  them.
-* `govTabs()` now keeps table rows in the order they appear in `df`.
-  Previously each tab's rows were reversed.
+* Tables from `govTable()` and `govTabs()` that are wider than the screen now
+  scroll sideways on their own instead of making the whole page scroll. You
+  can reach a scrolling table with the keyboard.
+* `govTabs()` now shows the first tab's content when the page loads.
+* Several `govTabs()` on one page now work independently.
+* `govTabs()` keeps table rows in the same order as `df`.
+* On small screens, the `govTabs()` contents links now jump to each section.
 * `gov_summary()` keys no longer break mid-word in narrow columns (#89).
 * `govTable()` no longer fails with "incorrect number of dimensions" when
   given a data frame with a single column.

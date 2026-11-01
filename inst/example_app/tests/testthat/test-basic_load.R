@@ -178,36 +178,51 @@ selected_tabs <- function(tabs_id) {
   ))
 }
 
-test_that("govTabs show the first panel and switch independently", {
+test_that("govTabs show the first panel and switch with arrow keys", {
   app$click("sn_tables_tabs")
   app$wait_for_idle()
 
-  first <- "tables_tabs-govTabs"
-  second <- "tables_tabs-govTabs2"
+  tabs_id <- "tables_tabs-govTabs"
 
-  # The first panel of each instance is visible on load
-  expect_equal(visible_tab_panels(first), paste0(first, "-panel-past-day"))
-  expect_equal(visible_tab_panels(second), paste0(second, "-panel-past-day"))
+  # The first panel is visible on load
+  expect_equal(visible_tab_panels(tabs_id), paste0(tabs_id, "-panel-past-day"))
+  expect_equal(selected_tabs(tabs_id), paste0(tabs_id, "-tab-past-day"))
 
-  # Switching tabs in the second instance leaves the first unchanged
-  app$click(selector = paste0("#", second, "-tab-past-week"))
-  app$wait_for_idle()
-  expect_equal(visible_tab_panels(second), paste0(second, "-panel-past-week"))
-  expect_equal(selected_tabs(second), paste0(second, "-tab-past-week"))
-  expect_equal(visible_tab_panels(first), paste0(first, "-panel-past-day"))
-  expect_equal(selected_tabs(first), paste0(first, "-tab-past-day"))
-
-  # Arrow keys move within the focused instance only
+  # ArrowLeft from the first tab wraps round to the last
   app$run_js(paste0(
     "var t = document.getElementById('",
-    first,
+    tabs_id,
     "-tab-past-day');",
     "t.focus();",
     "t.dispatchEvent(new KeyboardEvent('keydown',",
     " { key: 'ArrowLeft', bubbles: true }));"
   ))
   app$wait_for_idle()
-  expect_equal(visible_tab_panels(first), paste0(first, "-panel-past-year"))
-  expect_equal(selected_tabs(first), paste0(first, "-tab-past-year"))
-  expect_equal(visible_tab_panels(second), paste0(second, "-panel-past-week"))
+  expect_equal(visible_tab_panels(tabs_id), paste0(tabs_id, "-panel-past-year"))
+  expect_equal(selected_tabs(tabs_id), paste0(tabs_id, "-tab-past-year"))
+})
+
+test_that("govTabs links are left to the browser below the tabs breakpoint", {
+  app$click("sn_tables_tabs")
+  app$wait_for_idle()
+
+  tabs_id <- "tables_tabs-govTabs"
+  past_week <- paste0(tabs_id, "-tab-past-week")
+  # An earlier test may have moved the selection, so start from a known tab
+  # other than the one the clicks below target
+  before <- selected_tabs(tabs_id)
+  expect_false(identical(before, past_week))
+
+  # Below 641px the tab list is a "Contents" list of links: the click is not
+  # intercepted, so the selected tab does not change
+  app$set_window_size(width = 600, height = 800)
+  app$click(selector = paste0("#", past_week))
+  app$wait_for_idle()
+  expect_equal(selected_tabs(tabs_id), before)
+
+  # From 641px up the tabs switch as usual
+  app$set_window_size(width = 1200, height = 800)
+  app$click(selector = paste0("#", past_week))
+  app$wait_for_idle()
+  expect_equal(selected_tabs(tabs_id), past_week)
 })

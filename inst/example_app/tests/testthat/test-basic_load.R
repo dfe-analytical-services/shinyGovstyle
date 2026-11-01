@@ -202,27 +202,42 @@ test_that("govTabs show the first panel and switch with arrow keys", {
   expect_equal(selected_tabs(tabs_id), paste0(tabs_id, "-tab-past-year"))
 })
 
-test_that("govTabs links are left to the browser below the tabs breakpoint", {
+test_that("govTabs become a list of links when the tabs do not fit", {
   app$click("sn_tables_tabs")
   app$wait_for_idle()
 
   tabs_id <- "tables_tabs-govTabs"
   past_week <- paste0(tabs_id, "-tab-past-week")
-  # An earlier test may have moved the selection, so start from a known tab
-  # other than the one the clicks below target
-  before <- selected_tabs(tabs_id)
-  expect_false(identical(before, past_week))
+  all_panels <- paste0(
+    tabs_id,
+    "-panel-",
+    c("past-day", "past-week", "past-month", "past-year")
+  )
 
-  # Below 641px the tab list is a "Contents" list of links: the click is not
-  # intercepted, so the selected tab does not change
-  app$set_window_size(width = 600, height = 800)
+  # A 700px window is above GOV.UK's 641px breakpoint, but the two-thirds
+  # column is too narrow for the tabs to fit on one row, so they become a
+  # list of links with every panel shown and no tab roles
+  app$set_window_size(width = 700, height = 800)
+  app$wait_for_js(paste0(
+    "!document.getElementById('",
+    tabs_id,
+    "').classList.contains('govuk-frontend-supported')"
+  ))
+  expect_equal(visible_tab_panels(tabs_id), all_panels)
+  expect_null(selected_tabs(tabs_id))
+
+  # Clicking a link is left to the browser, so no panel is hidden
   app$click(selector = paste0("#", past_week))
   app$wait_for_idle()
-  expect_equal(selected_tabs(tabs_id), before)
+  expect_equal(visible_tab_panels(tabs_id), all_panels)
 
-  # From 641px up the tabs switch as usual
+  # With room for the tabs, they come back showing the tab the link named
   app$set_window_size(width = 1200, height = 800)
-  app$click(selector = paste0("#", past_week))
-  app$wait_for_idle()
+  app$wait_for_js(paste0(
+    "document.getElementById('",
+    tabs_id,
+    "').classList.contains('govuk-frontend-supported')"
+  ))
   expect_equal(selected_tabs(tabs_id), past_week)
+  expect_equal(visible_tab_panels(tabs_id), paste0(tabs_id, "-panel-past-week"))
 })

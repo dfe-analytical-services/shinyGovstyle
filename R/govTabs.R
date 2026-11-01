@@ -6,6 +6,11 @@
 #' Every tab and panel id is prefixed with `inputId`, so several `govTabs()`
 #' on one page work independently, even when they share the same group
 #' values. The first tab is selected when the page loads.
+#'
+#' As in the GOV.UK Design System, the tabs become a "Contents" list of links
+#' with every table shown on small screens. `govTabs()` also does this when
+#' its tabs do not fit on one row of the space it is given, for example in a
+#' two-thirds column on a narrow window, rather than squashing the tabs.
 #' @inheritParams id_arg
 #' @param df A single dataframe with all data. See example for structure
 #' @param group_col The column name with the groups to be used as tabs
@@ -64,6 +69,7 @@ govTabs <- # nolint
       # govuk-frontend-supported switches on the tabs layout in the GOV.UK
       # stylesheet. GOV.UK puts it on <body> once its own JS has loaded, which
       # shinyGovstyle does not do, so it goes on the component instead.
+      # govTab.js removes it again while the tabs do not fit on one row.
       class = "govuk-tabs govuk-frontend-supported",
       id = inputId,
       shiny::tags$h2(class = "govuk-tabs__title", "Contents"),

@@ -22,6 +22,9 @@
 * `govTabs()` now shows the first tab's content when the page loads.
 * Several `govTabs()` on one page now work independently.
 * `govTabs()` keeps table rows in the same order as `df`.
+* `govTabs()` no longer squashes its tabs onto several rows in narrow
+  columns. When the tabs do not fit on one row, they become a list of links
+  with every table shown, as on small screens (#112).
 * On small screens, the `govTabs()` contents links now jump to each section.
 * `gov_summary()` keys no longer break mid-word in narrow columns (#89).
 * `govTable()` no longer fails with "incorrect number of dimensions" when

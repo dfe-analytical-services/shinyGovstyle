@@ -1,5 +1,10 @@
 # shinyGovstyle (development version)
 
+## New features
+
+* New `gov_summary_card()` wraps a summary list in a GOV.UK summary card with
+  a title and heading level, for pages that show several summary lists.
+
 ## Breaking changes
 
 * `govTable()` now returns a `<div>` scroll container with the `<table>`
@@ -38,6 +43,7 @@
   them.
 * `govTabs()` now keeps table rows in the order they appear in `df`.
   Previously each tab's rows were reversed.
+* `gov_summary()` keys no longer break mid-word in narrow columns (#89).
 * `govTable()` no longer fails with "incorrect number of dimensions" when
   given a data frame with a single column.
 * `gov_summary()`, `gov_text()`, `download_button()`, `download_link()` and

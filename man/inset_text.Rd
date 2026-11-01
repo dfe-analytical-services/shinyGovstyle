@@ -59,6 +59,7 @@ Other Govstyle feedback types:
 \code{\link[=confirmation_panel]{confirmation_panel()}},
 \code{\link[=details]{details()}},
 \code{\link[=gov_summary]{gov_summary()}},
+\code{\link[=gov_summary_card]{gov_summary_card()}},
 \code{\link[=gov_tag]{gov_tag()}},
 \code{\link[=label_hint]{label_hint()}},
 \code{\link[=noti_banner]{noti_banner()}},

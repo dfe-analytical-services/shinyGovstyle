@@ -110,10 +110,15 @@ govTable <- # nolint
         shiny::tags$tr(
           class = "govuk-table__row",
           Map(
-            function(x) {
-              shiny::tags$th(scope = "col", class = "govuk-table__header", x)
+            function(x, i) {
+              shiny::tags$th(
+                scope = "col",
+                class = header_class(i, num_col, width_overwrite),
+                x
+              )
             },
-            x = colnames(df)
+            x = colnames(df),
+            i = seq_len(ncol(df))
           )
         )
       ),
@@ -123,32 +128,25 @@ govTable <- # nolint
       )
     )
 
-    # Change class of headers to numeric if requested
-    for (i in num_col) {
-      if (i != 1) {
-        gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class <-
-          "govuk-table__header govuk-table__header--numeric"
-      }
-    }
-
-    # Change width of columns if requested
-    if (!is.null(width_overwrite)) {
-      for (i in seq_along(width_overwrite)) {
-        gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class <-
-          paste0(
-            gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class,
-            " govuk-!-width-",
-            width_overwrite[i]
-          )
-      }
-    }
-
     # Wide tables scroll inside their own container rather than the page; see
     # table_scroll_container() for why this extends GOV.UK Frontend
     scroll_region <- table_scroll_container(caption_id, gov_table)
 
     attachDependency(scroll_region, "table")
   }
+
+# Classes for the header cell of column `i`: numeric alignment (never for the
+# row-header column) and any requested width.
+header_class <- function(i, num_col, width_overwrite) {
+  cls <- "govuk-table__header"
+  if (i != 1 && i %in% num_col) {
+    cls <- paste0(cls, " govuk-table__header--numeric")
+  }
+  if (i <= length(width_overwrite)) {
+    cls <- paste0(cls, " govuk-!-width-", width_overwrite[i])
+  }
+  cls
+}
 
 create_rows <- function(df_row, num_col = NULL) {
   row_html <- shiny::tags$tr(

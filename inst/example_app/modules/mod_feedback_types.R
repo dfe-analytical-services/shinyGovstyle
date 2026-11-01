@@ -90,8 +90,14 @@ mod_feedback_types_ui <- function(id) {
         "5 January 1978",
         "72 Guild Street <br> London <br> SE23 6FH",
         "07700 900457 <br> sarah.phillips@example.com"
-      ),
-      action = TRUE
+      )
+    ),
+    shinyGovstyle::heading_text("gov_summary_card", size = "s", level = 2),
+    shinyGovstyle::gov_summary_card(
+      inputId = shiny::NS(id, "cardID"),
+      title = "Lead tenant",
+      headers = c("Age", "Nationality"),
+      info = c("38", "French")
     )
   )
 }

@@ -12,22 +12,18 @@ test_that("summary list works", {
     "07700 900457 <br> sarah.phillips@example.com"
   )
 
-  summary_check <- gov_summary("sumID", headers, info, action = FALSE)
+  summary_check <- gov_summary("sumID", headers, info)
 
   expect_length(find_tags(summary_check, "govuk-summary-list__row"), 4L)
+  query <- htmltools::tagQuery(summary_check)
+  expect_length(query$find(".govuk-summary-list__actions")$selectedTags(), 0)
+  expect_length(query$find("button")$selectedTags(), 0)
 
-  summary_check <- gov_summary(
-    "sumID",
-    headers,
-    info,
-    action = TRUE,
-    border = FALSE
-  )
+  summary_check <- gov_summary("sumID", headers, info, border = FALSE)
 
-  # Action cell renders as a <button> styled with the govuk-link class.
-  expect_identical(
-    find_tag(summary_check, "govuk-link")$name,
-    "button"
+  expect_length(
+    find_tags(summary_check, "govuk-summary-list--no-border"),
+    1L
   )
 })
 
@@ -44,7 +40,7 @@ test_that("info accepts a list of mixed string and tag values", {
     )
   )
 
-  out <- gov_summary("sumID", headers, info, action = FALSE)
+  out <- gov_summary("sumID", headers, info)
   html <- as.character(out)
 
   expect_match(html, "Sarah Philips", fixed = TRUE)
@@ -57,7 +53,7 @@ test_that("info accepts a list containing a single shiny.tag value", {
   headers <- "Reference"
   info <- list(shiny::tags$strong("ABC-123"))
 
-  out <- gov_summary("sumID", headers, info, action = FALSE)
+  out <- gov_summary("sumID", headers, info)
   expect_match(as.character(out), "<strong>ABC-123</strong>", fixed = TRUE)
 })
 
@@ -66,114 +62,80 @@ test_that("gov_summary attaches the GOV.UK stylesheet", {
   expect_true("stylecss" %in% dependency_names(summary_check))
 })
 
-test_that("action buttons get one input ID per header", {
-  headers <- c("Name", "Date of birth", "Contact details (email)")
-  info <- c("Sarah Philips", "5 January 1978", "sarah@example.com")
+test_that("gov_summary attaches the summary-overrides stylesheet", {
+  out <- gov_summary("sumID", c("Name"), c("Sarah Philips"))
+  deps <- htmltools::findDependencies(out)
+  summary_dep <- Filter(function(d) identical(d$name, "summary"), deps)
+  expect_length(summary_dep, 1)
+  expect_identical(summary_dep[[1]]$stylesheet, "summary-overrides.css")
+})
 
-  out <- gov_summary("sumID", headers, info, action = TRUE)
-  buttons <- htmltools::tagQuery(out)$find("button.action-button")
-
-  ids <- vapply(
-    buttons$selectedTags(),
-    function(tag) htmltools::tagGetAttribute(tag, "id"),
-    character(1),
-    USE.NAMES = FALSE
-  )
+test_that("gov_summary wraps the list in its layout container", {
+  out <- gov_summary("sumID", c("Name"), c("Sarah Philips"))
   expect_identical(
-    ids,
-    c("sumID_name", "sumID_date_of_birth", "sumID_contact_details_email")
+    htmltools::tagGetAttribute(out, "class"),
+    "shinygovstyle-summary"
   )
-  types <- vapply(
-    buttons$selectedTags(),
-    function(tag) htmltools::tagGetAttribute(tag, "type"),
-    character(1),
-    USE.NAMES = FALSE
-  )
-  expect_identical(types, rep("button", 3))
-  expect_true(all(grepl(
-    "govuk-link",
-    vapply(
-      buttons$selectedTags(),
-      function(tag) htmltools::tagGetAttribute(tag, "class"),
-      character(1)
-    ),
-    fixed = TRUE
-  )))
+  summary_dl <- find_tag_required(out, "govuk-summary-list")
+  expect_identical(summary_dl$name, "dl")
+  expect_identical(htmltools::tagGetAttribute(summary_dl, "id"), "sumID")
 })
 
-test_that("two summary lists with the same headers do not clash", {
-  headers <- c("Name", "Date of birth")
-  info <- c("Sarah Philips", "5 January 1978")
+## ---- gov_summary_card -------------------------------------------------------
 
-  page <- shiny::tagList(
-    gov_summary("applicant", headers, info, action = TRUE),
-    gov_summary("partner", headers, info, action = TRUE)
+summary_card <- function(...) {
+  gov_summary_card(
+    inputId = "cardID",
+    title = "Lead tenant",
+    headers = "Age",
+    info = "38",
+    ...
   )
-  query <- htmltools::tagQuery(page)
+}
 
-  expect_length(query$find("#applicant_name")$selectedTags(), 1)
-  expect_length(query$find("#partner_name")$selectedTags(), 1)
-  expect_length(query$find("#applicant_date_of_birth")$selectedTags(), 1)
-  expect_length(query$find("#partner_date_of_birth")$selectedTags(), 1)
-})
-
-test_that("headers that give the same input ID error", {
-  expect_error(
-    gov_summary(
-      "sumID",
-      c("Date of birth", "Date-of-birth"),
-      c("a", "b"),
-      action = TRUE
-    ),
-    "unique input IDs"
-  )
-  expect_error(
-    gov_summary("sumID", c("Name", "?"), c("a", "b"), action = TRUE),
-    "letter or number"
-  )
-  expect_error(
-    gov_summary("sumID", c(1, 2), c("a", "b"), action = TRUE),
-    "must be a character vector"
-  )
-  # Duplicate headers are fine when there are no actions.
-  expect_no_error(
-    gov_summary("sumID", c("Name", "Name"), c("a", "b"), action = FALSE)
-  )
-})
-
-test_that("action buttons include visually hidden header text", {
-  out <- gov_summary(
-    "sumID",
-    c("Name", "Date of birth"),
-    c("Sarah Philips", "5 January 1978"),
-    action = TRUE
-  )
-  hidden <- htmltools::tagQuery(out)$find("#sumID_date_of_birth")$find(
-    ".govuk-visually-hidden"
-  )$selectedTags()
-
-  expect_length(hidden, 1)
+test_that("gov_summary_card wraps the list in the card structure", {
+  out <- summary_card()
   expect_identical(
-    as.character(hidden[[1]]),
-    "<span class=\"govuk-visually-hidden\"> date of birth</span>"
+    htmltools::tagGetAttribute(out, "class"),
+    "govuk-summary-card shinygovstyle-summary"
   )
-  name_button <- htmltools::tagQuery(out)$find("#sumID_name")$selectedTags()
-  expect_match(
-    gsub("\\s+", " ", as.character(name_button[[1]])),
-    "Change <span class=\"govuk-visually-hidden\"> name</span>",
-    fixed = TRUE
+  # The card is the layout container, so its list isn't wrapped in another
+  expect_length(find_tags(out, "shinygovstyle-summary"), 1)
+  content <- find_tag_required(out, "govuk-summary-card__content")
+  expect_has_tag(content, "govuk-summary-list")
+  expect_true("summary" %in% dependency_names(content))
+})
+
+test_that("gov_summary_card title defaults to an h2", {
+  title <- find_tag_required(summary_card(), "govuk-summary-card__title")
+  expect_identical(title$name, "h2")
+  expect_identical(tag_text(title, "govuk-summary-card__title"), "Lead tenant")
+})
+
+test_that("gov_summary_card heading_level sets the title's tag name", {
+  out <- summary_card(heading_level = 3L)
+  expect_identical(
+    find_tag_required(out, "govuk-summary-card__title")$name,
+    "h3"
   )
 })
 
-test_that("action = FALSE renders no actions column", {
-  out <- gov_summary(
-    "sumID",
-    c("Name", "Date of birth"),
-    c("Sarah Philips", "5 January 1978"),
-    action = FALSE
-  )
-  query <- htmltools::tagQuery(out)
+test_that("gov_summary_card errors on an invalid heading_level", {
+  expect_error(summary_card(heading_level = 7L), "heading_level")
+})
 
-  expect_length(query$find(".govuk-summary-list__actions")$selectedTags(), 0)
-  expect_length(query$find("button")$selectedTags(), 0)
+test_that("gov_summary_card errors on a missing or non-string title", {
+  expect_error(
+    gov_summary_card("cardID", title = "", headers = "Age", info = "38"),
+    "`title` must be a single, non-empty string"
+  )
+  expect_error(
+    gov_summary_card(
+      "cardID",
+      title = c("A", "B"),
+      headers = "Age",
+      info = "38"
+    ),
+    "`title`"
+  )
 })

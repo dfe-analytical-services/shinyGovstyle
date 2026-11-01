@@ -4,42 +4,42 @@
 \alias{gov_summary}
 \title{Summary list}
 \usage{
-gov_summary(inputId, headers, info, action = FALSE, border = TRUE)
+gov_summary(inputId, headers, info, border = TRUE)
 }
 \arguments{
 \item{inputId}{The id assigned to the component's root element. For Shiny
 input components this is also the name used to access the value via
 \verb{input$<inputId>}.}
 
-\item{headers}{character vector of row headers (the keys)}
+\item{headers}{Character vector of row headers (the keys).}
 
 \item{info}{Summary information values for the table. Each value accepts a
 plain character string, or \code{shiny} tag objects such as
 \code{shiny::tags$b("Bold")} or a \code{shiny::tagList()}. Pass a list rather than a
 character vector to mix tag and string values.}
 
-\item{action}{whether to add a "Change" action to each row. Default set to
-\code{FALSE}. When \code{TRUE}, each row gets its own action button whose input ID is
-\code{paste0(inputId, "_", slug)}, where \code{slug} is the header in lowercase with
-each run of characters other than letters and numbers replaced by \verb{_} and
-any leading or trailing \verb{_} removed. For example, with \code{inputId = "sumID"}
-the "Date of birth" row sets \code{input$sumID_date_of_birth}, which counts its
-clicks like \code{\link[shiny:actionButton]{shiny::actionButton()}}. Headers must give unique slugs. Each
-button also has visually hidden text so screen readers announce, for
-example, "Change date of birth" rather than a bare "Change".}
-
-\item{border}{set if the table should have borders. Default set
-to \code{TRUE}}
+\item{border}{Whether to show borders between rows. Default \code{TRUE}.}
 }
 \value{
-a summary list table HTML shiny tag object
+A \code{div} HTML shiny tag object holding the summary list \verb{<dl>},
+which has \code{inputId} as its id. The \code{div} lets the list change layout
+based on its own width.
 }
 \description{
-This function creates a GOV.UK summary list: a set of key and value pairs,
-optionally with a "Change" action on each row.
+Creates a GOV.UK summary list: a set of key and value pairs. To show several
+lists that need telling apart, wrap each in \code{\link[=gov_summary_card]{gov_summary_card()}}.
+}
+\details{
+The list switches between GOV.UK's stacked and side-by-side layouts based
+on its own width rather than the screen's. It stays stacked until it is
+as wide as a full-width GOV.UK list at GOV.UK's 641px breakpoint (about
+580px), so in a narrow column, such as
+\code{gov_box(size = "two-thirds")}, the key column is never too narrow for
+ordinary words. Browsers without CSS container queries use GOV.UK's
+screen-width breakpoint instead.
 }
 \examples{
-# Create an example dataset
+# Vector API
 headers <- c(
   "Name",
   "Date of birth",
@@ -56,28 +56,22 @@ info <- c(
 ui <- shinyGovstyle::gov_page(
   shinyGovstyle::header(
     org_name = "Example",
-    service_name = "User Examples",
-    logo="shinyGovstyle/images/moj_logo.png"
+    service_name = "User Examples"
   ),
   shinyGovstyle::gov_main_layout(
-    shinyGovstyle::gov_summary("sumID", headers, info, action = TRUE),
-    shiny::textOutput("changed")
+    shinyGovstyle::gov_summary("sumID", headers, info)
   ),
   shinyGovstyle::footer(full = TRUE)
 )
 
-server <- function(input, output, session) {
-  # Each row has its own input: sumID_name, sumID_date_of_birth, ...
-  shiny::observeEvent(input$sumID_name, {
-    output$changed <- shiny::renderText("Change name clicked")
-  })
-}
+server <- function(input, output, session) {}
 if (interactive()) shinyApp(ui = ui, server = server)
 }
 \seealso{
 Other Govstyle feedback types:
 \code{\link[=confirmation_panel]{confirmation_panel()}},
 \code{\link[=details]{details()}},
+\code{\link[=gov_summary_card]{gov_summary_card()}},
 \code{\link[=gov_tag]{gov_tag()}},
 \code{\link[=inset_text]{inset_text()}},
 \code{\link[=label_hint]{label_hint()}},

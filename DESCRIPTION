@@ -39,7 +39,6 @@ Suggests:
     pkgdown (>= 2.1.1),
     rlang,
     rmarkdown,
-    shinytest2,
     testthat
 VignetteBuilder: 
     knitr

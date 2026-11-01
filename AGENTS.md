@@ -103,13 +103,13 @@ The pieces fit together as follows:
   between `radio`, `date`, `accordion`, `govTab`, `contents_link`, and
   `service_navigation` bindings — add a new branch there when
   introducing a new JS-backed widget.
-- **`inst/example_app/`** plays two roles: it’s the manual showcase
-  launched by
-  [`run_example()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/run_example.md)
-  *and* the end-to-end test target.
-  `inst/example_app/tests/testthat/test-basic_load.R` drives it via
-  [`shinytest2::AppDriver`](https://rstudio.github.io/shinytest2/reference/AppDriver.html),
-  so the example app needs to stay runnable.
+- **`inst/example_app/`** is the manual showcase launched by
+  [`run_example()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/run_example.md),
+  so it needs to stay runnable. It has no automated tests of its own:
+  the unit tests in `tests/testthat/` cover the HTML each component
+  produces, and browser behaviour (such as the
+  [`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+  JavaScript) is checked by hand.
 - **Upgrading GOV.UK Frontend** is a manual asset swap: drop the new
   precompiled files into `inst/www/`, update the CSS filename in
   `R/attachDependency.R`, reapply every edit catalogued in

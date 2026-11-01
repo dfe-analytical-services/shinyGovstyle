@@ -47,11 +47,24 @@
 <div class="section level3">
 <h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
 <ul><li>
+<code><a href="../reference/govTable.html">govTable()</a></code> now returns a <code>&lt;div&gt;</code> with the <code>&lt;table&gt;</code> inside it, so wide tables can scroll. The table keeps <code>inputId</code> as its id. If you edit the returned tag directly, use <code><a href="https://rstudio.github.io/htmltools/reference/tagQuery.html" class="external-link">htmltools::tagQuery()</a></code> to reach the table.</li>
+<li>
+<code><a href="../reference/govTabs.html">govTabs()</a></code> tab and panel ids now start with <code>inputId</code>, and the old <code>name</code> attributes are gone. Update any custom CSS or JavaScript that used them.</li>
+<li>
 <code><a href="../reference/gov_summary.html">gov_summary()</a></code> no longer has an <code>action</code> argument; remove it from any calls.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-development-version">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h3>
-<ul><li>
+<ul><li>Tables from <code><a href="../reference/govTable.html">govTable()</a></code> and <code><a href="../reference/govTabs.html">govTabs()</a></code> that are wider than the screen now scroll sideways on their own instead of making the whole page scroll. You can reach a scrolling table with the keyboard.</li>
+<li>
+<code><a href="../reference/govTabs.html">govTabs()</a></code> now shows the first tab’s content when the page loads.</li>
+<li>Several <code><a href="../reference/govTabs.html">govTabs()</a></code> on one page now work independently.</li>
+<li>
+<code><a href="../reference/govTabs.html">govTabs()</a></code> keeps table rows in the same order as <code>df</code>.</li>
+<li>
+<code><a href="../reference/govTabs.html">govTabs()</a></code> no longer squashes its tabs onto several rows in narrow columns. When the tabs do not fit on one row, they become a list of links with every table shown, as on small screens (<a href="https://github.com/dfe-analytical-services/shinyGovstyle/issues/112" class="external-link">#112</a>).</li>
+<li>On small screens, the <code><a href="../reference/govTabs.html">govTabs()</a></code> contents links now jump to each section.</li>
+<li>
 <code><a href="../reference/gov_summary.html">gov_summary()</a></code> keys no longer break mid-word in narrow columns (<a href="https://github.com/dfe-analytical-services/shinyGovstyle/issues/89" class="external-link">#89</a>).</li>
 <li>
 <code><a href="../reference/govTable.html">govTable()</a></code> no longer fails with “incorrect number of dimensions” when given a data frame with a single column.</li>

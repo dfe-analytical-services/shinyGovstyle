@@ -11,11 +11,43 @@
 
 ### Breaking changes
 
+- [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md)
+  now returns a `<div>` with the `<table>` inside it, so wide tables can
+  scroll. The table keeps `inputId` as its id. If you edit the returned
+  tag directly, use
+  [`htmltools::tagQuery()`](https://rstudio.github.io/htmltools/reference/tagQuery.html)
+  to reach the table.
+- [`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+  tab and panel ids now start with `inputId`, and the old `name`
+  attributes are gone. Update any custom CSS or JavaScript that used
+  them.
 - [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
   no longer has an `action` argument; remove it from any calls.
 
 ### Bug fixes
 
+- Tables from
+  [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md)
+  and
+  [`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+  that are wider than the screen now scroll sideways on their own
+  instead of making the whole page scroll. You can reach a scrolling
+  table with the keyboard.
+- [`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+  now shows the first tab’s content when the page loads.
+- Several
+  [`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+  on one page now work independently.
+- [`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+  keeps table rows in the same order as `df`.
+- [`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+  no longer squashes its tabs onto several rows in narrow columns. When
+  the tabs do not fit on one row, they become a list of links with every
+  table shown, as on small screens
+  ([\#112](https://github.com/dfe-analytical-services/shinyGovstyle/issues/112)).
+- On small screens, the
+  [`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+  contents links now jump to each section.
 - [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
   keys no longer break mid-word in narrow columns
   ([\#89](https://github.com/dfe-analytical-services/shinyGovstyle/issues/89)).

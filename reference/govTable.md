@@ -49,7 +49,9 @@ govTable(
 
 ## Value
 
-a table HTML shiny tag object
+A `div` HTML shiny tag object: a scroll container holding the table,
+which has `inputId` as its id. Wide tables scroll sideways inside the
+container rather than making the whole page scroll.
 
 ## Details
 

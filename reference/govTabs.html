@@ -74,6 +74,16 @@ input components this is also the name used to access the value via
     <p>a tab table HTML shiny tag object</p>
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Every tab and panel id is prefixed with <code>inputId</code>, so several <code>govTabs()</code>
+on one page work independently, even when they share the same group
+values. The first tab is selected when the page loads.</p>
+<p>As in the GOV.UK Design System, the tabs become a "Contents" list of links
+with every table shown on small screens. <code>govTabs()</code> also does this when
+its tabs do not fit on one row of the space it is given, for example in a
+two-thirds column on a narrow window, rather than squashing the tabs.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other Govstyle tables tabs and accordions:
 <code><a href="accordion.html">accordion()</a></code>,

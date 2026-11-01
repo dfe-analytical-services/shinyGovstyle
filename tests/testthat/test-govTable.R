@@ -204,6 +204,43 @@ test_that("caption_size sets the caption modifier class", {
   expect_has_tag(table_check, "govuk-table__caption--m")
 })
 
+test_that("table sits in a scroll container labelled by its caption", {
+  table_check <- govTable(
+    "tab1",
+    shinyGovstyle::transport_data_small,
+    "Table caption"
+  )
+
+  # The scroll container is the outermost tag, with the table inside it
+  expect_identical(
+    htmltools::tagGetAttribute(table_check, "class"),
+    "shinygovstyle-table-scroll"
+  )
+  table <- find_tag_required(table_check, "govuk-table")
+  expect_identical(htmltools::tagGetAttribute(table, "id"), "tab1")
+
+  # The caption names the container; table_scroll.js copies data-labelledby
+  # to aria-labelledby only while the table scrolls
+  caption <- find_tag_required(table_check, "govuk-table__caption")
+  expect_identical(htmltools::tagGetAttribute(caption, "id"), "tab1-caption")
+  expect_identical(
+    htmltools::tagGetAttribute(table_check, "data-labelledby"),
+    "tab1-caption"
+  )
+
+  # Not a tab stop or landmark until the script finds that it scrolls
+  expect_null(htmltools::tagGetAttribute(table_check, "tabindex"))
+  expect_null(htmltools::tagGetAttribute(table_check, "role"))
+  expect_null(htmltools::tagGetAttribute(table_check, "aria-labelledby"))
+
+  dep_names <- vapply(
+    htmltools::findDependencies(table_check),
+    function(dep) dep$name,
+    character(1)
+  )
+  expect_true(all(c("table-scroll", "table-scroll-js") %in% dep_names))
+})
+
 test_that("one-column table keeps every row and the caption", {
   table_check <- govTable(
     "names",

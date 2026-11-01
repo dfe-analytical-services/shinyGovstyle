@@ -7,10 +7,25 @@
 
 ## Breaking changes
 
+* `govTable()` now returns a `<div>` with the `<table>` inside it, so wide
+  tables can scroll. The table keeps `inputId` as its id. If you edit the
+  returned tag directly, use `htmltools::tagQuery()` to reach the table.
+* `govTabs()` tab and panel ids now start with `inputId`, and the old `name`
+  attributes are gone. Update any custom CSS or JavaScript that used them.
 * `gov_summary()` no longer has an `action` argument; remove it from any calls.
 
 ## Bug fixes
 
+* Tables from `govTable()` and `govTabs()` that are wider than the screen now
+  scroll sideways on their own instead of making the whole page scroll. You
+  can reach a scrolling table with the keyboard.
+* `govTabs()` now shows the first tab's content when the page loads.
+* Several `govTabs()` on one page now work independently.
+* `govTabs()` keeps table rows in the same order as `df`.
+* `govTabs()` no longer squashes its tabs onto several rows in narrow
+  columns. When the tabs do not fit on one row, they become a list of links
+  with every table shown, as on small screens (#112).
+* On small screens, the `govTabs()` contents links now jump to each section.
 * `gov_summary()` keys no longer break mid-word in narrow columns (#89).
 * `govTable()` no longer fails with "incorrect number of dimensions" when
   given a data frame with a single column.

@@ -597,28 +597,9 @@ renderGovReactable <- # nolint
       expr <- substitute(expr)
     }
     table_func <- shiny::exprToFunction(expr, env, quoted = TRUE)
-
-    # createRenderFunction() waits for an async (promise) result before
-    # calling the transform, so the table is checked once it exists. Checking
-    # inside `expr` instead would see the unresolved promise and reject it.
-    shiny::createRenderFunction(
-      table_func,
-      function(value, session, name, ...) {
-        render_table <- reactable::renderReactable(check_render_value(value))
-        render_table(session, name, ...)
-      },
-      outputFunc = reactable::reactableOutput,
-      # Lets bindCache() tell different renderGovReactable() calls apart
-      cacheHint = list(label = "renderGovReactable", userExpr = expr),
-      # As in htmlwidgets::shinyRenderWidget(): register the table's
-      # dependencies again when a bindCache() hit skips the transform.
-      cacheReadHook = function(value) {
-        lapply(
-          htmltools::resolveDependencies(attr(value, "deps")),
-          shiny::createWebDependency
-        )
-        value
-      }
+    reactable::renderReactable(
+      bquote(check_render_value(.(table_func)())),
+      quoted = TRUE
     )
   }
 
@@ -626,8 +607,15 @@ renderGovReactable <- # nolint
 # handed anything other than a widget. The likeliest cause is
 # govReactable(caption = ...), which returns the caption and table together
 # as a tagList, so name that case and point users at govReactableOutput().
+# An async (promise) result is passed through unchecked for renderReactable()
+# to resolve: checking it once resolved would mean taking over reactable's
+# render function, and with it the bindCache() handling it already does.
 check_render_value <- function(value) {
-  if (is.null(value) || inherits(value, "htmlwidget")) {
+  if (
+    is.null(value) ||
+      inherits(value, "htmlwidget") ||
+      inherits(value, "promise")
+  ) {
     return(value)
   }
 

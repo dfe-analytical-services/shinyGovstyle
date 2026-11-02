@@ -159,24 +159,6 @@ test_that("renderGovReactable renders an async table", {
   })
 })
 
-test_that("renderGovReactable errors on a captioned async table", {
-  server <- function(input, output, session) {
-    output$table <- renderGovReactable({
-      async_value(iris, function(df) {
-        govReactable(df, caption = "Iris measurements")
-      })
-    })
-  }
-
-  shiny::testServer(server, {
-    expect_error(
-      output$table,
-      "set them on govReactableOutput() instead",
-      fixed = TRUE
-    )
-  })
-})
-
 test_that("renderGovReactable errors on a captioned govReactable", {
   # A captioned govReactable() is a tagList, which renderReactable() would
   # otherwise render as an empty table with no error.

@@ -115,6 +115,10 @@ We publish separate documentation and showcases so users can try either the CRAN
 Updating one version leaves the other unchanged. Pull requests do not publish
 anything. Never merge the generated branches into main.
 
+Connect follows each showcase branch's root with automatic updates enabled.
+Replace `TODO_CONNECT_CRAN_URL` and `TODO_CONNECT_DEV_URL` in the documentation
+with the addresses supplied by your Connect administrator before publishing it.
+
 After a CRAN release, open **Actions → Publish CRAN → Run workflow**, select
 **main**, and enter the release commit's full 40-character ID in `source_sha`.
 The website uses that commit; the showcase installs the version in its DESCRIPTION

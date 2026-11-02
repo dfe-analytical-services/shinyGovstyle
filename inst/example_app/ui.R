@@ -55,7 +55,8 @@ shinyGovstyle::gov_page(
         size = "two-thirds",
         mod_width_toggle_ui("width_toggle", initial = demo_width),
         shinyGovstyle::gov_text(
-          "This app showcases the components in the installed shinyGovstyle package.",
+          "This app showcases the components in the installed",
+          "shinyGovstyle package.",
           "The latest development source code is on the ",
           shinyGovstyle::external_link(
             href = paste0(

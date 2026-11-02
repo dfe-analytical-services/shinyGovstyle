@@ -1,0 +1,217 @@
+name: Publish documentation and showcase
+
+on:
+  workflow_call:
+    inputs:
+      channel:
+        description: Publication channel (development or cran)
+        required: true
+        type: string
+      source_sha:
+        description: Full source commit SHA
+        required: true
+        type: string
+      cran_version:
+        description: Package version published on CRAN (cran channel only)
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  PUBLICATION_CHANNEL: ${{ inputs.channel }}
+  SITE_URL: https://dfe-analytical-services.github.io/shinyGovstyle
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # Dispatch from main so historical commits never supply workflow logic.
+    if: github.ref == 'refs/heads/main'
+    outputs:
+      source_sha: ${{ steps.identity.outputs.sha }}
+    env:
+      REQUESTED_SHA: ${{ inputs.source_sha }}
+      CRAN_VERSION: ${{ inputs.cran_version }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Validate inputs and prepare staging
+        id: identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$PUBLICATION_CHANNEL" == development || "$PUBLICATION_CHANNEL" == cran ]] || { echo 'Unknown publication channel'; exit 1; }
+          [[ "$REQUESTED_SHA" =~ ^[0-9a-fA-F]{40}$ ]] || { echo 'A full commit SHA is required'; exit 1; }
+          if [[ "$PUBLICATION_CHANNEL" == cran ]]; then
+            [[ "$CRAN_VERSION" =~ ^[0-9]+([.-][0-9]+)+$ ]] || { echo 'Enter the shinyGovstyle package version already published on CRAN'; exit 1; }
+          fi
+          echo "sha=${REQUESTED_SHA,,}" >> "$GITHUB_OUTPUT"
+          echo "OUTPUT_DIR=$RUNNER_TEMP/publication" >> "$GITHUB_ENV"
+
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ steps.identity.outputs.sha }}
+          path: selected-source
+          persist-credentials: false
+
+      - uses: r-lib/actions/setup-pandoc@v2
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          # Use an R version installed on Connect.
+          r-version: '4.4.2'
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          working-directory: selected-source
+          extra-packages: any::pkgdown, any::devtools, any::remotes, any::rsconnect, any::jsonlite
+          needs: website
+
+      - name: Test selected source and build documentation
+        shell: Rscript {0}
+        run: |
+          channel <- Sys.getenv("PUBLICATION_CHANNEL")
+          source <- normalizePath("selected-source")
+          version <- read.dcf(file.path(source, "DESCRIPTION"))[1, "Version"]
+          if (channel == "cran") stopifnot(version == Sys.getenv("CRAN_VERSION"))
+          destination <- file.path(Sys.getenv("OUTPUT_DIR"), "site")
+          dir.create(destination, recursive = TRUE)
+          destination <- normalizePath(destination)
+          devtools::install(source, upgrade = "never", dependencies = NA, build_vignettes = FALSE)
+          devtools::test(source, stop_on_failure = TRUE)
+          config <- list()
+          config$url <- paste0(Sys.getenv("SITE_URL"), if (channel == "development") "/dev" else "")
+          config$destination <- destination
+          config$development <- list(mode = if (channel == "development") "devel" else "release", destination = ".")
+          config$navbar$structure <- list(
+            left = c("intro", "reference", "articles", "news"),
+            right = c("search", "github", "publication")
+          )
+          config$navbar$components$publication <- list(text = "Versions", menu = list(
+            list(text = "CRAN documentation", href = paste0(Sys.getenv("SITE_URL"), "/")),
+            list(text = "Development documentation", href = paste0(Sys.getenv("SITE_URL"), "/dev/"))
+          ))
+          pkg <- pkgdown::as_pkgdown(source, override = config)
+          pkgdown::check_pkgdown(pkg)
+          pkgdown::build_site(pkg, new_process = FALSE, install = FALSE, preview = FALSE)
+          stopifnot(file.exists(file.path(destination, "index.html")))
+
+      - name: Install deployable package and generate showcase manifest
+        # A fresh process avoids the locally installed documentation namespace.
+        shell: Rscript {0}
+        env:
+          SOURCE_SHA: ${{ steps.identity.outputs.sha }}
+        run: |
+          channel <- Sys.getenv("PUBLICATION_CHANNEL")
+          if (channel == "development") {
+            remotes::install_github(paste0(Sys.getenv("GITHUB_REPOSITORY"), "@", Sys.getenv("SOURCE_SHA")),
+              force = TRUE, upgrade = "never", dependencies = NA, build_vignettes = FALSE)
+          } else {
+            remotes::install_version("shinyGovstyle", version = Sys.getenv("CRAN_VERSION"),
+              force = TRUE, upgrade = "never", dependencies = NA, build_vignettes = FALSE)
+          }
+          expected <- read.dcf("selected-source/DESCRIPTION")[1, "Version"]
+          app <- system.file("example_app", package = "shinyGovstyle", mustWork = TRUE)
+          destination <- file.path(Sys.getenv("OUTPUT_DIR"), "showcase")
+          dir.create(destination, recursive = TRUE)
+          files <- c("global.R", "ui.R", "server.R", list.files(app, pattern = "^(modules|www)$"))
+          stopifnot(all(file.exists(file.path(app, files))))
+          stopifnot(all(file.copy(file.path(app, files), destination, recursive = TRUE)))
+          bundled <- list.files(destination, recursive = TRUE, all.files = TRUE, no.. = TRUE)
+          rsconnect::writeManifest(appDir = destination, appFiles = bundled, appMode = "shiny")
+          manifest <- jsonlite::read_json(file.path(destination, "manifest.json"))
+          package <- manifest$packages$shinyGovstyle
+          stopifnot(identical(package$description$Version, unname(expected)))
+          if (channel == "development") {
+            stopifnot(identical(tolower(package$Source), "github"),
+              identical(package$description$RemoteSha, Sys.getenv("SOURCE_SHA")))
+          } else {
+            stopifnot(identical(package$Source, "CRAN"))
+          }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: publication-${{ env.PUBLICATION_CHANNEL }}
+          path: ${{ runner.temp }}/publication
+          include-hidden-files: true
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    # Both channels update gh-pages. Never interrupt a partially published run.
+    concurrency:
+      group: publication-writes
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+    env:
+      SOURCE_SHA: ${{ needs.build.outputs.source_sha }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: publication-${{ env.PUBLICATION_CHANNEL }}
+          path: ${{ runner.temp }}/publication
+
+      - name: Publish generated branch trees
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          if [[ "$PUBLICATION_CHANNEL" == development && "$(git rev-parse origin/main)" != "$SOURCE_SHA" ]]; then
+            echo 'Refusing obsolete development output; rerun the latest main build.'
+            exit 1
+          fi
+          output="$RUNNER_TEMP/publication"
+          branch=deploy/showcase-cran
+          [[ "$PUBLICATION_CHANNEL" != development ]] || branch=deploy/showcase-dev
+          for target in gh-pages "$branch"; do
+            tree="$RUNNER_TEMP/tree-${target//\//-}"
+            if git ls-remote --exit-code --heads origin "$target" > /dev/null; then
+              git fetch origin "refs/heads/$target:refs/remotes/origin/$target"
+              git worktree add -B "$target" "$tree" "origin/$target"
+            else
+              git worktree add --detach "$tree" HEAD
+              git -C "$tree" checkout --orphan "$target"
+              git -C "$tree" rm -rf .
+            fi
+            destination="$tree"
+            artifact="$output/showcase"
+            if [[ "$target" == gh-pages ]]; then
+              artifact="$output/site"
+              [[ "$PUBLICATION_CHANNEL" != development ]] || destination="$tree/dev"
+            fi
+            mkdir -p "$destination"
+            if [[ "$target" == gh-pages && "$PUBLICATION_CHANNEL" == cran ]]; then
+              [[ ! -e "$artifact/dev" ]] || { echo 'Unexpected dev directory in CRAN artifact'; exit 1; }
+              rsync -a --delete --exclude=.git --exclude=/dev/ --exclude=/CNAME --exclude=/.nojekyll "$artifact/" "$destination/"
+            else
+              rsync -a --delete --exclude=.git "$artifact/" "$destination/"
+            fi
+            [[ "$target" != gh-pages ]] || touch "$tree/.nojekyll"
+            git -C "$tree" add -A
+            if ! git -C "$tree" diff --cached --quiet; then
+              git -C "$tree" commit -m "Publish $PUBLICATION_CHANNEL from $SOURCE_SHA"
+              git -C "$tree" push origin "HEAD:refs/heads/$target"
+            fi
+          done
+
+      # Explicit deployment: GITHUB_TOKEN branch pushes do not trigger Pages builds.
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/tree-gh-pages
+      - name: Deploy combined documentation site
+        id: pages
+        uses: actions/deploy-pages@v4
+

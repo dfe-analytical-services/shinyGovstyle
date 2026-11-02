@@ -1,0 +1,30 @@
+name: Publish CRAN
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_sha:
+        description: Release commit SHA (full 40 characters)
+        required: true
+        type: string
+      cran_version:
+        description: Package version published on CRAN
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publication:
+    # Historical commits supply source, never workflow logic.
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/publish-docs-and-showcase.yaml
+    with:
+      channel: cran
+      source_sha: ${{ inputs.source_sha }}
+      cran_version: ${{ inputs.cran_version }}

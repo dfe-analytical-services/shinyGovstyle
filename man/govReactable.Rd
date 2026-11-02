@@ -54,7 +54,11 @@ columns always keep their visible sort indicator. Columns set to
 sortable column is placed inside the column's sort button, so it must
 not contain links or other interactive content. It must be a string, a
 tag or an R function; a \code{JS()} header on a sortable column is an error,
-because the sort button can't be added to it.}
+because the sort button can't be added to it. Screen readers and voice
+control name a sortable heading after the column's \code{name}, not its
+\code{header}, so if you set a \code{header}, also set \code{name} to the text the
+header shows, e.g.
+\code{reactable::colDef(name = "Average cost", header = "Average cost")}.}
 
 \item{caption}{Adds a caption to the table as a heading, linked to the
 table via \code{aria-labelledby}. Plain text is shown exactly as written (it is

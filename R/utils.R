@@ -6,10 +6,11 @@ govuk_error_id <- function(inputId) paste0(inputId, "-error") # nolint
 
 # Internal helper: the 1-6 heading level convention shared by heading_text(),
 # govFieldset() (and so checkbox_Input(), radio_button_Input(), and
-# date_Input()), gov_summary_card(), govReactable(), and
-# govReactableOutput(). `arg_name` lets callers whose public argument isn't
-# literally called `heading_level` (e.g. heading_text()'s `level`) keep an
-# accurate error message.
+# date_Input()), and gov_summary_card(). govReactable() and
+# govReactableOutput() use the narrower govreactable_heading_level() instead.
+# `arg_name` lets callers whose public argument isn't literally called
+# `heading_level` (e.g. heading_text()'s `level`) keep an accurate error
+# message.
 validate_heading_level <- function(level, arg_name = "heading_level") {
   if (length(level) != 1) {
     stop(

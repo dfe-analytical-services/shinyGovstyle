@@ -44,7 +44,11 @@
 #' sortable column is placed inside the column's sort button, so it must
 #' not contain links or other interactive content. It must be a string, a
 #' tag or an R function; a `JS()` header on a sortable column is an error,
-#' because the sort button can't be added to it.
+#' because the sort button can't be added to it. Screen readers and voice
+#' control name a sortable heading after the column's `name`, not its
+#' `header`, so if you set a `header`, also set `name` to the text the
+#' header shows, e.g.
+#' `reactable::colDef(name = "Average cost", header = "Average cost")`.
 #' @param caption Adds a caption to the table as a heading, linked to the
 #' table via `aria-labelledby`. Plain text is shown exactly as written (it is
 #' escaped, so `<` or `&` can't be read as HTML); pass `shiny::HTML()` or tags
@@ -272,7 +276,6 @@ captioned_table <- function(
   subtitle = NULL,
   subtitle_id = NULL
 ) {
-  validate_heading_level(heading_level)
   validate_gds_text_size(caption_size, "caption_size")
 
   has_subtitle <- !is.null(subtitle)

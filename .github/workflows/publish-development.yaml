@@ -1,0 +1,19 @@
+name: Publish development
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  publication:
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/publish-docs-and-showcase.yaml
+    with:
+      channel: development
+      source_sha: ${{ github.sha }}

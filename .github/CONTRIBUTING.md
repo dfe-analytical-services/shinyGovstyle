@@ -103,6 +103,33 @@ The `main` branch acts as the development version of the package for users, rele
 
 We make use of [GitHub's CODEOWNERS file](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) to set default reviewers for the repo and for specific parts of the code.
 
+## Publishing the website and showcase
+
+We publish separate documentation and showcases so users can try either the CRAN release or the latest development version without mixing them up.
+
+| Workflow | When it runs | Website | Showcase branch |
+| --- | --- | --- | --- |
+| Publish development | Push to main | `/shinyGovstyle/dev/` | `deploy/showcase-dev` |
+| Publish CRAN | Manual run from main | `/shinyGovstyle/` | `deploy/showcase-cran` |
+
+Updating one version leaves the other unchanged. Pull requests do not publish
+anything. Never merge the generated branches into main.
+
+Connect follows each showcase branch's root with automatic updates enabled.
+Replace `TODO_CONNECT_CRAN_URL` and `TODO_CONNECT_DEV_URL` in the documentation
+with the addresses supplied by your Connect administrator before publishing it.
+
+After a CRAN release, open **Actions → Publish CRAN → Run workflow**, select
+**main**, and enter the release commit's full 40-character ID in `source_sha`.
+The website uses that commit; the showcase installs the version in its DESCRIPTION
+from CRAN. This does not submit a package to CRAN.
+
+If a run fails, check the failed step in **GitHub Actions**. Connect updates
+separately, so check the showcase too; ask your Connect administrator to check
+its logs if needed. Retry the latest development run or run **Publish CRAN** again.
+Choosing an older CRAN release replaces the current one. Rebuilding may use newer
+dependencies.
+
 ## CSS changes
 
 All changes made to the main `inst/www/css/govuk-frontend-x.x.x.min.css` file should be logged in the `css_changes.md` file, this way they can easily be reapplied whenever the CSS assests from GOV.UK are updated.

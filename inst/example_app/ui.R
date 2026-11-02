@@ -27,9 +27,25 @@ shinyGovstyle::gov_page(
   shinyGovstyle::phase_banner(
     "banner",
     "Beta",
-    feedback_url = paste0(
-      "https://github.com/dfe-analytical-services/shinyGovstyle/issues/new",
-      "/choose"
+    label = shiny::tagList(
+      shiny::tags$span(
+        id = "showcase-package-version",
+        "You’re viewing the ",
+        shinyGovstyle::external_link(
+          href = showcase_source_url,
+          link_text = showcase_source
+        ),
+        paste0(" of shinyGovstyle v", showcase_package$Version)
+      ),
+      ". Your ",
+      shinyGovstyle::external_link(
+        href = paste0(
+          "https://github.com/dfe-analytical-services/shinyGovstyle/issues/new",
+          "/choose"
+        ),
+        link_text = "feedback"
+      ),
+      " will help us improve the package."
     )
   ),
 
@@ -39,9 +55,9 @@ shinyGovstyle::gov_page(
         size = "two-thirds",
         mod_width_toggle_ui("width_toggle", initial = demo_width),
         shinyGovstyle::gov_text(
-          "This example app showcases the components available in the",
-          "latest development version of the shinyGovstyle package.",
-          "The source code is on the ",
+          "This app showcases the components in the installed",
+          "shinyGovstyle package.",
+          "The latest development source code is on the ",
           shinyGovstyle::external_link(
             href = paste0(
               "https://github.com/dfe-analytical-services/shinyGovstyle/",
@@ -105,6 +121,7 @@ shinyGovstyle::gov_page(
     TRUE,
     links = c(
       `Cookies` = "cookies_footer_link",
+      `Package documentation` = showcase_docs_url,
       `GitHub repository` = paste(
         "https://github.com/dfe-analytical-services/shinyGovstyle"
       )

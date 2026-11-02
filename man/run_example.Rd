@@ -18,8 +18,9 @@ source code.
 The app uses the \href{https://rstudio.github.io/bslib/}{bslib package} as is
 generally recommended for Shiny apps.
 
-The app is also deployed at the following URL:
-https://department-for-education.shinyapps.io/shinygovstyle-example-app/
+Online showcases are hosted on Posit Connect:
+CRAN release: TODO_CONNECT_CRAN_URL;
+development version: TODO_CONNECT_DEV_URL.
 }
 \examples{
 if (interactive()) run_example()

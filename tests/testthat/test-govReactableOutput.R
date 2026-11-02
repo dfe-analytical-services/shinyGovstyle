@@ -119,6 +119,106 @@ test_that("deprecated string heading_level still works with a warning", {
   )
 })
 
+test_that("renderGovReactable renders a table and reacts to inputs", {
+  server <- function(input, output, session) {
+    output$table <- renderGovReactable({
+      govReactable(utils::head(iris, input$rows))
+    })
+  }
+
+  shiny::testServer(server, {
+    session$setInputs(rows = 2)
+    rendered <- jsonlite::fromJSON(output$table)
+    expect_false(is.null(rendered$x))
+    expect_length(rendered$x$tag$attribs$data$Species, 2)
+
+    session$setInputs(rows = 3)
+    rendered <- jsonlite::fromJSON(output$table)
+    expect_length(rendered$x$tag$attribs$data$Species, 3)
+  })
+})
+
+# promises is always installed, as shiny imports it, but isn't a declared
+# dependency of this package, so it's reached through its namespace rather
+# than with `promises::`, which R CMD check would flag as undeclared.
+async_value <- function(value, then) {
+  promises <- asNamespace("promises")
+  promises$then(promises$promise_resolve(value), then)
+}
+
+test_that("renderGovReactable renders an async table", {
+  server <- function(input, output, session) {
+    output$table <- renderGovReactable({
+      async_value(utils::head(iris, 2), govReactable)
+    })
+  }
+
+  shiny::testServer(server, {
+    rendered <- jsonlite::fromJSON(output$table)
+    expect_length(rendered$x$tag$attribs$data$Species, 2)
+  })
+})
+
+test_that("renderGovReactable errors on a captioned async table", {
+  server <- function(input, output, session) {
+    output$table <- renderGovReactable({
+      async_value(iris, function(df) {
+        govReactable(df, caption = "Iris measurements")
+      })
+    })
+  }
+
+  shiny::testServer(server, {
+    expect_error(
+      output$table,
+      "set them on govReactableOutput() instead",
+      fixed = TRUE
+    )
+  })
+})
+
+test_that("renderGovReactable errors on a captioned govReactable", {
+  # A captioned govReactable() is a tagList, which renderReactable() would
+  # otherwise render as an empty table with no error.
+  server <- function(input, output, session) {
+    output$table <- renderGovReactable({
+      govReactable(iris, caption = "Iris measurements")
+    })
+  }
+
+  shiny::testServer(server, {
+    expect_error(
+      output$table,
+      "set them on govReactableOutput() instead",
+      fixed = TRUE
+    )
+  })
+})
+
+test_that("renderGovReactable errors on a value that isn't a table", {
+  server <- function(input, output, session) {
+    output$table <- renderGovReactable(iris)
+  }
+
+  shiny::testServer(server, {
+    expect_error(
+      output$table,
+      "not an object of class data.frame",
+      fixed = TRUE
+    )
+  })
+})
+
+test_that("renderGovReactable allows NULL for no table", {
+  server <- function(input, output, session) {
+    output$table <- renderGovReactable(NULL)
+  }
+
+  shiny::testServer(server, {
+    expect_no_error(output$table)
+  })
+})
+
 test_that("govReactableOutput attaches the GOV.UK stylesheet", {
   output_check <- govReactableOutput("table", caption = "Example table")
   dep_names <- vapply(

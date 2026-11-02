@@ -1,8 +1,9 @@
 #' Interactive govTable
 #'
-#' This function inserts a government-styled table using `reactable`.
-#' You can use this in R markdown or Quarto documents, or use
-#' renderGovReactable({}) and govReactableOutput() for tables in R Shiny.
+#' This function inserts a government-styled table into a Shiny app using
+#' `reactable`. Put it straight into the UI for a table whose data doesn't
+#' change, or use renderGovReactable({}) and govReactableOutput() for one
+#' that does.
 #' Pass `caption` to add a heading that is programmatically linked to the
 #' table (via `aria-labelledby`), so screen reader users know what the table
 #' is about.
@@ -48,7 +49,8 @@
 #' table via `aria-labelledby`. Plain text is shown exactly as written (it is
 #' escaped, so `<` or `&` can't be read as HTML); pass `shiny::HTML()` or tags
 #' for deliberate markup. `NULL` (default) renders the table with no caption.
-#' In a Shiny app, set the caption on [govReactableOutput()] instead
+#' For a table built in the server, set the caption on [govReactableOutput()]
+#' instead, as [renderGovReactable()] gives an error for a captioned table
 #' @inheritParams table_title_params
 #' @inheritSection table_title_params Table titles
 #' @param caption_size Adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
@@ -71,7 +73,7 @@
 #' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
-#' # Example static table using govReactable
+#' # Tables whose data doesn't change, to put straight into a Shiny app's UI
 #' if (interactive()) {
 #'   # Numeric columns are right-aligned automatically
 #'   govReactable(iris)
@@ -156,6 +158,9 @@ govReactable <- # nolint
       heading_level,
       allow_legacy = FALSE
     )
+    # Checked here as well as in captioned_table() so a bad value errors even
+    # when there is no caption yet, as the documentation says.
+    validate_gds_text_size(caption_size, "caption_size")
     validate_single_content(caption, "caption")
     validate_single_content(subtitle, "subtitle")
     validate_subtitle_has_caption(caption, subtitle)
@@ -591,8 +596,58 @@ renderGovReactable <- # nolint
     if (!quoted) {
       expr <- substitute(expr)
     }
-    reactable::renderReactable(expr, env = env, quoted = TRUE)
+    table_func <- shiny::exprToFunction(expr, env, quoted = TRUE)
+
+    # createRenderFunction() waits for an async (promise) result before
+    # calling the transform, so the table is checked once it exists. Checking
+    # inside `expr` instead would see the unresolved promise and reject it.
+    shiny::createRenderFunction(
+      table_func,
+      function(value, session, name, ...) {
+        render_table <- reactable::renderReactable(check_render_value(value))
+        render_table(session, name, ...)
+      },
+      outputFunc = reactable::reactableOutput,
+      # Lets bindCache() tell different renderGovReactable() calls apart
+      cacheHint = list(label = "renderGovReactable", userExpr = expr),
+      # As in htmlwidgets::shinyRenderWidget(): register the table's
+      # dependencies again when a bindCache() hit skips the transform.
+      cacheReadHook = function(value) {
+        lapply(
+          htmltools::resolveDependencies(attr(value, "deps")),
+          shiny::createWebDependency
+        )
+        value
+      }
+    )
   }
+
+# Internal helper: renderReactable() silently renders an empty table when
+# handed anything other than a widget. The likeliest cause is
+# govReactable(caption = ...), which returns the caption and table together
+# as a tagList, so name that case and point users at govReactableOutput().
+check_render_value <- function(value) {
+  if (is.null(value) || inherits(value, "htmlwidget")) {
+    return(value)
+  }
+
+  if (inherits(value, "shiny.tag.list")) {
+    stop(
+      "renderGovReactable() needs a table without a caption. Remove ",
+      "`caption` and `subtitle` from govReactable() and set them on ",
+      "govReactableOutput() instead.",
+      call. = FALSE
+    )
+  }
+
+  stop(
+    "renderGovReactable() needs a table made with govReactable(), not an ",
+    "object of class ",
+    paste(class(value), collapse = "/"),
+    ".",
+    call. = FALSE
+  )
+}
 
 # Internal helper: validates a table caption's heading_level for
 # govReactable() and govReactableOutput(), and returns it as an integer.

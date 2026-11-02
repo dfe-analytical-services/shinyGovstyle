@@ -121,7 +121,22 @@ test_that("gov_summary_card heading_level sets the title's tag name", {
 })
 
 test_that("gov_summary_card errors on an invalid heading_level", {
-  expect_error(summary_card(heading_level = 7L), "heading_level")
+  expect_error(
+    summary_card(heading_level = 7L),
+    "`heading_level` must be an integer between 1 and 6.",
+    fixed = TRUE
+  )
+  # Rejected rather than silently rounded down to an h2
+  expect_error(
+    summary_card(heading_level = 2.5),
+    "`heading_level` must be an integer between 1 and 6.",
+    fixed = TRUE
+  )
+  expect_error(
+    summary_card(heading_level = c(2L, 3L)),
+    "`heading_level` must be a single value, not length 2.",
+    fixed = TRUE
+  )
 })
 
 test_that("gov_summary_card errors on a missing or non-string title", {

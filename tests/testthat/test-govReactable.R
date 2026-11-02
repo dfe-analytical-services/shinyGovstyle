@@ -301,6 +301,33 @@ test_that("govReactable errors on an invalid caption_size", {
     "`caption_size` must be one of",
     fixed = TRUE
   )
+  # Also without a caption, so a typo isn't hidden until one is added
+  expect_error(
+    govReactable(
+      df = shinyGovstyle::transport_data,
+      caption_size = "xxl"
+    ),
+    "`caption_size` must be one of",
+    fixed = TRUE
+  )
+})
+
+test_that("heading_level errors name the argument in backticks", {
+  expect_error(
+    govReactable(iris, caption = "Iris", heading_level = 6L),
+    "`heading_level` must be a single integer from 1 to 5",
+    fixed = TRUE
+  )
+  expect_error(
+    validate_heading_level(c(2, 3)),
+    "`heading_level` must be a single value, not length 2.",
+    fixed = TRUE
+  )
+  expect_error(
+    validate_heading_level(7),
+    "`heading_level` must be an integer between 1 and 6.",
+    fixed = TRUE
+  )
 })
 
 # Column alignment by id, from the column definitions reactable will render

@@ -176,11 +176,13 @@ test_that("heading_text returns correct heading level", {
   # Test invalid level throws error
   expect_error(
     heading_text("Test", level = 0),
-    "level must be an integer between 1 and 6"
+    "`level` must be an integer between 1 and 6",
+    fixed = TRUE
   )
   expect_error(
     heading_text("Test", level = 7),
-    "level must be an integer between 1 and 6"
+    "`level` must be an integer between 1 and 6",
+    fixed = TRUE
   )
 })
 

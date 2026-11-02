@@ -15,8 +15,11 @@
 * `govReactable()` gains a `language` argument, so you can still translate
   reactable's text with `reactable::reactableLang()`.
 * `govReactable()` gains `caption`, `subtitle`, `caption_size`,
-  `heading_level` and `caption_id`, so a static table (for example in R
-  Markdown or Quarto) can have a title linked to it (#158).
+  `heading_level` and `caption_id`, so a table put straight into a Shiny
+  app's UI can have a title linked to it (#158). For a table built in the
+  server, set the caption on `govReactableOutput()` instead:
+  `renderGovReactable()` gives an error if it is passed a captioned table,
+  rather than showing an empty one.
 * `govTable()`, `govReactable()` and `govReactableOutput()` gain a `subtitle`
   argument, following the Analysis Function guidance on table titles: a short
   headline in `caption`, with what the data is, where and when in `subtitle`.

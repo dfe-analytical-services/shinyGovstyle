@@ -6,26 +6,34 @@ govuk_error_id <- function(inputId) paste0(inputId, "-error") # nolint
 
 # Internal helper: the 1-6 heading level convention shared by heading_text(),
 # govFieldset() (and so checkbox_Input(), radio_button_Input(), and
-# date_Input()), govReactable(), and govReactableOutput(). `arg_name` lets
-# callers whose public argument isn't literally called `heading_level` (e.g.
-# heading_text()'s `level`) keep an accurate error message.
+# date_Input()), gov_summary_card(), govReactable(), and
+# govReactableOutput(). `arg_name` lets callers whose public argument isn't
+# literally called `heading_level` (e.g. heading_text()'s `level`) keep an
+# accurate error message.
 validate_heading_level <- function(level, arg_name = "heading_level") {
   if (length(level) != 1) {
     stop(
+      "`",
       arg_name,
-      " must be a single value, not length ",
+      "` must be a single value, not length ",
       length(level),
-      "."
+      ".",
+      call. = FALSE
     )
   }
   if (!is.numeric(level) || level %% 1 != 0 || !(level %in% 1:6)) {
-    stop(arg_name, " must be an integer between 1 and 6.")
+    stop(
+      "`",
+      arg_name,
+      "` must be an integer between 1 and 6.",
+      call. = FALSE
+    )
   }
 }
 
 # Internal helper: builds an `<hN>` heading tag shared by heading_text(),
-# govFieldset(), govReactable(), and govReactableOutput(), so the
-# `shiny::tags[[paste0("h", level)]]` pattern only exists in one place.
+# govFieldset(), gov_summary_card(), govReactable(), and govReactableOutput(),
+# so the `shiny::tags[[paste0("h", level)]]` pattern only exists in one place.
 build_heading_tag <- function(level, content, class, id = NULL) {
   do.call(
     shiny::tags[[paste0("h", level)]],

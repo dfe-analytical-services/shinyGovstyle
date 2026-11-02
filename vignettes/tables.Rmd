@@ -31,7 +31,7 @@ shinyGovstyle has three ways to show a table:
 
 `govTable()` builds a plain HTML table in the GOV.UK style. It is the simplest option and works well up to a few dozen rows. It warns you if you give it more than 50 rows, because a long static table is slow to load and hard to read.
 
-`govReactable()` uses the [reactable](https://glin.github.io/reactable/) package, so users can sort columns and move between pages. It also works in R Markdown and Quarto documents.
+`govReactable()` uses the [reactable](https://glin.github.io/reactable/) package, so users can sort columns and move between pages. Put it straight into your app's UI when the data does not change.
 
 ## Giving a table a title
 
@@ -97,7 +97,7 @@ govReactable(
 )
 ```
 
-govReactable does not show reactable's sort icons, because they are not accessible. Users can still sort by selecting a column heading.
+Each column heading is a button that sorts the table, with an arrow showing it can be sorted. This replaces reactable's own sort icons, which are not accessible, and means voice control users can sort by saying the heading's name.
 
 ## Tables in a Shiny app
 

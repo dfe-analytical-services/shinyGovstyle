@@ -60,7 +60,8 @@ because the sort button can't be added to it.}
 table via \code{aria-labelledby}. Plain text is shown exactly as written (it is
 escaped, so \code{<} or \code{&} can't be read as HTML); pass \code{shiny::HTML()} or tags
 for deliberate markup. \code{NULL} (default) renders the table with no caption.
-In a Shiny app, set the caption on \code{\link[=govReactableOutput]{govReactableOutput()}} instead}
+For a table built in the server, set the caption on \code{\link[=govReactableOutput]{govReactableOutput()}}
+instead, as \code{\link[=renderGovReactable]{renderGovReactable()}} gives an error for a captioned table}
 
 \item{subtitle}{Optional line shown under the caption, in smaller, lighter
 text: what the data is, where and when it covers, and the units if every
@@ -105,9 +106,10 @@ visible text (see issue #190). Additional arguments from
 \code{reactable::reactable} can be passed to customise the table.
 }
 \details{
-This function inserts a government-styled table using \code{reactable}.
-You can use this in R markdown or Quarto documents, or use
-renderGovReactable({}) and govReactableOutput() for tables in R Shiny.
+This function inserts a government-styled table into a Shiny app using
+\code{reactable}. Put it straight into the UI for a table whose data doesn't
+change, or use renderGovReactable({}) and govReactableOutput() for one
+that does.
 Pass \code{caption} to add a heading that is programmatically linked to the
 table (via \code{aria-labelledby}), so screen reader users know what the table
 is about.
@@ -138,7 +140,7 @@ avoid repeating the same information in both. See also the
 }
 
 \examples{
-# Example static table using govReactable
+# Tables whose data doesn't change, to put straight into a Shiny app's UI
 if (interactive()) {
   # Numeric columns are right-aligned automatically
   govReactable(iris)

@@ -155,14 +155,10 @@ gov_summary_card <- function(
   info,
   border = TRUE
 ) {
-  heading_level <- as.integer(heading_level)
-  if (heading_level < 1L || heading_level > 6L) {
-    stop("`heading_level` must be an integer between 1 and 6.")
-  }
+  validate_heading_level(heading_level)
   if (!is.character(title) || length(title) != 1 || !nzchar(title)) {
     stop("`title` must be a single, non-empty string.", call. = FALSE)
   }
-  heading_tag <- paste0("h", heading_level)
 
   inner_list <- summary_list(inputId, headers, info, border)
 
@@ -172,10 +168,7 @@ gov_summary_card <- function(
     class = "govuk-summary-card shinygovstyle-summary",
     shiny::tags$div(
       class = "govuk-summary-card__title-wrapper",
-      shiny::tags[[heading_tag]](
-        class = "govuk-summary-card__title",
-        title
-      )
+      build_heading_tag(heading_level, title, "govuk-summary-card__title")
     ),
     shiny::tags$div(
       class = "govuk-summary-card__content",

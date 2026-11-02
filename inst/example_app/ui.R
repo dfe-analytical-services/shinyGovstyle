@@ -39,9 +39,13 @@ shinyGovstyle::gov_page(
         size = "two-thirds",
         mod_width_toggle_ui("width_toggle", initial = demo_width),
         shinyGovstyle::gov_text(
-          "This example app showcases the components available in the",
-          "latest development version of the shinyGovstyle package.",
-          "The source code is on the ",
+          shiny::tags$strong(
+            paste("Package version:", utils::packageVersion("shinyGovstyle"))
+          )
+        ),
+        shinyGovstyle::gov_text(
+          "This app showcases the components in the installed shinyGovstyle package.",
+          "The latest development source code is on the ",
           shinyGovstyle::external_link(
             href = paste0(
               "https://github.com/dfe-analytical-services/shinyGovstyle/",

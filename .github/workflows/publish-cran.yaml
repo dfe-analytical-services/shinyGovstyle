@@ -7,10 +7,6 @@ on:
         description: Release commit SHA (full 40 characters)
         required: true
         type: string
-      cran_version:
-        description: Package version published on CRAN
-        required: true
-        type: string
 
 permissions:
   contents: read
@@ -27,4 +23,3 @@ jobs:
     with:
       channel: cran
       source_sha: ${{ inputs.source_sha }}
-      cran_version: ${{ inputs.cran_version }}

@@ -411,7 +411,33 @@ test_that("sortable headers render as a native button (#190)", {
   expect_identical(header$name, "button")
   expect_identical(header$attribs$type, "button")
   expect_identical(header$attribs$className, "gov-sort-button")
-  expect_identical(header$children[[1]], "months")
+  expect_identical(sort_header_label(header), "months")
+})
+
+test_that("sortable headers carry the MOJ sort arrows as a hidden svg", {
+  # The arrows are decorative (aria-sort on the header carries the state), so
+  # the svg is hidden from assistive technology and filled with currentColor
+  # so it follows the button's colour in forced-colors mode.
+  table <- govReactable(df = shinyGovstyle::transport_data)
+  header <- find_reactable_col(table, "months")$header
+  icon <- sort_header_part(header, "gov-sort-icon")
+
+  expect_identical(icon$name, "svg")
+  expect_identical(icon$attribs$`aria-hidden`, "true")
+  expect_identical(icon$attribs$focusable, "false")
+
+  arrows <- Filter(is.list, icon$children)
+  classes <- vapply(arrows, function(arrow) arrow$attribs$className, "")
+  expect_setequal(
+    classes,
+    c(
+      "gov-sort-icon__none",
+      "gov-sort-icon__ascending",
+      "gov-sort-icon__descending"
+    )
+  )
+  fills <- vapply(arrows, function(arrow) arrow$attribs$fill, "")
+  expect_true(all(fills == "currentColor"))
 })
 
 test_that("govReactable keeps other language settings", {
@@ -490,7 +516,7 @@ test_that("columns argument merges user format over GOV.UK defaults", {
   expect_true(percent_col$html)
   expect_identical(percent_col$na, "NA")
   expect_identical(percent_col$align, "right")
-  expect_identical(percent_col$headerClassName, "bar-sort-header")
+  expect_identical(percent_col$headerClassName, "gov-sort-header")
 })
 
 test_that("columns argument only affects the named column", {
@@ -537,7 +563,7 @@ test_that("columns argument merges user class/headerClass over defaults", {
   expect_identical(percent_col$className, "custom-percent-cell")
   expect_identical(
     percent_col$headerClassName,
-    "bar-sort-header custom-percent-header"
+    "gov-sort-header custom-percent-header"
   )
 
   # GOV.UK defaults survive for fields the user didn't touch
@@ -546,7 +572,7 @@ test_that("columns argument merges user class/headerClass over defaults", {
 })
 
 test_that("columns headerClass can't remove the sort indicator class", {
-  # The permanent sort chevron and click target hang off bar-sort-header, so
+  # The permanent sort arrows and click target hang off gov-sort-header, so
   # a user's headerClass must not replace it (#190). Repeating the class
   # shouldn't duplicate it either.
   df <- data.frame(count = c(1234, 56, 789), percent = c(4, 4.7, 12.34))
@@ -554,17 +580,17 @@ test_that("columns headerClass can't remove the sort indicator class", {
   table <- govReactable(
     df,
     columns = list(
-      count = reactable::colDef(headerClass = "bar-sort-header extra")
+      count = reactable::colDef(headerClass = "gov-sort-header extra")
     )
   )
 
   count_col <- find_reactable_col(table, "count")
 
-  expect_identical(count_col$headerClassName, "bar-sort-header extra")
+  expect_identical(count_col$headerClassName, "gov-sort-header extra")
 })
 
 test_that("columns sortable = FALSE drops the sort indicator class", {
-  # An unsortable column shouldn't show a sort chevron it can't act on.
+  # An unsortable column shouldn't show a sort arrow it can't act on.
   df <- data.frame(count = c(1234, 56, 789), percent = c(4, 4.7, 12.34))
 
   table <- govReactable(
@@ -623,15 +649,15 @@ test_that("columns header strings and functions go inside the sort button", {
   count_header <- find_reactable_col(table, "count")$header
   expect_identical(count_header$name, "button")
   expect_identical(count_header$attribs$className, "gov-sort-button")
-  expect_identical(count_header$children[[1]], "Number of things")
+  expect_identical(sort_header_label(count_header), "Number of things")
 
   percent_header <- find_reactable_col(table, "percent")$header
   expect_identical(percent_header$name, "button")
-  expect_identical(percent_header$children[[1]], "percent (%)")
+  expect_identical(sort_header_label(percent_header), "percent (%)")
 
   rate_header <- find_reactable_col(table, "rate")$header
   expect_identical(rate_header$name, "button")
-  expect_identical(rate_header$children[[1]], "rate [rate]")
+  expect_identical(sort_header_label(rate_header), "rate [rate]")
 })
 
 test_that("columns header set with JS() errors on a sortable column", {

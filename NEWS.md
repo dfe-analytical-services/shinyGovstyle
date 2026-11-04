@@ -10,7 +10,9 @@
 * New `update_reactable_caption()` changes a table's caption from the server,
   for example after a filter.
 * Sortable `govReactable()` headings are now buttons with a visible sort
-  arrow, so screen readers and voice control can use them (#190).
+  arrow, so screen readers and voice control can use them (#190). Obvious
+  arrow icons inspired by the MoJ design system replace reactable's coloured
+  sort bar.
 
 ## Breaking changes
 

@@ -17,7 +17,7 @@
 // bubbling up to reactable's click handler).
 
 (function () {
-  var HEADER_SELECTOR = '.gov-table .bar-sort-header[tabindex="0"]';
+  var HEADER_SELECTOR = '.gov-table .gov-sort-header[tabindex="0"]';
   var LABELLED_SELECTOR = ".shinygovstyle-reactable-labelled";
   var TABLE_SELECTOR = '[role="table"]';
 

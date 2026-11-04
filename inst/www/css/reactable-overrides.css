@@ -13,66 +13,83 @@
  */
 
 
-/* custom sort indicators -------------------------------------------------- */
-.bar-sort-header:hover {
-  background: #fd0;
-}
-
-/* Add a top bar on ascending sort */
-.bar-sort-header[aria-sort="ascending"] {
-  box-shadow: inset 0 0.188rem 0 0 #1d70b8;
-}
-
-/* Add a bottom bar on descending sort */
-.bar-sort-header[aria-sort="descending"] {
-  box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
-}
-
-/* Add an animation when toggling between ascending and descending sort */
-.bar-sort-header {
-  transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-/* Sort buttons and indicators (issue #190) --------------------------------
+/* Sortable column headers (issue #190) ------------------------------------
  * govReactable() puts a native <button class="gov-sort-button"> in each
- * sortable header, following the MOJ and ONS sortable table patterns. The
- * button fills the whole header so the full cell is the click target.
+ * sortable header. The button, its arrow icons and its colours follow the MOJ
+ * sortable table (https://design-patterns.service.justice.gov.uk/components/sortable-table/),
+ * which is a widely used pattern. The arrow paths are copied from
+ * moj-frontend (MIT licence), drawn as inline SVG filled with currentColor so
+ * they take the button's colour, including under forced-colors mode:
+ *   - unsorted: a small up and a small down arrow
+ *   - ascending: a single, larger up arrow
+ *   - descending: a single, larger down arrow
+ * The three arrows live in one SVG and aria-sort on the header chooses which
+ * one shows. reactable's own sort icon and active-column bar are not used
+ * (showSortIcon = FALSE, see govReactable()).
  *
- * reactable's built-in sort icon is disabled (showSortIcon = FALSE, see
- * govReactable()) because it's too small and only appears on the active
- * column. Instead each button shows a permanent indicator, so sighted users
- * can see a column is sortable before they sort it:
- *   - unsorted: an up and a down chevron, stacked, in grey
- *   - ascending: only the up chevron, in blue (plus the top bar above)
- *   - descending: only the down chevron, in blue (plus the bottom bar above)
- * The states differ in shape as well as colour. The chevrons are built from
- * plain borders (the same technique as .govuk-accordion-nav__chevron) rather
- * than an SVG or icon font, so they degrade predictably under forced-colors
- * mode. */
-.bar-sort-header .rt-th-inner {
+ * Differences from MOJ: the button fills the whole header cell, so the full
+ * cell is the click target, and every icon sits level with the last line of
+ * its label. reactable stretches header cells to the height of the tallest
+ * one in the row, and the button stretches with them, so a one-line heading
+ * next to a heading that wraps still gets an icon at the same height.
+ * Sortable headers have no hover highlight (as in MOJ); keyboard focus gets
+ * the yellow GOV.UK highlight, so a hovered header and a tabbed-to header are
+ * never both highlighted at once. */
+.gov-sort-header .rt-th-inner {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
   padding: 0;
 }
 
-.bar-sort-header .rt-sort-header {
+.gov-sort-header .rt-sort-header {
   width: 100%;
 }
 
 .gov-sort-button {
-  position: relative;
-  display: block;
+  display: flex;
   box-sizing: border-box;
+  align-items: flex-end;
   width: 100%;
   margin: 0;
-  padding: 0.75rem 2.25rem 0.75rem 0.5rem;
+  padding: 0.75rem 0.5rem;
   border: 0;
   border-radius: 0;
-  background: none;
-  color: inherit;
+  box-shadow: none;
+  background-color: transparent;
+  /* MOJ's button colour */
+  color: #005ea5;
   font: inherit;
   text-align: inherit;
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
+}
+
+/* Keep the heading and its arrow next to each other at the same edge as the
+   column's alignment */
+.rt-align-right .gov-sort-button {
+  justify-content: flex-end;
+}
+
+.rt-align-center .gov-sort-button {
+  justify-content: center;
+}
+
+/* A heading wraps at spaces, and only breaks a word when the column is too
+   narrow to hold it at all */
+.gov-sort-button__label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.gov-sort-icon {
+  flex: none;
+  width: 1.375rem;
+  height: 1.375rem;
+  /* Centre the 22px icon on the last line of the label */
+  margin-bottom: 0.1rem;
+  margin-bottom: calc((1lh - 1.375rem) / 2);
 }
 
 /* GOV.UK focus state */
@@ -83,50 +100,19 @@
   color: #0b0c0c;
 }
 
-.gov-sort-button::before,
-.gov-sort-button::after {
-  content: "";
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  top: 50%;
-  right: 0.75rem;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-top: 0.1875rem solid #505a5f;
-  border-right: 0.1875rem solid #505a5f;
-}
-
-/* Unsorted: up chevron above the middle, down chevron below it */
-.gov-sort-button::before {
-  margin-top: -0.375rem;
-  transform: rotate(-45deg);
-}
-
-.gov-sort-button::after {
-  margin-top: -0.125rem;
-  transform: rotate(135deg);
-}
-
-/* Ascending: only the up chevron, centred, coloured to match the top bar */
-.bar-sort-header[aria-sort="ascending"] .gov-sort-button::before {
-  margin-top: -0.0625rem;
-  border-color: #1d70b8;
-}
-
-.bar-sort-header[aria-sort="ascending"] .gov-sort-button::after {
+.gov-sort-icon__ascending,
+.gov-sort-icon__descending {
   display: none;
 }
 
-/* Descending: only the down chevron, centred, coloured to match the bottom
-   bar */
-.bar-sort-header[aria-sort="descending"] .gov-sort-button::after {
-  margin-top: -0.4375rem;
-  border-color: #1d70b8;
+.gov-sort-header[aria-sort="ascending"] .gov-sort-icon__none,
+.gov-sort-header[aria-sort="descending"] .gov-sort-icon__none {
+  display: none;
 }
 
-.bar-sort-header[aria-sort="descending"] .gov-sort-button::before {
-  display: none;
+.gov-sort-header[aria-sort="ascending"] .gov-sort-icon__ascending,
+.gov-sort-header[aria-sort="descending"] .gov-sort-icon__descending {
+  display: inline;
 }
 
 
@@ -172,27 +158,10 @@
     background-color: Highlight !important;
     color: HighlightText !important;
   }
-  /* box-shadow is stripped under forced-colors, so re-draw the ascending /
-     descending sort indicator using a border-color (which HCM preserves). */
-  .gov-table .bar-sort-header[aria-sort="ascending"] {
-    border-top: 0.188rem solid CanvasText;
-  }
-  .gov-table .bar-sort-header[aria-sort="descending"] {
-    border-bottom: 0.188rem solid CanvasText;
-  }
-  /* The chevrons' border-color survives forced-colors, but grey (unsorted)
-     and GOV.UK blue (active) could be flattened to the same system colour.
-     Use distinct system colour keywords; the states also differ in shape
-     (two chevrons or one), so colour isn't the only cue. */
-  .gov-table .gov-sort-button::before,
-  .gov-table .gov-sort-button::after {
-    border-color: CanvasText;
-  }
-  .gov-table .bar-sort-header[aria-sort="ascending"] .gov-sort-button::before,
-  .gov-table .bar-sort-header[aria-sort="descending"] .gov-sort-button::after {
-    border-color: Highlight;
-  }
-  .bar-sort-header:hover,
+  /* The sort arrows are filled with currentColor, so the browser's forced
+     colours apply to them with no rule here. The sort states differ in shape
+     (two small arrows, or one larger one pointing up or down), so colour is
+     never the only cue. */
   .gov-sort-button:focus {
     outline: 3px solid Highlight !important;
     outline-offset: -3px;

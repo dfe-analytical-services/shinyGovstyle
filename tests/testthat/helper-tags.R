@@ -269,6 +269,32 @@ find_reactable_col <- function(table, id) {
   hits[[1L]]
 }
 
+# sort_header_part() returns the serialised child of a govReactable() sort
+# button header (the label span or the icon svg) with the given class, looked
+# up by class rather than by position.
+sort_header_part <- function(header, class) {
+  hits <- Filter(
+    function(child) is.list(child) && identical(child$attribs$className, class),
+    header$children
+  )
+  if (length(hits) != 1L) {
+    stop(
+      sprintf(
+        "Expected exactly one header child with class %s, found %d",
+        shQuote(class),
+        length(hits)
+      ),
+      call. = FALSE
+    )
+  }
+  hits[[1L]]
+}
+
+# sort_header_label() returns the text inside a sort button header's label.
+sort_header_label <- function(header) {
+  sort_header_part(header, "gov-sort-button__label")$children[[1L]]
+}
+
 # expect_no_tag() asserts no tag with `class` is present.
 expect_no_tag <- function(x, class) {
   testthat::expect_null(find_tag(x, class))

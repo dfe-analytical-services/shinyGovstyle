@@ -181,7 +181,7 @@ govReactable <- # nolint
           name = col,
           sortable = TRUE,
           header = function(value) sort_header_button(value),
-          headerClass = "bar-sort-header",
+          headerClass = "gov-sort-header",
           html = TRUE,
           na = "NA",
           # GOV.UK right-aligns numbers so they line up for comparison, so
@@ -374,8 +374,8 @@ validate_id_has_caption <- function(caption, caption_id) {
   invisible(caption_id)
 }
 
-# The permanent sort chevron, larger click target and active-sort bar in
-# reactable-overrides.css all hang off the `bar-sort-header` class, so it is
+# The permanent sort arrows and larger click target in
+# reactable-overrides.css all hang off the `gov-sort-header` class, so it is
 # fixed rather than overridable: a user's `headerClass` from `columns` is added
 # alongside it instead of replacing it (#190). A column the user makes
 # unsortable drops the class, so its header doesn't advertise a sort it can't
@@ -386,10 +386,10 @@ sort_header_class <- function(col_def) {
   } else {
     unlist(strsplit(col_def$headerClassName, "\\s+"))
   }
-  classes <- setdiff(classes[nzchar(classes)], "bar-sort-header")
+  classes <- setdiff(classes[nzchar(classes)], "gov-sort-header")
 
   if (isTRUE(col_def$sortable)) {
-    classes <- c("bar-sort-header", classes)
+    classes <- c("gov-sort-header", classes)
   }
 
   if (length(classes) == 0) {
@@ -409,7 +409,56 @@ sort_header_class <- function(col_def) {
 # stops Enter/Space on the button from also reaching reactable's keypress
 # handler, which would otherwise sort twice.
 sort_header_button <- function(content) {
-  shiny::tags$button(type = "button", class = "gov-sort-button", content)
+  shiny::tags$button(
+    type = "button",
+    class = "gov-sort-button",
+    shiny::tags$span(class = "gov-sort-button__label", content),
+    sort_icon()
+  )
+}
+
+# The sort arrows from the MOJ sortable table (moj-frontend, MIT licence), as
+# one decorative SVG. The paths are filled with currentColor so they take the
+# button's colour, including under forced-colors mode. The header's aria-sort
+# decides in CSS which arrow shows: two small arrows when unsorted, or one
+# larger arrow pointing up (ascending) or down (descending).
+sort_icon <- function() {
+  arrow <- function(class, d) {
+    htmltools::tag(
+      "path",
+      list(class = class, d = d, fill = "currentColor")
+    )
+  }
+
+  htmltools::tag(
+    "svg",
+    list(
+      class = "gov-sort-icon",
+      width = "22",
+      height = "22",
+      viewBox = "0 0 22 22",
+      fill = "none",
+      focusable = "false",
+      `aria-hidden` = "true",
+      xmlns = "http://www.w3.org/2000/svg",
+      arrow(
+        "gov-sort-icon__none",
+        "M8.1875 9.5L10.9609 3.95703L13.7344 9.5H8.1875Z"
+      ),
+      arrow(
+        "gov-sort-icon__none",
+        "M13.7344 12.0781L10.9609 17.6211L8.1875 12.0781H13.7344Z"
+      ),
+      arrow(
+        "gov-sort-icon__ascending",
+        "M6.5625 15.5L11 6.63125L15.4375 15.5H6.5625Z"
+      ),
+      arrow(
+        "gov-sort-icon__descending",
+        "M15.4375 7L11 15.8687L6.5625 7L15.4375 7Z"
+      )
+    )
+  )
 }
 
 # Decide the header for a column the user customised through `columns`. A

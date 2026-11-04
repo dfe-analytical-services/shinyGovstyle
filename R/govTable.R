@@ -9,6 +9,8 @@
 #' A warning is emitted when `df` has more than 50 rows.
 #' @param df expects a dataframe to create a table
 #' @param caption adds a caption to the table as a header
+#' @inheritParams table_title_params
+#' @inheritSection table_title_params Table titles
 #' @param caption_size adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
 #' `"xl"`, with `"l"` as the default. Any other value throws an error.
 #' @param num_col adds numeric class format to these columns
@@ -16,9 +18,8 @@
 #' Columns must add up to 1.
 #' Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
 #' Default is `NULL`
-#' @return A `div` HTML shiny tag object: a scroll container holding the
-#'   table, which has `inputId` as its id. Wide tables scroll sideways inside
-#'   the container rather than making the whole page scroll.
+#' @return A `div` shiny tag holding the table, which has `inputId` as its id.
+#'   Wide tables scroll sideways inside the `div`, not the whole page.
 #' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
@@ -27,10 +28,11 @@
 #'     shinyGovstyle::govTable(
 #'       "tab1",
 #'       shinyGovstyle::transport_data_small,
-#'       "Test",
+#'       "Bike and car costs were highest in March",
 #'       "l",
 #'       num_col = c(2,3),
-#'       width_overwrite = c("one-half", "one-quarter", "one-quarter")
+#'       width_overwrite = c("one-half", "one-quarter", "one-quarter"),
+#'       subtitle = "Cost of bikes and cars, January to March"
 #'     )
 #'   )
 #' )
@@ -45,9 +47,11 @@ govTable <- # nolint
     caption,
     caption_size = "l",
     num_col = NULL,
-    width_overwrite = NULL
+    width_overwrite = NULL,
+    subtitle = NULL
   ) {
     validate_gds_text_size(caption_size, "caption_size")
+    validate_single_content(subtitle, "subtitle")
 
     # Static HTML tables become slow to render and hard to navigate (no
     # pagination, sorting, or filtering) as they grow. Steer users towards
@@ -85,7 +89,19 @@ govTable <- # nolint
           caption_size
         ),
         style = "caption-side: top;",
-        caption
+        caption,
+        # The subtitle goes inside the native <caption>, so every screen
+        # reader treats it as part of the table's name without any ARIA. Plain
+        # text is escaped, as for the caption.
+        if (!is.null(subtitle)) {
+          shiny::tags$span(
+            class = paste(
+              subtitle_class(caption_size),
+              "govuk-!-margin-top-1"
+            ),
+            subtitle
+          )
+        }
       ),
       shiny::tags$thead(
         class = "govuk-table__head",

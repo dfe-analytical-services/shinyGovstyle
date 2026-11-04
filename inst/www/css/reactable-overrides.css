@@ -13,25 +13,102 @@
  */
 
 
-/* custom sort indicators -------------------------------------------------- */
-.bar-sort-header:hover,
-.bar-sort-header:focus {
-  background: #fd0;
+/* Sortable column headers (issue #190) ------------------------------------
+ * govReactable() puts a native <button class="gov-sort-button"> in each
+ * sortable header. The button, arrows and colour follow the MOJ sortable table
+ * (https://design-patterns.service.justice.gov.uk/components/sortable-table/).
+ * The arrow paths are from moj-frontend (MIT licence), as inline SVG filled
+ * with currentColor so they follow the button's colour, including in
+ * forced-colors mode. aria-sort on the header picks which arrow shows:
+ *   - unsorted: a small up arrow and a small down arrow
+ *   - ascending: one larger up arrow
+ *   - descending: one larger down arrow
+ * reactable's own sort icon and sorted-column bar are not used.
+ *
+ * Differences from MOJ: the button fills the whole header cell, so the whole
+ * cell is clickable, and each arrow sits level with the last line of its
+ * label, so arrows line up across the row even when some headings wrap. There
+ * is no hover highlight (as in MOJ). Keyboard focus gets the yellow GOV.UK
+ * highlight, so a hovered header and a focused header are never both
+ * highlighted. */
+.gov-sort-header .rt-th-inner {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
 }
 
-/* Add a top bar on ascending sort */
-.bar-sort-header[aria-sort="ascending"] {
-  box-shadow: inset 0 0.188rem 0 0 #1d70b8;
+.gov-sort-header .rt-sort-header {
+  width: 100%;
 }
 
-/* Add a bottom bar on descending sort */
-.bar-sort-header[aria-sort="descending"] {
-  box-shadow: inset 0 -0.188rem 0 0 #1d70b8;
+.gov-sort-button {
+  display: flex;
+  box-sizing: border-box;
+  align-items: flex-end;
+  width: 100%;
+  margin: 0;
+  /* No padding on the icon's side: the icon has about 6px of blank space of
+     its own, which lines its edge up with the data's right-hand padding */
+  padding: 0.75rem 0 0.75rem 0.5rem;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: transparent;
+  /* MOJ's button colour */
+  color: #005ea5;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-/* Add an animation when toggling between ascending and descending sort */
-.bar-sort-header {
-  transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+/* Keep the label and arrow at the same edge as the column's alignment */
+.rt-align-right .gov-sort-button {
+  justify-content: flex-end;
+}
+
+.rt-align-center .gov-sort-button {
+  justify-content: center;
+}
+
+/* Wrap at spaces. Only break a word if the column can't hold it */
+.gov-sort-button__label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.gov-sort-icon {
+  flex: none;
+  width: 1.375rem;
+  height: 1.375rem;
+  /* Centre the 22px icon on the last line of the label */
+  margin-bottom: 0.1rem;
+  margin-bottom: calc((1lh - 1.375rem) / 2);
+}
+
+/* GOV.UK focus state */
+.gov-sort-button:focus {
+  outline: 3px solid transparent;
+  background-color: #fd0;
+  box-shadow: inset 0 -4px 0 0 #0b0c0c;
+  color: #0b0c0c;
+}
+
+.gov-sort-icon__ascending,
+.gov-sort-icon__descending {
+  display: none;
+}
+
+.gov-sort-header[aria-sort="ascending"] .gov-sort-icon__none,
+.gov-sort-header[aria-sort="descending"] .gov-sort-icon__none {
+  display: none;
+}
+
+.gov-sort-header[aria-sort="ascending"] .gov-sort-icon__ascending,
+.gov-sort-header[aria-sort="descending"] .gov-sort-icon__descending {
+  display: inline;
 }
 
 
@@ -77,16 +154,11 @@
     background-color: Highlight !important;
     color: HighlightText !important;
   }
-  /* box-shadow is stripped under forced-colors, so re-draw the ascending /
-     descending sort indicator using a border-color (which HCM preserves). */
-  .gov-table .bar-sort-header[aria-sort="ascending"] {
-    border-top: 0.188rem solid CanvasText;
-  }
-  .gov-table .bar-sort-header[aria-sort="descending"] {
-    border-bottom: 0.188rem solid CanvasText;
-  }
-  .bar-sort-header:hover,
-  .bar-sort-header:focus {
+  /* The sort arrows are filled with currentColor, so the browser's forced
+     colours apply to them with no rule here. The sort states differ in shape
+     (two small arrows, or one larger one pointing up or down), so colour is
+     never the only cue. */
+  .gov-sort-button:focus {
     outline: 3px solid Highlight !important;
     outline-offset: -3px;
   }

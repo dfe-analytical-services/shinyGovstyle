@@ -4,6 +4,15 @@
 
 * New `gov_summary_card()` wraps a summary list in a GOV.UK summary card with
   a title and heading level, for pages that show several summary lists.
+* `govReactable()` and `govReactableOutput()` tables can have a `caption` and
+  `subtitle` that screen readers read out when they reach the table (#158).
+  `govTable()` also gains `subtitle`.
+* New `update_reactable_caption()` changes a table's caption from the server,
+  for example after a filter.
+* Sortable `govReactable()` headings are now buttons with a visible sort
+  arrow, so screen readers and voice control can use them (#190). Obvious
+  arrow icons inspired by the MoJ design system replace reactable's coloured
+  sort bar.
 
 ## Breaking changes
 
@@ -13,6 +22,10 @@
 * `govTabs()` tab and panel ids now start with `inputId`, and the old `name`
   attributes are gone. Update any custom CSS or JavaScript that used them.
 * `gov_summary()` no longer has an `action` argument; remove it from any calls.
+* `govReactable()` now right-aligns numeric columns automatically, as its
+  documentation always said. To keep one left-aligned, use
+  `columns = list(<column> = reactable::colDef(align = "left"))`.
+* A `JS()` header on a sortable `govReactable()` column now gives an error.
 
 ## Bug fixes
 

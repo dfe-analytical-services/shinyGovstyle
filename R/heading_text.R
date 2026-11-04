@@ -17,20 +17,15 @@ heading_text <- function(text_input, size = "xl", id, level = 1) {
     id <- clean_heading_text(text_input)
   }
 
-  if (!is.numeric(level) || level %% 1 != 0 || !(level %in% 1:6)) {
-    stop("level must be an integer between 1 and 6")
-  }
+  validate_heading_level(level, arg_name = "level")
 
   validate_gds_text_size(size)
 
-  heading_tag <- paste0("h", level)
-  gov_heading <- do.call(
-    shiny::tags[[heading_tag]],
-    list(
-      shiny::HTML(text_input),
-      class = paste0("govuk-heading-", size),
-      id = id
-    )
+  gov_heading <- build_heading_tag(
+    level,
+    shiny::HTML(text_input),
+    paste0("govuk-heading-", size),
+    id
   )
   attachDependency(gov_heading)
 }

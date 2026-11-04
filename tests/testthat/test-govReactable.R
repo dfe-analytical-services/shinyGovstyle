@@ -221,6 +221,14 @@ test_that("govReactable errors on an invalid subtitle", {
   }
 })
 
+test_that("govReactable caption_id needs a caption", {
+  expect_error(
+    govReactable(shinyGovstyle::transport_data, caption_id = "costs"),
+    "`caption_id` needs a `caption`",
+    fixed = TRUE
+  )
+})
+
 test_that("govReactable errors on an invalid caption_id", {
   for (bad_id in list("", "two words", NA_character_, c("a", "b"), 1)) {
     expect_error(

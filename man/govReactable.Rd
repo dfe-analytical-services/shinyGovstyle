@@ -85,7 +85,8 @@ the main content of the page, so the caption is the page's main heading}
 \item{caption_id}{The id given to the caption heading, which the table
 references via \code{aria-labelledby}. Must be unique on the page and contain no
 spaces. \code{NULL} (default) generates a unique id for you, so you only need
-this if you want to link to or style the caption yourself}
+this if you want to link to or style the caption yourself. Setting it
+without a \code{caption} is an error, as there is no heading to give the id to}
 
 \item{language}{Language options made with \code{reactable::reactableLang()},
 for example to translate the pagination text. Defaults to the
@@ -106,7 +107,7 @@ such as \code{highlight=TRUE} and \code{borderless=TRUE}, however some are fixed
 as \code{showSortIcon=FALSE} as the default sort icon is inaccessible. Each
 sortable column heading is a button, so screen readers announce it as
 something you can select and voice control software can select it by its
-visible text (see issue #190). Additional arguments from
+visible text. Additional arguments from
 \code{reactable::reactable} can be passed to customise the table.
 }
 \details{

@@ -15,7 +15,7 @@
 #' as `showSortIcon=FALSE` as the default sort icon is inaccessible. Each
 #' sortable column heading is a button, so screen readers announce it as
 #' something you can select and voice control software can select it by its
-#' visible text (see issue #190). Additional arguments from
+#' visible text. Additional arguments from
 #' `reactable::reactable` can be passed to customise the table.
 #'
 #' @param df A dataframe used to generate the table
@@ -65,7 +65,8 @@
 #' @param caption_id The id given to the caption heading, which the table
 #' references via `aria-labelledby`. Must be unique on the page and contain no
 #' spaces. `NULL` (default) generates a unique id for you, so you only need
-#' this if you want to link to or style the caption yourself
+#' this if you want to link to or style the caption yourself. Setting it
+#' without a `caption` is an error, as there is no heading to give the id to
 #' @param language Language options made with `reactable::reactableLang()`,
 #' for example to translate the pagination text. Defaults to the
 #' `reactable.language` option, as in `reactable::reactable()`. `sortLabel`
@@ -168,6 +169,7 @@ govReactable <- # nolint
     validate_single_content(caption, "caption")
     validate_single_content(subtitle, "subtitle")
     validate_subtitle_has_caption(caption, subtitle)
+    validate_id_has_caption(caption, caption_id)
 
     # Generate column definitions
     col_defs <- stats::setNames(
@@ -346,6 +348,20 @@ validate_caption_id <- function(caption_id) {
   ) {
     stop(
       "`caption_id` must be a single, non-empty string with no spaces.",
+      call. = FALSE
+    )
+  }
+  invisible(caption_id)
+}
+
+# Internal helper: caption_id only names the caption heading, so without a
+# caption there is nothing for it to label. Error rather than ignore it, so a
+# user who expects to link to or style that id finds out straight away.
+validate_id_has_caption <- function(caption, caption_id) {
+  if (!is.null(caption_id) && is.null(caption)) {
+    stop(
+      "`caption_id` needs a `caption`. `caption_id` is the id of the ",
+      "caption heading, so set `caption` too, or remove `caption_id`.",
       call. = FALSE
     )
   }

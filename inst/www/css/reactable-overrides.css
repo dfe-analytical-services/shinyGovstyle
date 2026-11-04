@@ -15,26 +15,22 @@
 
 /* Sortable column headers (issue #190) ------------------------------------
  * govReactable() puts a native <button class="gov-sort-button"> in each
- * sortable header. The button, its arrow icons and its colours follow the MOJ
- * sortable table (https://design-patterns.service.justice.gov.uk/components/sortable-table/),
- * which is a widely used pattern. The arrow paths are copied from
- * moj-frontend (MIT licence), drawn as inline SVG filled with currentColor so
- * they take the button's colour, including under forced-colors mode:
- *   - unsorted: a small up and a small down arrow
- *   - ascending: a single, larger up arrow
- *   - descending: a single, larger down arrow
- * The three arrows live in one SVG and aria-sort on the header chooses which
- * one shows. reactable's own sort icon and active-column bar are not used
- * (showSortIcon = FALSE, see govReactable()).
+ * sortable header. The button, arrows and colour follow the MOJ sortable table
+ * (https://design-patterns.service.justice.gov.uk/components/sortable-table/).
+ * The arrow paths are from moj-frontend (MIT licence), as inline SVG filled
+ * with currentColor so they follow the button's colour, including in
+ * forced-colors mode. aria-sort on the header picks which arrow shows:
+ *   - unsorted: a small up arrow and a small down arrow
+ *   - ascending: one larger up arrow
+ *   - descending: one larger down arrow
+ * reactable's own sort icon and sorted-column bar are not used.
  *
- * Differences from MOJ: the button fills the whole header cell, so the full
- * cell is the click target, and every icon sits level with the last line of
- * its label. reactable stretches header cells to the height of the tallest
- * one in the row, and the button stretches with them, so a one-line heading
- * next to a heading that wraps still gets an icon at the same height.
- * Sortable headers have no hover highlight (as in MOJ); keyboard focus gets
- * the yellow GOV.UK highlight, so a hovered header and a tabbed-to header are
- * never both highlighted at once. */
+ * Differences from MOJ: the button fills the whole header cell, so the whole
+ * cell is clickable, and each arrow sits level with the last line of its
+ * label, so arrows line up across the row even when some headings wrap. There
+ * is no hover highlight (as in MOJ). Keyboard focus gets the yellow GOV.UK
+ * highlight, so a hovered header and a focused header are never both
+ * highlighted. */
 .gov-sort-header .rt-th-inner {
   display: flex;
   flex: 1 1 auto;
@@ -68,8 +64,7 @@
   appearance: none;
 }
 
-/* Keep the heading and its arrow next to each other at the same edge as the
-   column's alignment */
+/* Keep the label and arrow at the same edge as the column's alignment */
 .rt-align-right .gov-sort-button {
   justify-content: flex-end;
 }
@@ -78,8 +73,7 @@
   justify-content: center;
 }
 
-/* A heading wraps at spaces, and only breaks a word when the column is too
-   narrow to hold it at all */
+/* Wrap at spaces. Only break a word if the column can't hold it */
 .gov-sort-button__label {
   min-width: 0;
   overflow-wrap: anywhere;

@@ -33,18 +33,16 @@ Columns must add up to 1.
 Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
 Default is \code{NULL}}
 
-\item{subtitle}{Optional line shown under the caption, in smaller, lighter
-text: what the data is, where and when it covers, and the units if every
-value shares them (e.g. \code{"Cost of bikes (£), England, 2025"}). It becomes
-part of the table's accessible name, together with the caption. Needs a
-\code{caption}. Plain text is shown exactly as written (it is escaped); pass
-\code{shiny::HTML()} or tags for deliberate markup. \code{NULL} (default) shows no
-subtitle}
+\item{subtitle}{Optional line under the caption, in smaller, lighter text:
+what the data is, where and when it covers, and the units if every value
+shares them (e.g. \code{"Cost of bikes (£), England, 2025"}). It becomes part of
+the table's accessible name, with the caption. Needs a \code{caption}. Plain
+text is escaped and shown as written; use \code{shiny::HTML()} or tags for
+markup. \code{NULL} (default) shows no subtitle}
 }
 \value{
-A \code{div} HTML shiny tag object: a scroll container holding the
-table, which has \code{inputId} as its id. Wide tables scroll sideways inside
-the container rather than making the whole page scroll.
+A \code{div} shiny tag holding the table, which has \code{inputId} as its id.
+Wide tables scroll sideways inside the \code{div}, not the whole page.
 }
 \description{
 This function inserts a gov styled table. Format is with header looking
@@ -60,24 +58,23 @@ A warning is emitted when \code{df} has more than 50 rows.
 
 Every table needs a title. The
 \href{https://analysisfunction.civilservice.gov.uk/policy-store/data-visualisation-tables/}{Analysis Function guidance on tables}
-recommends giving it two parts, which map onto two arguments:
+suggests two parts, which match two arguments:
 \itemize{
 \item \code{caption}: a short headline stating the message, e.g.
 \code{"Costs peaked in March"}.
 \item \code{subtitle}: what the data is, where and when, e.g.
 \code{"Cost of bikes, vans and buses (£), England, January to May 2025"}.
-Include the units here if every value in the table shares them.
+Include the units if every value shares them.
 }
 
-A headline is recommended but optional. Without one, put the what, where
-and when in \code{caption} and leave out \code{subtitle}.
+A headline is optional. Without one, put the what, where and when in
+\code{caption} and leave out \code{subtitle}.
 
-Put the source of the data underneath the table (for example with
-\code{\link[=gov_text]{gov_text()}}), rather than in the title.
+Put the source of the data under the table (for example with \code{\link[=gov_text]{gov_text()}}),
+not in the title.
 
-The caption and subtitle together form the table's accessible name, so
-screen reader users hear both when they reach the table. Keep them short and
-avoid repeating the same information in both. See also the
+Screen reader users hear the caption and subtitle together when they reach
+the table, so keep them short and don't repeat information. See also the
 \href{https://design-system.service.gov.uk/components/table/}{GOV.UK Design System table component}.
 }
 

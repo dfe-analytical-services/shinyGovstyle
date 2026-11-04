@@ -4,13 +4,10 @@
 govuk_hint_id <- function(inputId) paste0(inputId, "-hint") # nolint
 govuk_error_id <- function(inputId) paste0(inputId, "-error") # nolint
 
-# Internal helper: the 1-6 heading level convention shared by heading_text(),
-# govFieldset() (and so checkbox_Input(), radio_button_Input(), and
-# date_Input()), and gov_summary_card(). govReactable() and
-# govReactableOutput() use the narrower govreactable_heading_level() instead.
-# `arg_name` lets callers whose public argument isn't literally called
-# `heading_level` (e.g. heading_text()'s `level`) keep an accurate error
-# message.
+# Checks a heading level from 1 to 6, shared by heading_text(), govFieldset()
+# and gov_summary_card(). govReactable() and govReactableOutput() use the
+# narrower govreactable_heading_level() instead. `arg_name` is the name shown
+# in the error message, for callers whose argument isn't `heading_level`.
 validate_heading_level <- function(level, arg_name = "heading_level") {
   if (length(level) != 1) {
     stop(
@@ -32,9 +29,7 @@ validate_heading_level <- function(level, arg_name = "heading_level") {
   }
 }
 
-# Internal helper: builds an `<hN>` heading tag shared by heading_text(),
-# govFieldset(), gov_summary_card(), govReactable(), and govReactableOutput(),
-# so the `shiny::tags[[paste0("h", level)]]` pattern only exists in one place.
+# Builds an `<hN>` heading tag, shared by the functions that make headings.
 build_heading_tag <- function(level, content, class, id = NULL) {
   do.call(
     shiny::tags[[paste0("h", level)]],
@@ -130,13 +125,9 @@ govFieldset <- # nolint
     )
   }
 
-# Internal helper: the GOV.UK Design System heading/legend/caption text-size
-# scale ("m", "s", "l", "xl"), shared by heading_text(), govTable(),
-# govReactable(), govReactableOutput(), and govFieldset() (and, through it,
-# checkbox_Input(), radio_button_Input(), date_Input()) so the accepted
-# values and error wording only exist in one place. `arg_name` is used in the
-# error message so callers see the actual parameter name (e.g. "size" vs
-# "caption_size" vs "label_size").
+# Checks a GOV.UK text size ("m", "s", "l" or "xl") for headings, legends and
+# captions, so the accepted values and error wording live in one place.
+# `arg_name` is the argument name shown in the error message.
 validate_gds_text_size <- function(size, arg_name = "size") {
   valid_sizes <- c("xl", "l", "m", "s")
   if (!is.character(size) || length(size) != 1 || !(size %in% valid_sizes)) {
@@ -158,10 +149,9 @@ validate_gds_text_size <- function(size, arg_name = "size") {
   invisible(size)
 }
 
-# Internal helper: checks a single piece of display content (a table caption,
-# subtitle, and so on) is either markup (tags or HTML()) or one non-empty,
-# non-NA string. Empty or NA text would render as an empty heading or an empty
-# part of a table's accessible name, which screen readers announce as nothing.
+# Checks that display content (a table caption, subtitle and so on) is markup
+# (tags or HTML()) or one non-empty, non-NA string. Empty text would give an
+# empty heading and an empty accessible name.
 validate_single_content <- function(x, arg_name, allow_null = TRUE) {
   if (is.null(x) && allow_null) {
     return(invisible(x))
@@ -178,19 +168,15 @@ validate_single_content <- function(x, arg_name, allow_null = TRUE) {
   invisible(x)
 }
 
-# Internal helper: the class for a table subtitle (the Analysis Function's
-# "statistical subtitle": what the data is, where and when). Reuses GOV.UK's
-# secondary-text caption styles (regular weight, secondary text colour,
-# display: block) so the subtitle always reads as subordinate to the headline,
-# without users having to pick a second size. Only the "xl" headline is large
-# enough to need the bigger caption.
+# The class for a table subtitle. It reuses GOV.UK's secondary caption styles,
+# so the subtitle always looks lower in importance than the headline. Only an
+# "xl" headline needs the larger caption.
 subtitle_class <- function(caption_size) {
   if (identical(caption_size, "xl")) "govuk-caption-l" else "govuk-caption-m"
 }
 
-# Internal helper: a table has to have a title (GOV.UK and the Analysis
-# Function both say so), and a subtitle on its own would render as secondary
-# text with no heading. Point users at `caption` for a single-line title.
+# A table needs a title, and a subtitle alone would show as secondary text with
+# no heading. Point users at `caption`.
 validate_subtitle_has_caption <- function(caption, subtitle) {
   if (!is.null(subtitle) && is.null(caption)) {
     stop(
@@ -282,14 +268,11 @@ govuk_error_message <- function(input_id, error_message) {
   )
 }
 
-# Internal helper: serialises content that the server pushes into an existing
-# element, for error_on() (via shinyjs::html()) and update_reactable_caption()
-# (via its own JS handler). Both assign the result to innerHTML in the browser,
-# so an unescaped plain string here is a direct script-injection path: a value
-# built from user input such as `<img src=x onerror=...>` would run as code.
-# Only values the caller has explicitly marked as markup (tags or HTML()) skip
-# escaping, which also keeps these in step with the tag-building path, where
-# htmltools escapes plain strings in the same way.
+# Turns content the server pushes into an existing element into HTML, for
+# error_on() and update_reactable_caption(). Both set innerHTML in the browser,
+# so plain strings are escaped. Otherwise user input such as
+# `<img src=x onerror=...>` would run as code. Only tags and HTML() are left
+# as they are, matching how htmltools escapes plain strings when building tags.
 govuk_markup_html <- function(x) {
   if (is_govuk_markup(x)) {
     as.character(x)
@@ -298,9 +281,8 @@ govuk_markup_html <- function(x) {
   }
 }
 
-# Internal helper: the paragraph's inner HTML, serialised for shinyjs::html().
-# Escaping plain strings keeps error_on() in step with govuk_error_message():
-# the same error_message renders the same way whether it is baked into the
+# The error paragraph's inner HTML, for shinyjs::html(). Plain strings are
+# escaped, so an error message looks the same whether it is built into the
 # component or pushed from the server.
 govuk_error_html <- function(error_message) {
   paste0(
@@ -313,23 +295,19 @@ govuk_error_html <- function(error_message) {
 #' Wrap a table in a horizontal scroll container
 #'
 #' Used by govTable() and govTabs() so a wide table scrolls inside its own
-#' container rather than making the whole page scroll sideways. This extends
-#' GOV.UK Frontend, which has no scroll wrapper for tables (its guidance is to
-#' put less data in each table, split it up, or use
-#' `govuk-table--small-text-until-tablet`). Containing the scroll is the
-#' technique recommended in the WCAG 1.4.10 Reflow Understanding document for
-#' tables that are still too wide.
+#' container, not the whole page. GOV.UK Frontend has no scroll wrapper for
+#' tables, so this extends it, using the technique the WCAG 1.4.10 Reflow
+#' guidance recommends for tables that are still too wide.
 #'
-#' The container is not a tab stop or a landmark by default.
-#' `table_scroll.js` adds `tabindex="0"`, `role="region"` and
-#' `aria-labelledby` (copied from `data-labelledby`) only while the table is
-#' wider than the container, so keyboard users can scroll it (Safari needs the
-#' focus to scroll from the keyboard), without adding a pointless tab stop and
-#' landmark to every table that fits.
+#' The container is not a tab stop or a landmark by default. `table_scroll.js`
+#' adds `tabindex="0"`, `role="region"` and `aria-labelledby` (copied from
+#' `data-labelledby`) only while the table is wider than the container, so
+#' keyboard users can scroll it, without adding a tab stop and landmark to
+#' every table that fits.
 #'
 #' @param table The `<table>` tag to wrap.
 #' @param labelledby Id of the element (caption or heading) that names the
-#'   table, used as the region's accessible name while it scrolls.
+#'   table, used as the region's name while it scrolls.
 #'
 #' @noRd
 table_scroll_container <- function(labelledby, table) {

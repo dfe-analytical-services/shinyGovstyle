@@ -18,9 +18,8 @@
 #' Columns must add up to 1.
 #' Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
 #' Default is `NULL`
-#' @return A `div` HTML shiny tag object: a scroll container holding the
-#'   table, which has `inputId` as its id. Wide tables scroll sideways inside
-#'   the container rather than making the whole page scroll.
+#' @return A `div` shiny tag holding the table, which has `inputId` as its id.
+#'   Wide tables scroll sideways inside the `div`, not the whole page.
 #' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
@@ -91,10 +90,9 @@ govTable <- # nolint
         ),
         style = "caption-side: top;",
         caption,
-        # The subtitle sits inside the native <caption> (the W3C WAI tables
-        # tutorial's recommended way to give a table a visible summary), so it
-        # is part of the table's accessible name in every screen reader
-        # without any ARIA. Plain text is escaped, as for the caption.
+        # The subtitle goes inside the native <caption>, so every screen
+        # reader treats it as part of the table's name without any ARIA. Plain
+        # text is escaped, as for the caption.
         if (!is.null(subtitle)) {
           shiny::tags$span(
             class = paste(

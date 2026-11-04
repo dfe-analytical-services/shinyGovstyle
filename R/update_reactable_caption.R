@@ -1,35 +1,29 @@
 #' Update a govReactable caption or subtitle from the server
 #'
 #' @description
-#' Changes the caption heading, the subtitle, or both, of a
-#' [govReactableOutput()] table while the app is running, for example so the
-#' title keeps describing the data after a filter changes it ("Red vehicles by
-#' month" becoming "Blue vehicles by month").
+#' Changes the caption, the subtitle, or both, of a [govReactableOutput()]
+#' table while the app is running, for example so the title still describes
+#' the data after a filter changes it.
 #'
-#' The caption and subtitle are the table's accessible name (the table is
-#' linked to them with `aria-labelledby`), so keeping them accurate
-#' matters for screen reader users as well as sighted users.
+#' The caption and subtitle are the table's accessible name, so keeping them
+#' accurate matters for screen reader users as well as sighted users.
 #'
-#' The new text isn't announced as it changes. That is deliberate: the change
-#' follows something the user just did, such as picking a filter, and a live
-#' announcement on every change would be noisy. Screen readers read the
-#' updated title when the user reaches the table.
+#' The new text isn't announced when it changes, because it follows something
+#' the user just did, such as picking a filter. Screen readers read the new
+#' title when the user reaches the table.
 #'
-#' Works inside Shiny modules without any extra namespacing: pass the same
-#' `output_table_name` you used in `renderGovReactable()` in that module's
-#' server.
+#' Works inside Shiny modules without extra namespacing: pass the same
+#' `output_table_name` you used in `renderGovReactable()`.
 #'
 #' @param session The Shiny session object
 #' @param output_table_name The id of the table, as given to
 #'   `govReactableOutput()` and `output$<id>` (without the module namespace)
 #' @param caption The new caption, or `NULL` (default) to leave it as it is.
-#'   Plain text is shown exactly as written (it is escaped, so a value built
-#'   from user input can't inject HTML); pass `shiny::HTML()` or tags for
-#'   deliberate markup
+#'   Plain text is escaped and shown as written; use `shiny::HTML()` or tags
+#'   for markup
 #' @param subtitle The new subtitle, or `NULL` (default) to leave it as it is.
-#'   Escaped in the same way as `caption`. Only works if
-#'   `govReactableOutput()` was given a `subtitle` to start with, as there is
-#'   otherwise no subtitle on the page to update
+#'   Escaped in the same way as `caption`. Only works if `govReactableOutput()`
+#'   was given a `subtitle` to start with
 #'
 #' @returns `NULL` (invisibly), called for side effects
 #' @family Govstyle tables tabs and accordions
@@ -94,10 +88,9 @@ update_reactable_caption <- function(
   validate_single_content(caption, "caption")
   validate_single_content(subtitle, "subtitle")
 
-  # Match the ids govReactableOutput() gives the caption heading and subtitle.
-  # session$ns() adds the module prefix inside a module (and is a no-op at the
-  # top level), mirroring the namespacing already applied to the output id in
-  # the UI. Only the parts supplied are sent, so the other is left untouched.
+  # Use the ids govReactableOutput() gives the caption and subtitle.
+  # session$ns() adds the module prefix (and does nothing at the top level).
+  # Only the parts supplied are sent.
   update_for <- function(content, suffix) {
     if (is.null(content)) {
       return(NULL)

@@ -1,80 +1,66 @@
 #' Interactive govTable
 #'
-#' This function inserts a government-styled table into a Shiny app using
-#' `reactable`. Put it straight into the UI for a table whose data doesn't
-#' change, or use renderGovReactable({}) and govReactableOutput() for one
-#' that does.
-#' Pass `caption` to add a heading that is programmatically linked to the
-#' table (via `aria-labelledby`), so screen reader users know what the table
-#' is about.
+#' Adds a GOV.UK styled table to a Shiny app using `reactable`. Put it
+#' straight into the UI for data that doesn't change, or use
+#' `renderGovReactable()` and `govReactableOutput()` for data that does. Pass
+#' `caption` to add a heading that screen readers link to the table.
 #'
 #' @description
-#' This function is opinionated and sets table defaults that are in
-#' keeping with the wider GOV.UK design system. Some defaults can be overridden,
-#' such as `highlight=TRUE` and `borderless=TRUE`, however some are fixed, such
-#' as `showSortIcon=FALSE` as the default sort icon is inaccessible. Each
-#' sortable column heading is a button, so screen readers announce it as
-#' something you can select and voice control software can select it by its
-#' visible text. Additional arguments from
-#' `reactable::reactable` can be passed to customise the table.
+#' This function sets table defaults that follow the GOV.UK design system. Some
+#' can be changed, such as `highlight` and `borderless`. Others are fixed, such
+#' as `showSortIcon = FALSE`, because the default sort icon is not accessible.
+#' Each sortable heading is a button, so screen readers announce it and voice
+#' control can select it by its visible text. Other arguments for
+#' `reactable::reactable` can be passed in `...`.
 #'
 #' @param df A dataframe used to generate the table
 #' @param right_col A vector of extra column names to right-align. Numeric
-#' columns are right-aligned automatically, following GOV.UK guidance that
-#' numbers should be right-aligned so they are easier to compare, and other
-#' columns are left-aligned. Use this for columns that hold numbers as text,
-#' such as `"£85"`. To left-align a numeric column, set
+#' columns are right-aligned automatically, as GOV.UK guidance says numbers
+#' should be right-aligned. Use this for numbers stored as text, such as
+#' `"£85"`. To left-align a numeric column, set
 #' `reactable::colDef(align = "left")` for it in `columns`
 #' @param page_size The default number of rows displayed per page (default: 10)
 #' @param highlight Highlight table rows on hover
 #' @param borderless Remove inner borders from table
 #' @param min_widths Customise minimum column width using a list of columns and
 #' minimum width in pixels
-#' @param columns Customise individual columns, for example to fix the
-#' number of decimal places shown. Give a named list, where each name
-#' matches a column in `df` and each value is built with
-#' `reactable::colDef()` (see examples). Any column left out of this list
-#' is unaffected, and keeps govReactable's usual GOV.UK look. For a column
-#' you do include, anything you don't set on it, such as sorting or
-#' alignment, also keeps that same default. Names that don't match a
-#' column in `df` are ignored. A `headerClass` you set is added alongside
-#' the GOV.UK sort header styling rather than replacing it, so sortable
-#' columns always keep their visible sort indicator. Columns set to
-#' `sortable = FALSE` don't show a sort indicator. A custom `header` on a
-#' sortable column is placed inside the column's sort button, so it must
-#' not contain links or other interactive content. It must be a string, a
-#' tag or an R function; a `JS()` header on a sortable column is an error,
-#' because the sort button can't be added to it. Screen readers and voice
-#' control name a sortable heading after the column's `name`, not its
-#' `header`, so if you set a `header`, also set `name` to the text the
-#' header shows, e.g.
+#' @param columns Change individual columns, for example to set the number of
+#' decimal places. Give a named list where each name is a column in `df` and
+#' each value is made with `reactable::colDef()` (see examples). Columns you
+#' leave out keep the GOV.UK defaults, and so does anything you don't set on a
+#' column you include. Names that don't match a column are ignored. A
+#' `headerClass` is added to the GOV.UK sort header styling, not swapped for
+#' it. Columns with `sortable = FALSE` show no sort arrow. A custom `header` on
+#' a sortable column goes inside the sort button, so it must not contain links
+#' or other interactive content. It must be a string, a tag or an R function. A
+#' `JS()` header on a sortable column is an error. Screen readers name a
+#' sortable heading from the column's `name`, not its `header`, so if you set a
+#' `header`, set `name` to the same text, e.g.
 #' `reactable::colDef(name = "Average cost", header = "Average cost")`.
-#' @param caption Adds a caption to the table as a heading, linked to the
-#' table via `aria-labelledby`. Plain text is shown exactly as written (it is
-#' escaped, so `<` or `&` can't be read as HTML); pass `shiny::HTML()` or tags
-#' for deliberate markup. `NULL` (default) renders the table with no caption.
+#' @param caption Adds a caption heading that screen readers link to the table
+#' (using `aria-labelledby`). Plain text is escaped and shown as written; use
+#' `shiny::HTML()` or tags for markup. `NULL` (default) means no caption.
 #' For a table built in the server, set the caption on [govReactableOutput()]
 #' instead, as [renderGovReactable()] gives an error for a captioned table
 #' @inheritParams table_title_params
 #' @inheritSection table_title_params Table titles
-#' @param caption_size Adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
-#' `"xl"`, with `"l"` as the default. Any other value throws an error.
-#' @param heading_level The HTML heading level for the caption, an integer
-#' from `1L` to `5L`. Defaults to `2L` (`<h2>`). Use `1L` when the table is
-#' the main content of the page, so the caption is the page's main heading
-#' @param caption_id The id given to the caption heading, which the table
-#' references via `aria-labelledby`. Must be unique on the page and contain no
-#' spaces. `NULL` (default) generates a unique id for you, so you only need
-#' this if you want to link to or style the caption yourself. Setting it
-#' without a `caption` is an error, as there is no heading to give the id to
-#' @param language Language options made with `reactable::reactableLang()`,
-#' for example to translate the pagination text. Defaults to the
-#' `reactable.language` option, as in `reactable::reactable()`. `sortLabel`
-#' is always set to `"{name}"`, so each heading's accessible name matches its
-#' visible text, and setting it gives a warning.
+#' @param caption_size Size of the caption: `"s"`, `"m"`, `"l"` (default) or
+#' `"xl"`. Any other value is an error.
+#' @param heading_level The caption's heading level, an integer from `1L` to
+#' `5L`. Defaults to `2L`. Use `1L` when the table is the main content of the
+#' page
+#' @param caption_id The id of the caption heading, which the table links to.
+#' It must be unique on the page and have no spaces. `NULL` (default) makes a
+#' unique id, so you only need this to link to or style the caption yourself.
+#' Setting it without a `caption` is an error
+#' @param language Language options from `reactable::reactableLang()`, for
+#' example to translate the pagination text. Defaults to the
+#' `reactable.language` option. `sortLabel` is always `"{name}"` so each
+#' heading's accessible name matches its visible text, and setting it gives a
+#' warning.
 #' @param ... Additional arguments passed to `reactable::reactable`
-#' @return A `reactable` HTML widget styled with GOV.UK classes, or (if
-#' `caption` is supplied) that widget together with a linked caption heading
+#' @return A `reactable` widget with GOV.UK classes, or, if `caption` is given,
+#' that widget with a caption heading
 #' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
@@ -101,16 +87,14 @@
 #'     )
 #'   )
 #'
-#'   # Add a title linked to the table for screen reader users: a short
-#'   # headline, with what the data is, where and when underneath
+#'   # Add a caption and subtitle that screen readers link to the table
 #'   govReactable(
 #'     shinyGovstyle::transport_data,
 #'     caption = "Costs peaked in March for every vehicle type",
 #'     subtitle = "Cost of bikes, vans and buses (£), January to May"
 #'   )
 #'
-#'   # Show one column to a fixed number of decimal places, leaving every
-#'   # other column and style (sorting, alignment, etc.) untouched
+#'   # Show one column to 1 decimal place
 #'   sales_data <- data.frame(
 #'     shop = c("Shop A", "Shop B", "Shop C"),
 #'     growth = c(4, 4.7, 12.34)
@@ -124,10 +108,7 @@
 #'     )
 #'   )
 #'
-#'   # A more involved example: only `percent` is customised, so `region`
-#'   # and `count` keep the normal GOV.UK defaults untouched
-#'   # (counts shown as whole numbers alongside a percentage column fixed
-#'   # to 1 decimal place)
+#'   # Only `percent` is changed, so `region` and `count` keep the defaults
 #'   count_pct_data <- data.frame(
 #'     region = c("North", "South", "East"),
 #'     count = c(1234, 56, 789),
@@ -163,9 +144,7 @@ govReactable <- # nolint
       heading_level,
       allow_legacy = FALSE
     )
-    # Checked up front, before we know whether there is a caption, so a bad
-    # value errors even when there is no caption yet, as the documentation
-    # says.
+    # Check up front, so a bad value errors even when there is no caption
     validate_gds_text_size(caption_size, "caption_size")
     validate_single_content(caption, "caption")
     validate_single_content(subtitle, "subtitle")
@@ -184,9 +163,8 @@ govReactable <- # nolint
           headerClass = "gov-sort-header",
           html = TRUE,
           na = "NA",
-          # GOV.UK right-aligns numbers so they line up for comparison, so
-          # numeric columns do this without being asked. right_col adds
-          # columns that hold numbers as text, such as "£85".
+          # GOV.UK right-aligns numbers. right_col adds columns that hold
+          # numbers as text, such as "£85".
           align = if (is.numeric(df[[col]]) || col %in% right_col) {
             "right"
           } else {
@@ -199,16 +177,10 @@ govReactable <- # nolint
           }
         )
 
-        # Merge in any user-supplied colDef for this column, so only the
-        # fields the user actually set (non-NULL) override the GOV.UK
-        # defaults above. reactable::colDef() renames a handful of its
-        # input arguments in its returned object (class -> className,
-        # headerClass -> headerClassName, footerClass -> footerClassName,
-        # defaultSortOrder -> defaultSortDesc), so both `default_col` and
-        # the user's colDef are built via reactable::colDef() first
-        # (giving both the same *output*-name scheme), then merged
-        # directly as list objects instead of re-calling colDef() with
-        # the user's already-renamed fields as if they were input names.
+        # Merge the user's colDef over the defaults, so only the fields they
+        # set override them. colDef() renames some arguments in its output
+        # (for example headerClass to headerClassName), so both are built
+        # with colDef() and then merged as lists.
         if (!is.null(columns[[col]])) {
           user_fields <- Filter(Negate(is.null), unclass(columns[[col]]))
           merged_col <- utils::modifyList(unclass(default_col), user_fields)
@@ -262,15 +234,11 @@ govReactable <- # nolint
     )
   }
 
-# Internal helper: returns the caption heading, an optional subtitle, and a
-# wrapper around `content` carrying the ids that govreactable.js uses to label
-# the table with aria-labelledby. Shared by govReactable() and
-# govReactableOutput(). The id is always chosen by the caller rather than
-# derived from the caption text:
-# slugifying the text gave duplicate or empty ids (digits and non-ASCII letters
-# were stripped, so "Table 1" and "Table 2" both became "table_"), which
-# silently pointed a table at the wrong caption, or at none. Callers derive
-# the subtitle id from the same unique source, so it can't collide either.
+# Builds the caption heading, an optional subtitle, and a wrapper around
+# `content` that carries the ids govreactable.js uses to set aria-labelledby.
+# Used by govReactable() and govReactableOutput(). The caller supplies the id,
+# because ids made from the caption text can clash ("Table 1" and "Table 2"
+# both became "table_").
 captioned_table <- function(
   content,
   caption,
@@ -284,22 +252,17 @@ captioned_table <- function(
 
   heading_class <- paste0("govuk-heading-", caption_size)
   if (has_subtitle) {
-    # Pull the subtitle up under the headline so the two read as one title
+    # Keep the subtitle close to the heading
     heading_class <- paste(heading_class, "govuk-!-margin-bottom-1")
   }
 
   htmltools::tagList(
     build_heading_tag(
       heading_level,
-      # Passed unwrapped on purpose so htmltools escapes plain strings. Captions
-      # are often built from data or user input (e.g. paste(input$region,
-      # "results"), a column value, a file name). Sent as raw HTML, a value
-      # containing `<script>` or `<img onerror=...>` would run as code in the
-      # user's browser (cross-site scripting), and even an innocent stray `<`
-      # would break the markup and change the table's accessible name, since
-      # this heading is its aria-labelledby target. Tags and shiny::HTML()
-      # still pass through, so markup is an explicit opt-in. The subtitle
-      # below is passed unwrapped for the same reason.
+      # Not wrapped in HTML(), so htmltools escapes plain strings. Captions
+      # often come from data or user input, and raw HTML could run scripts or
+      # break the table's accessible name. Tags and shiny::HTML() still work,
+      # so markup is opt-in. The subtitle is treated the same way.
       caption,
       heading_class,
       id
@@ -316,24 +279,20 @@ captioned_table <- function(
     },
     htmltools::tags$div(
       class = "shinygovstyle-reactable-labelled",
-      # reactable has no option to name its role="table" element, so
-      # govreactable.js copies these ids onto it as aria-labelledby once it
-      # renders. Naming the table itself, rather than a role="region"
-      # around it, means screen readers read the title when they reach the
-      # table (including by table quick-nav), without announcing it twice
-      # or adding a landmark for every table on the page. Both parts label
-      # the table, matching govTable(), where the subtitle sits inside the
-      # native <caption>. aria-labelledby is far better supported than
-      # aria-describedby (W3C WAI tables tutorial).
+      # reactable can't name its role="table" element, so govreactable.js
+      # copies these ids onto it as aria-labelledby. Naming the table itself,
+      # not a region around it, means screen readers read the title when they
+      # reach the table, once, with no extra landmark. The subtitle labels the
+      # table too, as in govTable(). aria-labelledby is better supported than
+      # aria-describedby.
       `data-labelledby` = if (has_subtitle) paste(id, subtitle_id) else id,
       content
     )
   )
 }
 
-# Internal state: a per-process counter behind next_caption_id(). A counter,
-# rather than a random suffix, keeps generated ids unique without touching the
-# user's random number stream, so set.seed() reproducibility is unaffected.
+# Counter behind next_caption_id(). A counter keeps ids unique without using
+# random numbers, so set.seed() is not affected.
 caption_id_state <- new.env(parent = emptyenv())
 caption_id_state$count <- 0L
 
@@ -342,9 +301,8 @@ next_caption_id <- function() {
   paste0("govreactable-caption-", caption_id_state$count)
 }
 
-# Internal helper: aria-labelledby takes a space-separated list of ids, so an
-# id containing whitespace would be read as several (missing) ids and leave the
-# table unnamed. Reject it up front rather than ship a silently broken link.
+# aria-labelledby takes a space-separated list, so an id with spaces would be
+# read as several ids and leave the table unnamed.
 validate_caption_id <- function(caption_id) {
   if (
     !is.character(caption_id) ||
@@ -360,9 +318,8 @@ validate_caption_id <- function(caption_id) {
   invisible(caption_id)
 }
 
-# Internal helper: caption_id only names the caption heading, so without a
-# caption there is nothing for it to label. Error rather than ignore it, so a
-# user who expects to link to or style that id finds out straight away.
+# caption_id names the caption heading, so it does nothing without a caption.
+# Error, so the mistake shows straight away.
 validate_id_has_caption <- function(caption, caption_id) {
   if (!is.null(caption_id) && is.null(caption)) {
     stop(
@@ -374,12 +331,9 @@ validate_id_has_caption <- function(caption, caption_id) {
   invisible(caption_id)
 }
 
-# The permanent sort arrows and larger click target in
-# reactable-overrides.css all hang off the `gov-sort-header` class, so it is
-# fixed rather than overridable: a user's `headerClass` from `columns` is added
-# alongside it instead of replacing it (#190). A column the user makes
-# unsortable drops the class, so its header doesn't advertise a sort it can't
-# perform.
+# The sort arrows and click area in reactable-overrides.css depend on the
+# `gov-sort-header` class. It is always added to sortable columns, alongside
+# any `headerClass` the user sets, and removed from unsortable ones (#190).
 sort_header_class <- function(col_def) {
   classes <- if (is.null(col_def$headerClassName)) {
     character(0)
@@ -399,15 +353,12 @@ sort_header_class <- function(col_def) {
   }
 }
 
-# reactable renders a sortable header as a `div role="columnheader"` with its
-# own click handler but no button role, so screen readers don't announce it
-# as something you can select and voice control can't target it (#190). A
-# native button inside the header gives it that role, following the MOJ and
-# ONS sortable table patterns. Clicks on the button bubble up to reactable's
-# handler, so reactable still does the sorting and keeps `aria-sort` on the
-# columnheader. govreactable.js removes the columnheader's own tab stop and
-# stops Enter/Space on the button from also reaching reactable's keypress
-# handler, which would otherwise sort twice.
+# reactable's sortable header is a div with a click handler but no button
+# role, so screen readers don't announce it and voice control can't target it
+# (#190). A native button inside it fixes that, as in the MOJ and ONS sortable
+# tables. Clicks bubble up to reactable, which does the sorting. govreactable.js
+# stops the header and the button both being tab stops, and stops Enter and
+# Space sorting twice.
 sort_header_button <- function(content) {
   shiny::tags$button(
     type = "button",
@@ -418,10 +369,9 @@ sort_header_button <- function(content) {
 }
 
 # The sort arrows from the MOJ sortable table (moj-frontend, MIT licence), as
-# one decorative SVG. The paths are filled with currentColor so they take the
-# button's colour, including under forced-colors mode. The header's aria-sort
-# decides in CSS which arrow shows: two small arrows when unsorted, or one
-# larger arrow pointing up (ascending) or down (descending).
+# one hidden SVG filled with `currentColor`. CSS uses the header's aria-sort to
+# show two small arrows (unsorted) or one larger arrow (up for ascending, down
+# for descending).
 sort_icon <- function() {
   arrow <- function(class, d) {
     htmltools::tag(
@@ -461,10 +411,9 @@ sort_icon <- function() {
   )
 }
 
-# Decide the header for a column the user customised through `columns`. A
-# sortable column gets the sort button, wrapped around the user's own header
-# if they set one. An unsortable column keeps the user's header (or
-# reactable's default) with no button, as there is nothing to select.
+# Sets the header for a column changed through `columns`. Sortable columns get
+# the sort button around the user's header. Unsortable columns keep the user's
+# header with no button.
 sort_header_render <- function(col_def, user_header) {
   if (!isTRUE(col_def$sortable)) {
     return(user_header)
@@ -487,17 +436,17 @@ sort_header_render <- function(col_def, user_header) {
   }
 }
 
-# reactable calls a header function with only as many of (value, name) as it
-# has arguments, so a user's `function(value)` keeps working once wrapped.
+# reactable passes a header function only as many of (value, name) as it has
+# arguments, so do the same when wrapping it.
 call_header_function <- function(fn, value, name) {
   arg_names <- names(formals(fn))
   n_args <- if ("..." %in% arg_names) 2L else min(length(arg_names), 2L)
   do.call(fn, list(value, name)[seq_len(n_args)])
 }
 
-# `sortLabel` sets the columnheader's aria-label. reactable's "Sort {name}"
-# doesn't match the visible heading text (WCAG 2.5.3, #190), so it is fixed
-# to "{name}". Any other language setting the user passes is kept.
+# `sortLabel` sets the header's aria-label. reactable's "Sort {name}" doesn't
+# match the visible text (WCAG 2.5.3, #190), so it is always "{name}". Other
+# language settings are kept.
 govuk_reactable_lang <- function(language) {
   if (is.null(language)) {
     return(reactable::reactableLang(sortLabel = "{name}"))
@@ -521,22 +470,20 @@ govuk_reactable_lang <- function(language) {
 #' Output and render functions for using govReactable within shiny apps
 #'
 #' @param output_table_name Output variable to read from
-#' @param caption Adds a caption to the table as a heading, linked to the
-#' table via `aria-labelledby`. Plain text is shown exactly as written (it is
-#' escaped); pass `shiny::HTML()` or tags for deliberate markup. The heading's
-#' id is `output_table_name` followed by `-caption` (and the subtitle's id,
-#' `-subtitle`). To change either from the server, use
+#' @param caption Adds a caption heading that screen readers link to the table.
+#' Plain text is escaped and shown as written; use `shiny::HTML()` or tags for
+#' markup. The heading's id is `output_table_name` plus `-caption`, and the
+#' subtitle's is `-subtitle`. To change either from the server, use
 #' [update_reactable_caption()]
 #' @inheritParams table_title_params
 #' @inheritSection table_title_params Table titles
-#' @param caption_size Adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
-#' `"xl"`, with `"l"` as the default. Any other value throws an error.
-#' @param heading_level The HTML heading level for the caption, an integer
-#' from `1L` to `5L`. Defaults to `2L` (`<h2>`). Use `1L` when the table is
-#' the main content of the page, such as an app that shows a single table, so
-#' the caption is the page's main heading. Strings such as `"h3"` are
-#' `r lifecycle::badge("deprecated")` as of shinyGovstyle 0.3.0 and will stop
-#' working in shinyGovstyle 1.0.0; use the integer form (e.g. `3L`) instead.
+#' @param caption_size Size of the caption: `"s"`, `"m"`, `"l"` (default) or
+#' `"xl"`. Any other value is an error.
+#' @param heading_level The caption's heading level, an integer from `1L` to
+#' `5L`. Defaults to `2L`. Use `1L` when the table is the main content of the
+#' page. Strings such as `"h3"` are `r lifecycle::badge("deprecated")` as of
+#' shinyGovstyle 0.3.0 and will stop working in 1.0.0; use an integer (for
+#' example `3L`) instead.
 #' @param expr An expression that generates a `reactable` widget
 #' @param env The environment in which to evaluate `expr`
 #' @param quoted Is `expr` a quoted expression (with [quote()])?
@@ -566,9 +513,8 @@ govuk_reactable_lang <- function(language) {
 #'
 #' if (interactive()) shinyApp(ui, server)
 #'
-#' # A caption that follows a filter, updated from the server. The starting
-#' # caption matches the dropdown's default so it's right before the server
-#' # runs.
+#' # A caption that changes with a filter. The starting caption matches the
+#' # dropdown's default.
 #' species <- levels(iris$Species)
 #'
 #' ui <- shinyGovstyle::gov_page(
@@ -608,8 +554,7 @@ govReactableOutput <- # nolint
     heading_level = 2L,
     subtitle = NULL
   ) {
-    # Warned here rather than in the helper so lifecycle attributes the
-    # deprecated usage to the user's code rather than to this package.
+    # Warn here, not in the helper, so lifecycle blames the user's code
     legacy_level <- heading_level
     heading_level <- govreactable_heading_level(heading_level)
     if (is.character(legacy_level)) {
@@ -626,8 +571,7 @@ govReactableOutput <- # nolint
           ),
           i = "Heading level strings will stop working in shinyGovstyle 1.0.0."
         ),
-        # One id per legacy string, so each gets its own once-per-session
-        # warning showing the right integer.
+        # One id per legacy string, so each warns once with the right integer
         id = paste0("shinyGovstyle_heading_level_", legacy_level)
       )
     }
@@ -636,14 +580,11 @@ govReactableOutput <- # nolint
     validate_single_content(caption, "caption", allow_null = FALSE)
     validate_single_content(subtitle, "subtitle")
 
-    # Shiny already requires output ids to be unique on the page (and module
-    # namespacing is applied to them), so deriving the caption and subtitle ids
-    # from the output id guarantees the aria-labelledby link can't collide.
-    # The "reactable_output" dependency ships the handler
-    # update_reactable_caption() sends to, so either can be changed from the
-    # server, and govreactable.js, which links the caption to the table once
-    # it renders, even if the server sends a table not built by
-    # govReactable().
+    # Shiny output ids are already unique (and namespaced in modules), so ids
+    # built from them can't clash. The dependency adds the handler for
+    # update_reactable_caption() and govreactable.js, which links the caption
+    # to the table once it renders, even if the server sends a table not made
+    # by govReactable().
     attachDependency(
       htmltools::div(
         captioned_table(
@@ -660,8 +601,7 @@ govReactableOutput <- # nolint
     )
   }
 
-# use renderReactable to render the govTables - naming just for convention
-# This function wraps reactable::renderReactable.
+# Wraps reactable::renderReactable()
 #' @rdname govReactable-shiny
 #' @export
 renderGovReactable <- # nolint
@@ -680,13 +620,11 @@ renderGovReactable <- # nolint
     )
   }
 
-# Internal helper: renderReactable() silently renders an empty table when
-# handed anything other than a widget. The likeliest cause is
-# govReactable(caption = ...), which returns the caption and table together
-# as a tagList, so name that case and point users at govReactableOutput().
-# An async (promise) result is passed through unchecked for renderReactable()
-# to resolve: checking it once resolved would mean taking over reactable's
-# render function, and with it the bindCache() handling it already does.
+# renderReactable() silently shows an empty table for anything but a widget.
+# The likely cause is govReactable(caption = ...), which returns a tagList, so
+# give a clear error that points to govReactableOutput(). Async (promise)
+# results pass through for renderReactable() to resolve, so we don't take over
+# its render function and its bindCache() handling.
 check_render_value <- function(value) {
   if (
     is.null(value) ||
@@ -714,13 +652,11 @@ check_render_value <- function(value) {
   )
 }
 
-# Internal helper: validates a table caption's heading_level for
-# govReactable() and govReactableOutput(), and returns it as an integer.
-# Level 1 is allowed for an app whose page is a single table, where the
-# caption is the page's main heading; h6 is too small to be a table title.
-# govReactableOutput() shipped in 0.2.0 with "h2"-"h5" strings, which are
-# still accepted with `allow_legacy = TRUE` during the 0.3.0 transition;
-# govReactableOutput() gives the deprecation warning.
+# Checks heading_level for govReactable() and govReactableOutput(), and returns
+# an integer. Level 1 is allowed for an app that is a single table, and h6 is
+# too small for a table title. The "h2" to "h5" strings from 0.2.0 are still
+# accepted with `allow_legacy = TRUE`; govReactableOutput() gives the
+# deprecation warning.
 govreactable_heading_level <- function(heading_level, allow_legacy = TRUE) {
   allowed_levels <- 1:5
   legacy_levels <- paste0("h", 2:5)

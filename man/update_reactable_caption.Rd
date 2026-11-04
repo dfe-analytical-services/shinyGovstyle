@@ -18,36 +18,30 @@ update_reactable_caption(
 \code{govReactableOutput()} and \verb{output$<id>} (without the module namespace)}
 
 \item{caption}{The new caption, or \code{NULL} (default) to leave it as it is.
-Plain text is shown exactly as written (it is escaped, so a value built
-from user input can't inject HTML); pass \code{shiny::HTML()} or tags for
-deliberate markup}
+Plain text is escaped and shown as written; use \code{shiny::HTML()} or tags
+for markup}
 
 \item{subtitle}{The new subtitle, or \code{NULL} (default) to leave it as it is.
-Escaped in the same way as \code{caption}. Only works if
-\code{govReactableOutput()} was given a \code{subtitle} to start with, as there is
-otherwise no subtitle on the page to update}
+Escaped in the same way as \code{caption}. Only works if \code{govReactableOutput()}
+was given a \code{subtitle} to start with}
 }
 \value{
 \code{NULL} (invisibly), called for side effects
 }
 \description{
-Changes the caption heading, the subtitle, or both, of a
-\code{\link[=govReactableOutput]{govReactableOutput()}} table while the app is running, for example so the
-title keeps describing the data after a filter changes it ("Red vehicles by
-month" becoming "Blue vehicles by month").
+Changes the caption, the subtitle, or both, of a \code{\link[=govReactableOutput]{govReactableOutput()}}
+table while the app is running, for example so the title still describes
+the data after a filter changes it.
 
-The caption and subtitle are the table's accessible name (the table is
-linked to them with \code{aria-labelledby}), so keeping them accurate
-matters for screen reader users as well as sighted users.
+The caption and subtitle are the table's accessible name, so keeping them
+accurate matters for screen reader users as well as sighted users.
 
-The new text isn't announced as it changes. That is deliberate: the change
-follows something the user just did, such as picking a filter, and a live
-announcement on every change would be noisy. Screen readers read the
-updated title when the user reaches the table.
+The new text isn't announced when it changes, because it follows something
+the user just did, such as picking a filter. Screen readers read the new
+title when the user reaches the table.
 
-Works inside Shiny modules without any extra namespacing: pass the same
-\code{output_table_name} you used in \code{renderGovReactable()} in that module's
-server.
+Works inside Shiny modules without extra namespacing: pass the same
+\code{output_table_name} you used in \code{renderGovReactable()}.
 }
 \examples{
 colours <- sort(unique(shinyGovstyle::transport_data$colours))

@@ -4,30 +4,13 @@
 
 * New `gov_summary_card()` wraps a summary list in a GOV.UK summary card with
   a title and heading level, for pages that show several summary lists.
-* Sortable `govReactable()` column headings are now buttons, so screen
-  readers announce them as something you can select, and voice control
-  software can select them by their visible text, for example "click Months"
-  (#190). Each heading shows a sort arrow and the whole heading can be
-  clicked. A custom `header` on a sortable column is shown inside the button,
-  so it shouldn't contain links, and a `JS()` header on a sortable column now
-  gives an error. A `headerClass` set through `columns` is now added
-  alongside the sort styling rather than replacing it.
-* `govReactable()` gains a `language` argument, so you can still translate
-  reactable's text with `reactable::reactableLang()`.
-* `govReactable()` gains `caption`, `subtitle`, `caption_size`,
-  `heading_level` and `caption_id`, so a table put straight into a Shiny
-  app's UI can have a title linked to it (#158). For a table built in the
-  server, set the caption on `govReactableOutput()` instead:
-  `renderGovReactable()` gives an error if it is passed a captioned table,
-  rather than showing an empty one.
-* `govTable()`, `govReactable()` and `govReactableOutput()` gain a `subtitle`
-  argument, following the Analysis Function guidance on table titles: a short
-  headline in `caption`, with what the data is, where and when in `subtitle`.
-* `govReactable()` and `govReactableOutput()` captions can be an `<h1>` with
-  `heading_level = 1`, for an app whose page is a single table.
-* New `update_reactable_caption()` changes a `govReactableOutput()` caption or
-  subtitle from the server, so the title keeps describing the data after a
-  filter. Works inside Shiny modules.
+* `govReactable()` and `govReactableOutput()` tables can have a `caption` and
+  `subtitle` that screen readers read out when they reach the table (#158).
+  `govTable()` also gains `subtitle`.
+* New `update_reactable_caption()` changes a table's caption from the server,
+  for example after a filter.
+* Sortable `govReactable()` headings are now buttons with a visible sort
+  arrow, so screen readers and voice control can use them (#190).
 
 ## Breaking changes
 
@@ -38,14 +21,12 @@
   attributes are gone. Update any custom CSS or JavaScript that used them.
 * `gov_summary()` no longer has an `action` argument; remove it from any calls.
 * `govReactable()` now right-aligns numeric columns automatically, as its
-  documentation always said. To keep one left-aligned, pass
+  documentation always said. To keep one left-aligned, use
   `columns = list(<column> = reactable::colDef(align = "left"))`.
+* A `JS()` header on a sortable `govReactable()` column now gives an error.
 
 ## Bug fixes
 
-* `govReactable()` and `govReactableOutput()` captions are now linked to the
-  table with `aria-labelledby`, so screen reader users are told what the
-  table is about (#158).
 * Tables from `govTable()` and `govTabs()` that are wider than the screen now
   scroll sideways on their own instead of making the whole page scroll. You
   can reach a scrolling table with the keyboard.

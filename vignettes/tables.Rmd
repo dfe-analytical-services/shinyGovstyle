@@ -97,7 +97,7 @@ govReactable(
 )
 ```
 
-Each column heading is a button that sorts the table, with an arrow showing it can be sorted. This replaces reactable's own sort icons, which are not accessible, and means voice control users can sort by saying the heading's name.
+Each sortable column heading is a button that sorts the table, with an arrow showing it can be sorted. This replaces reactable's own sort icons, which are not accessible, and means voice control users can sort by saying the heading's name.
 
 ## Tables in a Shiny app
 

@@ -6,9 +6,7 @@ shinyGovstyle::gov_page(
     "System components for Shiny apps: inputs, tables, tabs, banners and more."
   ),
 
-  # Canonical, Open Graph and Twitter card tags: the dev app points at the
-  # CRAN app so the two aren't treated as duplicates, and shared links get a
-  # large preview card
+  # Canonical, Open Graph and Twitter card tags for shared links.
   shiny::tags$head(
     shiny::tags$link(rel = "canonical", href = app_url),
     shiny::tags$meta(property = "og:type", content = "website"),
@@ -62,9 +60,25 @@ shinyGovstyle::gov_page(
   shinyGovstyle::phase_banner(
     "banner",
     "Beta",
-    feedback_url = paste0(
-      "https://github.com/dfe-analytical-services/shinyGovstyle/issues/new",
-      "/choose"
+    label = shiny::tagList(
+      shiny::tags$span(
+        id = "showcase-package-version",
+        "You’re viewing the ",
+        shinyGovstyle::external_link(
+          href = showcase_source_url,
+          link_text = showcase_source
+        ),
+        paste0(" of shinyGovstyle v", showcase_package$Version)
+      ),
+      ". Your ",
+      shinyGovstyle::external_link(
+        href = paste0(
+          "https://github.com/dfe-analytical-services/shinyGovstyle/issues/new",
+          "/choose"
+        ),
+        link_text = "feedback"
+      ),
+      " will help us improve the package."
     )
   ),
 
@@ -115,6 +129,7 @@ shinyGovstyle::gov_page(
     TRUE,
     links = c(
       `Cookies` = "cookies_footer_link",
+      `Package documentation` = showcase_docs_url,
       `GitHub repository` = paste(
         "https://github.com/dfe-analytical-services/shinyGovstyle"
       ),

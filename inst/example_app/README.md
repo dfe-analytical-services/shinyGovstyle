@@ -1,9 +1,9 @@
 # shinyGovstyle example app
 
-A Shiny app that showcases the components available in the `shinyGovstyle` package. It is deployed in two versions:
+A Shiny app that showcases the components available in the `shinyGovstyle` package. The `main` branch version is deployed at:
+https://department-for-education.shinyapps.io/shinygovstyle-example-app/
 
-- the latest CRAN release: https://department-for-education.shinyapps.io/shinygovstyle-example-app/
-- the development version from the `main` branch: https://department-for-education.shinyapps.io/shinygovstyle-example-app-dev/
+The banner identifies the installed package version and source. The documentation link points to the [release documentation](https://dfe-analytical-services.github.io/shinyGovstyle/) for CRAN installations and the [development documentation](https://dfe-analytical-services.github.io/shinyGovstyle/dev/) for GitHub or local installations. Running the app locally uses your installed package, not necessarily the version deployed online.
 
 ## Code structure
 

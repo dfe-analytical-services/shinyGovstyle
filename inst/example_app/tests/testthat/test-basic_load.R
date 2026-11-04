@@ -35,6 +35,29 @@ test_that("The first nav link is the current page on load", {
   expect_equal(fallback_links(), "sn_select_types")
 })
 
+test_that("Showcase identifies its package and links to documentation", {
+  expect_match(
+    app$get_text("#showcase-package-version"),
+    paste0("shinyGovstyle v", utils::packageVersion("shinyGovstyle")),
+    fixed = TRUE
+  )
+  expect_match(
+    app$get_js(paste0(
+      "Array.from(document.querySelectorAll('footer a'))",
+      ".find(a => a.textContent.includes('Package documentation')).href"
+    )),
+    "https://dfe-analytical-services.github.io/shinyGovstyle/",
+    fixed = TRUE
+  )
+  expect_equal(
+    app$get_js("document.querySelector('meta[property=\"og:image\"]').content"),
+    paste0(
+      "https://department-for-education.shinyapps.io/",
+      "shinygovstyle-example-app/shinygovstyle-opengraph.png"
+    )
+  )
+})
+
 test_that("Browser tab title updates when a nav link is clicked", {
   app$click("sn_text_types")
   app$wait_for_idle()

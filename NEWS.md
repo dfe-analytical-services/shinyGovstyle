@@ -6,13 +6,11 @@
   (`favicon = "govuk"`, only for services on GOV.UK) or to leave icons out
   and add your own (`favicon = "none"`).
 
-* The showcase app and package documentation now have separate CRAN release
-  and development versions. The [showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/)
-  and [documentation](https://dfe-analytical-services.github.io/shinyGovstyle/)
-  match the latest CRAN release, while the
-  [development showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app-dev/)
-  and [development documentation](https://dfe-analytical-services.github.io/shinyGovstyle/dev/)
-  follow the `main` branch.
+* Package documentation now has separate [release](https://dfe-analytical-services.github.io/shinyGovstyle/)
+  and [development](https://dfe-analytical-services.github.io/shinyGovstyle/dev/)
+  versions. Published GitHub releases update the release site, while development
+  versions on `main` update `/dev/`. The showcase now displays its installed
+  package version and source, and links to the corresponding documentation.
 
 * `gov_row()` gains an optional `width` argument. Give it a width such as
   `"standard"` to centre the row in its own container, so a text page like a

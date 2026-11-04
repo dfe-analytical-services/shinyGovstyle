@@ -163,8 +163,9 @@ govReactable <- # nolint
       heading_level,
       allow_legacy = FALSE
     )
-    # Checked here as well as in captioned_table() so a bad value errors even
-    # when there is no caption yet, as the documentation says.
+    # Checked up front, before we know whether there is a caption, so a bad
+    # value errors even when there is no caption yet, as the documentation
+    # says.
     validate_gds_text_size(caption_size, "caption_size")
     validate_single_content(caption, "caption")
     validate_single_content(subtitle, "subtitle")
@@ -262,9 +263,10 @@ govReactable <- # nolint
   }
 
 # Internal helper: returns the caption heading, an optional subtitle, and a
-# region wrapping `content`, labelled by the heading (and subtitle) via
-# aria-labelledby. Shared by govReactable() and govReactableOutput(). The id is
-# always chosen by the caller rather than derived from the caption text:
+# wrapper around `content` carrying the ids that govreactable.js uses to label
+# the table with aria-labelledby. Shared by govReactable() and
+# govReactableOutput(). The id is always chosen by the caller rather than
+# derived from the caption text:
 # slugifying the text gave duplicate or empty ids (digits and non-ASCII letters
 # were stripped, so "Table 1" and "Table 2" both became "table_"), which
 # silently pointed a table at the wrong caption, or at none. Callers derive
@@ -278,8 +280,6 @@ captioned_table <- function(
   subtitle = NULL,
   subtitle_id = NULL
 ) {
-  validate_gds_text_size(caption_size, "caption_size")
-
   has_subtitle <- !is.null(subtitle)
 
   heading_class <- paste0("govuk-heading-", caption_size)
@@ -315,11 +315,17 @@ captioned_table <- function(
       )
     },
     htmltools::tags$div(
-      role = "region",
-      # Both parts label the table, matching govTable(), where the subtitle
-      # sits inside the native <caption>. aria-labelledby is far better
-      # supported than aria-describedby (W3C WAI tables tutorial).
-      `aria-labelledby` = if (has_subtitle) paste(id, subtitle_id) else id,
+      class = "shinygovstyle-reactable-labelled",
+      # reactable has no option to name its role="table" element, so
+      # govreactable.js copies these ids onto it as aria-labelledby once it
+      # renders. Naming the table itself, rather than a role="region"
+      # around it, means screen readers read the title when they reach the
+      # table (including by table quick-nav), without announcing it twice
+      # or adding a landmark for every table on the page. Both parts label
+      # the table, matching govTable(), where the subtitle sits inside the
+      # native <caption>. aria-labelledby is far better supported than
+      # aria-describedby (W3C WAI tables tutorial).
+      `data-labelledby` = if (has_subtitle) paste(id, subtitle_id) else id,
       content
     )
   )
@@ -577,6 +583,7 @@ govReactableOutput <- # nolint
       )
     }
 
+    validate_gds_text_size(caption_size, "caption_size")
     validate_single_content(caption, "caption", allow_null = FALSE)
     validate_single_content(subtitle, "subtitle")
 
@@ -585,7 +592,9 @@ govReactableOutput <- # nolint
     # from the output id guarantees the aria-labelledby link can't collide.
     # The "reactable_output" dependency ships the handler
     # update_reactable_caption() sends to, so either can be changed from the
-    # server.
+    # server, and govreactable.js, which links the caption to the table once
+    # it renders, even if the server sends a table not built by
+    # govReactable().
     attachDependency(
       htmltools::div(
         captioned_table(

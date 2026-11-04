@@ -274,15 +274,13 @@ expect_no_tag <- function(x, class) {
   testthat::expect_null(find_tag(x, class))
 }
 
-# caption_links() pairs up the caption heading ids and the aria-labelledby
-# values of the role="region" wrappers from a captioned govReactable() or
-# govReactableOutput(), in document order, so tests can check each table
-# points at its own caption without hard-coding generated ids.
+# caption_links() pairs up the caption heading ids and the data-labelledby
+# values of the wrappers around a captioned govReactable() or
+# govReactableOutput() table (which govreactable.js copies onto the table as
+# aria-labelledby), in document order, so tests can check each table points
+# at its own caption without hard-coding generated ids.
 caption_links <- function(x, heading_class = "govuk-heading-l") {
-  regions <- Filter(
-    function(div) identical(htmltools::tagGetAttribute(div, "role"), "region"),
-    find_tags_by_name(x, "div")
-  )
+  wrappers <- find_tags(x, "shinygovstyle-reactable-labelled")
   list(
     heading_ids = vapply(
       find_tags(x, heading_class),
@@ -292,10 +290,10 @@ caption_links <- function(x, heading_class = "govuk-heading-l") {
       USE.NAMES = FALSE
     ),
     labelledby = vapply(
-      regions,
+      wrappers,
       htmltools::tagGetAttribute,
       character(1),
-      attr = "aria-labelledby",
+      attr = "data-labelledby",
       USE.NAMES = FALSE
     )
   )

@@ -6,8 +6,8 @@
 #' title keeps describing the data after a filter changes it ("Red vehicles by
 #' month" becoming "Blue vehicles by month").
 #'
-#' The caption and subtitle are the table's accessible name (the table's
-#' region is linked to them with `aria-labelledby`), so keeping them accurate
+#' The caption and subtitle are the table's accessible name (the table is
+#' linked to them with `aria-labelledby`), so keeping them accurate
 #' matters for screen reader users as well as sighted users.
 #'
 #' The new text isn't announced as it changes. That is deliberate: the change

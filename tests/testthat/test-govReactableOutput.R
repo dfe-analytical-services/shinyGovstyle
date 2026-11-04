@@ -1,4 +1,4 @@
-test_that("govReactableOutput links the caption to the table region", {
+test_that("govReactableOutput passes the caption id on for the table", {
   output_tag <- govReactableOutput("table", caption = "Example table")
 
   html <- htmltools::renderTags(output_tag)$html
@@ -10,9 +10,52 @@ test_that("govReactableOutput links the caption to the table region", {
   )
   expect_match(
     html,
-    '<div role="region" aria-labelledby="table-caption">',
+    paste0(
+      '<div class="shinygovstyle-reactable-labelled" ',
+      'data-labelledby="table-caption">'
+    ),
     fixed = TRUE
   )
+})
+
+test_that("govReactableOutput names the table, not a region around it", {
+  # The caption labels the table itself (via govreactable.js), so there's no
+  # landmark per table and the title isn't announced twice
+  html <- htmltools::renderTags(
+    govReactableOutput("table", caption = "Example table")
+  )$html
+  expect_no_match(html, 'role="region"', fixed = TRUE)
+  expect_no_match(html, "aria-labelledby", fixed = TRUE)
+})
+
+test_that("govReactableOutput ships the script that links the caption", {
+  # Needed even if the server renders a table not built by govReactable(),
+  # and shares the widget's dependency name so the script loads once
+  dep <- Filter(
+    function(d) identical(d$name, "reactable-overrides"),
+    htmltools::findDependencies(
+      govReactableOutput("table", caption = "Example table")
+    )
+  )
+  expect_length(dep, 1)
+  expect_identical(dep[[1]]$script, "js/govreactable.js")
+})
+
+test_that("govreactable.js reads the wrapper the R side builds", {
+  # Guards against the class and attribute names drifting apart between R
+  # and the browser, which nothing else would catch outside a real browser.
+  js_path <- system.file(
+    "www",
+    "js",
+    "govreactable.js",
+    package = "shinyGovstyle"
+  )
+  expect_true(file.exists(js_path))
+  js <- paste(readLines(js_path, warn = FALSE), collapse = "\n")
+
+  expect_match(js, ".shinygovstyle-reactable-labelled", fixed = TRUE)
+  expect_match(js, 'getAttribute("data-labelledby")', fixed = TRUE)
+  expect_match(js, 'setAttribute("aria-labelledby"', fixed = TRUE)
 })
 
 test_that("govReactableOutput caption ids follow the (namespaced) output id", {

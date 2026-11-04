@@ -1,6 +1,13 @@
-// govReactable sort buttons JS (#190)
+// govReactable JS: sort buttons (#190) and caption links (#158)
 //
-// govReactable() puts a native <button class="gov-sort-button"> inside each
+// Caption links: reactable has no option to name its `role="table"` element,
+// so a captioned govReactable() or govReactableOutput() wraps the table in a
+// .shinygovstyle-reactable-labelled div whose data-labelledby holds the
+// caption (and subtitle) ids. This script copies them onto the table as
+// aria-labelledby once reactable renders it, so screen readers read the title
+// when they reach the table itself, including by table quick-nav.
+//
+// Sort buttons: govReactable() puts a native <button class="gov-sort-button"> inside each
 // sortable reactable header, so the header is announced as something you can
 // select and voice control can target it by its visible text. reactable still
 // gives the surrounding `div role="columnheader"` its own tab stop and an
@@ -11,6 +18,34 @@
 
 (function () {
   var HEADER_SELECTOR = '.gov-table .bar-sort-header[tabindex="0"]';
+  var LABELLED_SELECTOR = ".shinygovstyle-reactable-labelled";
+  var TABLE_SELECTOR = '[role="table"]';
+
+  // Name each captioned table after its caption. Only the first table in a
+  // wrapper is the captioned one: any later ones are nested tables (such as
+  // expandable row details), which the caption doesn't describe. React leaves
+  // attributes it doesn't manage alone, so this sticks through sorting and
+  // paging, and a re-rendered table arrives as a new node and is handled
+  // again.
+  function linkCaptions(root) {
+    if (!root.querySelectorAll) return;
+    var tables = Array.prototype.slice.call(
+      root.querySelectorAll(TABLE_SELECTOR)
+    );
+    if (root.matches && root.matches(TABLE_SELECTOR)) {
+      tables.unshift(root);
+    }
+    for (var i = 0; i < tables.length; i++) {
+      var wrapper = tables[i].closest(LABELLED_SELECTOR);
+      if (!wrapper || wrapper.querySelector(TABLE_SELECTOR) !== tables[i]) {
+        continue;
+      }
+      var ids = wrapper.getAttribute("data-labelledby");
+      if (ids && tables[i].getAttribute("aria-labelledby") !== ids) {
+        tables[i].setAttribute("aria-labelledby", ids);
+      }
+    }
+  }
 
   // Take the columnheader out of the tab order; the button inside it is the
   // single tab stop. React only re-applies props that change, so this sticks
@@ -46,6 +81,7 @@
       var added = mutations[i].addedNodes;
       for (var j = 0; j < added.length; j++) {
         removeHeaderTabStops(added[j]);
+        linkCaptions(added[j]);
       }
     }
   });
@@ -54,4 +90,5 @@
     subtree: true,
   });
   removeHeaderTabStops(document);
+  linkCaptions(document);
 })();

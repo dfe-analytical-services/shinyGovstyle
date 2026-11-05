@@ -9,7 +9,8 @@ service_navigation(
   service_name = NULL,
   auto_page_title = TRUE,
   page_title_suffix = NULL,
-  width = "standard"
+  width = "standard",
+  service_url = NULL
 )
 }
 \arguments{
@@ -20,7 +21,15 @@ non-alphanumeric character with an underscore, e.g. "Overview page" becomes
 where names are the link text and values are the inputIDs, e.g.
 \code{c("Overview page" = "overview")}. Supplied inputIDs are cleaned up in the
 same way, so \code{"Page-Two"} becomes \code{page_two}. Every link must end up with
-a unique inputID.}
+a unique inputID.
+
+A link can also go to an ordinary URL instead of a page in the app. Supply
+it as a named value starting with \verb{https://}, \verb{http://}, \verb{mailto:}, \code{/},
+\verb{./}, \verb{../}, \verb{?} or \verb{#}, e.g.
+\code{c("Summary" = "summary", "Guidance" = "https://www.gov.uk/guidance")}.
+These are plain links: they open in the same tab, as GOV.UK service
+navigation links do, are never marked as the current page, and are ignored
+by \code{\link[=update_service_navigation]{update_service_navigation()}} and \code{\link[=service_navigation_server]{service_navigation_server()}}.}
 
 \item{service_name}{An optional character string
 containing the service name to be displayed in the
@@ -48,6 +57,10 @@ GOV.UK's usual 960px content width), \code{"three-quarters"}
 \code{"full"} (no max-width, so the container fills the viewport, with
 grid gutters also removed), or a CSS length (e.g. \code{"1400px"},
 \code{"90vw"}) for a custom max-width.}
+
+\item{service_url}{An optional URL for the service name to link to,
+usually the service's start page. If \code{NULL} (the default), the service name
+is shown as text rather than a link, as in the GOV.UK Design System.}
 }
 \value{
 Shiny tag object
@@ -62,9 +75,16 @@ multiple \code{service_navigation()} instances on the same
 page will cause ID conflicts and the mobile menu toggle
 may not work correctly.
 
-The first link is marked as the current page when the app loads, matching
-the first tab panel Shiny shows by default. If your app starts on a
-different page, call \code{\link[=update_service_navigation]{update_service_navigation()}} when the session starts.
+The first in-app link is marked as the current page when the app loads,
+matching the first tab panel Shiny shows by default. If your app starts on
+a different page, call \code{\link[=update_service_navigation]{update_service_navigation()}} when the session
+starts.
+
+On screens narrower than GOV.UK's tablet breakpoint (641px), the links are
+collapsed behind a "Menu" button, as in the GOV.UK Design System. Choosing
+an in-app link from the open menu closes it and moves keyboard focus to the
+new page's \verb{<h1>} (or \verb{<main>} if it has none), as a page load would on a
+GOV.UK service, rather than leaving focus on the hidden link.
 
 Put \code{service_navigation()} in your app's top-level UI and wire it up from
 the top-level server function. It is not designed to be used inside a
@@ -94,6 +114,16 @@ ui <- shinyGovstyle::gov_page(
      )
    ),
    shinyGovstyle::footer(full = TRUE)
+)
+
+# A linked service name, and a link to a page outside the app
+shinyGovstyle::service_navigation(
+  c(
+    "Summary data" = "summary_data",
+    "Methodology" = "https://www.gov.uk/government/statistics"
+  ),
+  service_name = "School statistics",
+  service_url = "/"
 )
 
 server <- function(input, output, session) {

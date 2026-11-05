@@ -52,10 +52,9 @@
   still leaves focus on the link.
 * `cookieBanner()` confirmation messages now have `role="alert"` and
   `tabindex="-1"`, as in the GOV.UK Design System, and focus moves to the
-  message after "Accept" or "Reject" so it is read out. After "Hide this
-  message", focus moves to `<main>` rather than being lost with the
-  hidden banner. This works with your existing server code. The banner's
-  `data-nosnippet` and `role` attributes are also now set separately.
+  message after "Accept" or "Reject" so it is read out. This works with
+  your existing server code. The banner's `data-nosnippet` and `role`
+  attributes are also now set separately.
 * Tables from `govTable()` and `govTabs()` that are wider than the screen now
   scroll sideways on their own instead of making the whole page scroll. You
   can reach a scrolling table with the keyboard.

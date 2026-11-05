@@ -111,10 +111,10 @@ test_that("the cookie banner ships the focus-moving script", {
     package = "shinyGovstyle"
   )
   js <- paste(readLines(js_path, warn = FALSE), collapse = "\n")
-  for (id in c("cookieAccept", "cookieReject", "hideAccept", "hideReject")) {
+  for (id in c("cookieAccept", "cookieReject")) {
     expect_match(js, paste0("#", id), fixed = TRUE)
   }
-  for (id in c("cookieAcceptDiv", "cookieRejectDiv", "cookieDiv")) {
+  for (id in c("cookieAcceptDiv", "cookieRejectDiv")) {
     expect_match(js, paste0('"', id, '"'), fixed = TRUE)
   }
 })

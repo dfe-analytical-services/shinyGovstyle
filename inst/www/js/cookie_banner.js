@@ -5,8 +5,8 @@
 // - Accept / Reject: focus the confirmation message, as GOV.UK does, so its
 //   role="alert" text is read out and focus is not lost with the hidden
 //   buttons.
-// - Hide this message: focus <main>, as the button that had focus is gone
-//   and the banner sits above the rest of the page.
+// Hide this message does not move focus, as in GOV.UK: the banner is above
+// the rest of the page, so the next Tab continues from there.
 // Relies on the helpers in focus_management.js.
 
 (function (focus) {
@@ -31,16 +31,4 @@
     focusWhenShown("cookieRejectDiv");
   });
 
-  $(document).on("click", "#hideAccept, #hideReject", function () {
-    var banner = document.getElementById("cookieDiv");
-    if (!banner) return;
-    focus.whenReady(
-      function () {
-        return !focus.isVisible(banner);
-      },
-      function () {
-        focus.focusElement(focus.mainElement());
-      }
-    );
-  });
 })(window.shinyGovstyle);

@@ -8,10 +8,9 @@
 #' messages have `role = "alert"` and `tabindex = "-1"`. When the user
 #' presses "Accept" or "Reject", focus moves to the confirmation message
 #' once your server code shows it, so screen readers read it out and
-#' keyboard users are not left on a hidden button. When the user presses
-#' "Hide this message", focus moves to the page's `<main>` element once the
-#' banner is hidden. Both are handled in the browser, so the server code in
-#' the example below is all you need.
+#' keyboard users are not left on a hidden button. This is handled in the
+#' browser, so the server code in the example below is all you need. As in
+#' GOV.UK, focus does not move when the user presses "Hide this message".
 #' @param service_name Name for this service to add to banner
 #' @inheritParams width_arg
 #' @return a cookie banner HTML shiny tag object

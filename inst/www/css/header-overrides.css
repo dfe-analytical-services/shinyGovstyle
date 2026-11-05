@@ -1,118 +1,61 @@
-/*
- * Header layout overrides.
- *
- * GOV.UK Frontend v6 removed the service name from the header
- * As the majority of Shiny apps are not on a GOV.UK domain,
- * we're adding back in the old CSS here to keep that option.
- * We've also added some of our own CSS here to make it all work
- * smoothly.
- */
-
-
-/* =============================================================================
-   All screen sizes
-   ============================================================================= */
-
-/* Remove the upward offset designed for the GOV.UK crown SVG */
-.govuk-header__logotype {
-    top: 0;
-    vertical-align: middle;
+/* The centred service title extends GOV.UK Frontend's Generic header. The
+   header keeps the upstream font stack so it matches the rest of the page, and
+   relies on the upstream focus style (a transparent outline that forced-colours
+   mode makes visible). */
+.shinygovstyle-header__container > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
-.govuk-header__product-name {
+.shinygovstyle-header__link {
+    line-height: 1.25;
+}
+
+.shinygovstyle-header__image {
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.shinygovstyle-header__service-name {
+    padding-bottom: 15px;
     font-size: 1.5rem;
-    font-weight: 400;
-    vertical-align: middle;
+    line-height: 1.25;
 }
 
-.govuk-header__service-name {
-    display: inline-block;
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-    line-height: 1.1111111111;
-    font-weight: 400;
-}
-
-.govuk-header__content, .govuk-header__logo {
-    box-sizing: border-box;
-}
-
-.govuk-header__logo {
-    margin-bottom: 15px;
-    padding-right: 80px;
-}
-
-/* The mirror only does anything at the wide-desktop breakpoint below; keep
-   it fully out of the layout everywhere else so it can never affect the
-   stacked mobile/tablet header. */
-.govuk-header__logo--mirror {
-    display: none;
-}
-
-
-/* =============================================================================
-   Tablet and above (min-width: 40.0625em / 641px)
-   ============================================================================= */
-
-@media (min-width:40.0625em) {
-    .govuk-header__service-name {
+@media (min-width: 40.0625em) {
+    .shinygovstyle-header__service-name {
         font-size: 2rem;
-        line-height: 1.25;
     }
 }
 
-
-/* =============================================================================
-   Wide desktop (min-width: 79em / 1264px)
-
-   The org name, the service name/title, and an invisible mirror of the
-   org name/logo (see header.R's build_logo()) share a 3-column grid, so
-   the title stays genuinely centred on the page. If there isn't room for
-   everything, the org name wraps first - the title is the page's own
-   heading and takes priority over the org name, which is comparatively
-   secondary and shared across many services.
-   ============================================================================= */
-
-@media (min-width:79em) {
-    .govuk-header__container {
+/* Equal outer columns centre the title without duplicating the identity.
+   The organisation wraps first; long titles can use up to half the container. */
+@media (min-width: 79em) {
+    .shinygovstyle-header__container--with-service {
         display: grid;
-        grid-template-columns: 1fr auto 1fr;
+        grid-template-columns: minmax(0, 1fr) fit-content(50%) minmax(0, 1fr);
         align-items: center;
         column-gap: 40px;
     }
 
-    .govuk-header__logo {
-        grid-column: 1;
-        justify-self: start;
-        display: flex;
-        align-items: center;
-        padding-top: 14px;
-        padding-bottom: 14px;
-        padding-right: 0;
-        margin-bottom: 0;
-    }
-
-    .govuk-header__content {
+    .shinygovstyle-header__service-name {
         grid-column: 2;
-        justify-self: center;
+        padding-top: 15px;
         text-align: center;
-    }
-
-    .govuk-header__logo--mirror {
-        grid-column: 3;
-        justify-self: end;
-        visibility: hidden;
     }
 }
 
-
-/* =============================================================================
-   Print
-   ============================================================================= */
-
 @media print {
-    .govuk-header__service-name {
+    .shinygovstyle-header {
+        color: #000;
+    }
+
+    .shinygovstyle-header__container--with-service {
+        display: block;
+    }
+
+    .shinygovstyle-header__service-name {
         font-size: 18pt;
-        line-height: 1.15;
+        text-align: left;
     }
 }

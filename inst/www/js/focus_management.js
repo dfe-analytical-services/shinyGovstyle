@@ -18,12 +18,22 @@ window.shinyGovstyle = window.shinyGovstyle || {};
   // skip link, tabindex="-1" is added for the move and removed on blur, so
   // the element does not stay focusable by mouse click. An existing
   // tabindex (e.g. on <main>) is left alone.
-  function focusElement(el) {
+  //
+  // With hideOutline, the element also gets GOV.UK's
+  // govuk-skip-link-focused-element class until blur, which removes the focus
+  // outline as the skip link does. Use it for a page heading or <main>, which
+  // are focused only to set the reading position. Leave it off for content
+  // that needs attention, like the cookie banner message, where GOV.UK keeps
+  // the focus outline visible.
+  function focusElement(el, hideOutline) {
     if (!el) return;
-    if (!el.hasAttribute("tabindex")) {
-      el.setAttribute("tabindex", "-1");
+    var addedTabindex = !el.hasAttribute("tabindex");
+    if (addedTabindex) el.setAttribute("tabindex", "-1");
+    if (hideOutline) el.classList.add("govuk-skip-link-focused-element");
+    if (addedTabindex || hideOutline) {
       el.addEventListener("blur", function onBlur() {
-        el.removeAttribute("tabindex");
+        if (addedTabindex) el.removeAttribute("tabindex");
+        el.classList.remove("govuk-skip-link-focused-element");
         el.removeEventListener("blur", onBlur);
       });
     }
@@ -93,7 +103,7 @@ window.shinyGovstyle = window.shinyGovstyle || {};
       },
       function () {
         var heading = panel && panel.querySelector("h1");
-        focusElement(isVisible(heading) ? heading : mainElement());
+        focusElement(isVisible(heading) ? heading : mainElement(), true);
       }
     );
   });

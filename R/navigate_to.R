@@ -38,11 +38,13 @@
 #' panel once it is visible, falling back to the page's `<main>` element
 #' (as created by [gov_main_layout()]) when the panel has no `<h1>`. The
 #' heading is given `tabindex="-1"` for the move, and loses it again when
-#' focus leaves it. Without this, the button or link that triggered the
+#' focus leaves it. Without the move, the button or link that triggered the
 #' switch is usually inside the panel that has just been hidden, so focus
 #' drops to the top of the document with nothing announced to screen
 #' reader users (WCAG 2.4.3 Focus Order). Give each panel an `<h1>`, for
 #' example with [heading_text()], so the move reads out the new page name.
+#' As with the GOV.UK skip link, the focus outline is hidden on the heading
+#' (or `<main>`) while it holds focus.
 #'
 #' On wider screens, direct clicks on [service_navigation()] links do not
 #' move focus: they go through [service_navigation_server()], not

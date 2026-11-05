@@ -236,6 +236,32 @@ test_that("focus_management.js handles the message navigate_to() sends", {
   )
 })
 
+test_that("page headings hide the focus outline but banner messages keep it", {
+  js_path <- system.file(
+    "www",
+    "js",
+    "focus_management.js",
+    package = "shinyGovstyle"
+  )
+  js <- paste(readLines(js_path, warn = FALSE), collapse = "\n")
+  expect_match(js, "govuk-skip-link-focused-element", fixed = TRUE)
+  # navigate_to() asks for the outline to be hidden on the heading or main
+  expect_match(
+    js,
+    "mainElement\\(\\),\\s*true\\)",
+    perl = TRUE
+  )
+
+  cookie_js <- system.file(
+    "www",
+    "js",
+    "cookie_banner.js",
+    package = "shinyGovstyle"
+  )
+  cookie <- paste(readLines(cookie_js, warn = FALSE), collapse = "\n")
+  expect_match(cookie, "focusElement\\(message\\)", perl = TRUE)
+})
+
 test_that("the focus handler ships with every shinyGovstyle component", {
   # navigate_to() can be used without service_navigation(), so the handler
   # is a base dependency rather than a service navigation one

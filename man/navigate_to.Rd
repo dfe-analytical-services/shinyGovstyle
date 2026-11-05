@@ -53,11 +53,13 @@ When \code{focus = TRUE}, focus moves to the first \verb{<h1>} in the newly show
 panel once it is visible, falling back to the page's \verb{<main>} element
 (as created by \code{\link[=gov_main_layout]{gov_main_layout()}}) when the panel has no \verb{<h1>}. The
 heading is given \code{tabindex="-1"} for the move, and loses it again when
-focus leaves it. Without this, the button or link that triggered the
+focus leaves it. Without the move, the button or link that triggered the
 switch is usually inside the panel that has just been hidden, so focus
 drops to the top of the document with nothing announced to screen
 reader users (WCAG 2.4.3 Focus Order). Give each panel an \verb{<h1>}, for
 example with \code{\link[=heading_text]{heading_text()}}, so the move reads out the new page name.
+As with the GOV.UK skip link, the focus outline is hidden on the heading
+(or \verb{<main>}) while it holds focus.
 
 On wider screens, direct clicks on \code{\link[=service_navigation]{service_navigation()}} links do not
 move focus: they go through \code{\link[=service_navigation_server]{service_navigation_server()}}, not

@@ -303,7 +303,10 @@ function focusNewPage(activeBefore, samePage) {
     if (moved) return;
     moved = true;
     var heading = panel && panel.querySelector("h1");
-    ns.focusElement(ns.isVisible(heading) ? heading : ns.mainElement());
+    ns.focusElement(
+      ns.isVisible(heading) ? heading : ns.mainElement(),
+      true
+    );
   }
 
   if (samePage) {

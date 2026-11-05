@@ -85,12 +85,19 @@ attachDependency <- # nolint
           script = "accordion.js"
         )
       } else if (widget == "govTab") {
-        htmltools::htmlDependency(
-          name = "govTab",
-          version = version,
-          src = c(href = "shinyGovstyle/js"),
-          script = "govTab.js"
+        c(
+          list(
+            htmltools::htmlDependency(
+              name = "govTab",
+              version = version,
+              src = c(href = "shinyGovstyle/js"),
+              script = "govTab.js"
+            )
+          ),
+          table_scroll_dependencies(version)
         )
+      } else if (widget == "table") {
+        table_scroll_dependencies(version)
       } else if (widget == "contents_link") {
         htmltools::htmlDependency(
           name = "contents_link",
@@ -121,9 +128,10 @@ attachDependency <- # nolint
         )
       }
 
-      if (!is.null(widget_dep)) {
-        dep <- c(dep, list(widget_dep))
+      if (inherits(widget_dep, "html_dependency")) {
+        widget_dep <- list(widget_dep)
       }
+      dep <- c(dep, widget_dep)
     }
 
     # htmlwidgets' rendering path (htmlwidgets:::toHTML.htmlwidget) only reads
@@ -142,3 +150,26 @@ attachDependency <- # nolint
       htmltools::attachDependencies(tag, dep, append = TRUE)
     }
   }
+
+#' Stylesheet and script for the scroll container around govTable() and
+#' govTabs() tables
+#'
+#' @param version Package version string for the dependencies.
+#'
+#' @noRd
+table_scroll_dependencies <- function(version) {
+  list(
+    htmltools::htmlDependency(
+      name = "table-scroll",
+      version = version,
+      src = c(href = "shinyGovstyle/css"),
+      stylesheet = "table-scroll.css"
+    ),
+    htmltools::htmlDependency(
+      name = "table-scroll-js",
+      version = version,
+      src = c(href = "shinyGovstyle/js"),
+      script = "table_scroll.js"
+    )
+  )
+}

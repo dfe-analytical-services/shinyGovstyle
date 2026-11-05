@@ -222,3 +222,33 @@ govuk_error_html <- function(error_message) {
   }
   paste0(as.character(govuk_error_prefix()), " ", message_html)
 }
+
+#' Wrap a table in a horizontal scroll container
+#'
+#' Used by govTable() and govTabs() so a wide table scrolls inside its own
+#' container rather than making the whole page scroll sideways. This extends
+#' GOV.UK Frontend, which has no scroll wrapper for tables (its guidance is to
+#' put less data in each table, split it up, or use
+#' `govuk-table--small-text-until-tablet`). Containing the scroll is the
+#' technique recommended in the WCAG 1.4.10 Reflow Understanding document for
+#' tables that are still too wide.
+#'
+#' The container is not a tab stop or a landmark by default.
+#' `table_scroll.js` adds `tabindex="0"`, `role="region"` and
+#' `aria-labelledby` (copied from `data-labelledby`) only while the table is
+#' wider than the container, so keyboard users can scroll it (Safari needs the
+#' focus to scroll from the keyboard), without adding a pointless tab stop and
+#' landmark to every table that fits.
+#'
+#' @param table The `<table>` tag to wrap.
+#' @param labelledby Id of the element (caption or heading) that names the
+#'   table, used as the region's accessible name while it scrolls.
+#'
+#' @noRd
+table_scroll_container <- function(labelledby, table) {
+  shiny::tags$div(
+    class = "shinygovstyle-table-scroll",
+    `data-labelledby` = labelledby,
+    table
+  )
+}

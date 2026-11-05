@@ -24,7 +24,7 @@ Read `AGENTS.md`, the upgrade and pre-PR sections of `.github/CONTRIBUTING.md`, 
 
 ## Verify and hand off
 
-Follow the relevant checks in CONTRIBUTING, including lint, tests, documentation and `devtools::check()`. Run `shinytest2::test_app("inst/example_app")` explicitly with `NOT_CRAN=true`; confirm tests ran and that child processes used this checkout rather than an older installed package. Use [the browser checklist](references/browser-checklist.md) after the update at desktop and mobile widths, comparing with the baseline. Repair upgrade regressions and rerun affected checks. Record failures, skips and unavailable checks accurately; do not change tests merely to accept broken behaviour.
+Follow the relevant checks in CONTRIBUTING, including lint, tests, documentation and `devtools::check()`. Run the showcase app with `devtools::load_all(); shiny::runApp("inst/example_app")` so it uses this checkout rather than an older installed package. Use [the browser checklist](references/browser-checklist.md) after the update at desktop and mobile widths, comparing with the baseline. Repair upgrade regressions and rerun affected checks. Record failures, skips and unavailable checks accurately; do not change tests merely to accept broken behaviour.
 
 Inspect the full diff. Stage only task-owned paths, then check `git diff --cached --check`, the staged diff, `git status --short` and the base SHA. If ownership is unclear, ask before staging. Leave the changes staged even when a check remains unresolved, and label that limitation clearly.
 

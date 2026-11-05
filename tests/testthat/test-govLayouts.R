@@ -77,3 +77,7 @@ test_that("gov_text renders a govuk-body paragraph with the supplied content", {
   expect_identical(htmltools::tagGetAttribute(text, "class"), "govuk-body")
   expect_identical(tag_text(text, "govuk-body"), "Hello world")
 })
+
+test_that("gov_text attaches the GOV.UK stylesheet", {
+  expect_true("stylecss" %in% dependency_names(gov_text("Some text")))
+})

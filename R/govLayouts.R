@@ -116,4 +116,5 @@ gov_text <- function(...) {
       class = "govuk-body",
       ...
     )
+  attachDependency(gov_text)
 }

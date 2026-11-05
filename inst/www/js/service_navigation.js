@@ -284,10 +284,20 @@ function activeMainPanels() {
 // the current page was chosen again (samePage), the current panel is focused
 // straight away. Otherwise, if no panel changes, it is used once the wait
 // times out.
+var FOCUS_WAIT_MS = 1500;
+
 function focusNewPage(activeBefore, samePage) {
   var ns = window.shinyGovstyle;
   if (!ns || !ns.focusElement) return;
   var moved = false;
+
+  // Closing the menu hides the clicked link, so focus falls back to <body>.
+  // Only then is a move needed: if the user has already tabbed somewhere
+  // else, leave focus where they put it.
+  function focusIsLost() {
+    var active = document.activeElement;
+    return !active || active === document.body || !ns.isVisible(active);
+  }
 
   function newPanel() {
     var panels = activeMainPanels();
@@ -302,6 +312,7 @@ function focusNewPage(activeBefore, samePage) {
   function focusPanel(panel) {
     if (moved) return;
     moved = true;
+    if (!focusIsLost()) return;
     var heading = panel && panel.querySelector("h1");
     ns.focusElement(
       ns.isVisible(heading) ? heading : ns.mainElement(),
@@ -317,12 +328,13 @@ function focusNewPage(activeBefore, samePage) {
   ns.whenReady(
     function () { return newPanel() !== null; },
     function () { focusPanel(newPanel()); },
-    1500
+    FOCUS_WAIT_MS
   );
+  // No new panel appeared, so the page is not changing: use the current one
   setTimeout(function () {
     var current = activeMainPanels().filter(ns.isVisible)[0];
     focusPanel(current);
-  }, 1600);
+  }, FOCUS_WAIT_MS);
 }
 
 $(document).ready(function () {

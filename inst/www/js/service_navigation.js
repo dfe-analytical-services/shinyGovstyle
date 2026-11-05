@@ -251,10 +251,21 @@ function setUpServiceNavMenu(section) {
   $(navList).on("click", ".govuk-service-navigation__link.action-button",
     function () {
       if (mql.matches || !menuIsOpen) return;
+      // This runs before the document-level handler that marks the clicked
+      // link as current, so the active class still reflects the old page
+      var item = this.closest(".govuk-service-navigation__item");
+      var alreadyCurrent = !!item && item.classList.contains(
+        "govuk-service-navigation__item--active"
+      );
       var activeBefore = activeMainPanels();
       menuIsOpen = false;
       setHiddenStates();
-      focusNewPage(activeBefore);
+      if (alreadyCurrent) {
+        // The page is not changing, so move focus now rather than wait
+        focusNewPage(activeBefore, true);
+      } else {
+        focusNewPage(activeBefore);
+      }
     }
   );
 }
@@ -269,10 +280,11 @@ function activeMainPanels() {
 }
 
 // Once the server has shown the new panel, focus its <h1>, or <main> if it
-// has none, using the same rule as navigate_to() (focus_management.js). If
-// no panel changes, e.g. the current page was chosen again, the current
-// panel is used once the wait times out.
-function focusNewPage(activeBefore) {
+// has none, using the same rule as navigate_to() (focus_management.js). When
+// the current page was chosen again (samePage), the current panel is focused
+// straight away. Otherwise, if no panel changes, it is used once the wait
+// times out.
+function focusNewPage(activeBefore, samePage) {
   var ns = window.shinyGovstyle;
   if (!ns || !ns.focusElement) return;
   var moved = false;
@@ -292,6 +304,11 @@ function focusNewPage(activeBefore) {
     moved = true;
     var heading = panel && panel.querySelector("h1");
     ns.focusElement(ns.isVisible(heading) ? heading : ns.mainElement());
+  }
+
+  if (samePage) {
+    focusPanel(activeMainPanels().filter(ns.isVisible)[0]);
+    return;
   }
 
   ns.whenReady(

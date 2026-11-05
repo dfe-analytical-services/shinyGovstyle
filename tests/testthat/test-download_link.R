@@ -102,3 +102,9 @@ test_that("file_size is valid", {
     download_link("download_data", "Download your data", file_size = "12 JV")
   )
 })
+
+test_that("download_link attaches the GOV.UK and sr-only stylesheets", {
+  dep_names <- dependency_names(test_link)
+  expect_true("stylecss" %in% dep_names)
+  expect_true("sr-only" %in% dep_names)
+})

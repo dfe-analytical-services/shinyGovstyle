@@ -244,46 +244,22 @@ test_that("renderGovReactable allows NULL for no table", {
   })
 })
 
-test_that("renderGovReactable works with RStudio's breakpoint scan", {
-  # In RStudio, shiny passes every render function to registerShinyDebugHook(),
-  # which walks the function body and calls as.character() on the head of each
-  # call (.rs.findBreakpointSteps() in RStudio's SessionBreakpoints.R). This
-  # copies that walk, as it errors if a function object is spliced into the
-  # render expression.
-  rstudio_debug_hook <- function(params) {
-    find_breakpoint_steps <- function(fun_body) {
-      if (typeof(fun_body) != "language") {
-        return(NULL)
-      }
-      for (idx in seq_along(fun_body)) {
-        if (
-          is.call(fun_body[[idx]]) &&
-            identical(as.character(fun_body[[idx]][[1]])[[1]], ".doTrace")
-        ) {
-          return(idx + 1)
-        }
-        nested <- find_breakpoint_steps(fun_body[[idx]])
-        if (!is.null(nested)) {
-          return(c(idx, nested))
-        }
-      }
+test_that("renderGovReactable's code holds no function objects", {
+  # RStudio scans the code of every render function for breakpoints and errors
+  # with "cannot coerce type 'closure'" on a function object inside it. The
+  # render code is in shiny's cache hint for the function.
+  contains_function <- function(x) {
+    if (is.function(x)) {
+      return(TRUE)
     }
-    find_breakpoint_steps(body(get(params$name, params$where)))
-    invisible(NULL)
-  }
-  assign("registerShinyDebugHook", rstudio_debug_hook, envir = globalenv())
-  on.exit(rm("registerShinyDebugHook", envir = globalenv()), add = TRUE)
-
-  expect_no_error(renderGovReactable(govReactable(iris)))
-
-  server <- function(input, output, session) {
-    output$table <- renderGovReactable(govReactable(utils::head(iris, 2)))
+    is.call(x) && any(vapply(as.list(x), contains_function, logical(1)))
   }
 
-  shiny::testServer(server, {
-    rendered <- jsonlite::fromJSON(output$table)
-    expect_length(rendered$x$tag$attribs$data$Species, 2)
-  })
+  render <- renderGovReactable(govReactable(iris))
+  render_code <- attr(render, "cacheHint")$origUserFunc$body
+
+  expect_true(is.call(render_code))
+  expect_false(contains_function(render_code))
 })
 
 test_that("renderGovReactable keeps bindCache() outputs apart", {

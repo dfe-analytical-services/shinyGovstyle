@@ -64,7 +64,9 @@ mod_tables_tabs_ui <- function(id) {
     shinyGovstyle::govTabs(
       shiny::NS(id, "govTabs"),
       shinyGovstyle::case_data,
-      "tabs"
+      "tabs",
+      heading_level = 3L,
+      heading_size = "s"
     ),
     shiny::tags$br(),
     shiny::tags$br(),

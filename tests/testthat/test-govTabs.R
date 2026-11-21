@@ -210,6 +210,59 @@ test_that("each table sits in a scroll container labelled by its heading", {
   expect_true(all(startsWith(heading_ids, "tabsID-")))
 })
 
+test_that("panel headings and the contents title default to h2", {
+  tab_check <- govTabs("tabsID", shinyGovstyle::case_data, "tabs")
+
+  title <- find_tag_required(tab_check, "govuk-tabs__title")
+  expect_identical(title$name, "h2")
+
+  headings <- find_tags(tab_check, "govuk-heading-l")
+  expect_length(headings, 4L)
+  expect_true(all(vapply(headings, function(h) h$name == "h2", logical(1))))
+})
+
+test_that("heading_level and heading_size set the panel headings", {
+  # Tabs under an h2 section heading take h3 panel headings, and the
+  # "Contents" title moves with them as it does in GOV.UK
+  tab_check <- govTabs(
+    "tabsID",
+    shinyGovstyle::case_data,
+    "tabs",
+    heading_level = 3L,
+    heading_size = "s"
+  )
+
+  title <- find_tag_required(tab_check, "govuk-tabs__title")
+  expect_identical(title$name, "h3")
+
+  expect_length(find_tags(tab_check, "govuk-heading-l"), 0L)
+  headings <- find_tags(tab_check, "govuk-heading-s")
+  expect_length(headings, 4L)
+  expect_true(all(vapply(headings, function(h) h$name == "h3", logical(1))))
+
+  # The scroll containers are still labelled by the panel headings
+  panel <- find_tag_required(tab_check, "govuk-tabs__panel")
+  heading <- find_tag_required(panel, "govuk-heading-s")
+  wrapper <- find_tag_required(panel, "shinygovstyle-table-scroll")
+  expect_identical(
+    htmltools::tagGetAttribute(wrapper, "data-labelledby"),
+    htmltools::tagGetAttribute(heading, "id")
+  )
+})
+
+test_that("govTabs errors on an invalid heading_level or heading_size", {
+  expect_error(
+    govTabs("tabsID", shinyGovstyle::case_data, "tabs", heading_level = 7L),
+    "`heading_level` must be an integer between 1 and 6.",
+    fixed = TRUE
+  )
+  expect_error(
+    govTabs("tabsID", shinyGovstyle::case_data, "tabs", heading_size = "h3"),
+    "`heading_size` must be one of",
+    fixed = TRUE
+  )
+})
+
 test_that("govTabs attaches the table scroll stylesheet and script", {
   tab_check <- govTabs("tabsID", shinyGovstyle::case_data, "tabs")
 

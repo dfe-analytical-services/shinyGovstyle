@@ -17,6 +17,51 @@ test_that("validate_gds_text_size uses arg_name in the error message", {
   expect_error(validate_gds_text_size("bad", "label_size"), "label_size")
 })
 
+test_that("validate_heading_level accepts whole numbers from 1 to 6", {
+  for (level in 1:6) {
+    expect_no_error(validate_heading_level(level))
+    # A plain number works as well as an integer, e.g. 3 as well as 3L
+    expect_no_error(validate_heading_level(as.numeric(level)))
+  }
+})
+
+test_that("validate_heading_level rejects anything else", {
+  for (bad in list(0, 7, 2.5, "h2", "2", NA, NA_real_, NULL)) {
+    expect_error(validate_heading_level(bad), "`heading_level` must be")
+  }
+  expect_error(
+    validate_heading_level(c(2, 3)),
+    "`heading_level` must be a single value, not length 2.",
+    fixed = TRUE
+  )
+  expect_error(
+    validate_heading_level(7),
+    "`heading_level` must be an integer between 1 and 6.",
+    fixed = TRUE
+  )
+})
+
+test_that("validate_heading_level uses arg_name in the error message", {
+  expect_error(
+    validate_heading_level(7, arg_name = "level"),
+    "`level` must be an integer between 1 and 6.",
+    fixed = TRUE
+  )
+})
+
+test_that("build_heading_tag makes the same tag for 3 and 3L", {
+  integer_tag <- build_heading_tag(3L, "Title", "govuk-heading-m", "title-id")
+  number_tag <- build_heading_tag(3, "Title", "govuk-heading-m", "title-id")
+
+  expect_identical(integer_tag$name, "h3")
+  expect_identical(number_tag, integer_tag)
+  expect_identical(
+    htmltools::tagGetAttribute(integer_tag, "class"),
+    "govuk-heading-m"
+  )
+  expect_identical(htmltools::tagGetAttribute(integer_tag, "id"), "title-id")
+})
+
 test_that("govuk_markup_html escapes plain strings", {
   expect_identical(
     govuk_markup_html("<b>A</b> & B"),

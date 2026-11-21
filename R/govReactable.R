@@ -507,7 +507,8 @@ govuk_reactable_lang <- function(language) {
 #'
 #' server <- function(input, output, session) {
 #'   output$table <- renderGovReactable({
-#'     govReactable(iris)
+#'     # Longest petals first, so the top rows show what the caption says
+#'     govReactable(iris[order(iris$Petal.Length, decreasing = TRUE), ])
 #'   })
 #' }
 #'
@@ -613,9 +614,16 @@ renderGovReactable <- # nolint
     if (!quoted) {
       expr <- substitute(expr)
     }
-    table_func <- shiny::exprToFunction(expr, env, quoted = TRUE)
+    # Run the user's code in a child of their environment that also holds the
+    # check, so the render expression stays plain code. RStudio scans render
+    # functions for breakpoints and errors on a function object inside them,
+    # and a call to a local helper would give every output the same
+    # bindCache() key.
+    render_env <- new.env(parent = env)
+    render_env$.check_render_value <- check_render_value
     reactable::renderReactable(
-      bquote(check_render_value(.(table_func)())),
+      bquote(.check_render_value(.(expr))),
+      env = render_env,
       quoted = TRUE
     )
   }

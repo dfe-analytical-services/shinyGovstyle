@@ -95,7 +95,8 @@ ui <- shinyGovstyle::gov_page(
 
 server <- function(input, output, session) {
   output$table <- renderGovReactable({
-    govReactable(iris)
+    # Longest petals first, so the top rows show what the caption says
+    govReactable(iris[order(iris$Petal.Length, decreasing = TRUE), ])
   })
 }
 

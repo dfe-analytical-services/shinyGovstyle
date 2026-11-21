@@ -6,19 +6,19 @@ mod_tables_tabs_ui <- function(id) {
       "These are some examples of using tabs and tables"
     ),
 
-    shinyGovstyle::heading_text("govTable", size = "s", level = 2),
+    shinyGovstyle::heading_text("govTable", size = "m", level = 2),
     shinyGovstyle::govTable(
       shiny::NS(id, "tab1"),
       shinyGovstyle::transport_data_small,
       "Bike and car costs were highest in March",
-      "l",
+      "s",
       num_col = c(2, 3),
       subtitle = "Cost of bikes and cars (£), January to March, example data"
     ),
 
     shinyGovstyle::heading_text(
       "govReactable with static data",
-      size = "s",
+      size = "m",
       level = 2
     ),
     shinyGovstyle::govReactable(
@@ -28,13 +28,14 @@ mod_tables_tabs_ui <- function(id) {
         "Cost of bikes, vans and buses by vehicle colour (£),",
         "January to May, example data"
       ),
-      caption_size = "l",
+      caption_size = "s",
+      heading_level = 3L,
       page_size = 5
     ),
 
     shinyGovstyle::heading_text(
       "govReactable with reactive data and dynamic title",
-      size = "s",
+      size = "m",
       level = 2
     ),
     shinyGovstyle::select_Input(
@@ -54,10 +55,12 @@ mod_tables_tabs_ui <- function(id) {
       caption = paste(
         sort(unique(shinyGovstyle::transport_data$colours))[1],
         "vehicles by month"
-      )
+      ),
+      caption_size = "s",
+      heading_level = 3L
     ),
 
-    shinyGovstyle::heading_text("govTabs", size = "s", level = 2),
+    shinyGovstyle::heading_text("govTabs", size = "m", level = 2),
     shinyGovstyle::govTabs(
       shiny::NS(id, "govTabs"),
       shinyGovstyle::case_data,
@@ -65,7 +68,7 @@ mod_tables_tabs_ui <- function(id) {
     ),
     shiny::tags$br(),
     shiny::tags$br(),
-    shinyGovstyle::heading_text("accordions", size = "s", level = 2),
+    shinyGovstyle::heading_text("accordions", size = "m", level = 2),
     shinyGovstyle::accordion(
       shiny::NS(id, "acc1"),
       c(

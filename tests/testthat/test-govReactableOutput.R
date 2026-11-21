@@ -244,6 +244,87 @@ test_that("renderGovReactable allows NULL for no table", {
   })
 })
 
+test_that("renderGovReactable works with RStudio's breakpoint scan", {
+  # In RStudio, shiny passes every render function to registerShinyDebugHook(),
+  # which walks the function body and calls as.character() on the head of each
+  # call (.rs.findBreakpointSteps() in RStudio's SessionBreakpoints.R). This
+  # copies that walk, as it errors if a function object is spliced into the
+  # render expression.
+  rstudio_debug_hook <- function(params) {
+    find_breakpoint_steps <- function(fun_body) {
+      if (typeof(fun_body) != "language") {
+        return(NULL)
+      }
+      for (idx in seq_along(fun_body)) {
+        if (
+          is.call(fun_body[[idx]]) &&
+            identical(as.character(fun_body[[idx]][[1]])[[1]], ".doTrace")
+        ) {
+          return(idx + 1)
+        }
+        nested <- find_breakpoint_steps(fun_body[[idx]])
+        if (!is.null(nested)) {
+          return(c(idx, nested))
+        }
+      }
+    }
+    find_breakpoint_steps(body(get(params$name, params$where)))
+    invisible(NULL)
+  }
+  assign("registerShinyDebugHook", rstudio_debug_hook, envir = globalenv())
+  on.exit(rm("registerShinyDebugHook", envir = globalenv()), add = TRUE)
+
+  expect_no_error(renderGovReactable(govReactable(iris)))
+
+  server <- function(input, output, session) {
+    output$table <- renderGovReactable(govReactable(utils::head(iris, 2)))
+  }
+
+  shiny::testServer(server, {
+    rendered <- jsonlite::fromJSON(output$table)
+    expect_length(rendered$x$tag$attribs$data$Species, 2)
+  })
+})
+
+test_that("renderGovReactable keeps bindCache() outputs apart", {
+  # Two outputs cached on the same key must not share a cached table
+  server <- function(input, output, session) {
+    output$iris_table <- shiny::bindCache(
+      renderGovReactable(govReactable(utils::head(iris, 2))),
+      "same-key"
+    )
+    output$cars_table <- shiny::bindCache(
+      renderGovReactable(govReactable(utils::head(mtcars, 2))),
+      "same-key"
+    )
+  }
+
+  shiny::testServer(server, {
+    iris_data <- jsonlite::fromJSON(output$iris_table)$x$tag$attribs$data
+    cars_data <- jsonlite::fromJSON(output$cars_table)$x$tag$attribs$data
+    expect_true("Species" %in% names(iris_data))
+    expect_true("mpg" %in% names(cars_data))
+  })
+})
+
+test_that("renderGovReactable evaluates a quoted expression in env", {
+  table_env <- new.env()
+  table_env$rows <- 3
+
+  server <- function(input, output, session) {
+    output$table <- renderGovReactable(
+      quote(govReactable(utils::head(iris, rows))),
+      env = table_env,
+      quoted = TRUE
+    )
+  }
+
+  shiny::testServer(server, {
+    rendered <- jsonlite::fromJSON(output$table)
+    expect_length(rendered$x$tag$attribs$data$Species, 3)
+  })
+})
+
 test_that("govReactableOutput attaches the GOV.UK stylesheet", {
   output_check <- govReactableOutput("table", caption = "Example table")
   dep_names <- vapply(

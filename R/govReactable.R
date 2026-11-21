@@ -425,7 +425,8 @@ sort_header_render <- function(col_def, user_header) {
     stop(
       "govReactable() can't add its accessible sort button to a JS() ",
       "header. Use a string, a tag or an R function for the header of a ",
-      "sortable column, or set `sortable = FALSE` for it."
+      "sortable column, or set `sortable = FALSE` for it.",
+      call. = FALSE
     )
   } else if (is.function(user_header)) {
     function(value, name) {

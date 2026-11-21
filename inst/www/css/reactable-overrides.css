@@ -15,7 +15,7 @@
 
 /* Sortable column headers (issue #190) ------------------------------------
  * govReactable() puts a native <button class="gov-sort-button"> in each
- * sortable header. The button, arrows and colour follow the MOJ sortable table
+ * sortable header. The button and arrows follow the MOJ sortable table
  * (https://design-patterns.service.justice.gov.uk/components/sortable-table/).
  * The arrow paths are from moj-frontend (MIT licence), as inline SVG filled
  * with currentColor so they follow the button's colour, including in
@@ -55,8 +55,9 @@
   border-radius: 0;
   box-shadow: none;
   background-color: transparent;
-  /* MOJ's button colour */
-  color: #005ea5;
+  /* The package's link colour, not MOJ's lighter #005ea5, so the text meets
+     WCAG AAA contrast (7:1) like other links. See css_changes.md */
+  color: #175892;
   font: inherit;
   text-align: inherit;
   cursor: pointer;

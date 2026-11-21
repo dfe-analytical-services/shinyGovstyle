@@ -8,7 +8,8 @@
 #' becomes slow to render and harder to navigate as the number of rows grows.
 #' A warning is emitted when `df` has more than 50 rows.
 #' @param df expects a dataframe to create a table
-#' @param caption adds a caption to the table as a header
+#' @param caption The table's title, shown as its caption. Plain text is
+#' escaped and shown as written; use `shiny::HTML()` or tags for markup
 #' @inheritParams table_title_params
 #' @inheritSection table_title_params Table titles
 #' @param caption_size adjust the size of caption. One of `"s"`, `"m"`, `"l"`,

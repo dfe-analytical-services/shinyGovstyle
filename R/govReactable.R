@@ -457,7 +457,8 @@ govuk_reactable_lang <- function(language) {
   if (!is.null(user_sort_label) && !identical(user_sort_label, "{name}")) {
     warning(
       "govReactable() ignores `sortLabel` in `language` and always uses ",
-      "\"{name}\", so each heading's accessible name matches its visible text."
+      "\"{name}\", so each heading's accessible name matches its visible text.",
+      call. = FALSE
     )
   }
 

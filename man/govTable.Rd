@@ -21,7 +21,8 @@ input components this is also the name used to access the value via
 
 \item{df}{expects a dataframe to create a table}
 
-\item{caption}{adds a caption to the table as a header}
+\item{caption}{The table's title, shown as its caption. Plain text is
+escaped and shown as written; use \code{shiny::HTML()} or tags for markup}
 
 \item{caption_size}{adjust the size of caption. One of \code{"s"}, \code{"m"}, \code{"l"},
 \code{"xl"}, with \code{"l"} as the default. Any other value throws an error.}

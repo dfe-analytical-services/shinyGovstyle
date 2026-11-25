@@ -8,6 +8,24 @@
   [`gov_summary_card()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary_card.md)
   wraps a summary list in a GOV.UK summary card with a title and heading
   level, for pages that show several summary lists.
+- [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md)
+  and
+  [`govReactableOutput()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable-shiny.md)
+  tables can have a `caption` and `subtitle` that screen readers read
+  out when they reach the table
+  ([\#158](https://github.com/dfe-analytical-services/shinyGovstyle/issues/158)).
+  [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md)
+  also gains `subtitle`.
+- New
+  [`update_reactable_caption()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_reactable_caption.md)
+  changes a table’s caption from the server, for example after a filter.
+- Sortable
+  [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md)
+  headings are now buttons with a visible sort arrow, so screen readers
+  and voice control can use them
+  ([\#190](https://github.com/dfe-analytical-services/shinyGovstyle/issues/190)).
+  Obvious arrow icons inspired by the MoJ design system replace
+  reactable’s coloured sort bar.
 
 ### Breaking changes
 
@@ -23,6 +41,13 @@
   them.
 - [`gov_summary()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/gov_summary.md)
   no longer has an `action` argument; remove it from any calls.
+- [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md)
+  now right-aligns numeric columns automatically, as its documentation
+  always said. To keep one left-aligned, use
+  `columns = list(<column> = reactable::colDef(align = "left"))`.
+- A `JS()` header on a sortable
+  [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md)
+  column now gives an error.
 
 ### Bug fixes
 

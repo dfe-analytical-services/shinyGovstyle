@@ -22,6 +22,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="articles/cookies-and-analytics.html">Cookies and analytics</a></li>
     <li><a class="dropdown-item" href="articles/headings-and-text.html">Headings and text</a></li>
     <li><a class="dropdown-item" href="articles/layout-options.html">Layout options</a></li>
+    <li><a class="dropdown-item" href="articles/tables.html">Tables</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -133,6 +134,17 @@ This isn’t a full audit, just a smoke test. If you’re touching <code>inst/ww
 <p>Once ready, you should raise <a href="https://github.com/dfe-analytical-services/shinyGovstyle/compare" class="external-link">a PR in the main GitHub repository</a>, pointing at the <code>main</code> branch and one of the package maintainers will be able to review your changes.</p>
 <p>Once a pull request is reviewed and ready to be merged in, all commits in the PR should be squashed as a part of the merge to keep the Git history shorter and easier to navigate.</p>
 <p>The <code>main</code> branch acts as the development version of the package for users, releases of stable package versions to CRAN will be made by the maintainers when they feel it is appropriate to do so.</p>
+</div>
+<div class="section level3">
+<h3 id="screenshots-in-a-pr">Screenshots in a PR<a class="anchor" aria-label="anchor" href="#screenshots-in-a-pr"></a></h3>
+<p>For changes to how something looks, it helps to show before and after screenshots in the PR description.</p>
+<p>The easiest way is to take a screenshot, then paste or drag it into the PR description in your browser. GitHub stores the image for you. Do this if you can.</p>
+<p>There is also a <code>pr-screenshots</code> branch for when you can’t paste images in. This is mostly for coding agents, which can save a screenshot to a file but can’t paste it into a web page. It only holds images, in one folder for each PR (<code>pr-&lt;number&gt;/</code>). It is never merged, so the images never end up in <code>main</code> or in the package. You need permission to push to the repo to use it.</p>
+<ol style="list-style-type: decimal"><li>Clone just that branch, somewhere outside your working copy: <code>git clone --branch pr-screenshots --single-branch https://github.com/dfe-analytical-services/shinyGovstyle.git shinyGovstyle-screenshots</code>
+</li>
+<li>Put your images in a <code>pr-&lt;number&gt;/</code> folder, then commit and push.</li>
+<li>Link each image in the PR description with <code>![what the image shows](https://raw.githubusercontent.com/dfe-analytical-services/shinyGovstyle/pr-screenshots/pr-&lt;number&gt;/&lt;file&gt;.png)</code>.</li>
+</ol><p>Always write alt text that says what the image shows.</p>
 </div>
 <div class="section level3">
 <h3 id="code-owners">Code owners<a class="anchor" aria-label="anchor" href="#code-owners"></a></h3>

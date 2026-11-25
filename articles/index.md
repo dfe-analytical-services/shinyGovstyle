@@ -10,3 +10,4 @@
   options](https://dfe-analytical-services.github.io/shinyGovstyle/articles/layout-options.md):
 - [Get
   started](https://dfe-analytical-services.github.io/shinyGovstyle/articles/shinyGovstyle.md):
+- [Tables](https://dfe-analytical-services.github.io/shinyGovstyle/articles/tables.md):

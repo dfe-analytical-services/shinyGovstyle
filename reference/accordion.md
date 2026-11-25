@@ -45,7 +45,8 @@ Other Govstyle tables tabs and accordions:
 [`govReactable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable.md),
 [`govReactable-shiny`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govReactable-shiny.md),
 [`govTable()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTable.md),
-[`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
+[`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md),
+[`update_reactable_caption()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_reactable_caption.md)
 
 ## Examples
 

@@ -218,4 +218,6 @@ and
 render data tables with GOV.UK styling;
 [`value_box()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/value_box.md)
 displays a headline figure with a label, suited to summary statistics at
-the top of a dashboard.
+the top of a dashboard. The
+[Tables](https://dfe-analytical-services.github.io/shinyGovstyle/articles/tables.md)
+vignette covers which table function to use and how to title a table.

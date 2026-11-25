@@ -101,6 +101,8 @@
   : Table Function
 - [`govTabs()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/govTabs.md)
   : Tabs Function
+- [`update_reactable_caption()`](https://dfe-analytical-services.github.io/shinyGovstyle/reference/update_reactable_caption.md)
+  : Update a govReactable caption or subtitle from the server
 
 ## Feedback
 

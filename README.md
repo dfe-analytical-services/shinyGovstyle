@@ -15,7 +15,10 @@
 
 ## Overview
 
-This package provides custom widgets to style R Shiny apps using the GOV.UK design system. The components can be previewed in our [example showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/).
+This package provides custom widgets to style R Shiny apps using the GOV.UK design system. Read the documentation and try the components in the showcase for the version you use:
+
+- **Stable version, released on CRAN:** [documentation](https://dfe-analytical-services.github.io/shinyGovstyle/) and showcase: TODO_CONNECT_CRAN_URL
+- **Development version, built from the `main` branch on GitHub:** [documentation](https://dfe-analytical-services.github.io/shinyGovstyle/dev/) and showcase: TODO_CONNECT_DEV_URL
 <br> 
 
 ![example app demonstration](man/figures/example_app.gif)
@@ -51,7 +54,7 @@ This package is also released with a `.github/CODE_OF_CONDUCT.md`. By contributi
 
 Details of all available components and how to use them can be found in the [package documentation](https://dfe-analytical-services.github.io/shinyGovstyle/reference/index.html).
 
-The package contains an [example showcase app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/) you can view or run yourself, showcasing available components. The code for the example app is in the `inst/example_app/` folder. You can easily run the app from the console using:
+The package includes a showcase app for the version you have installed. Its Beta banner shows the package version. The code is in `inst/example_app/`. Run it with:
 
 ```r
 shinyGovstyle::run_example()

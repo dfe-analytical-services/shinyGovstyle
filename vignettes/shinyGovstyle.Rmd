@@ -34,7 +34,8 @@ We welcome feedback and contributions:
 
 The quickest way to get a feel for what is available is the example showcase app, which demonstrates the full range of components:
 
-- **Online:** [department-for-education.shinyapps.io/shinygovstyle-example-app](https://department-for-education.shinyapps.io/shinygovstyle-example-app/)
+- **Online (CRAN release):** TODO_CONNECT_CRAN_URL
+- **Online (development):** TODO_CONNECT_DEV_URL
 - **Local** (after installing the package): `shinyGovstyle::run_example()`
 
 The source code for the example app lives in [`inst/example_app/`](https://github.com/dfe-analytical-services/shinyGovstyle/tree/main/inst/example_app) and is a useful reference for how components fit together in a real multi-page app using [Shiny modules](https://mastering-shiny.org/scaling-modules.html).

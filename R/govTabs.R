@@ -3,17 +3,24 @@
 #' This function creates a tabs based table. It requires a single dataframe
 #' with a grouping variable.
 #'
-#' Every tab and panel id is prefixed with `inputId`, so several `govTabs()`
-#' on one page work independently, even when they share the same group
-#' values. The first tab is selected when the page loads.
+#' Every tab and panel id starts with `inputId`, so several `govTabs()` on one
+#' page work independently, even with the same group values. The first tab is
+#' selected when the page loads.
 #'
-#' As in the GOV.UK Design System, the tabs become a "Contents" list of links
-#' with every table shown on small screens. `govTabs()` also does this when
-#' its tabs do not fit on one row of the space it is given, for example in a
-#' two-thirds column on a narrow window, rather than squashing the tabs.
+#' As in the GOV.UK Design System, on small screens the tabs become a
+#' "Contents" list of links with every table shown. `govTabs()` does the same
+#' when its tabs don't fit on one row, for example in a narrow column, rather
+#' than squashing them.
 #' @inheritParams id_arg
 #' @param df A single dataframe with all data. See example for structure
 #' @param group_col The column name with the groups to be used as tabs
+#' @param heading_level The heading level, an integer from `1L` to `6L`, for
+#' each panel's heading and the "Contents" title shown on small screens.
+#' Defaults to `2L`, as in the GOV.UK Design System. Use one level below the
+#' heading the tabs sit under, for example `3L` under an `<h2>`, so screen
+#' reader users can follow the page structure.
+#' @param heading_size Size of each panel's heading: `"s"`, `"m"`, `"l"`
+#' (default) or `"xl"`. Keep it no bigger than the heading the tabs sit under.
 #' @return a tab table HTML shiny tag object
 #' @family Govstyle tables tabs and accordions
 #' @export
@@ -37,8 +44,13 @@ govTabs <- # nolint
   function(
     inputId, # nolint
     df,
-    group_col
+    group_col,
+    heading_level = 2L,
+    heading_size = "l"
   ) {
+    validate_heading_level(heading_level)
+    validate_gds_text_size(heading_size, "heading_size")
+
     tabs <- as.character(unique(df[[group_col]]))
     tab_ids <- tab_slugs(tabs)
     is_first <- seq_along(tabs) == 1L
@@ -61,18 +73,19 @@ govTabs <- # nolint
         tabs[[i]],
         tab_ids[[i]],
         inputId,
-        is_first[[i]]
+        is_first[[i]],
+        heading_level,
+        heading_size
       )
     })
 
     main_tab_div <- shiny::tags$div(
-      # govuk-frontend-supported switches on the tabs layout in the GOV.UK
-      # stylesheet. GOV.UK puts it on <body> once its own JS has loaded, which
-      # shinyGovstyle does not do, so it goes on the component instead.
-      # govTab.js removes it again while the tabs do not fit on one row.
+      # govuk-frontend-supported turns on the tabs layout. GOV.UK puts it on
+      # <body>, which shinyGovstyle doesn't do, so it goes on the component.
+      # govTab.js removes it while the tabs don't fit on one row.
       class = "govuk-tabs govuk-frontend-supported",
       id = inputId,
-      shiny::tags$h2(class = "govuk-tabs__title", "Contents"),
+      build_heading_tag(heading_level, "Contents", "govuk-tabs__title"),
       create_tabs(tabs, tab_ids, inputId, is_first),
       panels
     )
@@ -102,7 +115,9 @@ create_tab_table <- function(
   tab,
   slug,
   inputId, # nolint
-  is_first
+  is_first,
+  heading_level,
+  heading_size
 ) {
   heading_id <- paste0(inputId, "-heading-", slug)
 
@@ -115,7 +130,12 @@ create_tab_table <- function(
     id = panel_id(inputId, slug),
     role = "tabpanel",
     `aria-labelledby` = tab_id(inputId, slug),
-    shiny::tags$h2(class = "govuk-heading-l", id = heading_id, tab),
+    build_heading_tag(
+      heading_level,
+      tab,
+      paste0("govuk-heading-", heading_size),
+      heading_id
+    ),
     # Wide tables scroll inside their own container rather than the page; see
     # table_scroll_container() for why this extends GOV.UK Frontend
     table_scroll_container(

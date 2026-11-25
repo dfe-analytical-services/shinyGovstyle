@@ -1,17 +1,14 @@
 // Make table scroll containers keyboard-reachable only while they scroll.
 //
 // govTable() and govTabs() wrap each table in a .shinygovstyle-table-scroll
-// div so a wide table scrolls inside itself rather than the page. A container
-// that scrolls needs to be focusable so keyboard users can scroll it (Safari
-// will not scroll it from the keyboard otherwise), and a focusable container
-// needs a role and a name so screen readers can say what the stop is.
+// div, so a wide table scrolls inside it and not the page. A container that
+// scrolls must be focusable so keyboard users can scroll it (Safari won't
+// otherwise), and a focusable container needs a role and a name.
 //
-// A table that fits needs none of that. GOV.UK pages have no tab stop on a
-// table, so adding one to every table would be an extra, pointless stop and
-// an extra landmark for each table on the page. So tabindex, role and
-// aria-labelledby (from data-labelledby) are only set while the content is
-// wider than the container, and re-checked whenever either changes size
-// (window resize, a hidden tab panel being shown, user text spacing).
+// A table that fits needs none of that, and would only add a pointless tab
+// stop and landmark. So tabindex, role and aria-labelledby (from
+// data-labelledby) are set only while the content is wider than the container,
+// and re-checked whenever either changes size.
 (function () {
   var SELECTOR = ".shinygovstyle-table-scroll";
 
@@ -47,8 +44,7 @@
     container.setAttribute("data-table-scroll-watched", "");
     update(container);
     if (resizeObserver) {
-      // Observe the table as well, since its width can change (for example
-      // with user text spacing) without the container changing size.
+      // Watch the table too: its width can change without the container's
       resizeObserver.observe(container);
       if (container.firstElementChild) {
         resizeObserver.observe(container.firstElementChild);

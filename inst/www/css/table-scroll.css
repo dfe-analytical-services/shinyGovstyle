@@ -1,17 +1,15 @@
 /*
  * Scroll container for govTable() and govTabs() tables, which can be wider
- * than the viewport.
+ * than the screen.
  *
- * This extends GOV.UK Frontend, which has no scroll wrapper for tables. Its
- * guidance is to put less data in each table, split it up, or use
- * govuk-table--small-text-until-tablet. When a table is still too wide, the
- * WCAG 1.4.10 Reflow Understanding document recommends this technique: the
- * table scrolls inside its own container so the rest of the page reflows,
- * rather than the whole page scrolling sideways.
+ * GOV.UK Frontend has no scroll wrapper for tables, so this extends it, using
+ * the technique the WCAG 1.4.10 Reflow guidance recommends for tables that are
+ * still too wide: the table scrolls inside its own container and the rest of
+ * the page reflows.
  *
- * table_scroll.js makes the container focusable (tabindex="0") only while it
- * scrolls, so the focus style follows the GOV.UK Frontend focus state (yellow
- * outline with a dark inner edge) to keep that extra tab stop clearly visible.
+ * table_scroll.js makes the container focusable only while it scrolls. Its
+ * focus style follows the GOV.UK focus state (yellow outline with a dark inner
+ * edge) so that tab stop is easy to see.
  */
 
 .shinygovstyle-table-scroll {

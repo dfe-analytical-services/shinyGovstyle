@@ -99,6 +99,20 @@ Once a pull request is reviewed and ready to be merged in, all commits in the PR
 
 The `main` branch acts as the development version of the package for users, releases of stable package versions to CRAN will be made by the maintainers when they feel it is appropriate to do so.
 
+### Screenshots in a PR
+
+For changes to how something looks, it helps to show before and after screenshots in the PR description.
+
+The easiest way is to take a screenshot, then paste or drag it into the PR description in your browser. GitHub stores the image for you. Do this if you can.
+
+There is also a `pr-screenshots` branch for when you can't paste images in. This is mostly for coding agents, which can save a screenshot to a file but can't paste it into a web page. It only holds images, in one folder for each PR (`pr-<number>/`). It is never merged, so the images never end up in `main` or in the package. You need permission to push to the repo to use it.
+
+1. Clone just that branch, somewhere outside your working copy: `git clone --branch pr-screenshots --single-branch https://github.com/dfe-analytical-services/shinyGovstyle.git shinyGovstyle-screenshots`
+2. Put your images in a `pr-<number>/` folder, then commit and push.
+3. Link each image in the PR description with `![what the image shows](https://raw.githubusercontent.com/dfe-analytical-services/shinyGovstyle/pr-screenshots/pr-<number>/<file>.png)`.
+
+Always write alt text that says what the image shows.
+
 ### Code owners
 
 We make use of [GitHub's CODEOWNERS file](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) to set default reviewers for the repo and for specific parts of the code.

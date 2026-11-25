@@ -1,16 +1,14 @@
 // Tabs behaviour for govTabs().
 //
 // Every lookup is scoped to the .govuk-tabs container that holds the tab, so
-// several tab sets on one page work independently. The tab list and panels
-// are direct children of the container, so a tab set nested inside a panel
-// is left alone. Panels are found through each tab's aria-controls.
+// several tab sets on one page work independently, and a tab set nested in a
+// panel is left alone. Panels are found through each tab's aria-controls.
 //
-// Like GOV.UK Frontend's own Tabs, each container switches between two modes:
-// tabs, with only the selected panel shown, and a "Contents" list of links
-// with every panel shown. GOV.UK picks the mode from the window width alone
-// (641px and up shows tabs). That squashes the tabs when govTabs() sits in a
-// narrower column, such as the two-thirds layout, so here tabs are also only
-// used while every tab fits on one row of the container (issue #112).
+// As in GOV.UK Frontend's Tabs, each container is either in tabs mode (only
+// the selected panel shown) or list mode (a "Contents" list of links with every
+// panel shown). GOV.UK picks the mode from the window width alone, which
+// squashes the tabs in a narrow column. So tabs mode is also only used while
+// every tab fits on one row of the container (issue #112).
 
 var tabsLayout = window.matchMedia('(min-width: 40.0625em)');
 
@@ -44,10 +42,10 @@ function switchTab(tab) {
   $(panelFor(tab)).removeClass('govuk-tabs__panel--hidden');
 }
 
-// Whether every tab sits on one row with the tabs styles applied. Called with
+// Whether every tab sits on one row with the tabs styles applied. Call it with
 // govuk-frontend-supported already on the container. The selected tab sits a
-// few pixels higher than the others, so a tab only counts as on a new row
-// once it is more than half a tab's height down.
+// few pixels higher than the others, so a tab is only on a new row once it is
+// more than half a tab's height down.
 function tabsFitOnOneRow($container) {
   var $items = $container.children('.govuk-tabs__list')
     .children('.govuk-tabs__list-item');
@@ -80,8 +78,8 @@ function setupTabs($container) {
 }
 
 // List mode: drop the tab roles so the links read as plain links, and show
-// every panel. The selected class stays on its list item so the same tab is
-// shown when the tabs come back.
+// every panel. The selected class stays, so the same tab shows when tabs mode
+// returns.
 function teardownTabs($container) {
   var $tabs = tabLinks($container);
   $container.removeClass('govuk-frontend-supported');
@@ -97,8 +95,8 @@ function checkMode(container) {
   var $container = $(container);
   var wantTabs = false;
   if (tabsLayout.matches) {
-    // Measure with the tabs styles on; any change is applied before the
-    // browser paints, so this does not flicker
+    // Measure with the tabs styles on. Any change lands before the browser
+    // paints, so nothing flickers
     var wasTabs = $container.hasClass('govuk-frontend-supported');
     $container.addClass('govuk-frontend-supported');
     wantTabs = tabsFitOnOneRow($container);
@@ -148,9 +146,8 @@ $(document).on('keydown', '.govuk-tabs .govuk-tabs__tab', function(e) {
   newTab.focus();
 });
 
-// Re-check the mode whenever a container changes width, the window crosses
-// the breakpoint, web fonts finish loading, or govTabs() are added later (for
-// example by renderUI())
+// Re-check the mode when a container changes width, the window crosses the
+// breakpoint, web fonts load, or a govTabs() is added later (e.g. by renderUI())
 $(function() {
   var checkAll = function() {
     $('.govuk-tabs').each(function() { checkMode(this); });
@@ -160,8 +157,8 @@ $(function() {
   var resizeObserver = typeof ResizeObserver === 'undefined' ? null :
     new ResizeObserver(function(entries) {
       entries.forEach(function(entry) {
-        // Switching mode changes the height, not the width, so only react to
-        // width changes to avoid re-checking in a loop
+        // Switching mode changes height, so only react to width changes to
+        // avoid a loop
         var width = entry.contentRect.width;
         if (widths.get(entry.target) === width) {
           return;

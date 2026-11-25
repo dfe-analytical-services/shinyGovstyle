@@ -10,7 +10,8 @@ govTable(
   caption,
   caption_size = "l",
   num_col = NULL,
-  width_overwrite = NULL
+  width_overwrite = NULL,
+  subtitle = NULL
 )
 }
 \arguments{
@@ -20,7 +21,8 @@ input components this is also the name used to access the value via
 
 \item{df}{expects a dataframe to create a table}
 
-\item{caption}{adds a caption to the table as a header}
+\item{caption}{The table's title, shown as its caption. Plain text is
+escaped and shown as written; use \code{shiny::HTML()} or tags for markup}
 
 \item{caption_size}{adjust the size of caption. One of \code{"s"}, \code{"m"}, \code{"l"},
 \code{"xl"}, with \code{"l"} as the default. Any other value throws an error.}
@@ -31,11 +33,17 @@ input components this is also the name used to access the value via
 Columns must add up to 1.
 Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
 Default is \code{NULL}}
+
+\item{subtitle}{Optional line under the caption, in smaller, lighter text:
+what the data is, where and when it covers, and the units if every value
+shares them (e.g. \code{"Cost of bikes (£), England, 2025"}). It becomes part of
+the table's accessible name, with the caption. Needs a \code{caption}. Plain
+text is escaped and shown as written; use \code{shiny::HTML()} or tags for
+markup. \code{NULL} (default) shows no subtitle}
 }
 \value{
-A \code{div} HTML shiny tag object: a scroll container holding the
-table, which has \code{inputId} as its id. Wide tables scroll sideways inside
-the container rather than making the whole page scroll.
+A \code{div} shiny tag holding the table, which has \code{inputId} as its id.
+Wide tables scroll sideways inside the \code{div}, not the whole page.
 }
 \description{
 This function inserts a gov styled table. Format is with header looking
@@ -47,16 +55,41 @@ For very large or interactive tables, consider
 becomes slow to render and harder to navigate as the number of rows grows.
 A warning is emitted when \code{df} has more than 50 rows.
 }
+\section{Table titles}{
+
+Every table needs a title. The
+\href{https://analysisfunction.civilservice.gov.uk/policy-store/data-visualisation-tables/}{Analysis Function guidance on tables}
+suggests two parts, which match two arguments:
+\itemize{
+\item \code{caption}: a short headline stating the message, e.g.
+\code{"Costs peaked in March"}.
+\item \code{subtitle}: what the data is, where and when, e.g.
+\code{"Cost of bikes, vans and buses (£), England, January to May 2025"}.
+Include the units if every value shares them.
+}
+
+A headline is optional. Without one, put the what, where and when in
+\code{caption} and leave out \code{subtitle}.
+
+Put the source of the data under the table (for example with \code{\link[=gov_text]{gov_text()}}),
+not in the title.
+
+Screen reader users hear the caption and subtitle together when they reach
+the table, so keep them short and don't repeat information. See also the
+\href{https://design-system.service.gov.uk/components/table/}{GOV.UK Design System table component}.
+}
+
 \examples{
 ui <- shinyGovstyle::gov_page(
   shinyGovstyle::gov_main_layout(
     shinyGovstyle::govTable(
       "tab1",
       shinyGovstyle::transport_data_small,
-      "Test",
+      "Bike and car costs were highest in March",
       "l",
       num_col = c(2,3),
-      width_overwrite = c("one-half", "one-quarter", "one-quarter")
+      width_overwrite = c("one-half", "one-quarter", "one-quarter"),
+      subtitle = "Cost of bikes and cars, January to March"
     )
   )
 )
@@ -70,6 +103,7 @@ Other Govstyle tables tabs and accordions:
 \code{\link[=accordion]{accordion()}},
 \code{\link[=govReactable]{govReactable()}},
 \code{\link{govReactable-shiny}},
-\code{\link[=govTabs]{govTabs()}}
+\code{\link[=govTabs]{govTabs()}},
+\code{\link[=update_reactable_caption]{update_reactable_caption()}}
 }
 \concept{Govstyle tables tabs and accordions}

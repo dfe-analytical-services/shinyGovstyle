@@ -249,9 +249,80 @@ expect_has_tag <- function(x, class) {
   invisible(node)
 }
 
+# find_reactable_col() returns the serialised column definition with `id` from
+# a govReactable() / reactable() widget, erroring unless there is exactly one.
+# Column order in the payload follows the data frame, so look columns up by id
+# rather than by position.
+find_reactable_col <- function(table, id) {
+  cols <- table$x$tag$attribs$columns
+  hits <- Filter(function(col) identical(col$id, id), cols)
+  if (length(hits) != 1L) {
+    stop(
+      sprintf(
+        "Expected exactly one reactable column with id %s, found %d",
+        shQuote(id),
+        length(hits)
+      ),
+      call. = FALSE
+    )
+  }
+  hits[[1L]]
+}
+
+# sort_header_part() returns the serialised child of a govReactable() sort
+# button header (the label span or the icon svg) with the given class, looked
+# up by class rather than by position.
+sort_header_part <- function(header, class) {
+  hits <- Filter(
+    function(child) is.list(child) && identical(child$attribs$className, class),
+    header$children
+  )
+  if (length(hits) != 1L) {
+    stop(
+      sprintf(
+        "Expected exactly one header child with class %s, found %d",
+        shQuote(class),
+        length(hits)
+      ),
+      call. = FALSE
+    )
+  }
+  hits[[1L]]
+}
+
+# sort_header_label() returns the text inside a sort button header's label.
+sort_header_label <- function(header) {
+  sort_header_part(header, "gov-sort-button__label")$children[[1L]]
+}
+
 # expect_no_tag() asserts no tag with `class` is present.
 expect_no_tag <- function(x, class) {
   testthat::expect_null(find_tag(x, class))
+}
+
+# caption_links() pairs up the caption heading ids and the data-labelledby
+# values of the wrappers around a captioned govReactable() or
+# govReactableOutput() table (which govreactable.js copies onto the table as
+# aria-labelledby), in document order, so tests can check each table points
+# at its own caption without hard-coding generated ids.
+caption_links <- function(x, heading_class = "govuk-heading-l") {
+  wrappers <- find_tags(x, "shinygovstyle-reactable-labelled")
+  list(
+    heading_ids = vapply(
+      find_tags(x, heading_class),
+      htmltools::tagGetAttribute,
+      character(1),
+      attr = "id",
+      USE.NAMES = FALSE
+    ),
+    labelledby = vapply(
+      wrappers,
+      htmltools::tagGetAttribute,
+      character(1),
+      attr = "data-labelledby",
+      USE.NAMES = FALSE
+    )
+  )
 }
 
 # dependency_names() lists the names of every htmlDependency attached anywhere

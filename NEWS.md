@@ -65,10 +65,6 @@
   `skip_to_main()` now attach the GOV.UK stylesheet themselves. Previously
   they were only styled when another shinyGovstyle component on the page had
   loaded it.
-* Each `accordion()` section button now has `aria-controls` pointing at its
-  section's content, as in GOV.UK Frontend, so assistive technology can tell
-  which content a button expands. The "Show all sections" button is
-  unchanged.
 
 # shinyGovstyle 0.3.0
 

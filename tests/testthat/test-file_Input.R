@@ -79,3 +79,31 @@ test_that("form group children appear in GOV.UK order", {
     )
   )
 })
+
+test_that("question label names the file input, not the button text", {
+  file_check <- file_Input("inputId", "Upload your report")
+
+  label <- find_by_id_suffix(file_check, "inputId-label")
+  expect_identical(htmltools::tagGetAttribute(label, "for"), "inputId")
+  expect_null(htmltools::tagGetAttribute(label, "tabindex"))
+
+  # The input sits inside the "Choose file" button label, so it needs
+  # aria-labelledby to take the question as its accessible name.
+  hidden_input <- find_by_id_suffix(file_check, "inputId")
+  expect_identical(
+    htmltools::tagGetAttribute(hidden_input, "aria-labelledby"),
+    "inputId-label"
+  )
+})
+
+test_that("hidden error id is never in the rendered aria-describedby", {
+  file_check <- file_Input(
+    "inputId",
+    "Test",
+    error = TRUE,
+    error_message = "Error test"
+  )
+
+  hidden_input <- find_by_id_suffix(file_check, "inputId")
+  expect_null(htmltools::tagGetAttribute(hidden_input, "aria-describedby"))
+})

@@ -121,6 +121,11 @@ checkbox_Input <- # nolint
     gov_checkboxes <- shiny::tags$div(
       class = "shiny-input-checkboxgroup",
       id = inputId,
+      `data-govuk-error-target` = govuk_error_target_id(
+        inputId,
+        "checkbox",
+        checkboxIds
+      ),
       shiny::tags$div(
         class = "govuk-form-group",
         id = paste0(inputId, "div"),

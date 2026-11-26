@@ -2,6 +2,11 @@
 
 ## New features
 
+* `select_Input()` gains `hint_label`, `error` and `error_message`, matching
+  `text_Input()`.
+* `error_summary()` and `error_summary_update()` can link each message to its
+  input. Name the messages with input ids, for example
+  `c(name = "Enter your name")`. Unnamed messages still show as plain text.
 * New `gov_summary_card()` wraps a summary list in a GOV.UK summary card with
   a title and heading level, for pages that show several summary lists.
 * `govReactable()` and `govReactableOutput()` tables can have a `caption` and
@@ -27,8 +32,20 @@
   `columns = list(<column> = reactable::colDef(align = "left"))`.
 * A `JS()` header on a sortable `govReactable()` column now gives an error.
 
+## Behaviour changes
+
+* `error_summary_update()` now moves focus to the error summary, as GOV.UK
+  does. Use `focus = FALSE` for updates that aren't from a form submission.
+
 ## Bug fixes
 
+* Labels, hints and error messages are now linked to their form controls for
+  screen readers, and hidden error messages are no longer read out before an
+  error is raised. `error_on()` and `error_off()` now work inside modules and
+  use GOV.UK's error styles for selects and text areas.
+* `text_area_Input(word_limit = )` now counts words the same way as GOV.UK
+  Frontend (#262), so some text gets a different count. To match it on the
+  server, use `stringr::str_count(x, stringr::boundary("word"))`.
 * Tables from `govTable()` and `govTabs()` that are wider than the screen now
   scroll sideways on their own instead of making the whole page scroll. You
   can reach a scrolling table with the keyboard.

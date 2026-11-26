@@ -106,6 +106,13 @@ attachDependency <- # nolint
           src = c(href = "shinyGovstyle/js"),
           script = "service_navigation.js"
         )
+      } else if (widget == "error_summary") {
+        htmltools::htmlDependency(
+          name = "error_summary",
+          version = version,
+          src = c(href = "shinyGovstyle/js"),
+          script = "error_summary.js"
+        )
       } else if (widget == "reactable") {
         reactable_overrides_dependency(version)
       } else if (widget == "reactable_output") {

@@ -248,7 +248,7 @@ test_that("heading_level rejects invalid values", {
   )
 })
 
-test_that("Fieldset aria-describedby references hint and error ids", {
+test_that("Fieldset aria-describedby references the hint but not the error", {
   cbtag <- checkbox_Input(
     inputId = "cb_aria",
     label = "Pick one",
@@ -261,7 +261,7 @@ test_that("Fieldset aria-describedby references hint and error ids", {
   fieldset <- find_tag(cbtag, "govuk-fieldset")
   expect_identical(
     htmltools::tagGetAttribute(fieldset, "aria-describedby"),
-    "cb_aria-hint cb_aria-error"
+    "cb_aria-hint"
   )
 
   hint <- find_tag(cbtag, "govuk-hint")
@@ -290,4 +290,18 @@ test_that("Hint <div> is omitted when hint_label is NULL", {
     checkboxIds = c("y", "n")
   )
   expect_no_tag(cbtag, "govuk-hint")
+})
+
+test_that("Fieldset has no aria-describedby for an error without a hint", {
+  # The error paragraph renders hidden; error_on() adds its id at runtime.
+  cbtag <- checkbox_Input(
+    inputId = "cb_err",
+    label = "Pick one",
+    cb_labels = c("Yes", "No"),
+    checkboxIds = c("y", "n"),
+    error = TRUE,
+    error_message = "Required"
+  )
+  fieldset <- find_tag(cbtag, "govuk-fieldset")
+  expect_null(htmltools::tagGetAttribute(fieldset, "aria-describedby"))
 })

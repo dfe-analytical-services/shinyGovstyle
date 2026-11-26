@@ -2,6 +2,15 @@ mod_text_types_ui <- function(id) {
   shiny::tagList(
     shinyGovstyle::heading_text("backlink_Input", size = "s", level = 2),
     shinyGovstyle::backlink_Input(shiny::NS(id, "select_types_back")),
+    # Hidden until "Check for errors" finds a problem. GOV.UK puts the error
+    # summary at the top of the page, above the main heading.
+    shinyjs::hidden(
+      shinyGovstyle::error_summary(
+        inputId = shiny::NS(id, "error_summary"),
+        error_title = "There is a problem",
+        error_list = character(0)
+      )
+    ),
     shinyGovstyle::heading_text("Text Types", size = "l"),
     shinyGovstyle::label_hint(
       shiny::NS(id, "label2"),
@@ -12,7 +21,9 @@ mod_text_types_ui <- function(id) {
     shinyGovstyle::date_Input(
       inputId = shiny::NS(id, "date1"),
       label = "What is your date of birth?",
-      hint_label = "For example, 31 3 1980"
+      hint_label = "For example, 31 3 1980",
+      error = TRUE,
+      error_message = "Enter your date of birth"
     ),
     shinyGovstyle::heading_text("text_Input", size = "s", level = 2),
     shinyGovstyle::text_Input(
@@ -78,24 +89,46 @@ mod_text_types_ui <- function(id) {
 mod_text_types_server <- function(id) {
   shiny::moduleServer(id, function(input, output, session) {
     shiny::observeEvent(input$btn_error, {
-      word_count <- if (input$text_area2 == "") {
-        0
+      errors <- c()
+
+      # The date input's value is "day/month/year", so only slashes when blank
+      if (is.null(input$date1) || gsub("/", "", input$date1) == "") {
+        errors <- c(errors, date1 = "Enter your date of birth")
+        shinyGovstyle::error_on("date1")
       } else {
-        length(gregexpr("\\S+", input$text_area2)[[1]])
+        shinyGovstyle::error_off("date1")
       }
 
+      # Count words the same way as the browser's live count
+      word_count <- stringr::str_count(
+        input$text_area2,
+        stringr::boundary("word")
+      )
+
       if (input$text_area2 == "") {
-        shinyGovstyle::error_on(
-          "text_area2",
-          error_message = "Please do not leave blank"
-        )
+        errors <- c(errors, text_area2 = "Please do not leave blank")
       } else if (word_count > 300) {
+        errors <- c(
+          errors,
+          text_area2 = "Your answer must be 300 words or less"
+        )
+      }
+      if ("text_area2" %in% names(errors)) {
         shinyGovstyle::error_on(
           "text_area2",
-          error_message = "Your answer must be 300 words or less"
+          error_message = errors[["text_area2"]]
         )
       } else {
         shinyGovstyle::error_off("text_area2")
+      }
+
+      # Names are input ids, so each message links to its input. The summary
+      # is shown before it is updated, as it cannot take focus while hidden.
+      if (length(errors) > 0) {
+        shinyjs::show("error_summary")
+        shinyGovstyle::error_summary_update("error_summary", errors)
+      } else {
+        shinyjs::hide("error_summary")
       }
     })
 

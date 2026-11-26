@@ -4,6 +4,23 @@
 govuk_hint_id <- function(inputId) paste0(inputId, "-hint") # nolint
 govuk_error_id <- function(inputId) paste0(inputId, "-error") # nolint
 
+# Internal helper: the `aria-describedby` value a control renders with, built
+# from the ids visible when the page loads. `extra_ids` covers ids such as the
+# character count's `-info` message and goes first, matching GOV.UK markup.
+# The error id is deliberately never included: the error paragraph renders
+# hidden, and browsers still read hidden text referenced directly by
+# `aria-describedby`, so screen readers would announce an error that has not
+# been raised. error_on() and error_off() add and remove it at runtime instead.
+# Returns NULL when there is nothing to reference, so htmltools drops the
+# attribute.
+govuk_described_by <- function(input_id, hint_label = NULL, extra_ids = NULL) {
+  ids <- c(extra_ids, if (!is.null(hint_label)) govuk_hint_id(input_id))
+  if (length(ids) == 0) {
+    return(NULL)
+  }
+  paste(ids, collapse = " ")
+}
+
 # Checks a heading level from 1 to 6, shared by heading_text(), govFieldset()
 # and gov_summary_card(). govReactable() and govReactableOutput() use the
 # narrower govreactable_heading_level() instead. `arg_name` is the name shown
@@ -42,8 +59,9 @@ build_heading_tag <- function(level, content, class, id = NULL) {
 #' Returns a `<fieldset class="govuk-fieldset">` with a legend, optional hint,
 #' optional hidden error message, and arbitrary `content` nested inside.
 #' Hint and error elements receive ids of the form `<inputId>-hint` and
-#' `<inputId>-error` and are referenced from the fieldset's `aria-describedby`
-#' so screen readers announce them when the group receives focus.
+#' `<inputId>-error`. The hint is referenced from the fieldset's
+#' `aria-describedby` so screen readers announce it when the group receives
+#' focus; error_on() adds the error id there once the error is shown.
 #'
 #' @param inputId Base id used to derive hint / error element ids.
 #' @param label Legend text (the question or group label).
@@ -82,13 +100,6 @@ govFieldset <- # nolint
       validate_heading_level(heading_level)
     }
 
-    hint_id <- if (!is.null(hint_label)) govuk_hint_id(inputId)
-    error_id <- if (isTRUE(error)) govuk_error_id(inputId)
-    described_by <- paste(c(hint_id, error_id), collapse = " ")
-    if (!nzchar(described_by)) {
-      described_by <- NULL
-    }
-
     legend_class <- paste0(
       "govuk-fieldset__legend govuk-fieldset__legend--",
       label_size
@@ -106,7 +117,7 @@ govFieldset <- # nolint
     hint_tag <- if (!is.null(hint_label)) {
       shiny::tags$div(
         as_govuk_html(hint_label),
-        id = hint_id,
+        id = govuk_hint_id(inputId),
         class = "govuk-hint"
       )
     }
@@ -117,7 +128,7 @@ govFieldset <- # nolint
 
     shiny::tags$fieldset(
       class = "govuk-fieldset",
-      `aria-describedby` = described_by,
+      `aria-describedby` = govuk_described_by(inputId, hint_label),
       shiny::tags$legend(legend_content, class = legend_class),
       hint_tag,
       error_tag,
@@ -315,5 +326,77 @@ table_scroll_container <- function(labelledby, table) {
     class = "shinygovstyle-table-scroll",
     `data-labelledby` = labelledby,
     table
+  )
+}
+
+# Internal helper: the controls error_on() and error_off() style, as a list of
+# `selector` / `class` pairs, so both functions add and remove exactly the same
+# classes. GOV.UK gives each control type its own error modifier, so selects get
+# `govuk-select--error` and textareas `govuk-textarea--error`, and both are kept
+# out of the `:input` selector rather than also picking up
+# `govuk-input--error`. shinyjs namespaces `id` arguments inside
+# modules but not `selector` arguments, so the session's namespace is applied
+# here to match the form group id built with shiny::NS().
+govuk_error_class_targets <- function(
+  inputId, # nolint
+  session = shiny::getDefaultReactiveDomain()
+) {
+  if (!is.null(session)) {
+    inputId <- session$ns(inputId) # nolint
+  }
+  group <- paste0("#", inputId, "div")
+  list(
+    list(
+      selector = paste0(group, " :input:not(select, textarea)"),
+      class = "govuk-input--error"
+    ),
+    list(selector = paste0(group, " select"), class = "govuk-select--error"),
+    list(
+      selector = paste0(group, " textarea"),
+      class = "govuk-textarea--error"
+    ),
+    list(
+      selector = paste0("#", inputId, "file_div"),
+      class = "govuk-input--error"
+    )
+  )
+}
+
+# Internal helper: JavaScript for error_on() / error_off() that adds or removes
+# the error id in the control's `aria-describedby`, so screen readers announce
+# the error only while it is shown. The control is the fieldset for grouped
+# inputs (checkboxes, radios, dates) and the element with id `inputId`
+# otherwise. Existing ids such as the hint are kept, and the error id is
+# removed before it is re-added so repeated error_on() calls never duplicate
+# it. Ids are embedded as JSON string literals so they cannot break the script.
+# shinyjs namespaces `id` arguments inside modules but runjs() runs raw
+# JavaScript, so the session's namespace is applied here to match.
+govuk_error_describedby_js <- function(
+  inputId, # nolint
+  show,
+  session = shiny::getDefaultReactiveDomain()
+) {
+  if (!is.null(session)) {
+    inputId <- session$ns(inputId) # nolint
+  }
+  js_string <- function(x) as.character(jsonlite::toJSON(x, auto_unbox = TRUE))
+  paste0(
+    "(function() {",
+    "var id = ",
+    js_string(inputId),
+    ";",
+    "var errorId = ",
+    js_string(govuk_error_id(inputId)),
+    ";",
+    "var group = document.getElementById(id + 'div');",
+    "var el = (group && group.querySelector('fieldset.govuk-fieldset')) ||",
+    " document.getElementById(id);",
+    "if (!el) return;",
+    "var ids = (el.getAttribute('aria-describedby') || '').split(/\\s+/)",
+    ".filter(function(x) { return x && x !== errorId; });",
+    if (show) "ids.push(errorId);",
+    "if (ids.length) { el.setAttribute('aria-describedby', ids.join(' ')); }",
+    " else { el.removeAttribute('aria-describedby'); }",
+    "})();"
   )
 }

@@ -36,3 +36,38 @@ test_that("field works with null width", {
 
   expect_equal(length(field_check), 3)
 })
+
+test_that("each label is programmatically associated with its input", {
+  field_check <- input_field(
+    legend = "Address",
+    labels = c("Line 1", "Town"),
+    inputIds = c("line1", "town")
+  )
+
+  labels <- find_tags(field_check, "govuk-label")
+  inputs <- find_tags(field_check, "govuk-input")
+  expect_identical(
+    unname(vapply(labels, htmltools::tagGetAttribute, character(1L), "for")),
+    c("line1", "town")
+  )
+  expect_identical(
+    unname(vapply(inputs, htmltools::tagGetAttribute, character(1L), "id")),
+    c("line1", "town")
+  )
+})
+
+test_that("hidden error ids are never in the rendered aria-describedby", {
+  # error_on() adds the error id at runtime; fields take no hint, so nothing
+  # else is referenced when the page renders.
+  field_check <- input_field(
+    legend = "Address",
+    labels = c("Line 1", "Town"),
+    inputIds = c("line1", "town"),
+    error = TRUE,
+    error_message = "Required"
+  )
+
+  for (input in find_tags(field_check, "govuk-input")) {
+    expect_null(htmltools::tagGetAttribute(input, "aria-describedby"))
+  }
+})

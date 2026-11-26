@@ -360,7 +360,7 @@ test_that("heading_level rejects invalid values", {
   )
 })
 
-test_that("Fieldset aria-describedby references hint and error ids", {
+test_that("Fieldset aria-describedby references the hint but not the error", {
   rtag <- radio_button_Input(
     inputId = "radio_aria",
     label = "Pick one",
@@ -372,7 +372,7 @@ test_that("Fieldset aria-describedby references hint and error ids", {
   fieldset <- find_tag(rtag, "govuk-fieldset")
   expect_identical(
     htmltools::tagGetAttribute(fieldset, "aria-describedby"),
-    "radio_aria-hint radio_aria-error"
+    "radio_aria-hint"
   )
 
   hint <- find_tag(rtag, "govuk-hint")
@@ -387,6 +387,19 @@ test_that("Fieldset has no aria-describedby when no hint or error", {
     inputId = "radio_plain",
     label = "Pick one",
     choices = c("Yes", "No")
+  )
+  fieldset <- find_tag(rtag, "govuk-fieldset")
+  expect_null(htmltools::tagGetAttribute(fieldset, "aria-describedby"))
+})
+
+test_that("Fieldset has no aria-describedby for an error without a hint", {
+  # The error paragraph renders hidden; error_on() adds its id at runtime.
+  rtag <- radio_button_Input(
+    inputId = "radio_err",
+    label = "Pick one",
+    choices = c("Yes", "No"),
+    error = TRUE,
+    error_message = "Required"
   )
   fieldset <- find_tag(rtag, "govuk-fieldset")
   expect_null(htmltools::tagGetAttribute(fieldset, "aria-describedby"))

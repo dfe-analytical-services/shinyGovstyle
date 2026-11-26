@@ -121,6 +121,7 @@ radio_button_Input <- # nolint
     gov_radio <- shiny::tags$div(
       id = inputId,
       class = div_class,
+      `data-govuk-error-target` = govuk_error_target_id(inputId, "radio"),
       shiny::tags$div(
         class = "govuk-form-group",
         id = paste0(inputId, "div"),

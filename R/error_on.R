@@ -60,12 +60,8 @@ error_on <- function(
     shinyjs::html(govuk_error_id(inputId), govuk_error_html(error_message))
   }
   shinyjs::show(govuk_error_id(inputId))
-  shinyjs::addClass(
-    selector = paste0("#", inputId, "div :input"),
-    class = "govuk-input--error"
-  )
-  shinyjs::addClass(
-    selector = paste0("#", inputId, "file_div"),
-    class = "govuk-input--error"
-  )
+  shinyjs::runjs(govuk_error_describedby_js(inputId, show = TRUE))
+  for (target in govuk_error_class_targets(inputId)) {
+    shinyjs::addClass(selector = target$selector, class = target$class)
+  }
 }

@@ -120,7 +120,10 @@
   when scrolled over. The `pattern` attribute has been removed (GOV.UK
   Frontend dropped it in v4.1.0), so any custom CSS or JS that targets
   `input[pattern]` or `input[type="number"]` in a date input needs
-  updating. The value returned to the server is unchanged.
+  updating. The server now gets exactly what the user typed, including
+  letters, where before most browsers sent an empty value for anything
+  that wasn't a number. Check on the server that the day, month and year
+  are numbers, as the GOV.UK date input guidance recommends.
 * Each `accordion()` section button now has `aria-controls` pointing at its
   section's content, as in GOV.UK Frontend, so assistive technology can tell
   which content a button expands. The "Show all sections" button is

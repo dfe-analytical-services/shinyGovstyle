@@ -31,23 +31,26 @@
 #'     inputId = "banner", type = "beta", 'This is a new service'
 #'   ),
 #'   shinyGovstyle::gov_main_layout(
-#'     # Simple date input, with autocomplete for a date of birth
+#'     # Simple date input. date_of_birth = TRUE lets browsers fill in the
+#'     # user's own date of birth
 #'     shinyGovstyle::date_Input(
 #'       inputId = "dob_input",
-#'       label = "Please enter your birthday",
+#'       label = "What is your date of birth?",
 #'       date_of_birth = TRUE
 #'     ),
 #'     # Error date input
 #'     shinyGovstyle::date_Input(
 #'       inputId = "dob_input2",
-#'       label = "Please enter your birthday",
+#'       label = "What is your date of birth?",
 #'       hint_label = "For example, 12 11 2007",
+#'       date_of_birth = TRUE,
 #'       error = TRUE
 #'     ),
 #'     # Rich content: a link in the hint
 #'     shinyGovstyle::date_Input(
 #'       inputId = "dob_input3",
-#'       label = "Please enter your birthday",
+#'       label = "What is your date of birth?",
+#'       date_of_birth = TRUE,
 #'       hint_label = shiny::tagList(
 #'         "Check the format in the ",
 #'         shinyGovstyle::external_link(

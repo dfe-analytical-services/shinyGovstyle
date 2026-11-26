@@ -7,6 +7,13 @@
 #' @param day Select a default day on start up. Defaults to `NULL`
 #' @param month Select a default month on start up. Defaults to `NULL`
 #' @param year Select a default year on start up. Defaults to `NULL`
+#' @param date_of_birth If `TRUE`, set the `autocomplete` attribute on the
+#'   day, month and year fields to `bday-day`, `bday-month` and `bday-year`,
+#'   so browsers can fill in the user's date of birth. Use this whenever you
+#'   ask for the user's own date of birth, as the GOV.UK Design System
+#'   recommends; it helps meet WCAG 2.2 success criterion 1.3.5 (Identify
+#'   Input Purpose). Leave it `FALSE` for any other date, such as a start
+#'   date or someone else's date of birth. Defaults to `FALSE`.
 #' @inheritParams fieldset_args
 #' @return a data input HTML shiny tag object
 #' @family Govstyle text types
@@ -24,22 +31,26 @@
 #'     inputId = "banner", type = "beta", 'This is a new service'
 #'   ),
 #'   shinyGovstyle::gov_main_layout(
-#'     # Simple date input
+#'     # Simple date input. date_of_birth = TRUE lets browsers fill in the
+#'     # user's own date of birth
 #'     shinyGovstyle::date_Input(
 #'       inputId = "dob_input",
-#'       label = "Please enter your birthday"
+#'       label = "What is your date of birth?",
+#'       date_of_birth = TRUE
 #'     ),
 #'     # Error date input
 #'     shinyGovstyle::date_Input(
 #'       inputId = "dob_input2",
-#'       label = "Please enter your birthday",
+#'       label = "What is your date of birth?",
 #'       hint_label = "For example, 12 11 2007",
+#'       date_of_birth = TRUE,
 #'       error = TRUE
 #'     ),
 #'     # Rich content: a link in the hint
 #'     shinyGovstyle::date_Input(
 #'       inputId = "dob_input3",
-#'       label = "Please enter your birthday",
+#'       label = "What is your date of birth?",
+#'       date_of_birth = TRUE,
 #'       hint_label = shiny::tagList(
 #'         "Check the format in the ",
 #'         shinyGovstyle::external_link(
@@ -77,8 +88,12 @@ date_Input <- # nolint
     month = NULL,
     year = NULL,
     label_size = c("m", "s", "l", "xl"),
-    heading_level = NULL
+    heading_level = NULL,
+    date_of_birth = FALSE
   ) {
+    if (!isTRUE(date_of_birth) && !isFALSE(date_of_birth)) {
+      stop("`date_of_birth` must be TRUE or FALSE.", call. = FALSE)
+    }
     value <- shiny::restoreInput(id = inputId, default = FALSE) # nolint
     date_content <- shiny::tags$div(
       class = "govuk-date-input",
@@ -100,8 +115,9 @@ date_Input <- # nolint
             ),
             id = paste0(inputId, "_day"),
             name = inputId,
-            type = "number",
-            pattern = "[0-9]*",
+            type = "text",
+            inputmode = "numeric",
+            autocomplete = if (date_of_birth) "bday-day",
             value = day
           )
         )
@@ -122,8 +138,9 @@ date_Input <- # nolint
             ),
             id = paste0(inputId, "_month"),
             name = inputId,
-            type = "number",
-            pattern = "[0-9]*",
+            type = "text",
+            inputmode = "numeric",
+            autocomplete = if (date_of_birth) "bday-month",
             value = month
           )
         )
@@ -144,8 +161,9 @@ date_Input <- # nolint
             ),
             id = paste0(inputId, "_year"),
             name = inputId,
-            type = "number",
-            pattern = "[0-9]*",
+            type = "text",
+            inputmode = "numeric",
+            autocomplete = if (date_of_birth) "bday-year",
             value = year
           )
         )

@@ -2,6 +2,8 @@
 
 ## New features
 
+* `date_Input()` gains `date_of_birth`. Set it to `TRUE` when asking for the
+  user's own date of birth so browsers can fill it in, as GOV.UK recommends.
 * `select_Input()` gains `hint_label`, `error` and `error_message`, matching
   `text_Input()`.
 * `error_summary()` and `error_summary_update()` can link each message to its

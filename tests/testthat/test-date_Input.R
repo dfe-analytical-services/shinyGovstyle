@@ -184,6 +184,52 @@ test_that("Day/Month/Year labels are associated with their inputs", {
   )
 })
 
+test_that("Day/Month/Year inputs use GOV.UK text inputs with numeric keypad", {
+  date_check <- date_Input("dateid", "Test Date")
+  inputs <- find_tags(date_check, "govuk-date-input__input")
+  expect_length(inputs, 3L)
+
+  for (input in inputs) {
+    expect_identical(htmltools::tagGetAttribute(input, "type"), "text")
+    expect_identical(htmltools::tagGetAttribute(input, "inputmode"), "numeric")
+    expect_null(htmltools::tagGetAttribute(input, "pattern"))
+  }
+})
+
+test_that("autocomplete is omitted unless date_of_birth is TRUE", {
+  date_check <- date_Input("dateid", "Test Date")
+  inputs <- find_tags(date_check, "govuk-date-input__input")
+  for (input in inputs) {
+    expect_null(htmltools::tagGetAttribute(input, "autocomplete"))
+  }
+})
+
+test_that("date_of_birth = TRUE sets the bday autocomplete tokens", {
+  date_check <- date_Input("dateid", "Test Date", date_of_birth = TRUE)
+  inputs <- find_tags(date_check, "govuk-date-input__input")
+  tokens <- vapply(
+    inputs,
+    function(input) htmltools::tagGetAttribute(input, "autocomplete"),
+    character(1L)
+  )
+  expect_identical(tokens, c("bday-day", "bday-month", "bday-year"))
+})
+
+test_that("date_of_birth rejects non-logical values", {
+  expect_error(
+    date_Input("dateid", "Test Date", date_of_birth = "yes"),
+    "date_of_birth"
+  )
+  expect_error(
+    date_Input("dateid", "Test Date", date_of_birth = NA),
+    "date_of_birth"
+  )
+  expect_error(
+    date_Input("dateid", "Test Date", date_of_birth = c(TRUE, FALSE)),
+    "date_of_birth"
+  )
+})
+
 test_that("hidden error id is never in the fieldset aria-describedby", {
   # error_on() adds the error id at runtime; rendering it up front would make
   # screen readers announce the hidden error before it is raised.

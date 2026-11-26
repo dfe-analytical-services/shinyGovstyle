@@ -22,6 +22,7 @@ mod_text_types_ui <- function(id) {
       inputId = shiny::NS(id, "date1"),
       label = "What is your date of birth?",
       hint_label = "For example, 31 3 1980",
+      date_of_birth = TRUE,
       error = TRUE,
       error_message = "Enter your date of birth"
     ),

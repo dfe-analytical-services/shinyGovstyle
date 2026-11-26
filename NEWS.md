@@ -2,24 +2,11 @@
 
 ## New features
 
-* `select_Input()` gains `hint_label`, `error` and `error_message` arguments,
-  matching `text_Input()`. The hint is announced with the select, and
-  `error_on()` / `error_off()` now style an invalid select with GOV.UK's
-  `govuk-select--error` class instead of `govuk-input--error`.
-
-* `error_summary()` and `error_summary_update()` can now link each message to
-  the input it is about, as the GOV.UK Design System requires. Name the
-  messages with input ids, for example
-  `c(name = "Enter your name", dob = "Enter your date of birth")`. Selecting
-  a link moves focus to the input (the day field of a `date_Input()`, the
-  first option of a `radio_button_Input()` or `checkbox_Input()`) and scrolls
-  its label or legend into view. Unnamed messages are still shown as plain
-  text, so existing calls are unchanged. Inside a module,
-  `error_summary_update()` namespaces the link targets for you.
-
-* The error summary now wraps its title and messages in `role="alert"`,
-  matching the GOV.UK markup.
-
+* `select_Input()` gains `hint_label`, `error` and `error_message`, matching
+  `text_Input()`.
+* `error_summary()` and `error_summary_update()` can link each message to its
+  input. Name the messages with input ids, for example
+  `c(name = "Enter your name")`. Unnamed messages still show as plain text.
 * New `gov_summary_card()` wraps a summary list in a GOV.UK summary card with
   a title and heading level, for pages that show several summary lists.
 * `govReactable()` and `govReactableOutput()` tables can have a `caption` and
@@ -47,48 +34,18 @@
 
 ## Behaviour changes
 
-* `error_summary_update()` now moves keyboard focus to the error summary
-  after updating it, so screen reader users hear the problems straight after
-  a failed submission. This is the GOV.UK behaviour, but it means focus
-  leaves the button the user pressed. Use `focus = FALSE` for updates that are
-  not the result of a submission, and make sure the summary is visible (for
-  example with `shinyjs::show()`) before updating it.
+* `error_summary_update()` now moves focus to the error summary, as GOV.UK
+  does. Use `focus = FALSE` for updates that aren't from a form submission.
 
 ## Bug fixes
 
-* `error_on()` and `error_off()` now style an invalid `text_area_Input()` with
-  GOV.UK's `govuk-textarea--error` class instead of `govuk-input--error`, and
-  apply their error classes to controls inside Shiny modules.
-
-* Form controls now connect their labels, hints and error messages for
-  assistive technology. `text_Input()` and `input_field()` labels are linked
-  to their inputs, `text_Input()` hints are announced with the input (and an
-  empty hint is no longer rendered), and `file_Input()` takes its `label` as
-  its accessible name instead of "Choose file". Hidden error messages are no
-  longer announced before an error is raised: `error_on()` and `error_off()`
-  now add and remove the error from the control's description.
-
-* `text_area_Input(word_limit = )` now counts words the same way as the
-  GOV.UK Frontend 6.6.0 character count (#262). In 0.3.0 it split text on
-  spaces; it now uses the browser's `Intl.Segmenter` and counts only words,
-  so some text gets a different count. For example, `"well-known fact"` is
-  now 3 words (was 2), `"A - B"` is 2 (was 3), emoji are no longer counted,
-  and languages written without spaces, such as Chinese, are split into
-  words. In browsers without `Intl.Segmenter`, users see the static "You can
-  enter up to N words" message instead of a live count.
-
-* The `text_area_Input(word_limit = )` markup now follows GOV.UK Frontend
-  6.6.0. The form group has `data-maxlength` and `data-count-type="words"`
-  instead of the deprecated `data-maxwords`, so update any CSS or JavaScript
-  that targets `[data-maxwords]`. The "You can enter up to N words" message
-  now sits below the text area and stays visible until the live count
-  starts, and the live count is hidden until then.
-
-* If you check `word_limit` on the server, switch to
-  `stringr::str_count(x, stringr::boundary("word"))` so your count matches
-  the browser's. Counting with `gregexpr("\\S+", x)` or similar now gives
-  different results for some text.
-
+* Labels, hints and error messages are now linked to their form controls for
+  screen readers, and hidden error messages are no longer read out before an
+  error is raised. `error_on()` and `error_off()` now work inside modules and
+  use GOV.UK's error styles for selects and text areas.
+* `text_area_Input(word_limit = )` now counts words the same way as GOV.UK
+  Frontend (#262), so some text gets a different count. To match it on the
+  server, use `stringr::str_count(x, stringr::boundary("word"))`.
 * Tables from `govTable()` and `govTabs()` that are wider than the screen now
   scroll sideways on their own instead of making the whole page scroll. You
   can reach a scrolling table with the keyboard.

@@ -12,15 +12,23 @@ govReactable(
   borderless = TRUE,
   min_widths = list(),
   columns = list(),
+  caption = NULL,
+  subtitle = NULL,
+  caption_size = "l",
+  heading_level = 2L,
+  caption_id = NULL,
+  language = getOption("reactable.language"),
   ...
 )
 }
 \arguments{
 \item{df}{A dataframe used to generate the table}
 
-\item{right_col}{A vector of column names that should be right-aligned.
-By default, numeric data is right-aligned, and character data is
-left-aligned}
+\item{right_col}{A vector of extra column names to right-align. Numeric
+columns are right-aligned automatically, as GOV.UK guidance says numbers
+should be right-aligned. Use this for numbers stored as text, such as
+\code{"£85"}. To left-align a numeric column, set
+\code{reactable::colDef(align = "left")} for it in \code{columns}}
 
 \item{page_size}{The default number of rows displayed per page (default: 10)}
 
@@ -31,50 +39,109 @@ left-aligned}
 \item{min_widths}{Customise minimum column width using a list of columns and
 minimum width in pixels}
 
-\item{columns}{Customise individual columns, for example to fix the
-number of decimal places shown. Give a named list, where each name
-matches a column in \code{df} and each value is built with
-\code{reactable::colDef()} (see examples). Any column left out of this list
-is unaffected, and keeps govReactable's usual GOV.UK look. For a column
-you do include, anything you don't set on it, such as sorting or
-alignment, also keeps that same default. Names that don't match a
-column in \code{df} are ignored.}
+\item{columns}{Change individual columns, for example to set the number of
+decimal places. Give a named list where each name is a column in \code{df} and
+each value is made with \code{reactable::colDef()} (see examples). Columns you
+leave out keep the GOV.UK defaults, and so does anything you don't set on a
+column you include. Names that don't match a column are ignored. A
+\code{headerClass} is added to the GOV.UK sort header styling, not swapped for
+it. Columns with \code{sortable = FALSE} show no sort arrow. A custom \code{header} on
+a sortable column goes inside the sort button, so it must not contain links
+or other interactive content. It must be a string, a tag or an R function. A
+\code{JS()} header on a sortable column is an error. Screen readers name a
+sortable heading from the column's \code{name}, not its \code{header}, so if you set a
+\code{header}, set \code{name} to the same text, e.g.
+\code{reactable::colDef(name = "Average cost", header = "Average cost")}.}
+
+\item{caption}{Adds a caption heading that screen readers link to the table
+(using \code{aria-labelledby}). Plain text is escaped and shown as written; use
+\code{shiny::HTML()} or tags for markup. \code{NULL} (default) means no caption.
+For a table built in the server, set the caption on \code{\link[=govReactableOutput]{govReactableOutput()}}
+instead, as \code{\link[=renderGovReactable]{renderGovReactable()}} gives an error for a captioned table}
+
+\item{subtitle}{Optional line under the caption, in smaller, lighter text:
+what the data is, where and when it covers, and the units if every value
+shares them (e.g. \code{"Cost of bikes (£), England, 2025"}). It becomes part of
+the table's accessible name, with the caption. Needs a \code{caption}. Plain
+text is escaped and shown as written; use \code{shiny::HTML()} or tags for
+markup. \code{NULL} (default) shows no subtitle}
+
+\item{caption_size}{Size of the caption: \code{"s"}, \code{"m"}, \code{"l"} (default) or
+\code{"xl"}. Any other value is an error.}
+
+\item{heading_level}{The caption's heading level, an integer from \code{1L} to
+\code{5L}. Defaults to \code{2L}. Use \code{1L} when the table is the main content of the
+page}
+
+\item{caption_id}{The id of the caption heading, which the table links to.
+It must be unique on the page and have no spaces. \code{NULL} (default) makes a
+unique id, so you only need this to link to or style the caption yourself.
+Setting it without a \code{caption} is an error}
+
+\item{language}{Language options from \code{reactable::reactableLang()}, for
+example to translate the pagination text. Defaults to the
+\code{reactable.language} option. \code{sortLabel} is always \code{"{name}"} so each
+heading's accessible name matches its visible text, and setting it gives a
+warning.}
 
 \item{...}{Additional arguments passed to \code{reactable::reactable}}
 }
 \value{
-A \code{reactable} HTML widget styled with GOV.UK classes
+A \code{reactable} widget with GOV.UK classes, or, if \code{caption} is given,
+that widget with a caption heading
 }
 \description{
-This function is opinionated and sets table defaults that are in
-keeping with the wider GOV.UK design system. Some defaults can be overridden,
-such as \code{highlight=TRUE} and \code{borderless=TRUE}, however some are fixed, such
-as \code{showSortIcon=FALSE} as the default sort icon is inaccessible. Additional
-arguments from \code{reactable::reactable} can be passed to customise the table.
+This function sets table defaults that follow the GOV.UK design system. Some
+can be changed, such as \code{highlight} and \code{borderless}. Others are fixed, such
+as \code{showSortIcon = FALSE}, because the default sort icon is not accessible.
+Each sortable heading is a button, so screen readers announce it and voice
+control can select it by its visible text. Other arguments for
+\code{reactable::reactable} can be passed in \code{...}.
 }
 \details{
-This function inserts a government-styled table using \code{reactable}.
-You can use this in R markdown or Quarto documents, or use
-renderGovReactable({}) and govReactableOutput() for tables in R Shiny.
-govReactableOutput() gives the ability to add a caption, for static
-tables made using just govReactable(), use heading_text() to add
-captions to tables.
+Adds a GOV.UK styled table to a Shiny app using \code{reactable}. Put it
+straight into the UI for data that doesn't change, or use
+\code{renderGovReactable()} and \code{govReactableOutput()} for data that does. Pass
+\code{caption} to add a heading that screen readers link to the table.
 }
+\section{Table titles}{
+
+Every table needs a title. The
+\href{https://analysisfunction.civilservice.gov.uk/policy-store/data-visualisation-tables/}{Analysis Function guidance on tables}
+suggests two parts, which match two arguments:
+\itemize{
+\item \code{caption}: a short headline stating the message, e.g.
+\code{"Costs peaked in March"}.
+\item \code{subtitle}: what the data is, where and when, e.g.
+\code{"Cost of bikes, vans and buses (£), England, January to May 2025"}.
+Include the units if every value shares them.
+}
+
+A headline is optional. Without one, put the what, where and when in
+\code{caption} and leave out \code{subtitle}.
+
+Put the source of the data under the table (for example with \code{\link[=gov_text]{gov_text()}}),
+not in the title.
+
+Screen reader users hear the caption and subtitle together when they reach
+the table, so keep them short and don't repeat information. See also the
+\href{https://design-system.service.gov.uk/components/table/}{GOV.UK Design System table component}.
+}
+
 \examples{
-# Example static table using govReactable
+# Tables whose data doesn't change, to put straight into a Shiny app's UI
 if (interactive()) {
+  # Numeric columns are right-aligned automatically
+  govReactable(iris)
+
+  # Use right_col for numbers stored as text, such as "£85"
   govReactable(
-    iris,
-    right_col = c(
-      "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
-    )
+    shinyGovstyle::transport_data_small,
+    right_col = c("bikes", "cars")
   )
 
   govReactable(
     iris,
-    right_col = c(
-      "Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"
-    ),
     highlight = FALSE,
     page_size = 5,
     min_widths = list(
@@ -85,8 +152,14 @@ if (interactive()) {
     )
   )
 
-  # Show one column to a fixed number of decimal places, leaving every
-  # other column and style (sorting, alignment, etc.) untouched
+  # Add a caption and subtitle that screen readers link to the table
+  govReactable(
+    shinyGovstyle::transport_data,
+    caption = "Costs peaked in March for every vehicle type",
+    subtitle = "Cost of bikes, vans and buses (£), January to May"
+  )
+
+  # Show one column to 1 decimal place
   sales_data <- data.frame(
     shop = c("Shop A", "Shop B", "Shop C"),
     growth = c(4, 4.7, 12.34)
@@ -100,10 +173,7 @@ if (interactive()) {
     )
   )
 
-  # A more involved example: only `percent` is customised, so `region`
-  # and `count` keep the normal GOV.UK defaults untouched
-  # (counts shown as whole numbers alongside a percentage column fixed
-  # to 1 decimal place)
+  # Only `percent` is changed, so `region` and `count` keep the defaults
   count_pct_data <- data.frame(
     region = c("North", "South", "East"),
     count = c(1234, 56, 789),
@@ -111,7 +181,6 @@ if (interactive()) {
   )
   govReactable(
     count_pct_data,
-    right_col = c("count", "percent"),
     columns = list(
       percent = reactable::colDef(
         format = reactable::colFormat(digits = 1)
@@ -125,6 +194,7 @@ Other Govstyle tables tabs and accordions:
 \code{\link[=accordion]{accordion()}},
 \code{\link{govReactable-shiny}},
 \code{\link[=govTable]{govTable()}},
-\code{\link[=govTabs]{govTabs()}}
+\code{\link[=govTabs]{govTabs()}},
+\code{\link[=update_reactable_caption]{update_reactable_caption()}}
 }
 \concept{Govstyle tables tabs and accordions}

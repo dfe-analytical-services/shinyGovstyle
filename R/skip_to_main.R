@@ -28,9 +28,10 @@
 #'
 #' if (interactive()) shinyApp(ui = ui, server = server)
 skip_to_main <- function(id = "main") {
-  shiny::tags$a(
+  skip_link <- shiny::tags$a(
     href = paste0("#", id),
     class = "govuk-skip govuk-link",
     "Skip to main content"
   )
+  attachDependency(skip_link)
 }

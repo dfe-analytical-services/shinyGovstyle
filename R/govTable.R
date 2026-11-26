@@ -8,7 +8,10 @@
 #' becomes slow to render and harder to navigate as the number of rows grows.
 #' A warning is emitted when `df` has more than 50 rows.
 #' @param df expects a dataframe to create a table
-#' @param caption adds a caption to the table as a header
+#' @param caption The table's title, shown as its caption. Plain text is
+#' escaped and shown as written; use `shiny::HTML()` or tags for markup
+#' @inheritParams table_title_params
+#' @inheritSection table_title_params Table titles
 #' @param caption_size adjust the size of caption. One of `"s"`, `"m"`, `"l"`,
 #' `"xl"`, with `"l"` as the default. Any other value throws an error.
 #' @param num_col adds numeric class format to these columns
@@ -16,7 +19,8 @@
 #' Columns must add up to 1.
 #' Options are three-quarters, two-thirds, one-half, one-third, one-quarter.
 #' Default is `NULL`
-#' @return a table HTML shiny tag object
+#' @return A `div` shiny tag holding the table, which has `inputId` as its id.
+#'   Wide tables scroll sideways inside the `div`, not the whole page.
 #' @family Govstyle tables tabs and accordions
 #' @export
 #' @examples
@@ -25,10 +29,11 @@
 #'     shinyGovstyle::govTable(
 #'       "tab1",
 #'       shinyGovstyle::transport_data_small,
-#'       "Test",
+#'       "Bike and car costs were highest in March",
 #'       "l",
 #'       num_col = c(2,3),
-#'       width_overwrite = c("one-half", "one-quarter", "one-quarter")
+#'       width_overwrite = c("one-half", "one-quarter", "one-quarter"),
+#'       subtitle = "Cost of bikes and cars, January to March"
 #'     )
 #'   )
 #' )
@@ -43,9 +48,11 @@ govTable <- # nolint
     caption,
     caption_size = "l",
     num_col = NULL,
-    width_overwrite = NULL
+    width_overwrite = NULL,
+    subtitle = NULL
   ) {
     validate_gds_text_size(caption_size, "caption_size")
+    validate_single_content(subtitle, "subtitle")
 
     # Static HTML tables become slow to render and hard to navigate (no
     # pagination, sorting, or filtering) as they grow. Steer users towards
@@ -67,30 +74,50 @@ govTable <- # nolint
     # and also reversed the row order.
     main_row_store <- lapply(
       seq_len(nrow(df)),
-      function(i) create_rows(df[i, ], num_col)
+      function(i) create_rows(df[i, , drop = FALSE], num_col)
     )
+
+    caption_id <- paste0(inputId, "-caption")
 
     # Create the actual table
     gov_table <- shiny::tags$table(
       id = inputId,
       class = "govuk-table",
       shiny::tags$caption(
+        id = caption_id,
         class = paste0(
           "govuk-table__caption govuk-table__caption--",
           caption_size
         ),
         style = "caption-side: top;",
-        caption
+        caption,
+        # The subtitle goes inside the native <caption>, so every screen
+        # reader treats it as part of the table's name without any ARIA. Plain
+        # text is escaped, as for the caption.
+        if (!is.null(subtitle)) {
+          shiny::tags$span(
+            class = paste(
+              subtitle_class(caption_size),
+              "govuk-!-margin-top-1"
+            ),
+            subtitle
+          )
+        }
       ),
       shiny::tags$thead(
         class = "govuk-table__head",
         shiny::tags$tr(
           class = "govuk-table__row",
           Map(
-            function(x) {
-              shiny::tags$th(scope = "col", class = "govuk-table__header", x)
+            function(x, i) {
+              shiny::tags$th(
+                scope = "col",
+                class = header_class(i, num_col, width_overwrite),
+                x
+              )
             },
-            x = colnames(df)
+            x = colnames(df),
+            i = seq_len(ncol(df))
           )
         )
       ),
@@ -100,28 +127,25 @@ govTable <- # nolint
       )
     )
 
-    # Change class of headers to numeric if requested
-    for (i in num_col) {
-      if (i != 1) {
-        gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class <-
-          "govuk-table__header govuk-table__header--numeric"
-      }
-    }
+    # Wide tables scroll inside their own container rather than the page; see
+    # table_scroll_container() for why this extends GOV.UK Frontend
+    scroll_region <- table_scroll_container(caption_id, gov_table)
 
-    # Change width of columns if requested
-    if (!is.null(width_overwrite)) {
-      for (i in seq_along(width_overwrite)) {
-        gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class <-
-          paste0(
-            gov_table$children[[2]]$children[[1]][[3]][[1]][[i]]$attribs$class,
-            " govuk-!-width-",
-            width_overwrite[i]
-          )
-      }
-    }
-
-    attachDependency(gov_table)
+    attachDependency(scroll_region, "table")
   }
+
+# Classes for the header cell of column `i`: numeric alignment (never for the
+# row-header column) and any requested width.
+header_class <- function(i, num_col, width_overwrite) {
+  cls <- "govuk-table__header"
+  if (i != 1 && i %in% num_col) {
+    cls <- paste0(cls, " govuk-table__header--numeric")
+  }
+  if (i <= length(width_overwrite)) {
+    cls <- paste0(cls, " govuk-!-width-", width_overwrite[i])
+  }
+  cls
+}
 
 create_rows <- function(df_row, num_col = NULL) {
   row_html <- shiny::tags$tr(
@@ -131,7 +155,7 @@ create_rows <- function(df_row, num_col = NULL) {
       function(x) {
         shiny::tags$td(class = "govuk-table__cell", x)
       },
-      df_row[1, -1]
+      df_row[1, -1, drop = FALSE]
     )
   )
   #Not sure I can think of better way to add numeric class then do it post

@@ -5,3 +5,7 @@ test_that("test skip_to_main_href", {
     "#main_col"
   )
 })
+
+test_that("skip_to_main attaches the GOV.UK stylesheet", {
+  expect_true("stylecss" %in% dependency_names(skip_to_main()))
+})

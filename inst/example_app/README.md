@@ -17,11 +17,6 @@ inst/example_app/
 │   ├── mod_select_types.R    # Radio buttons, checkboxes, date inputs, selects
 │   ├── mod_tables_tabs.R     # Tables, accordions, tabs
 │   └── mod_text_types.R      # Text inputs, text areas, labels
-└── tests/
-    ├── testthat.R                        
-    └── testthat/
-        ├── setup-shinytest2.R            # shinytest2 setup file
-        └── test-basic_load.R             # Checks the app title loads correctly
 ```
 
 Each module follows the standard Shiny module pattern: a `mod_<name>_ui()` function for the UI and a `mod_<name>_server()` function for the server logic, both namespaced with the same `id`.
@@ -36,10 +31,4 @@ From the project root in R:
 shiny::runApp("inst/example_app")
 ```
 
-## Running the tests
-
-The example app has its own `shinytest2` tests, these are skipped on CRAN. To run the app's own internal test suite directly (from the project root)
-
-```r
-shinytest2::test_app("inst/example_app")
-```
+The app has no automated tests of its own. Check changes to components by running it by hand.

@@ -6,30 +6,36 @@ mod_tables_tabs_ui <- function(id) {
       "These are some examples of using tabs and tables"
     ),
 
-    shinyGovstyle::heading_text("govTable", size = "s", level = 2),
+    shinyGovstyle::heading_text("govTable", size = "m", level = 2),
     shinyGovstyle::govTable(
       shiny::NS(id, "tab1"),
       shinyGovstyle::transport_data_small,
-      "Static example",
-      "l",
-      num_col = c(2, 3)
+      "Bike and car costs were highest in March",
+      "s",
+      num_col = c(2, 3),
+      subtitle = "Cost of bikes and cars (£), January to March, example data"
     ),
 
     shinyGovstyle::heading_text(
       "govReactable with static data",
-      size = "s",
+      size = "m",
       level = 2
     ),
-    shinyGovstyle::heading_text("Caption added separately", size = "l"),
     shinyGovstyle::govReactable(
       shinyGovstyle::transport_data,
-      right_col = c("bikes", "vans", "buses"),
+      caption = "Costs peaked in March for every vehicle type",
+      subtitle = paste(
+        "Cost of bikes, vans and buses by vehicle colour (£),",
+        "January to May, example data"
+      ),
+      caption_size = "s",
+      heading_level = 3L,
       page_size = 5
     ),
 
     shinyGovstyle::heading_text(
-      "govReactable with reactive data",
-      size = "s",
+      "govReactable with reactive data and dynamic title",
+      size = "m",
       level = 2
     ),
     shinyGovstyle::select_Input(
@@ -44,18 +50,27 @@ mod_tables_tabs_ui <- function(id) {
     ),
     shinyGovstyle::govReactableOutput(
       shiny::NS(id, "interactive_table_test"),
-      caption = "Caption in output function"
+      # Start with the caption for the dropdown's default (first) colour, so
+      # it's right before the server's update_reactable_caption() runs
+      caption = paste(
+        sort(unique(shinyGovstyle::transport_data$colours))[1],
+        "vehicles by month"
+      ),
+      caption_size = "s",
+      heading_level = 3L
     ),
 
-    shinyGovstyle::heading_text("govTabs", size = "s", level = 2),
+    shinyGovstyle::heading_text("govTabs", size = "m", level = 2),
     shinyGovstyle::govTabs(
       shiny::NS(id, "govTabs"),
       shinyGovstyle::case_data,
-      "tabs"
+      "tabs",
+      heading_level = 3L,
+      heading_size = "s"
     ),
     shiny::tags$br(),
     shiny::tags$br(),
-    shinyGovstyle::heading_text("accordions", size = "s", level = 2),
+    shinyGovstyle::heading_text("accordions", size = "m", level = 2),
     shinyGovstyle::accordion(
       shiny::NS(id, "acc1"),
       c(
@@ -96,8 +111,17 @@ mod_tables_tabs_server <- function(id) {
     output$interactive_table_test <- shinyGovstyle::renderGovReactable({
       shinyGovstyle::govReactable(
         df = filtered_data(),
-        right_col = c("bikes", "vans", "buses"),
-        page_size = 3,
+        page_size = 3
+      )
+    })
+
+    # Keep the caption describing the filtered data. Runs inside
+    # moduleServer(), so the id is namespaced automatically.
+    shiny::observe({
+      shinyGovstyle::update_reactable_caption(
+        session,
+        "interactive_table_test",
+        paste(input$colourFilter, "vehicles by month")
       )
     })
   })

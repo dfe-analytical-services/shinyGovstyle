@@ -4,7 +4,7 @@
 \alias{govTabs}
 \title{Tabs Function}
 \usage{
-govTabs(inputId, df, group_col)
+govTabs(inputId, df, group_col, heading_level = 2L, heading_size = "l")
 }
 \arguments{
 \item{inputId}{The id assigned to the component's root element. For Shiny
@@ -14,6 +14,15 @@ input components this is also the name used to access the value via
 \item{df}{A single dataframe with all data. See example for structure}
 
 \item{group_col}{The column name with the groups to be used as tabs}
+
+\item{heading_level}{The heading level, an integer from \code{1L} to \code{6L}, for
+each panel's heading and the "Contents" title shown on small screens.
+Defaults to \code{2L}, as in the GOV.UK Design System. Use one level below the
+heading the tabs sit under, for example \code{3L} under an \verb{<h2>}, so screen
+reader users can follow the page structure.}
+
+\item{heading_size}{Size of each panel's heading: \code{"s"}, \code{"m"}, \code{"l"}
+(default) or \code{"xl"}. Keep it no bigger than the heading the tabs sit under.}
 }
 \value{
 a tab table HTML shiny tag object
@@ -21,6 +30,16 @@ a tab table HTML shiny tag object
 \description{
 This function creates a tabs based table. It requires a single dataframe
 with a grouping variable.
+}
+\details{
+Every tab and panel id starts with \code{inputId}, so several \code{govTabs()} on one
+page work independently, even with the same group values. The first tab is
+selected when the page loads.
+
+As in the GOV.UK Design System, on small screens the tabs become a
+"Contents" list of links with every table shown. \code{govTabs()} does the same
+when its tabs don't fit on one row, for example in a narrow column, rather
+than squashing them.
 }
 \examples{
 ui <- shinyGovstyle::gov_page(
@@ -44,6 +63,7 @@ Other Govstyle tables tabs and accordions:
 \code{\link[=accordion]{accordion()}},
 \code{\link[=govReactable]{govReactable()}},
 \code{\link{govReactable-shiny}},
-\code{\link[=govTable]{govTable()}}
+\code{\link[=govTable]{govTable()}},
+\code{\link[=update_reactable_caption]{update_reactable_caption()}}
 }
 \concept{Govstyle tables tabs and accordions}

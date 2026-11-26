@@ -27,6 +27,31 @@
 * The error summary now wraps its title and messages in `role="alert"`,
   matching the GOV.UK markup.
 
+* New `gov_summary_card()` wraps a summary list in a GOV.UK summary card with
+  a title and heading level, for pages that show several summary lists.
+* `govReactable()` and `govReactableOutput()` tables can have a `caption` and
+  `subtitle` that screen readers read out when they reach the table (#158).
+  `govTable()` also gains `subtitle`.
+* New `update_reactable_caption()` changes a table's caption from the server,
+  for example after a filter.
+* Sortable `govReactable()` headings are now buttons with a visible sort
+  arrow, so screen readers and voice control can use them (#190). Obvious
+  arrow icons inspired by the MoJ design system replace reactable's coloured
+  sort bar.
+
+## Breaking changes
+
+* `govTable()` now returns a `<div>` with the `<table>` inside it, so wide
+  tables can scroll. The table keeps `inputId` as its id. If you edit the
+  returned tag directly, use `htmltools::tagQuery()` to reach the table.
+* `govTabs()` tab and panel ids now start with `inputId`, and the old `name`
+  attributes are gone. Update any custom CSS or JavaScript that used them.
+* `gov_summary()` no longer has an `action` argument; remove it from any calls.
+* `govReactable()` now right-aligns numeric columns automatically, as its
+  documentation always said. To keep one left-aligned, use
+  `columns = list(<column> = reactable::colDef(align = "left"))`.
+* A `JS()` header on a sortable `govReactable()` column now gives an error.
+
 ## Behaviour changes
 
 * `error_summary_update()` now moves keyboard focus to the error summary
@@ -71,6 +96,23 @@
   the browser's. Counting with `gregexpr("\\S+", x)` or similar now gives
   different results for some text.
 
+* Tables from `govTable()` and `govTabs()` that are wider than the screen now
+  scroll sideways on their own instead of making the whole page scroll. You
+  can reach a scrolling table with the keyboard.
+* `govTabs()` now shows the first tab's content when the page loads.
+* Several `govTabs()` on one page now work independently.
+* `govTabs()` keeps table rows in the same order as `df`.
+* `govTabs()` no longer squashes its tabs onto several rows in narrow
+  columns. When the tabs do not fit on one row, they become a list of links
+  with every table shown, as on small screens (#112).
+* On small screens, the `govTabs()` contents links now jump to each section.
+* `gov_summary()` keys no longer break mid-word in narrow columns (#89).
+* `govTable()` no longer fails with "incorrect number of dimensions" when
+  given a data frame with a single column.
+* `gov_summary()`, `gov_text()`, `download_button()`, `download_link()` and
+  `skip_to_main()` now attach the GOV.UK stylesheet themselves. Previously
+  they were only styled when another shinyGovstyle component on the page had
+  loaded it.
 * `date_Input()`'s day, month and year fields now match current GOV.UK
   markup: they are `type="text"` with `inputmode="numeric"`, rather than
   `type="number"` with `pattern="[0-9]*"`. Mobile users still get a numeric

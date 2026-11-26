@@ -79,12 +79,19 @@ attachDependency <- # nolint
           script = "accordion.js"
         )
       } else if (widget == "govTab") {
-        htmltools::htmlDependency(
-          name = "govTab",
-          version = version,
-          src = c(href = "shinyGovstyle/js"),
-          script = "govTab.js"
+        c(
+          list(
+            htmltools::htmlDependency(
+              name = "govTab",
+              version = version,
+              src = c(href = "shinyGovstyle/js"),
+              script = "govTab.js"
+            )
+          ),
+          table_scroll_dependencies(version)
         )
+      } else if (widget == "table") {
+        table_scroll_dependencies(version)
       } else if (widget == "contents_link") {
         htmltools::htmlDependency(
           name = "contents_link",
@@ -107,17 +114,25 @@ attachDependency <- # nolint
           script = "error_summary.js"
         )
       } else if (widget == "reactable") {
-        htmltools::htmlDependency(
-          name = "reactable-overrides",
-          version = version,
-          src = c(href = "shinyGovstyle/css"),
-          stylesheet = "reactable-overrides.css"
+        reactable_overrides_dependency(version)
+      } else if (widget == "reactable_output") {
+        # The overrides dependency shares its name with the one the widget
+        # brings, so htmltools loads govreactable.js only once per page.
+        list(
+          reactable_overrides_dependency(version),
+          htmltools::htmlDependency(
+            name = "update_reactable_caption",
+            version = version,
+            src = c(href = "shinyGovstyle/js"),
+            script = "update_reactable_caption.js"
+          )
         )
       }
 
-      if (!is.null(widget_dep)) {
-        dep <- c(dep, list(widget_dep))
+      if (inherits(widget_dep, "html_dependency")) {
+        widget_dep <- list(widget_dep)
       }
+      dep <- c(dep, widget_dep)
     }
 
     # htmlwidgets' rendering path (htmlwidgets:::toHTML.htmlwidget) only reads
@@ -136,3 +151,45 @@ attachDependency <- # nolint
       htmltools::attachDependencies(tag, dep, append = TRUE)
     }
   }
+
+#' Stylesheet and script for govReactable() tables
+#'
+#' The GOV.UK reactable styling, plus govreactable.js, which handles the sort
+#' buttons and links a table to its caption. Shared by govReactable() and
+#' govReactableOutput() under one name, so a page loads it once.
+#'
+#' @param version Package version string for the dependency.
+#'
+#' @noRd
+reactable_overrides_dependency <- function(version) {
+  htmltools::htmlDependency(
+    name = "reactable-overrides",
+    version = version,
+    src = c(href = "shinyGovstyle"),
+    stylesheet = "css/reactable-overrides.css",
+    script = "js/govreactable.js"
+  )
+}
+
+#' Stylesheet and script for the scroll container around govTable() and
+#' govTabs() tables
+#'
+#' @param version Package version string for the dependencies.
+#'
+#' @noRd
+table_scroll_dependencies <- function(version) {
+  list(
+    htmltools::htmlDependency(
+      name = "table-scroll",
+      version = version,
+      src = c(href = "shinyGovstyle/css"),
+      stylesheet = "table-scroll.css"
+    ),
+    htmltools::htmlDependency(
+      name = "table-scroll-js",
+      version = version,
+      src = c(href = "shinyGovstyle/js"),
+      script = "table_scroll.js"
+    )
+  )
+}

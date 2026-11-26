@@ -313,6 +313,116 @@ test_that("the first link is the current page when the app loads", {
   )
 })
 
+# Service name link -----------------------------------------------------------
+
+test_that("the service name is text, not a link, without service_url", {
+  nav <- service_navigation(c("Page 1", "Page 2"), service_name = "My app")
+  service_name <- find_tag_required(
+    nav,
+    "govuk-service-navigation__service-name"
+  )
+  expect_identical(
+    tag_text(service_name, "govuk-service-navigation__text"),
+    "My app"
+  )
+  expect_no_tag(service_name, "govuk-service-navigation__link")
+  expect_false(grepl("href=", as.character(service_name), fixed = TRUE))
+})
+
+test_that("service_url makes the service name a link", {
+  nav <- service_navigation(
+    c("Page 1", "Page 2"),
+    service_name = "My app",
+    service_url = "/my-app/"
+  )
+  service_name <- find_tag_required(
+    nav,
+    "govuk-service-navigation__service-name"
+  )
+  link <- find_tag_required(service_name, "govuk-service-navigation__link")
+  expect_identical(link$name, "a")
+  expect_identical(htmltools::tagGetAttribute(link, "href"), "/my-app/")
+  expect_identical(tag_text(link, "govuk-service-navigation__link"), "My app")
+})
+
+test_that("service_url must be a single, non-empty string", {
+  for (bad in list("", NA_character_, c("/a", "/b"), 1)) {
+    expect_error(
+      service_navigation("Page 1", service_name = "App", service_url = bad),
+      "`service_url` must be a single, non-empty string"
+    )
+  }
+})
+
+# Links to URLs ---------------------------------------------------------------
+
+test_that("named values that are URLs become ordinary links", {
+  nav <- service_navigation(c(
+    "Summary" = "summary",
+    "Guidance" = "https://www.gov.uk/guidance",
+    "Help" = "/help",
+    "Contact" = "mailto:team@example.gov.uk"
+  ))
+  links <- find_tags(nav, "govuk-service-navigation__link")
+  hrefs <- vapply(
+    links,
+    function(link) {
+      href <- htmltools::tagGetAttribute(link, "href")
+      if (is.null(href)) NA_character_ else href
+    },
+    character(1)
+  )
+  # The in-app link keeps Shiny's actionLink href; URL links keep their URL
+  expect_identical(
+    hrefs[-1],
+    c("https://www.gov.uk/guidance", "/help", "mailto:team@example.gov.uk")
+  )
+  # URL links are not Shiny inputs, so have no inputID or action-button class
+  expect_identical(nav_link_ids(nav), "summary")
+  expect_length(find_tags(nav, "action-button"), 1)
+  expect_identical(
+    vapply(
+      links[-1],
+      function(l) tag_text(l, "govuk-service-navigation__link"),
+      character(1)
+    ),
+    c("Guidance", "Help", "Contact")
+  )
+})
+
+test_that("a URL link is never the current page", {
+  nav <- service_navigation(c(
+    "Guidance" = "https://www.gov.uk/guidance",
+    "Summary" = "summary"
+  ))
+  active_items <- find_tags(nav, "govuk-service-navigation__item--active")
+  expect_length(active_items, 1)
+  expect_identical(
+    htmltools::tagGetAttribute(
+      find_tag_required(active_items[[1]], "govuk-service-navigation__link"),
+      "id"
+    ),
+    "summary"
+  )
+
+  # With only URL links, nothing is current
+  only_urls <- service_navigation(c("A" = "/a", "B" = "/b"))
+  expect_no_tag(only_urls, "govuk-service-navigation__item--active")
+})
+
+test_that("a URL link needs link text", {
+  expect_error(
+    service_navigation(c("Summary", "https://www.gov.uk")),
+    "need link text"
+  )
+})
+
+test_that("URL links don't count towards duplicate inputIDs", {
+  expect_no_error(
+    service_navigation(c("A" = "/same", "B" = "/same", "Summary" = "summary"))
+  )
+})
+
 # Programmatic updates -----------------------------------------------------
 
 test_that("update_service_navigation sends the cleaned inputID", {
@@ -374,4 +484,109 @@ test_that("service_navigation_server cleans inputIds, not panel values", {
       expect_identical(calls$panels, c("Panel-2", "Page-Three"))
     }
   )
+})
+
+# Following the tabset --------------------------------------------------------
+
+# Runs service_navigation_server() with a session that records custom
+# messages (MockShinySession drops them). Starts on the first panel, then
+# moves to each of `tab_changes`. `ns` stands in for a module's namespace.
+sync_messages <- function(
+  link_to_panel,
+  tab_changes = character(),
+  ns = shiny::NS(NULL)
+) {
+  state <- new.env(parent = emptyenv())
+  state$messages <- list()
+  local_mocked_bindings(
+    updateTabsetPanel = function(
+      session,
+      inputId, # nolint: object_name_linter.
+      selected
+    ) {
+      invisible(NULL)
+    },
+    .package = "shiny"
+  )
+
+  shiny::testServer(
+    function(input, output, session) {
+      recording_session <- list(
+        input = session$input,
+        ns = ns,
+        sendCustomMessage = function(type, message) {
+          state$messages <- c(
+            state$messages,
+            list(list(type = type, message = message))
+          )
+          invisible(NULL)
+        }
+      )
+      service_navigation_server(
+        recording_session,
+        tabset_id = "tabs",
+        link_to_panel = link_to_panel
+      )
+    },
+    expr = {
+      for (panel in c(unname(link_to_panel[[1]]), tab_changes)) {
+        session$setInputs(tabs = panel) # nolint: object_usage_linter.
+      }
+    }
+  )
+  state$messages
+}
+
+test_that("a programmatic tab change moves the active link to that panel", {
+  messages <- sync_messages(
+    c(sn_one = "one", sn_two = "two"),
+    tab_changes = "two"
+  )
+
+  expect_length(messages, 1)
+  expect_identical(messages[[1]]$type, "sync_service_navigation")
+  expect_identical(messages[[1]]$message$tabset, "tabs")
+  # A list, so one link is still a JSON array
+  expect_identical(messages[[1]]$message$links, list("sn_two"))
+})
+
+test_that("the starting panel does not send a sync message", {
+  messages <- sync_messages(c(sn_one = "one", sn_two = "two"))
+  expect_length(messages, 0)
+})
+
+test_that("panels without a nav link send an empty sync to clear the nav", {
+  messages <- sync_messages(
+    c(sn_one = "one", sn_two = "two"),
+    tab_changes = "accessibility_panel"
+  )
+  # Empty, so the browser clears the nav
+  expect_length(messages, 1)
+  expect_identical(messages[[1]]$type, "sync_service_navigation")
+  expect_identical(messages[[1]]$message$links, list())
+})
+
+test_that("every link sharing a panel is sent, in link_to_panel order", {
+  messages <- sync_messages(
+    c(sn_one = "one", sn_two = "shared", sn_three = "shared"),
+    tab_changes = "shared"
+  )
+  expect_identical(messages[[1]]$message$links, list("sn_two", "sn_three"))
+})
+
+test_that("synced links use the cleaned inputIDs", {
+  messages <- sync_messages(
+    c("Page-One" = "one", "Page-Two" = "Panel-2"),
+    tab_changes = "Panel-2"
+  )
+  expect_identical(messages[[1]]$message$links, list("page_two"))
+})
+
+test_that("the synced tabset id is namespaced, as the browser sees it", {
+  messages <- sync_messages(
+    c(sn_one = "one", sn_two = "two"),
+    tab_changes = "two",
+    ns = shiny::NS("module")
+  )
+  expect_identical(messages[[1]]$message$tabset, "module-tabs")
 })

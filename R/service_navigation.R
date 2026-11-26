@@ -10,9 +10,16 @@
 #' page will cause ID conflicts and the mobile menu toggle
 #' may not work correctly.
 #'
-#' The first link is marked as the current page when the app loads, matching
-#' the first tab panel Shiny shows by default. If your app starts on a
-#' different page, call [update_service_navigation()] when the session starts.
+#' The first in-app link is marked as the current page when the app loads,
+#' matching the first tab panel Shiny shows by default. If your app starts on
+#' a different page, call [update_service_navigation()] when the session
+#' starts.
+#'
+#' On screens narrower than GOV.UK's tablet breakpoint (641px), the links are
+#' collapsed behind a "Menu" button, as in the GOV.UK Design System. Choosing
+#' an in-app link from the open menu closes it and moves keyboard focus to the
+#' new page's `<h1>` (or `<main>` if it has none), as a page load would on a
+#' GOV.UK service, rather than leaving focus on the hidden link.
 #'
 #' Put `service_navigation()` in your app's top-level UI and wire it up from
 #' the top-level server function. It is not designed to be used inside a
@@ -28,9 +35,20 @@
 #' `c("Overview page" = "overview")`. Supplied inputIDs are cleaned up in the
 #' same way, so `"Page-Two"` becomes `page_two`. Every link must end up with
 #' a unique inputID.
+#'
+#' A link can also go to an ordinary URL instead of a page in the app. Supply
+#' it as a named value starting with `https://`, `http://`, `mailto:`, `/`,
+#' `./`, `../`, `?` or `#`, e.g.
+#' `c("Summary" = "summary", "Guidance" = "https://www.gov.uk/guidance")`.
+#' These are plain links: they open in the same tab, as GOV.UK service
+#' navigation links do, are never marked as the current page, and are ignored
+#' by [update_service_navigation()] and [service_navigation_server()].
 #' @param service_name An optional character string
 #' containing the service name to be displayed in the
 #' navigation bar
+#' @param service_url An optional URL for the service name to link to,
+#' usually the service's start page. If `NULL` (the default), the service name
+#' is shown as text rather than a link, as in the GOV.UK Design System.
 #' @param auto_page_title Logical. When `TRUE` (the default),
 #' the browser tab title is updated to match the active nav
 #' link whenever the user navigates — both by clicking a
@@ -75,6 +93,16 @@
 #'    shinyGovstyle::footer(full = TRUE)
 #' )
 #'
+#' # A linked service name, and a link to a page outside the app
+#' shinyGovstyle::service_navigation(
+#'   c(
+#'     "Summary data" = "summary_data",
+#'     "Methodology" = "https://www.gov.uk/government/statistics"
+#'   ),
+#'   service_name = "School statistics",
+#'   service_url = "/"
+#' )
+#'
 #' server <- function(input, output, session) {
 #'   observeEvent(
 #'     input$summary_data,
@@ -96,11 +124,24 @@ service_navigation <- function(
   service_name = NULL,
   auto_page_title = TRUE,
   page_title_suffix = NULL,
-  width = "standard"
+  width = "standard",
+  service_url = NULL
 ) {
   wc <- gov_width_container(width, is_default = missing(width))
 
+  valid_url <- is.character(service_url) &&
+    length(service_url) == 1 &&
+    !is.na(service_url) &&
+    nzchar(service_url)
+  if (!is.null(service_url) && !valid_url) {
+    stop("`service_url` must be a single, non-empty string.", call. = FALSE)
+  }
+
   nav_links <- service_nav_ids(links)
+  # The first in-app link starts as the current page, matching the first tab
+  # panel Shiny shows. URL links are never the current page.
+  first_app_link <- match(TRUE, is.na(nav_links$href))
+  active <- seq_along(nav_links$id) == first_app_link
   navigation <- shiny::tags$section(
     `aria-label` = "Service information",
     class = "govuk-service-navigation",
@@ -119,13 +160,22 @@ service_navigation <- function(
       shiny::tags$div(
         class = "govuk-service-navigation__container",
         if (!is.null(service_name)) {
+          # As in GOV.UK, the service name is only a link when it has
+          # somewhere to go, rather than a placeholder href = "#"
           shiny::tags$span(
             class = "govuk-service-navigation__service-name",
-            shiny::tags$a(
-              href = "#",
-              class = "govuk-service-navigation__link",
-              service_name
-            )
+            if (is.null(service_url)) {
+              shiny::tags$span(
+                class = "govuk-service-navigation__text",
+                service_name
+              )
+            } else {
+              shiny::tags$a(
+                href = service_url,
+                class = "govuk-service-navigation__link",
+                service_name
+              )
+            }
           )
         },
         shiny::tags$nav(
@@ -148,7 +198,8 @@ service_navigation <- function(
               service_nav_link,
               nav_links$id,
               nav_links$label,
-              seq_along(nav_links$id) == 1L,
+              active,
+              nav_links$href,
               SIMPLIFY = FALSE,
               USE.NAMES = FALSE
             )
@@ -164,24 +215,24 @@ service_navigation <- function(
 #' Update the active item in a service navigation component
 #'
 #' @description
-#' Sends a message to the browser to update the highlighted active item in the
-#' service navigation bar.
+#' Sends a message to the browser to change the active link in the service
+#' navigation bar.
 #'
-#' **When you need this function:** when navigation is triggered
-#' programmatically — for example, via a next / back button or a footer link
-#' that points to a main page. In those cases the nav link itself is not
-#' clicked, so the JavaScript binding does not fire and the active state does
-#' not update automatically. Call `update_service_navigation()` alongside
-#' your tab-switching call to keep them in sync.
+#' **When you need this function:** when you change the tab from the server,
+#' for example from a next button, and the tabset is not wired up with
+#' [service_navigation_server()]. You also need it to keep a link active on a
+#' panel that is not in `link_to_panel`, such as a sub-page.
 #'
-#' **When you don't need this function:** when the user clicks a service
-#' navigation link directly. The JavaScript binding updates the active state
-#' automatically, so you only need to switch the tab panel in your
-#' `observeEvent()`.
+#' **When you don't need this function:** when the user clicks a nav link, or
+#' when [service_navigation_server()] wires up the tabset. Both update the
+#' active link for you.
 #'
-#' `inputId` is cleaned up the same way as in [service_navigation()], so you
-#' can pass either the inputID you supplied there (e.g. `"Page-Two"`) or its
-#' cleaned form (`"page_two"`).
+#' An `inputId` that matches no nav link clears the active link, e.g.
+#' `update_service_navigation(session, "accessibility_statement")` for a page
+#' that is not in the navigation.
+#'
+#' `inputId` is cleaned up the same way as in [service_navigation()], so
+#' `"Page-Two"` and `"page_two"` both work.
 #'
 #' @param session The Shiny session object
 #' @inheritParams id_arg
@@ -238,6 +289,21 @@ update_service_navigation <- function(
 #' added to the UI. The active nav highlight and (when
 #' `auto_page_title = TRUE`) the browser tab title are already handled
 #' client-side, so no additional wiring is needed.
+#'
+#' It also follows the tabset. When a panel in `link_to_panel` is selected
+#' from the server, for example with `shiny::updateTabsetPanel()`, its link
+#' becomes active and the page title updates. A title set with
+#' [update_page_title()] in the same observer as the tab change, or in an
+#' observer of the tabset input, is kept; one set earlier is not. If several
+#' links share a panel, the first is used unless one is already active.
+#'
+#' When a panel that is not in `link_to_panel` is selected, such as a footer
+#' page, the active link is cleared so screen readers don't announce the
+#' previous page as current. Set its title with [update_page_title()].
+#'
+#' Calling [update_service_navigation()] in the same observer as the tab
+#' change overrides both, for example to keep a parent link active on a
+#' sub-page.
 #'
 #' @param session The Shiny session object
 #' @param tabset_id The `id` of the `shiny::tabsetPanel()` or
@@ -316,6 +382,22 @@ service_navigation_server <- function(
       ignoreInit = TRUE
     )
   })
+
+  # Keep the nav in step with tab changes made from the server
+  shiny::observeEvent(
+    input[[tabset_id]],
+    {
+      links <- names(link_to_panel)[link_to_panel == input[[tabset_id]]]
+      # Sent even when empty, so the browser clears the nav. as.list() keeps
+      # one link as a JSON array. The tabset id lets the browser match the
+      # sync to an update_service_navigation() call made with the tab change.
+      session$sendCustomMessage(
+        "sync_service_navigation",
+        list(tabset = session$ns(tabset_id), links = as.list(links))
+      )
+    },
+    ignoreInit = TRUE
+  )
   invisible(NULL)
 }
 
@@ -327,10 +409,18 @@ clean_nav_id <- function(id) {
   tolower(gsub("[^a-zA-Z0-9]", "_", id))
 }
 
-# Internal helper: resolves the link text and inputID for each nav link.
-# Named elements supply their own inputID as the value; unnamed elements use
-# the link text. Either way the inputID is lowercased with non-alphanumerics
-# replaced by underscores, so it is always a safe, predictable Shiny input.
+# Internal helper: TRUE for nav link values that are URLs rather than
+# inputIDs. inputIDs are always cleaned to letters, numbers and underscores,
+# so a value starting with a scheme, a path or a fragment can never be one.
+is_nav_url <- function(x) {
+  grepl("^(https?://|mailto:|/|\\./|\\.\\./|\\?|#)", x, ignore.case = TRUE)
+}
+
+# Internal helper: resolves the link text, inputID and URL for each nav link.
+# Named elements supply their own inputID (or a URL) as the value; unnamed
+# elements use the link text. Either way the inputID is lowercased with
+# non-alphanumerics replaced by underscores, so it is always a safe,
+# predictable Shiny input. URL links have no inputID (NA) and an href.
 service_nav_ids <- function(links) {
   if (is.null(links) || length(links) == 0) {
     stop("links must be a non-empty character vector", call. = FALSE)
@@ -349,9 +439,22 @@ service_nav_ids <- function(links) {
   supplied_id <- !is.na(link_text) & nzchar(link_text)
 
   label <- ifelse(supplied_id, link_text, links)
-  id <- clean_nav_id(links)
+  url <- is_nav_url(links)
 
-  if (anyDuplicated(id)) {
+  if (any(url & !supplied_id)) {
+    stop(
+      "Service navigation links to a URL need link text. Supply them in a ",
+      "named vector, e.g. c(\"Guidance\" = \"",
+      links[url & !supplied_id][[1]],
+      "\").",
+      call. = FALSE
+    )
+  }
+
+  href <- ifelse(url, links, NA_character_)
+  id <- ifelse(url, NA_character_, clean_nav_id(links))
+
+  if (anyDuplicated(id, incomparables = NA)) {
     stop(
       "Each service navigation link needs a unique inputID, but these are ",
       "repeated: ",
@@ -363,7 +466,7 @@ service_nav_ids <- function(links) {
     )
   }
 
-  list(id = unname(id), label = unname(label))
+  list(id = unname(id), label = unname(label), href = unname(href))
 }
 
 #' Create a service navigation link for use in `service_navigation()` function
@@ -375,6 +478,8 @@ service_nav_ids <- function(links) {
 #'   GOV.UK modifier class, `aria-current="page"`, and its text wrapped in the
 #'   `govuk-service-navigation__active-fallback` `<strong>`, matching the
 #'   GOV.UK markup. `service_navigation.js` moves all three on navigation.
+#' @param href A URL for a link to a page outside the app, or `NA` for an
+#'   in-app link. URL links are plain `<a>` elements with no inputID.
 #'
 #' @returns HTML tag list item
 #' @noRd
@@ -385,9 +490,24 @@ service_nav_ids <- function(links) {
 service_nav_link <- function(
   input_id,
   link_name,
-  active = FALSE
+  active = FALSE,
+  href = NA_character_
 ) {
   stopifnot(!is.null(link_name), nzchar(link_name))
+
+  if (!is.na(href)) {
+    return(
+      shiny::tags$li(
+        class = "govuk-service-navigation__item",
+        shiny::tags$a(
+          class = "govuk-service-navigation__link",
+          href = href,
+          link_name
+        )
+      )
+    )
+  }
+
   shiny::tags$li(
     class = paste(
       c(

@@ -21,7 +21,7 @@
             <a class="action-button action-link govuk-link" href="#" id="cookieLink"><span class="action-label">View cookies</span></a>
           </div>
         </div>
-        <div class="govuk-cookie-banner__message govuk-width-container shinyjs-hide" id="cookieAcceptDiv">
+        <div class="govuk-cookie-banner__message govuk-width-container shinyjs-hide" id="cookieAcceptDiv" role="alert" tabindex="-1">
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
               <div class="govuk-cookie-banner__content">
@@ -33,7 +33,7 @@
             <button id="hideAccept" class="govuk-button action-button">Hide this message</button>
           </div>
         </div>
-        <div class="govuk-cookie-banner__message govuk-width-container shinyjs-hide" id="cookieRejectDiv">
+        <div class="govuk-cookie-banner__message govuk-width-container shinyjs-hide" id="cookieRejectDiv" role="alert" tabindex="-1">
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
               <div class="govuk-cookie-banner__content">

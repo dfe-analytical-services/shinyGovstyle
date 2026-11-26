@@ -34,7 +34,7 @@
         <div class="govuk-width-container">
           <div class="govuk-service-navigation__container">
             <span class="govuk-service-navigation__service-name">
-              <a href="#" class="govuk-service-navigation__link">My app</a>
+              <span class="govuk-service-navigation__text">My app</span>
             </span>
             <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
               <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle" aria-controls="navigation" hidden="TRUE">Menu</button>
